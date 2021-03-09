@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head th:fragment="headFragment">
+	<meta charset="utf-8">
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Favicons -->
+  <link th:href=@{/img/favicon.png} rel="icon">
+  <link th:href=@{/img/apple-touch-icon.png} rel="apple-touch-icon">
+
+  <!-- Bootstrap core CSS -->
+  <link th:href=@{/lib/bootstrap/css/bootstrap.min.css} rel="stylesheet">
+  <!--external css-->
+  <link th:href=@{/lib/font-awesome/css/font-awesome.css} rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" th:href=@{/css/zabuto_calendar.css}>
+  <link rel="stylesheet" type="text/css" th:href=@{/lib/gritter/css/jquery.gritter.css} />
+  <!-- Custom styles for this template -->
+  <link th:href=@{/css/style.css} rel="stylesheet">
+  <link th:href=@{/css/style-responsive.css} rel="stylesheet">
+  <script src="/lib/chart-master/Chart.js"></script>
+
+  <!-- =======================================================
+    Template Name: Dashio
+    Template URL: https://templatemag.com/dashio-bootstrap-admin-template/
+    Author: TemplateMag.com
+    License: https://templatemag.com/license/
+  ======================================================= -->
+</head>
+	
+	<!-- 화면 title 설정 -->
+	<th:block layout:fragment="customTitle"></th:block>
+
+	<!--사용자 정의 css추가 -->
+	<th:block layout:fragment="customCss"></th:block>
+	
+	<!--자용자 정의 Script 추가 -->
+	<th:block layout:fragment="customScript"></th:block>
+	
+</head>
+</html>
