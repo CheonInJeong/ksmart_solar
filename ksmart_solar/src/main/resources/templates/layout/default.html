@@ -4,7 +4,7 @@
 	
 <head th:replace="fragments/head :: headFragment"></head>
 <body>
-	  <section id="container">
+		<section id="container">
 		<!--header.html Start -->
 		<div th:replace="fragments/header :: headerFragments"></div>
 		<!--header.html end -->
@@ -12,14 +12,16 @@
 		<!--leftmenu.html Start -->
 		<div th:replace="fragments/leftmenu :: leftmenuFragment"></div>
 		<!--leftmenu.html end -->
-		<div id="rightcolumn">
-			<!-- customContents start -->
-			<th:block layout:fragment="Contents"></th:block>
-			<!-- customContents end -->
-		</div>
+			<section id="main-content">
+				<section class="wrapper">
+				<!-- customContents start -->
+				<th:block layout:fragment="Contents"></th:block>
+				<!-- customContents end -->
+				</section>
+			</section> 
 		<!-- footer.html start -->
 		<div th:replace="fragments/footer :: footerFragment"></div>
 		<!-- footer.html end -->
-	</section>
+		</section>
 </body>
 </html>
