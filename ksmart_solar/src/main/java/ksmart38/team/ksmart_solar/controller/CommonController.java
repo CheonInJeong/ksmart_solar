@@ -9,9 +9,9 @@ public class CommonController {
 	public String main() {
 		return "main";
 	}
-	@GetMapping("/components/todoList")
-	public String test() {
-		return "components/todoList";
+	@GetMapping("/test")
+	public String Test() {
+		return "test";
 	}
 
 }
