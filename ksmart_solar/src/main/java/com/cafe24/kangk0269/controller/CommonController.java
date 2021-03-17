@@ -1,4 +1,4 @@
-package ksmart38.team.ksmart_solar.controller;
+package com.cafe24.kangk0269.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,9 +9,9 @@ public class CommonController {
 	public String main() {
 		return "main";
 	}
-	@GetMapping("/test")
-	public String Test() {
-		return "test";
+	@GetMapping("/components/todoList")
+	public String test() {
+		return "components/todoList";
 	}
 
 }
