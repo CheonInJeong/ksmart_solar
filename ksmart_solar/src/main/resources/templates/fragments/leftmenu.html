@@ -8,224 +8,132 @@
         <ul class="sidebar-menu" id="nav-accordion">
           <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered">Sam Soffes</h5>
-          <!-- ----------------------------------------------------------------------- -->
-          <!-- 홈  -->
+          
+          
           <li class="mt">
-            <a class="active" href="#">
+            <a class="active" th:href="@{}">
               <i class="fa fa-bar-chart-o"></i>
               <span>#프로젝트 소개</span>
-              <!-- 손익 분기점 그래프, 발전량 그래프, 예측수익 그래프 -->
-              </a>
+             </a>
           </li>
-          <!-- ----------------------------------------------------------------------- -->
-          <!-- ----------------------------------------------------------------------- -->
-          <!-- 판매자  -->
-          <li>
-            <a href="#">
-              <i class="fa fa-bar-chart-o"></i>
-              <span>#내 발전소 관리</span>
-              <!-- 손익 분기점 그래프, 발전량 그래프, 예측수익 그래프 -->
+          
+         <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-dashboard"></i>
+              <span>#내 발전소 관리(판매자)-강석인</span>
               </a>
+            <ul class="sub">
+              <li><a th:href="@{/plant/plantList}">#발전소리스트</a></li>
+              <li><a th:href="@{/plant/componentList}">#부품리스트</a></li>
+            </ul>
           </li>
-          <!-- ----------------------------------------------------------------------- -->
           
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-desktop"></i>
-              <span>#MY PAGE</span>
+              <span>#MY PAGE - 이상룡</span>
               </a>
             <ul class="sub">
-              <li><a href="#">#내 정보 관리/계좌관리</a></li>             
-              <!-- 구매자 -->
-              <li><a href="#">#구매 관리(구매자)</a></li>
-              <!-- ----------------------------------------------------- -->
-              <li><a href="#">#내 잔고 관리(예치금/대금)</a></li>
-              <li><a href="#">#탈퇴 신청</a></li>
+              <li><a th:href="@{/mypage/myInfo}">#내 정보 관리/계좌</a></li>             
+              <li><a th:href="@{/mypage/business}">#사업자 인증 신청</a></li>             
+              <li><a th:href="@{/mypage/wishlist}">#관심목록</a></li>
+              <li><a th:href="@{/mypage/withdraw}">#탈퇴 신청</a></li>
             </ul>
           </li>
-          <!-- 관리자 -->
           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-dashboard"></i>
-              <span>#회원관리</span>
+              <span>#회원관리(관리자) - 김지숙</span>
               </a>
             <ul class="sub">
-              <li><a href="#">#회원목록 조회,수정,삭제,추가</a></li>       
-              <li><a href="#">#회원 권한 수정,추가</a></li>
-              <li><a href="#">#</a></li>            
-              <!-- 매달 수익 그래프로 보여주기 -->         
-            </ul>
-          </li>
-          <!-- ------------------------------------------------------------- -->
-          <!-- 관리자 -->
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-dashboard"></i>
-              <span>#수수료관리</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#수수료율 등록/수정</a></li>       
-              <li><a href="#">#수수료 내역 조회,정산</a></li>
-              <!-- 매달 수익 그래프로 보여주기 -->         
-            </ul>
-          </li>
-          <!-- ------------------------------------------------------------- -->
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-dashboard"></i>
-              <span>#회원입출금관리</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#전체회원 잔고 리스트</a></li>
-              <!-- 목록에서 회원 아이디 누르면, 개인회원 잔고내역으로 넘어감 -->       
-              <li><a href="#">#전체회원 대금 내역 조회,수정</a></li>
-              <li><a href="#">#전체회원 출금 신청 리스트</a></li>
+              <li><a th:href="@{/member/memberList}">#회원리스트조회</a></li>
+              <li><a th:href="@{/member/memberLogin}">#회원로그인기록조회</a></li>
+              <li><a th:href="@{/member/memberWithdrawList}">#탈퇴신청회원조회</a></li>
+              <li><a th:href="@{/member/businessList}">#사업자인증신청목록</a></li>       
+              <li><a th:href="@{/member/plantList}">#발전소인증신청목록</a></li>       
             </ul>
           </li>
           
-          <!-- --------------------------------------------------------- -->
-          <!-- 판매자 -->
-          <li class="sub-menu">
+           <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-dashboard"></i>
-              <span>#발전소</span>
+              <span>#수익관리(관리자) - 김지숙</span>
               </a>
             <ul class="sub">
-              <li><a href="#">#발전소 인증 신청(수정/취소)</a></li>       
-              <li><a href="#">#발전소 인증 신청 목록(진행 상황 보임)</a></li>             
-              <li><a href="#">#부품 등록</a></li>             
-            </ul>
-          </li>
-          <!-- --------------------------------------------------------- -->
-          <!-- 판매자 -->
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-book"></i>
-              <span>#매각신청</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#매각 공고 신청</a></li>
-              <!-- 부품을 매각할 것인지 발전소를 매각할 것인지 선택 후 매각신청 폼으로 이동 -->
-              <li><a href="#">#매각 공고 리스트</a></li>
-              <!-- 공고 리스트에서 해당 공고 클릭 시 입찰자 목록 보여줌 -->
-              <!-- 공고 수정/삭제 버튼 추가 -->
-            </ul>
-          </li>
-          <!-- ------------------------------------------------------------- -->
-          <!-- --------------------------------------------------------- -->
-          <!-- 관리자 -->
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-book"></i>
-              <span>#매각관리</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#매각 공고 신청 목록</a></li>
-              <li><a href="#">#진행중인 공고 목록</a></li>
-            </ul>
-          </li>
-          <!-- ------------------------------------------------------------- -->
-          <!-- 관리자 -->
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-book"></i>
-              <span>#서류관리</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#사업자 등록 서류 목록</a></li>
-              <li><a href="#">#매각 거래 등록 서류 목록</a></li>
-              <li><a href="#">#매각 거래 완료 서류 목록</a></li>
-            </ul>
-          </li>
-          <!-- ------------------------------------------------------------- -->
-          <!-- 구매자 -->
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-book"></i>
-              <span>#구매신청</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#공고 리스트 조회</a></li>
-              <li><a href="#">#관심 공고 리스트</a></li>
-              <li><a href="#">#구매 신청한 상품 리스트</a></li>
-              
-            </ul>
-          </li>
-          <!-- -------------------------------------------------------------- -->
-          <li>
-            <a href="#">
-              <i class="fa fa-dashboard"></i>
-              <span>#공지사항</span>
-              <!-- 공지리스트 보여줌 -->
-            </a>
-          </li>
-          <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-book"></i>
-              <span>#1:1 문의 하기</span>
-              </a>
-            <ul class="sub">
-              <li><a href="#">#관리자에게 내가 쓴 문의 내역</a></li>
-              <!-- 판매자 -->
-              <li><a href="#">#구매자에게 받은 문의 내역</a></li>
-              <!-- 댓글을 쓸 수 있다 -->
-              <!-- ------------------------------------------------------------- -->                 
-              <!-- 구매자 -->
-              <li><a href="#">#판매자에게 문의 내역</a></li>
-              <!-- ------------------------------------------------------------- -->                 
+              <li><a th:href="@{/profit/cancel}">#취소수수료관리</a></li>
+              <li><a th:href="@{/profit/commission}">#대금수수료관리</a></li>
+              <li><a th:href="@{/profit/balance}">#입출금내역</a></li>
+              <li><a th:href="@{/profit/calculate}">#월말정산</a></li>
+              <li><a th:href="@{/profit/depositList}">#예치금출금신청목록</a></li>
+              <li><a th:href="@{/profit/commissionList}">#대금출금신청목록</a></li>
             </ul>
           </li>
           
           
-          
-          
-          <!-- <li class="sub-menu">
-            <a href="javascript:;">
-              <i class="fa fa-th"></i>
-              <span>Data Tables</span>
-              </a>
-            <ul class="sub">
-              <li><a href="basic_table.html">Basic Table</a></li>
-              <li><a href="responsive_table.html">Responsive Table</a></li>
-              <li><a href="advanced_table.html">Advanced Table</a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#">
-              <i class="fa fa-envelope"></i>
-              <span>Mail </span>
-              <span class="label label-theme pull-right mail-info">2</span>
-              </a>
-          </li>
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class=" fa fa-bar-chart-o"></i>
-              <span>Charts</span>
+              <i class="fa fa-dashboard"></i>
+              <span>#정책관리(관리자) - 천인정</span>
               </a>
             <ul class="sub">
-              <li><a href="morris.html">Morris</a></li>
-              <li><a href="chartjs.html">Chartjs</a></li>
-              <li><a href="flot_chart.html">Flot Charts</a></li>
-              <li><a href="xchart.html">xChart</a></li>
+              <li><a th:href="@{/policy/memberLevel}">#회원권한정책</a></li>       
+              <li><a th:href="@{/policy/deposit}">#예치금정책</a></li>
+              <li><a th:href="@{/policy/commission}">#수수료율정책</a></li>            
+              <li><a th:href="@{/policy/period}">#거래기간정책</a></li>            
+              <li><a th:href="@{/policy/type}">#거래물품정보</a></li>            
             </ul>
           </li>
+          
+           <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-dashboard"></i>
+              <span>#판매관리(판매자) - 천인정</span>
+              </a>
+            <ul class="sub">
+            
+              <li><a th:href="@{/sell/apply}">#공고신청</a></li>       
+              <li><a th:href="@{/sell/myHistory}">#내공고목록</a></li> <!--진행중 공고 + 종료된 목록까지  -->       
+              <li><a th:href="@{/sell/mySell}">#거래진행중인공고</a></li>       
+              <li><a th:href="@{/sell/applyPayment}">#거래대금출금신청</a></li>
+              <li><a th:href="@{/sell/paymentList}">#거래대금출금내역</a></li>
+              <li><a th:href="@{/sell/qna}">#문의받은내역</a></li>
+            </ul>
+          </li>
+          
           <li class="sub-menu">
             <a href="javascript:;">
-              <i class="fa fa-comments-o"></i>
-              <span>Chat Room</span>
+              <i class="fa fa-dashboard"></i>
+              <span>#구매관리(구매자) - 심재학</span>
               </a>
             <ul class="sub">
-              <li><a href="lobby.html">Lobby</a></li>
-              <li><a href="chat_room.html"> Chat Room</a></li>
+              <li><a th:href="@{/buy/myHistory}">#내입찰목록</a></li>       
+              <li><a th:href="@{/buy/applyRefund}">#예치금환불가능한목록</a></li>
+              <li><a th:href="@{/buy/depositList}">#예치금환불내역</a></li>
+              <li><a th:href="@{/buy/qna}">#문의한내역</a></li>
             </ul>
           </li>
-          <li>
-            <a href="google_maps.html">
-              <i class="fa fa-map-marker"></i>
-              <span>Google Maps </span>
+          
+           <li class="sub-menu">
+              <a href="javascript:;">
+	              <i class="fa fa-dashboard"></i>
+	              <span>#공고리스트 - 심재학</span>
               </a>
+			  <ul class="sub">
+              	<li><a th:href="@{/notice/list}">#진행중공고리스트</a></li>       
+             	<li><a th:href="@{/notice/history}">#종료된공고리스트</a></li>
+            </ul>
           </li>
-        </ul> -->
+          
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-dashboard"></i>
+              <span>#고객센터 - 이상룡</span>
+              </a>
+            <ul class="sub">
+              <li><a th:href="@{/help/notice}">#공지사항</a></li>       
+              <li><a th:href="@{/help/qna}">#문의s하기</a></li>
+            </ul>
+          </li>
         <!-- sidebar menu end-->
       </div>
     </aside>
