@@ -12,9 +12,11 @@
 	<th:block layout:fragment="customScript">
 		
 	<script type="text/javascript">
-		var a = $('a[class=active]');
-		a.removeClass("active");
-		
+		var buy = $('#buy');
+		buy.addClass('active');
+		buy.parent().find('.sub').css('display','block');
+		console.log(buy.parent().find('.sub').children()[0])
+		buy.parent().find('.sub').children().eq(1).addClass('active');
 	</script>
 	</th:block>
 </html>
