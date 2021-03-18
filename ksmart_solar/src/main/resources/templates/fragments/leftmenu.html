@@ -23,6 +23,7 @@
             <ul class="sub">
               <li><a th:href="@{/plant/plantList}">#발전소리스트</a></li>
               <li><a th:href="@{/plant/componentList}">#부품리스트</a></li>
+              <li><a th:href="@{/plant/authorization}">#발전소 인증 신청</a></li>
             </ul>
           </li>
           
@@ -49,6 +50,7 @@
               <li><a th:href="@{/member/memberWithdrawList}">#탈퇴신청회원조회</a></li>
               <li><a th:href="@{/member/businessList}">#사업자인증신청목록</a></li>       
               <li><a th:href="@{/member/plantList}">#발전소인증신청목록</a></li>       
+              <li><a th:href="@{/member/account}">#회원 계좌 조회</a></li>       
             </ul>
           </li>
           
@@ -74,15 +76,11 @@
               <span>#정책관리(관리자) - 천인정</span>
               </a>
             <ul class="sub">
-              <li><a th:href="@{/policy/memberLevel}">#회원권한정책</a></li>       
-              <li><a th:href="@{/policy/deposit}">#예치금정책</a></li>
-              <li><a th:href="@{/policy/commission}">#수수료율정책</a></li>            
-              <li><a th:href="@{/policy/period}">#거래기간정책</a></li>            
-              <li><a th:href="@{/policy/type}">#거래물품정보</a></li>            
-              <li><a th:href="@{/policy/document}">#필요서류등록</a></li>            
+              <li><a th:href="@{/policy/policyList}">#정책리스트</a></li>       
+              <li><a th:href="@{/policy/document}">#서류등록</a></li>       
             </ul>
           </li>
-          
+        
            <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-dashboard"></i>
@@ -106,7 +104,7 @@
               </a>
             <ul class="sub">
               <li><a th:href="@{/buy/myHistory}">#내입찰목록</a></li>       
-              <li><a th:href="@{/buy/applyRefund}">#예치금환불가능한목록</a></li>
+              <li><a th:href="@{/buy/applyRefund}">#예치금환불신청</a></li>
               <li><a th:href="@{/buy/depositList}">#예치금환불내역</a></li>
               <li><a th:href="@{/buy/qna}">#문의한내역</a></li>
             </ul>
@@ -118,7 +116,7 @@
 	              <span>#공고리스트 - 심재학</span>
               </a>
 			  <ul class="sub">
-              	<li><a th:href="@{/notice/list}">#진행중공고리스트</a></li>       
+              	<li><a th:href="@{/notice/noticeList}">#진행중공고리스트</a></li>       
              	<li><a th:href="@{/notice/history}">#종료된공고리스트</a></li>
             </ul>
           </li>
@@ -130,7 +128,7 @@
               </a>
             <ul class="sub">
               <li><a th:href="@{/help/notice}">#공지사항</a></li>       
-              <li><a th:href="@{/help/qna}">#문의s하기</a></li>
+              <li><a th:href="@{/help/qna}">#문의하기</a></li>
             </ul>
           </li>
         <!-- sidebar menu end-->
