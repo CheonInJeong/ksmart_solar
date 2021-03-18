@@ -2,8 +2,9 @@ package com.cafe24.kangk0269;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-@SpringBootApplication
+import org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration;
+//MultipartAutoConfiguration.class를 자동으로 구성하지 않도록 설정
+@SpringBootApplication(exclude= {MultipartAutoConfiguration.class})
 public class KsmartSolarApplication {
 
 	public static void main(String[] args) {
