@@ -12,5 +12,11 @@ public class PolicyController {
 		
 		return "/policy/policyList";
 	}
+	
+	@GetMapping("/policy/document")
+	public String Document() {
+		
+		return "/policy/document";
+	}
 
 }
