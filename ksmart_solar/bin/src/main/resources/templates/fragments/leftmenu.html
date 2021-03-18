@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org">
+	 <!--sidebar start-->
+<div th:fragment="leftmenuFragment">
+    <aside>
+      <div id="sidebar" class="nav-collapse ">
+        <!-- sidebar menu start-->
+        <ul class="sidebar-menu" id="nav-accordion">
+          <p class="centered"><a href="profile.html"><img src="img/ui-sam.jpg" class="img-circle" width="80"></a></p>
+          <h5 class="centered">Sam Soffes</h5>
+          <!-- ----------------------------------------------------------------------- -->
+          <!-- 홈  -->
+          <li class="mt">
+            <a class="active" href="#">
+              <i class="fa fa-bar-chart-o"></i>
+              <span>#프로젝트 소개</span>
+              <!-- 손익 분기점 그래프, 발전량 그래프, 예측수익 그래프 -->
+              </a>
+          </li>
+          <!-- ----------------------------------------------------------------------- -->
+          <!-- ----------------------------------------------------------------------- -->
+          <!-- 판매자  -->
+          <li>
+            <a href="#">
+              <i class="fa fa-bar-chart-o"></i>
+              <span>#내 발전소 관리</span>
+              <!-- 손익 분기점 그래프, 발전량 그래프, 예측수익 그래프 -->
+              </a>
+          </li>
+          <!-- ----------------------------------------------------------------------- -->
+          
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-desktop"></i>
+              <span>#MY PAGE</span>
+              </a>
+            <ul class="sub">
+              <li><a href="#">#내 정보 관리/계좌관리</a></li>             
+              <!-- 구매자 -->
+              <li><a href="#">#구매 관리(구매자)</a></li>
+              <!-- ----------------------------------------------------- -->
+              <li><a href="#">#내 잔고 관리(예치금/대금)</a></li>
+              <li><a href="#">#탈퇴 신청</a></li>
+            </ul>
+          </li>
+          <!-- 판매자 -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-dashboard"></i>
+              <span>#발전소</span>
+              </a>
+            <ul class="sub">
+              <li><a href="#">#발전소 인증 신청(수정/취소)</a></li>       
+              <li><a href="#">#발전소 인증 신청 목록(진행 상황 보임)</a></li>             
+              <li><a href="#">#부품 등록</a></li>             
+            </ul>
+          </li>
+          <!-- --------------------------------------------------------- -->
+          <!-- 판매자 -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>#매각신청</span>
+              </a>
+            <ul class="sub">
+              <li><a href="#">#매각 공고 신청</a></li>
+              <!-- 부품을 매각할 것인지 발전소를 매각할 것인지 선택 후 매각신청 폼으로 이동 -->
+              <li><a href="#">#매각 공고 리스트</a></li>
+              <!-- 공고 리스트에서 해당 공고 클릭 시 입찰자 목록 보여줌 -->
+              <!-- 공고 수정/삭제 버튼 추가 -->
+            </ul>
+          </li>
+          <!-- ------------------------------------------------------------- -->
+          <!-- 판매자 -->
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>#구매신청</span>
+              </a>
+            <ul class="sub">
+              <li><a href="#">#공고 리스트 조회</a></li>
+              <li><a href="#">#관심 공고 리스트</a></li>
+              <li><a href="#">#구매 신청한 상품 리스트</a></li>
+              
+            </ul>
+          </li>
+          <!-- -------------------------------------------------------------- -->
+          <li>
+            <a href="#">
+              <i class="fa fa-dashboard"></i>
+              <span>#공지사항</span>
+              <!-- 공지리스트 보여줌 -->
+            </a>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-book"></i>
+              <span>#1:1 문의 하기</span>
+              </a>
+            <ul class="sub">
+              <li><a href="#">#관리자에게 내가 쓴 문의 내역</a></li>
+              <!-- 판매자 -->
+              <li><a href="#">#구매자에게 받은 문의 내역</a></li>
+              <!-- 댓글을 쓸 수 있다 -->
+              <!-- ------------------------------------------------------------- -->                 
+              <!-- 구매자 -->
+              <li><a href="#">#판매자에게 문의 내역</a></li>
+              <!-- ------------------------------------------------------------- -->                 
+            </ul>
+          </li>
+          
+          
+          
+          
+          <!-- <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-th"></i>
+              <span>Data Tables</span>
+              </a>
+            <ul class="sub">
+              <li><a href="basic_table.html">Basic Table</a></li>
+              <li><a href="responsive_table.html">Responsive Table</a></li>
+              <li><a href="advanced_table.html">Advanced Table</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">
+              <i class="fa fa-envelope"></i>
+              <span>Mail </span>
+              <span class="label label-theme pull-right mail-info">2</span>
+              </a>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class=" fa fa-bar-chart-o"></i>
+              <span>Charts</span>
+              </a>
+            <ul class="sub">
+              <li><a href="morris.html">Morris</a></li>
+              <li><a href="chartjs.html">Chartjs</a></li>
+              <li><a href="flot_chart.html">Flot Charts</a></li>
+              <li><a href="xchart.html">xChart</a></li>
+            </ul>
+          </li>
+          <li class="sub-menu">
+            <a href="javascript:;">
+              <i class="fa fa-comments-o"></i>
+              <span>Chat Room</span>
+              </a>
+            <ul class="sub">
+              <li><a href="lobby.html">Lobby</a></li>
+              <li><a href="chat_room.html"> Chat Room</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="google_maps.html">
+              <i class="fa fa-map-marker"></i>
+              <span>Google Maps </span>
+              </a>
+          </li>
+        </ul> -->
+        <!-- sidebar menu end-->
+      </div>
+    </aside>
+ </div>   
+</html>
