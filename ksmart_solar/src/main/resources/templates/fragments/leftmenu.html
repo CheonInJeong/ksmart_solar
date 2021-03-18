@@ -23,7 +23,7 @@
             <ul class="sub">
               <li><a th:href="@{/plant/plantList}">#발전소리스트</a></li>
               <li><a th:href="@{/plant/componentList}">#부품리스트</a></li>
-              <li><a th:href="@{#}">#발전소 인증 신청</a></li>
+              <li><a th:href="@{/plant/authorization}">#발전소 인증 신청</a></li>
             </ul>
           </li>
           
@@ -50,7 +50,7 @@
               <li><a th:href="@{/member/memberWithdrawList}">#탈퇴신청회원조회</a></li>
               <li><a th:href="@{/member/businessList}">#사업자인증신청목록</a></li>       
               <li><a th:href="@{/member/plantList}">#발전소인증신청목록</a></li>       
-              <li><a th:href="@{/member/#}">#회원 계좌 조회</a></li>       
+              <li><a th:href="@{/member/account}">#회원 계좌 조회</a></li>       
             </ul>
           </li>
           
@@ -76,15 +76,10 @@
               <span>#정책관리(관리자) - 천인정</span>
               </a>
             <ul class="sub">
-              <li><a th:href="@{/policy/memberLevel}">#회원권한정책</a></li>       
-              <li><a th:href="@{/policy/deposit}">#예치금정책</a></li>
-              <li><a th:href="@{/policy/commission}">#수수료율정책</a></li>            
-              <li><a th:href="@{/policy/period}">#거래기간정책</a></li>            
-              <li><a th:href="@{/policy/type}">#거래물품정보</a></li>            
-              <li><a th:href="@{/policy/document}">#필요서류등록</a></li>            
+              <li><a th:href="@{/policy/policyList}">#정책리스트</a></li>       
             </ul>
           </li>
-          
+        
            <li class="sub-menu">
             <a href="javascript:;">
               <i class="fa fa-dashboard"></i>
@@ -120,7 +115,7 @@
 	              <span>#공고리스트 - 심재학</span>
               </a>
 			  <ul class="sub">
-              	<li><a th:href="@{/notice/list}">#진행중공고리스트</a></li>       
+              	<li><a th:href="@{/notice/noticeList}">#진행중공고리스트</a></li>       
              	<li><a th:href="@{/notice/history}">#종료된공고리스트</a></li>
             </ul>
           </li>
