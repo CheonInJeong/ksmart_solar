@@ -2,74 +2,75 @@ package com.cafe24.kangk0269.dto;
 
 public class PlantDepDataDTO {
 
-	private int pl_dep_data_idx;
-	private String bz_pl_code;
-	private String m_id;
-	private int pl_dep_price_based;
-	private int pl_dep_data;
-	private int pl_dep_data_residual;
-	private int pl_dep_data_momth;
-	public int getPl_dep_data_idx() {
-		return pl_dep_data_idx;
+	private int plDepDataIdx;
+	private String bzPlCode;
+	private String mId;
+	private int plDepPriceBased;
+	private int plDepData;
+	private int plDepDataResidual;
+	private int plDepDataMonth;
+	public int getPlDepDataIdx() {
+		return plDepDataIdx;
 	}
-	public void setPl_dep_data_idx(int pl_dep_data_idx) {
-		this.pl_dep_data_idx = pl_dep_data_idx;
+	public void setPlDepDataIdx(int plDepDataIdx) {
+		this.plDepDataIdx = plDepDataIdx;
 	}
-	public String getBz_pl_code() {
-		return bz_pl_code;
+	public String getBzPlCode() {
+		return bzPlCode;
 	}
-	public void setBz_pl_code(String bz_pl_code) {
-		this.bz_pl_code = bz_pl_code;
+	public void setBzPlCode(String bzPlCode) {
+		this.bzPlCode = bzPlCode;
 	}
-	public String getM_id() {
-		return m_id;
+	public String getmId() {
+		return mId;
 	}
-	public void setM_id(String m_id) {
-		this.m_id = m_id;
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
-	public int getPl_dep_price_based() {
-		return pl_dep_price_based;
+	public int getPlDepPriceBased() {
+		return plDepPriceBased;
 	}
-	public void setPl_dep_price_based(int pl_dep_price_based) {
-		this.pl_dep_price_based = pl_dep_price_based;
+	public void setPlDepPriceBased(int plDepPriceBased) {
+		this.plDepPriceBased = plDepPriceBased;
 	}
-	public int getPl_dep_data() {
-		return pl_dep_data;
+	public int getPlDepData() {
+		return plDepData;
 	}
-	public void setPl_dep_data(int pl_dep_data) {
-		this.pl_dep_data = pl_dep_data;
+	public void setPlDepData(int plDepData) {
+		this.plDepData = plDepData;
 	}
-	public int getPl_dep_data_residual() {
-		return pl_dep_data_residual;
+	public int getPlDepDataResidual() {
+		return plDepDataResidual;
 	}
-	public void setPl_dep_data_residual(int pl_dep_data_residual) {
-		this.pl_dep_data_residual = pl_dep_data_residual;
+	public void setPlDepDataResidual(int plDepDataResidual) {
+		this.plDepDataResidual = plDepDataResidual;
 	}
-	public int getPl_dep_data_momth() {
-		return pl_dep_data_momth;
+	public int getPlDepDataMonth() {
+		return plDepDataMonth;
 	}
-	public void setPl_dep_data_momth(int pl_dep_data_momth) {
-		this.pl_dep_data_momth = pl_dep_data_momth;
+	public void setPlDepDataMonth(int plDepDataMonth) {
+		this.plDepDataMonth = plDepDataMonth;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("PlantDepDataDTO [pl_dep_data_idx=");
-		builder.append(pl_dep_data_idx);
-		builder.append(", bz_pl_code=");
-		builder.append(bz_pl_code);
-		builder.append(", m_id=");
-		builder.append(m_id);
-		builder.append(", pl_dep_price_based=");
-		builder.append(pl_dep_price_based);
-		builder.append(", pl_dep_data=");
-		builder.append(pl_dep_data);
-		builder.append(", pl_dep_data_residual=");
-		builder.append(pl_dep_data_residual);
-		builder.append(", pl_dep_data_momth=");
-		builder.append(pl_dep_data_momth);
+		builder.append("PlantDepDataDTO [plDepDataIdx=");
+		builder.append(plDepDataIdx);
+		builder.append(", bzPlCode=");
+		builder.append(bzPlCode);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", plDepPriceBased=");
+		builder.append(plDepPriceBased);
+		builder.append(", plDepData=");
+		builder.append(plDepData);
+		builder.append(", plDepDataResidual=");
+		builder.append(plDepDataResidual);
+		builder.append(", plDepDataMonth=");
+		builder.append(plDepDataMonth);
 		builder.append("]");
 		return builder.toString();
 	}
+	
 
 }

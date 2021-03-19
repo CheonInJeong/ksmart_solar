@@ -2,47 +2,47 @@ package com.cafe24.kangk0269.dto;
 
 public class PlantKpxDTO {
 
-	private int pl_kpx_idx;
-	private String pl_kpx_time;
-	private String pl_kpx_smp;
-	private String pl_kpx_rec;
-	public int getPl_kpx_idx() {
-		return pl_kpx_idx;
+	private int plKpxIdx;
+	private String plKpxTime;
+	private String plKpxSmp;
+	private String plKpxRec;
+	public int getPlKpxIdx() {
+		return plKpxIdx;
 	}
-	public void setPl_kpx_idx(int pl_kpx_idx) {
-		this.pl_kpx_idx = pl_kpx_idx;
+	public void setPlKpxIdx(int plKpxIdx) {
+		this.plKpxIdx = plKpxIdx;
 	}
-	public String getPl_kpx_time() {
-		return pl_kpx_time;
+	public String getPlKpxTime() {
+		return plKpxTime;
 	}
-	public void setPl_kpx_time(String pl_kpx_time) {
-		this.pl_kpx_time = pl_kpx_time;
+	public void setPlKpxTime(String plKpxTime) {
+		this.plKpxTime = plKpxTime;
 	}
-	public String getPl_kpx_smp() {
-		return pl_kpx_smp;
+	public String getPlKpxSmp() {
+		return plKpxSmp;
 	}
-	public void setPl_kpx_smp(String pl_kpx_smp) {
-		this.pl_kpx_smp = pl_kpx_smp;
+	public void setPlKpxSmp(String plKpxSmp) {
+		this.plKpxSmp = plKpxSmp;
 	}
-	public String getPl_kpx_rec() {
-		return pl_kpx_rec;
+	public String getPlKpxRec() {
+		return plKpxRec;
 	}
-	public void setPl_kpx_rec(String pl_kpx_rec) {
-		this.pl_kpx_rec = pl_kpx_rec;
+	public void setPlKpxRec(String plKpxRec) {
+		this.plKpxRec = plKpxRec;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("PlantKpx [pl_kpx_idx=");
-		builder.append(pl_kpx_idx);
-		builder.append(", pl_kpx_time=");
-		builder.append(pl_kpx_time);
-		builder.append(", pl_kpx_smp=");
-		builder.append(pl_kpx_smp);
-		builder.append(", pl_kpx_rec=");
-		builder.append(pl_kpx_rec);
+		builder.append("PlantKpxDTO [plKpxIdx=");
+		builder.append(plKpxIdx);
+		builder.append(", plKpxTime=");
+		builder.append(plKpxTime);
+		builder.append(", plKpxSmp=");
+		builder.append(plKpxSmp);
+		builder.append(", plKpxRec=");
+		builder.append(plKpxRec);
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
 }
