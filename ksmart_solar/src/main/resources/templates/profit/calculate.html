@@ -10,6 +10,11 @@
 		이곳에 내용을 쓰세요	
 	</th:block>
 	<th:block layout:fragment="customScript">
-		
+		<script type="text/javascript">
+			var profit = $('#profit');
+			profit.addClass('active');
+			profit.parent().find('.sub').css('display','block');
+			profit.parent().find('.sub').children().eq(3).addClass('active');
+		</script>
 	</th:block>
 </html>

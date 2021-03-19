@@ -27,6 +27,11 @@
 		</div>			
 	</th:block>
 	<th:block layout:fragment="customScript">
-		
+		<script type="text/javascript">
+			var policy = $('#policy');
+			policy.addClass('active');
+			policy.parent().find('.sub').css('display','block');
+			policy.parent().find('.sub').children().eq(1).addClass('active');
+		</script>
 	</th:block>
 </html>
