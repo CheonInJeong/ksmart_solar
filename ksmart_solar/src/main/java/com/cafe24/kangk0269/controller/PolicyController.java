@@ -29,15 +29,9 @@ public class PolicyController {
 	
 	@PostMapping("/policy/addFile")
 	//@RequestParam을 통해서 document.html에서 넘겨주는 데이터를 받는다.
-	public String addFile(FileDTO fileDto, MultipartHttpServletRequest multipartHttpServletRequest) {
-		try {
-			fileService.addFile(fileDto, multipartHttpServletRequest);
-			return "redirect:/";
-
-		}catch(Exception e) {
-			e.printStackTrace();
-		}
-		return "/policy/document";
+	public String addFile() {
+	
+		return "";
 	}
 	@GetMapping("/policy/policyList")
 	public String PolicyList() {

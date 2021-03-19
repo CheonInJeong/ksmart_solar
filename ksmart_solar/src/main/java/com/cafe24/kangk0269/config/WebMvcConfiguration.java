@@ -14,7 +14,7 @@ public class WebMvcConfiguration implements WebMvcConfigurer {
 		//파일 인코딩 UTF-8 로 설정
 		commonsMultipartResolver.setDefaultEncoding("UTF-8");
 		//업로드 되는 파일의 크기 제한. 바이트 단위 설정
-		commonsMultipartResolver.setMaxUploadSizePerFile(10*1024*1024);
+		commonsMultipartResolver.setMaxUploadSizePerFile(5*1024*1024);
 		return commonsMultipartResolver;
 	}
 }
