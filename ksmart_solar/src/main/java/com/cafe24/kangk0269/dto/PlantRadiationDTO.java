@@ -2,81 +2,81 @@ package com.cafe24.kangk0269.dto;
 
 public class PlantRadiationDTO {
 
-	private int pl_rad_idx;
-	private String pl_rad_date;
-	private String pl_rad_location;
-	private String pl_rad_icsr;
-	private String pl_rad_ss;
-	private String pl_rad_ssflg;
-	private String pl_rad_ta;
-	private String pl_rad_taflg;
-	public int getPl_rad_idx() {
-		return pl_rad_idx;
+	private int plRadIdx;
+	private String plRadDate;
+	private String plRadLocation;
+	private String plRadIcsr;
+	private String plRadSs;
+	private String plRadSsflg;
+	private String plRadTa;
+	private String plRadTaflg;
+	public int getPlRadIdx() {
+		return plRadIdx;
 	}
-	public void setPl_rad_idx(int pl_rad_idx) {
-		this.pl_rad_idx = pl_rad_idx;
+	public void setPlRadIdx(int plRadIdx) {
+		this.plRadIdx = plRadIdx;
 	}
-	public String getPl_rad_date() {
-		return pl_rad_date;
+	public String getPlRadDate() {
+		return plRadDate;
 	}
-	public void setPl_rad_date(String pl_rad_date) {
-		this.pl_rad_date = pl_rad_date;
+	public void setPlRadDate(String plRadDate) {
+		this.plRadDate = plRadDate;
 	}
-	public String getPl_rad_location() {
-		return pl_rad_location;
+	public String getPlRadLocation() {
+		return plRadLocation;
 	}
-	public void setPl_rad_location(String pl_rad_location) {
-		this.pl_rad_location = pl_rad_location;
+	public void setPlRadLocation(String plRadLocation) {
+		this.plRadLocation = plRadLocation;
 	}
-	public String getPl_rad_icsr() {
-		return pl_rad_icsr;
+	public String getPlRadIcsr() {
+		return plRadIcsr;
 	}
-	public void setPl_rad_icsr(String pl_rad_icsr) {
-		this.pl_rad_icsr = pl_rad_icsr;
+	public void setPlRadIcsr(String plRadIcsr) {
+		this.plRadIcsr = plRadIcsr;
 	}
-	public String getPl_rad_ss() {
-		return pl_rad_ss;
+	public String getPlRadSs() {
+		return plRadSs;
 	}
-	public void setPl_rad_ss(String pl_rad_ss) {
-		this.pl_rad_ss = pl_rad_ss;
+	public void setPlRadSs(String plRadSs) {
+		this.plRadSs = plRadSs;
 	}
-	public String getPl_rad_ssflg() {
-		return pl_rad_ssflg;
+	public String getPlRadSsflg() {
+		return plRadSsflg;
 	}
-	public void setPl_rad_ssflg(String pl_rad_ssflg) {
-		this.pl_rad_ssflg = pl_rad_ssflg;
+	public void setPlRadSsflg(String plRadSsflg) {
+		this.plRadSsflg = plRadSsflg;
 	}
-	public String getPl_rad_ta() {
-		return pl_rad_ta;
+	public String getPlRadTa() {
+		return plRadTa;
 	}
-	public void setPl_rad_ta(String pl_rad_ta) {
-		this.pl_rad_ta = pl_rad_ta;
+	public void setPlRadTa(String plRadTa) {
+		this.plRadTa = plRadTa;
 	}
-	public String getPl_rad_taflg() {
-		return pl_rad_taflg;
+	public String getPlRadTaflg() {
+		return plRadTaflg;
 	}
-	public void setPl_rad_taflg(String pl_rad_taflg) {
-		this.pl_rad_taflg = pl_rad_taflg;
+	public void setPlRadTaflg(String plRadTaflg) {
+		this.plRadTaflg = plRadTaflg;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("PlantRadiationDTO [pl_rad_idx=");
-		builder.append(pl_rad_idx);
-		builder.append(", pl_rad_date=");
-		builder.append(pl_rad_date);
-		builder.append(", pl_rad_location=");
-		builder.append(pl_rad_location);
-		builder.append(", pl_rad_icsr=");
-		builder.append(pl_rad_icsr);
-		builder.append(", pl_rad_ss=");
-		builder.append(pl_rad_ss);
-		builder.append(", pl_rad_ssflg=");
-		builder.append(pl_rad_ssflg);
-		builder.append(", pl_rad_ta=");
-		builder.append(pl_rad_ta);
-		builder.append(", pl_rad_taflg=");
-		builder.append(pl_rad_taflg);
+		builder.append("PlantRadiationDTO [plRadIdx=");
+		builder.append(plRadIdx);
+		builder.append(", plRadDate=");
+		builder.append(plRadDate);
+		builder.append(", plRadLocation=");
+		builder.append(plRadLocation);
+		builder.append(", plRadIcsr=");
+		builder.append(plRadIcsr);
+		builder.append(", plRadSs=");
+		builder.append(plRadSs);
+		builder.append(", plRadSsflg=");
+		builder.append(plRadSsflg);
+		builder.append(", plRadTa=");
+		builder.append(plRadTa);
+		builder.append(", plRadTaflg=");
+		builder.append(plRadTaflg);
 		builder.append("]");
 		return builder.toString();
 	}
