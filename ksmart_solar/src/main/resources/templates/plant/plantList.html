@@ -4,12 +4,18 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
+				<title>발전소 리스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
 		이곳에 내용을 쓰세요	
 	</th:block>
+	
 	<th:block layout:fragment="customScript">
-		
+		<script type="text/javascript">
+			var plant = $('#plant');
+			plant.addClass('active');
+			plant.parent().find('.sub').css('display','block');
+			plant.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
 	</th:block>
 </html>
