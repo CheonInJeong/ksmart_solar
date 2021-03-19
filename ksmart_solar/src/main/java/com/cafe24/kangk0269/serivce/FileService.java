@@ -3,6 +3,7 @@ package com.cafe24.kangk0269.serivce;
 import java.util.Iterator;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
@@ -11,31 +12,42 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dto.FileDTO;
 
-import jdk.internal.org.jline.utils.Log;
+
 
 @Service
 public class FileService implements FileMapper{
 
+	private FileMapper fileMapper;
+	
+	public FileService(FileMapper fileMapper) {
+		 this.fileMapper = fileMapper;
+	}
+	
+	
 	@Override
-	public void addFile(FileDTO fileDto, MultipartHttpServletRequest multipartHttpServletRequest) {
-		if(ObjectUtils.isEmpty(multipartHttpServletRequest)==false) {
-			Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
-			String name;
-			while(iterator.hasNext()) {
-				name = iterator.next();
-				Log.debug("file tag name : "+ name);
-				List<MultipartFile> list = multipartHttpServletRequest.getFiles(name);
-				for(MultipartFile multipartFile : list) {
-					Log.debug("start file information");
-					Log.debug("file name:"+multipartFile.getOriginalFilename());;
-					Log.debug("file size:"+multipartFile.getSize());
-					Log.debug("file content type: " + multipartFile.getContentType());
-					Log.debug("end file information");
-				}
-			}
-		}
+	public void addFile(List<FileDTO> fileList) {
+		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public FileDTO getFileByIdx(String fileIdx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int removeFile(String fileIdx) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public List<FileDTO> getAllFile(String fileIdx) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 	
 	
 }
