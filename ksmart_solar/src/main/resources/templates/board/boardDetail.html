@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+		<th:block layout:fragment="customTitle">
+			<title>타이틀 입력</title>
+		</th:block>
+		<th:block layout:fragment="Contents">
+		  <!--main content start-->
+		  	<div class="container">
+				<h2>글 자세히 보기</h2>
+					<table border="1">
+					
+						<tbody>
+							<tr>
+								<td>글 번호</td>
+								<td th:text=${detail.boardIdx}></td>					
+							</tr>
+							<tr>
+								<td>글 제목</td>
+								<td th:text=${detail.title}></td>					
+							</tr>
+							<tr>
+								<td>글 조회수</td>
+								<td th:text=${detail.hitCnt}></td>					
+							</tr>
+							<tr>
+								<td>글 내용</td>
+								<td th:text=${detail.contents}></td>					
+							</tr>
+							<tr>
+								<td>글 작성자</td>
+								<td th:text=${detail.boardIdx}></td>					
+							</tr>
+							<tr>
+								<td>글 작성일</td>
+								<td th:text="${#temporals.format(detail.createdDatetime,'yyyy-MM-dd')}"></td>					
+							</tr>
+						</tbody>
+						
+					</table>
+						<a th:href=@{/board/updateBoard(boardIdx=${detail.boardIdx})}>글수정</a>
+						<a th:href=@{/board/deleteBoard(boardIdx=${detail.boardIdx})}>글삭제</a>
+						<a th:href=@{/board/boardList}>목록으로</a>
+						
+			</div>
+
+	</th:block>
+	<th:block layout:fragment="customScript">
+
+		 
+	</th:block>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+		<th:block layout:fragment="customTitle">
+			<title>타이틀 입력</title>
+		</th:block>
+		<th:block layout:fragment="Contents">
+		  <!--main content start-->
+		  	<div class="container">
+				<h2>게시판 글쓰기</h2>
+				<form th:action="@{/board/boardInsert}" method ="post" enctype="multipart/form-data">
+					제목 <input type="text" name="title">
+					내용 	<textarea name="contents"></textarea>
+					작성자 <input type="text" name="creatorId">
+					파일 <input type="file" name="files" multiple="multiple">
+					<input type="submit" value ="저장">
+				</form>
+			</div>
+
+	</th:block>
+	<th:block layout:fragment="customScript">
+
+		 
+	</th:block>
+</html>
