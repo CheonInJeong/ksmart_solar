@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  	<mapper namespace="com.cafe24.kangk0269.dao.BoardMapper">
+  		<resultMap type="BoardDto" id="boardResultMap">
+  		  		<result property="boardIdx" column="board_idx"/>
+  		  		<result property="title" column="title"/>
+  		  		<result property="contents" column="contents"/>
+  		  		<result property="hitCnt" column="hit_cnt"/>
+  		  		<result property="createdDatetime" column="created_datetime"/>
+  		  		<result property="creatorId" column="creator_id"/>
+  		  		<result property="updatedDatetime" column="updated_datetime"/>
+  		  		<result property="updaterId" column="updater_id"/>
+  		  </resultMap>
+  		  <resultMap type = "BoardFileDTO" id = "boardfileResultMap">
+  		  		<result property="boardIdx" column="board_idx"/>
+  		  	  	<result property="originalFileName" column="original_file_name"/>
+  		  	  	<result property="storedFilePath" column="stored_file_path"/>
+  		  	  	<result property="fileSize" column="file_size"/>
+  				<result property="createdDatetime" column="created_datetime"/>
+  		  		<result property="creatorId" column="creator_id"/>
+  		  </resultMap>
+  		  
+  		  <select id="selectBoardFileInfo" parameterType="map" resultMap ="boardfileResultMap">
+  		  		select
+  		  			original_file_name,
+  		  			stored_file_path,
+  		  			file_size
+  		  		from
+  		  			tb_file1
+  		  		where
+  		  		 	idx = #{idx}
+  		  		and
+  		  			board_idx = #{boardIdx}
+  		  		and 
+  		  			deleted_yn = 'N'
+  		  </select>
+  		  
+  		  <update id="updateBoardDetail" parameterType="BoardDto">
+  		  		UPDATE
+  		  			tb_board
+				SET
+					title=#{title},
+					contents=#{contents}
+				WHERE
+					board_idx=#{boardIdx} 
+  		  </update>
+  		  
+  		  <update id="deleteBoard" parameterType="int">
+  		 		UPDATE
+  		 			tb_board
+				SET
+					updated_datetime=NOW(),
+					updater_id='id002',
+					deleted_yn='Y'
+					WHERE board_idx=#{boardIdx}
+  		  </update>
+  		  
+  		  <update id="updateHitCount" parameterType="int">
+  		  		UPDATE
+  		  			tb_board
+				SET
+					hit_cnt=hit_cnt+1
+				WHERE 
+					board_idx = #{boardIdx}
+  		  </update>
+  		  
+  		  <select id="selectBoardDetail" resultMap="boardResultMap" parameterType="int">
+  		  	SELECT 
+				board_idx, title, `contents`, hit_cnt, created_datetime, creator_id
+			FROM 
+				tb_board 
+			WHERE 
+				deleted_yn = 'N' 
+			AND 
+				board_idx = #{boardIdx}
+  		  </select>
+  		  
+  		  <select id="selectBoardFileList" parameterType="int" resultMap="boardfileResultMap">
+  		  	select
+  		  		idx,board_idx,original_file_name,format(round(file_size/1024),0) as fils_size
+			from
+				tb_file1
+			where
+				board_idx = #{boardIdx}
+			and
+				deleted_yn = 'N'  		  
+  		  </select>
+  		  
+  		  <insert id="insertBoardFileList" parameterType="boardFileDTO">
+  		  	INSERT 
+  		  	INTO
+  		  		 tb_file1(board_idx, original_file_name, stored_file_path, file_size, creator_id, created_datetime)
+			VALUES
+			<foreach collection = "list" item="item" separator=",">
+					 (#{item.boardIdx}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, 'id002', NOW())
+			</foreach>
+				
+  		  
+  		  </insert>
+  		  
+  		  <insert id="insertBoard" parameterType="BoardDto" useGeneratedKeys="true" keyProperty="boardIdx">
+  		  	INSERT 
+  		  	INTO
+  		  		tb_board
+				(title,
+				 contents,
+				 created_datetime,
+				 creator_id)
+			VALUES
+				 (#{title}, #{contents}, NOW(), #{creatorId})	
+  		  	
+  		  </insert>
+  		  
+  		  <select id="selectBoardList" resultMap="boardResultMap">
+  		  
+  		  	SELECT
+  		  		 board_idx,
+  		  		 title,
+  		  		 creator_id, 
+  		  		 hit_cnt,
+  		  		 created_datetime
+  		  	FROM 
+  		  		tb_board 
+  		  	WHERE 
+  		  		deleted_yn = 'N' 
+  		  	ORDER BY 
+  		  		board_idx desc
+  		  
+  		  </select>
+  		  
+  		  
+  	</mapper>

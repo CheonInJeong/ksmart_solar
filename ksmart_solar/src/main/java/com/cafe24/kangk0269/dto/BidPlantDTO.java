@@ -1,13 +1,13 @@
 package com.cafe24.kangk0269.dto;
 
 public class BidPlantDTO {
-	private int num;
+
 	private String bPlCode;
 	private String mId;
 	private String bPlTitle;
 	private String bzPlCode;
 	private String bPlContents;
-	private int bPlPprice;
+	private int bPlPrice;
 	private String bPlSpecs;
 	private String bPlDocument;
 	private int plResidual;	
@@ -28,12 +28,7 @@ public class BidPlantDTO {
 	private String bPlCancelReason;
 	private String bPlCancelDate;
 	private int acStatusCode;
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
+
 	public String getbPlCode() {
 		return bPlCode;
 	}
@@ -65,10 +60,10 @@ public class BidPlantDTO {
 		this.bPlContents = bPlContents;
 	}
 	public int getbPlPprice() {
-		return bPlPprice;
+		return bPlPrice;
 	}
-	public void setbPlPprice(int bPlPprice) {
-		this.bPlPprice = bPlPprice;
+	public void setbPlPprice(int bPlPrice) {
+		this.bPlPrice = bPlPrice;
 	}
 	public String getbPlSpecs() {
 		return bPlSpecs;
@@ -193,9 +188,7 @@ public class BidPlantDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BidPlantDTO [num=");
-		builder.append(num);
-		builder.append(", bPlCode=");
+		builder.append("BidPlantDTO [bPlCode=");
 		builder.append(bPlCode);
 		builder.append(", mId=");
 		builder.append(mId);
@@ -205,8 +198,8 @@ public class BidPlantDTO {
 		builder.append(bzPlCode);
 		builder.append(", bPlContents=");
 		builder.append(bPlContents);
-		builder.append(", bPlPprice=");
-		builder.append(bPlPprice);
+		builder.append(", bPlPrice=");
+		builder.append(bPlPrice);
 		builder.append(", bPlSpecs=");
 		builder.append(bPlSpecs);
 		builder.append(", bPlDocument=");
@@ -251,4 +244,5 @@ public class BidPlantDTO {
 		return builder.toString();
 	}
 
+	
 }
