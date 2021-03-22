@@ -195,7 +195,9 @@
       </div>
       <div class="top-menu">
         <ul class="nav pull-right top-menu">
-          <li><a class="logout" href="login.html">Logout</a></li>
+          <li th:if="${session.SID eq null}"><a class="logout" th:href="@{/signup}">Sign Up</a></li>
+          <li th:if="${session.SID eq null}"><a class="logout" th:href="@{/login}">Log In</a></li>
+          <li th:if="${session.SID ne null}"><a class="logout" th:href="@{/login}">Log Out</a></li>
         </ul>
       </div>
     </header>
