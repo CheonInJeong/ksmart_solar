@@ -37,9 +37,12 @@
 								<td>글 작성일</td>
 								<td th:text="${#temporals.format(detail.createdDatetime,'yyyy-MM-dd')}"></td>					
 							</tr>
+							
 						</tbody>
 						
 					</table>
+							
+						<a th:each = "list:${detail.fileList}" th:text="|${list.originalFileName}(${list.fileSize} kb)|" th:href="@{/board/downloadBoardFile(idx=${list.idx},boardIdx=${list.boardIdx})}"></a>
 						<a th:href=@{/board/updateBoard(boardIdx=${detail.boardIdx})}>글수정</a>
 						<a th:href=@{/board/deleteBoard(boardIdx=${detail.boardIdx})}>글삭제</a>
 						<a th:href=@{/board/boardList}>목록으로</a>

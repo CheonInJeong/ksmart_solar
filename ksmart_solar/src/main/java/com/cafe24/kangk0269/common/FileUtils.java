@@ -57,6 +57,12 @@ public class FileUtils {
 							originalFileExtension = ".png";
 						}else if(contentType.contains("image/gif")) {
 							originalFileExtension = ".gif";
+						}else if(contentType.contains("text")) {
+							originalFileExtension =".text";
+						}else if(contentType.contains("pdf")) {
+							originalFileExtension = ".pdf";
+						}else if(contentType.contains("hwp")){
+							originalFileExtension = ".hwp";
 						}else {
 							break;
 						}
@@ -69,6 +75,7 @@ public class FileUtils {
 					boardFileDto.setFileSize(multipartFile.getSize());
 					boardFileDto.setOriginalFileName(multipartFile.getOriginalFilename());
 					boardFileDto.setStoredFilePath(path+"/"+newFileName);
+					fileList.add(boardFileDto);
 					
 					//업로드 된 파일을 새로운 이름으로 바꾸어 지정된 경로에 저장
 					file = new File(path+"/"+newFileName);
@@ -76,7 +83,7 @@ public class FileUtils {
 				}
 			}
 		}
-		return null;
+		return fileList;
 	}
 	
 	

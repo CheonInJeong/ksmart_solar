@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  	<mapper namespace="com.cafe24.kangk0269.dao.BoardMapper">
+  		<resultMap type="BusinessPlantDTO" id="BusinessPlantResultMap">
+  		  		<result property="bzPlCode" column="bz_pl_code"/>
+  		  		<result property="mId" column="m_id"/>
+  		  		<result property="bzPlCheck" column="bz_pl_check"/>
+  		  		<result property="bzPlName" column="bz_pl_name"/>
+  		  		<result property="bzPlZipcode" column="bz_pl_zipcode"/>
+  		  		<result property="bzPlAddr" column="bz_pl_addr"/>
+  		  		<result property="bzPlDetail_addr" column="bz_pl_detail_addr"/>
+  		  		<result property="bzPlPhoto" column="bz_pl_photo"/>
+  		  		<result property="bzPlPower" column="bz_pl_power"/>
+  		  		<result property="bzPlHardware" column="bz_pl_hardware"/>
+  		  		<result property="bzPlArea" column="bz_pl_area"/>
+  		  		<result property="bzPlInvPower" column="bz_pl_inv_power"/>
+  		  		<result property="bzPlInvCount" column="bz_pl_inv_count"/>
+  		  		<result property="bzPlInvMaker" column="bz_pl_inv_maker"/>
+  		  		<result property="bzPlRec" column="bz_pl_rec"/>
+  		  </resultMap>
+  		  <select id="getPlantName" resultMap="BusinessPlantResultMap">
+  		  		SELECT 
+  		  			bz_pl_code,
+  		  			bz_pl_name
+				FROM
+					tb_business_plant WHERE m_id = 'id002'
+  		  </select>
+		  		  
+  	</mapper>

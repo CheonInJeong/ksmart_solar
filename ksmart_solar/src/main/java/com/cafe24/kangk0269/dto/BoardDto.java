@@ -1,6 +1,7 @@
 package com.cafe24.kangk0269.dto;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class BoardDto {
 
@@ -12,6 +13,15 @@ public class BoardDto {
 	private String creatorId;
 	private LocalDateTime updatedDatetime;
 	private String updaterId;
+	private List<BoardFileDTO> fileList;
+	
+	
+	public List<BoardFileDTO> getFileList() {
+		return fileList;
+	}
+	public void setFileList(List<BoardFileDTO> fileList) {
+		this.fileList = fileList;
+	}
 	public int getBoardIdx() {
 		return boardIdx;
 	}
@@ -79,9 +89,11 @@ public class BoardDto {
 		builder.append(updatedDatetime);
 		builder.append(", updaterId=");
 		builder.append(updaterId);
+		builder.append(", fileList=");
+		builder.append(fileList);
 		builder.append("]");
 		return builder.toString();
-	} 
+	}
 	
 	
 }

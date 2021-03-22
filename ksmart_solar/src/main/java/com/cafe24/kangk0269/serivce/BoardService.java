@@ -15,7 +15,6 @@ import com.cafe24.kangk0269.dao.BoardMapper;
 import com.cafe24.kangk0269.dto.BoardDto;
 import com.cafe24.kangk0269.dto.BoardFileDTO;
 
-import jdk.internal.org.jline.utils.Log;
 
 @Service
 public class BoardService {
@@ -28,6 +27,10 @@ public class BoardService {
 	public BoardService(BoardMapper boardMapper, FileUtils fileUtils) {
 		this.boardMapper = boardMapper;
 		this.fileUtils = fileUtils;
+	}
+	
+	public BoardFileDTO selectBoardFileInfo(int idx, int boardIdx) throws Exception{
+		return boardMapper.selectBoardFileInfo(idx,boardIdx);
 	}
 
 	public int updateBoardDetail(BoardDto boardDto) {
@@ -46,8 +49,11 @@ public class BoardService {
 	}
 
 	public BoardDto selectBoardDetail(int boardIdx) {
+		BoardDto boardDto = boardMapper.selectBoardDetail(boardIdx);
+		List<BoardFileDTO> fileList = boardMapper.selectBoardFileList(boardIdx); 
+		boardDto.setFileList(fileList);
 		boardMapper.updateHitCount(boardIdx);
-		return boardMapper.selectBoardDetail(boardIdx);
+		return boardDto;
 
 	}
 
@@ -60,9 +66,9 @@ public class BoardService {
 			throws Exception {
 		boardMapper.insertBoard(boardDto);
 		List<BoardFileDTO> filelist = fileUtils.parseFileInfo(boardDto.getBoardIdx(), multipartHttpServletRequest);
-		System.out.println("파일 전달이 돼냐 안돼냐.1");
+		System.out.println("실행확인1");
 		if (CollectionUtils.isEmpty(filelist) == false) {
-			System.out.println("파일 전달이 돼냐 안돼냐.2.");
+			System.out.println("실행확인2");
 			boardMapper.insertBoardFileList(filelist);
 		}
 
