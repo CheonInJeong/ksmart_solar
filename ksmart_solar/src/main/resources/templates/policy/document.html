@@ -7,9 +7,31 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+		<div class="row mt">
+			<div class="col-lg-12">
+				<div class="form-panel">
+					<form th:action="@{/policy/addFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form">
+						<div class="form-group">
+							<label class="control-label col-md-3">파일업로드</label>
+							<div class="col-md-4 col-xs-4" >
+								<!-- multiple 설정을 하면 하나의 태그에서 여러 파일 첨부 가능 -->
+								<input type="file" name="files" multiple="multiple" class="default" />
+							</div>
+							<div class="col-md-4 col-xs-4">
+								<input type="submit" value="업로드" class="default"/>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>			
 	</th:block>
 	<th:block layout:fragment="customScript">
-		
+		<script type="text/javascript">
+			var policy = $('#policy');
+			policy.addClass('active');
+			policy.parent().find('.sub').css('display','block');
+			policy.parent().find('.sub').children().eq(1).addClass('active');
+		</script>
 	</th:block>
 </html>
