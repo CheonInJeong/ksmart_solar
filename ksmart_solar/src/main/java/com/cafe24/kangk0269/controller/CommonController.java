@@ -13,5 +13,15 @@ public class CommonController {
 	public String test() {
 		return "components/todoList";
 	}
-
+	@GetMapping("/login")
+	public String login() {
+		return "member/memberLogin";
+	}
+	@GetMapping("/signup")
+	public String signup() {
+		return "member/memberSignUp";
+	}
+	
+	
+	
 }
