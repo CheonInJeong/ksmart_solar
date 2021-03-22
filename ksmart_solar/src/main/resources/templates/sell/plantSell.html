@@ -26,36 +26,35 @@
             <h4><i class="fa fa-angle-right"></i>발전소 판매 공고 신청</h4>
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="signupForm" method="post" th:action="@{sell/applyComponentSell}" enctype="application/form-data">
+                <form class="cmxform form-horizontal style-form" id="signupForm" method="post" th:action="@{sell/regPlantSell}" enctype="application/form-data">
                   <input type="hidden" name="m_id" value="">
                   <div class="form-group">
                     <label for="username" class="control-label col-lg-2">발전소</label>
                     <div class="col-lg-10">
+                      
                       <select class="form-control">
-                      	<th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
-						  <option th:value="plantList.bzPlCode" th:text="plantList.bzPlName"></option>
+                      	 <th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
+						 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
 						 </th:block>
-						 	<th:block th:uless="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
-						 		<option>등록 된 발전소가 없습니다.</option>
-						 	</th:block>
+						 <th:block th:unless="${#lists.size(plantList)}>0">
+						 	<option>등록 된 발전소가 없습니다.</option>
+						 </th:block>
 						</select>
                     </div>
                   </div>
                   
-                  <div class="form-group ">
+                  <div class="form-group">
                     <label for="b_cp_title" class="control-label col-lg-2">제목</label>
                     <div class="col-lg-10">
-                      <input class=" form-control" id="b_cp_title" name="b_cp_title" type="text">
+                      <input class=" form-control" id="bPlTitle" name="b_cp_title" type="text">
                     </div>
                   </div>
                   <div class="form-group ">
                     <label for="b_cp_price" class="control-label col-lg-2">희망가</label>
                     <div class="col-lg-10">
-                      <input class=" form-control" id="b_cp_price" name="b_cp_price" type="text">
+                      <input class=" form-control" id="bPlPrice" name="bPlPrice" type="text">
                     </div>
                   </div>
-                  
-                  
                  <div class="form-group">
                  	<label for="files" class="control-label col-lg-2">공고신청파일</label>
                   	<div class="col-lg-10">
@@ -65,13 +64,13 @@
                   <div class="form-group ">
                     <label for="componentDetail" class="control-label col-lg-2">상세설명</label>
                     <div class="col-lg-10">
-                      <textarea id = "componentDetail"class="form-control"></textarea>
+                      <textarea id = "componentDetail"class="form-control" name="bPlContents"></textarea>
                     </div>
                   </div>
                  <div class="form-group">
                   <label class="control-label col-lg-2">공고시작일</label>
                   <div class="col-lg-10">
-                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="b_cp_date_bidding1" >
+                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" >
                     <span class="help-block"></span>
                   </div>
                 </div>                  
@@ -107,7 +106,6 @@
   <script type="text/javascript" th:src="@{/lib/bootstrap-timepicker/js/bootstrap-timepicker.js}"></script>
   <script th:src="@{/lib/advanced-form-components.js}"></script>
 
-		<script>if( window.self == window.top ) { (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-55234356-6', 'auto'); ga('send', 'pageview'); } </script>
 		
 	</th:block>
 </body>

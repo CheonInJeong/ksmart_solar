@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  	<mapper namespace="com.cafe24.kangk0269.dao.BoardMapper">
+  	<mapper namespace="com.cafe24.kangk0269.dao.SellMapper">
   		<resultMap type="BusinessPlantDTO" id="BusinessPlantResultMap">
   		  		<result property="bzPlCode" column="bz_pl_code"/>
   		  		<result property="mId" column="m_id"/>
@@ -21,12 +21,91 @@
   		  		<result property="bzPlInvMaker" column="bz_pl_inv_maker"/>
   		  		<result property="bzPlRec" column="bz_pl_rec"/>
   		  </resultMap>
+  		  <resultMap type="BidListDTO" id="BidListResultMap">
+  		  		<result property="bPlCode" column="b_pl_code"/>
+  		  		<result property="mId" column="m_id"/>
+  		  		<result property="bPlTitle" column="b_pl_title"/>
+  		  		<result property="bPlContents" column="b_pl_contents"/>
+  		  		<result property="bPlPrice" column="b_pl_price"/>
+  		  		<result property="bPlDocument" column="b_pl_document"/>
+  		  		<result property="plResidual" column="pl_residual"/>
+  		  		<result property="plDepStartDate" column="pl_dep_start_date"/>
+  		  		<result property="bPlCode" column="b_pl_code"/>
+  		  		<result property="plDepUsed" column="pl_dep_used"/>
+  		  		<result property="bPlDateRequest" column="b_pl_date_request"/>
+  		  		<result property="bPlDateBidding1" column="b_pl_date_bidding1"/>
+  		  		<result property="bPlDateBidding2" column="b_pl_date_bidding2"/>
+  		  		<result property="bPlDateDecision1" column="b_pl_date_decision1"/>
+  		  		<result property="bPlDateDecision2" column="b_pl_date_decision2"/>
+  		  		<result property="bPlGroupcode" column="b_pl_groupcode"/>
+  		  		<result property="bPlReCount" column="b_pl_re_count"/>
+  		  		<result property="bPlConfirm" column="b_pl_confirm"/>
+  		  		<result property="bPlConfirmStatus" column="b_pl_confirm_status"/>
+  		  		<result property="bPlRejectReason" column="b_pl_reject_reason"/>
+  		  		<result property="bPlCancelReason" column="b_pl_cancel_date"/>
+  		  		<result property="bPlCancelDate" column="b_pl_cancel_date"/>
+  		  		<result property="acStatusCode" column="ac_status_code"/>
+  		  
+  		  </resultMap>
+  		  <select id="getNumberOfBidder" resultType="int">
+  		  		SELECT COUNT(1) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
+  		  </select>
+  		  
+  		  <select id="getHighestPriceByCode" resultType="int">
+  		  		SELECT max(b_price) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
+  		  </select>
+  		  <select id="getBidPlantbyId" resultMap="BidListResultMap">
+  		  		SELECT
+  		  			p.bz_pl_name,b.b_pl_title, b.b_pl_date_bidding1,b.b_pl_date_bidding2,b.b_pl_status
+  		  		FROM 
+  		  			tb_bid_plant AS b
+  		  		left JOIN 
+  		  			tb_business_plant AS p 
+  		  		ON b.bz_pl_code = p.bz_pl_code where m_id = 'id002' 
+  		  </select>
+  		  
+  		  <insert id="addPlantApply" parameterType="BidPlantDTO">
+				INSERT INTO 
+					tb_bid_plant
+					(b_pl_code,
+					 bz_pl_code,
+					 m_id,
+					 b_pl_title,
+					 b_pl_contents,
+					 b_pl_price,
+					 b_pl_specs,
+					 b_pl_document,
+					 pl_residual,
+					 pl_dep_price,
+					 pl_dep_start_date,
+					 pl_dep_used,
+					 b_pl_status,
+					 ac_status_code,
+					 b_pl_date_request,
+					 b_pl_date_bidding1,
+					 b_pl_date_bidding2,
+					 b_pl_date_decision1,
+					 b_pl_date_decision2,
+					 b_pl_groupcode,
+					 b_pl_re_count)
+				VALUES 
+				(sf_b_pl_code(), #{bzPlCode}, #{mId}, #{bPlTitle}, #{bPlContents}, #{bPlPrice},#{bPlStartDate} ,#{bPlSpecs}, #{bPlDocument}, 0, 0, NOW(), '', '', 0, NOW(), NOW(), NOW(), NOW(), NOW(), '', 0, NOW(), '', '', '', NOW())
+  		  </insert>
+  		  
   		  <select id="getPlantName" resultMap="BusinessPlantResultMap">
-  		  		SELECT 
-  		  			bz_pl_code,
-  		  			bz_pl_name
-				FROM
-					tb_business_plant WHERE m_id = 'id002'
+  		  		SELECT
+					p.bz_pl_code,
+					p.bz_pl_name 
+				FROM 
+					tb_bid_plant AS b 
+				right JOIN
+					tb_business_plant AS p 
+				ON
+					b.bz_pl_code = p.bz_pl_code 
+				WHERE
+					b.bz_pl_code IS NULL 
+				AND 
+					p.m_id = 'id003'
   		  </select>
 		  		  
   	</mapper>

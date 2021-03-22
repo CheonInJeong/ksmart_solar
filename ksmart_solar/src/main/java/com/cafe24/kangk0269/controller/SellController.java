@@ -5,8 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.serivce.SellService;
 
@@ -21,7 +23,12 @@ public class SellController {
 	}
 	
 	
-	
+	//발전소 판매 공고 등록
+	@PostMapping("/sell/regPlantSell")
+	public String regPlantSell(BidPlantDTO bidPlantDto) {
+		
+		return "";
+	}
 	
 	//발전소판매공고신청 버튼 클릭시
 	@GetMapping("/sell/plantSell")
