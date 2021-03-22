@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.BidPlantMapper">
+	<resultMap type="BidPlantDTO" id="BidPlantDTOMap">
+		<result property="num" 					column="num" />
+		<result property="bPlCode" 				column="b_pl_code" />
+		<result property="mId" 					column="m_id" />
+		<result property="bPlTitle" 			column="b_pl_title" />
+		<result property="bzPlCode" 			column="bz_pl_code" />
+		<result property="bPlContents"			column="b_pl_contents" />		
+		<result property="bPlPprice" 			column="b_pl_price" />	
+		<result property="bPlSpecs" 			column="b_pl_specs" />	
+		<result property="bPlDocument" 			column="b_pl_document" />	
+		<result property="plResidual" 			column="pl_residual" />	
+		<result property="plDepPrice" 			column="pl_dep_price" />	
+		<result property="plDepStartDate" 		column="pl_dep_start_date" />	
+		<result property="plDepUsed" 			column="pl_dep_used" />	
+		<result property="bPlStatus" 			column="b_pl_status" />	
+		<result property="bPlDateRequest" 		column="b_pl_date_request" />	
+		<result property="bPlDateBidding1" 		column="b_pl_date_bidding1" />	
+		<result property="bPlDateBidding2" 		column="b_pl_date_bidding2" />	
+		<result property="bPlDateDecision1" 	column="b_pl_date_decision1" />	
+		<result property="bPlDateDecision2" 	column="b_pl_date_decision2" />	
+		<result property="bPlGroupcode" 		column="b_pl_groupcode" />	
+		<result property="bPlReCount" 			column="b_pl_re_count" />	
+		<result property="bPlConfirm" 			column="b_pl_confirm" />	
+		<result property="bPlConfirmStatus" 	column="b_pl_confirm_status" />	
+		<result property="bPlRejectReason" 		column="b_pl_reject_reason" />	
+		<result property="bPlCancelReason" 		column="b_pl_cancel_reason" />	
+		<result property="bPlCancelDate" 		column="b_pl_cancel_date" />	
+		<result property="acStatusCode" 		column="ac_status_code" />	
+	</resultMap>
+	<select id="getBidPlant" resultMap="BidPlantDTOMap">
+		SELECT
+			(@rowNum := @rowNum + 1) as num,
+			b_pl_code,
+			bz_pl_code, 
+			m_id, 
+			b_pl_title,
+			b_pl_contents, 
+			b_pl_price, 
+			b_pl_specs, 
+			b_pl_document, 
+			pl_residual, 
+			pl_dep_price, 
+			pl_dep_start_date, 
+			pl_dep_used, 
+			b_pl_status, 
+			b_pl_date_request, 
+			b_pl_date_bidding1, 
+			b_pl_date_bidding2, 
+			b_pl_date_decision1, 
+			b_pl_date_decision2, 
+			b_pl_groupcode, 
+			b_pl_re_count, 
+			b_pl_confirm, 
+			b_pl_confirm_status, 
+			b_pl_reject_reason, 
+			b_pl_cancel_reason, 
+			b_pl_cancel_date
+		FROM 
+			tb_bid_plant
+		join (
+				select
+					@rowNum := 0) AS r
+		WHERE ac_status_code = 4
+		ORDER BY b_pl_date_bidding1 DESC
+	</select>
+
+</mapper>
