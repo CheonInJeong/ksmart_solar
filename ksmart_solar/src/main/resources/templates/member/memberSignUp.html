@@ -36,9 +36,7 @@
 			</form><br>
 			<div class="form-group">
 			  <input type="text" id="roadAddress" class="form-control" placeholder="도로명주소">
-			</div>
-			<div class="form-group">
-			  <input type="text" id="jibunAddress" class="form-control" placeholder="지번주소">
+			  <input type="hidden" id="jibunAddress" class="form-control" placeholder="">
 			</div>
 			<div class="form-group">
 			  <span id="guide" style="color:#999;display:none"></span>
@@ -53,7 +51,7 @@
 			<form >
 			  <div class="form-group" style="margin-top: 18px;">
 			    <label for="memberName">이름</label>
-			    <input type="password" class="form-control" id="memberName" placeholder="이름을 입력하세요.">
+			    <input type="text" class="form-control" id="memberName" placeholder="이름을 입력하세요.">
 			  </div>
 			  <label for="memberPhone">휴대전화번호</label>
 				  <div class="form-group">
@@ -68,13 +66,10 @@
 			  </div>
 		      <img id="uploadImg" alt="" src="">
 			</form>
-		<button id="signInBtn" type="button" class="btn btn-default btn-lg col-lg-12 col-md-12 col-sm-12 col-xs-12" onclick="signInSubmit()">등 록 하 기</button>
+		<button id="signInBtn" type="button" class="btn btn-success btn-lg col-lg-12 col-md-12 col-sm-12 col-xs-12" onclick="signInSubmit()">등 록 하 기</button>
 		</div>
 	</div>
 	<!-- 컨텐츠 영역 끝 : 회원가입 -->
-		
-		
-	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -82,7 +77,14 @@
 			//아이디 중복확인
 			function userCodeCheck(){
 				var mId = $('#memberId').val();
-				console.log(mId);
+				if(mId == null || mId == "" || mId == 'undefined'){
+					Swal.fire({
+						  title: '아이디를 입력해주세요!',
+						  icon: 'info'
+						})
+					memberId.focus();
+					return;
+				}
 				$.ajax({
 			        url     : '/ajax/idCheck',
 			        type    : 'POST',
@@ -102,7 +104,7 @@
 								  text: '회원등록을 진행해주세요.',
 								  icon: 'success'
 								});
-			        		$('#userCodeCheckValue').val(mId);
+			        		$('#memberCodeCheckValue').val(mId);
 			        		$('#memberId').focus();
 			        	}
 			        },
@@ -202,9 +204,8 @@
 				 }
 
 				////////////////////////휴대폰 유효성검사//////////////////////////
-				 var phonenum = $('#phone').val();
 				 var regPhone = /(01[0|1|6|9|7])[-](\d{3}|\d{4})[-](\d{4}$)/g;
-				 if(!regPhone.test(phonenum)){
+				 if(!regPhone.test(memberPhoneSum)){
 					 Swal.fire({
 						  title: '잘못된 휴대전화번호 형식입니다!',
 						  text: '휴대전화번호를 다시 입력 해주세요.',
@@ -214,20 +215,20 @@
 					 return false;
 				 }
 				
-				
+				console.log('ajax전');
 				//////////////////ajax를 통해 회원가입 데이터 전송//////////////////////
 				$.ajax({
 			        url     : '/ajax/signup',
 			        type    : 'POST',
-			        data    :   {memberId:memberId
-			        			,memberPassword :memberPassword
-			        			,postcode :postcode
-			        			,roadAddress
-			        			,detailAddress
-			        			,memberEmail
-			        			,memberName
-			        			,memberPhoneSum
-			        			,inputFile},
+			        data    :   {memberId:memberId.val()
+			        			,memberPassword:memberPassword.val()
+			        			,postcode:postcode.val()
+			        			,roadAddress:roadAddress.val()
+			        			,detailAddress:detailAddress.val()
+			        			,memberEmail:memberEmail.val()
+			        			,memberName:memberName.val()
+			        			,memberPhoneSum:memberPhoneSum
+			        			,inputFile:inputFile.val()},
 			        success : function(data) {
 			        	console.log(data);
 			        	if(data){
@@ -235,11 +236,13 @@
 								  title: '회원등록이 완료되었습니다!',
 								  icon: 'success'
 								});
+			        		document.location.href = '/member/memberLogin';
 			        	}else{
 			        		Swal.fire({
 								  title: '회원등록이 실패했습니다!',
 								  icon: 'error'
 								});
+			        		document.location.href = '/member/memberLogin';
 			        	}
 			        },
 			        error : function(xhr,status,error) {
