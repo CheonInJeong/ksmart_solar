@@ -30,7 +30,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bCpCancelDate" 	column="b_cp_cancel_date" />	
 		<result property="acStatusCode" 	column="ac_status_code" />	
 	</resultMap>
-	<select id="getBidComponent" resultMap="BidComponentDTOMap">
+	<select id="getBidComponent" resultMap="BidComponentDTOMap" parameterType="String">
 		SELECT 
 			(@rowNum := @rowNum + 1) as num,
 			b_cp_code, 
@@ -59,8 +59,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		join (
 			select
 				@rowNum := 0) AS r
-		WHERE ac_status_code = 4
-		ORDER BY b_cp_date_bidding1 desc
+		<trim prefix="where">
+			<if test="status != null and status.toString() == '종료'.toString() ">		
+				ac_status_code > 4						
+			</if>
+			<if test="status != null and status.toString() == '진행'.toString() ">		
+				ac_status_code = 4						
+			</if>
+		</trim>	
+		ORDER BY b_cp_date_bidding1 DESC
 					
 	</select>
 

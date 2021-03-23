@@ -30,8 +30,8 @@ public class BidComponentService {
 	}
 	
 	
-	public List<BidComponentDTO> getBidComponent() {
-		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponent();
+	public List<BidComponentDTO> getBidComponent(String status) {		
+		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponent(status);
 		System.out.println(bidComponentList);
 		return bidComponentList;
 	}

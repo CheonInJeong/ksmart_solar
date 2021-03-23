@@ -9,5 +9,5 @@ import com.cafe24.kangk0269.dto.BidPlantDTO;
 @Mapper
 public interface BidPlantMapper {
 
-	public List<BidPlantDTO> getBidPlant();
+	public List<BidPlantDTO> getBidPlant(String status);
 }
