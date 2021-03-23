@@ -1,11 +1,9 @@
 package com.cafe24.kangk0269.controller;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -13,9 +11,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.serivce.SellService;
-
-
-
 
 @Controller
 public class SellController {
@@ -29,7 +24,7 @@ public class SellController {
 	
 	
 	//발전소 판매 공고 등록
-	@PostMapping("/sell/plantSell")
+	@PostMapping("/sell/regPlantSell")
 	public String regPlantSell(BidPlantDTO bidPlantDto) {
 		
 		return "";
@@ -56,10 +51,7 @@ public class SellController {
 		return "/sell/apply";
 	}
 	@GetMapping("/sell/myHistory")
-	public String MyHistory(Model model) {
-		List<BidPlantDTO> bidPlantList = sellService.getBidPlantbyId();
-		model.addAttribute("bidPlantList", bidPlantList);
-	
+	public String MyHistory() {
 		
 		return "/sell/myHistory";
 	}

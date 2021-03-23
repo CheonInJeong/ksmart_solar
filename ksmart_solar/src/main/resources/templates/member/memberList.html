@@ -2,64 +2,12 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
+
 	<th:block layout:fragment="customTitle">
-				<title>회원리스트조회</title>
+				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div class="content-panel">
-			<div class="adv-table" style="overflow: scroll;">
-				<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
-					<thead>
-						<tr>
-							<th>아이디</th>
-							<th>비밀번호</th>
-							<th>이름</th>
-							<th>권한번호</th>
-							<th>우편번호</th>
-							<th>도로명주소</th>
-							<th>상세주소</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>프로필사진</th>
-							<th>회원가입일</th>
-							<th>회원정보수정일</th>
-							<th>휴면여부</th>
-							<th>탈퇴여부</th>
-							<th>탈퇴유예여부</th>
-							<th>회원상태변경일</th>
-							<th>수정</th>
-							<th>삭제</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="l : ${memberList}">
-							<td th:text="${l.mId}"></td>
-							<td th:text="${l.mPw}"></td>
-							<td th:text="${l.mName}"></td>
-							<td th:text="${l.mLevel}"></td>
-							<td th:text="${l.mZipcode}"></td>
-							<td th:text="${l.mAddr}"></td>
-							<td th:text="${l.mDetailAddr}"></td>
-							<td th:text="${l.mPhone}"></td>
-							<td th:text="${l.mEmail}"></td>
-							<td th:text="${l.mPhoto}"></td>
-							<td th:text="${l.mSubDate}"></td>
-							<td th:text="${l.mSubDateModify}"></td>
-							<td th:text="${l.mRestCheck}"></td>
-							<td th:text="${l.mRevokeCheck}"></td>
-							<td th:text="${l.mRevokeDelayCheck}"></td>
-							<td th:text="${l.mStateModifyDate}"></td>
-							<td>
-								<a th:href=@{/}>수정</a>
-							</td>
-							<td>
-								<a th:href=@{/}>삭제</a>
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-		</div>
+		이곳에 내용을 쓰세요	
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
