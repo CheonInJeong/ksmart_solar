@@ -7,7 +7,7 @@ public class BusinessPlantDTO {
 	private String bzPlName;	
 	private String bzPlZipcode;	
 	private String bzPlAddr;	
-	private String bzPlDetail_addr;	
+	private String bzPlDetailAddr;	
 	private String bzPlPhoto;
 	private int bzPlPower;
 	private String bzPlHardware;	
@@ -52,11 +52,11 @@ public class BusinessPlantDTO {
 	public void setBzPlAddr(String bzPlAddr) {
 		this.bzPlAddr = bzPlAddr;
 	}
-	public String getBzPlDetail_addr() {
-		return bzPlDetail_addr;
+	public String getBzPlDetailAddr() {
+		return bzPlDetailAddr;
 	}
-	public void setBzPlDetail_addr(String bzPlDetail_addr) {
-		this.bzPlDetail_addr = bzPlDetail_addr;
+	public void setBzPlDetailAddr(String bzPlDetailAddr) {
+		this.bzPlDetailAddr = bzPlDetailAddr;
 	}
 	public String getBzPlPhoto() {
 		return bzPlPhoto;
@@ -122,7 +122,7 @@ public class BusinessPlantDTO {
 		builder.append(", bzPlAddr=");
 		builder.append(bzPlAddr);
 		builder.append(", bzPlDetail_addr=");
-		builder.append(bzPlDetail_addr);
+		builder.append(bzPlDetailAddr);
 		builder.append(", bzPlPhoto=");
 		builder.append(bzPlPhoto);
 		builder.append(", bzPlPower=");
