@@ -32,6 +32,15 @@ public class SellService {
 		this.sellMapper = sellMapper;
 	}
 	
+	public int addPlantApply(BidPlantDTO bidPlantDto) {
+		int result = sellMapper.addPlantApply(bidPlantDto);
+		return result;
+	}
+	
+	public BusinessPlantDTO getPlantInformation(String code){
+		BusinessPlantDTO bzPlantDto = sellMapper.getPlantInformation(code);
+		return bzPlantDto;
+	}
 	
 	public	List<BidPlantDTO> getBidPlantbyId(){
 		List<BidPlantDTO> bidPlantList = sellMapper.getBidPlantbyId();
@@ -48,9 +57,8 @@ public class SellService {
 		return bidPlantList;
 	}
 	
-	//파라미터 있어야는뎅....//parameter : String mId 추가하기
-	public List<BusinessPlantDTO> getPlantName(){
-		List<BusinessPlantDTO> bzPlDto = sellMapper.getPlantName();
+	public List<BusinessPlantDTO> getPlantName(String mId){
+		List<BusinessPlantDTO> bzPlDto = sellMapper.getPlantName(mId);
 		return bzPlDto;
 	}
 

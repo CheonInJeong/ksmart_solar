@@ -21,7 +21,7 @@
 			<div class="col-lg-6 col-md-6 col-sm-6 form-inline">
 	            <div class="form-panel">
 	              <div class=" form">
-	                <a th:href="@{/sell/plantSell}"><i class="fa fa-dashboard">발전소판매</i></a>
+	                <a th:href="@{/sell/plantSell(mId=${session.SID})}"><i class="fa fa-dashboard">발전소판매</i></a>
 	              </div>
 	            </div>
 	          </div>
@@ -30,7 +30,7 @@
 	          
 	            <div class="form-panel">
 	              <div class=" form">
-	                <a th:href="@{/sell/componentSell}"><i class="fa fa-cogs"></i>부품판매</a>
+	                <a th:href="@{/sell/componentSell(mId=${session.SID})}"><i class="fa fa-cogs"></i>부품판매</a>
 	              </div>
 	            </div>
 	          </div>
