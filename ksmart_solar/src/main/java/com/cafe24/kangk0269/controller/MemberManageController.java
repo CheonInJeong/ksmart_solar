@@ -2,10 +2,13 @@ package com.cafe24.kangk0269.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -104,8 +107,80 @@ public class MemberManageController {
 		return checkResult;
 	}
 	
+	//로그인
+	@RequestMapping(value="/ajax/login", method = RequestMethod.POST)
+	public @ResponseBody String memberLogin(@RequestParam(value="mId", required = false) String mId
+											,@RequestParam(value="mPw", required = false) String mPw
+											,HttpSession session) {
+		String checkResult = "";
+		if(mId != null && !"".equals(mId)) {	
+			MemberDTO member = memberService.getMemberInfoById(mId);
+			String resultId = member.getmId();
+			String resultPw = member.getmPw();
+			String resultName = member.getmName();
+			String resultLevel = member.getmLevelName();
+			if(resultId == null) {
+				checkResult = "아이디오류";
+				return checkResult;
+			}
+			if(mPw.equals(resultPw)){
+				checkResult = "로그인완료";
+				
+				//아이디
+				session.setAttribute("SID", resultId);
+				//권한
+				session.setAttribute("SLEVEL", resultLevel);
+				//이름
+				session.setAttribute("SNAME", resultName);	
+				
+				
+			}else {
+				checkResult = "비번불일치";
+			}
+		}
+		return checkResult;
+	}
 	
 	//버튼 로그인 (관리자)
+	@GetMapping("/login/manager")
+	public String loginManager(HttpSession session) {
+		//아이디 
+		session.setAttribute("SID", "manager01"); 
+		//권한
+		session.setAttribute("SLEVEL", "관리자"); 
+		//이름 
+		session.setAttribute("SNAME","홍길동");
+		return "main";
+	}
+	//버튼 로그인 (태양광사업자)
+	@GetMapping("/login/solar")
+	public String loginSolar(HttpSession session) {
+		//아이디 
+		session.setAttribute("SID", "solar01"); 
+		//권한
+		session.setAttribute("SLEVEL", "태양광사업자"); 
+		//이름 
+		session.setAttribute("SNAME","김태풍");
+		return "main";
+	}
+	//버튼 로그인 (관리자)
+	@GetMapping("/login/recycle")
+	public String loginRecycle(HttpSession session) {
+		//아이디 
+		session.setAttribute("SID", "recycle01"); 
+		//권한
+		session.setAttribute("SLEVEL", "재활용사업자"); 
+		//이름 
+		session.setAttribute("SNAME","박선비");
+		return "main";
+	}
 	
+	
+	//로그아웃
+	@GetMapping("/logout")
+	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/login";
+	}
 	
 }
