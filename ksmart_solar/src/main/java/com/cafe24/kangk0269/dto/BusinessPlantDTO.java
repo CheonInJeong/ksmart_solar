@@ -16,6 +16,8 @@ public class BusinessPlantDTO {
 	private int bzPlInvCount;	
 	private String bzPlInvMaker;	
 	private int bzPlRec;
+	private PlantDepreciationDTO plantDepreciationDTO;
+	private PlantDepDataDTO plantDepDataDTO;
 	public String getBzPlCode() {
 		return bzPlCode;
 	}
@@ -106,41 +108,26 @@ public class BusinessPlantDTO {
 	public void setBzPlRec(int bzPlRec) {
 		this.bzPlRec = bzPlRec;
 	}
+	public PlantDepreciationDTO getPlantDepreciationDTO() {
+		return plantDepreciationDTO;
+	}
+	public void setPlantDepreciationDTO(PlantDepreciationDTO plantDepreciationDTO) {
+		this.plantDepreciationDTO = plantDepreciationDTO;
+	}
+	public PlantDepDataDTO getPlantDepDataDTO() {
+		return plantDepDataDTO;
+	}
+	public void setPlantDepDataDTO(PlantDepDataDTO plantDepDataDTO) {
+		this.plantDepDataDTO = plantDepDataDTO;
+	}
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BusinessPlantDTO [bzPlCode=");
-		builder.append(bzPlCode);
-		builder.append(", mId=");
-		builder.append(mId);
-		builder.append(", bzPlCheck=");
-		builder.append(bzPlCheck);
-		builder.append(", bzPlName=");
-		builder.append(bzPlName);
-		builder.append(", bzPlZipcode=");
-		builder.append(bzPlZipcode);
-		builder.append(", bzPlAddr=");
-		builder.append(bzPlAddr);
-		builder.append(", bzPlDetail_addr=");
-		builder.append(bzPlDetail_addr);
-		builder.append(", bzPlPhoto=");
-		builder.append(bzPlPhoto);
-		builder.append(", bzPlPower=");
-		builder.append(bzPlPower);
-		builder.append(", bzPlHardware=");
-		builder.append(bzPlHardware);
-		builder.append(", bzPlArea=");
-		builder.append(bzPlArea);
-		builder.append(", bzPlInvPower=");
-		builder.append(bzPlInvPower);
-		builder.append(", bzPlInvCount=");
-		builder.append(bzPlInvCount);
-		builder.append(", bzPlInvMaker=");
-		builder.append(bzPlInvMaker);
-		builder.append(", bzPlRec=");
-		builder.append(bzPlRec);
-		builder.append("]");
-		return builder.toString();
+		return "BusinessPlantDTO [bzPlCode=" + bzPlCode + ", mId=" + mId + ", bzPlCheck=" + bzPlCheck + ", bzPlName="
+				+ bzPlName + ", bzPlZipcode=" + bzPlZipcode + ", bzPlAddr=" + bzPlAddr + ", bzPlDetail_addr="
+				+ bzPlDetail_addr + ", bzPlPhoto=" + bzPlPhoto + ", bzPlPower=" + bzPlPower + ", bzPlHardware="
+				+ bzPlHardware + ", bzPlArea=" + bzPlArea + ", bzPlInvPower=" + bzPlInvPower + ", bzPlInvCount="
+				+ bzPlInvCount + ", bzPlInvMaker=" + bzPlInvMaker + ", bzPlRec=" + bzPlRec + ", plantDepreciationDTO="
+				+ plantDepreciationDTO + ", plantDepDataDTO=" + plantDepDataDTO + "]";
 	}
 	
 	

@@ -14,7 +14,6 @@ public class MemberManageController {
 	
 	@GetMapping("/member/memberLogin")
 	public String MemberLogin() {
-		
 		return "/member/memberLogin";
 	}
 	

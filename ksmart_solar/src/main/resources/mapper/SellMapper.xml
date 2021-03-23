@@ -4,6 +4,15 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
   	<mapper namespace="com.cafe24.kangk0269.dao.SellMapper">
+  	
+  		<resultMap type = "FileDTO" id = "fileResultMap">
+  		  		<result property="relatedTableCode" column="related_table_code"/>
+  		  	  	<result property="originalFileName" column="original_file_name"/>
+  		  	  	<result property="storedFilePath" column="stored_file_path"/>
+  		  	  	<result property="fileSize" column="file_size"/>
+  				<result property="createdDatetime" column="created_datetime"/>
+  		  		<result property="creatorId" column="creator_id"/>
+  		</resultMap>
   		<resultMap type="BusinessPlantDTO" id="BusinessPlantResultMap">
   		  		<result property="bzPlCode" column="bz_pl_code"/>
   		  		<result property="mId" column="m_id"/>
@@ -34,8 +43,6 @@
 	  		  		<result property="bzPlCode" column="bz_pl_code"/>
 	  		  		<result property="plDepDataResidual" column="pl_dep_data_residual"/>
   		  		</association>
-  		  	
-
   		  </resultMap>
   		  <resultMap type="BidListDTO" id="BidListResultMap">
   		  		<result property="bPlCode" column="b_pl_code"/>
@@ -63,6 +70,18 @@
   		  		<result property="acStatusCode" column="ac_status_code"/>
   		  
   		  </resultMap>
+  		  
+  		  <insert id="addFile" parameterType="FileDTO">
+  		  		INSERT 
+  		  		INTO
+  		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime)
+				VALUES
+			<foreach collection = "list" item="item" separator=",">
+					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, 'id002', NOW())
+			</foreach>
+				
+  		  </insert>
+  		  
   		  <select id="getNumberOfBidder" resultType="int">
   		  		SELECT COUNT(1) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
   		  </select>
@@ -93,9 +112,6 @@
 					pl_residual,
 					pl_dep_price,
 					pl_dep_start_date, 
-					pl_dep_used, 
-					ac_status_code, 
-					ac_status_name,
 					b_pl_date_request,
 					b_pl_date_bidding1,
 					b_pl_date_bidding2,
@@ -136,7 +152,8 @@
 				WHERE 
 					p.pl_dep_data_month = d.pl_dep_servicelife 
 				AND 
-					p.bz_pl_code = #{bzPlCode}
+					p.bz_pl_code =  'bz_pl_0001'
+				<!-- 	p.bz_pl_code = #{bzPlCode} -->
   		  
   		  </select>
   		  
@@ -153,7 +170,7 @@
 				WHERE
 					b.bz_pl_code IS NULL 
 				AND 
-					p.m_id = #{mId}
+					p.m_id = 'id013'
 
   		  </select>
 		  		  
