@@ -28,7 +28,8 @@ public class BidPlantDTO {
 	private String bPlCancelReason;
 	private String bPlCancelDate;
 	private int acStatusCode;
-
+	private BusinessPlantDTO businessPlantDTO;
+	
 	public String getbPlCode() {
 		return bPlCode;
 	}
@@ -59,10 +60,10 @@ public class BidPlantDTO {
 	public void setbPlContents(String bPlContents) {
 		this.bPlContents = bPlContents;
 	}
-	public int getbPlPprice() {
+	public int getbPlPrice() {
 		return bPlPrice;
 	}
-	public void setbPlPprice(int bPlPrice) {
+	public void setbPlPrice(int bPlPrice) {
 		this.bPlPrice = bPlPrice;
 	}
 	public String getbPlSpecs() {
@@ -185,6 +186,13 @@ public class BidPlantDTO {
 	public void setAcStatusCode(int acStatusCode) {
 		this.acStatusCode = acStatusCode;
 	}
+	public BusinessPlantDTO getBusinessPlantDTO() {
+		return businessPlantDTO;
+	}
+	public void setBusinessPlantDTO(BusinessPlantDTO businessPlantDTO) {
+		this.businessPlantDTO = businessPlantDTO;
+	}
+	
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -240,9 +248,12 @@ public class BidPlantDTO {
 		builder.append(bPlCancelDate);
 		builder.append(", acStatusCode=");
 		builder.append(acStatusCode);
+		builder.append(", businessPlantDTO=");
+		builder.append(businessPlantDTO);
 		builder.append("]");
 		return builder.toString();
 	}
+
 
 	
 }

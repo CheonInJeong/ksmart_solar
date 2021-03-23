@@ -1,200 +1,202 @@
 package com.cafe24.kangk0269.dto;
 
 public class BidListDTO {
-	private String b_code;
-	private String announced_code;
-	private String b_type_code;	
-	private String m_id;
-	private int b_price;
-	private double s_deposit_rate;
-	private int b_deposit;	
-	private String b_deposit_check;
-	private String b_mo_code;	
-	private String b_deposit_date;
-	private String tr_type_code;
-	private String tr_type_name;	
-	private String dc_instructions;	
-	private String dc_application;	
-	private String dc_proposal;	
-	private String b_date;
-	private String b_check;	
-	private int b_rank;	
-	private String b_deposit_available;
-	private String b_deposit_refund;
-	private String b_date_up;
-	public String getB_code() {
-		return b_code;
+	private String bCode;
+	private String announcedCode;
+	private String bTypeCode;	
+	private String mId;
+	private int bPrice;
+	private double sDepositRate;
+	private int bDeposit;	
+	private String bDepositCheck;
+	private String bMoCode;	
+	private String bDepositDate;
+	private String trTypeCode;
+	private String trTypeName;	
+	private String dcInstructions;	
+	private String dcApplication;	
+	private String dcProposal;	
+	private String bDate;
+	private String bCheck;	
+	private int bRank;	
+	private String bDepositAvailable;
+	private String bDepositRefund;
+	private String bDateUp;
+	public String getbCode() {
+		return bCode;
 	}
-	public void setB_code(String b_code) {
-		this.b_code = b_code;
+	public void setbCode(String bCode) {
+		this.bCode = bCode;
 	}
-	public String getAnnounced_code() {
-		return announced_code;
+	public String getAnnouncedCode() {
+		return announcedCode;
 	}
-	public void setAnnounced_code(String announced_code) {
-		this.announced_code = announced_code;
+	public void setAnnouncedCode(String announcedCode) {
+		this.announcedCode = announcedCode;
 	}
-	public String getB_type_code() {
-		return b_type_code;
+	public String getbTypeCode() {
+		return bTypeCode;
 	}
-	public void setB_type_code(String b_type_code) {
-		this.b_type_code = b_type_code;
+	public void setbTypeCode(String bTypeCode) {
+		this.bTypeCode = bTypeCode;
 	}
-	public String getM_id() {
-		return m_id;
+	public String getmId() {
+		return mId;
 	}
-	public void setM_id(String m_id) {
-		this.m_id = m_id;
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
-	public int getB_price() {
-		return b_price;
+	public int getbPrice() {
+		return bPrice;
 	}
-	public void setB_price(int b_price) {
-		this.b_price = b_price;
+	public void setbPrice(int bPrice) {
+		this.bPrice = bPrice;
 	}
-	public double getS_deposit_rate() {
-		return s_deposit_rate;
+	public double getsDepositRate() {
+		return sDepositRate;
 	}
-	public void setS_deposit_rate(double s_deposit_rate) {
-		this.s_deposit_rate = s_deposit_rate;
+	public void setsDepositRate(double sDepositRate) {
+		this.sDepositRate = sDepositRate;
 	}
-	public int getB_deposit() {
-		return b_deposit;
+	public int getbDeposit() {
+		return bDeposit;
 	}
-	public void setB_deposit(int b_deposit) {
-		this.b_deposit = b_deposit;
+	public void setbDeposit(int bDeposit) {
+		this.bDeposit = bDeposit;
 	}
-	public String getB_deposit_check() {
-		return b_deposit_check;
+	public String getbDepositCheck() {
+		return bDepositCheck;
 	}
-	public void setB_deposit_check(String b_deposit_check) {
-		this.b_deposit_check = b_deposit_check;
+	public void setbDepositCheck(String bDepositCheck) {
+		this.bDepositCheck = bDepositCheck;
 	}
-	public String getB_mo_code() {
-		return b_mo_code;
+	public String getbMoCode() {
+		return bMoCode;
 	}
-	public void setB_mo_code(String b_mo_code) {
-		this.b_mo_code = b_mo_code;
+	public void setbMoCode(String bMoCode) {
+		this.bMoCode = bMoCode;
 	}
-	public String getB_deposit_date() {
-		return b_deposit_date;
+	public String getbDepositDate() {
+		return bDepositDate;
 	}
-	public void setB_deposit_date(String b_deposit_date) {
-		this.b_deposit_date = b_deposit_date;
+	public void setbDepositDate(String bDepositDate) {
+		this.bDepositDate = bDepositDate;
 	}
-	public String getTr_type_code() {
-		return tr_type_code;
+	public String getTrTypeCode() {
+		return trTypeCode;
 	}
-	public void setTr_type_code(String tr_type_code) {
-		this.tr_type_code = tr_type_code;
+	public void setTrTypeCode(String trTypeCode) {
+		this.trTypeCode = trTypeCode;
 	}
-	public String getTr_type_name() {
-		return tr_type_name;
+	public String getTrTypeName() {
+		return trTypeName;
 	}
-	public void setTr_type_name(String tr_type_name) {
-		this.tr_type_name = tr_type_name;
+	public void setTrTypeName(String trTypeName) {
+		this.trTypeName = trTypeName;
 	}
-	public String getDc_instructions() {
-		return dc_instructions;
+	public String getDcInstructions() {
+		return dcInstructions;
 	}
-	public void setDc_instructions(String dc_instructions) {
-		this.dc_instructions = dc_instructions;
+	public void setDcInstructions(String dcInstructions) {
+		this.dcInstructions = dcInstructions;
 	}
-	public String getDc_application() {
-		return dc_application;
+	public String getDcApplication() {
+		return dcApplication;
 	}
-	public void setDc_application(String dc_application) {
-		this.dc_application = dc_application;
+	public void setDcApplication(String dcApplication) {
+		this.dcApplication = dcApplication;
 	}
-	public String getDc_proposal() {
-		return dc_proposal;
+	public String getDcProposal() {
+		return dcProposal;
 	}
-	public void setDc_proposal(String dc_proposal) {
-		this.dc_proposal = dc_proposal;
+	public void setDcProposal(String dcProposal) {
+		this.dcProposal = dcProposal;
 	}
-	public String getB_date() {
-		return b_date;
+	public String getbDate() {
+		return bDate;
 	}
-	public void setB_date(String b_date) {
-		this.b_date = b_date;
+	public void setbDate(String bDate) {
+		this.bDate = bDate;
 	}
-	public String getB_check() {
-		return b_check;
+	public String getbCheck() {
+		return bCheck;
 	}
-	public void setB_check(String b_check) {
-		this.b_check = b_check;
+	public void setbCheck(String bCheck) {
+		this.bCheck = bCheck;
 	}
-	public int getB_rank() {
-		return b_rank;
+	public int getbRank() {
+		return bRank;
 	}
-	public void setB_rank(int b_rank) {
-		this.b_rank = b_rank;
+	public void setbRank(int bRank) {
+		this.bRank = bRank;
 	}
-	public String getB_deposit_available() {
-		return b_deposit_available;
+	public String getbDepositAvailable() {
+		return bDepositAvailable;
 	}
-	public void setB_deposit_available(String b_deposit_available) {
-		this.b_deposit_available = b_deposit_available;
+	public void setbDepositAvailable(String bDepositAvailable) {
+		this.bDepositAvailable = bDepositAvailable;
 	}
-	public String getB_deposit_refund() {
-		return b_deposit_refund;
+	public String getbDepositRefund() {
+		return bDepositRefund;
 	}
-	public void setB_deposit_refund(String b_deposit_refund) {
-		this.b_deposit_refund = b_deposit_refund;
+	public void setbDepositRefund(String bDepositRefund) {
+		this.bDepositRefund = bDepositRefund;
 	}
-	public String getB_date_up() {
-		return b_date_up;
+	public String getbDateUp() {
+		return bDateUp;
 	}
-	public void setB_date_up(String b_date_up) {
-		this.b_date_up = b_date_up;
+	public void setbDateUp(String bDateUp) {
+		this.bDateUp = bDateUp;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BidListDTO [b_code=");
-		builder.append(b_code);
-		builder.append(", announced_code=");
-		builder.append(announced_code);
-		builder.append(", b_type_code=");
-		builder.append(b_type_code);
-		builder.append(", m_id=");
-		builder.append(m_id);
-		builder.append(", b_price=");
-		builder.append(b_price);
-		builder.append(", s_deposit_rate=");
-		builder.append(s_deposit_rate);
-		builder.append(", b_deposit=");
-		builder.append(b_deposit);
-		builder.append(", b_deposit_check=");
-		builder.append(b_deposit_check);
-		builder.append(", b_mo_code=");
-		builder.append(b_mo_code);
-		builder.append(", b_deposit_date=");
-		builder.append(b_deposit_date);
-		builder.append(", tr_type_code=");
-		builder.append(tr_type_code);
-		builder.append(", tr_type_name=");
-		builder.append(tr_type_name);
-		builder.append(", dc_instructions=");
-		builder.append(dc_instructions);
-		builder.append(", dc_application=");
-		builder.append(dc_application);
-		builder.append(", dc_proposal=");
-		builder.append(dc_proposal);
-		builder.append(", b_date=");
-		builder.append(b_date);
-		builder.append(", b_check=");
-		builder.append(b_check);
-		builder.append(", b_rank=");
-		builder.append(b_rank);
-		builder.append(", b_deposit_available=");
-		builder.append(b_deposit_available);
-		builder.append(", b_deposit_refund=");
-		builder.append(b_deposit_refund);
-		builder.append(", b_date_up=");
-		builder.append(b_date_up);
+		builder.append("BidListDTO [bCode=");
+		builder.append(bCode);
+		builder.append(", announcedCode=");
+		builder.append(announcedCode);
+		builder.append(", bTypeCode=");
+		builder.append(bTypeCode);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", bPrice=");
+		builder.append(bPrice);
+		builder.append(", sDepositRate=");
+		builder.append(sDepositRate);
+		builder.append(", bDeposit=");
+		builder.append(bDeposit);
+		builder.append(", bDepositCheck=");
+		builder.append(bDepositCheck);
+		builder.append(", bMoCode=");
+		builder.append(bMoCode);
+		builder.append(", bDepositDate=");
+		builder.append(bDepositDate);
+		builder.append(", trTypeCode=");
+		builder.append(trTypeCode);
+		builder.append(", trTypeName=");
+		builder.append(trTypeName);
+		builder.append(", dcInstructions=");
+		builder.append(dcInstructions);
+		builder.append(", dcApplication=");
+		builder.append(dcApplication);
+		builder.append(", dcProposal=");
+		builder.append(dcProposal);
+		builder.append(", bDate=");
+		builder.append(bDate);
+		builder.append(", bCheck=");
+		builder.append(bCheck);
+		builder.append(", bRank=");
+		builder.append(bRank);
+		builder.append(", bDepositAvailable=");
+		builder.append(bDepositAvailable);
+		builder.append(", bDepositRefund=");
+		builder.append(bDepositRefund);
+		builder.append(", bDateUp=");
+		builder.append(bDateUp);
 		builder.append("]");
 		return builder.toString();
 	}
 
+	
+	
 }
