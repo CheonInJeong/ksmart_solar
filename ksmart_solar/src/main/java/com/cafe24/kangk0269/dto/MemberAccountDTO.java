@@ -10,11 +10,11 @@ import lombok.ToString;
 
 public class MemberAccountDTO {
 
-	private int mAccountCode;
+	private int mAccountIdx;
 	private String mId;	
 	private String mAccountNumber;	
 	private String mAccountName;
-	private String mAccountBankName;	
+	private String mAccountBank;	
 	private String mAccountRegDate;	
 	private String mAccountCheck;
 	
