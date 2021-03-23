@@ -21,6 +21,10 @@ public class CommonController {
 	public String signup() {
 		return "member/memberSignUp";
 	}
+	@GetMapping("/signup/action")
+	public void signupAction() {
+		System.out.println("회원가입 액션 컨트롤러");
+	}
 	
 	
 	
