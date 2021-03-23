@@ -52,8 +52,8 @@
 			</div>
 			<form >
 			  <div class="form-group" style="margin-top: 18px;">
-			    <label for="memberNameKOR">이름</label>
-			    <input type="password" class="form-control" id="memberNameKOR" placeholder="이름을 입력하세요.">
+			    <label for="memberName">이름</label>
+			    <input type="password" class="form-control" id="memberName" placeholder="이름을 입력하세요.">
 			  </div>
 			  <label for="memberPhone">휴대전화번호</label>
 				  <div class="form-group">
@@ -77,47 +77,182 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
+			//아이디 중복확인
 			function userCodeCheck(){
-				var request = $.ajax({
-				  url: "/signup/action",
-				  method: "GET",
-				  data: { userCode : $('#userCode').val() },
-				  dataType: "json"
-				});
+				var mId = $('#memberId').val();
+				console.log(mId);
+				$.ajax({
+			        url     : '/ajax/idCheck',
+			        type    : 'POST',
+			        data    : {mId : mId},
+			        success : function(data) {
+			        	console.log(data);
+			        	if(data){
+			        		Swal.fire({
+								  title: '일치하는 아이디가 있습니다!',
+								  text: '다른 아이디로 회원등록을 해주세요.',
+								  icon: 'error'
+								});
+			        		$('#memberId').focus();
+			        	}else{
+			        		Swal.fire({
+								  title: '가입이 가능한 아이디입니다.!',
+								  text: '회원등록을 진행해주세요.',
+								  icon: 'success'
+								});
+			        		$('#userCodeCheckValue').val(mId);
+			        		$('#memberId').focus();
+			        	}
+			        },
+			        error : function(xhr,status,error) {
+			        	console.log("xhr: " + xhr);
+			        	console.log("status: " + status);
+			        	console.log("error: " + error);
+			        }
+			    });
+			}
+			
+			//유효성 검사 & 회원가입AJAX
+			function signInSubmit(){
+				var memberId = $('#memberId');
+				var memberCodeCheckValue = $('#memberCodeCheckValue');
+				var memberPassword = $('#memberPassword');
+				var memberPasswordCheck = $('#memberPasswordCheck');
+				var postcode = $('#postcode');
+				var roadAddress = $('#roadAddress');
+				var jibunAddress = $('#jibunAddress');
+				var detailAddress = $('#detailAddress');
+				var memberEmail = $('#memberEmail');
+				var memberName = $('#memberName');
+				var memberPhone = $('.memberPhone');
+				var inputFile = $('#inputFile');
+				var memberPhoneSum = ($(memberPhone[0]).val() + '-' +  $(memberPhone[1]).val() + '-' + $(memberPhone[2]).val());
 				
-				request.done(function( data ) {
-					//0 성공 1 실패
-				  	if(data.result == 0){
-				  		Swal.fire({
-							  title: '가입이 가능한 아이디입니다.!',
-							  text: '회원등록을 진행해주세요.',
-							  icon: 'success'
-							})
-						$('#userCodeCheckValue').val('0');
-				  		console.log($('#userCodeCheckValue').val());
-				  	}else if(data.result == 1){
-				  		Swal.fire({
-							  title: '일치하는 아이디가 있습니다!',
-							  text: '다른 아이디로 회원등록을 해주세요.',
-							  icon: 'error'
-							})
-						$('#userCodeCheckValue').val('');
-				  	}else{
-				  		Swal.fire({
-							  title: '관리자에게 문의하세요!',
-							  icon: 'info'
-							});
-				  		$('#userCodeCheckValue').val('');
-				  	}
-				});
-				 
-				request.fail(function( jqXHR, textStatus ) {
-				  alert( "Request failed: " + textStatus );
-				});
+				if(memberId.val() == null || memberId.val() == "" || memberId.val() == 'undefined'){
+					Swal.fire({
+						  title: '아이디를 입력해주세요!',
+						  icon: 'info'
+						})
+					memberId.focus();
+					return;
+				}else if(memberCodeCheckValue.val() == ""){
+					Swal.fire({
+						  title: '중복검사를 해주세요!',
+						  icon: 'info'
+						})
+					memberId.focus();
+					return;
+				}else if(memberCodeCheckValue.val() != memberId.val()){
+					Swal.fire({
+						  title: '중복검사를 다시 진행해주세요!',
+						  icon: 'info'
+						})
+					memberId.focus();
+					return;
+				}else if(memberPassword.val() == null || memberPassword.val() == "" || memberPassword.val() == 'undefined'){
+					Swal.fire({
+						  title: '비밀번호를 입력해주세요!',
+						  icon: 'info'
+						})
+					memberPassword.focus();
+					return;
+				}else if(memberPasswordCheck.val() == null || memberPasswordCheck.val() == "" || memberPasswordCheck.val() == 'undefined'){
+					Swal.fire({
+						  title: '비밀번호 확인을 입력해주세요!',
+						  icon: 'info'
+						})
+					memberPasswordCheck.focus();
+					return;
+				}else if(memberPasswordCheck.val() != memberPassword.val()){
+					Swal.fire({
+						  title: '비밀번호와 비밀번호확인이 일치하지 않습니다!',
+						  icon: 'info'
+						})
+					memberPassword.focus();
+					return;
+				}else if(memberName.val() == null || memberName.val() == "" || memberName.val() == 'undefined'){
+					Swal.fire({
+						  title: '이름을 입력해주세요!',
+						  icon: 'info'
+						})
+					memberName.focus();
+					return;
+				}else if(memberEmail.val() == null || memberEmail.val() == "" || memberEmail.val() == 'undefined'){
+					Swal.fire({
+						  title: '이메일을 입력해주세요!',
+						  icon: 'info'
+						})
+					memberEmail.focus();
+					return;
+				}
+				
+				
+				////////////////////////이메일 유효성검사//////////////////////////
+				 var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
+				 if(regex.test(memberEmail.val()) === false){
+					 Swal.fire({
+						  title: '잘못된 이메일 형식입니다!',
+						  text: '이메일을 다시 입력 해주세요.',
+						  icon: 'error'
+						});
+					 $('#e_mail').focus();
+					 return false;
+				 }
+
+				////////////////////////휴대폰 유효성검사//////////////////////////
+				 var phonenum = $('#phone').val();
+				 var regPhone = /(01[0|1|6|9|7])[-](\d{3}|\d{4})[-](\d{4}$)/g;
+				 if(!regPhone.test(phonenum)){
+					 Swal.fire({
+						  title: '잘못된 휴대전화번호 형식입니다!',
+						  text: '휴대전화번호를 다시 입력 해주세요.',
+						  icon: 'error'
+						});
+					 $('#phone').focus();
+					 return false;
+				 }
+				
+				
+				//////////////////ajax를 통해 회원가입 데이터 전송//////////////////////
+				$.ajax({
+			        url     : '/ajax/signup',
+			        type    : 'POST',
+			        data    :   {memberId:memberId
+			        			,memberPassword :memberPassword
+			        			,postcode :postcode
+			        			,roadAddress
+			        			,detailAddress
+			        			,memberEmail
+			        			,memberName
+			        			,memberPhoneSum
+			        			,inputFile},
+			        success : function(data) {
+			        	console.log(data);
+			        	if(data){
+			        		Swal.fire({
+								  title: '회원등록이 완료되었습니다!',
+								  icon: 'success'
+								});
+			        	}else{
+			        		Swal.fire({
+								  title: '회원등록이 실패했습니다!',
+								  icon: 'error'
+								});
+			        	}
+			        },
+			        error : function(xhr,status,error) {
+			        	console.log("xhr: " + xhr);
+			        	console.log("status: " + status);
+			        	console.log("error: " + error);
+			        }
+			    });
 			}
 			
 			
+			
+			//우편번호 api
 			function execDaumPostcode() {
 			    new daum.Postcode({
 			        oncomplete: function(data) {
@@ -172,7 +307,6 @@
 			        }
 			    }).open();
 			}
-			
 		</script>
 	</th:block>
 </html>

@@ -23,4 +23,7 @@ public interface MemberMapper {
 	
 	// 회원가입
 	public int addMember(MemberDTO member);
+	
+	// 회원정보 조회
+	public MemberDTO getMemberInfoById(String mId);
 }
