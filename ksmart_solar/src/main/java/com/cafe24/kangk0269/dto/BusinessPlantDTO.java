@@ -1,146 +1,149 @@
 package com.cafe24.kangk0269.dto;
 
 public class BusinessPlantDTO {
-	private String bz_pl_code;
-	private String m_id;
-	private String bz_pl_check;
-	private String bz_pl_name;	
-	private String bz_pl_zipcode;	
-	private String bz_pl_addr;	
-	private String bz_pl_detail_addr;	
-	private String bz_pl_photo;
-	private int bz_pl_power;
-	private String bz_pl_hardware;	
-	private int bz_pl_area;	
-	private int bz_pl_inv_power;	
-	private int bz_pl_inv_count;	
-	private String bz_pl_inv_maker;	
-	private int bz_pl_rec;
-	public String getBz_pl_code() {
-		return bz_pl_code;
+	private String bzPlCode;
+	private String mId;
+	private String bzPlCheck;
+	private String bzPlName;	
+	private String bzPlZipcode;	
+	private String bzPlAddr;	
+	private String bzPlDetail_addr;	
+	private String bzPlPhoto;
+	private int bzPlPower;
+	private String bzPlHardware;	
+	private int bzPlArea;	
+	private int bzPlInvPower;	
+	private int bzPlInvCount;	
+	private String bzPlInvMaker;	
+	private int bzPlRec;
+	public String getBzPlCode() {
+		return bzPlCode;
 	}
-	public void setBz_pl_code(String bz_pl_code) {
-		this.bz_pl_code = bz_pl_code;
+	public void setBzPlCode(String bzPlCode) {
+		this.bzPlCode = bzPlCode;
 	}
-	public String getM_id() {
-		return m_id;
+	public String getmId() {
+		return mId;
 	}
-	public void setM_id(String m_id) {
-		this.m_id = m_id;
+	public void setmId(String mId) {
+		this.mId = mId;
 	}
-	public String getBz_pl_check() {
-		return bz_pl_check;
+	public String getBzPlCheck() {
+		return bzPlCheck;
 	}
-	public void setBz_pl_check(String bz_pl_check) {
-		this.bz_pl_check = bz_pl_check;
+	public void setBzPlCheck(String bzPlCheck) {
+		this.bzPlCheck = bzPlCheck;
 	}
-	public String getBz_pl_name() {
-		return bz_pl_name;
+	public String getBzPlName() {
+		return bzPlName;
 	}
-	public void setBz_pl_name(String bz_pl_name) {
-		this.bz_pl_name = bz_pl_name;
+	public void setBzPlName(String bzPlName) {
+		this.bzPlName = bzPlName;
 	}
-	public String getBz_pl_zipcode() {
-		return bz_pl_zipcode;
+	public String getBzPlZipcode() {
+		return bzPlZipcode;
 	}
-	public void setBz_pl_zipcode(String bz_pl_zipcode) {
-		this.bz_pl_zipcode = bz_pl_zipcode;
+	public void setBzPlZipcode(String bzPlZipcode) {
+		this.bzPlZipcode = bzPlZipcode;
 	}
-	public String getBz_pl_addr() {
-		return bz_pl_addr;
+	public String getBzPlAddr() {
+		return bzPlAddr;
 	}
-	public void setBz_pl_addr(String bz_pl_addr) {
-		this.bz_pl_addr = bz_pl_addr;
+	public void setBzPlAddr(String bzPlAddr) {
+		this.bzPlAddr = bzPlAddr;
 	}
-	public String getBz_pl_detail_addr() {
-		return bz_pl_detail_addr;
+	public String getBzPlDetail_addr() {
+		return bzPlDetail_addr;
 	}
-	public void setBz_pl_detail_addr(String bz_pl_detail_addr) {
-		this.bz_pl_detail_addr = bz_pl_detail_addr;
+	public void setBzPlDetail_addr(String bzPlDetail_addr) {
+		this.bzPlDetail_addr = bzPlDetail_addr;
 	}
-	public String getBz_pl_photo() {
-		return bz_pl_photo;
+	public String getBzPlPhoto() {
+		return bzPlPhoto;
 	}
-	public void setBz_pl_photo(String bz_pl_photo) {
-		this.bz_pl_photo = bz_pl_photo;
+	public void setBzPlPhoto(String bzPlPhoto) {
+		this.bzPlPhoto = bzPlPhoto;
 	}
-	public int getBz_pl_power() {
-		return bz_pl_power;
+	public int getBzPlPower() {
+		return bzPlPower;
 	}
-	public void setBz_pl_power(int bz_pl_power) {
-		this.bz_pl_power = bz_pl_power;
+	public void setBzPlPower(int bzPlPower) {
+		this.bzPlPower = bzPlPower;
 	}
-	public String getBz_pl_hardware() {
-		return bz_pl_hardware;
+	public String getBzPlHardware() {
+		return bzPlHardware;
 	}
-	public void setBz_pl_hardware(String bz_pl_hardware) {
-		this.bz_pl_hardware = bz_pl_hardware;
+	public void setBzPlHardware(String bzPlHardware) {
+		this.bzPlHardware = bzPlHardware;
 	}
-	public int getBz_pl_area() {
-		return bz_pl_area;
+	public int getBzPlArea() {
+		return bzPlArea;
 	}
-	public void setBz_pl_area(int bz_pl_area) {
-		this.bz_pl_area = bz_pl_area;
+	public void setBzPlArea(int bzPlArea) {
+		this.bzPlArea = bzPlArea;
 	}
-	public int getBz_pl_inv_power() {
-		return bz_pl_inv_power;
+	public int getBzPlInvPower() {
+		return bzPlInvPower;
 	}
-	public void setBz_pl_inv_power(int bz_pl_inv_power) {
-		this.bz_pl_inv_power = bz_pl_inv_power;
+	public void setBzPlInvPower(int bzPlInvPower) {
+		this.bzPlInvPower = bzPlInvPower;
 	}
-	public int getBz_pl_inv_count() {
-		return bz_pl_inv_count;
+	public int getBzPlInvCount() {
+		return bzPlInvCount;
 	}
-	public void setBz_pl_inv_count(int bz_pl_inv_count) {
-		this.bz_pl_inv_count = bz_pl_inv_count;
+	public void setBzPlInvCount(int bzPlInvCount) {
+		this.bzPlInvCount = bzPlInvCount;
 	}
-	public String getBz_pl_inv_maker() {
-		return bz_pl_inv_maker;
+	public String getBzPlInvMaker() {
+		return bzPlInvMaker;
 	}
-	public void setBz_pl_inv_maker(String bz_pl_inv_maker) {
-		this.bz_pl_inv_maker = bz_pl_inv_maker;
+	public void setBzPlInvMaker(String bzPlInvMaker) {
+		this.bzPlInvMaker = bzPlInvMaker;
 	}
-	public int getBz_pl_rec() {
-		return bz_pl_rec;
+	public int getBzPlRec() {
+		return bzPlRec;
 	}
-	public void setBz_pl_rec(int bz_pl_rec) {
-		this.bz_pl_rec = bz_pl_rec;
+	public void setBzPlRec(int bzPlRec) {
+		this.bzPlRec = bzPlRec;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BusinessPlantDTO [bz_pl_code=");
-		builder.append(bz_pl_code);
-		builder.append(", m_id=");
-		builder.append(m_id);
-		builder.append(", bz_pl_check=");
-		builder.append(bz_pl_check);
-		builder.append(", bz_pl_name=");
-		builder.append(bz_pl_name);
-		builder.append(", bz_pl_zipcode=");
-		builder.append(bz_pl_zipcode);
-		builder.append(", bz_pl_addr=");
-		builder.append(bz_pl_addr);
-		builder.append(", bz_pl_detail_addr=");
-		builder.append(bz_pl_detail_addr);
-		builder.append(", bz_pl_photo=");
-		builder.append(bz_pl_photo);
-		builder.append(", bz_pl_power=");
-		builder.append(bz_pl_power);
-		builder.append(", bz_pl_hardware=");
-		builder.append(bz_pl_hardware);
-		builder.append(", bz_pl_area=");
-		builder.append(bz_pl_area);
-		builder.append(", bz_pl_inv_power=");
-		builder.append(bz_pl_inv_power);
-		builder.append(", bz_pl_inv_count=");
-		builder.append(bz_pl_inv_count);
-		builder.append(", bz_pl_inv_maker=");
-		builder.append(bz_pl_inv_maker);
-		builder.append(", bz_pl_rec=");
-		builder.append(bz_pl_rec);
+		builder.append("BusinessPlantDTO [bzPlCode=");
+		builder.append(bzPlCode);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", bzPlCheck=");
+		builder.append(bzPlCheck);
+		builder.append(", bzPlName=");
+		builder.append(bzPlName);
+		builder.append(", bzPlZipcode=");
+		builder.append(bzPlZipcode);
+		builder.append(", bzPlAddr=");
+		builder.append(bzPlAddr);
+		builder.append(", bzPlDetail_addr=");
+		builder.append(bzPlDetail_addr);
+		builder.append(", bzPlPhoto=");
+		builder.append(bzPlPhoto);
+		builder.append(", bzPlPower=");
+		builder.append(bzPlPower);
+		builder.append(", bzPlHardware=");
+		builder.append(bzPlHardware);
+		builder.append(", bzPlArea=");
+		builder.append(bzPlArea);
+		builder.append(", bzPlInvPower=");
+		builder.append(bzPlInvPower);
+		builder.append(", bzPlInvCount=");
+		builder.append(bzPlInvCount);
+		builder.append(", bzPlInvMaker=");
+		builder.append(bzPlInvMaker);
+		builder.append(", bzPlRec=");
+		builder.append(bzPlRec);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
+	
 	
 }
