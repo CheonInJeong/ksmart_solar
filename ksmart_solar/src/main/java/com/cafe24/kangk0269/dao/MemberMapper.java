@@ -20,4 +20,5 @@ public interface MemberMapper {
 	
 	// 회원가입
 	public int addMember(MemberDTO member);
+
 }
