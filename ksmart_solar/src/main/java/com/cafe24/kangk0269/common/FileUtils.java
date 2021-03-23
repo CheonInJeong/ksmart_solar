@@ -1,73 +1,90 @@
 package com.cafe24.kangk0269.common;
 
 import java.io.File;
-import java.nio.file.Paths;
-import java.time.LocalDate;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
-import java.util.UUID;
 
-import org.apache.commons.io.FilenameUtils;
+
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.cafe24.kangk0269.dto.FileDTO;
+import com.cafe24.kangk0269.dto.BoardFileDTO;
 
+//첨부파일 정보 가공 및 지정된 위치에 파일 저장
 @Component
 public class FileUtils {
-	//오늘 날짜
-	private final String today= LocalDate.now().format(DateTimeFormatter.ofPattern("yyMMdd"));
-	//업로드 경로
-	private final String uploadPath = Paths.get("C:","upload",today).toString();
-	
-	//서버에 생성할 파일명을 처리할 랜덤 문자열 반환
-	private final String getRandomString() {
-		return UUID.randomUUID().toString().replaceAll("-", "");
-	}
-	
-	public List<FileDTO> uploadFile(MultipartFile[] files, String fileIdx){
-		//파일이 비어있으면 비어있는 리스트 반환
-		if(files[0].getSize()<1) {
-			return Collections.emptyList();
+
+	public List<BoardFileDTO> parseFileInfo(int boardIdx, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+		if(ObjectUtils.isEmpty(multipartHttpServletRequest)) {
+			return null;
 		}
-		//업로드 파일 정보를 담을 리스트
-		List<FileDTO> fileList = new ArrayList<>();
+		//파일이 업로드 될 폴더 생성
+		List<BoardFileDTO> fileList = new ArrayList<>();
 		
-		//uploadPath에 해당하는 디렉터리가 존재하지 않으면, 부모 디렉터리를 포함한 모든 디렉토리 생성
-		File dir = new File(uploadPath);
-		if(dir.exists()==false) {
-			dir.mkdirs();
+		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
+		//오늘의 날짜 확인
+		ZonedDateTime current = ZonedDateTime.now();
+		//파일 경로 지정
+		String path ="C:/upload/"+current.format(format);
+		
+		File file = new File(path);
+		//경로 및 파일이 존재하지 않으면
+		if(file.exists()==false) {
+			//모든 경로 생성
+			file.mkdirs();
 		}
 		
-		//파일 개수만큼 forEach 실행
-		for(MultipartFile file: files) {
-			try {
-				//파일확장자
-				final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
-				//서버에 저장할 파일명
-				final String saveName = getRandomString() + "." + extension;
-				//업로드 경로에 saveName과 동일한 이름을 가진 파일 생성
-				File target = new File(uploadPath, saveName);
-				//서버에 파일 저장
-				file.transferTo(target);
-				
-				//파일 정보 저장
-				FileDTO fileDto = new FileDTO();
-				fileDto.setFileSaveName(file.getOriginalFilename());
-				fileDto.setFileName(saveName);
-				
-				fileList.add(fileDto);
-				
-			}catch(Exception e) {
-				
-				e.printStackTrace();
+		Iterator<String> iterator = multipartHttpServletRequest.getFileNames();
+		String newFileName, originalFileExtension,contentType;
+		
+		while(iterator.hasNext()) {
+			List<MultipartFile> list = multipartHttpServletRequest.getFiles(iterator.next());
+			for(MultipartFile multipartFile : list) {
+				if(multipartFile.isEmpty()==false) {
+					contentType=multipartFile.getContentType();
+					if(ObjectUtils.isEmpty(contentType)) {
+						//if 조건 충족 시 for 반복문을 빠져나감
+						break;
+					}else {
+						if(contentType.contains("image/jepg")) {
+							originalFileExtension = ".jpg";
+						}else if(contentType.contains("image/png")) {
+							originalFileExtension = ".png";
+						}else if(contentType.contains("image/gif")) {
+							originalFileExtension = ".gif";
+						}else if(contentType.contains("text")) {
+							originalFileExtension =".text";
+						}else if(contentType.contains("pdf")) {
+							originalFileExtension = ".pdf";
+						}else if(contentType.contains("hwp")){
+							originalFileExtension = ".hwp";
+						}else {
+							break;
+						}
+					}
+					
+					newFileName = Long.toString(System.nanoTime()) + originalFileExtension;
+					
+					BoardFileDTO boardFileDto =  new BoardFileDTO();
+					boardFileDto.setBoardIdx(boardIdx);
+					boardFileDto.setFileSize(multipartFile.getSize());
+					boardFileDto.setOriginalFileName(multipartFile.getOriginalFilename());
+					boardFileDto.setStoredFilePath(path+"/"+newFileName);
+					fileList.add(boardFileDto);
+					
+					//업로드 된 파일을 새로운 이름으로 바꾸어 지정된 경로에 저장
+					file = new File(path+"/"+newFileName);
+					multipartFile.transferTo(file);
+				}
 			}
 		}
 		return fileList;
-		
 	}
+	
+	
 }
