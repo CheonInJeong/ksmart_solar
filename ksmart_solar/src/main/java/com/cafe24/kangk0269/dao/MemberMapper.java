@@ -8,9 +8,6 @@ import com.cafe24.kangk0269.dto.MemberDTO;
 
 @Mapper
 public interface MemberMapper {
-
-	// 회원탈퇴
-	public int removeMember(MemberDTO member);
 	
 	// 회원정보수정
 	public int modifyMember(MemberDTO member);
@@ -26,4 +23,5 @@ public interface MemberMapper {
 	
 	// 회원정보 조회
 	public MemberDTO getMemberInfoById(String mId);
+
 }

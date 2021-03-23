@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.util.List;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,8 +53,15 @@ public class MemberService {
 		return member;
 	}
 
+
 	public void addMember(MemberDTO memberDTO) {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public List<MemberDTO> getAllMember(){
+		
+		return memberMapper.getAllMember();
+
 	}
 }
