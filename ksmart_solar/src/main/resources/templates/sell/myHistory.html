@@ -26,13 +26,13 @@
                   </tr>
                 </thead>
                 <tbody>
-                 <tr th:if="${#lists.size(plantList)}>0" th:each="plantList:${bidPlantList}">
-                 	 <td th:text = ${plantList.bzPlName}></td>
-                 	 <td class="hidden-phone" th:text=${plantList.bPlTitle}></td>
-                    <td th:text="${plantList.bPlDateBidding1}"></td>
-                    <td th:text="${plantList.bPlDateBidding2}"></td>
-                    <td>a</td>
-                    <td th:text="${plantList.bPlStatus}"></td>
+                 <tr th:if="${#lists.size(plantList)>0}" th:each="plantList:${bidPlantList}">
+                 	<td th:text = "${plantList.businessPlantDTO?.bzPlName}"></td>
+                 	<td th:text = "${plantList.bPlTitle}"></td>
+                 	<td th:text = "${plantList.bPlPrice}"></td>
+                    <td th:text = "${plantList.bPlDateBidding1}"></td>
+                    <td th:text = "${plantList.bPlDateBidding2}"></td>
+                    <td th:text = "${plantList.bPlStatus}"></td>
                     <td th:text = ${plantList.numberOfBidder}></td>
                   </tr>
                   <tr th:unless="${#lists.size(plantList)}>0">
