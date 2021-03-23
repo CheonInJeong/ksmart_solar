@@ -29,7 +29,7 @@ public class SellController {
 	
 	
 	//발전소 판매 공고 등록
-	@PostMapping("/sell/regPlantSell")
+	@PostMapping("/sell/plantSell")
 	public String regPlantSell(BidPlantDTO bidPlantDto) {
 		
 		return "";
@@ -60,11 +60,6 @@ public class SellController {
 		List<BidPlantDTO> bidPlantList = sellService.getBidPlantbyId();
 		model.addAttribute("bidPlantList", bidPlantList);
 	
-		/*
-		 * model.addAttribute("bidPlantList", map.get("bidPlantList"));
-		 * model.addAttribute("numberOfBidder", map.get("numberOfBidder"));
-		 * model.addAttribute("highestPrice", map.get("highestPrice"));
-		 */
 		
 		return "/sell/myHistory";
 	}
