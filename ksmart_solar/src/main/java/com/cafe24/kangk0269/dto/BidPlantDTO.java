@@ -1,8 +1,12 @@
 package com.cafe24.kangk0269.dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
-@Data
+@Getter
+@Setter
+@ToString
 public class BidPlantDTO {
 
 	private String bPlCode;
@@ -31,6 +35,7 @@ public class BidPlantDTO {
 	private String bPlCancelReason;
 	private String bPlCancelDate;
 	private int acStatusCode;
+	private int bPlNumberOfBidder;
 	private BusinessPlantDTO businessPlantDTO;
 	
 	

@@ -1,5 +1,8 @@
 package com.cafe24.kangk0269.dto;
 
+import lombok.Data;
+
+@Data
 public class BidComponentDTO {
 	private String bCpCode;	
 	private int num;	
