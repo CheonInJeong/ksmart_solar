@@ -197,7 +197,11 @@
         <ul class="nav pull-right top-menu">
           <li th:if="${session.SID eq null}"><a class="logout" th:href="@{/signup}">Sign Up</a></li>
           <li th:if="${session.SID eq null}"><a class="logout" th:href="@{/login}">Log In</a></li>
-          <li th:if="${session.SID ne null}"><a class="logout" th:href="@{/login}">Log Out</a></li>
+          <li th:if="${session.SID ne null}">
+          	<label style="text-align: center; color: #FFF; margin-top: 10px; margin-right: 20px;">[[${session.SNAME}]] ([[${session.SLEVEL}]])</label><br>
+          	<span>[[${session.SID}]]</span>
+          </li>
+          <li th:if="${session.SID ne null}"><a class="logout" th:href="@{/logout}">Log Out</a></li>
         </ul>
       </div>
     </header>

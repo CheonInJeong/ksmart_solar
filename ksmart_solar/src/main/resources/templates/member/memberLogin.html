@@ -23,69 +23,65 @@
 				<button id="signInBtn" type="button" class="btn btn-success btn-lg col-xs-12" onclick="signInSubmit()">로 그 인</button>
 				<div style="height: 15vh;"></div>
 				<div class="row">
-					<form th:action="@{/login/manager}" method="post"><button id="" type="button" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1" style="margin-bottom: 20px;">관리자로그인</button></form>
-					<form th:action="@{/login/solar}" method="post"><button id="" type="button" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1" style="margin-bottom: 20px;">태양광사업자</button></form>
-					<form th:action="@{/login/recycle}" method="post"><button id="" type="button" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1">재활용사업자</button></form>
+					<form th:action="@{/login/manager}" method="get"><button id="" type="submit" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1" style="margin-bottom: 20px;">관리자로그인</button></form>
+					<form th:action="@{/login/solar}" method="get"><button id="" type="submit" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1" style="margin-bottom: 20px;">태양광사업자</button></form>
+					<form th:action="@{/login/recycle}" method="get"><button id="" type="submit" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1">재활용사업자</button></form>
 				</div>
 			</div>
 		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
-			$('#signInBtn').click(function(){
-				
-				//아이디, 비밀번호 입력 확인
-				var mId = $('#memberId').val();
-				var mPw = $('#memberPassword').val();
-				if(mId == null || mId == "" || mId == 'undefined'){
-					Swal.fire({
-						  title: '아이디를 입력해주세요!',
-						  icon: 'info'
-						})
-					$('#memberId').focus();
-					return;
-				}else if(mPw == null || mPw == "" || mPw == 'undefined'){
-					Swal.fire({
-						  title: '비밀번호를 입력해주세요!',
-						  icon: 'info'
-						})
-					$('#memberPassword').focus();
-					return;
-				}
-				
-				
-				$.ajax({
-			        url     : '/ajax/login',
-			        type    : 'POST',
-			        data    : {mId:mId, mPw:mPw},
-			        success : function(data) {
-			        	console.log(data);
-			        	if(data){
-			        		Swal.fire({
-								  title: '일치하는 아이디가 있습니다!',
-								  text: '다른 아이디로 회원등록을 해주세요.',
-								  icon: 'error'
-								});
-			        		$('#memberId').focus();
-			        	}else{
-			        		Swal.fire({
-								  title: '가입이 가능한 아이디입니다.!',
-								  text: '회원등록을 진행해주세요.',
-								  icon: 'success'
-								});
-			        		$('#memberCodeCheckValue').val(mId);
-			        		$('#memberId').focus();
-			        	}
-			        },
-			        error : function(xhr,status,error) {
-			        	console.log("xhr: " + xhr);
-			        	console.log("status: " + status);
-			        	console.log("error: " + error);
-			        }
-			    });
-			});
-		
-		
+		$('#signInBtn').click(function(){
+			
+			//아이디, 비밀번호 입력 확인
+			var mId = $('#memberId').val();
+			var mPw = $('#memberPassword').val();
+			if(mId == null || mId == "" || mId == 'undefined'){
+				Swal.fire({
+					  title: '아이디를 입력해주세요!',
+					  icon: 'info'
+					})
+				$('#memberId').focus();
+				return;
+			}else if(mPw == null || mPw == "" || mPw == 'undefined'){
+				Swal.fire({
+					  title: '비밀번호를 입력해주세요!',
+					  icon: 'info'
+					})
+				$('#memberPassword').focus();
+				return;
+			}
+			
+			
+			$.ajax({
+		        url     : '/ajax/login',
+		        type    : 'POST',
+		        data    : {mId:mId, mPw:mPw},
+		        success : function(data) {
+		        	console.log(data);
+		        	if(data == '로그인완료'){
+		        		Swal.fire({
+							  title: '로그인 성공!',
+							  icon: 'success'
+							});
+		        		document.location.href = '/';
+		        	}else{
+		        		Swal.fire({
+							  title: '로그인실패!',
+							  text: '아이디나 비밀번호가 잘못입력 되었습니다.',
+							  icon: 'error'
+							});
+		        	}
+		        },
+		        error : function(xhr,status,error) {
+		        	console.log("xhr: " + xhr);
+		        	console.log("status: " + status);
+		        	console.log("error: " + error);
+		        }
+		    });
+		});
 		</script>
 	</th:block>
 </html>
