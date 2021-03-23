@@ -24,4 +24,8 @@ public class BidPlantService {
 		List<BidPlantDTO> bidPlantList = bidPlantMapper.getBidPlant(status);
 		return bidPlantList;
 	}
+	public BidPlantDTO getBidPlantByInfo(String announceTitle) {
+		BidPlantDTO bidPlantDTO = bidPlantMapper.getBidPlantByInfo(announceTitle);
+		return bidPlantDTO;
+	}
 }

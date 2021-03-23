@@ -56,14 +56,16 @@ public class NoticeController {
 		return "/notice/history";
 	}
 	@PostMapping("/notice/announcement")
-	public String Announcement(String announceTitle, String announceType) {
+	public String Announcement(String announceTitle, String announceType, Model model) {
 		System.out.println(announceTitle);
 		System.out.println(announceType);
 		if(announceType!=null && announceType.equals("발전소")) {
-			
+			BidPlantDTO bidPlantdto = bidPlantService.getBidPlantByInfo(announceTitle);
+			model.addAttribute("bidPlantdto", bidPlantdto);
 		}
 		if(announceType!=null && announceType.equals("부품")) {
-			
+			BidComponentDTO bidComponentdto = bidComponentService.getBidComponentByInfo(announceTitle);
+			model.addAttribute("bidComponentdto", bidComponentdto);
 		}
 		return "/notice/announcement";
 	}

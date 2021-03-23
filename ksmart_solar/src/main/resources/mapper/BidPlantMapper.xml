@@ -76,5 +76,37 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		</trim>	
 		ORDER BY b_pl_date_bidding1 DESC
 	</select>
+	<select id="getBidPlantByInfo" resultMap="BidPlantDTOMap" parameterType="String">
+		SELECT
+			b_pl_code,
+			bz_pl_code, 
+			m_id, 
+			b_pl_title,
+			b_pl_contents, 
+			b_pl_price, 
+			b_pl_specs, 
+			b_pl_document, 
+			pl_residual, 
+			pl_dep_price, 
+			pl_dep_start_date, 
+			pl_dep_used, 
+			b_pl_status, 
+			b_pl_date_request, 
+			b_pl_date_bidding1, 
+			b_pl_date_bidding2, 
+			b_pl_date_decision1, 
+			b_pl_date_decision2, 
+			b_pl_groupcode, 
+			b_pl_re_count, 
+			b_pl_confirm, 
+			b_pl_confirm_status, 
+			b_pl_reject_reason, 
+			b_pl_cancel_reason, 
+			b_pl_cancel_date
+		FROM 
+			tb_bid_plant
+		WHERE 
+			b_pl_code = #{announceTitle}
+	</select>
 
 </mapper>

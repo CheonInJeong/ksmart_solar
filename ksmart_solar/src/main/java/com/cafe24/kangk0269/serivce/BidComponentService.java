@@ -29,11 +29,15 @@ public class BidComponentService {
 		System.out.println("=========================================================");
 	}
 	
-	
 	public List<BidComponentDTO> getBidComponent(String status) {		
 		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponent(status);
 		System.out.println(bidComponentList);
 		return bidComponentList;
+	}
+	public BidComponentDTO getBidComponentByInfo(String announceTitle) {		
+		BidComponentDTO bidComponentDTO = bidComponentMapper.getBidComponentByInfo(announceTitle);
+		System.out.println(bidComponentDTO);
+		return bidComponentDTO;
 	}
 	
 }
