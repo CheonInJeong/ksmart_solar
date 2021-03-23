@@ -26,13 +26,14 @@
             <h4><i class="fa fa-angle-right"></i>발전소 판매 공고 신청</h4>
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="signupForm" method="post" th:action="@{sell/plantSell}" enctype="application/form-data">
+                <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{sell/plantSell}" enctype="application/form-data">
 	                  <div class="form-group">
 	                    <label for="username" class="control-label col-lg-2">발전소</label>
 	                    <div class="col-lg-10">
 	                      <select class="form-control">
+	                      	<option value="0">발전소를 선택해주세요.</option>
 	                        <th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
-	                        	<option>발전소를 선택해주세요.</option>
+	                        
 							 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
 							  </th:block> 
 								  <th:block th:unless="${#lists.size(plantList)}>0">
@@ -41,16 +42,23 @@
 							</select>
 	                    </div>
 	                  </div>
-	                  	<input type="hidden" name="m_id" th:value="${session.SID}">
+	                  	<!--<input type="hidden" name="m_id" th:value="${session.SID}">-->
+	                  	<input type="hidden" name="m_id" value="id013">
 	               
-	                 	<!-- <input type="text" th:value="${plantList.plantDepreciationDTO.plDepPrice}" name="plDepPrice">
-	                 	<input type="text" th:value ="${plantList.plantDepreciationDTO.plDepStartDate}" name="plDepStartDate">
-	             	    <input type="text" th:value ="${plantList.plantDepDataDTO.plDepDataResidual}" name="plDepDataResidual"> -->
+	                 	<input type="text"  name="plDepPrice" id="plDepPrice">
+	                 	<input type="text"  name="plDepStartDate" id="plDepStartDate">
+	             	    
 	                
 	                  <div class="form-group">
-	                    <label for="b_cp_title" class="control-label col-lg-2">제목</label>
+	                    <label for="bPlTitle" class="control-label col-lg-2">제목</label>
 	                    <div class="col-lg-10">
-	                      <input class=" form-control" id="bPlTitle" name="b_cp_title" type="text">
+	                      <input class=" form-control" id="bPlTitle" name="bPlTitle" type="text">
+	                    </div>
+	                  </div>
+	                  <div class="form-group ">
+	                    <label for="plDepDataResidual" class="control-label col-lg-2">잔존가치</label>
+	                    <div class="col-lg-10">
+	                      <input class=" form-control" id="plDepDataResidual" name="plDepDataResidual" type="text" readonly>
 	                    </div>
 	                  </div>
 	                  <div class="form-group ">
@@ -72,9 +80,9 @@
 	                    </div>
 	                  </div>
 	                 <div class="form-group">
-	                  <label class="control-label col-lg-2">공고시작일</label>
+	                  <label for ="bPlDateBidding1" class="control-label col-lg-2">공고시작일</label>
 	                  <div class="col-lg-10">
-	                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" >
+	                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" id="bPlDateBidding1">
 	                  </div>
 	                </div>                  
 	                  <div class="form-group">
@@ -101,25 +109,61 @@
 			sell.parent().find('.sub').children().eq(0).addClass('active');
 		</script>
 		
+		<script type="text/javascript">
+	 	
+  			var bPlPrice = document.getElementById('bPlPrice');
+  			var plDepDataResidual = document.getElementById('plDepDataResidual');
+  			bPlPrice.onkeyup = function(){
+			//정규표현식 숫자만 입력하게,
+            this.value = this.value.replace(/[^0-9]/g,'');
+            //1000단위 콤마
+			this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+  			
+  			
+  			
+ 		</script>
+		
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
 	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
 	 	
 	 	<script>
+	 	//발전소 잔존 가치에 콤마 찍는 함수
+	 	 function comma(str) {
+       		 str = String(str);
+       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+  		  }
+	 	
 	 	$('#selectPlant').click(function(){
 	 		console.log($('select option:selected').val());
 	 		var plantCode = $('select option:selected').val();
+	 		var plDepDataResidual;
+	 		var plDepPrice;
+	 		var plDepStartDate;
 	 		
+	 		//ajax 시작
 	 		$.ajax({
 		        url     : '/ajax/plantInformation',
 		        type    : 'POST',
 		        data    : {plantCode : plantCode},
-		        dataType : "json",
+		       
 		        success : function(data) {
 		        	console.log(data);
 		        	if(data){
-		        	
-		
+						plDepDataResidual = data.plantDepDataDTO.plDepDataResidual;
+						plDepPrice = data.plantDepreciationDTO.plDepPrice;
+						plDepStartDate = data.plantDepreciationDTO.plDepStartDate
+						
+						plDepDataResidual = comma(plDepDataResidual);
+						
+		        		console.log(plDepDataResidual);
+						console.log(plDepPrice);
+						console.log(plDepStartDate);
+						
+						$('#plDepDataResidual').val(plDepDataResidual);
+						$('#plDepPrice').val(plDepPrice);
+						$('#plDepStartDate').val(plDepStartDate);
 		        	}else{
 		        		
 		        	}
@@ -130,12 +174,43 @@
 		        	console.log("error: " + error);
 		        }
 		    });
+		   //ajax 끝 
+		   
+		   //유효성검사
+		 	if($('select option:selected').val()==0){
+				alert('발전소를 선택해주세요.');
+				return;
+			}if($('#bPlTitle').val()==''){
+				alert('공고 제목을 입력해주세요.')
+				$('#bPlTitle').focus();
+				return;
+			}if($('#bPlPrice').val()==''){
+				alert('희망 가격을 입력해주세요.')
+				$('#bPlPrice').focus();
+				return;
+			}if($('#files').val()==''){
+				alert('파일을 첨부해주세요.');
+				return;
+				
+			}if($('#componentDetail').val().length==0){
+				alert('상세정보를 입력해주세요.');
+				return;
+			}if($('#bPlDateBidding1').val()==''){
+				alert('희망 공고 시작 날자를 입력해주세요.');
+				return;
+			}
+			
+			//희망가격에 숫자만 입력가능하도록
+	 			
 	 		
+	 		
+	 		$('#plantSellForm').submit();
 	 		
 	 	 })
 	 	 
 	 	 
 	 	</script>
+
 		
 	</th:block>
 </body>
