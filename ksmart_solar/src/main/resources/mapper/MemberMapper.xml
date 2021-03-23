@@ -2,44 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cafe24.kangk0269.dao.MemberMapper">
-	<resultMap type="MemberDTO" id="memberResultMap">
-		<result property="mId" column="m_id"/>
-		<result property="mPw" column="m_pw"/>
-		<result property="mName" column="m_name"/>
-		<result property="mLevel" column="m_level"/>
-		<result property="mZipcode" column="m_zipcode"/>
-		<result property="mAddr" column="m_addr"/>
-		<result property="mDetailAddr" column="m_detail_addr"/>
-		<result property="mPhone" column="m_phone"/>
-		<result property="mEmail" column="m_email"/>
-		<result property="mPhoto" column="m_photo"/>
-		<result property="mSubDate" column="m_sub_date"/>
-		<result property="mSubDateModify" column="m_sub_date_modify"/>
-		<result property="mRestCheck" column="m_rest_check"/>
-		<result property="mRevokeCheck" column="m_revoke_check"/>
-		<result property="mRevokeDelayCheck" column="m_revoke_delay_check"/>
-		<result property="mStateModifyDate" column="m_state_modify_date"/>
-	</resultMap>
 	
-	<select id="getAllMember" resultMap="memberResultMap">
-		SELECT 
-			m_id
-			, m_pw	
-			, m_name	
-			, m_level	
-			, m_zipcode		
-			, m_addr	
-			, m_detail_addr	
-			, m_phone	
-			, m_email	
-			, m_photo	
-			, m_sub_date	
-			, m_sub_date_modify	
-			, m_rest_check	
-			, m_revoke_check	
-			, m_revoke_delay_check	
-			, m_state_modify_date	
-		FROM 
-			tb_member;
-	</select>
+
 </mapper>
