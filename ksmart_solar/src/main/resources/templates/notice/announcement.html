@@ -36,6 +36,13 @@
               <div class="first-part odd">진행 상태</div>
               <div class="second-part" th:text="${bidComponentdto.bCpStatus}"></div>
             </div>
+            <div class="group-rom">
+              <div class="first-part odd">진행 상태</div>
+              <div class="second-part" th:text="${bidComponentdto.bCpStatus}"></div>
+            </div>
+            <div>
+            	<button>입찰</button>
+            </div>
           </aside>
         </div>
         
@@ -44,10 +51,29 @@
             <div class="chat-room-head">
               <h3>발전소 공고</h3>
             </div>
-            <div class="group-rom">
+             <div class="group-rom">
               <div class="first-part odd">공고 제목</div>
-              <div class="second-part">Hi Mark, have a minute?</div>
-              <div class="third-part">12:30</div>
+              <div class="second-part" th:text="${bidPlantdto.bPlTitle}"></div>
+            </div>
+            <div class="group-rom">
+              <div class="first-part odd">입찰 시작가</div>
+              <div class="second-part" th:text="${bidPlantdto.bPlPrice}"></div>
+            </div>
+            <div class="group-rom">
+              <div class="first-part odd">잔존 가치</div>
+              <div class="second-part" th:text="${bidPlantdto.plResidual}"></div>
+            </div>
+            <div class="group-rom">
+              <div class="first-part odd">입찰 신청기간</div>
+              <div class="second-part" th:text="${bidPlantdto.bPlDateBidding1+'   ~   '+bidPlantdto.bPlDateBidding2}"></div>
+            </div>
+            <div class="group-rom">
+              <div class="first-part odd">낙찰자 결정 기간</div>
+              <div class="second-part" th:text="${bidPlantdto.bPlDateDecision1+'   ~   '+bidPlantdto.bPlDateDecision2}"></div>
+            </div>
+            <div class="group-rom">
+              <div class="first-part odd">진행 상태</div>
+              <div class="second-part" th:text="${bidPlantdto.bPlStatus}"></div>
             </div>
           </aside>
         </div>
