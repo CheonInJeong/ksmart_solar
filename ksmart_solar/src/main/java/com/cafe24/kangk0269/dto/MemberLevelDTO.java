@@ -2,38 +2,38 @@ package com.cafe24.kangk0269.dto;
 
 public class MemberLevelDTO {
 
-	private int m_level;
-	private String m_level_name;
-	private String m_level_date;
-	public int getM_level() {
-		return m_level;
+	private int mLevel;
+	private String mLevelName;
+	private String mLevelDate;
+	public int getmLevel() {
+		return mLevel;
 	}
-	public void setM_level(int m_level) {
-		this.m_level = m_level;
+	public void setmLevel(int mLevel) {
+		this.mLevel = mLevel;
 	}
-	public String getM_level_name() {
-		return m_level_name;
+	public String getmLevelName() {
+		return mLevelName;
 	}
-	public void setM_level_name(String m_level_name) {
-		this.m_level_name = m_level_name;
+	public void setmLevelName(String mLevelName) {
+		this.mLevelName = mLevelName;
 	}
-	public String getM_level_date() {
-		return m_level_date;
+	public String getmLevelDate() {
+		return mLevelDate;
 	}
-	public void setM_level_date(String m_level_date) {
-		this.m_level_date = m_level_date;
+	public void setmLevelDate(String mLevelDate) {
+		this.mLevelDate = mLevelDate;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("MemberLevelDTO [m_level=");
-		builder.append(m_level);
-		builder.append(", m_level_name=");
-		builder.append(m_level_name);
-		builder.append(", m_level_date=");
-		builder.append(m_level_date);
+		builder.append("MemberLevelDTO [mLevel=");
+		builder.append(mLevel);
+		builder.append(", mLevelName=");
+		builder.append(mLevelName);
+		builder.append(", mLevelDate=");
+		builder.append(mLevelDate);
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
 }

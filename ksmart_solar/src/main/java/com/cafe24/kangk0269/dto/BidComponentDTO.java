@@ -2,6 +2,7 @@ package com.cafe24.kangk0269.dto;
 
 public class BidComponentDTO {
 	private String bCpCode;	
+	private int num;	
 	private String mId;	
 	private String bCpTitle;	
 	private String cpCode;	
@@ -22,12 +23,19 @@ public class BidComponentDTO {
 	private String bCpConfirmStatus;
 	private String bCpRejectReason;	
 	private String bCpCancelReason;	
-	private String bCpCancelCate;
+	private String bCpCancelDate;
+	private int acStatusCode;
 	public String getbCpCode() {
 		return bCpCode;
 	}
 	public void setbCpCode(String bCpCode) {
 		this.bCpCode = bCpCode;
+	}
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
 	}
 	public String getmId() {
 		return mId;
@@ -149,17 +157,25 @@ public class BidComponentDTO {
 	public void setbCpCancelReason(String bCpCancelReason) {
 		this.bCpCancelReason = bCpCancelReason;
 	}
-	public String getbCpCancelCate() {
-		return bCpCancelCate;
+	public String getbCpCancelDate() {
+		return bCpCancelDate;
 	}
-	public void setbCpCancelCate(String bCpCancelCate) {
-		this.bCpCancelCate = bCpCancelCate;
+	public void setbCpCancelDate(String bCpCancelDate) {
+		this.bCpCancelDate = bCpCancelDate;
+	}
+	public int getAcStatusCode() {
+		return acStatusCode;
+	}
+	public void setAcStatusCode(int acStatusCode) {
+		this.acStatusCode = acStatusCode;
 	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("BidComponentDTO [bCpCode=");
 		builder.append(bCpCode);
+		builder.append(", num=");
+		builder.append(num);
 		builder.append(", mId=");
 		builder.append(mId);
 		builder.append(", bCpTitle=");
@@ -200,10 +216,14 @@ public class BidComponentDTO {
 		builder.append(bCpRejectReason);
 		builder.append(", bCpCancelReason=");
 		builder.append(bCpCancelReason);
-		builder.append(", bCpCancelCate=");
-		builder.append(bCpCancelCate);
+		builder.append(", bCpCancelDate=");
+		builder.append(bCpCancelDate);
+		builder.append(", acStatusCode=");
+		builder.append(acStatusCode);
 		builder.append("]");
 		return builder.toString();
 	}
+
+	
 	
 }
