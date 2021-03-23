@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.BankAccountMapper">
+	<resultMap type="MemberAccountDTO" id="MemberAccountDTOMap">
+		<result property="mAccountIdx" column="m_account_idx" />
+		<result property="mId" column="m_id" />
+		<result property="mAccountNumber" column="m_account_number" />
+		<result property="mAccountName" column="m_account_name" />
+		<result property="mAccountBank" column="m_account_bank" />
+		<result property="mAccountRegDate" column="m_account_reg_date" />
+		<result property="mAccountCheck" column="m_account_check" />
+	</resultMap>
+
+	<select id="getByIdMemberAccount" parameterType="String"
+		resultMap="MemberAccountDTO">
+		SELECT
+		m_account_number, m_account_name, m_account_bank, m_account_reg_date, m_account_check
+		FROM
+		tb_member_account
+		WHERE m_id=#{in_id};
+	</select>
+
+</mapper>
