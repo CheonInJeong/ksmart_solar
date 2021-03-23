@@ -8,5 +8,7 @@ import com.cafe24.kangk0269.dto.MemberAccountDTO;
 
 @Mapper
 public interface BankAccountMapper {
-	public List<MemberAccountDTO> getByIdMemberAccount(String in_id);
+	
+	//개인 계좌조회
+	public List<MemberAccountDTO> getAccountListById(String login_id);
 }

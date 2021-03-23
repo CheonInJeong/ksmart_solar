@@ -29,10 +29,12 @@ private final BankAccountMapper bankAccountMapper;
 		System.out.println("=========================================================");
 	}
 	
-	public List<MemberAccountDTO> getByIdMemberAccount(String in_id){
-		List<MemberAccountDTO> memberAccountDTO = bankAccountMapper.getByIdMemberAccount(in_id);
-		System.out.println(memberAccountDTO);
-		return memberAccountDTO;
+	
+	//개인 계좌조회
+	public List<MemberAccountDTO> getAccountListById(String login_id){
+		List<MemberAccountDTO> memberAccountDTOList = bankAccountMapper.getAccountListById(login_id);
+		System.out.println(memberAccountDTOList);
+		return memberAccountDTOList;
 		
 	}
 }

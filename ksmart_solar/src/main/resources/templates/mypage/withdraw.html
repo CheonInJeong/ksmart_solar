@@ -4,40 +4,11 @@
 	layout:decorate="@{layout/default}">
 
 <th:block layout:fragment="customTitle">
-	<title>개인 계좌 조회</title>
+	<title>제목</title>
 </th:block>
 <th:block layout:fragment="Contents">
-		<table border="1">
-	  			<thead>
-	  				<tr>
-	  					<th>계좌번호</th>
-	  					<th>예금주명</th>
-	  					<th>은행명</th>
-	  					<th>계좌 등록일</th>
-	  					<th>사용여부</th>
-	  					<th>수정</th>
-	  					<th>삭제</th>
-	  					<!--커밋다시 -->
-	  				</tr>
-	  			</thead>
-	  			<tbody>
-	  				<tr th:each="l : ${memberAccountDTOList}">
-	  					<td th:text="${l.mAccountNumber}"></td>
-	  					<td th:text="${l.mAccountNumber}"></td>
-	  					<td th:text="${l.mAccountBank}"></td>
-	  					<td th:text="${l.mAccountRegDate}"></td>
-	  					<td th:text="${l.mAccountCheck}"></td>
-	  					<td>
-	  						<a th:href="@{/modifyAccount(memberId=${l.mId})}">수정</a>
-	  					</td>
-	  					<td>
-	  						<a th:href="@{/removeAccount(memberId=${l.mId})}">삭제</a>
-	  					</td>
-	  				</tr>
-	  			</tbody>
-	  		</table>
-	
 
+	내용을 쓰시오
 
 </th:block>
 <th:block layout:fragment="customScript">
