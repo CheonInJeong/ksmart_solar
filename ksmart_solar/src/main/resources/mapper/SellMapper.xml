@@ -20,6 +20,22 @@
   		  		<result property="bzPlInvCount" column="bz_pl_inv_count"/>
   		  		<result property="bzPlInvMaker" column="bz_pl_inv_maker"/>
   		  		<result property="bzPlRec" column="bz_pl_rec"/>
+
+  		  		<association property="plantDepreciationDTO" javaType="PlantDepreciationDTO">
+  		  			<id property="bzPlCode" column="bz_pl_code"/>
+  		  			<result property="bzPlCode" column="bz_pl_code"/>
+	  		  		<result property="plDepPrice" column="pl_dep_price"/>
+	  		  		<result property="plDepStartDate" column="pl_dep_start_Date"/>
+	  		  		<result property="plDepServicelife" column="pl_dep_servicelife"/>
+  		  		</association>
+  		  		<association property="plantDepDataDTO" javaType="PlantDepDataDTO">
+  		  			<id property="bzPlCode" column="bz_pl_code"/>
+  		  			<result property="plDepDataMonth" column="pl_dep_data_month"/>
+	  		  		<result property="bzPlCode" column="bz_pl_code"/>
+	  		  		<result property="plDepDataResidual" column="pl_dep_data_residual"/>
+  		  		</association>
+  		  	
+
   		  </resultMap>
   		  <resultMap type="BidListDTO" id="BidListResultMap">
   		  		<result property="bPlCode" column="b_pl_code"/>
@@ -65,34 +81,66 @@
   		  </select>
   		  
   		  <insert id="addPlantApply" parameterType="BidPlantDTO">
-				INSERT INTO 
-					tb_bid_plant
-					(b_pl_code,
-					 bz_pl_code,
-					 m_id,
-					 b_pl_title,
-					 b_pl_contents,
-					 b_pl_price,
-					 b_pl_specs,
-					 b_pl_document,
-					 pl_residual,
-					 pl_dep_price,
-					 pl_dep_start_date,
-					 pl_dep_used,
-					 b_pl_status,
-					 ac_status_code,
-					 b_pl_date_request,
-					 b_pl_date_bidding1,
-					 b_pl_date_bidding2,
-					 b_pl_date_decision1,
-					 b_pl_date_decision2,
-					 b_pl_groupcode,
-					 b_pl_re_count)
-				VALUES 
-				(sf_b_pl_code(), #{bzPlCode}, #{mId}, #{bPlTitle}, #{bPlContents}, #{bPlPrice},#{bPlStartDate} ,#{bPlSpecs}, #{bPlDocument}, 0, 0, NOW(), '', '', 0, NOW(), NOW(), NOW(), NOW(), NOW(), '', 0, NOW(), '', '', '', NOW())
+				INSERT 
+				INTO
+					tb_bid_plant(
+					b_pl_code, 
+					bz_pl_code,
+				 	m_id,
+				  	b_pl_title,
+				   	b_pl_contents, 
+					b_pl_price,
+					pl_residual,
+					pl_dep_price,
+					pl_dep_start_date, 
+					pl_dep_used, 
+					ac_status_code, 
+					ac_status_name,
+					b_pl_date_request,
+					b_pl_date_bidding1,
+					b_pl_date_bidding2,
+					b_pl_date_decision1,
+					b_pl_date_decision2,
+					b_pl_groupcode)
+					VALUES (
+					sf_b_pl_code(), 
+					#{bzPlCode}, 
+					#{mId}, 
+					#{bPlTitle},
+					#{bPlContents},
+					#{bPlPrice},
+					#{plDepDataResidual},
+					#{plDepPrice},
+					#{plDepStartDate},
+					NOW(),
+					#{bPlDateBidding1},
+					sf_7days_after(#{bPlDateBidding1}),
+					sf_7days_after(#{bPlDateBidding1}),
+					sf_10days_after(#{bPlDateBidding1}),
+					concat(sf_b_pl_code(),'_group'))
   		  </insert>
   		  
-  		  <select id="getPlantName" resultMap="BusinessPlantResultMap">
+  		  <select id="getPlantInformation" resultMap="BusinessPlantResultMap" parameterType="String">
+  		  		SELECT
+					p.bz_pl_code,
+					p.pl_dep_data_residual,
+					d.pl_dep_start_date,
+					d.pl_dep_price
+	
+				FROM 
+					tb_plant_dep_data AS p
+				inner JOIN
+					tb_plant_depreciation AS d
+				ON 
+					p.bz_pl_code = d.bz_pl_code
+				WHERE 
+					p.pl_dep_data_month = d.pl_dep_servicelife 
+				AND 
+					p.bz_pl_code = #{bzPlCode}
+  		  
+  		  </select>
+  		  
+  		  <select id="getPlantName" resultMap="BusinessPlantResultMap" parameterType="String">
   		  		SELECT
 					p.bz_pl_code,
 					p.bz_pl_name 
@@ -105,7 +153,8 @@
 				WHERE
 					b.bz_pl_code IS NULL 
 				AND 
-					p.m_id = 'id003'
+					p.m_id = #{mId}
+
   		  </select>
 		  		  
   	</mapper>
