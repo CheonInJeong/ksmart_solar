@@ -20,6 +20,33 @@
 		<result property="mRevokeDelayCheck" 	column="m_revoke_delay_check"/>
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
+	<insert id="addMember" parameterType="MemberDTO">
+		INSERT INTO tb_member(  
+			 m_id
+			,m_pw
+			,m_name
+			,m_level
+			,m_zipcode
+			,m_addr
+			,m_detail_addr
+			,m_phone
+			,m_email
+			,m_photo
+			,m_sub_date
+		) VALUES (
+			#{mId} 
+			,#{mPw} 
+			,#{mName} 
+			,4
+			,#{mZipcode} 
+			,#{mAddr} 
+			,#{mDetailAddr} 
+			,#{mPhone} 
+			,#{mEmail} 
+			,#{mPhoto} 
+			,NOW()
+		);
+	</insert>
 	<select id="getMemberInfoById" parameterType="String" resultMap="memberResultMap">
 		SELECT 
 		  	 m_id
@@ -43,7 +70,6 @@
 		WHERE
 		   m_id = #{mId};
 	</select>
-
 	<select id="getAllMember" resultMap="memberResultMap">
 		SELECT 
 			m_id

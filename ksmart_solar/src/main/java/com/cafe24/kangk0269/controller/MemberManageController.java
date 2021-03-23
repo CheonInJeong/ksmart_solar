@@ -73,9 +73,9 @@ public class MemberManageController {
 	}
 		
 	//회원가입
-	@RequestMapping(value="/ajax/idCheck", method = RequestMethod.POST)
+	@RequestMapping(value="/ajax/signup", method = RequestMethod.POST)
 	public @ResponseBody boolean addMember(
-							@RequestParam(value="mId", required = false)		 		String mId
+							 @RequestParam(value="memberId", required = false)		 	String mId
 							,@RequestParam(value="memberPassword", required = false) 	String mPw
 							,@RequestParam(value="postcode", required = false) 			String mZipcode
 							,@RequestParam(value="roadAddress", required = false) 		String mAddr
@@ -95,6 +95,7 @@ public class MemberManageController {
 		memberDTO.setmName(mName);
 		memberDTO.setmPhone(mPhone);
 		memberDTO.setmPhoto(mPhoto);
+		System.out.println(memberDTO.toString());
 		
 		if(mId != null && !"".equals(mId)) {			
 			memberService.addMember(memberDTO);
@@ -102,6 +103,9 @@ public class MemberManageController {
 		}
 		return checkResult;
 	}
+	
+	
+	//버튼 로그인 (관리자)
 	
 	
 }
