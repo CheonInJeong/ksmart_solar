@@ -2,7 +2,7 @@ package com.cafe24.kangk0269.dto;
 
 public class BidPlantDTO {
 
-	private String num;
+	private int num;
 	private String bPlCode;
 	private String mId;
 	private String bPlTitle;
@@ -29,10 +29,10 @@ public class BidPlantDTO {
 	private String bPlCancelReason;
 	private String bPlCancelDate;
 	private int acStatusCode;
-	public String getNum() {
+	public int getNum() {
 		return num;
 	}
-	public void setNum(String num) {
+	public void setNum(int num) {
 		this.num = num;
 	}
 	public String getbPlCode() {

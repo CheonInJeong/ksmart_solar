@@ -11,7 +11,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bPlTitle" 			column="b_pl_title" />
 		<result property="bzPlCode" 			column="bz_pl_code" />
 		<result property="bPlContents"			column="b_pl_contents" />		
-		<result property="bPlPprice" 			column="b_pl_price" />	
+		<result property="bPlPrice" 			column="b_pl_price" />	
 		<result property="bPlSpecs" 			column="b_pl_specs" />	
 		<result property="bPlDocument" 			column="b_pl_document" />	
 		<result property="plResidual" 			column="pl_residual" />	
