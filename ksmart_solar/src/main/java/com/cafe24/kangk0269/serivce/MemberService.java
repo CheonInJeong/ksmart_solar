@@ -54,12 +54,14 @@ public class MemberService {
 	}
 
 
-	public int addMember(MemberDTO memberDTO) {
-		int result = memberMapper.addMember(memberDTO);
-		return result;
+	public void addMember(MemberDTO memberDTO) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 	public List<MemberDTO> getAllMember(){
+		
 		return memberMapper.getAllMember();
+
 	}
 }

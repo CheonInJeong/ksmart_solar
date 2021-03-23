@@ -1,8 +1,12 @@
 package com.cafe24.kangk0269.dto;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 @Data
+@Getter
+@Setter
 public class BidPlantDTO {
 
 	private String bPlCode;
