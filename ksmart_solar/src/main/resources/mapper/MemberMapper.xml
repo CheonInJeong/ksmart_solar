@@ -20,6 +20,7 @@
 		<result property="mRevokeDelayCheck" 	column="m_revoke_delay_check"/>
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
+	
 	<insert id="addMember" parameterType="MemberDTO">
 		INSERT INTO tb_member(  
 			 m_id

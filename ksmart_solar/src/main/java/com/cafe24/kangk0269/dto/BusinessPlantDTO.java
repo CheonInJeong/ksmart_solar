@@ -14,7 +14,7 @@ public class BusinessPlantDTO {
 	private String bzPlName;	
 	private String bzPlZipcode;	
 	private String bzPlAddr;	
-	private String bzPlDetail_addr;	
+	private String bzPlDetailAddr;	
 	private String bzPlPhoto;
 	private int bzPlPower;
 	private String bzPlHardware;	

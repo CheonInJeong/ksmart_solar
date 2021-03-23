@@ -12,8 +12,15 @@ public class BusinessDTO {
 	private String bzLicense;
 	private String bzType;
 	private String bzRequestDate;
+	private String bzCheckDate;
 	private String bzCheck;
 	private String bzCheckReason;
+	public String getBzCheckDate() {
+		return bzCheckDate;
+	}
+	public void setBzCheckDate(String bzCheckDate) {
+		this.bzCheckDate = bzCheckDate;
+	}
 	public String getBzCode() {
 		return bzCode;
 	}
@@ -117,6 +124,8 @@ public class BusinessDTO {
 		builder.append(bzType);
 		builder.append(", bzRequestDate=");
 		builder.append(bzRequestDate);
+		builder.append(", bzCheckDate=");
+		builder.append(bzCheckDate);
 		builder.append(", bzCheck=");
 		builder.append(bzCheck);
 		builder.append(", bzCheckReason=");
@@ -124,6 +133,7 @@ public class BusinessDTO {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 	
 }
