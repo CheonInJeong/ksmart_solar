@@ -20,6 +20,7 @@
   		  		<result property="bzPlInvCount" column="bz_pl_inv_count"/>
   		  		<result property="bzPlInvMaker" column="bz_pl_inv_maker"/>
   		  		<result property="bzPlRec" column="bz_pl_rec"/>
+
   		  		<association property="plantDepreciationDTO" javaType="PlantDepreciationDTO">
   		  			<id property="bzPlCode" column="bz_pl_code"/>
   		  			<result property="bzPlCode" column="bz_pl_code"/>
@@ -34,9 +35,9 @@
 	  		  		<result property="plDepDataResidual" column="pl_dep_data_residual"/>
   		  		</association>
   		  	
-  		  		
+
   		  </resultMap>
-  		  <resultMap type="BidPlantDTO" id="BidListResultMap">
+  		  <resultMap type="BidListDTO" id="BidListResultMap">
   		  		<result property="bPlCode" column="b_pl_code"/>
   		  		<result property="mId" column="m_id"/>
   		  		<result property="bPlTitle" column="b_pl_title"/>
@@ -60,15 +61,6 @@
   		  		<result property="bPlCancelReason" column="b_pl_cancel_date"/>
   		  		<result property="bPlCancelDate" column="b_pl_cancel_date"/>
   		  		<result property="acStatusCode" column="ac_status_code"/>
-  		  		<result property="bPlStatus" column="b_pl_status"/>
-  		  		<result property="bPlNumberOfBidder" column="b_pl_number_of_bidder"/>
-  		  		
-  			  	<association property="businessPlantDTO" javaType="BusinessPlantDTO">
-  		  			<id property="bzPlCode" column="bz_pl_code"/>
-  		  			<result property="bzPlCode" column="bz_pl_code"/>
-	  		  		<result property="bzPlName" column="bz_pl_name"/>
-  		  		</association>
-  		  		
   		  
   		  </resultMap>
   		  <select id="getNumberOfBidder" resultType="int">
@@ -80,12 +72,12 @@
   		  </select>
   		  <select id="getBidPlantbyId" resultMap="BidListResultMap">
   		  		SELECT
-  		  			b.b_pl_number_of_bidder,b.b_pl_price,p.bz_pl_name,b.b_pl_title, b.b_pl_date_bidding1,b.b_pl_date_bidding2,b.b_pl_status
+  		  			p.bz_pl_name,b.b_pl_title, b.b_pl_date_bidding1,b.b_pl_date_bidding2,b.b_pl_status
   		  		FROM 
   		  			tb_bid_plant AS b
   		  		left JOIN 
   		  			tb_business_plant AS p 
-  		  		ON b.bz_pl_code = p.bz_pl_code where p.m_id = 'id002' 
+  		  		ON b.bz_pl_code = p.bz_pl_code where m_id = 'id002' 
   		  </select>
   		  
   		  <insert id="addPlantApply" parameterType="BidPlantDTO">
@@ -150,9 +142,6 @@
   		  
   		  <select id="getPlantName" resultMap="BusinessPlantResultMap" parameterType="String">
   		  		SELECT
-					dd.pl_dep_data_residual,
-					d.pl_dep_price,
-					d.pl_dep_start_date,
 					p.bz_pl_code,
 					p.bz_pl_name 
 				FROM 
@@ -161,16 +150,11 @@
 					tb_business_plant AS p 
 				ON
 					b.bz_pl_code = p.bz_pl_code 
-				inner JOIN 
-					tb_plant_depreciation AS d
-				ON p.bz_pl_code = d.bz_pl_code
-				INNER join
-					tb_plant_dep_data AS dd
-				ON d.pl_dep_servicelife = dd.pl_dep_data_month
 				WHERE
 					b.bz_pl_code IS NULL 
 				AND 
 					p.m_id = #{mId}
+
   		  </select>
 		  		  
   	</mapper>

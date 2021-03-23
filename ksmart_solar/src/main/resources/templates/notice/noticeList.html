@@ -23,15 +23,24 @@
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:each="l:${bidComponentList}">
+                	<th:block th:if="${bidComponentList != null}" th:each="l:${bidComponentList}">
 		                  <tr>
 		                    <td th:text="${l.num}"></td>
 		                    <td>
-		                      <a>[[${l.bCpTitle}]]</a>
+		                    	<form th:action="@{/notice/announcement}" method="post">
+			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
+			                      	<input type="hidden" name="announceTitle" th:value="${l.bCpCode}">
+			                      	<input type="hidden" name="announceType" value="부품">
+		                    	</form>
 		                    </td>
 		                    <td th:text="${l.mId}"></td>
 		                    <td th:text="${l.bCpDateBidding1}"></td>
 		                    <td th:text="${l.bCpDateBidding2}"></td>
+		                  </tr>
+                	</th:block>
+                	<th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
+		                  <tr>
+		                    <td colspan="5" style="text-align: center;">진행중인 공고가 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
@@ -56,15 +65,24 @@
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:each="l:${bidPlantList}">
+                	<th:block th:if="${bidPlantList != null}" th:each="l:${bidPlantList}">
 		                  <tr>
 		                  	<td th:text="${l.num}"></td>
 		                    <td>
-		                      <a>[[${l.bPlTitle}]]</a>
+		                    	<form th:action="@{/notice/announcement}" method="post">
+			                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
+			                      	<input type="hidden" name="announceTitle" th:value="${l.bPlCode}">
+			                      	<input type="hidden" name="announceType" value="발전소">
+		                    	</form>
 		                    </td>
 		                    <td th:text="${l.mId}"></td>
 		                    <td th:text="${l.bPlDateBidding1}"></td>
 		                    <td th:text="${l.bPlDateBidding2}"></td>
+		                  </tr>
+                	</th:block>
+                	<th:block th:if="${bidPlantList==null || bidPlantList.size()==0}">
+		                  <tr>
+		                    <td colspan="5" style="text-align: center;">진행중인 공고가 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
@@ -79,6 +97,12 @@
 			notice.addClass('active');
 			notice.parent().find('.sub').css('display','block');
 			notice.parent().find('.sub').children().eq(0).addClass('active');
+			
+			
+			$('.announceTitle').click(function(){
+				$(this).parent().submit();
+			});
+		
 		</script>
 	</th:block>
 </html>

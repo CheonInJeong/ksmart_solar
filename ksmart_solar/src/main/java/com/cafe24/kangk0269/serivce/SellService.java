@@ -1,9 +1,7 @@
 package com.cafe24.kangk0269.serivce;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -42,6 +40,7 @@ public class SellService {
 		return bzPlantDto;
 	}
 	
+
 	public	List<BidPlantDTO> getBidPlantbyId(){
 		List<BidPlantDTO> bidPlantList = sellMapper.getBidPlantbyId();
 		
@@ -59,6 +58,7 @@ public class SellService {
 	
 	public List<BusinessPlantDTO> getPlantName(String mId){
 		List<BusinessPlantDTO> bzPlDto = sellMapper.getPlantName(mId);
+
 		return bzPlDto;
 	}
 
