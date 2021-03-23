@@ -49,7 +49,8 @@ public class MybatisConfig {
       SqlSessionFactoryBean sqlSessionFactoryBean = new SqlSessionFactoryBean();
       sqlSessionFactoryBean.setDataSource(dataSource);
       sqlSessionFactoryBean.setMapperLocations(context.getResources("classpath:mapper/**/*.xml"));
-      sqlSessionFactoryBean.setTypeAliasesPackage("com.cafe24.kangk0269.dto");   
+      sqlSessionFactoryBean.setTypeAliasesPackage("com.cafe24.kangk0269.dto");  
+      //sqlSessionFactoryBean.setConfiguration(mybatisConfig());
       return sqlSessionFactoryBean.getObject();
    }
    //3.Mybatis SqlSessionTemplate 설정
