@@ -3,14 +3,19 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
-
-
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.io.BufferedReader;
 import java.io.IOException;
 
 public class RadiationApi {
 	public String weatherApiAction() throws IOException {
     	
+		DateFormat sdFormat = new SimpleDateFormat("yyyyMMdd");
+		Date nowDate = new Date();
+		String tempDate = sdFormat.format(nowDate);
+		
     	//String[] areaArray = {"90","93","95","98","99","100","101","102","104","105","106","108","112","114","115","119","121","127","129","130","131","133","135","136","137","138","140","143","146","152","155","156","159","162","165","168","169","170","172","174","177","184","185","188","189","192","201","202","203","211","212","216","217","221","226","232","235","236","238","239","243","244","245","247","248"};
 		String[] areaArray = {"90"};
 		String apiDate = "20210304";
