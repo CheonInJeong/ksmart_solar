@@ -7,20 +7,21 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.cafe24.kangk0269.dto.BoardFileDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 
 //첨부파일 정보 가공 및 지정된 위치에 파일 저장
 @Component
 public class FileUtils {
 
-	public List<FileDTO> parseFileInfo(String relatedTableCode, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+	public List<FileDTO> parseFileInfo(String relatedTableCode, MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception {
 		if(ObjectUtils.isEmpty(multipartHttpServletRequest)) {
 			return null;
 		}
@@ -73,11 +74,15 @@ public class FileUtils {
 					
 					FileDTO fileDto =  new FileDTO();
 					
+					HttpSession session = request.getSession();
+					String sessionID = (String)session.getAttribute("SID");
+					System.out.println(sessionID+"<----fileUtils 세션 아이디");
 					
 					fileDto.setRelatedTableCode(relatedTableCode);
 					fileDto.setFileSize(multipartFile.getSize());
 					fileDto.setOriginalFileName(multipartFile.getOriginalFilename());
 					fileDto.setStoredFilePath(path+"/"+newFileName);
+					fileDto.setCreatorId(sessionID);
 					fileList.add(fileDto);
 					
 					//업로드 된 파일을 새로운 이름으로 바꾸어 지정된 경로에 저장

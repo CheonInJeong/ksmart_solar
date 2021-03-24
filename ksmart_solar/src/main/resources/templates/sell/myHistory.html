@@ -11,8 +11,6 @@
           <div class="col-md-12">
             <div class="content-panel">
               <h4><i class="fa fa-angle-right"></i>내공고목록</h4><hr><table class="table table-striped table-advance table-hover">
-                
-                
                 <thead>
                   <tr>
                     <th><i class="fa fa-bullhorn"></i>발전소명</th>
@@ -22,6 +20,8 @@
                     <th><i class=" fa fa-edit"></i>공고마감일</th>
                     <th><i class="fa fa-edit"></i>입찰자수</th>
                     <th><i class=" fa fa-edit"></i>진행상황</th>
+                    <th><i class=" fa fa-edit"></i>수정</th>
+                    <th><i class=" fa fa-edit"></i>삭제</th>
                     <th></th>
                   </tr>
                 </thead>
@@ -34,15 +34,13 @@
                     <td th:text="${list.bPlDateBidding2}"></td>
                     <td th:text="${list.bPlNumberOfBidder}"></td>
                     <td th:text="${list.bPlStatus}"></td>
-               
+                    <td><a th:href="@{/sell/modifyPlantSell}">수정</a></td>
+                    <td><a th:href="@{/sell/removePlantSell}">삭제</a></td>
                   </tr>
-                 
                 </tbody>
               </table>
             </div>
-            <!-- /content-panel -->
           </div>
-          <!-- /col-md-12 -->
         </div>
 	</th:block>
 	<th:block layout:fragment="customScript">
