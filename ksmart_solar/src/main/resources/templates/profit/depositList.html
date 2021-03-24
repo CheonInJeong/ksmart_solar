@@ -29,7 +29,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${depositList}">
+						<tr th:each="l : ${depositOutList}">
 							<td th:text="${l.trDepCode}"></td>
 							<td th:text="${l.bCode}"></td>
 							<td th:text="${l.mId}"></td>
@@ -44,8 +44,8 @@
 							<td th:text="${l.trDepWdDate}"></td>
 							<td th:text="${l.bMoCode}"></td>
 							<td>
-								<span th:if="${l.trDepAccountCheck == 'Y'}">출금완료</span>
-								<a th:if="${l.trDepAccountCheck != 'Y'}" th:href=@{/}>출금</a>
+								<span th:if="${l.trDepCheck == 'Y'}">출금완료</span>
+								<a th:if="${l.trDepCheck != 'Y'}" th:href=@{/}>출금</a>
 							</td>
 						</tr>
 					</tbody>
