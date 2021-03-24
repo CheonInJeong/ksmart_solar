@@ -28,4 +28,8 @@ public class BidPlantService {
 		BidPlantDTO bidPlantDTO = bidPlantMapper.getBidPlantByInfo(announceTitle);
 		return bidPlantDTO;
 	}
+	public List<BidPlantDTO> getBidPlantMyBid(String sId) {
+		List<BidPlantDTO> bidPlantList = bidPlantMapper.getBidPlantMyBid(sId);
+		return bidPlantList;
+	}
 }

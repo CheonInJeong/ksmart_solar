@@ -12,4 +12,5 @@ public interface BidComponentMapper {
 	public List<BidComponentDTO> getBidComponent(String status);
 	//해당 공고 리스트 조회
 	public BidComponentDTO getBidComponentByInfo(String announceTitle);
+	public List<BidComponentDTO> getBidComponentMyBid(String sId);
 }
