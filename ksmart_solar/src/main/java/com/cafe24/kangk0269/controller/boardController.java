@@ -42,16 +42,12 @@ public class boardController {
 		
 		if(ObjectUtils.isEmpty(boardFileDto)==false) {
 			String fileName = boardFileDto.getOriginalFileName();
-			
-			System.out.println("if절");
 			System.out.println(fileName);
-			
 			String filePath = boardFileDto.getStoredFilePath();
 			System.out.println(filePath);
 			
 			//실제 저장되어 있는 파일을 읽어 온 후 byte 형식으로 변환
 			byte[] files = FileUtils.readFileToByteArray(new File(boardFileDto.getStoredFilePath()));
-			System.out.println("nullPointException이라/..");
 			response.setContentType("application/octet-stream");
 			response.setContentLength(files.length);
 			response.setHeader("Content-Disposition", "attachment; fileName=\""+URLEncoder.encode(fileName,"UTF-8")+"\";");

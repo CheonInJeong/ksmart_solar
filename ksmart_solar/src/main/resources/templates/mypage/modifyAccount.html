@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>개인 계좌 수정</title>
+	</th:block>
+	
+	<th:block layout:fragment="Contents">
+		<form th:action="@{/mypage/modifyAccount}" method="post">
+			<h1>계좌 수정</h1>
+			<table border="1">
+				<input type="text" name="mAccountIdx" th:value="${memberAccountDTO.mAccountIdx}" hidden="hidden">
+				<input type="text" name="mId" th:value="${memberAccountDTO.mId}" hidden="hidden">
+				<input type="text" name="mAccountRegDate" th:value="${memberAccountDTO.mAccountRegDate}" hidden="hidden">
+				<tr>
+					<td>계좌번호</td>
+					<td>
+						<input type="text" name="mAccountNumber" th:value="${memberAccountDTO.mAccountNumber}"/>
+					</td>
+				</tr>
+				<tr>
+					<td>에금주명</td>
+					<td>
+						<input type="text" name="mAccountName" th:value="${memberAccountDTO.mAccountName}"/>
+					</td>
+				</tr>
+				<tr>
+					<td>은행명</td>
+					<td>
+						<input type="text" name="mAccountBank" th:value="${memberAccountDTO.mAccountBank}"/>
+					</td>
+				</tr>
+				<tr>
+					<td>사용여부</td>
+					<td>
+					<label>
+					Y<input type="radio" value="Y" name="mAccountCheck">
+					</label>
+					<label>
+					N<input type="radio" value="N" name="mAccountCheck">
+					</label>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" style="text-align: center;">
+						<button type="submit">수정</button>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var mypage = $('#mypage');
+			mypage.addClass('active');
+			mypage.parent().find('.sub').css('display', 'block');
+			mypage.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
+	</th:block>
+</html>

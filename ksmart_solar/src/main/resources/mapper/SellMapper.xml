@@ -100,7 +100,7 @@
   		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime)
 				VALUES
 			<foreach collection = "list" item="item" separator=",">
-					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, 'id002', NOW())
+					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW())
 			</foreach>
 				
   		  </insert>

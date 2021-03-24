@@ -25,6 +25,13 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+	//개인 회원조회
+	public MemberDTO getMyInfoById(String login_id) {
+		MemberDTO memberDTO = memberMapper.getMyInfoById(login_id);
+		return memberDTO;
+	}
+	
+	
 	//아이디를 입력해서 회원정보를 검색하는 메서드
 	public MemberDTO getMemberInfoById(String mId) {
 		MemberDTO member = memberMapper.getMemberInfoById(mId);

@@ -1,20 +1,60 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
+		<title>개인 정보 조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+		<h1>회원 조회</h1>
+		<table border="1">
+			<tr>
+				<td>이름</td>
+				<td>
+					<input type="text" name="mName" th:value="${memberDTO.mName}" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>이메일</td>
+				<td>
+					<input type="text" name="mEmail" th:value="${memberDTO.mEmail}" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>우편번호</td>
+				<td>
+					<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>도로명주소</td>
+				<td>
+					<input type="text" name="mAddr" th:value="${memberDTO.mAddr}" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>상세주소</td>
+				<td>
+					<input type="text" name="mDetailAddr" th:value="${memberDTO.mDetailAddr}" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>프로필사진 첨부파일</td>
+				<td>
+					<input type="text" name="mPhoto" th:value="${memberDTO.mPhoto}" readonly="readonly"/>
+				</td>
+			</tr>
+		</table>
+		<a th:href="@{/mypage/#}">회원정보 수정</a> 
 	</th:block>
+	
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
 			var mypage = $('#mypage');
 			mypage.addClass('active');
-			mypage.parent().find('.sub').css('display','block');
-			mypage.parent().find('.sub').children().eq(0).addClass('active');
+			mypage.parent().find('.sub').css('display', 'block');
+			mypage.parent().find('.sub').children().eq(3).addClass('active');
 		</script>
 	</th:block>
 </html>
