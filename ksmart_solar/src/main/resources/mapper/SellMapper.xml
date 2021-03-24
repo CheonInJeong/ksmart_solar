@@ -13,6 +13,30 @@
   				<result property="createdDatetime" column="created_datetime"/>
   		  		<result property="creatorId" column="creator_id"/>
   		</resultMap>
+  		<resultMap type = "BidPlantDTO" id = "bidPlantResultMap">
+  		  		<result property="bPlCode" column="b_pl_code"/>
+  		  	  	<result property="bzPlCode" column="bz_pl_code"/>
+  		  	  	<result property="mId" column="m_id"/>
+  		  	  	<result property="bPlTitle" column="b_pl_title"/>
+  				<result property="bPlContents" column="b_pl_contents"/>
+  		  		<result property="bPlPrice" column="b_pl_price"/>
+  		  		<result property="plDesidual" column="pl_residual"/>
+  		  		<result property="plDepPrice" column="pl_dep_price"/>
+  		  		<result property="plDepStartDate" column="pl_dep_start_date"/>
+  		  		<result property="bPlDateRequest" column="b_pl_date_request"/>
+  		  		<result property="bPlDateBidding1" column="b_pl_date_bidding1"/>
+  		  		<result property="bPlDateBidding2" column="b_pl_date_bidding2"/>
+  		  		<result property="bPlDateDecision1" column="b_pl_date_decision1"/>
+  		  		<result property="bPlDateDecision2" column="b_pl_date_decision2"/>
+  		  		<result property="bPlGroupcode" column="b_pl_groupcode"/>
+  		  		<result property="bPlStatus" column="b_pl_status"/>
+  		  		
+  		  		<association property="businessPlantDTO" javaType="BusinessPlantDTO">
+  		  			<id property="bzPlName" column="bz_pl_Name"/>
+  		  			<result property="bzPlName" column="bz_pl_Name"/>
+  		  		</association>
+  		</resultMap>
+  		
   		<resultMap type="BusinessPlantDTO" id="BusinessPlantResultMap">
   		  		<result property="bzPlCode" column="bz_pl_code"/>
   		  		<result property="mId" column="m_id"/>
@@ -39,8 +63,8 @@
   		  		</association>
   		  		<association property="plantDepDataDTO" javaType="PlantDepDataDTO">
   		  			<id property="bzPlCode" column="bz_pl_code"/>
+  		  			<result property="bzPlCode" column="bz_pl_code"/>
   		  			<result property="plDepDataMonth" column="pl_dep_data_month"/>
-	  		  		<result property="bzPlCode" column="bz_pl_code"/>
 	  		  		<result property="plDepDataResidual" column="pl_dep_data_residual"/>
   		  		</association>
   		  </resultMap>
@@ -68,7 +92,6 @@
   		  		<result property="bPlCancelReason" column="b_pl_cancel_date"/>
   		  		<result property="bPlCancelDate" column="b_pl_cancel_date"/>
   		  		<result property="acStatusCode" column="ac_status_code"/>
-  		  
   		  </resultMap>
   		  
   		  <insert id="addFile" parameterType="FileDTO">
@@ -89,16 +112,24 @@
   		  <select id="getHighestPriceByCode" resultType="int">
   		  		SELECT max(b_price) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
   		  </select>
-  		  <select id="getBidPlantbyId" resultMap="BidListResultMap">
+  		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
   		  		SELECT
-  		  			p.bz_pl_name,b.b_pl_title, b.b_pl_date_bidding1,b.b_pl_date_bidding2,b.b_pl_status
-  		  		FROM 
-  		  			tb_bid_plant AS b
-  		  		left JOIN 
-  		  			tb_business_plant AS p 
-  		  		ON b.bz_pl_code = p.bz_pl_code where m_id = 'id002' 
+				 	p.bz_pl_name,
+					b.b_pl_title,
+					b.b_pl_price,
+					b.b_pl_date_bidding1,
+					b.b_pl_date_bidding2,
+					b.b_pl_status,
+					b.b_pl_number_of_bidder
+				FROM 
+					tb_bid_plant AS b
+				left JOIN 
+					tb_business_plant AS p 
+				ON 
+					b.bz_pl_code = p.bz_pl_code 
+				WHERE b.m_id = #{mId}
   		  </select>
-  		  
+  		  <!--발전소 판매 공고 신청  -->
   		  <insert id="addPlantApply" parameterType="BidPlantDTO">
 				INSERT 
 				INTO
@@ -109,7 +140,7 @@
 				  	b_pl_title,
 				   	b_pl_contents, 
 					b_pl_price,
-					pl_residual,
+					pl_dep_data_residual,
 					pl_dep_price,
 					pl_dep_start_date, 
 					b_pl_date_request,
@@ -128,7 +159,7 @@
 					#{plDepDataResidual},
 					#{plDepPrice},
 					#{plDepStartDate},
-					NOW(),
+					curdate(),
 					#{bPlDateBidding1},
 					sf_7days_after(#{bPlDateBidding1}),
 					sf_7days_after(#{bPlDateBidding1}),
@@ -152,8 +183,7 @@
 				WHERE 
 					p.pl_dep_data_month = d.pl_dep_servicelife 
 				AND 
-					p.bz_pl_code =  'bz_pl_0001'
-				<!-- 	p.bz_pl_code = #{bzPlCode} -->
+					p.bz_pl_code = #{bzPlCode}
   		  
   		  </select>
   		  
@@ -170,7 +200,7 @@
 				WHERE
 					b.bz_pl_code IS NULL 
 				AND 
-					p.m_id = 'id013'
+					p.m_id = #{mId}
 
   		  </select>
 		  		  
