@@ -3,10 +3,12 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
 				<title>회원리스트조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+	<div id="container-header-title"><strong>로그인</strong></div>
+      <div id="container-header-path">메인화면 > 로그인</div>
+      <div id="container-header-space"></div>
 		<div class="content-panel">
 			<div class="adv-table" style="overflow: scroll;">
 				<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
@@ -29,7 +31,6 @@
 							<th>탈퇴유예여부</th>
 							<th>회원상태변경일</th>
 							<th>수정</th>
-							<th>삭제</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -53,12 +54,26 @@
 							<td>
 								<a th:href=@{/}>수정</a>
 							</td>
-							<td>
-								<a th:href=@{/}>삭제</a>
-							</td>
 						</tr>
 					</tbody>
 				</table>
+				<ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
 			</div>
 		</div>
 	</th:block>
@@ -67,7 +82,7 @@
 			var member = $('#member');
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
-			member.parent().find('.sub').children().eq(3).addClass('active');
+			member.parent().find('.sub').children().eq(0).addClass('active');
 		</script>
 	</th:block>
 </html>
