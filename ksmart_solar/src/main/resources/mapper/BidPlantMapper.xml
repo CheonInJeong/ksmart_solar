@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bzPlCode" 			column="bz_pl_code" />
 		<result property="bPlContents"			column="b_pl_contents" />		
 		<result property="bPlPrice" 			column="b_pl_price" />	
-		<result property="plResidual" 			column="pl_residual" />	
+		<result property="plDepDataResidual" 	column="pl_dep_data_residual" />	
 		<result property="plDepPrice" 			column="pl_dep_price" />	
 		<result property="plDepStartDate" 		column="pl_dep_start_date" />	
 		<result property="bPlStatus" 			column="b_pl_status" />	
@@ -62,7 +62,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_title,
 			b_pl_contents, 
 			b_pl_price, 
-			pl_residual, 
+			pl_dep_data_residual, 
 			pl_dep_price, 
 			pl_dep_start_date, 
 			b_pl_status, 
@@ -101,7 +101,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_title,
 			b_pl_contents, 
 			b_pl_price, 
-			pl_residual, 
+			pl_dep_data_residual, 
 			pl_dep_price, 
 			pl_dep_start_date, 
 			b_pl_status, 

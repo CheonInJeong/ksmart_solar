@@ -89,10 +89,6 @@ public class FileUtils {
 		return fileList;
 	}
 
-	public List<BoardFileDTO> parseFileInfo(int boardIdx, MultipartHttpServletRequest multipartHttpServletRequest) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 	
 }

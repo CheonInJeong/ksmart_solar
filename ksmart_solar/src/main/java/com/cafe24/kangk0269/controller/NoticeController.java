@@ -69,4 +69,9 @@ public class NoticeController {
 		}
 		return "/notice/announcement";
 	}
+	
+	@PostMapping("/notice/bidRequest")
+	public String bidRequest() {
+		return "/notice/bidRequest";
+	}
 }

@@ -16,10 +16,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  * ========================================================= */
- 
+
 !function( $ ) {
+	 $('.default-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 7 });s
 	$(function(){
-			$(".default-date-picker").datepicker({dateFormat:'yyyy-mm-dd'})
+			$(".default-date-picker").datepicker({
+				dateFormat:'yyyy-mm-dd'
+				});
+			
+		/*	$( ".default-date-picker" ).datepicker({ minDate: 0});*/
 		})
 	// Picker object
 	

@@ -65,13 +65,14 @@ public class BoardService {
 	public void boardInsert(BoardDto boardDto, MultipartHttpServletRequest multipartHttpServletRequest)
 			throws Exception {
 		boardMapper.insertBoard(boardDto);
+		/*
 		List<BoardFileDTO> filelist = fileUtils.parseFileInfo(boardDto.getBoardIdx(), multipartHttpServletRequest);
 		System.out.println("실행확인1");
 		if (CollectionUtils.isEmpty(filelist) == false) {
 			System.out.println("실행확인2");
 			boardMapper.insertBoardFileList(filelist);
 		}
-
+		 */
 		/*
 		 * if(ObjectUtils.isEmpty(multipartHttpServletRequest)==false) {
 		 * 
