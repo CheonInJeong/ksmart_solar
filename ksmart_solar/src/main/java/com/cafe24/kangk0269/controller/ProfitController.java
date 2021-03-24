@@ -7,8 +7,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import com.cafe24.kangk0269.dto.BidMoneyDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.serivce.BidMoneyService;
 import com.cafe24.kangk0269.serivce.TradeService;
 
 @Controller
@@ -16,6 +18,9 @@ public class ProfitController {
 
 	@Autowired
 	private TradeService tradeService;
+
+	@Autowired
+	private BidMoneyService bidMoneyService;
 	
 	@GetMapping("/profit/cancel")
 	public String Cancel() {
@@ -28,7 +33,10 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/balance")
-	public String Balance() {
+	public String Balance(Model model) {
+		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
+		System.out.println(bidMoneyList);
+		model.addAttribute("bidMoneyList", bidMoneyList);
 		return "/profit/balance";
 	}
 	
