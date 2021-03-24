@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cafe24.kangk0269.dao.TradeMapper">
-	<resultMap type="TradeDepositOutDTO" id="tradeResultMap">
+	<resultMap type="TradeDepositOutDTO" id="depositoutResultMap">
 		<result property="trDepCode" 			column="tr_dep_code"/>
 		<result property="bCode" 				column="b_code"/>
 		<result property="mId" 					column="m_id"/>
@@ -18,7 +18,46 @@
 		<result property="bMoCode" 				column="b_mo_code"/>
 	</resultMap>
 	
-	<select id="getDepositList" resultMap="tradeResultMap">
+	<resultMap type="TradePaymentOutDTO" id="paymentoutResultMap">
+		<result property="trPayoutCode" 		column="tr_payout_code"/>
+		<result property="trPrCode" 			column="tr_pr_code"/>
+		<result property="mId" 					column="m_id"/>
+		<result property="trPayoutPrice" 		column="tr_payout_price"/>
+		<result property="sCommissionRate" 		column="s_commission_rate"/>
+		<result property="cTradeCm" 			column="c_trade_cm"/>
+		<result property="trPayoutPriceReal" 	column="tr_payout_price_real"/>
+		<result property="trPayoutBank" 		column="tr_payout_bank"/>
+		<result property="trPayoutAccount" 		column="tr_payout_account"/>
+		<result property="trPayoutAccountCheck" column="tr_payout_account_check"/>
+		<result property="trPayoutAccountName" 	column="tr_payout_account_name"/>
+		<result property="trPayoutDate" 		column="tr_payout_date"/>
+		<result property="trPayoutCheck" 		column="tr_payout_check"/>
+		<result property="trPayoutWdDate" 		column="tr_payout_wd_date"/>
+		<result property="bMoCode" 				column="b_mo_code"/>
+	</resultMap>
+	
+	<select id="getPaymentOutList" resultMap="paymentoutResultMap">
+		SELECT 
+			tr_payout_code
+			, tr_pr_code
+			, m_id
+			, tr_payout_price
+			, s_commission_rate
+			, c_trade_cm
+			, tr_payout_price_real
+			, tr_payout_bank
+			, tr_payout_account
+			, tr_payout_account_check
+			, tr_payout_account_name
+			, tr_payout_date
+			, tr_payout_check
+			, tr_payout_wd_date
+			, b_mo_code
+		FROM 
+			tb_trade_payment_out;
+	</select>
+	
+	<select id="getDepositOutList" resultMap="depositoutResultMap">
 		SELECT 
 			tr_dep_code
 			, b_code

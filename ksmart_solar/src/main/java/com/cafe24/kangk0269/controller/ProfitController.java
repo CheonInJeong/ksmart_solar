@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
+import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.serivce.TradeService;
 
 @Controller
@@ -38,14 +39,17 @@ public class ProfitController {
 	
 	@GetMapping("/profit/depositList")
 	public String DepositList(Model model) {
-		List<TradeDepositOutDTO> depositList = tradeService.getDepositList();
-		System.out.println(depositList);
-		model.addAttribute("depositList", depositList);
+		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList();
+		System.out.println(depositOutList);
+		model.addAttribute("depositOutList", depositOutList);
 		return "/profit/depositList";
 	}
 	
 	@GetMapping("/profit/commissionList")
-	public String CommissionList() {
+	public String CommissionList(Model model) {
+		List<TradePaymentOutDTO> paymentOutList = tradeService.getPaymentOutList();
+		System.out.println(paymentOutList);
+		model.addAttribute("paymentOutList", paymentOutList);
 		return "/profit/commissionList";
 	}
 }
