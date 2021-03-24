@@ -4,17 +4,17 @@
 	  layout:decorate="@{layout/default}">
 	<th:block layout:fragment="customCss">
 		<!-- Bootstrap core CSS -->
-	  <link href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 	  <!--external css-->
 	  <link href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
 	  <!-- Custom styles for this template -->
-	  <link href="@{/css/style.css}" rel="stylesheet">
-	  <link href="@{/css/style-responsive.css}" rel="stylesheet">
+	  <link th:href="@{/css/style.css}" rel="stylesheet">
+	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
 	</th:block>
 	<th:block layout:fragment="customTitle">
 				<title>부품 판매 공고 신청</title>
@@ -26,14 +26,13 @@
             <h4><i class="fa fa-angle-right"></i>발전소 판매 공고 신청</h4>
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{sell/plantSell}" enctype="application/form-data">
+                <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/sell/plantSell}" enctype="multipart/form-data">
 	                  <div class="form-group">
 	                    <label for="username" class="control-label col-lg-2">발전소</label>
 	                    <div class="col-lg-10">
 	                      <select class="form-control" id="plantSellSelect">
 	                      	<option value="0">발전소를 선택해주세요.</option>
 	                        <th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
-	                        
 							 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
 							  </th:block> 
 								  <th:block th:unless="${#lists.size(plantList)}>0">
@@ -42,13 +41,11 @@
 							</select>
 	                    </div>
 	                  </div>
-	                  	<!--<input type="hidden" name="m_id" th:value="${session.SID}">-->
-	                  	<input type="hidden" name="m_id" value="id013">
-	               
+	                  
+	                  	<input type="text" name="mId" th:value="${session.SID}">
 	                 	<input type="text"  name="plDepPrice" id="plDepPrice">
 	                 	<input type="text"  name="plDepStartDate" id="plDepStartDate">
-	             	    
-	                
+	                 	<input type="text"  name="bzPlCode" id="bzPlCode">
 	                  <div class="form-group">
 	                    <label for="bPlTitle" class="control-label col-lg-2">제목</label>
 	                    <div class="col-lg-10">
@@ -89,10 +86,9 @@
 	                    <div class="col-lg-offset-2 col-lg-10">
 	                      <button class="btn btn-theme" type="button" id="btnPlantSell">신청</button>
 	                      
-	                      <button class="btn btn-theme04" type="button" id="">취소</button>
+	                      <button class="btn btn-theme04" type="button" id="cancelBtnPlantSell">취소</button>
 	                    </div>
 	                  </div>
-
                 </form>
               </div>
             </div>
@@ -120,23 +116,26 @@
 			this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 			}
   			
-  			
-  			
  		</script>
-		
+ 		
+
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
 	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
-	 	
+
 	 	<script>
 	 	//발전소 잔존 가치에 콤마 찍는 함수
 	 	 function comma(str) {
        		 str = String(str);
        		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   		  }
-	 	
+	 	//콤마 없애는 함수
+	 	function rm_comma(num){
+	 	   var number = num + "";
+	 	   return number.replace(/,/g,"");
+	 	}
+
 	 	$('#plantSellSelect').change(function(){
-	 		console.log($('select option:selected').val());
 	 		var plantCode = $('select option:selected').val();
 	 		var plDepDataResidual;
 	 		var plDepPrice;
@@ -153,18 +152,21 @@
 		        	if(data){
 						plDepDataResidual = data.plantDepDataDTO.plDepDataResidual;
 						plDepPrice = data.plantDepreciationDTO.plDepPrice;
-						plDepStartDate = data.plantDepreciationDTO.plDepStartDate
-						
+						plDepStartDate = data.plantDepreciationDTO.plDepStartDate;
+						bzPlCode = data.plantDepreciationDTO.bzPlCode;
 						//숫자에 콤마 찍는 함수 호출
 						plDepDataResidual = comma(plDepDataResidual);
 						
 		        		console.log(plDepDataResidual);
 						console.log(plDepPrice);
 						console.log(plDepStartDate);
+						console.log(bzPlCode);
+						
 						
 						$('#plDepDataResidual').val(plDepDataResidual);
 						$('#plDepPrice').val(plDepPrice);
 						$('#plDepStartDate').val(plDepStartDate);
+						$('#bzPlCode').val(bzPlCode);
 		        	}else{
 		        		
 		        	}
@@ -178,8 +180,11 @@
 		   //ajax 끝 
 	 	 })
 	 	 
+	 	 
 	 	 $('#btnPlantSell').click(function(){
-	 		   //유효성검사
+	 	
+	 		 
+	 		 	//유효성검사
 			 	if($('select option:selected').val()==0){
 					alert('발전소를 선택해주세요.');
 					return;
@@ -198,18 +203,33 @@
 					alert('상세정보를 입력해주세요.');
 					return;
 				}if($('#bPlDateBidding1').val()==''){
-					alert('희망 공고 시작 날자를 입력해주세요.');
+					alert('희망 공고 시작 날짜를 입력해주세요.');
 					return;
 				}
+				
+				
+				$('#bPlPrice').val(rm_comma($('#bPlPrice').val()));
+				$('#plDepDataResidual').val(rm_comma($('#plDepDataResidual').val()));
+			
+	
 				$('#plantSellForm').submit();
+				
 	 	 })
 	 	 
 	 	 
 	 	 $('#cancelBtnPlantSell').click(function(){
-	 		$('select option:selected').val(0);
+	 		 console.log('취소버튼');
+	 		$("#plantSellSelect").val("0").prop("selected", true);
 	 		$('#bPlTitle').val('');
+	 		$('#bPlPrice').val('');
+	 		$('#files').val('');
+	 		$('#componentDetail').val('');
+	 		$('#bPlDateBidding1').val('');
+	 		$('#plDepDataResidual').val('');
+	 		
 	 	 })
 	 	 
+	 
 	 	 
 	 	</script>
 

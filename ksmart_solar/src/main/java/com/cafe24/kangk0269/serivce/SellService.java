@@ -30,7 +30,10 @@ public class SellService {
 	}
 	
 	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
-		 sellMapper.addPlantApply(bidPlantDto,multipartHttpServletRequest);
+		String bzPlCode = bidPlantDto.getBzPlCode();
+		System.out.println(bzPlCode+"<---발전소코드 서비스");
+		
+		sellMapper.addPlantApply(bidPlantDto);
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(), multipartHttpServletRequest);
 		System.out.println("실행확인1");
 		if (CollectionUtils.isEmpty(filelist) == false) {

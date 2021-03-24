@@ -29,7 +29,7 @@ public interface SellMapper {
 	public List<BidPlantDTO> getBidPlantbyId();
 	
 	//공고신청 메서드
-	public int addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest);
+	public int addPlantApply(BidPlantDTO bidPlantDto);
 	//발전소 이름 가져오는 메서드 //parameter : String mId 추가하기
 	public List<BusinessPlantDTO> getPlantName(String mId);
 }

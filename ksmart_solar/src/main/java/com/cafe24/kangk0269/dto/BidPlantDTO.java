@@ -2,44 +2,42 @@ package com.cafe24.kangk0269.dto;
 
 public class BidPlantDTO {
 
-	private int num;
 	private String bPlCode;
-	private String mId;
-	private String bPlTitle;
-	private String bzPlCode;
+	private String bzPlCode; 
+	private String mId; 
+	private String bPlTitle; 
 	private String bPlContents;
-	private int bPlPrice;
-	private String bPlSpecs;
-	private String bPlDocument;
-	private int plResidual;	
+	private int bPlPrice; 
+	private int plDepDataResidual;
 	private int plDepPrice;
-	private String plDepStartDate;
-	private String plDepUsed;
+	private String plDepStartDate; 
 	private String bPlStatus;
-	private String bPlDateRequest;
-	private String bPlDateBidding1;
-	private String bPlDateBidding2;	
+	private int acStatusCode; 
+	private int bPlNumberOfBidder; 
+	private String acStatusName; 
+	private String bPlDateRequest; 
+	private String bPlDateBidding1; 
+	private String bPlDateBidding2;
 	private String bPlDateDecision1;
-	private String bPlDateDecision2;	
-	private String bPlGroupcode;
-	private int bPlReCount;
-	private String bPlConfirm;
-	private String bPlConfirmStatus;
-	private String bPlRejectReason;	
-	private String bPlCancelReason;
+	private String bPlDateDecision2; 
+	private String bPlGroupcode; 
+	private int bPlReCount; 
+	private String bPlConfirm; 
+	private String bPlConfirmStatus; 
+	private String bPlRejectReason;
+	private String bPlCancelReason; 
 	private String bPlCancelDate;
-	private int acStatusCode;
-	public int getNum() {
-		return num;
-	}
-	public void setNum(int num) {
-		this.num = num;
-	}
 	public String getbPlCode() {
 		return bPlCode;
 	}
 	public void setbPlCode(String bPlCode) {
 		this.bPlCode = bPlCode;
+	}
+	public String getBzPlCode() {
+		return bzPlCode;
+	}
+	public void setBzPlCode(String bzPlCode) {
+		this.bzPlCode = bzPlCode;
 	}
 	public String getmId() {
 		return mId;
@@ -53,12 +51,6 @@ public class BidPlantDTO {
 	public void setbPlTitle(String bPlTitle) {
 		this.bPlTitle = bPlTitle;
 	}
-	public String getBzPlCode() {
-		return bzPlCode;
-	}
-	public void setBzPlCode(String bzPlCode) {
-		this.bzPlCode = bzPlCode;
-	}
 	public String getbPlContents() {
 		return bPlContents;
 	}
@@ -71,23 +63,11 @@ public class BidPlantDTO {
 	public void setbPlPrice(int bPlPrice) {
 		this.bPlPrice = bPlPrice;
 	}
-	public String getbPlSpecs() {
-		return bPlSpecs;
+	public int getPlDepDataResidual() {
+		return plDepDataResidual;
 	}
-	public void setbPlSpecs(String bPlSpecs) {
-		this.bPlSpecs = bPlSpecs;
-	}
-	public String getbPlDocument() {
-		return bPlDocument;
-	}
-	public void setbPlDocument(String bPlDocument) {
-		this.bPlDocument = bPlDocument;
-	}
-	public int getPlResidual() {
-		return plResidual;
-	}
-	public void setPlResidual(int plResidual) {
-		this.plResidual = plResidual;
+	public void setPlDepDataResidual(int plDepDataResidual) {
+		this.plDepDataResidual = plDepDataResidual;
 	}
 	public int getPlDepPrice() {
 		return plDepPrice;
@@ -101,17 +81,29 @@ public class BidPlantDTO {
 	public void setPlDepStartDate(String plDepStartDate) {
 		this.plDepStartDate = plDepStartDate;
 	}
-	public String getPlDepUsed() {
-		return plDepUsed;
-	}
-	public void setPlDepUsed(String plDepUsed) {
-		this.plDepUsed = plDepUsed;
-	}
 	public String getbPlStatus() {
 		return bPlStatus;
 	}
 	public void setbPlStatus(String bPlStatus) {
 		this.bPlStatus = bPlStatus;
+	}
+	public int getAcStatusCode() {
+		return acStatusCode;
+	}
+	public void setAcStatusCode(int acStatusCode) {
+		this.acStatusCode = acStatusCode;
+	}
+	public int getbPlNumberOfBidder() {
+		return bPlNumberOfBidder;
+	}
+	public void setbPlNumberOfBidder(int bPlNumberOfBidder) {
+		this.bPlNumberOfBidder = bPlNumberOfBidder;
+	}
+	public String getAcStatusName() {
+		return acStatusName;
+	}
+	public void setAcStatusName(String acStatusName) {
+		this.acStatusName = acStatusName;
 	}
 	public String getbPlDateRequest() {
 		return bPlDateRequest;
@@ -185,43 +177,35 @@ public class BidPlantDTO {
 	public void setbPlCancelDate(String bPlCancelDate) {
 		this.bPlCancelDate = bPlCancelDate;
 	}
-	public int getAcStatusCode() {
-		return acStatusCode;
-	}
-	public void setAcStatusCode(int acStatusCode) {
-		this.acStatusCode = acStatusCode;
-	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BidPlantDTO [num=");
-		builder.append(num);
-		builder.append(", bPlCode=");
+		builder.append("BidPlantDTO [bPlCode=");
 		builder.append(bPlCode);
+		builder.append(", bzPlCode=");
+		builder.append(bzPlCode);
 		builder.append(", mId=");
 		builder.append(mId);
 		builder.append(", bPlTitle=");
 		builder.append(bPlTitle);
-		builder.append(", bzPlCode=");
-		builder.append(bzPlCode);
 		builder.append(", bPlContents=");
 		builder.append(bPlContents);
 		builder.append(", bPlPrice=");
 		builder.append(bPlPrice);
-		builder.append(", bPlSpecs=");
-		builder.append(bPlSpecs);
-		builder.append(", bPlDocument=");
-		builder.append(bPlDocument);
-		builder.append(", plResidual=");
-		builder.append(plResidual);
+		builder.append(", plDepDataResidual=");
+		builder.append(plDepDataResidual);
 		builder.append(", plDepPrice=");
 		builder.append(plDepPrice);
 		builder.append(", plDepStartDate=");
 		builder.append(plDepStartDate);
-		builder.append(", plDepUsed=");
-		builder.append(plDepUsed);
 		builder.append(", bPlStatus=");
 		builder.append(bPlStatus);
+		builder.append(", acStatusCode=");
+		builder.append(acStatusCode);
+		builder.append(", bPlNumberOfBidder=");
+		builder.append(bPlNumberOfBidder);
+		builder.append(", acStatusName=");
+		builder.append(acStatusName);
 		builder.append(", bPlDateRequest=");
 		builder.append(bPlDateRequest);
 		builder.append(", bPlDateBidding1=");
@@ -246,8 +230,6 @@ public class BidPlantDTO {
 		builder.append(bPlCancelReason);
 		builder.append(", bPlCancelDate=");
 		builder.append(bPlCancelDate);
-		builder.append(", acStatusCode=");
-		builder.append(acStatusCode);
 		builder.append("]");
 		return builder.toString();
 	}
