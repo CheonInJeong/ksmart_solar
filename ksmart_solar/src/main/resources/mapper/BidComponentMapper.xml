@@ -12,9 +12,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="cpCode" 			column="cp_code" />
 		<result property="bCpCotents"		column="b_cp_contents" />		
 		<result property="bCpPrice" 		column="b_cp_price" />	
-		<result property="bCpSpecs" 		column="b_cp_specs" />	
 		<result property="cpUsedate" 		column="cp_usedate" />	
-		<result property="bCpDocument" 		column="b_cp_document" />	
 		<result property="bCpStatus" 		column="b_cp_status" />	
 		<result property="bCpDate" 			column="b_cp_date" />	
 		<result property="bCpDateBidding1" 	column="b_cp_date_bidding1" />	
@@ -40,8 +38,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_cp_contents, 
 			b_cp_price, 
 			cp_usedate, 
-			b_cp_specs, 
-			b_cp_document, 
 			b_cp_status, 
 			b_cp_date, 
 			b_cp_date_bidding1, 
@@ -79,8 +75,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_cp_contents, 
 			b_cp_price, 
 			cp_usedate, 
-			b_cp_specs, 
-			b_cp_document, 
 			b_cp_status, 
 			b_cp_date, 
 			b_cp_date_bidding1, 
@@ -93,7 +87,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_cp_confirm_status, 
 			b_cp_reject_reason, 
 			b_cp_cancel_reason, 
-			b_cp_cancel_date			
+			b_cp_cancel_date,
+			ac_status_code			
 		FROM tb_bid_component
 		WHERE b_cp_code =#{announceTitle}
 		ORDER BY b_cp_date_bidding1 DESC

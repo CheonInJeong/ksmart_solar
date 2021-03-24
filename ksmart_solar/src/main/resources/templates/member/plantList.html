@@ -4,10 +4,64 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
+				<title>발전소인증신청목록</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+		<div class="content-panel">
+			<div class="adv-table" style="overflow: scroll;">
+				<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+					<thead>
+						<tr>
+							<th>발전소사업자 코드</th>
+							<th>아이디</th>
+							<th>발전소 인증 상태</th>
+							<th>발전소명</th>
+							<th>발전소 우편번호</th>
+							<th>발전소 도로명주소</th>
+							<th>발전소 상세주소</th>
+							<th>발전소사진</th>
+							<th>발전소용량</th>
+							<th>발전소하드웨어여부</th>
+							<th>부지면적</th>
+							<th>인버터용량</th>
+							<th>인버터수량</th>
+							<th>인버터제조사</th>
+							<th>계약REC</th>
+							<th colspan="2">승인/반려</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="l : ${plantList}">
+							<td th:text="${l.bzPlCode}"></td>
+							<td th:text="${l.mId}"></td>
+							<td th:text="${l.bzPlCheck}"></td>
+							<td th:text="${l.bzPlName}"></td>
+							<td th:text="${l.bzPlZipcode}"></td>
+							<td th:text="${l.bzPlAddr}"></td>
+							<td th:text="${l.bzPlDetailAddr}"></td>
+							<td th:text="${l.bzPlPhoto}"></td>
+							<td th:text="${l.bzPlPower}"></td>
+							<td th:text="${l.bzPlHardware}"></td>
+							<td th:text="${l.bzPlArea}"></td>
+							<td th:text="${l.bzPlInvPower}"></td>
+							<td th:text="${l.bzPlInvCount}"></td>
+							<td th:text="${l.bzPlInvMaker}"></td>
+							<td th:text="${l.bzPlRec}"></td>
+							<td th:if="${l.bzPlCheck} == N">
+								<a th:href=@{/}>승인</a>
+							</td>
+							<td th:if="${l.bzPlCheck} == N">
+								<a th:href=@{/}>반려</a>
+							</td>
+							<td colspan="2" th:unless="${l.bzPlCheck} == N">
+								<span th:if="${l.bzPlCheck} == Y">승인완료</span>
+								<span th:if="${l.bzPlCheck} == F">반려</span>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>	
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
