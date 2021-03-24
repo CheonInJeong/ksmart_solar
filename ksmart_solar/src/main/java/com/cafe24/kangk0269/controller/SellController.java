@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,10 +31,16 @@ public class SellController {
 	
 	
 	//발전소 판매 공고 등록
-	@PostMapping("/sell/regPlantSell")
+	@PostMapping("/sell/plantSell")
 	public String regPlantSell(BidPlantDTO bidPlantDto, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
 		if(bidPlantDto!=null&&!"".equals(bidPlantDto.getmId())) {
-			sellService.addPlantApply(bidPlantDto,multipartHttpServletRequest);
+			
+			int bPlPrice = bidPlantDto.getbPlPrice();
+			System.out.println(bPlPrice + "<-----넘어온값.");
+			String bzPlCode = bidPlantDto.getBzPlCode();
+			System.out.println(bzPlCode+"<---발전소코드");
+			
+			sellService.addPlantApply(bidPlantDto, multipartHttpServletRequest);
 		}
 		return "/sell/myHistory";
 	}
@@ -43,37 +50,22 @@ public class SellController {
 	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode) {
 		BusinessPlantDTO bzPlantDto =sellService.getPlantInformation(plantCode);
 		
-
-
-		/*
-		 * ArrayList<Object> plantInfo = new ArrayList<Object>();
-		 * plantInfo.add(bzPlantDto.getPlantDepreciationDTO().getPlDepStartDate());
-		 * plantInfo.add(bzPlantDto.getPlantDepreciationDTO().getPlDepPrice());
-		 * plantInfo.add(bzPlantDto.getPlantDepDataDTO().getPlDepDataResidual());
-		 */
-		
 		return bzPlantDto;
 		
 	}
 	
-	/*
-	 * //발전소판매공고신청 버튼 클릭시
-	 * 
-	 * @GetMapping("/sell/plantSell") public ModelAndView
-	 * plantSell(@RequestParam(name="mId") String mId) { ModelAndView mv = new
-	 * ModelAndView("/sell/plantSell"); List<BusinessPlantDTO> plantList =
-	 * sellService.getPlantName("id013"); mv.addObject("plantList", plantList);
-	 * return mv; }
-	 */
 	
-	//발전소판매공고신청 버튼 클릭시
-	@GetMapping("/sell/plantSell")
-	public ModelAndView plantSell() {
+	 //발전소판매공고신청 버튼 클릭시
+	  
+	@GetMapping("/sell/plantSell") 
+	public ModelAndView plantSell(@RequestParam(name="mId") String mId) { 
 		ModelAndView mv = new ModelAndView("/sell/plantSell");
-		List<BusinessPlantDTO> plantList = sellService.getPlantName("id013");
+		List<BusinessPlantDTO> plantList =	sellService.getPlantName(mId); 
 		mv.addObject("plantList", plantList);
-		return mv;
+	  return mv; 
+	  
 	}
+
 	//부품판매공고신청 버튼 클릭시
 	@GetMapping("/sell/componentSell")
 	public String componentSell() {
@@ -87,7 +79,9 @@ public class SellController {
 		return "/sell/apply";
 	}
 	@GetMapping("/sell/myHistory")
-	public String MyHistory() {
+	public String MyHistory(@RequestParam(name="mId") String mId,Model model) {
+		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(mId);
+		model.addAttribute("bidPlantList", bidPlantList);
 		
 		return "/sell/myHistory";
 	}
