@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -71,5 +72,10 @@ public class BuyController {
 	public String Qna() {
 		
 		return "/buy/qna";
+	}
+	@PostMapping("/buy/refundRequest")
+	public String refundRequest() {
+		
+		return "/buy/refundRequest";
 	}
 }

@@ -11,41 +11,36 @@
           <div class="col-md-12">
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> 진행중인 부품 공고</h4>
+                <h4><i class="fa fa-angle-right"></i>예치금 환불가능한 부품공고</h4>
                 <hr>
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
                     <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
-                    <th class="col-md-2"><i class="fa fa-bullhorn"></i>판매자</th>
-                    <th class="col-md-2" style="width: 100px;"><i class="fa fa-question-circle"></i>나의 진행</th>
-   	                <th class="col-md-1"><i class="fa fa-bookmark"></i>공고 진행</th>
+                    <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
        	            <th class="col-md-2"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
                   </div>
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:if="${bidComponentList != null}" th:each="l:${bidComponentList}">
+                	<th:block>
 		                  <tr>
-		                    <td th:text="${l.num}"></td>
+		                    <td>1</td>
 		                    <td>
-		                    	<form th:action="@{/notice/announcement}" method="post">
-			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
-			                      	<input type="hidden" name="announceTitle" th:value="${l.bCpCode}">
-			                      	<input type="hidden" name="announceType" value="부품">
-		                    	</form>
+		                    	<form th:action="@{/buy/refundRequest}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다</a>
+		                   		</form>
 		                    </td>
-		                    <td th:text="${l.mId}"></td>
-		                    <td th:text="${l.bidListDTO.trTypeName}"></td>
-		                    <td th:text="${l.bCpStatus}"></td>
-		                    <td th:text="${l.bidListDTO.bDate}"></td>
+		                    <td>5,500,000</td>
+		                    <td>2021-03-10 0:00:00</td>
+		                    
 		                  </tr>
                 	</th:block>
-                	<th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
+                	<!-- <th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
 		                  <tr>
 		                    <td colspan="6" style="text-align: center;">입찰 신청한 부품 공고가 없습니다.</td>		                 
 		                  </tr>
-                	</th:block>
+                	</th:block> -->
                 </tbody>
               </table>
             </div>
@@ -56,41 +51,34 @@
           <div class="col-md-12">
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> 진행중인 발전소 공고</h4>
+                <h4><i class="fa fa-angle-right"></i> 예치금 환불가능한 발전소공고</h4>
                 <hr>
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
                     <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
-                    <th class="col-md-2"><i class="fa fa-bullhorn"></i>판매자</th>
-                    <th class="col-md-2" style="width: 100px;"><i class="fa fa-question-circle"></i>나의 진행</th>
-   	                <th class="col-md-1"><i class="fa fa-bookmark"></i>공고 진행</th>
+                    <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
        	            <th class="col-md-2"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
                   </div>
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:if="${bidPlantList != null}" th:each="l:${bidPlantList}">
+                	<th:block>
 		                  <tr>
-		                    <td th:text="${l.num}"></td>
-		                    <td>
-		                    	<form th:action="@{/notice/announcement}" method="post">
-			                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
-			                      	<input type="hidden" name="announceTitle" th:value="${l.bPlCode}">
-			                      	<input type="hidden" name="announceType" value="발전소">
-		                    	</form>
-		                    </td>
-		                    <td th:text="${l.mId}"></td>
-		                    <td th:text="${l.bidListDTO.trTypeName}"></td>
-		                    <td th:text="${l.bPlStatus}"></td>
-		                    <td th:text="${l.bidListDTO.bDate}"></td>
+		                    <td>1</td>
+		                    <td><form th:action="@{/buy/refundRequest}" method="post">
+			                      	<a class="announceTitle">짱좋은 발전소 팝니다</a>
+		                   		</form></td>
+		                    <td>5,500,000</td>
+		                    <td>2021-03-10 0:00:00</td>
+		                    
 		                  </tr>
                 	</th:block>
-                	<th:block th:if="${bidPlantList==null || bidPlantList.size()==0}">
+                	<!-- <th:block th:if="${bidPlantList==null || bidPlantList.size()==0}">
 		                  <tr>
 		                    <td colspan="6" style="text-align: center;">입찰 신청한 발전소 공고가 없습니다.</td>		                 
 		                  </tr>
-                	</th:block>
+                	</th:block> -->
                 </tbody>
               </table>
             </div>
@@ -104,6 +92,10 @@
 			buy.addClass('active');
 			buy.parent().find('.sub').css('display','block');
 			buy.parent().find('.sub').children().eq(1).addClass('active');
+			
+			$('.announceTitle').click(function(){
+				$(this).parent().submit();
+			});
 		</script>
 	</th:block>
 </html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>입찰 신청</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div class="chat-room mt">
+          <div class="mid-side container">
+          	<div class="row">
+	            <div class="chat-room-head">
+	              <h3>입찰 신청</h3>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">공고 제목</div>
+	              <div class="second-part" >짱좋은 부품 팝니다</div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입찰금액</div>
+	              <div class="second-part" >
+	              	<input type="text" name="bPrice">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">예치금</div>
+	              <div class="second-part" >5,500,000</div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입금 은행</div>
+	              <div class="second-part" >
+	              	<select>
+	              		<option>:::::은행선택:::::</option>
+	              		<option>국민</option>
+	              	</select>
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">관리자계좌번호</div>
+	              <div class="second-part"></div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입금자 성명</div>
+	              <div class="second-part" ><input type="text"></div>
+	            </div>
+	            <div  class="pull-right" style="margin: 0px 10px;">
+	            	<button class="btn btn-primary">신청</button>
+	          	</div>
+            </div>
+          </div>
+        </div>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		
+		<script type="text/javascript">
+		
+		</script>
+	</th:block>
+</html>
