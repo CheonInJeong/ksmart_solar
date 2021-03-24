@@ -2,6 +2,8 @@ package com.cafe24.kangk0269.serivce;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,14 +30,14 @@ public class SellService {
 		this.fileUtils = fileUtils;
 	}
 	
-	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		String bzPlCode = bidPlantDto.getBzPlCode();
 		System.out.println(bzPlCode+"<---발전소코드 서비스");
 		
 		sellMapper.addPlantApply(bidPlantDto);
 		
 		System.out.println(bidPlantDto.getbPlCode()+"<------파일 관련 공고 코드");
-		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(), multipartHttpServletRequest);
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(), multipartHttpServletRequest,request);
 		System.out.println("실행확인1");
 		if (CollectionUtils.isEmpty(filelist) == false) {
 			System.out.println("실행확인2");
