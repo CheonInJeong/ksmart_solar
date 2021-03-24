@@ -17,7 +17,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="plResidual" 			column="pl_residual" />	
 		<result property="plDepPrice" 			column="pl_dep_price" />	
 		<result property="plDepStartDate" 		column="pl_dep_start_date" />	
-		<result property="plDepUsed" 			column="pl_dep_used" />	
 		<result property="bPlStatus" 			column="b_pl_status" />	
 		<result property="bPlDateRequest" 		column="b_pl_date_request" />	
 		<result property="bPlDateBidding1" 		column="b_pl_date_bidding1" />	
@@ -47,7 +46,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			pl_residual, 
 			pl_dep_price, 
 			pl_dep_start_date, 
-			pl_dep_used, 
 			b_pl_status, 
 			b_pl_date_request, 
 			b_pl_date_bidding1, 
@@ -89,7 +87,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			pl_residual, 
 			pl_dep_price, 
 			pl_dep_start_date, 
-			pl_dep_used, 
 			b_pl_status, 
 			b_pl_date_request, 
 			b_pl_date_bidding1, 

@@ -14,7 +14,6 @@ public class BidPlantDTO {
 	private int plResidual;	
 	private int plDepPrice;
 	private String plDepStartDate;
-	private String plDepUsed;
 	private String bPlStatus;
 	private String bPlDateRequest;
 	private String bPlDateBidding1;
@@ -100,12 +99,6 @@ public class BidPlantDTO {
 	}
 	public void setPlDepStartDate(String plDepStartDate) {
 		this.plDepStartDate = plDepStartDate;
-	}
-	public String getPlDepUsed() {
-		return plDepUsed;
-	}
-	public void setPlDepUsed(String plDepUsed) {
-		this.plDepUsed = plDepUsed;
 	}
 	public String getbPlStatus() {
 		return bPlStatus;
@@ -218,8 +211,6 @@ public class BidPlantDTO {
 		builder.append(plDepPrice);
 		builder.append(", plDepStartDate=");
 		builder.append(plDepStartDate);
-		builder.append(", plDepUsed=");
-		builder.append(plDepUsed);
 		builder.append(", bPlStatus=");
 		builder.append(bPlStatus);
 		builder.append(", bPlDateRequest=");
@@ -252,6 +243,4 @@ public class BidPlantDTO {
 		return builder.toString();
 	}
 
-
-	
 }
