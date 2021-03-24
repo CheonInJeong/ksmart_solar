@@ -3482,3 +3482,31 @@ ul.chat-available-user li a:hover {
 #copyrights a {
   color: #fff;
 }
+
+
+/* 컨테이너 헤더 */
+
+#container-header-title{
+	width: 35%;
+	margin: 20px 0 0 10%;
+	font-size: 40px;
+	font-weight: 900; 
+	color: #333;
+	float: left;
+}
+#container-header-path{
+	width: 40%;
+	margin: 45px 10% 0 0;
+	font-size: 15px;
+	color: #333;
+	float: right;
+	text-align: right;
+}
+#container-header-space{
+	width: 80%;
+	height: 2px;
+	background: #aaa;
+	margin: 0 10% 50px 10%;
+	display: inline-block;
+}
+
