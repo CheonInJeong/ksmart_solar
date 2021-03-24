@@ -8,7 +8,28 @@ import com.cafe24.kangk0269.dto.MemberAccountDTO;
 
 @Mapper
 public interface BankAccountMapper {
+	
+	
+	//계좌 삭제처리
+	public int removeAccount(int mAccountIdx);
+	
+	//계좌 수정처리
+	public int modifyAccount(MemberAccountDTO memberAccountDTO);
+	
+	//수정을 위한 선택 계좌조회
+	public MemberAccountDTO getAccountByIdx(int mAccountIdx);
+	
+	//개인 계좌조회
+	public List<MemberAccountDTO> getAccountListById(String login_id);
 
-	List<MemberAccountDTO> getAccountListById(String login_id);
+	//개인 계좌등록
+	public int addAccout(MemberAccountDTO memberAccountDTO);
 
 }
+
+
+
+
+
+
+
