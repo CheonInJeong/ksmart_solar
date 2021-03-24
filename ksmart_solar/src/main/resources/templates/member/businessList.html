@@ -45,11 +45,15 @@
 							<td th:text="${l.bzCheckDate}"></td>
 							<td th:text="${l.bzCheck}"></td>
 							<td th:text="${l.bzCheckReason}"></td>
-							<td>
+							<td th:if="${l.bzCheck} == N">
 								<a th:href=@{/}>승인</a>
 							</td>
-							<td>
+							<td th:if="${l.bzCheck} == N">
 								<a th:href=@{/}>반려</a>
+							</td>
+							<td colspan="2" th:unless="${l.bzCheck} == N">
+								<span th:if="${l.bzCheck} == Y">승인완료</span>
+								<span th:if="${l.bzCheck} == F">반려</span>
 							</td>
 						</tr>
 					</tbody>
