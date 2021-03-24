@@ -1,7 +1,7 @@
 package com.cafe24.kangk0269.dto;
 
 public class BidPlantDTO {
-
+	//제발좀 되라
 	private int num;
 	private String bPlCode;
 	private String bzPlCode; 
