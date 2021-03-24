@@ -8,7 +8,7 @@
 -->
 <configuration>
 	<!-- 변수 지정 -->
-    <property name="LOG_DIR" value="src/main/resources/logs" />
+    <property name="LOG_DIR" value="${log.file.path}" />
     <property name="LOG_PATH_NAME" value="${LOG_DIR}/application.log" />
 	
 	<!-- ConsoleAppender -->

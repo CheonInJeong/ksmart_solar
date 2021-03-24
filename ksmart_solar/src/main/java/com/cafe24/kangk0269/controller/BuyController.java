@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.controller;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -7,7 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class BuyController {
 
 	@GetMapping("/buy/myHistory")
-	public String MyHistory() {
+	public String MyHistory(HttpSession session) {
+		System.out.println(session.getAttribute("SID"));
+		String sId = (String) session.getAttribute("SID");
 		
 		return "/buy/myHistory";
 	}
