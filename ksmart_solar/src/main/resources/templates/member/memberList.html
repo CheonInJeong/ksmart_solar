@@ -6,8 +6,8 @@
 				<title>회원리스트조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-	<div id="container-header-title"><strong>로그인</strong></div>
-      <div id="container-header-path">메인화면 > 로그인</div>
+	<div id="container-header-title"><strong>회원리스트</strong></div>
+      <div id="container-header-path">회원관리 > 회원리스트조회</div>
       <div id="container-header-space"></div>
 		<div class="content-panel">
 			<div class="adv-table" style="overflow: scroll;">
@@ -44,7 +44,9 @@
 							<td th:text="${l.mDetailAddr}"></td>
 							<td th:text="${l.mPhone}"></td>
 							<td th:text="${l.mEmail}"></td>
-							<td th:text="${l.mPhoto}"></td>
+							<td>
+								<img th:alt="${l.mPhoto}" th:src="@{${l.mPhoto}}">
+							</td>
 							<td th:text="${l.mSubDate}"></td>
 							<td th:text="${l.mSubDateModify}"></td>
 							<td th:text="${l.mRestCheck}"></td>
