@@ -29,6 +29,12 @@
   		  		<result property="bPlDateDecision1" column="b_pl_date_decision1"/>
   		  		<result property="bPlDateDecision2" column="b_pl_date_decision2"/>
   		  		<result property="bPlGroupcode" column="b_pl_groupcode"/>
+  		  		<result property="bPlStatus" column="b_pl_status"/>
+  		  		
+  		  		<association property="businessPlantDTO" javaType="BusinessPlantDTO">
+  		  			<id property="bzPlName" column="bz_pl_Name"/>
+  		  			<result property="bzPlName" column="bz_pl_Name"/>
+  		  		</association>
   		</resultMap>
   		
   		<resultMap type="BusinessPlantDTO" id="BusinessPlantResultMap">
@@ -106,14 +112,22 @@
   		  <select id="getHighestPriceByCode" resultType="int">
   		  		SELECT max(b_price) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
   		  </select>
-  		  <select id="getBidPlantbyId" resultMap="BidListResultMap" parameterType="String">
+  		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
   		  		SELECT
-  		  			p.bz_pl_name,b.b_pl_title, b.b_pl_date_bidding1,b.b_pl_date_bidding2,b.b_pl_status
-  		  		FROM 
-  		  			tb_bid_plant AS b
-  		  		left JOIN 
-  		  			tb_business_plant AS p 
-  		  		ON b.bz_pl_code = p.bz_pl_code where m_id = #{mId} 
+				 	p.bz_pl_name,
+					b.b_pl_title,
+					b.b_pl_price,
+					b.b_pl_date_bidding1,
+					b.b_pl_date_bidding2,
+					b.b_pl_status,
+					b.b_pl_number_of_bidder
+				FROM 
+					tb_bid_plant AS b
+				left JOIN 
+					tb_business_plant AS p 
+				ON 
+					b.bz_pl_code = p.bz_pl_code 
+				WHERE b.m_id = #{mId}
   		  </select>
   		  <!--발전소 판매 공고 신청  -->
   		  <insert id="addPlantApply" parameterType="BidPlantDTO">

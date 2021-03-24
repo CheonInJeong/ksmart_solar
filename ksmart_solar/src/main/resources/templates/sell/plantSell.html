@@ -35,16 +35,16 @@
 							 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
 							  </th:block> 
 								  <th:block th:unless="${#lists.size(plantList)}>0">
-							 	<option>등록 된 발전소가 없습니다.</option>
+							 	<option>현재 판매 할 수 있는 발전소가 없습니다.</option>
 							 </th:block> 
 							</select>
 	                    </div>
 	                  </div>
 	                  
-	                  	<input type="text" name="mId" th:value="${session.SID}">
-	                 	<input type="text"  name="plDepPrice" id="plDepPrice">
-	                 	<input type="text"  name="plDepStartDate" id="plDepStartDate">
-	                 	<input type="text"  name="bzPlCode" id="bzPlCode">
+	                  	<input type="hidden" name="mId" th:value="${session.SID}">
+	                 	<input type="hidden"  name="plDepPrice" id="plDepPrice">
+	                 	<input type="hidden"  name="plDepStartDate" id="plDepStartDate">
+	                 	<input type="hidden"  name="bzPlCode" id="bzPlCode">
 	                  <div class="form-group">
 	                    <label for="bPlTitle" class="control-label col-lg-2">제목</label>
 	                    <div class="col-lg-10">

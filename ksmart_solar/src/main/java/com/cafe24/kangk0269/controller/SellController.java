@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -78,7 +79,9 @@ public class SellController {
 		return "/sell/apply";
 	}
 	@GetMapping("/sell/myHistory")
-	public String MyHistory() {
+	public String MyHistory(@RequestParam(name="mId") String mId,Model model) {
+		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(mId);
+		model.addAttribute("bidPlantList", bidPlantList);
 		
 		return "/sell/myHistory";
 	}

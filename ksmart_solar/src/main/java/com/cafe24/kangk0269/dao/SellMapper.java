@@ -26,7 +26,7 @@ public interface SellMapper {
 	public int getHighestPriceByCode();
 	
 	//판매자의 발전소 공고 목록을 가져오는 메서드 parameter : String mId 추가하기
-	public List<BidPlantDTO> getBidPlantbyId();
+	public List<BidPlantDTO> getBidPlantbyId(String mId);
 	
 	//공고신청 메서드
 	public int addPlantApply(BidPlantDTO bidPlantDto);
