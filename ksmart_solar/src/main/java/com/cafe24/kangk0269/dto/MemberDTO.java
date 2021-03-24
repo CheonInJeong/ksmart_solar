@@ -1,6 +1,5 @@
 package com.cafe24.kangk0269.dto;
 
-
 public class MemberDTO {
 	private String mId;
 	private String mPw;
@@ -18,14 +17,6 @@ public class MemberDTO {
 	private String mRevokeCheck;
 	private String mRevokeDelayCheck;
 	private String mStateModifyDate;
-	//권한처리를 위한 필드
-	private String mLevelName;
-	public String getmLevelName() {
-		return mLevelName;
-	}
-	public void setmLevelName(String mLevelName) {
-		this.mLevelName = mLevelName;
-	}
 	public String getmId() {
 		return mId;
 	}
@@ -160,4 +151,6 @@ public class MemberDTO {
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 }

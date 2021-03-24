@@ -7,13 +7,7 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-	
-	<style>
-	
-		
-		.fa .fa-dashboard{
-		heigh: 500px;}
-	</style>
+
 		<h4><i class="fa fa-angle-right"></i> 공고신청</h4>
 		<span>판매할 상품을 선택해주세요.</span>
 		
@@ -22,6 +16,7 @@
 	            <div class="form-panel">
 	              <div class=" form">
 	                <a th:href="@{/sell/plantSell}"><i class="fa fa-dashboard">발전소판매</i></a>
+	              <!--  <a th:href="@{/sell/plantSell(mId=${session.SID})}"><i class="fa fa-dashboard">발전소판매</i></a>-->
 	              </div>
 	            </div>
 	          </div>
@@ -30,7 +25,7 @@
 	          
 	            <div class="form-panel">
 	              <div class=" form">
-	                <a th:href="@{/sell/componentSell}"><i class="fa fa-cogs"></i>부품판매</a>
+	                <a th:href="@{/sell/componentSell(mId=${session.SID})}"><i class="fa fa-cogs"></i>부품판매</a>
 	              </div>
 	            </div>
 	          </div>
