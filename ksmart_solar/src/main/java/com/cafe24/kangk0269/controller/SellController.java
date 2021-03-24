@@ -3,6 +3,9 @@ package com.cafe24.kangk0269.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,21 +31,28 @@ public class SellController {
 	public SellController(SellService sellService) {
 		this.sellService = sellService;
 	}
+	//발전소 공고 삭제
+	@GetMapping("/sell/removePlantSell")
+	public String removePlantSell() {
+		return "";
+	}
 	
+	//발전소 공고 수정
+	@GetMapping("/sell/modifyPlantSell")
+	public String modifyPlantSell() {
+		return "/sell/modifyPlantSell";
+	}
 	
 	//발전소 판매 공고 등록
 	@PostMapping("/sell/plantSell")
-	public String regPlantSell(BidPlantDTO bidPlantDto, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+	public String regPlantSell(BidPlantDTO bidPlantDto, MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
 		if(bidPlantDto!=null&&!"".equals(bidPlantDto.getmId())) {
-			
-			int bPlPrice = bidPlantDto.getbPlPrice();
-			System.out.println(bPlPrice + "<-----넘어온값.");
-			String bzPlCode = bidPlantDto.getBzPlCode();
-			System.out.println(bzPlCode+"<---발전소코드");
-			
-			sellService.addPlantApply(bidPlantDto, multipartHttpServletRequest);
+			sellService.addPlantApply(bidPlantDto, multipartHttpServletRequest,request);
 		}
-		return "/sell/myHistory";
+		HttpSession session = request.getSession();
+		String sessionId = (String)session.getAttribute("SID");
+		String path = "/sell/myHistory?mId="+sessionId;
+		return path;
 	}
 	
 	//발전소 공고 등록시 선택한 발전소의 정보를 가져옴

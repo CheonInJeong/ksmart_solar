@@ -29,6 +29,31 @@ private final BankAccountMapper bankAccountMapper;
 		System.out.println("=========================================================");
 	}
 	
+	//계좌 삭제처리
+	public int removeAccount(int mAccountIdx) {
+		int result = bankAccountMapper.removeAccount(mAccountIdx);
+		return result;
+	}
+	
+	//계좌 수정처리
+	public int modifyAccount(MemberAccountDTO memberAccountDTO) {
+		int result = bankAccountMapper.modifyAccount(memberAccountDTO);
+		return result;
+	}
+	
+	
+	//수정을 위한 선택 계좌조회
+	public MemberAccountDTO getAccountByIdx(int mAccountIdx) {
+		return bankAccountMapper.getAccountByIdx(mAccountIdx);
+		
+	}
+	
+	
+	//개인 계좌등록
+	public int addAccout(MemberAccountDTO memberAccountDTO) {
+		return bankAccountMapper.addAccout(memberAccountDTO);
+	}
+	
 	
 	//개인 계좌조회
 	public List<MemberAccountDTO> getAccountListById(String login_id){
