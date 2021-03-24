@@ -12,8 +12,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bzPlCode" 			column="bz_pl_code" />
 		<result property="bPlContents"			column="b_pl_contents" />		
 		<result property="bPlPrice" 			column="b_pl_price" />	
-		<result property="bPlSpecs" 			column="b_pl_specs" />	
-		<result property="bPlDocument" 			column="b_pl_document" />	
 		<result property="plResidual" 			column="pl_residual" />	
 		<result property="plDepPrice" 			column="pl_dep_price" />	
 		<result property="plDepStartDate" 		column="pl_dep_start_date" />	
@@ -30,7 +28,17 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bPlRejectReason" 		column="b_pl_reject_reason" />	
 		<result property="bPlCancelReason" 		column="b_pl_cancel_reason" />	
 		<result property="bPlCancelDate" 		column="b_pl_cancel_date" />	
-		<result property="acStatusCode" 		column="ac_status_code" />	
+		<result property="acStatusCode" 		column="ac_status_code" />
+		<association property="bidListDTO" javaType="BidListDTO">
+			<id 	property="b_code" 		column="m_id"/>
+			<result property="announced_code" 		column="m_id" />
+			<result property="b_type_code" 		column="m_pw" />
+			<result property="m_id"		column="m_name" />
+			<result property="memberLevel" 		column="m_level" />
+			<result property="memberEmail" 		column="m_email" />
+			<result property="memberAddr" 		column="m_addr" />
+			<result property="memberRegDate" 	column="m_reg_date" />
+		</association>
 	</resultMap>
 	<select id="getBidPlant" resultMap="BidPlantDTOMap" parameterType="String">
 		SELECT
@@ -41,8 +49,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_title,
 			b_pl_contents, 
 			b_pl_price, 
-			b_pl_specs, 
-			b_pl_document, 
 			pl_residual, 
 			pl_dep_price, 
 			pl_dep_start_date, 
@@ -82,8 +88,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_title,
 			b_pl_contents, 
 			b_pl_price, 
-			b_pl_specs, 
-			b_pl_document, 
 			pl_residual, 
 			pl_dep_price, 
 			pl_dep_start_date, 
@@ -99,7 +103,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_confirm_status, 
 			b_pl_reject_reason, 
 			b_pl_cancel_reason, 
-			b_pl_cancel_date
+			b_pl_cancel_date,
+			ac_status_code
 		FROM 
 			tb_bid_plant
 		WHERE 

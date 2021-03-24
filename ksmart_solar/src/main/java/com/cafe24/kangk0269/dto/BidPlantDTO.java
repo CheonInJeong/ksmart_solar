@@ -28,6 +28,7 @@ public class BidPlantDTO {
 	private String bPlCancelReason;
 	private String bPlCancelDate;
 	private int acStatusCode;
+	private BidListDTO bidListDTO;
 	public int getNum() {
 		return num;
 	}
@@ -184,6 +185,12 @@ public class BidPlantDTO {
 	public void setAcStatusCode(int acStatusCode) {
 		this.acStatusCode = acStatusCode;
 	}
+	public BidListDTO getBidListDTO() {
+		return bidListDTO;
+	}
+	public void setBidListDTO(BidListDTO bidListDTO) {
+		this.bidListDTO = bidListDTO;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -239,8 +246,10 @@ public class BidPlantDTO {
 		builder.append(bPlCancelDate);
 		builder.append(", acStatusCode=");
 		builder.append(acStatusCode);
+		builder.append(", bidListDTO=");
+		builder.append(bidListDTO);
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
 }

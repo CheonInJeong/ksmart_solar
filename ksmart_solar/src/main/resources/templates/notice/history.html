@@ -27,7 +27,11 @@
 		                  <tr>
 		                    <td th:text="${l.num}"></td>
 		                    <td>
-		                      <a>[[${l.bCpTitle}]]</a>
+		                    	<form th:action="@{/notice/announcement}" method="post">
+			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
+			                      	<input type="hidden" name="announceTitle" th:value="${l.bCpCode}">
+			                      	<input type="hidden" name="announceType" value="부품">
+		                   		</form>
 		                    </td>
 		                    <td th:text="${l.mId}"></td>
 		                    <td th:text="${l.bCpStatus}"></td>
@@ -65,7 +69,11 @@
 		                  <tr>
 		                  	<td th:text="${l.num}"></td>
 		                    <td>
-		                      <a>[[${l.bPlTitle}]]</a>
+			                    <form th:action="@{/notice/announcement}" method="post">
+				                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
+				                      	<input type="hidden" name="announceTitle" th:value="${l.bPlCode}">
+				                      	<input type="hidden" name="announceType" value="발전소">
+			                    </form>
 		                    </td>
 		                    <td th:text="${l.mId}"></td>
 		                    <td th:text="${l.bPlStatus}"></td>
@@ -89,6 +97,10 @@
 			notice.addClass('active');
 			notice.parent().find('.sub').css('display','block');
 			notice.parent().find('.sub').children().eq(1).addClass('active');
+			
+			$('.announceTitle').click(function(){
+				$(this).parent().submit();
+			});
 		</script>
 	</th:block>
 </html>
