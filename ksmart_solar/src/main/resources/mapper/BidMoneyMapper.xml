@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.BidMoneyMapper">
+	<resultMap type="BidMoneyDTO" id="bidmoneyResultMap">
+		<result property="bMoCode" 			column="b_mo_code"/>
+		<result property="relatedCode" 		column="related_code"/>
+		<result property="mId" 				column="m_id"/>
+		<result property="bMoType" 			column="b_mo_type"/>
+		<result property="relatedTable" 	column="related_table"/>
+		<result property="bMoAmount" 		column="b_mo_amount"/>
+		<result property="bMoDetail" 		column="b_mo_detail"/>
+		<result property="mIdManager" 		column="m_id_manager"/>
+		<result property="bMoTotalmoney"	column="b_mo_totalmoney"/>
+		<result property="bMoDate" 			column="b_mo_date"/>
+	</resultMap>
+	
+	<select id="getBidMoneyList" resultMap="bidmoneyResultMap">
+		SELECT 
+			b_mo_code
+			, related_code
+			, m_id
+			, b_mo_type
+			, related_table
+			, b_mo_amount
+			, b_mo_detail
+			, m_id_manager
+			, b_mo_totalmoney
+			, b_mo_date
+		FROM 
+			tb_bid_money;
+	</select>
+</mapper>
