@@ -3,6 +3,24 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
 
+<<<<<<< HEAD
+<th:block layout:fragment="customTitle">
+	<title>제목</title>
+</th:block>
+<th:block layout:fragment="Contents">
+
+	내용을 쓰시오
+
+</th:block>
+<th:block layout:fragment="customScript">
+	<script type="text/javascript">
+		var mypage = $('#mypage');
+		mypage.addClass('active');
+		mypage.parent().find('.sub').css('display', 'block');
+		mypage.parent().find('.sub').children().eq(3).addClass('active');
+	</script>
+</th:block>
+=======
 	<th:block layout:fragment="customTitle">
 				<title>테스트</title>
 	</th:block>
@@ -17,4 +35,5 @@
 			mypage.parent().find('.sub').children().eq(3).addClass('active');
 		</script>
 	</th:block>
+>>>>>>> refs/heads/develop
 </html>
