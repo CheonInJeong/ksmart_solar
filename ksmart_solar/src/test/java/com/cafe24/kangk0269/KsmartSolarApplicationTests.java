@@ -1,4 +1,4 @@
-package ksmart38.team.ksmart_solar;
+package com.cafe24.kangk0269;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
