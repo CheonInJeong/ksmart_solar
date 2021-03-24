@@ -14,17 +14,18 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.dto.BoardFileDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 
 //첨부파일 정보 가공 및 지정된 위치에 파일 저장
 @Component
 public class FileUtils {
 
-	public List<BoardFileDTO> parseFileInfo(int boardIdx, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
+	public List<FileDTO> parseFileInfo(String relatedTableCode, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
 		if(ObjectUtils.isEmpty(multipartHttpServletRequest)) {
 			return null;
 		}
 		//파일이 업로드 될 폴더 생성
-		List<BoardFileDTO> fileList = new ArrayList<>();
+		List<FileDTO> fileList = new ArrayList<>();
 		
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
 		//오늘의 날짜 확인
@@ -70,12 +71,14 @@ public class FileUtils {
 					
 					newFileName = Long.toString(System.nanoTime()) + originalFileExtension;
 					
-					BoardFileDTO boardFileDto =  new BoardFileDTO();
-					boardFileDto.setBoardIdx(boardIdx);
-					boardFileDto.setFileSize(multipartFile.getSize());
-					boardFileDto.setOriginalFileName(multipartFile.getOriginalFilename());
-					boardFileDto.setStoredFilePath(path+"/"+newFileName);
-					fileList.add(boardFileDto);
+					FileDTO fileDto =  new FileDTO();
+					
+					
+					fileDto.setRelatedTableCode(relatedTableCode);
+					fileDto.setFileSize(multipartFile.getSize());
+					fileDto.setOriginalFileName(multipartFile.getOriginalFilename());
+					fileDto.setStoredFilePath(path+"/"+newFileName);
+					fileList.add(fileDto);
 					
 					//업로드 된 파일을 새로운 이름으로 바꾸어 지정된 경로에 저장
 					file = new File(path+"/"+newFileName);

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -30,9 +31,9 @@ public class SellController {
 	
 	//발전소 판매 공고 등록
 	@PostMapping("/sell/regPlantSell")
-	public String regPlantSell(BidPlantDTO bidPlantDto) {
+	public String regPlantSell(BidPlantDTO bidPlantDto, MultipartHttpServletRequest multipartHttpServletRequest) throws Exception {
 		if(bidPlantDto!=null&&!"".equals(bidPlantDto.getmId())) {
-			sellService.addPlantApply(bidPlantDto);
+			sellService.addPlantApply(bidPlantDto,multipartHttpServletRequest);
 		}
 		return "/sell/myHistory";
 	}
@@ -55,11 +56,21 @@ public class SellController {
 		
 	}
 	
+	/*
+	 * //발전소판매공고신청 버튼 클릭시
+	 * 
+	 * @GetMapping("/sell/plantSell") public ModelAndView
+	 * plantSell(@RequestParam(name="mId") String mId) { ModelAndView mv = new
+	 * ModelAndView("/sell/plantSell"); List<BusinessPlantDTO> plantList =
+	 * sellService.getPlantName("id013"); mv.addObject("plantList", plantList);
+	 * return mv; }
+	 */
+	
 	//발전소판매공고신청 버튼 클릭시
 	@GetMapping("/sell/plantSell")
-	public ModelAndView plantSell(@RequestParam(name="mId") String mId) {
+	public ModelAndView plantSell() {
 		ModelAndView mv = new ModelAndView("/sell/plantSell");
-		List<BusinessPlantDTO> plantList = sellService.getPlantName(mId);
+		List<BusinessPlantDTO> plantList = sellService.getPlantName("id013");
 		mv.addObject("plantList", plantList);
 		return mv;
 	}
