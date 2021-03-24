@@ -4,22 +4,99 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>발전소 인증 신청</title>
+		<title>사업자 인증 신청</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-	<div id="container-header-title"><strong>발전소 인증 신청</strong></div>
-	<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 인증 신청</div>
+	<div id="container-header-title"><strong>사업자 인증 신청</strong></div>
+	<div id="container-header-path">메인화면 > MyPage > 사업자 인증 신청</div>
 	<div id="container-header-space"></div>
-	<div class="container">
+	<div>
+		<input type="button" id="solarEntrepreneurBtn" class="btn btn-info btn-lg col-xs-4 col-xs-offset-1" value="태양광 사업자 신청" style="margin-bottom: 10px;">
+		<input type="button" id="recycleEntrepreneurBtn" class="btn btn-success btn-lg col-xs-4 col-xs-offset-2" value="재활용 사업자 신청" style="margin-bottom: 10px;">
+	</div>	
+	<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
+		<div class="content-panel">
+			<div style="padding: 30px 50px 100px 50px; width: 70%; margin-left: 15%">
+				<h1 id="clickBtn" style="margin: 0 auto;">버튼을 클릭해주세요.</h1>
+				<form id="solarEntrepreneurForm" th:action="@{business/addSolarEntrepreneur}" method="post" hidden="">
+					<div class="form-group">
+						<label for="bzPlName" style="margin-top: 13px;">발전소명</label><br>
+						<input type="text" class="form-control" id="bzPlName" placeholder="아이디를 입력하세요">
+					</div>
+					<div class="form-group">
+						<label for="postcode" style="width: 100%;">주소</label>
+						<input type="text" id="postcode" class="form-control" placeholder="우편번호" readonly="readonly" style="width: 70%; display: inline-block;">
+						<input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기" style="width: 25%; display: inline-block; float: right;">
+					</div>
+					
+					<div class="form-group">
+					  <input type="text" id="roadAddress" class="form-control" placeholder="도로명주소">
+					  <input type="hidden" id="jibunAddress" class="form-control" placeholder="">
+					</div>
+					<div class="form-group">
+					  <span id="guide" style="color:#999;display:none"></span>
+					</div>
+					<div class="form-group">  
+					  <input type="text" id="detailAddress" class="form-control" placeholder="상세주소">
+					</div>		  
+					
+					<button class="btn btn-success btn-lg col-xs-12" type="submit">신청하기</button>
+					
+				</form>
+				발전소명
+				발전소 우편번호, 도로명주소, 상세주소
+				발전소 사진
+				발전소 용량
+				발전소 부지면적
+				인버터 1대 용량
+				인버터 총 수량
+				인버터 제조사
+				계약 REC
+				발전소 하드웨어
+				
+				private String mId;
+				private String bzPlCheck;
+				private String bzPlName;	
+				private String bzPlZipcode;	
+				private String bzPlAddr;	
+				private String bzPlDetailAddr;	
+				private String bzPlPhoto;
+				private int bzPlPower;
+				private String bzPlHardware;	
+				private int bzPlArea;	
+				private int bzPlInvPower;	
+				private int bzPlInvCount;	
+				private String bzPlInvMaker;	
+				private int bzPlRec;
+				private PlantDepreciationDTO plantDepreciationDTO;
+				private PlantDepDataDTO plantDepDataDTO;
+				
+				<!-- 재활용 사업자 신청 양식 -->
+				<form id="recycleEntrepreneurForm" th:action="@{business/addRecycleEntrepreneur}" method="post" hidden="">
+					<h1>재활용 사업자 폼</h1>
+				</form>
+			</div>
+		</div>
+	</div>	
 	
-	</div>
+				
+				
+				
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
-			var plant = $('#plant');
-			plant.addClass('active');
-			plant.parent().find('.sub').css('display','block');
-			plant.parent().find('.sub').children().eq(2).addClass('active');
+			$('#solarEntrepreneurBtn').click(function(){
+				$('#solarEntrepreneurForm').show();
+				$('#recycleEntrepreneurForm').hide();
+				$('#clickBtn').hide();
+				
+			});
+			$('#recycleEntrepreneurBtn').click(function(){
+				$('#solarEntrepreneurForm').hide();
+				$('#recycleEntrepreneurForm').show();
+				$('#clickBtn').hide();
+				
+			});
 		</script>
 	</th:block>
 </html>
