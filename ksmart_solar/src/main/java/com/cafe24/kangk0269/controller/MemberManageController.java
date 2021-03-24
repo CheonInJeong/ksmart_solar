@@ -14,13 +14,23 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.kangk0269.dto.BusinessDTO;
+import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.serivce.BusinessService;
 import com.cafe24.kangk0269.serivce.MemberService;
+import com.cafe24.kangk0269.serivce.PlantService;
 
 @Controller
 public class MemberManageController {
 	@Autowired
 	private MemberService memberService;
+	
+	@Autowired
+	private BusinessService businessService;
+
+	@Autowired
+	private PlantService plantService;
 	
 	@GetMapping("/member/memberList")
 	public String MemberList(Model model) {
@@ -43,14 +53,18 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/member/businessList")
-	public String BusinessList() {
-		
+	public String BusinessList(Model model) {
+		List<BusinessDTO> businessList = businessService.getAllBusinessAdmitList();
+		System.out.println(businessList);
+		model.addAttribute("businessList", businessList);
 		return "/member/businessList";
 	}
 	
 	@GetMapping("/member/plantList")
-	public String PlantList() {
-		
+	public String PlantList(Model model) {
+		List<BusinessPlantDTO> plantList = plantService.getAllPlantAdmitList();
+		System.out.println(plantList);
+		model.addAttribute("plantList", plantList);
 		return "/member/plantList";
 	}
 	
