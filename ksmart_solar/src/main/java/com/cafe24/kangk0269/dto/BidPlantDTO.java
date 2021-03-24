@@ -2,6 +2,7 @@ package com.cafe24.kangk0269.dto;
 
 public class BidPlantDTO {
 
+	private int num;
 	private String bPlCode;
 	private String bzPlCode; 
 	private String mId; 
@@ -29,6 +30,12 @@ public class BidPlantDTO {
 	private String bPlCancelDate;
 	private BidListDTO bidListDTO;
 	private BusinessPlantDTO businessPlantDTO;
+	public int getNum() {
+		return num;
+	}
+	public void setNum(int num) {
+		this.num = num;
+	}
 	public String getbPlCode() {
 		return bPlCode;
 	}
@@ -194,7 +201,9 @@ public class BidPlantDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BidPlantDTO [bPlCode=");
+		builder.append("BidPlantDTO [num=");
+		builder.append(num);
+		builder.append(", bPlCode=");
 		builder.append(bPlCode);
 		builder.append(", bzPlCode=");
 		builder.append(bzPlCode);
@@ -251,9 +260,5 @@ public class BidPlantDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-	
 
-
-	
-	
 }
