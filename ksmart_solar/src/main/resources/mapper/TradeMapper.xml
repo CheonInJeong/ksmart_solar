@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.TradeMapper">
+	<resultMap type="TradeDepositOutDTO" id="tradeResultMap">
+		<result property="trDepCode" 			column="tr_dep_code"/>
+		<result property="bCode" 				column="b_code"/>
+		<result property="mId" 					column="m_id"/>
+		<result property="bDeposit" 			column="b_deposit"/>
+		<result property="trDepDeposit" 		column="tr_dep_deposit"/>
+		<result property="mAccountBankName" 	column="m_account_bank_name"/>
+		<result property="mAccountNumber" 		column="m_account_number"/>
+		<result property="trDepAccountCheck" 	column="tr_dep_account_check"/>
+		<result property="mAccountName" 		column="m_account_name"/>
+		<result property="trDepDate" 			column="tr_dep_date"/>
+		<result property="trDepCheck" 			column="tr_dep_check"/>
+		<result property="trDepWdDate" 			column="tr_dep_wd_date"/>
+		<result property="bMoCode" 				column="b_mo_code"/>
+	</resultMap>
+	
+	<select id="getDepositList" resultMap="tradeResultMap">
+		SELECT 
+			tr_dep_code
+			, b_code
+			, m_id
+			, b_deposit
+			, tr_dep_deposit
+			, m_account_bank_name
+			, m_account_number
+			, tr_dep_account_check
+			, m_account_name
+			, tr_dep_date
+			, tr_dep_check
+			, tr_dep_wd_date
+			, b_mo_code
+		FROM 
+			tb_trade_deposit_out;
+	</select>
+
+</mapper>

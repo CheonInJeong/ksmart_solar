@@ -4,10 +4,54 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
+				<title>예치금출금신청목록</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+		<div class="content-panel">
+			<div class="adv-table" style="overflow: scroll;">
+				<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
+					<thead>
+						<tr>
+							<th>예치금출금신청 코드</th>
+							<th>입찰코드</th>
+							<th>출금신청자아이디</th>
+							<th>출금가능한예치금</th>
+							<th>신청금액</th>
+							<th>은행명</th>
+							<th>구매자 계좌</th>
+							<th>계좌 확인</th>
+							<th>예금주명</th>
+							<th>신청시간</th>
+							<th>출금여부</th>
+							<th>출금시간</th>
+							<th>입출금코드</th>
+							<th>출금</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="l : ${depositList}">
+							<td th:text="${l.trDepCode}"></td>
+							<td th:text="${l.bCode}"></td>
+							<td th:text="${l.mId}"></td>
+							<td th:text="${l.bDeposit}"></td>
+							<td th:text="${l.trDepDeposit}"></td>
+							<td th:text="${l.mAccountBankName}"></td>
+							<td th:text="${l.mAccountNumber}"></td>
+							<td th:text="${l.trDepAccountCheck}"></td>
+							<td th:text="${l.mAccountName}"></td>
+							<td th:text="${l.trDepDate}"></td>
+							<td th:text="${l.trDepCheck}"></td>
+							<td th:text="${l.trDepWdDate}"></td>
+							<td th:text="${l.bMoCode}"></td>
+							<td>
+								<span th:if="${l.trDepAccountCheck == 'Y'}">출금완료</span>
+								<a th:if="${l.trDepAccountCheck != 'Y'}" th:href=@{/}>출금</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
