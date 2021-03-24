@@ -30,7 +30,7 @@
 	                  <div class="form-group">
 	                    <label for="username" class="control-label col-lg-2">발전소</label>
 	                    <div class="col-lg-10">
-	                      <select class="form-control">
+	                      <select class="form-control" id="plantSellSelect">
 	                      	<option value="0">발전소를 선택해주세요.</option>
 	                        <th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
 	                        
@@ -87,9 +87,9 @@
 	                </div>                  
 	                  <div class="form-group">
 	                    <div class="col-lg-offset-2 col-lg-10">
-	                      <button class="btn btn-theme" type="button" id="selectPlant">신청</button>
+	                      <button class="btn btn-theme" type="button" id="btnPlantSell">신청</button>
 	                      
-	                      <button class="btn btn-theme04" type="button">Cancel</button>
+	                      <button class="btn btn-theme04" type="button" id="">취소</button>
 	                    </div>
 	                  </div>
 
@@ -135,7 +135,7 @@
        		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   		  }
 	 	
-	 	$('#selectPlant').click(function(){
+	 	$('#plantSellSelect').change(function(){
 	 		console.log($('select option:selected').val());
 	 		var plantCode = $('select option:selected').val();
 	 		var plDepDataResidual;
@@ -155,6 +155,7 @@
 						plDepPrice = data.plantDepreciationDTO.plDepPrice;
 						plDepStartDate = data.plantDepreciationDTO.plDepStartDate
 						
+						//숫자에 콤마 찍는 함수 호출
 						plDepDataResidual = comma(plDepDataResidual);
 						
 		        		console.log(plDepDataResidual);
@@ -175,37 +176,38 @@
 		        }
 		    });
 		   //ajax 끝 
-		   
-		   //유효성검사
-		 	if($('select option:selected').val()==0){
-				alert('발전소를 선택해주세요.');
-				return;
-			}if($('#bPlTitle').val()==''){
-				alert('공고 제목을 입력해주세요.')
-				$('#bPlTitle').focus();
-				return;
-			}if($('#bPlPrice').val()==''){
-				alert('희망 가격을 입력해주세요.')
-				$('#bPlPrice').focus();
-				return;
-			}if($('#files').val()==''){
-				alert('파일을 첨부해주세요.');
-				return;
-				
-			}if($('#componentDetail').val().length==0){
-				alert('상세정보를 입력해주세요.');
-				return;
-			}if($('#bPlDateBidding1').val()==''){
-				alert('희망 공고 시작 날자를 입력해주세요.');
-				return;
-			}
-			
-			//희망가격에 숫자만 입력가능하도록
-	 			
-	 		
-	 		
-	 		$('#plantSellForm').submit();
-	 		
+	 	 })
+	 	 
+	 	 $('#btnPlantSell').click(function(){
+	 		   //유효성검사
+			 	if($('select option:selected').val()==0){
+					alert('발전소를 선택해주세요.');
+					return;
+				}if($('#bPlTitle').val()==''){
+					alert('공고 제목을 입력해주세요.')
+					$('#bPlTitle').focus();
+					return;
+				}if($('#bPlPrice').val()==''){
+					alert('희망 가격을 입력해주세요.')
+					$('#bPlPrice').focus();
+					return;
+				}if($('#files').val()==''){
+					alert('파일을 첨부해주세요.');
+					return;
+				}if($('#componentDetail').val().length==0){
+					alert('상세정보를 입력해주세요.');
+					return;
+				}if($('#bPlDateBidding1').val()==''){
+					alert('희망 공고 시작 날자를 입력해주세요.');
+					return;
+				}
+				$('#plantSellForm').submit();
+	 	 })
+	 	 
+	 	 
+	 	 $('#cancelBtnPlantSell').click(function(){
+	 		$('select option:selected').val(0);
+	 		$('#bPlTitle').val('');
 	 	 })
 	 	 
 	 	 
