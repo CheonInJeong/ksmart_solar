@@ -12,4 +12,5 @@ public interface BidPlantMapper {
 	public List<BidPlantDTO> getBidPlant(String status);
 	//해당 공고 리스트 조회
 	public BidPlantDTO getBidPlantByInfo(String announceTitle);
+	public List<BidPlantDTO> getBidPlantMyBid(String sId);
 }
