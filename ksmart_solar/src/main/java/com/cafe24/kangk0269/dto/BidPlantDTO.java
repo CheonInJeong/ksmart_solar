@@ -11,10 +11,9 @@ public class BidPlantDTO {
 	private int bPlPrice;
 	private String bPlSpecs;
 	private String bPlDocument;
-	private int plResidual;	
+	private int plDepDataResidual;	
 	private int plDepPrice;
 	private String plDepStartDate;
-	private String plDepUsed;
 	private String bPlStatus;
 	private String bPlDateRequest;
 	private String bPlDateBidding1;
@@ -29,6 +28,7 @@ public class BidPlantDTO {
 	private String bPlCancelReason;
 	private String bPlCancelDate;
 	private int acStatusCode;
+	private BidListDTO bidListDTO;
 	public int getNum() {
 		return num;
 	}
@@ -83,11 +83,11 @@ public class BidPlantDTO {
 	public void setbPlDocument(String bPlDocument) {
 		this.bPlDocument = bPlDocument;
 	}
-	public int getPlResidual() {
-		return plResidual;
+	public int getPlDepDataResidual() {
+		return plDepDataResidual;
 	}
-	public void setPlResidual(int plResidual) {
-		this.plResidual = plResidual;
+	public void setPlDepDataResidual(int plDepDataResidual) {
+		this.plDepDataResidual = plDepDataResidual;
 	}
 	public int getPlDepPrice() {
 		return plDepPrice;
@@ -100,12 +100,6 @@ public class BidPlantDTO {
 	}
 	public void setPlDepStartDate(String plDepStartDate) {
 		this.plDepStartDate = plDepStartDate;
-	}
-	public String getPlDepUsed() {
-		return plDepUsed;
-	}
-	public void setPlDepUsed(String plDepUsed) {
-		this.plDepUsed = plDepUsed;
 	}
 	public String getbPlStatus() {
 		return bPlStatus;
@@ -191,6 +185,12 @@ public class BidPlantDTO {
 	public void setAcStatusCode(int acStatusCode) {
 		this.acStatusCode = acStatusCode;
 	}
+	public BidListDTO getBidListDTO() {
+		return bidListDTO;
+	}
+	public void setBidListDTO(BidListDTO bidListDTO) {
+		this.bidListDTO = bidListDTO;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -212,14 +212,12 @@ public class BidPlantDTO {
 		builder.append(bPlSpecs);
 		builder.append(", bPlDocument=");
 		builder.append(bPlDocument);
-		builder.append(", plResidual=");
-		builder.append(plResidual);
+		builder.append(", plDepDataResidual=");
+		builder.append(plDepDataResidual);
 		builder.append(", plDepPrice=");
 		builder.append(plDepPrice);
 		builder.append(", plDepStartDate=");
 		builder.append(plDepStartDate);
-		builder.append(", plDepUsed=");
-		builder.append(plDepUsed);
 		builder.append(", bPlStatus=");
 		builder.append(bPlStatus);
 		builder.append(", bPlDateRequest=");
@@ -248,10 +246,11 @@ public class BidPlantDTO {
 		builder.append(bPlCancelDate);
 		builder.append(", acStatusCode=");
 		builder.append(acStatusCode);
+		builder.append(", bidListDTO=");
+		builder.append(bidListDTO);
 		builder.append("]");
 		return builder.toString();
 	}
-
-
+	
 	
 }

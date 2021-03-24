@@ -47,11 +47,15 @@
 							<td th:text="${l.bzPlInvCount}"></td>
 							<td th:text="${l.bzPlInvMaker}"></td>
 							<td th:text="${l.bzPlRec}"></td>
-							<td>
+							<td th:if="${l.bzPlCheck} == N">
 								<a th:href=@{/}>승인</a>
 							</td>
-							<td>
+							<td th:if="${l.bzPlCheck} == N">
 								<a th:href=@{/}>반려</a>
+							</td>
+							<td colspan="2" th:unless="${l.bzPlCheck} == N">
+								<span th:if="${l.bzPlCheck} == Y">승인완료</span>
+								<span th:if="${l.bzPlCheck} == F">반려</span>
 							</td>
 						</tr>
 					</tbody>
