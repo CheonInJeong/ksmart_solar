@@ -33,6 +33,8 @@ public class MyPageController {
 	
 	
 	
+	//탈퇴 신청처리
+	
 	//탈퇴 신청화면
 	@GetMapping("/mypage/withdraw")
 	public String withdraw() {
