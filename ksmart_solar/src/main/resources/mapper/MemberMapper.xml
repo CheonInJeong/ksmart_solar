@@ -118,4 +118,12 @@
 		FROM 
 			tb_member;
 	</select>
+	<select id="getManager" resultType="String">
+		SELECT 
+			m_id
+		FROM 
+			tb_member
+		WHERE
+			m_level=1;
+	</select>
 </mapper>
