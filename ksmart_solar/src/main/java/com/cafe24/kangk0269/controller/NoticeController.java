@@ -15,13 +15,19 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
 import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.BidPlantService;
+import com.cafe24.kangk0269.serivce.MemberService;
 
 @Controller
 public class NoticeController {
 
+	@Autowired
+	private MemberService memberService;
+	@Autowired
+	private AccountService accountService;
 	private final BidComponentService bidComponentService;
 	private final BidPlantService bidPlantService;
 	private final BidListService bidListService;
@@ -90,7 +96,7 @@ public class NoticeController {
 	}
 	@RequestMapping(value = "/bankCheck", method=RequestMethod.POST)
 	public @ResponseBody Map<String,Object> bankCheck () {
-		
+		List<String> managerList=memberService.getManager();
 		return null; 
 	}
 	 
