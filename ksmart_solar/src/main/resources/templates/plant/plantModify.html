@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>사업자 인증 신청</title>
+		<title>발전소 정보 수정</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
 	<style>
@@ -12,45 +12,13 @@
 			margin-left: 5px;
 		}
 	</style>
-	<div id="container-header-title"><strong>사업자 인증 신청</strong></div>
-	<div id="container-header-path">메인화면 > MyPage > 사업자 인증 신청</div>
+	<div id="container-header-title"><strong>발전소 정보 수정</strong></div>
+	<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트 > 발전소 상세정보 > 발전소 정보 수정</div>
 	<div id="container-header-space"></div>
 	<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
 		<div class="content-panel">
 			<div id="inputForm">
-				<div>
-					<input type="button" id="solarEntrepreneurBtn" class="btn btn-info btn-lg col-xs-5" value="태양광 사업자 신청" style="margin-bottom: 10px;">
-					<input type="button" id="recycleEntrepreneurBtn" class="btn btn-success btn-lg col-xs-5 col-xs-offset-2"  value="재활용 사업자 신청" style="margin-bottom: 10px;">
-				</div>	
-				<form id="recycleEntrepreneurForm" method="post" hidden="">
-					<div style="text-align: right; font-size: 13px; color: #999;"><span class="badge">!</span>표시는 필수로 입력해주세요.</div>
-					<div class="form-group">
-						<label for="bzCompanyName" style="margin-top: 13px;">사업자명 </label><span class="badge">!</span>
-						<input type="text" class="form-control" id="bzCompanyName" placeholder="아이디를 입력하세요">
-					</div>
-					<div class="form-group">
-						<label for="bzCeoName" style="margin-top: 13px;">대표자명 </label><span class="badge">!</span>
-						<input type="text" class="form-control" id="bzCeoName" placeholder="아이디를 입력하세요">
-					</div>
-					<div class="form-group">
-						<label for="postcode">사업장 주소 </label><span class="badge">!</span><br>
-						<input type="text" id="postcode" name="bzZipcode" class="form-control" placeholder="우편번호" readonly="readonly" style="width: 70%; display: inline-block;">
-						<input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기" style="width: 25%; display: inline-block; float: right;">
-					</div>
-					<div class="form-group">
-					  <input type="text" id="roadAddress" name="bzAddr" class="form-control" placeholder="도로명주소">
-					  <input type="hidden" id="jibunAddress" class="form-control" placeholder="">
-					</div>
-					<div class="form-group">
-					  <input type="text" id="detailAddress" name="bzDetailAddr" class="form-control" placeholder="상세주소">
-					</div>	
-					<div class="form-group">
-						<label for="bzLicense">사업자 등록증</label><span class="badge">!</span><br>
-						<input type="file" id="bzLicense">
-					</div>
-					<button class="btn btn-success btn-lg col-xs-12" type="button" id="recycleEntrepreneurSubmit" onclick="recycleEntrepreneur()" style="margin-top: 40px;">신청하기</button>
-				</form>
-				<form id="solarEntrepreneurForm" method="post" hidden="">
+				<form id="solarEntrepreneurForm" method="post">
 					<div class="form-group">
 						<label for="bzPlName" style="margin-top: 13px;">발전소명 </label><span class="badge">!</span>
 						<input type="text" class="form-control" id="bzPlName" placeholder="발전소명 입력하세요">
@@ -98,7 +66,7 @@
 						<input type="text" class="form-control" id="bzPlHardware" placeholder="아이디를 입력하세요">
 					</div>
 					  
-					<button class="btn btn-info btn-lg col-xs-12" type="button" id="solarEntrepreneurBtn" style="margin-top: 40px;">신청하기</button>
+					<button class="btn btn-info btn-lg col-xs-12" type="button" id="solarEntrepreneurBtn" style="margin-top: 40px;">수정하기</button>
 				</form>
 			</div>
 		</div>
@@ -181,20 +149,6 @@
 			    });
 			}
 		
-			$('#solarEntrepreneurBtn').click(function(){
-				$('#recycleEntrepreneurForm').fadeIn( 'slow' );
-				$('#recycleEntrepreneurSubmit').hide();
-				$('#solarEntrepreneurForm').fadeIn( 'slow' );
-			});
-			$('#recycleEntrepreneurBtn').click(function(){
-				$('#recycleEntrepreneurForm').fadeIn( 'slow' );
-				$('#recycleEntrepreneurSubmit').fadeIn( 'slow' );
-				$('#solarEntrepreneurForm').hide();
-			});
-			
-						
-			
-			
 			//우편번호 api
 			function execDaumPostcode() {
 			    new daum.Postcode({

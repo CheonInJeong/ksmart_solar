@@ -24,4 +24,28 @@ public class PlantController {
 		return "/plant/authorization";
 	}
 	
+	@GetMapping("/plant/plantDetail")
+	public String plantDetail() {
+		
+		return "/plant/plantDetail";
+	}
+	
+	@GetMapping("/plant/plantDetail/benefitAnalysis")
+	public String benefitAnalysis() {
+		
+		return "/plant/benefitAnalysis";
+	}
+	
+	@GetMapping("/plant/plantDetail/generationAnalysis")
+	public String generationAnalysis() {
+		
+		return "/plant/generationAnalysis";
+	}
+	
+	@GetMapping("/plant/plantDetail/generationPredict")
+	public String generationPredict() {
+		
+		return "/plant/generationPredict";
+	}
+	
 }
