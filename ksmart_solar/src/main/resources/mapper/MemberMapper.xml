@@ -21,6 +21,22 @@
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
 	
+	<!-- 개인 회원정보수정  -->
+	<update id="modifyMyInfo" parameterType="MemberDTO">
+		UPDATE tb_member
+		SET
+			m_name = #{mName},
+			m_zipcode = #{mZipcode},
+			m_addr = #{mAddr},
+			m_detail_addr = #{mDetailAddr},
+			m_phone = #{mPhone},
+			m_email = #{mEmail},
+			m_photo = #{mPhoto},
+			m_sub_date_modify = NOW()
+		WHERE 
+			m_id = #{mId}
+	</update>
+	
 	<!-- 개인 회원조회 -->
 	<select id="getMyInfoById" parameterType="String" resultMap="memberResultMap">
 		SELECT 
@@ -117,5 +133,13 @@
 			, m_state_modify_date	
 		FROM 
 			tb_member;
+	</select>
+	<select id="getManager" resultType="String">
+		SELECT 
+			m_id
+		FROM 
+			tb_member
+		WHERE
+			m_level=1;
 	</select>
 </mapper>

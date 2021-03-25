@@ -4,14 +4,14 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.cafe24.kangk0269.interceptor.CommonInterceptor;
+import com.cafe24.kangk0269.interceptor.Commoninterceptor;
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	
-	private final CommonInterceptor commoninterceptor;
+	private final Commoninterceptor commoninterceptor;
 	
-	public WebConfig(CommonInterceptor commoninterceptor) {
+	public WebConfig(Commoninterceptor commoninterceptor) {
 		this.commoninterceptor = commoninterceptor;
 	}
 	
@@ -20,6 +20,7 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addInterceptor(commoninterceptor)
 				.addPathPatterns("/**")
 				.excludePathPatterns("/")
-				.excludePathPatterns("/css/*");		
+				.excludePathPatterns("/css/*");
+		
 	}
 }

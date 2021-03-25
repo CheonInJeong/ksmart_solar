@@ -8,8 +8,10 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>계좌수정</strong></div>
+     	<div id="container-header-path">마이페이지 > 내 계좌관리  > 계좌수정</div>
+     	<div id="container-header-space"></div>	
 		<form th:action="@{/mypage/modifyAccount}" method="post">
-			<h1>계좌 수정</h1>
 			<table border="1">
 				<input type="text" name="mAccountIdx" th:value="${memberAccountDTO.mAccountIdx}" hidden="hidden">
 				<input type="text" name="mId" th:value="${memberAccountDTO.mId}" hidden="hidden">

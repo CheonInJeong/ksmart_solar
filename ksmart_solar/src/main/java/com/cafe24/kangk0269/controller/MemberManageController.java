@@ -32,6 +32,25 @@ public class MemberManageController {
 	@Autowired
 	private PlantService plantService;
 	
+	@GetMapping("/getMemberInfoById")
+	public String getMemberInfoById(Model model
+									,@RequestParam(value="mId", required=false) String mId) {
+		MemberDTO member = memberService.getMemberInfoById(mId);
+		model.addAttribute("member", member);
+		return "/member/getMemberInfoById";
+		
+	}
+	
+	@GetMapping("/modifyMember")
+	public String modifyMember(Model model
+							   ,@RequestParam(name="mId", required=false) String mId) {
+		System.out.println("입력받은 아이디 : " + mId);
+		MemberDTO member = memberService.getMemberInfoById(mId);
+		System.out.println("회원정보조회 : " + member);
+		model.addAttribute("member", member);
+		return "/member/modifyMember";
+	}
+	
 	@GetMapping("/member/memberList")
 	public String MemberList(Model model) {
 		List<MemberDTO> memberList = memberService.getAllMember();

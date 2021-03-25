@@ -1,6 +1,7 @@
 package com.cafe24.kangk0269.serivce;
 
 import java.util.List;
+import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,13 @@ public class MemberService {
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
 	}
+	
+	//개인 회원정보수정
+	public int modifyMyInfo(MemberDTO memberDTO) {
+		int result = memberMapper.modifyMyInfo(memberDTO);
+		return result;
+	}
+	
 	
 	//개인 회원조회
 	public MemberDTO getMyInfoById(String login_id) {
@@ -64,6 +72,10 @@ public class MemberService {
 	public int addMember(MemberDTO memberDTO) {
 		int result = memberMapper.addMember(memberDTO);
 		return result;
+	}
+	public List<String> getManager() {
+		List<String> managerList = memberMapper.getManager();
+		return managerList;
 	}
 	
 	public List<MemberDTO> getAllMember(){
