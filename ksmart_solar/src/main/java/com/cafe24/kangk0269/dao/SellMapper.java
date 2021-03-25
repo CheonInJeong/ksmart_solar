@@ -10,6 +10,7 @@ import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BoardDto;
 import com.cafe24.kangk0269.dto.BoardFileDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 
 
@@ -20,6 +21,11 @@ public interface SellMapper {
 	
 	//파일 등록 메서드
 	public int addFile(List<FileDTO> list);
+	//해당 아이디가 가지고 있는 부품 정보 
+	public List<ComponentDTO> getComponent(String mId);
+	
+	//부품 코드로 부품 상세 정보 가져오기
+	public ComponentDTO getComponentInformation(String code);
 	
 	//공고신청 중 발전소 선택시 선택한 발전소의 정보(잔존가치, 매입금액, 발전소시작일)을 가져오는 메서드
 	public BusinessPlantDTO getPlantInformation(String code);
