@@ -4,6 +4,7 @@ public class BidListDTO {
 	private String bCode;
 	private String announcedCode;
 	private String bTypeCode;	
+	private String bTitle;	
 	private String mId;
 	private int bPrice;
 	private double sDepositRate;
@@ -39,6 +40,12 @@ public class BidListDTO {
 	}
 	public void setbTypeCode(String bTypeCode) {
 		this.bTypeCode = bTypeCode;
+	}
+	public String getbTitle() {
+		return bTitle;
+	}
+	public void setbTitle(String bTitle) {
+		this.bTitle = bTitle;
 	}
 	public String getmId() {
 		return mId;
@@ -157,6 +164,8 @@ public class BidListDTO {
 		builder.append(announcedCode);
 		builder.append(", bTypeCode=");
 		builder.append(bTypeCode);
+		builder.append(", bTitle=");
+		builder.append(bTitle);
 		builder.append(", mId=");
 		builder.append(mId);
 		builder.append(", bPrice=");
@@ -196,6 +205,5 @@ public class BidListDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-
 
 }

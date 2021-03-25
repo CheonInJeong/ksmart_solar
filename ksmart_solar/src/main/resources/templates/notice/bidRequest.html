@@ -13,40 +13,48 @@
 	            <div class="chat-room-head">
 	              <h3>입찰 신청</h3>
 	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" >짱좋은 부품 팝니다</div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰금액</div>
-	              <div class="second-part" >
-	              	<input type="text" name="bPrice">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">예치금</div>
-	              <div class="second-part" >5,500,000</div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금 은행</div>
-	              <div class="second-part" >
-	              	<select>
-	              		<option>:::::은행선택:::::</option>
-	              		<option>국민</option>
-	              	</select>
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">관리자계좌번호</div>
-	              <div class="second-part"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금자 성명</div>
-	              <div class="second-part" ><input type="text"></div>
-	            </div>
-	            <div  class="pull-right" style="margin: 0px 10px;">
-	            	<button class="btn btn-primary">신청</button>
-	          	</div>
+	            <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{#}" enctype="multipart/form-data">
+		            <div class="group-rom">
+		              <div class="first-part odd">공고 제목</div>
+		              <div class="second-part" >짱좋은 부품 팝니다</div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">입찰금액</div>
+		              <div class="second-part" >
+		              	<input type="text" name="bPrice">
+		              </div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">예치금</div>
+		              <div class="second-part" >5,500,000</div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">입금 은행</div>
+		              <div class="second-part" >
+		              	<select>
+		              		<option>:::::은행선택:::::</option>
+		              		<option>국민</option>
+		              	</select>
+		              </div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">관리자계좌번호</div>
+		              <div class="second-part"></div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">입금자 성명</div>
+		              <div class="second-part" ><input type="text"></div>
+		            </div>
+					<div class="group-rom">
+						<div class="first-part odd">파일 첨부</div>
+						<div class="second-part">
+							<input type="file" id="files" class="default" name="files" multiple="multiple">
+						</div>
+					</div>
+		            <div  class="pull-right" style="margin: 0px 10px;">
+		            	<button class="btn btn-primary">신청</button>
+		          	</div>
+	          	</form>
             </div>
           </div>
         </div>
