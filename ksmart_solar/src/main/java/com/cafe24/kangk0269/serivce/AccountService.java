@@ -15,7 +15,8 @@ import com.cafe24.kangk0269.dto.MemberAccountDTO;
 @Service
 @Transactional
 public class AccountService {
-private final BankAccountMapper bankAccountMapper;
+	
+	private final BankAccountMapper bankAccountMapper;
 	
 	@Autowired
 	public AccountService(BankAccountMapper bankAccountMapper) {
