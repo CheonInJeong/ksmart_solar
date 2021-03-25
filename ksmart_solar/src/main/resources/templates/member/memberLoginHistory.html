@@ -3,7 +3,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>회원리스트조회</title>
+				<title>회원로그인기록조회</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -17,54 +17,34 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-	<div id="container-header-title"><strong>회원리스트조회</strong></div>
-	<div id="container-header-path">회원관리 > 회원리스트조회</div>
+	<div id="container-header-title"><strong>회원로그인기록조회</strong></div>
+	<div id="container-header-path">회원관리 > 회원로그인기록조회</div>
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 회원리스트</h4>
+				<h4><i class="fa fa-angle-right"></i> 회원로그인기록조회</h4>
 	              <section id="no-more-tables">
 	              	<hr>
-	                <table class="table table-condensed cf">
+	              	<table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
+							<th>로그 인덱스</th>
 							<th>아이디</th>
-							<th>이름</th>
-							<th>권한번호</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>회원가입일</th>
-							<th>회원정보수정일</th>
-							<th>휴면여부</th>
-							<th>탈퇴여부</th>
-							<th>탈퇴유예여부</th>
-							<th>회원상태변경일</th>
-							<th>수정</th>
+							<th>로그인</th>
+							<th>로그아웃</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${memberList}">
-							<td data-title="아이디">
-								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
-							</td>
-							<td data-title="이름" th:text="${l.mName}"></td>
-							<td data-title="권한번호" th:text="${l.mLevel}"></td>
-							<td data-title="연락처" th:text="${l.mPhone}"></td>
-							<td data-title="이메일" th:text="${l.mEmail}"></td>
-							<td data-title="회원가입일" th:text="${l.mSubDate}"></td>
-							<td data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
-							<td data-title="휴면여부" th:text="${l.mRestCheck}"></td>
-							<td data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
-							<td data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
-							<td data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
-							<td data-title="수정">
-								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
-							</td>
+						<tr>
+							<td data-title="로그 인덱스">1</td>
+							<td data-title="아이디">id001</td>
+							<td data-title="로그인">2020-02-15 22:23:25</td>
+							<td data-title="로그아웃">2020-02-15 22:40:25</td>
 						</tr>
 					</tbody>
-				</table>
-				</section>
+					</table>
+	              </section>
 				</div>
 			</div>
 		</div>
@@ -82,7 +62,7 @@
 			var member = $('#member');
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
-			member.parent().find('.sub').children().eq(0).addClass('active');
+			member.parent().find('.sub').children().eq(1).addClass('active');
 		</script>
 	</th:block>
 </html>

@@ -59,12 +59,12 @@ public class MemberManageController {
 		return "/member/memberList";
 	}
 	
-	@GetMapping("/member/memberLogin")
-	public String MemberLogin() {
+	@GetMapping("/member/memberLoginHistory")
+	public String MemberLoginHistory() {
 		
-		return "/member/memberLogin";
+		return "/member/memberLoginHistory";
 	}
-	
+
 	@GetMapping("/member/memberWithdrawList")
 	public String MemberWithdrawList() {
 		
