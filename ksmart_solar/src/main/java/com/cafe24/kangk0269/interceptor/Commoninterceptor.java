@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.interceptor;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,9 +11,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 @Component
-public class Commoninterceptor implements HandlerInterceptor{
+public class Commoninterceptor  implements HandlerInterceptor{
 	
-	//
 	private static final Logger log = LoggerFactory.getLogger(Commoninterceptor.class);
 	
 	@Override
@@ -26,9 +26,6 @@ public class Commoninterceptor implements HandlerInterceptor{
 		log.info("method       ::::::::::::::::::::::::  {}",request.getMethod());
 		log.info("URI          ::::::::::::::::::::::::  {}",request.getRequestURI());
 		log.info("ACCESS INFO===============================================================END");
-		
-		
-		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 	
