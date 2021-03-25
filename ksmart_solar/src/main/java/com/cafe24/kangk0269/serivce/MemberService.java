@@ -65,6 +65,10 @@ public class MemberService {
 		int result = memberMapper.addMember(memberDTO);
 		return result;
 	}
+	public List<String> getManager() {
+		List<String> managerList = memberMapper.getManager();
+		return managerList;
+	}
 	
 	public List<MemberDTO> getAllMember(){
 		

@@ -12,7 +12,7 @@ import org.springframework.web.servlet.ModelAndView;
 @Component
 public class Commoninterceptor implements HandlerInterceptor{
 	
-	
+	//
 	private static final Logger log = LoggerFactory.getLogger(Commoninterceptor.class);
 	
 	@Override
