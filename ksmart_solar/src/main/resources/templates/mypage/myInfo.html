@@ -7,7 +7,9 @@
 		<title>개인 정보 조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<h1>회원 조회</h1>
+		<div id="container-header-title"><strong>내 정보관리</strong></div>
+     	<div id="container-header-path">마이페이지 > 내 정보관리</div>
+     	<div id="container-header-space"></div>	
 		<table border="1">
 			<tr>
 				<td>이름</td>
@@ -19,6 +21,12 @@
 				<td>이메일</td>
 				<td>
 					<input type="text" name="mEmail" th:value="${memberDTO.mEmail}" readonly="readonly"/>
+				</td>
+			</tr>
+			<tr>
+				<td>전화번호</td>
+				<td>
+					<input type="text" name="mPhone" th:value="${memberDTO.mPhone}" readonly="readonly"/>
 				</td>
 			</tr>
 			<tr>
@@ -46,7 +54,7 @@
 				</td>
 			</tr>
 		</table>
-		<a th:href="@{/mypage/#}">회원정보 수정</a> 
+		<a th:href="@{/mypage/ModifyMyInfo}">회원정보 수정</a> 
 	</th:block>
 	
 	<th:block layout:fragment="customScript">

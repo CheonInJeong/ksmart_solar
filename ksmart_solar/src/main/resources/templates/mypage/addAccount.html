@@ -8,8 +8,11 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>새 계좌등록</strong></div>
+     	<div id="container-header-path">마이페이지 > 내 계좌관리 >새 계좌등록</div>
+     	<div id="container-header-space"></div>
+		<table border="1">
 		<form th:action="@{/mypage/addAccount}" method="post">
-			<h1>계좌 등록</h1>
 			<table border="1">
 					<input type="text" name="mId" th:value="${session.SID}" hidden="hidden">
 				<tr>
