@@ -9,11 +9,12 @@ import com.cafe24.kangk0269.dto.MemberDTO;
 @Mapper
 public interface MemberMapper {
 	
+	// 개인 회원정보수정
+	public int modifyMyInfo(MemberDTO member);
+	
 	//개인 회원조회
 	public MemberDTO getMyInfoById(String login_id);
 	
-	// 회원정보수정
-	public int modifyMember(MemberDTO member);
 	
 	// 전체회원조회
 	public List<MemberDTO> getAllMember();

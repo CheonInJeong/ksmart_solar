@@ -30,6 +30,36 @@ public class MyPageController {
 		this.memberService = memberService; 
 	}
 	
+	
+	
+	
+	//탈퇴 신청화면
+	@GetMapping("/mypage/withdraw")
+	public String withdraw() {
+		return "/mypage/withdraw";
+	}
+	
+	
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//개인정보 수정처리
+	@PostMapping("/mypage/ModifyMyInfo")
+	public String modifyMyInfo(MemberDTO memberDTO) {
+		System.out.println("====================================");
+		System.out.println("수정한 회원정보 내용->>" + memberDTO );
+		System.out.println("====================================");
+		int result = memberService.modifyMyInfo(memberDTO);
+		return "redirect:/mypage/myInfo";
+	}
+	
+	//개인정보 수정화면
+	@GetMapping("/mypage/ModifyMyInfo")
+	public String modifyMyInfo(Model model, HttpSession session) {
+		getMyInfoById(model,session);
+		return "/mypage/ModifyMyInfo";
+	}
+	
+	
 	//개인 회원조회 화면
 	@GetMapping("/mypage/myInfo")
 	public String getMyInfoById(Model model, HttpSession session) {
@@ -43,6 +73,8 @@ public class MyPageController {
 		model.addAttribute(memberDTO);
 		return "/mypage/myInfo";
 	}
+	
+
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
@@ -130,9 +162,5 @@ public class MyPageController {
 		return "/mypage/wishlist";
 	}
 	
-	@GetMapping("/mypage/withdraw")
-	public String Withdraw() {
-		
-		return "/mypage/withdraw";
-	}
+	
 }
