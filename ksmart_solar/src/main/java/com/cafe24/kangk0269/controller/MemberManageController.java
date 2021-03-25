@@ -32,6 +32,15 @@ public class MemberManageController {
 	@Autowired
 	private PlantService plantService;
 	
+	@GetMapping("/getMemberInfoById")
+	public String getMemberInfoById(Model model
+									,@RequestParam(value="mId", required=false) String mId) {
+		MemberDTO member = memberService.getMemberInfoById(mId);
+		model.addAttribute("member", member);
+		return "/member/getMemberInfoById";
+		
+	}
+	
 	@GetMapping("/modifyMember")
 	public String modifyMember(Model model
 							   ,@RequestParam(name="mId", required=false) String mId) {

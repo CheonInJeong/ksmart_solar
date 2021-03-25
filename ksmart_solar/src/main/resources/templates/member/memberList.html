@@ -5,25 +5,34 @@
 	<th:block layout:fragment="customTitle">
 				<title>회원리스트조회</title>
 	</th:block>
+	
+	<th:block layout:fragment="customCss">
+	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	  <!--external css-->
+	  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+	  <!-- Custom styles for this template -->
+	  <link th:href="@{/css/style.css}" rel="stylesheet">
+	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	  <link th:href="@{/css/table-responsive.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="Contents">
 	<div id="container-header-title"><strong>회원리스트</strong></div>
       <div id="container-header-path">회원관리 > 회원리스트조회</div>
       <div id="container-header-space"></div>
-		<div class="content-panel">
-			<div class="adv-table" style="overflow: scroll;">
-				<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
-					<thead>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 회원리스트</h4>
+	              <section id="no-more-tables">
+	                <table class="table table-bordered table-striped table-condensed cf">
+	                  <thead class="cf">
 						<tr>
 							<th>아이디</th>
-							<th>비밀번호</th>
 							<th>이름</th>
 							<th>권한번호</th>
-							<th>우편번호</th>
-							<th>도로명주소</th>
-							<th>상세주소</th>
 							<th>연락처</th>
 							<th>이메일</th>
-							<th>프로필사진</th>
 							<th>회원가입일</th>
 							<th>회원정보수정일</th>
 							<th>휴면여부</th>
@@ -35,51 +44,39 @@
 					</thead>
 					<tbody>
 						<tr th:each="l : ${memberList}">
-							<td th:text="${l.mId}"></td>
-							<td th:text="${l.mPw}"></td>
-							<td th:text="${l.mName}"></td>
-							<td th:text="${l.mLevel}"></td>
-							<td th:text="${l.mZipcode}"></td>
-							<td th:text="${l.mAddr}"></td>
-							<td th:text="${l.mDetailAddr}"></td>
-							<td th:text="${l.mPhone}"></td>
-							<td th:text="${l.mEmail}"></td>
-							<td>
-								<img th:alt="${l.mPhoto}" th:src="@{${l.mPhoto}}">
+							<td data-title="아이디">
+								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
 							</td>
-							<td th:text="${l.mSubDate}"></td>
-							<td th:text="${l.mSubDateModify}"></td>
-							<td th:text="${l.mRestCheck}"></td>
-							<td th:text="${l.mRevokeCheck}"></td>
-							<td th:text="${l.mRevokeDelayCheck}"></td>
-							<td th:text="${l.mStateModifyDate}"></td>
-							<td>
-								<a th:href=@{/}>수정</a>
+							<td data-title="이름" th:text="${l.mName}"></td>
+							<td data-title="권한번호" th:text="${l.mLevel}"></td>
+							<td data-title="연락처" th:text="${l.mPhone}"></td>
+							<td data-title="이메일" th:text="${l.mEmail}"></td>
+							<td data-title="회원가입일" th:text="${l.mSubDate}"></td>
+							<td data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
+							<td data-title="휴면여부" th:text="${l.mRestCheck}"></td>
+							<td data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
+							<td data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
+							<td data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
+							<td data-title="수정">
+								<a th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
-				<ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
+				</section>
+				</div>
 			</div>
 		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
+		<!-- js placed at the end of the document so the pages load faster -->
+	  <script src="lib/jquery/jquery.min.js"></script>
+	  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+	  <script src="lib/jquery.scrollTo.min.js"></script>
+	  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+	  <!--common script for all pages-->
+	  <script src="lib/common-scripts.js"></script>
 		<script type="text/javascript">
 			var member = $('#member');
 			member.addClass('active');
