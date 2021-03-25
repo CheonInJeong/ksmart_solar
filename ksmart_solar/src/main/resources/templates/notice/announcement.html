@@ -83,6 +83,10 @@
 	          </div>
 	        </div>
         </form>
+        <div th:include="notice/plantInfo :: plantInfoFragment" 
+        	 th:if="${bidPlantdto!=null}"></div>
+        <div th:include="notice/componentInfo :: componentInfoFragment" 
+        	 th:if="${bidComponentdto!=null}"></div>
 	</th:block>
 	
 	<th:block layout:fragment="customScript">

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>공고정보</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<form>
+			<div class="chat-room mt">
+	          <div class="mid-side container">
+	          	<div class="row">
+		            <div class="chat-room-head">
+		              <h3>부품 공고</h3>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">공고 제목</div>
+		              <div class="second-part" th:text="${title}"></div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">입찰 시작가</div>
+		              <div class="second-part">10000000</div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">부품 사용 시작일</div>
+		              <div class="second-part">2020-03-15
+		              </div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">입찰 신청기간</div>
+		              <div class="second-part">2021-02-13 12:23:25
+		              </div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">낙찰자 결정 기간</div>
+		              <div class="second-part">2021-02-13 12:23:25
+		              </div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">진행 상태</div>
+		              <div class="second-part" th:text="${status}"></div>
+		            </div>
+	            </div>
+	          </div>
+	        </div>
+	    </form>
+        
+        <div th:include="notice/componentInfo :: componentInfoFragment"></div>
+        <div th:include="buy/myBidInfo :: myBidInfoFragment"></div>
+        <div th:include="buy/tradePayment :: tradePaymentFragment" 
+        th:unless="${status=='입찰대기' or 
+        			 status=='입찰실패' or
+        			 status=='입찰성공' or
+        			 status=='입찰취소' or
+        			 status=='입찰종료' }"></div>
+        <div class="row" style="margin: 5px 0px;">
+	        <div class="form-inline" style="text-align: center;">
+	        	<a href="/buy/refundRequest" class="form-group" th:if="${status == '입찰취소' or status == '입찰종료'}">
+		        	<button class="btn btn-default" type="button">환불신청</button>
+	        	</a>
+	        	<a href="/buy/myHistory" class="form-group" th:if="${status == '입찰성공'}">
+		        	<button class="btn btn-default" type="button">입찰취소</button>
+	        	</a>
+	        	<a href="/buy/myHistory" class="form-group" 
+	        		th:if="${status=='계약중' 
+				        or status=='계약대기'}">
+		        	<button class="btn btn-default" type="button">계약취소</button>
+	        	</a>
+	        	<a href="/buy/myHistory" class="form-group" 
+	        		th:if="${status=='대금처리중'}">
+		        	<button class="btn btn-default" type="button">대금납부</button>
+	        	</a>
+	        	<a href="/buy/myHistory" class="form-group">
+		        	<button class="btn btn-default center-block" type="button">돌아가기</button>
+	        	</a>
+	        </div>
+        </div>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var notice = $('#buy');
+			notice.addClass('active');
+			notice.parent().find('.sub').css('display','block');
+			notice.parent().find('.sub').children().eq(0).addClass('active');
+			
+		</script>
+	</th:block>
+</html>
