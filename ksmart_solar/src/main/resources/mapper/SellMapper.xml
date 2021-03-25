@@ -20,7 +20,7 @@
   		  	  	<result property="bPlTitle" column="b_pl_title"/>
   				<result property="bPlContents" column="b_pl_contents"/>
   		  		<result property="bPlPrice" column="b_pl_price"/>
-  		  		<result property="plDesidual" column="pl_residual"/>
+  		  		<result property="plDepDataResidual" column="pl_dep_data_residual"/>
   		  		<result property="plDepPrice" column="pl_dep_price"/>
   		  		<result property="plDepStartDate" column="pl_dep_start_date"/>
   		  		<result property="bPlDateRequest" column="b_pl_date_request"/>
@@ -30,10 +30,21 @@
   		  		<result property="bPlDateDecision2" column="b_pl_date_decision2"/>
   		  		<result property="bPlGroupcode" column="b_pl_groupcode"/>
   		  		<result property="bPlStatus" column="b_pl_status"/>
-  		  		
+  		  		<result property="bPlNumberOfBidder" column="b_pl_number_of_bidder"/>
   		  		<association property="businessPlantDTO" javaType="BusinessPlantDTO">
   		  			<id property="bzPlName" column="bz_pl_Name"/>
-  		  			<result property="bzPlName" column="bz_pl_Name"/>
+  		  			<result property="bzPlName" column="bz_pl_name"/>
+  		  			<result property="bzPlZipcode" column="bz_pl_zipcode"/>
+  		  			<result property="bzPlAddr" column="bz_pl_addr"/>
+  		  			<result property="bzPlDetailAddr" column="bz_pl_detail_addr"/>
+  		  			<result property="bzPlPhoto" column="bz_pl_photo"/>
+  		  			<result property="bzPlPower" column="bz_pl_power"/>
+  		  			<result property="bzPlHardware" column="bz_pl_hardware"/>
+  		  			<result property="bzPlArea" column="bz_pl_area"/>
+  		  			<result property="bzPlInvPower" column="bz_pl_inv_power"/>
+  		  			<result property="bzPlInvCount" column="bz_pl_inv_count"/>
+  		  			<result property="bzPlInvMaker" column="bz_pl_inv_maker"/>
+  		  			<result property="bzPlRec" column="bz_pl_rec"/>
   		  		</association>
   		</resultMap>
   		
@@ -53,7 +64,6 @@
   		  		<result property="bzPlInvCount" column="bz_pl_inv_count"/>
   		  		<result property="bzPlInvMaker" column="bz_pl_inv_maker"/>
   		  		<result property="bzPlRec" column="bz_pl_rec"/>
-
   		  		<association property="plantDepreciationDTO" javaType="PlantDepreciationDTO">
   		  			<id property="bzPlCode" column="bz_pl_code"/>
   		  			<result property="bzPlCode" column="bz_pl_code"/>
@@ -94,13 +104,95 @@
   		  		<result property="acStatusCode" column="ac_status_code"/>
   		  </resultMap>
   		  
+  		  <select id="getBidPlantDetail" resultMap ="bidPlantResultMap" parameterType="String">
+	  		  	SELECT 
+	  		  		bz.bz_pl_name,
+	  		  		bz.bz_pl_zipcode,
+	  		  		bz.bz_pl_addr,
+	  		  		bz.bz_pl_detail_addr,
+	  		  		bz.bz_pl_photo,
+	  		  		bz.bz_pl_power,
+	  		  		bz.bz_pl_hardware,
+	  		  		bz.bz_pl_area,
+	  		  		bz.bz_pl_inv_power,
+	  		  		bz.bz_pl_inv_count,
+	  		  		bz.bz_pl_inv_maker,
+	  		  		bz.bz_pl_rec,
+	  		  		b.b_pl_code,
+	  		  		b.b_pl_title,
+	  		  		b.b_pl_contents,
+	  		  		b.b_pl_price,
+	  		  		b.pl_dep_data_residual,
+	  		  		b.pl_dep_start_date,
+	  		  		b.b_pl_status,
+	  		  		b.b_pl_number_of_bidder,
+	  		  		b.b_pl_date_bidding1,
+	  		  		b.b_pl_date_bidding2,
+	  		  		b.b_pl_date_decision1,
+	  		  		b.b_pl_date_decision2
+	  		  	FROM
+	 				tb_business_plant as bz 
+				INNER JOIN 
+				 	tb_bid_plant AS b
+				ON 
+				 	bz.bz_pl_code = b.bz_pl_code
+				WHERE 
+					b.b_pl_code = #{bPlCode}
+  		  
+  		  </select>
+  		  
+  		  <delete id="removePlantApply" parameterType="String">
+  		  		DELETE FROM tb_bid_plant WHERE b_pl_code=#{bPlCode}
+  		  </delete>
+  		  
+  		  <update id="modifyPlantApply" parameterType="BidPlantDto">
+  		  		UPDATE
+  		  			tb_bid_plant
+				SET
+					b_pl_title=#{bPlTitle},
+					b_pl_contents=#{bPlContents},
+					b_pl_price=#{bPlPrice},
+					b_pl_date_bidding1=#{bPlDateBidding1}
+				WHERE 
+					b_pl_code = #{bPlCode}
+  		  </update>
+  		  
+  		  <select id="getBidPlantbyCode" resultMap="bidPlantResultMap" parameterType="String">
+  		  		SELECT           
+					b.b_pl_code,
+					b.bz_pl_code,
+					b.b_pl_title,
+					b.b_pl_contents, 
+					b.b_pl_price,
+					b.pl_dep_data_residual,
+					b.pl_dep_price,
+					b.pl_dep_start_date,
+					b.b_pl_date_bidding1,
+					bz.bz_pl_name 
+				FROM 
+					tb_bid_plant as b 
+				inner JOIN 
+					tb_business_plant AS bz
+				ON 
+					b.bz_pl_code = bz.bz_pl_code
+				WHERE 
+					b_pl_code=#{bPlCode}
+  		  </select>
+  		  <update id="modifyFile" parameterType="String">
+  		  		UPDATE 
+  		  			tb_file
+				SET
+					deleted_yn ='Y'
+				WHERE
+					related_table_code=#{bPlCode} 
+  		  </update>
   		  <insert id="addFile" parameterType="FileDTO">
   		  		INSERT 
   		  		INTO
-  		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime)
+  		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime, file_sort_idx, file_sort_name)
 				VALUES
 			<foreach collection = "list" item="item" separator=",">
-					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW())
+					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW() ,#{item.fileSortIdx},#{item.fileSortName})
 			</foreach>
 				
   		  </insert>
@@ -115,6 +207,7 @@
   		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
   		  		SELECT
 				 	p.bz_pl_name,
+				 	b.b_pl_code,
 					b.b_pl_title,
 					b.b_pl_price,
 					b.b_pl_date_bidding1,

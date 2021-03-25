@@ -7,7 +7,34 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+		 <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i>문의내역</h4><hr><table class="table table-striped table-advance table-hover">
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-bullhorn"></i>공고코드</th>
+                    <th>구분</th>
+                    <th><i class="fa fa-bookmark"></i>문의제목</th>
+					<th class="hidden-phone"><i class="fa fa-question-circle"></i>문의자</th>
+                    <th><i class=" fa fa-edit"></i>문의시간</th>
+                    <th><i class=" fa fa-edit"></i>조회수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+	                   <td>b_pl_code</td>
+	                   <td>발전소</td>
+	                   <td>질문합니다.</td>
+	                   <td>id005</td>
+	                   <td>2021-03-24</td>
+	                   <td>0</td>
+                 </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">

@@ -28,69 +28,60 @@
           <div class="col-lg-12">
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/sell/plantSell}" enctype="multipart/form-data">
-	                  <div class="form-group">
-	                    <label for="username" class="control-label col-lg-2">발전소</label>
-	                    <div class="col-lg-10">
-	                      <select class="form-control" id="plantSellSelect">
-	                      	<option value="0">발전소를 선택해주세요.</option>
-	                        <th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
-							 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
-							  </th:block> 
-								  <th:block th:unless="${#lists.size(plantList)}>0">
-							 	<option>현재 판매 할 수 있는 발전소가 없습니다.</option>
-							 </th:block> 
-							</select>
-	                    </div>
-	                  </div>
-	                  
-	                  	<input type="hidden" name="mId" th:value="${session.SID}">
-	                 	<input type="hidden"  name="plDepPrice" id="plDepPrice">
-	                 	<input type="hidden"  name="plDepStartDate" id="plDepStartDate">
-	                 	<input type="hidden"  name="bzPlCode" id="bzPlCode">
-	                  <div class="form-group">
-	                    <label for="bPlTitle" class="control-label col-lg-2">제목</label>
-	                    <div class="col-lg-10">
-	                      <input class=" form-control" id="bPlTitle" name="bPlTitle" type="text">
-	                    </div>
-	                  </div>
-	                  <div class="form-group ">
-	                    <label for="plDepDataResidual" class="control-label col-lg-2">잔존가치</label>
-	                    <div class="col-lg-10">
-	                      <input class=" form-control" id="plDepDataResidual" name="plDepDataResidual" type="text" readonly>
-	                    </div>
-	                  </div>
-	                  <div class="form-group ">
-	                    <label for="b_cp_price" class="control-label col-lg-2">희망가</label>
-	                    <div class="col-lg-10">
-	                      <input class=" form-control" id="bPlPrice" name="bPlPrice" type="text">
-	                    </div>
-	                  </div>
-	                 <div class="form-group">
-	                 	<label for="files" class="control-label col-lg-2">공고신청파일</label>
-	                  	<div class="col-lg-10">
-	                    	<input type="file" id="files" class="default" name="files" multiple="multiple">
-	                  	</div>
-	                </div>
-	                  <div class="form-group ">
-	                    <label for="componentDetail" class="control-label col-lg-2">상세설명</label>
-	                    <div class="col-lg-10">
-	                      <textarea id = "componentDetail"class="form-control" name="bPlContents"></textarea>
-	                    </div>
-	                  </div>
-	                 <div class="form-group">
-	                  <label for ="bPlDateBidding1" class="control-label col-lg-2">공고시작일</label>
-	                  <div class="col-lg-10">
-	                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" id="bPlDateBidding1">
-	                  </div>
-	                </div>                  
-	                  <div class="form-group">
-	                    <div class="col-lg-offset-2 col-lg-10">
-	                      <button class="btn btn-theme" type="button" id="btnPlantSell">신청</button>
-	                      
-	                      <button class="btn btn-theme04" type="button" id="cancelBtnPlantSell">취소</button>
-	                    </div>
-	                  </div>
+                <form class="cmxform form-horizontal style-form" id="plantSellFormM" method="post" th:action="@{/sell/modifyPlantSell}" enctype="multipart/form-data">
+					<th:block th:each="bidPlant : ${bidPlant}">
+						<input type="hidden" name="mId" th:value="${session.SID}">
+						<input type="hidden" name="bPlCode" th:value="${bidPlant.bPlCode}">
+						<div class="form-group">
+		                    <label for="bzPlNameM" class="control-label col-lg-2">발전소</label>
+		                    <div class="col-lg-10">
+		                     	<input class=" form-control" id = "bzPlNameM" name="bzPlName" type="text" th:value="${bidPlant.businessPlantDTO.bzPlName}" readonly>
+		                    </div>
+						</div>
+		                  <div class="form-group">
+		                    <label for="bPlTitle" class="control-label col-lg-2">제목</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="bPlTitleM" th:value="${bidPlant.bPlTitle}" name="bPlTitle" type="text">
+		                    </div>
+		                  </div>
+		                  <div class="form-group ">
+		                    <label for="plDepDataResidual" class="control-label col-lg-2">잔존가치</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="plDepDataResidualM" th:value="${bidPlant.plDepDataResidual}" name="plDepDataResidual" type="text" readonly>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="bPlPrice" class="control-label col-lg-2">희망가</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="bPlPriceM" th:value="${bidPlant.bPlPrice}" name="bPlPrice" type="text">
+		                    </div>
+		                  </div>
+		                 <div class="form-group">
+		                 	<label for="filesM" class="control-label col-lg-2">공고신청파일</label>
+		                  	<div class="col-lg-10">
+		                    	<input type="file" id="filesM" class="default" name="files" multiple="multiple">
+		                  	</div>
+		                </div>
+		                  <div class="form-group ">
+		                    <label for="bPlContentsM" class="control-label col-lg-2">상세설명</label>
+		                    <div class="col-lg-10">
+		                      <textarea id = "bPlContentsM" class="form-control" name="bPlContents">[[${bidPlant.bPlContents}]]</textarea>
+		                    </div>
+		                  </div>
+		                 <div class="form-group">
+		                  <label for ="bPlDateBidding1M" class="control-label col-lg-2">공고시작일</label>
+		                  <div class="col-lg-10">
+		                    <input id="bPlDateBidding1M" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" th:value="${bidPlant.bPlDateBidding1}">
+		                  </div>
+		                </div>                  
+		                  <div class="form-group">
+		                    <div class="col-lg-offset-2 col-lg-10">
+		                      <button class="btn btn-theme" type="button" id="btnPlantSellM">신청</button>
+		                      
+		                      <button class="btn btn-theme04" type="button" id="cancelBtnPlantSellM">취소</button>
+		                    </div>
+		                  </div>
+					</th:block>
                 </form>
               </div>
             </div>
@@ -109,8 +100,8 @@
 		
 		<script type="text/javascript">
 	 	
-  			var bPlPrice = document.getElementById('bPlPrice');
-  			var plDepDataResidual = document.getElementById('plDepDataResidual');
+  			var bPlPrice = document.getElementById('bPlPriceM');
+  			var plDepDataResidual = document.getElementById('plDepDataResidualM');
   			bPlPrice.onkeyup = function(){
 			//정규표현식 숫자만 입력하게,
             this.value = this.value.replace(/[^0-9]/g,'');
@@ -137,97 +128,57 @@
 	 	   return number.replace(/,/g,"");
 	 	}
 
-	 	$('#plantSellSelect').change(function(){
-	 		var plantCode = $('select option:selected').val();
-	 		var plDepDataResidual;
-	 		var plDepPrice;
-	 		var plDepStartDate;
-	 		
-	 		//ajax 시작
-	 		$.ajax({
-		        url     : '/ajax/plantInformation',
-		        type    : 'POST',
-		        data    : {plantCode : plantCode},
-		       
-		        success : function(data) {
-		        	console.log(data);
-		        	if(data){
-						plDepDataResidual = data.plantDepDataDTO.plDepDataResidual;
-						plDepPrice = data.plantDepreciationDTO.plDepPrice;
-						plDepStartDate = data.plantDepreciationDTO.plDepStartDate;
-						bzPlCode = data.plantDepreciationDTO.bzPlCode;
-						//숫자에 콤마 찍는 함수 호출
-						plDepDataResidual = comma(plDepDataResidual);
-						
-		        		console.log(plDepDataResidual);
-						console.log(plDepPrice);
-						console.log(plDepStartDate);
-						console.log(bzPlCode);
-						
-						
-						$('#plDepDataResidual').val(plDepDataResidual);
-						$('#plDepPrice').val(plDepPrice);
-						$('#plDepStartDate').val(plDepStartDate);
-						$('#bzPlCode').val(bzPlCode);
-		        	}else{
-		        		
-		        	}
-		        },
-		        error : function(xhr,status,error) {
-		        	console.log("xhr: " + xhr);
-		        	console.log("status: " + status);
-		        	console.log("error: " + error);
-		        }
-		    });
-		   //ajax 끝 
-	 	 })
-	 	 
-	 	 
-	 	 $('#btnPlantSell').click(function(){
+	 	
+	 	$(document).ready(function(){
+	 		console.log('실행이 되어야 하는데...')
+	 		$('#plDepDataResidualM').val(comma($('#plDepDataResidualM').val()));
+	 		$('#bPlPriceM').val(comma($('#bPlPriceM').val()));
+	 	})	 		
+	 	
+
+	 	 $('#btnPlantSellM').click(function(){
 	 	
 	 		 
 	 		 	//유효성검사
 			 	if($('select option:selected').val()==0){
 					alert('발전소를 선택해주세요.');
 					return;
-				}if($('#bPlTitle').val()==''){
+				}if($('#bPlTitleM').val()==''){
 					alert('공고 제목을 입력해주세요.')
-					$('#bPlTitle').focus();
+					$('#bPlTitleM').focus();
 					return;
-				}if($('#bPlPrice').val()==''){
+				}if($('#bPlPriceM').val()==''){
 					alert('희망 가격을 입력해주세요.')
 					$('#bPlPrice').focus();
 					return;
-				}if($('#files').val()==''){
+				}if($('#filesM').val()==''){
 					alert('파일을 첨부해주세요.');
 					return;
-				}if($('#componentDetail').val().length==0){
+				}if($('#bPlContentsM').val().length==0){
 					alert('상세정보를 입력해주세요.');
 					return;
-				}if($('#bPlDateBidding1').val()==''){
+				}if($('#bPlDateBidding1M').val()==''){
 					alert('희망 공고 시작 날짜를 입력해주세요.');
 					return;
 				}
 				
 				
-				$('#bPlPrice').val(rm_comma($('#bPlPrice').val()));
-				$('#plDepDataResidual').val(rm_comma($('#plDepDataResidual').val()));
+				$('#bPlPriceM').val(rm_comma($('#bPlPriceM').val()));
+				$('#plDepDataResidualM').val(rm_comma($('#plDepDataResidualM').val()));
 			
 	
-				$('#plantSellForm').submit();
+				$('#plantSellFormM').submit();
 				
 	 	 })
 	 	 
 	 	 
-	 	 $('#cancelBtnPlantSell').click(function(){
+	 	 $('#cancelBtnPlantSellM').click(function(){
 	 		 console.log('취소버튼');
-	 		$("#plantSellSelect").val("0").prop("selected", true);
-	 		$('#bPlTitle').val('');
-	 		$('#bPlPrice').val('');
-	 		$('#files').val('');
-	 		$('#componentDetail').val('');
-	 		$('#bPlDateBidding1').val('');
-	 		$('#plDepDataResidual').val('');
+	 		$('#bPlTitleM').val('');
+	 		$('#bPlPriceM').val('');
+	 		$('#filesM').val('');
+	 		$('#bPlContentsM').val('');
+	 		$('#bPlDateBidding1M').val('');
 	 		
 	 	 })
 	 	 
