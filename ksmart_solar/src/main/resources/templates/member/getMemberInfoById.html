@@ -23,11 +23,14 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-		
+	<div id="container-header-title"><strong>[[${member.mId}]] 회원정보</strong></div>
+	<div id="container-header-path">회원관리 > 회원리스트조회 > [[${member.mId}]] 회원정보</div>
+	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
               <h4 class="mb"><i class="fa fa-angle-right"></i> [[${member.mId}]] 회원정보</h4>
+              <hr>
               <form class="form-horizontal style-form">
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">프로필 사진</label>
@@ -49,21 +52,24 @@
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">비밀번호</label>
-                  <div class="col-lg-10">
-                    <p class="form-control-static">[[${member.mPw}]]</p>
-                  </div>
-                </div>
-                <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">이름</label>
                   <div class="col-lg-10">
                     <p class="form-control-static">[[${member.mName}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">권한번호</label>
+                  <label class="col-sm-2 col-sm-2 control-label">비밀번호</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${member.mLevel}]]</p>
+                    <p class="form-control-static">[[${member.mPw}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">권한</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static" th:if="${member.mLevel} == 1">관리자</p>
+                    <p class="form-control-static" th:if="${member.mLevel} == 2">태양광사업자(판매자)</p>
+                    <p class="form-control-static" th:if="${member.mLevel} == 3">재활용 중고 사업자(구매자)</p>
+                    <p class="form-control-static" th:if="${member.mLevel} == 4">일반회원</p>
                   </div>
                 </div>
                 <div class="form-group">

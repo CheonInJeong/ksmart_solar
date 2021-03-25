@@ -41,6 +41,13 @@ public class MemberManageController {
 		
 	}
 	
+	@PostMapping("/modifyMember")
+	public String modifyMember(MemberDTO member) {
+		System.out.println("수정한 값 " + member);
+		memberService.modifyMyInfo(member);
+		return "/member/getMemberInfoById";
+	}
+	
 	@GetMapping("/modifyMember")
 	public String modifyMember(Model model
 							   ,@RequestParam(name="mId", required=false) String mId) {
