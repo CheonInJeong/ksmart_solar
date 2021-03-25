@@ -78,4 +78,15 @@ public class BuyController {
 		
 		return "/buy/refundRequest";
 	}
+	@GetMapping("/buy/refundRequest")
+	public String getrefundRequest() {
+		
+		return "/buy/refundRequest";
+	}
+	@PostMapping("/buy/myAnnouncement")
+	public String myAnnouncement(String status, String title, Model model) {
+		model.addAttribute("status", status);
+		model.addAttribute("title", title);
+		return "/buy/myAnnouncement";
+	}
 }
