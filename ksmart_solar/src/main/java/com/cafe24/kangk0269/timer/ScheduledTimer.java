@@ -14,7 +14,7 @@ import com.cafe24.kangk0269.api.RadiationApi;
 public class ScheduledTimer {
 	
 	//매일 오전 10시에 실행 되는 api
-	@Scheduled(cron = "0  00  10  *  *  *") 
+	@Scheduled(cron = "0  00  8  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		RadiationApi raApi = new RadiationApi();
 		raApi.weatherApiAction();

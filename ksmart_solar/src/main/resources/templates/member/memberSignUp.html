@@ -240,12 +240,14 @@
 								  title: '회원등록이 완료되었습니다!',
 								  icon: 'success'
 								});
+			        		setTimeout(function(){}, 1000);
 			        		document.location.href = '/member/memberLogin';
 			        	}else{
 			        		Swal.fire({
 								  title: '회원등록이 실패했습니다!',
 								  icon: 'error'
 								});
+			        		setTimeout(function(){}, 1000);
 			        		document.location.href = '/member/memberLogin';
 			        	}
 			        },
