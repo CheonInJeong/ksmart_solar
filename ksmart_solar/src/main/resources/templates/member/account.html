@@ -4,10 +4,46 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
+				<title>회원계좌조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+	<div id="container-header-title"><strong>회원계좌조회</strong></div>
+	<div id="container-header-path">회원관리 > 회원계좌조회</div>
+	<div id="container-header-space"></div>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 회원계좌조회</h4>
+	              <section id="no-more-tables">
+	              	<hr>
+	                <table class="table table-condensed cf">
+	                  <thead class="cf">
+						<tr>
+							<th>계좌관리인덱스</th>
+							<th>아이디</th>
+							<th>계좌번호</th>
+							<th>예금주명</th>
+							<th>은행명</th>
+							<th>계좌등록일</th>
+							<th>계좌사용구분</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td data-title="계좌관리인덱스">1</td>
+							<td data-title="아이디">id001</td>
+							<td data-title="계좌번호"></td>
+							<td data-title="예금주명"></td>
+							<td data-title="은행명"></td>
+							<td data-title="계좌등록일"></td>
+							<td data-title="계좌사용구분"></td>
+						</tr>
+					</tbody>
+				</table>
+				</section>
+				</div>
+			</div>
+		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">

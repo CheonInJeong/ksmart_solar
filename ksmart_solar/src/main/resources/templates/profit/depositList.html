@@ -6,16 +6,32 @@
 	<th:block layout:fragment="customTitle">
 				<title>예치금출금신청목록</title>
 	</th:block>
+	
+	<th:block layout:fragment="customCss">
+	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	  <!--external css-->
+	  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+	  <!-- Custom styles for this template -->
+	  <link th:href="@{/css/style.css}" rel="stylesheet">
+	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	  <link th:href="@{/css/table-responsive.css}" rel="stylesheet">
+	</th:block>
+	
 	<th:block layout:fragment="Contents">
-		<div class="content-panel">
-			<div class="adv-table" style="overflow: scroll;">
-				<table cellpadding="0" cellspacing="0" border="0" class="display table table-bordered" id="hidden-table-info">
-					<thead>
+	<div id="container-header-title"><strong>예치금출금신청목록</strong></div>
+	<div id="container-header-path">수익관리 > 예치금출금신청목록</div>
+	<div id="container-header-space"></div>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 예치금출금신청목록</h4>
+	              <section id="no-more-tables">
+	              	<hr>
+	                <table class="table table-condensed cf">
+	                  <thead class="cf">
 						<tr>
 							<th>예치금출금신청 코드</th>
-							<th>입찰코드</th>
 							<th>출금신청자아이디</th>
-							<th>출금가능한예치금</th>
 							<th>신청금액</th>
 							<th>은행명</th>
 							<th>구매자 계좌</th>
@@ -24,36 +40,42 @@
 							<th>신청시간</th>
 							<th>출금여부</th>
 							<th>출금시간</th>
-							<th>입출금코드</th>
 							<th>출금</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="l : ${depositOutList}">
-							<td th:text="${l.trDepCode}"></td>
-							<td th:text="${l.bCode}"></td>
-							<td th:text="${l.mId}"></td>
-							<td th:text="${l.bDeposit}"></td>
-							<td th:text="${l.trDepDeposit}"></td>
-							<td th:text="${l.mAccountBankName}"></td>
-							<td th:text="${l.mAccountNumber}"></td>
-							<td th:text="${l.trDepAccountCheck}"></td>
-							<td th:text="${l.mAccountName}"></td>
-							<td th:text="${l.trDepDate}"></td>
-							<td th:text="${l.trDepCheck}"></td>
-							<td th:text="${l.trDepWdDate}"></td>
-							<td th:text="${l.bMoCode}"></td>
-							<td>
+							<td data-title="예치금출금신청 코드" th:text="${l.trDepCode}"></td>
+							<td data-title="출금신청자아이디" th:text="${l.mId}"></td>
+							<td data-title="신청금액" th:text="${l.trDepDeposit}"></td>
+							<td data-title="은행명" th:text="${l.mAccountBankName}"></td>
+							<td data-title="구매자 계좌" th:text="${l.mAccountNumber}"></td>
+							<td data-title="계좌 확인" th:text="${l.trDepAccountCheck}"></td>
+							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
+							<td data-title="신청시간" th:text="${l.trDepDate}"></td>
+							<td data-title="출금여부" th:text="${l.trDepCheck}"></td>
+							<td data-title="출금시간" th:text="${l.trDepWdDate}"></td>
+							<td data-title="출금">
 								<span th:if="${l.trDepCheck == 'Y'}">출금완료</span>
-								<a th:if="${l.trDepCheck != 'Y'}" th:href=@{/}>출금</a>
+								<a th:if="${l.trDepCheck != 'Y'}" class="btn btn-info" th:href=@{/}>출금</a>
 							</td>
 						</tr>
 					</tbody>
 				</table>
+				</section>
+				</div>
 			</div>
 		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
+		<!-- js placed at the end of the document so the pages load faster -->
+	  <script src="lib/jquery/jquery.min.js"></script>
+	  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+	  <script src="lib/jquery.scrollTo.min.js"></script>
+	  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+	  <!--common script for all pages-->
+	  <script src="lib/common-scripts.js"></script>
 		<script type="text/javascript">
 			var profit = $('#profit');
 			profit.addClass('active');
