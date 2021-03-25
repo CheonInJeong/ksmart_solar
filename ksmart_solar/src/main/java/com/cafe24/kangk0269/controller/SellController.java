@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.serivce.SellService;
 
 @Controller
@@ -77,6 +78,12 @@ public class SellController {
 		return "redirect:/sell/myHistory";
 	}
 	
+	//부품 선택 시 해당 부품의 정보를 가져옴
+	@RequestMapping(value="/ajax/componentInformation",method = RequestMethod.POST)
+	public @ResponseBody ComponentDTO componentInformation(@RequestParam(value="cpCode") String cpCode) {
+		return sellService.getComponentInformation(cpCode);
+	}
+	
 	//발전소 공고 등록시 선택한 발전소의 정보를 가져옴
 	@RequestMapping(value="/ajax/plantInformation",method = RequestMethod.POST)
 	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode) {
@@ -99,8 +106,10 @@ public class SellController {
 
 	//부품판매공고신청 버튼 클릭시
 	@GetMapping("/sell/componentSell")
-	public String componentSell() {
-		
+	public String componentSell(Model model,HttpServletRequest request) {
+		HttpSession session = request.getSession();
+		String sessionId = (String)session.getAttribute("SID");
+		model.addAttribute("component", sellService.getComponent(sessionId));
 		return "/sell/componentSell";
 	}
 	//공고신청 메뉴 클릭시
@@ -124,17 +133,11 @@ public class SellController {
 		
 		return "/sell/mySell";
 	}
-	//거래대금출금 클릭시
+
 	@GetMapping("/sell/applyPayment")
-	public String ApplyPayment() {
-		
-		return "/sell/applyPayment";
-	}
-	
-	@GetMapping("/sell/applyPayment1")
 	public String applyPayment1() {
 		
-		return "/sell/applyPayment1";
+		return "/sell/applyPayment";
 	}
 	@GetMapping("/sell/paymentList")
 	public String PaymentList() {

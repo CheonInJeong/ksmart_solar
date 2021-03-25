@@ -14,6 +14,7 @@ import com.cafe24.kangk0269.common.FileUtils;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 
 @Transactional
@@ -28,6 +29,17 @@ public class SellService {
 	public SellService(SellMapper sellMapper,FileUtils fileUtils) {
 		this.sellMapper = sellMapper;
 		this.fileUtils = fileUtils;
+	}
+	
+	//부품 정보 조회
+	
+	public ComponentDTO getComponentInformation(String code) {
+		return sellMapper.getComponentInformation(code);
+	}
+	
+	//부품 리스트 조회
+	public List<ComponentDTO> getComponent(String mId){
+		return sellMapper.getComponent(mId);
 	}
 	
 	//발전소 공고 내용 조회

@@ -3,12 +3,13 @@ package com.cafe24.kangk0269.dto;
 public class ComponentDTO {
 	private String cpCode;
 	private String mId;
-	private String cpCame;	
+	private String cpName;	
 	private String cpInfo;	
 	private String cpMaker;	
 	private String cpMakedate;	
 	private String cpUsedate;	
 	private String cpDate;
+	private BidComponentDTO bidComponentDTO;
 	public String getCpCode() {
 		return cpCode;
 	}
@@ -21,11 +22,11 @@ public class ComponentDTO {
 	public void setmId(String mId) {
 		this.mId = mId;
 	}
-	public String getCpCame() {
-		return cpCame;
+	public String getCpName() {
+		return cpName;
 	}
-	public void setCpCame(String cpCame) {
-		this.cpCame = cpCame;
+	public void setCpName(String cpName) {
+		this.cpName = cpName;
 	}
 	public String getCpInfo() {
 		return cpInfo;
@@ -57,6 +58,12 @@ public class ComponentDTO {
 	public void setCpDate(String cpDate) {
 		this.cpDate = cpDate;
 	}
+	public BidComponentDTO getBidComponentDTO() {
+		return bidComponentDTO;
+	}
+	public void setBidComponentDTO(BidComponentDTO bidComponentDTO) {
+		this.bidComponentDTO = bidComponentDTO;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -64,8 +71,8 @@ public class ComponentDTO {
 		builder.append(cpCode);
 		builder.append(", mId=");
 		builder.append(mId);
-		builder.append(", cpCame=");
-		builder.append(cpCame);
+		builder.append(", cpName=");
+		builder.append(cpName);
 		builder.append(", cpInfo=");
 		builder.append(cpInfo);
 		builder.append(", cpMaker=");
@@ -76,8 +83,12 @@ public class ComponentDTO {
 		builder.append(cpUsedate);
 		builder.append(", cpDate=");
 		builder.append(cpDate);
+		builder.append(", bidComponentDTO=");
+		builder.append(bidComponentDTO);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 	
 }
