@@ -14,7 +14,7 @@
 	<div id="container-header-space"></div>
 	<div id="signInContents" class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
 		<div class="content-panel">
-			<div style="padding: 30px 50px 100px 50px; width: 70%; margin-left: 15%">
+			<div id="inputForm">
 				<div class="form-group">
 				  <input type="text" readonly="readonly" hidden="hidden" id="memberCodeCheckValue" value="">
 				  <label for="memberId" style="margin-top: 13px;">아이디</label><br>
@@ -54,6 +54,7 @@
 				<form >
 				  <div class="form-group" style="margin-top: 18px;">
 				    <label for="memberName">이름</label>
+				    
 				    <input type="text" class="form-control" id="memberName" placeholder="이름을 입력하세요.">
 				  </div>
 				  <label for="memberPhone">휴대전화번호</label>
@@ -65,7 +66,7 @@
 				  <br><br>
 				  <div class="form-group">
 				    <label for="inputFile">사진등록</label>
-				    <input type="file" id="inputFile">
+				    <input type="file" name="img" id="inputFile">
 				  </div>
 			      <img id="uploadImg" alt="" src="">
 				</form>
@@ -78,6 +79,63 @@
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
+		
+		function uploadImageByImgur(file, callback) {           
+		    form = new FormData();
+		    form.append('image', file);
+		    $.ajax({                   
+		        xhr: function(){
+		            var xhr = new window.XMLHttpRequest();
+		            xhr.upload.addEventListener("progress", function(evt){// 업로드상태이벤트리스너등록
+		                if (evt.lengthComputable) {              
+		                    console.log("업로드진행률:"+parseInt( (evt.loaded / evt.total * 100), 10)+"%");
+		                }
+		            }, false);
+		            return xhr;
+		        },                     
+		        url: 'https://api.imgur.com/3/image',// 업로드요청주소             
+		        headers: { Authorization: 'f08262aa982e55b',
+		        	 	   Accept: "application/json"},               
+		        type: 'POST',               
+		        data: form,               
+		        cache: false,                   
+		        contentType: false,                    
+		        processData: false                   
+		    }).always(callback);
+		}
+		
+
+
+
+		/*
+
+		파일 변경 이벤트가 감지되면 자동으로 이미지 업로드
+
+		*/
+
+		$(document).ready(function(){ // document가 모두 로드되면 실행됨
+			$("input[name=img]").change(function(){// 사용자가 파일을 변경했을때 발생됨
+				var file = this.files[0];
+				uploadImageByImgur(file, function(result){
+					console.log(result);
+					console.log('업로드결과:'+result.status);
+			
+					if(result.status!=200){
+						result = $.parseJSON(result.responseText);
+					}
+			
+					if(result.data.error){
+						console.log('지원하지않는 파일형식..');
+					}else{
+						console.log('업로드된 파일경로:'+result.data.link);
+					}
+		
+				});
+			});
+		});
+
+		
+		
 			//아이디 중복확인
 			function userCodeCheck(){
 				var mId = $('#memberId').val();
@@ -89,6 +147,7 @@
 					memberId.focus();
 					return;
 				}
+				
 				$.ajax({
 			        url     : '/ajax/idCheck',
 			        type    : 'POST',
@@ -135,6 +194,14 @@
 				var memberPhone = $('.memberPhone');
 				var inputFile = $('#inputFile');
 				var memberPhoneSum = ($(memberPhone[0]).val() + '-' +  $(memberPhone[1]).val() + '-' + $(memberPhone[2]).val());
+				
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////파일 업로드 Imgur///////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
 				
 				if(memberId.val() == null || memberId.val() == "" || memberId.val() == 'undefined'){
 					Swal.fire({
@@ -316,6 +383,7 @@
 			        }
 			    }).open();
 			}
+			
 		</script>
 	</th:block>
 </html>

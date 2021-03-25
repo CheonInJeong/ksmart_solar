@@ -6,8 +6,9 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered"><a href="/profile.html"><img src="/img/ui-sam.jpg" class="img-circle" width="80"></a></p>
-          <h5 class="centered">Sam Soffes</h5>
+          <p class="centered" th:if="${session.SID ne null}"><a href="/profile.html"><img src="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
+          <h5 class="centered" th:if="${session.SID ne null}">[[${session.SNAME}]] ([[${session.SLEVEL}]])</h5>
+          <h5 class="centered" th:if="${session.SID ne null}"><small>[[${session.SID}]]</small></h5>
           <li class="mt">
             <a class="" th:href="@{#}">
               <i class="fa fa-bar-chart-o"></i>

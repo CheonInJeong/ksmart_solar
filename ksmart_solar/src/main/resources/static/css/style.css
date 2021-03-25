@@ -3495,7 +3495,7 @@ ul.chat-available-user li a:hover {
 	float: left;
 }
 #container-header-path{
-	width: 40%;
+	width: 50%;
 	margin: 45px 2% 0 0;
 	font-size: 15px;
 	color: #333;
@@ -3510,3 +3510,38 @@ ul.chat-available-user li a:hover {
 	display: inline-block;
 }
 
+#inputForm {
+	padding: 30px 50px 100px 50px; 
+	width: 50%; 
+	margin-left: 25%;
+	margin-right: 25%;
+}
+
+.plantImg{
+	width: 200px;
+	height: 200px;
+}
+
+@media screen and (max-width: 1000px) {
+	#container-header-title{
+		width: 100%;
+		margin: 60px 0 0 0;
+		font-size: 20px;
+		font-weight: 500; 
+		color: #333;
+		float: left;
+	}
+	#container-header-path{
+		width: 100%;
+		margin: 25px 0 0 0;
+		font-size: 13px;
+		color: #333;
+		float: left;
+		text-align: left;
+	}
+	#inputForm {
+		padding: 30px 0 100px 0; 
+		width: 95%; 
+		margin: 0 2.5% 0 2.5%;
+	}
+}

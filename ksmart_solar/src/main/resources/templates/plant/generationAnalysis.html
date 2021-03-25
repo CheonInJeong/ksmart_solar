@@ -4,11 +4,11 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>발전소 리스트</title>
+		<title>발전량 분석</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>발전소 리스트</strong></div>
-		<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트</div>
+		<div id="container-header-title"><strong>발전량 분석</strong></div>
+		<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트 > 발전소 상세정보 > 발전량 분석</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
 			<div class="content-panel">
@@ -16,6 +16,7 @@
 				<div class="panel panel-default">
 					<div class="panel-heading">발전소 1</div>
 					<div class="panel-body">
+						<button type="button" id="plantDetailMove">발전소 상세화면으로 이동</button>
 						발전소 정보
 					</div>
 				</div>
@@ -26,7 +27,9 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
-			
+			$('#plantDetailMove').click(function(){
+				document.location.href = '/plant/plantDetail';
+			});
 		</script>
 	</th:block>
 	
