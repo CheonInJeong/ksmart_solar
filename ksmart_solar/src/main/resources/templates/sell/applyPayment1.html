@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>테스트</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+	
+		<div id="container-header-title"><strong>거래대금리스트</strong></div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/applyPayment}">거래대금리스트</a>  >출금신청</div>
+      	<div id="container-header-space"></div>
+      	
+      	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <div class="form">
+      			 <form class="cmxform form-horizontal style-form" id="" method="post" th:action="@{#}">
+						<input type="hidden" name="mId" th:value="${session.SID}">
+						<div class="form-group">
+		                    <label for="bzPlNameM" class="control-label col-lg-2">거래코드</label>
+		                    <div class="col-lg-10">
+		                     	<input class=" form-control" id = "bzPlNameM" name="bzPlName" type="text"   readonly>
+		                    </div>
+						</div>
+		                  <div class="form-group">
+		                    <label for="bPlTitle" class="control-label col-lg-2">신청금액</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="bPlTitleM"   name="bPlTitle" type="text">
+		                    </div>
+		                  </div>
+		                  <div class="form-group ">
+		                    <label for="plDepDataResidual" class="control-label col-lg-2">수수료율</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="plDepDataResidualM"   name="plDepDataResidual" type="text" readonly>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="bPlPrice" class="control-label col-lg-2">거래수수료율</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="bPlPriceM"   name="bPlPrice" type="text">
+		                    </div>
+		                  </div>
+		                 <div class="form-group">
+		                 	<label for="filesM" class="control-label col-lg-2">출금금액</label>
+		                  	<div class="col-lg-10">
+		                    	<input type="text" id="filesM" class="default" name="files" >
+		                  	</div>
+		                </div>
+		                  <div class="form-group ">
+		                    <label for="bPlContentsM" class="control-label col-lg-2">은행명</label>
+		                    <div class="col-lg-10">
+		                     	<input type="text" id="filesM" class="default" name="files" >
+		                    </div>
+		                  </div>
+		                 <div class="form-group">
+		                  <label for ="bPlDateBidding1M" class="control-label col-lg-2">계좌</label>
+		                  <div class="col-lg-10">
+		                    <input id="bPlDateBidding1M" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" >
+		                  </div>
+		                </div> 
+		                 <div class="form-group">
+		                  <label for ="bPlDateBidding1M" class="control-label col-lg-2">예금주명</label>
+		                  <div class="col-lg-10">
+		                    <input id="bPlDateBidding1M" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" >
+		                  </div>
+		                </div>                    
+		                  <div class="form-group">
+		                    <div class="col-lg-offset-2 col-lg-10">
+		                      <button class="btn btn-theme" type="button" id="btnPlantSellM">신청</button>
+		                      
+		                      <button class="btn btn-theme04" type="button" id="cancelBtnPlantSellM">취소</button>
+		                    </div>
+		                  </div>
+               		 </form>
+                 </div>
+              </div>
+            </div>
+          </div>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(3).addClass('active');
+		</script>
+	</th:block>
+</html>

@@ -4,14 +4,14 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>입찰 신청</title>
+				<title>대금납부</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<div class="chat-room mt">
           <div class="mid-side container">
           	<div class="row">
 	            <div class="chat-room-head">
-	              <h3>입찰 신청</h3>
+	              <h3>대금납부</h3>
 	            </div>
 	            <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/bidRequestResult}" enctype="multipart/form-data">
 		            <div class="group-rom">
@@ -19,13 +19,19 @@
 		              <div class="second-part" >짱좋은 부품 팝니다</div>
 		            </div>
 		            <div class="group-rom">
-		              <div class="first-part odd">입찰금액</div>
+		              <div class="first-part odd">날찰금액</div>
 		              <div class="second-part">
 		              	<input type="text" name="bPrice" placeholder="0">
 		              </div>
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">예치금</div>
+		              <div class="second-part" id="bDeposit">0
+		              	<input type="hidden" name="bDeposit">
+		              </div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">납부할 금액</div>
 		              <div class="second-part" id="bDeposit">0
 		              	<input type="hidden" name="bDeposit">
 		              </div>

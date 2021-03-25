@@ -30,17 +30,35 @@ public class SellService {
 		this.fileUtils = fileUtils;
 	}
 	
+	//발전소 공고 내용 조회
+	public List<BidPlantDTO> getBidPlantDetail(String code){
+		return sellMapper.getBidPlantDetail(code);
+	}
+	
+	public void removePlantApply(String code) {
+		sellMapper.removePlantApply(code);
+	}
+	
+	public List<BidPlantDTO> getBidPlantbyCode(String code){
+		return sellMapper.getBidPlantbyCode(code);
+	}
+	//발전소 공고 수정
+	public void modifyPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+		sellMapper.modifyPlantApply(bidPlantDto);
+		System.out.println(bidPlantDto.getbPlCode()+"<---파일 업데이트 getPlCode");
+		sellMapper.modifyFile(bidPlantDto.getbPlCode());
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
+		if (CollectionUtils.isEmpty(filelist) == false) {
+			sellMapper.addFile(filelist);
+		}
+	}
+	//발전소 신청
 	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
-		String bzPlCode = bidPlantDto.getBzPlCode();
-		System.out.println(bzPlCode+"<---발전소코드 서비스");
-		
 		sellMapper.addPlantApply(bidPlantDto);
 		
 		System.out.println(bidPlantDto.getbPlCode()+"<------파일 관련 공고 코드");
-		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(), multipartHttpServletRequest,request);
-		System.out.println("실행확인1");
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
-			System.out.println("실행확인2");
 			sellMapper.addFile(filelist);
 		}
 	}

@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+	<th:block layout:fragment="customCss">
+	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	  <!-- Custom styles for this template -->
+	  <link th:href="@{/css/style.css}" rel="stylesheet">
+	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	</th:block>
+	<th:block layout:fragment="customTitle">
+				<title>발전소 공고 조회</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+	
+		<div id="container-header-title"><strong>공고조회</strong></div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 공고조회</div>
+      	<div id="container-header-space"></div>
+        <th:block th:each="detail:${bidPlantDetail}">
+	       <div class="row">
+	          <div class="col-md-12">
+	            <div class="content-panel">
+	              <h4><i class="fa fa-angle-right"></i>발전소</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>발전소명</td>
+	                    <td colspan="5" th:text="${detail.businessPlantDTO.bzPlName}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>주소</td>
+	                    <td>[[${detail.businessPlantDTO.bzPlZipcode}]] [[${detail.businessPlantDTO.bzPlAddr}]] [[${detail.businessPlantDTO.bzPlDetailAddr}]]</td>
+	                  	<td>부지면적</td>
+	                  	<td id="bzPlAreaD" th:text="${detail.businessPlantDTO.bzPlArea}"></td>
+	                  	<td>하드웨어여부</td>
+	                    <td th:text="${detail.businessPlantDTO.bzPlHardware}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>발전소용량</td>
+	                    <td id="bzPlPowerD" th:text="${detail.businessPlantDTO.bzPlPower}"></td>
+	                    <td>잔존가치</td>
+	                    <td id ="plDepDataResidualD" th:text="${detail.plDepDataResidual}"></td>
+	                    <td>계약REC</td>
+	                    <td id="bzPlRecD" th:text="${detail.businessPlantDTO.bzPlRec}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>인버터용량</td>
+		                <td id="bzPlInvPowerD" th:text="${detail.businessPlantDTO.bzPlInvPower}"></td>
+		                <td>인버터수량</td>
+		                <td id="bzPlInvCountD" th:text="${detail.businessPlantDTO.bzPlInvCount}"></td>
+	                  	<td>인버터제조사</td>
+	                  	<td id= "bzPlInvMakerD" th:text="${detail.businessPlantDTO.bzPlInvMaker}"></td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+	        </div> 
+           <div class="row">
+	          <div class="col-md-12">
+	            <div class="content-panel">
+	              <h4><i class="fa fa-angle-right"></i>공고정보</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td colspan="3" th:text="${detail.bPlCode}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td colspan="3" th:text = "${detail.bPlTitle}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td colspan="3" th:text = "${detail.bPlContents}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>희망가격</td>
+	                  	<td colspan="3" id="bPlPriceD" th:text = "${detail.bPlPrice}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${detail.bPlDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${detail.bPlDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정일시작일</td>
+	               		<td th:text="${detail.bPlDateDecision1}"></td>
+	                  	<td>입찰자결정일시작일</td>
+	                  	<td th:text="${detail.bPlDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>진행상태</td>
+	                  	<td th:text=${detail.bPlStatus}></td>
+	                  	<td>입찰자수</td>
+	                  	<td id="bidderNumberD" th:text=${detail.bPlNumberOfBidder}></td>
+	                  </tr>
+	                  <tr>
+	                  	<td colspan="4">
+	                  		<div class=" add-task-row">
+                  				<a class="btn btn-default btn-sm pull-right" th:href="@{/sell/myHistory}">목록</a>
+                 			 </div>
+                 		</td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	              
+	            </div>
+	          </div>
+          </div>
+        </th:block>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
+		<script>
+			//숫자에 콤마 찍는 함수
+			 function comma(str) {
+	       		 str = String(str);
+	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	  		  }
+		 	
+		 	$(document).ready(function(){
+		 		$('#bzPlAreaD').text(comma($('#bzPlAreaD').text()));
+		 		$('#bzPlPowerD').text(comma($('#bzPlPowerD').text()));
+		 		$('#plDepDataResidualD').text(comma($('#plDepDataResidualD').text()));
+		 		$('#bzPlRecD').text(comma($('#bzPlRecD').text()));
+		 		$('#bzPlInvPowerD').text(comma($('#bzPlInvPowerD').text()));
+		 		$('#bzPlInvCountD').text(comma($('#bzPlInvCountD').text()));
+		 		$('#bzPlInvMakerD').text(comma($('#bzPlInvMakerD').text()));
+		 		$('#bPlPriceD').text(comma($('#bPlPriceD').text()));
+		 		$('#bidderNumberD').text(comma($('#bidderNumberD').text()));
+		 	})	 		
+		</script>
+		
+	</th:block>
+</body>
+
+</html>
+					

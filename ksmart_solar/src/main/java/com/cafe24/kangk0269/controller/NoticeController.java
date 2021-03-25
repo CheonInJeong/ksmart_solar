@@ -99,5 +99,9 @@ public class NoticeController {
 		List<String> managerList=memberService.getManager();
 		return null; 
 	}
+	@PostMapping("/notice/bidRequestResult")
+	public String bidRequestResult() {
+		return "/notice/bidRequestResult";
+	}
 	 
 }
