@@ -11,7 +11,7 @@
           <div class="col-md-12 container">
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> 진행중인 부품 공고</h4>
+                <h4><i class="fa fa-angle-right"></i>입찰한 부품 공고</h4>
                 <hr>
                 <thead>
                   <tr>
@@ -41,11 +41,137 @@
 		                    <td th:text="${l.bidListDTO.bDate}"></td>
 		                  </tr>
                 	</th:block>
-                	<th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
+		                  <tr>
+		                    <td>1</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다1</a>
+			                      	<input type="hidden" name="status" value="입찰대기">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다1">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>입찰대기</td>
+		                    <td>공고진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>2</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다2</a>
+			                      	<input type="hidden" name="status" value="입찰성공">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다2">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>입찰성공</td>
+		                    <td>공고진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>3</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다3</a>
+			                      	<input type="hidden" name="status" value="입찰실패">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다3">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>입찰실패</td>
+		                    <td>공고진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>4</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다4</a>
+			                      	<input type="hidden" name="status" value="입찰취소">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다4">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>입찰취소</td>
+		                    <td>공고진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>5</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다5</a>
+			                      	<input type="hidden" name="status" value="입찰종료">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다5">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>입찰종료</td>
+		                    <td>거래진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>6</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다6</a>
+			                      	<input type="hidden" name="status" value="계약중">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다6">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>계약중</td>
+		                    <td>거래진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>7</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다7</a>
+			                      	<input type="hidden" name="status" value="계약대기">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다7">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>계약대기</td>
+		                    <td>거래진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>8</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다8</a>
+			                      	<input type="hidden" name="status" value="계약취소">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다8">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>계약취소</td>
+		                    <td>거래진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+		                  <tr>
+		                    <td>9</td>
+		                    <td>
+		                    	<form th:action="@{/buy/myAnnouncement}" method="post">
+			                      	<a class="announceTitle">짱좋은 부품 팝니다9</a>
+			                      	<input type="hidden" name="status" value="대금처리중">
+			                      	<input type="hidden" name="title" value="짱좋은 부품 팝니다9">
+		                    	</form>
+		                    </td>
+		                    <td>id002</td>
+		                    <td>대금처리중</td>
+		                    <td>거래진행중</td>
+		                    <td>2021-02-14 12:23:25</td>
+		                  </tr>
+                	<!-- <th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
 		                  <tr>
 		                    <td colspan="6" style="text-align: center;">입찰 신청한 부품 공고가 없습니다.</td>		                 
 		                  </tr>
-                	</th:block>
+                	</th:block> -->
                 </tbody>
               </table>
             </div>
@@ -56,7 +182,7 @@
           <div class="col-md-12 container">
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> 진행중인 발전소 공고</h4>
+                <h4><i class="fa fa-angle-right"></i>입찰한 발전소 공고</h4>
                 <hr>
                 <thead>
                   <tr>
