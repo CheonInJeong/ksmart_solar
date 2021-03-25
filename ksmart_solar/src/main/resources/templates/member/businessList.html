@@ -46,10 +46,12 @@
 							<td th:text="${l.bzCheck}"></td>
 							<td th:text="${l.bzCheckReason}"></td>
 							<td th:if="${l.bzCheck} == N">
-								<a th:href=@{/}>승인</a>
+								<button id="admitBtn">승인</button>
 							</td>
 							<td th:if="${l.bzCheck} == N">
-								<a th:href=@{/}>반려</a>
+								<button>
+									<a th:href=@{/}>반려</a>
+								</button> 
 							</td>
 							<td colspan="2" th:unless="${l.bzCheck} == N">
 								<span th:if="${l.bzCheck} == Y">승인완료</span>
@@ -67,6 +69,7 @@
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(3).addClass('active');
+			}
 		</script>
 	</th:block>
 </html>
