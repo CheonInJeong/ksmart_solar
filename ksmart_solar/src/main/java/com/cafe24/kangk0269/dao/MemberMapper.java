@@ -23,7 +23,9 @@ public interface MemberMapper {
 	
 	// 회원정보 조회
 	public MemberDTO getMemberInfoById(String mId);
-	// 회원정보 조회
-	public List<String> getManager(String level);
+	
+	
+	// 관리자 아이디 조회
+	public List<String> getManager();
 
 }
