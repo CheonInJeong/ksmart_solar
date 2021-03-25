@@ -10,6 +10,8 @@ public class FileDTO {
 	private String createdDatetime;
 	private String updatorId ;
 	private String updatedDatetime;
+	private int fileSortIdx;
+	private String fileSortName;
 	public int getIdx() {
 		return idx;
 	}
@@ -64,12 +66,45 @@ public class FileDTO {
 	public void setUpdatedDatetime(String updatedDatetime) {
 		this.updatedDatetime = updatedDatetime;
 	}
+	public int getFileSortIdx() {
+		return fileSortIdx;
+	}
+	public void setFileSortIdx(int fileSortIdx) {
+		this.fileSortIdx = fileSortIdx;
+	}
+	public String getFileSortName() {
+		return fileSortName;
+	}
+	public void setFileSortName(String fileSortName) {
+		this.fileSortName = fileSortName;
+	}
 	@Override
 	public String toString() {
-		return "FileDTO [idx=" + idx + ", relatedTableCode=" + relatedTableCode + ", originalFileName="
-				+ originalFileName + ", storedFilePath=" + storedFilePath + ", fileSize=" + fileSize + ", creatorId="
-				+ creatorId + ", createdDatetime=" + createdDatetime + ", updatorId=" + updatorId + ", updatedDatetime="
-				+ updatedDatetime + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("FileDTO [idx=");
+		builder.append(idx);
+		builder.append(", relatedTableCode=");
+		builder.append(relatedTableCode);
+		builder.append(", originalFileName=");
+		builder.append(originalFileName);
+		builder.append(", storedFilePath=");
+		builder.append(storedFilePath);
+		builder.append(", fileSize=");
+		builder.append(fileSize);
+		builder.append(", creatorId=");
+		builder.append(creatorId);
+		builder.append(", createdDatetime=");
+		builder.append(createdDatetime);
+		builder.append(", updatorId=");
+		builder.append(updatorId);
+		builder.append(", updatedDatetime=");
+		builder.append(updatedDatetime);
+		builder.append(", fileSortIdx=");
+		builder.append(fileSortIdx);
+		builder.append(", fileSortName=");
+		builder.append(fileSortName);
+		builder.append("]");
+		return builder.toString();
 	}
 	
 	
