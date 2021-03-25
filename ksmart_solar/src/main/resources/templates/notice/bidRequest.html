@@ -20,13 +20,15 @@
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">입찰금액</div>
-		              <div class="second-part" >
-		              	<input type="text" name="bPrice">
+		              <div class="second-part">
+		              	<input type="text" name="bPrice" placeholder="0">
 		              </div>
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">예치금</div>
-		              <div class="second-part" >5,500,000</div>
+		              <div class="second-part" id="bDeposit">0
+		              	<input type="hidden" name="bDeposit">
+		              </div>
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">입금 은행</div>
@@ -62,7 +64,64 @@
 	<th:block layout:fragment="customScript">
 		
 		<script type="text/javascript">
-		
+			$(function(){
+				//입찰금액
+				var bPrice = $('[name="bPrice"]');
+				//예치금
+				var bDeposit = $('[name="bDeposit"]');
+				//보여지는 예치금
+				var bDepositText = $('#bDeposit');
+				//예치금율
+				var sDepositRate = 0;			
+				//예치금율 가져오는 비동기호출
+				$.ajax({
+					  url: '/sDepositRateCheck', 
+					  method: 'POST',
+					  success: function(data){
+						  if(data != null){
+							  sDepositRate = data;
+						  }
+					  },
+					  error : function(xhr,status,error){
+						  console.log("xhr: " + xhr);
+						  console.log("status: " + status);
+						  console.log("error: " + error);
+					  }
+				});
+				//관리자 계좌 가져오기
+				$.ajax({
+					  url: '/bankCheck', 
+					  method: 'POST',
+					  success: function(data){
+						  if(data != null){
+						  }
+					  },
+					  error : function(xhr,status,error){
+						  console.log("xhr: " + xhr);
+						  console.log("status: " + status);
+						  console.log("error: " + error);
+					  }
+				});
+				//숫자에 콤마찍는 플러그인
+				$.fn.transPrice = function(){
+					var price = $(this).val().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+					$(this).val(price);
+				}
+				//숫자만 입력하게 하는 플러그인
+				$.fn.onlyNumber = function(){
+					$(this).val($(this).val().replace(/[^0-9]/g,''));
+				}
+				//입찰금액을 입력할 때 
+				bPrice.keyup(function(){
+					$(this).onlyNumber();
+					var num = $(this).val();
+					bDeposit.val(num/100*sDepositRate);
+					$(this).transPrice();
+					bDeposit.transPrice();
+					bDepositText.text(bDeposit.val());
+				});
+				
+			});
 		</script>
 	</th:block>
 </html>

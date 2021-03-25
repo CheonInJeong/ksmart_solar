@@ -2,7 +2,7 @@ package com.cafe24.kangk0269.dto;
 
 public class StandardDepositDTO {
 	private int sDepositIdx;
-	private String sDepositRate;
+	private double sDepositRate;
 	private String sDepositDate;
 	private String sDepositUse;
 	private String mId;
@@ -12,10 +12,10 @@ public class StandardDepositDTO {
 	public void setsDepositIdx(int sDepositIdx) {
 		this.sDepositIdx = sDepositIdx;
 	}
-	public String getsDepositRate() {
+	public double getsDepositRate() {
 		return sDepositRate;
 	}
-	public void setsDepositRate(String sDepositRate) {
+	public void setsDepositRate(double sDepositRate) {
 		this.sDepositRate = sDepositRate;
 	}
 	public String getsDepositDate() {
@@ -52,5 +52,6 @@ public class StandardDepositDTO {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 
 }
