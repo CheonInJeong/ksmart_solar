@@ -17,15 +17,16 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-	<div id="container-header-title"><strong>회원리스트</strong></div>
-      <div id="container-header-path">회원관리 > 회원리스트조회</div>
-      <div id="container-header-space"></div>
+	<div id="container-header-title"><strong>회원리스트조회</strong></div>
+	<div id="container-header-path">회원관리 > 회원리스트조회</div>
+	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
 				<h4><i class="fa fa-angle-right"></i> 회원리스트</h4>
 	              <section id="no-more-tables">
-	                <table class="table table-bordered table-striped table-condensed cf">
+	              	<hr>
+	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
 							<th>아이디</th>
@@ -58,7 +59,7 @@
 							<td data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
 							<td data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
 							<td data-title="수정">
-								<a th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 							</td>
 						</tr>
 					</tbody>
