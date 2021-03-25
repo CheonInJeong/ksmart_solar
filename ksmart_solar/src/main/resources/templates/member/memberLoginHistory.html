@@ -1,10 +1,9 @@
-<!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>취소수수료관리</title>
+				<title>회원로그인기록조회</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -18,42 +17,34 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-	<div id="container-header-title"><strong>취소수수료관리</strong></div>
-	<div id="container-header-path">수익관리 > 취소수수료관리</div>
+	<div id="container-header-title"><strong>회원로그인기록조회</strong></div>
+	<div id="container-header-path">회원관리 > 회원로그인기록조회</div>
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 취소수수료관리</h4>
+				<h4><i class="fa fa-angle-right"></i> 회원로그인기록조회</h4>
 	              <section id="no-more-tables">
 	              	<hr>
-	                <table class="table table-condensed cf">
+	              	<table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>#</th>
-							<th>거래공고</th>
-							<th>취소단계</th>
-							<th>수수료납부회원</th>
-							<th>수수료기준금액</th>
-							<th>취소 수수료율</th>
-							<th>취소 수수료금액</th>
-							<th>수수료 수취일</th>
+							<th>로그 인덱스</th>
+							<th>아이디</th>
+							<th>로그인</th>
+							<th>로그아웃</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr>
-							<td data-title="#">1</td>
-							<td data-title="거래공고">b_pl_210224_0001</td>
-							<td data-title="취소단계">낙찰</td>
-							<td data-title="수수료납부회원">id010</td>
-							<td data-title="수수료기준금액">120,000,000</td>
-							<td data-title="취소 수수료율">5</td>
-							<td data-title="취소 수수료금액">6,000,000</td>
-							<td data-title="수수료 수취일">2021-03-30 00:00:00</td>
+							<td data-title="로그 인덱스">1</td>
+							<td data-title="아이디">id001</td>
+							<td data-title="로그인">2020-02-15 22:23:25</td>
+							<td data-title="로그아웃">2020-02-15 22:40:25</td>
 						</tr>
 					</tbody>
-				</table>
-				</section>
+					</table>
+	              </section>
 				</div>
 			</div>
 		</div>
@@ -68,10 +59,10 @@
 	  <!--common script for all pages-->
 	  <script src="lib/common-scripts.js"></script>
 		<script type="text/javascript">
-			var profit = $('#profit');
-			profit.addClass('active');
-			profit.parent().find('.sub').css('display','block');
-			profit.parent().find('.sub').children().eq(0).addClass('active');
+			var member = $('#member');
+			member.addClass('active');
+			member.parent().find('.sub').css('display','block');
+			member.parent().find('.sub').children().eq(1).addClass('active');
 		</script>
 	</th:block>
 </html>

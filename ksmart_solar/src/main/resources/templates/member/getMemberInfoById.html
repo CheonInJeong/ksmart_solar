@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>개인 정보 조회</title>
+				<title>[[${member.mId}]] 회원정보</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -23,14 +23,11 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>내 정보관리</strong></div>
-     	<div id="container-header-path">마이페이지 > 내 정보관리</div>
-     	<div id="container-header-space"></div>	
 		
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
-              <h4 class="mb"><i class="fa fa-angle-right"></i>개인 정보 조회</h4>
+              <h4 class="mb"><i class="fa fa-angle-right"></i> [[${member.mId}]] 회원정보</h4>
               <form class="form-horizontal style-form">
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">프로필 사진</label>
@@ -38,8 +35,8 @@
 	                  <div class="col-md-9">
 	                    <div class="fileupload fileupload-new" data-provides="fileupload">
 	                      <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-	                        <img th:if="${memberDTO.mPhoto} == null" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
-	                        <img th:if="${memberDTO.mPhoto} != null" src="${member.mPhoto}" alt="" />
+	                        <img th:if="${member.mPhoto} == null" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
+	                        <img th:if="${member.mPhoto} != null" src="${member.mPhoto}" alt="" />
 	                      </div>
 	                    </div>
 	                  </div>
@@ -48,58 +45,69 @@
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">아이디</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mId}]]</p>
+                    <p class="form-control-static">[[${member.mId}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">비밀번호</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${member.mPw}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">이름</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mName}]]</p>
-                  </div>
-                </div>
-                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">연락처</label>
-                  <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mPhone}]]</p>
+                    <p class="form-control-static">[[${member.mName}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-lg-2 col-sm-2 control-label">이메일</label>
+                  <label class="col-sm-2 col-sm-2 control-label">권한번호</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mEmail}]]</p>
+                    <p class="form-control-static">[[${member.mLevel}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">우편번호</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mZipcode}]]</p>
+                    <p class="form-control-static">[[${member.mZipcode}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mAddr}]]</p>
+                    <p class="form-control-static">[[${member.mAddr}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-lg-2 col-sm-2 control-label">상세주소</label>
                   <div class="col-lg-10">
-                    <p class="form-control-static">[[${memberDTO.mDetailAddr}]]</p>
+                    <p class="form-control-static">[[${member.mDetailAddr}]]</p>
                   </div>
                 </div>
-               
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">연락처</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${member.mPhone}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">이메일</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${member.mEmail}]]</p>
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
-                    <a class="btn btn-info" th:href="@{/mypage/ModifyMyInfo}">회원정보 수정</a>
-                    <a class="btn btn-warning" th:href="@{/mypage/withdraw}">회원탈퇴 신청</a>
+                    <a class="btn btn-info" th:href="@{/modifyMember(mId=${member.mId})}" role="button">수정</a>
                   </div>
                 </div>
               </form>
             </div>
           </div>
+          <!-- col-lg-12-->
         </div>
+		
 	</th:block>
-	
 	<th:block layout:fragment="customScript">
 		  <script src="lib/jquery/jquery.min.js"></script>
 		  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
@@ -120,10 +128,10 @@
 		  <script src="lib/advanced-form-components.js"></script>
 	
 		<script type="text/javascript">
-			var mypage = $('#mypage');
-			mypage.addClass('active');
-			mypage.parent().find('.sub').css('display','block');
-			mypage.parent().find('.sub').children().eq(0).addClass('active');
+			var member = $('#member');
+			member.addClass('active');
+			member.parent().find('.sub').css('display','block');
+			member.parent().find('.sub').children().eq(0).addClass('active');
 		</script>
 	</th:block>
 </html>
