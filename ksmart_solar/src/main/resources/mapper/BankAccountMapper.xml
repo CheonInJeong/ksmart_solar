@@ -15,16 +15,73 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 
 
+	<!-- 계좌 삭제처리  -->
+	<delete id="removeAccount" parameterType="int">
+		DELETE FROM tb_member_account
+		WHERE 
+			m_account_idx = #{mAccountIdx};
+	</delete>
 
+	<!-- 계좌 수정처리  -->
+	<update id="modifyAccount" parameterType="MemberAccountDTO">
+		UPDATE tb_member_account
+		SET
+			m_account_number=#{mAccountNumber},
+			m_account_name=#{mAccountName},
+			m_account_bank=#{mAccountBank},
+			m_account_reg_date=NOW(),
+			m_account_check=#{mAccountCheck}
+		WHERE
+			m_account_idx = #{mAccountIdx};
+	</update>
+	
+	<!-- 수정을 위한 선택 계좌조회 -->
+	<select id="getAccountByIdx" parameterType="int" resultMap="MemberAccountDTOMap">
+		SELECT 
+			  m_account_idx
+			, m_id
+			, m_account_number
+			, m_account_name
+			, m_account_bank
+			, m_account_check
+			, m_account_reg_date
+		FROM 
+			tb_member_account
+		WHERE
+			m_account_idx = #{mAccountIdx};
+		
+	</select>
+
+	<!-- 개인 계좌등록 -->
+	<insert id="addAccout" parameterType="MemberAccountDTO">
+		INSERT INTO tb_member_account
+			( m_account_idx
+			, m_id
+			, m_account_number
+			, m_account_name
+			, m_account_bank
+			, m_account_reg_date
+			, m_account_check)
+		VALUES 
+			( sf_new_account_idx()
+			, #{mId}
+			, #{mAccountNumber}
+			, #{mAccountName}
+			, #{mAccountBank}
+			, NOW()
+			, #{mAccountCheck})
+	</insert>
+	
+	
 	<!-- 개인 계좌조회 -->
-	<select id="getAccountListById" parameterType="String"
-		resultMap="MemberAccountDTOMap">
+	<select id="getAccountListById" parameterType="String" resultMap="MemberAccountDTOMap">
 		SELECT
-			m_account_number
-			,m_account_name
-			,m_account_bank
-			,m_account_reg_date
-			,m_account_check
+			  m_account_idx	
+			, m_account_number
+			, m_account_name
+			, m_account_bank
+			, m_account_reg_date
+			, m_account_check
 		FROM
 			tb_member_account
 		WHERE

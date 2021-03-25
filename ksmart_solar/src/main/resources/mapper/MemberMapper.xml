@@ -20,6 +20,33 @@
 		<result property="mRevokeDelayCheck" 	column="m_revoke_delay_check"/>
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
+	
+	<!-- 개인 회원조회 -->
+	<select id="getMyInfoById" parameterType="String" resultMap="memberResultMap">
+		SELECT 
+		  	 m_id
+			,m_pw
+			,m_name
+			,m_level
+			,m_zipcode
+			,m_addr
+			,m_detail_addr
+			,m_phone
+			,m_email
+			,m_photo
+			,m_sub_date
+			,m_sub_date_modify
+			,m_rest_check
+			,m_revoke_check
+			,m_revoke_delay_check
+			,m_state_modify_date    
+		FROM
+		   tb_member
+		WHERE
+		   m_id = #{login_id};
+	
+	</select>
+	
 	<insert id="addMember" parameterType="MemberDTO">
 		INSERT INTO tb_member(  
 			 m_id
