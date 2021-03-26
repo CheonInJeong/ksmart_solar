@@ -20,8 +20,8 @@
             		<option>공고시작일</option>
             		<option>진행상황</option>
             	</select>
-            	<input type="text" value="검색어">
-            	<input type="submit">
+            	<input type="text" placeholder="검색어">
+            	<input type="submit" value = "검색">
                </form>
               <table class="table table-striped table-advance table-hover">
                 <thead>
@@ -42,7 +42,7 @@
                 <tbody>
                   <tr th:each="list:${bidPlantList}">
                   	<td id="historyBPlCode" th:text=${list.bPlCode}></td>
-          <!--          <td th:text="${list.businessPlantDTO.bzPlName}"></td>-->
+       				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
                     <td><a th:href="@{/sell/getBidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
                     <td th:text="${list.bPlPrice}"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
@@ -70,8 +70,8 @@
             		<option>공고시작일</option>
             		<option>진행상황</option>
             	</select>
-            	<input type="text" value="검색어">
-            	<input type="submit">
+            	<input type="text" placeholder="검색어">
+            	<input type="submit" value="검색">
                </form>
               
               <table class="table table-striped table-advance table-hover">
