@@ -8,47 +8,76 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 	
-		<div id="container-header-title"><strong>거래대금리스트</strong></div>
-     	<div id="container-header-path">판매관리 > 거래대금리스트</div>
+		<div id="container-header-title"><strong>출금신청</strong></div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/applyPayment}">거래대금리스트</a>  >출금신청</div>
       	<div id="container-header-space"></div>
       	
-      	 <div class="row mt">
-          <div class="col-md-12">
-            <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i>거래 완료 목록</h4><hr><table class="table table-striped table-advance table-hover">
-                <thead>
-                  <tr>
-                    <th><i class="fa fa-bullhorn"></i>공고코드</th>
-                    <th class="hidden-phone"><i class="fa fa-question-circle"></i>공고명</th>
-                    <th>구매자</th>
-                    <th><i class="fa fa-bookmark"></i>거래대금</th>
-                    <th><i class=" fa fa-edit"></i>수수료율</th>
-                    <th><i class=" fa fa-edit"></i>수수료</th>
-                    <th><i class="fa fa-edit"></i>출금가능액</th>
-                    <th><i class=" fa fa-edit"></i>출금가능날짜</th>
-                    <th><i class=" fa fa-edit"></i>출금신청여부</th>
-                    <th><i class=" fa fa-edit"></i>출금신청버튼</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-	                   <td>b_pl_code</td>
-	                   <td>판매합니다.</td>
-	                   <td>id005</td>
-	                   <td>1000000</td>
-	                   <td>4%</td>
-	                   <td>40000</td>
-	                   <td>960000</td>
-	                   <td>2021-03-24</td>
-	                   <td>N</td>
-	                   <td><a th:href="@{/sell/applyPayment1}">출금신청</a></td>
-	                  </tr>
-                </tbody>
-              </table>
+      	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <div class="form">
+      			 <form class="cmxform form-horizontal style-form" id="" method="post" th:action="@{#}">
+						<input type="hidden" name="mId" th:value="${session.SID}">
+						<div class="form-group">
+		                    <label for="bzPlNameM" class="control-label col-lg-2">거래코드</label>
+		                    <div class="col-lg-10">
+		                     	<input class=" form-control" id = "bzPlNameM" name="bzPlName" type="text"   readonly>
+		                    </div>
+						</div>
+		                  <div class="form-group">
+		                    <label for="bPlTitle" class="control-label col-lg-2">신청금액</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="bPlTitleM"   name="bPlTitle" type="text">
+		                    </div>
+		                  </div>
+		                  <div class="form-group ">
+		                    <label for="plDepDataResidual" class="control-label col-lg-2">수수료율</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="plDepDataResidualM"   name="plDepDataResidual" type="text" readonly>
+		                    </div>
+		                  </div>
+		                  <div class="form-group">
+		                    <label for="bPlPrice" class="control-label col-lg-2">거래수수료율</label>
+		                    <div class="col-lg-10">
+		                      <input class=" form-control" id="bPlPriceM"   name="bPlPrice" type="text">
+		                    </div>
+		                  </div>
+		                 <div class="form-group">
+		                 	<label for="filesM" class="control-label col-lg-2">출금금액</label>
+		                  	<div class="col-lg-10">
+		                    	<input type="text" id="filesM" class="default" name="files" >
+		                  	</div>
+		                </div>
+		                  <div class="form-group ">
+		                    <label for="bPlContentsM" class="control-label col-lg-2">은행명</label>
+		                    <div class="col-lg-10">
+		                     	<input type="text" id="filesM" class="default" name="files" >
+		                    </div>
+		                  </div>
+		                 <div class="form-group">
+		                  <label for ="bPlDateBidding1M" class="control-label col-lg-2">계좌</label>
+		                  <div class="col-lg-10">
+		                    <input id="bPlDateBidding1M" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" >
+		                  </div>
+		                </div> 
+		                 <div class="form-group">
+		                  <label for ="bPlDateBidding1M" class="control-label col-lg-2">예금주명</label>
+		                  <div class="col-lg-10">
+		                    <input id="bPlDateBidding1M" class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="bPlDateBidding1" >
+		                  </div>
+		                </div>                    
+		                  <div class="form-group">
+		                    <div class="col-lg-offset-2 col-lg-10">
+		                      <button class="btn btn-theme" type="button" id="btnPlantSellM">신청</button>
+		                      
+		                      <button class="btn btn-theme04" type="button" id="cancelBtnPlantSellM">취소</button>
+		                    </div>
+		                  </div>
+               		 </form>
+                 </div>
+              </div>
             </div>
           </div>
-        </div>
-      	
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">

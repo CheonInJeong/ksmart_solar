@@ -77,7 +77,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_confirm_status, 
 			b_pl_reject_reason, 
 			b_pl_cancel_reason, 
-			b_pl_cancel_date
+			b_pl_cancel_date,
+			ac_status_code
 		FROM 
 			tb_bid_plant
 		join (

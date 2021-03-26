@@ -29,26 +29,76 @@
             <div class="form-panel">
               <div class="form">
                 <form class="cmxform form-horizontal style-form" id="signupForm" method="post" th:action="@{sell/applyComponentSell}" enctype="application/form-data">
-                  <input type="hidden" name="m_id" value="">
-                  <div class="form-group ">
-                    <label for="username" class="control-label col-lg-2">부품</label>
-                    <div class="col-lg-10">
-                      <select class="form-control">
-						  <option>1</option>
-						  <option>2</option>
-						  <option>3</option>
-						  <option>4</option>
-						  <option>5</option>
-						</select>
-                    </div>
-                  </div>
+                  <input type="hidden" name="m_id" th:value="${session.SID}">
+              
+					<div class="radio">
+						<label>
+                  			<input type="radio" name="optionsRadios" id="oldComponent" value="option1" checked="">기존부품
+                		 </label>
+                		 <label>
+                  			<input type="radio" name="optionsRadios" id="newComponent" value="option1" >새로운부품
+                		 </label>
+              		</div>
+              		
+              		<div class="form-group" id="selectInvisible">
+	                   <label for="username" class="control-label col-lg-2">부품선택</label>
+	                    <div class="col-lg-10">
+	                      <select class="form-control" id="componentSelect">
+	                      	<option value="0">부품을 선택해주세요.</option>
+	                        <th:block th:if="${#lists.size(component)}>0" th:each="c : ${component}">
+							 	<option th:value="${c.cpCode}" th:text="${c.cpName}"></option>
+							  </th:block> 
+								  <th:block th:unless="${#lists.size(component)}>0">
+							 	<option>현재 판매 할 수 있는 부품이 없습니다.</option>
+							 </th:block> 
+							</select>
+	                    </div>
+	                  </div>
+              		
+              		
+					<div class="form-group ">
+						<label for="b_cp_title" class="control-label col-lg-2">부품이름</label>
+						<div class="col-lg-10">
+							<input class=" form-control" id="cpName" name="cpName" type="text">
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="b_cp_title" class="control-label col-lg-2">부품제조사</label>
+						<div class="col-lg-10">
+							<input class=" form-control" id="cpMaker" name="cpMaker" type="text">
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="b_cp_title" class="control-label col-lg-2">부품제조일</label>
+						<div class="col-lg-10">
+							<input class=" form-control" id="cpMakedate" name="cpMakedate" type="text">
+						</div>
+					</div>
+					
+					
+					
+					<div class="form-group ">
+						<label for="b_cp_title" class="control-label col-lg-2">부품정보</label>
+						<div class="col-lg-10">
+							<textarea class="form-control" id="cpInfo" name="cpInfo"></textarea>
+						</div>
+					</div>
+					<div class="form-group ">
+						<label for="b_cp_title" class="control-label col-lg-2">부품사용시작날짜</label>
+						<div class="col-lg-10">
+							<input class=" form-control" id="cpUsedate" name="cpUsedate" type="text">
+						</div>
+					</div>
+              		
+              	
                   
                   <div class="form-group ">
-                    <label for="b_cp_title" class="control-label col-lg-2">제목</label>
+                    <label for="b_cp_title" class="control-label col-lg-2">공고제목</label>
                     <div class="col-lg-10">
                       <input class=" form-control" id="b_cp_title" name="b_cp_title" type="text">
                     </div>
                   </div>
+                  
                   <div class="form-group ">
                     <label for="b_cp_price" class="control-label col-lg-2">희망가</label>
                     <div class="col-lg-10">
@@ -98,17 +148,68 @@
 		</script>
 		
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-fileupload/bootstrap-fileupload.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/date.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/daterangepicker.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/moment.min.js}"></script>
-  <script type="text/javascript" th:src="@{/lib/bootstrap-timepicker/js/bootstrap-timepicker.js}"></script>
-  <script th:src="@{/lib/advanced-form-components.js}"></script>
-
-		<script>if( window.self == window.top ) { (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){ (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o), m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m) })(window,document,'script','//www.google-analytics.com/analytics.js','ga'); ga('create', 'UA-55234356-6', 'auto'); ga('send', 'pageview'); } </script>
-		
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-fileupload/bootstrap-fileupload.js}"></script>
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/date.js}"></script>
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/daterangepicker.js}"></script>
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/moment.min.js}"></script>
+		  <script type="text/javascript" th:src="@{/lib/bootstrap-timepicker/js/bootstrap-timepicker.js}"></script>
+		  <script th:src="@{/lib/advanced-form-components.js}"></script>
+		<script>
+			
+			$('#newComponent').click(function(){
+				$('#selectInvisible').attr('style','display:none;');
+				$('#cpName').val('');
+				$('#cpTitle').val('');
+				$('#cpMaker').val('');
+				$('#cpMakedate').val('');
+				$('#cpUsedate').val('');
+				$('#cpInfo').text('');
+			})
+			
+			$('#oldComponent').click(function(){
+				$('#selectInvisible').removeAttr('style');
+			
+			})
+			
+			
+			$('#componentSelect').change(function(){
+				var cpCode = $('select option:selected').val();
+				
+				$.ajax({
+					url : '/ajax/componentInformation',
+					type : 'POST',
+					data : {cpCode : cpCode},
+					success : function(data){
+						if(data){
+							var cpName = data.cpName;
+							var cpTitle = data.cpTitle;
+							var cpMaker = data.cpMaker;
+							var cpMakedate = data.cpMakedate;
+							var cpUsedate = data.cpUsedate;
+							var cpInfo = data.cpInfo;
+							console.log(cpName);
+							$('#cpName').val(cpName);
+							$('#cpTitle').val(cpTitle);
+							$('#cpMaker').val(cpMaker);
+							$('#cpMakedate').val(cpMakedate);
+							$('#cpUsedate').val(cpUsedate);
+							$('#cpInfo').text(cpInfo);
+						}
+						
+						
+					},
+					error : function(xhr,status,error) {
+		        	console.log("xhr: " + xhr);
+		        	console.log("status: " + status);
+		        	console.log("error: " + error);
+		       		}
+				});				
+			})
+			
+		</script>
+				
 	</th:block>
 </body>
 

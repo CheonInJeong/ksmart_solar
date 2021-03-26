@@ -104,6 +104,55 @@
   		  		<result property="acStatusCode" column="ac_status_code"/>
   		  </resultMap>
   		  
+  		  <resultMap type="ComponentDTO" id="componentResultMap">
+  		  		<result property ="cpCode" column = "cp_code"/>
+  		  		<result property ="mId" column = "m_id"/>
+  		  		<result property ="cpName" column = "cp_name"/>
+  		  		<result property ="cpInfo" column = "cp_info"/>
+  		  		<result property ="cpMaker" column = "cp_maker"/>
+  		  		<result property ="cpMakedate" column = "cp_makedate"/>
+  		  		<result property ="cpUsedate" column = "cp_usedate"/>
+  		  		<result property ="cpDate" column = "cp_date"/>
+  		  		<association property ="bidComponentDTO" javaType="BidComponentDTO">
+  		  			<id property="cpCode" column="cp_code"/>
+  		  		</association>
+  		  </resultMap>
+  		  
+  		  <!--부품 코드로 부품 정보 조회  -->
+  		  <select id="getComponentInformation" resultMap = "componentResultMap" parameterType="String">
+  		  		SELECT 
+					cp_code, 
+					m_id, 
+					cp_name, 
+					cp_info, 
+					cp_maker, 
+					cp_makedate, 
+					cp_usedate, 
+					cp_date
+				FROM
+					 tb_component
+				WHERE cp_code = #{cpCode}
+  		  </select>
+  		  
+  		  <!--아이디로 가지고 있는 부품정보조회  -->
+  		  <select id="getComponent" resultMap = "componentResultMap" parameterType="String">
+				SELECT 
+					c.cp_code, c.m_id, c.cp_name, c.cp_info, c.cp_maker, c.cp_makedate, c.cp_usedate, c.cp_date
+
+				FROM 
+					tb_component AS c
+				left JOIN
+					tb_bid_component AS b
+				
+				ON c.cp_code = b.cp_code
+				
+				WHERE 
+					b_cp_code IS null 
+				AND
+					c.m_id = #{mId}
+			 
+				
+  		  </select>
   		  <select id="getBidPlantDetail" resultMap ="bidPlantResultMap" parameterType="String">
 	  		  	SELECT 
 	  		  		bz.bz_pl_name,
@@ -138,7 +187,6 @@
 				 	bz.bz_pl_code = b.bz_pl_code
 				WHERE 
 					b.b_pl_code = #{bPlCode}
-  		  
   		  </select>
   		  
   		  <delete id="removePlantApply" parameterType="String">
