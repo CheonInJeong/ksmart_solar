@@ -24,7 +24,9 @@ public interface BankAccountMapper {
 
 	//개인 계좌등록
 	public int addAccout(MemberAccountDTO memberAccountDTO);
-
+	
+	//개인 계좌조회
+	public List<MemberAccountDTO> getAccountListByManager(List<String> Id);
 }
 
 

@@ -7,16 +7,25 @@
 				<title>입찰 신청</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div class="chat-room mt">
-          <div class="mid-side container">
-          	<div class="row">
-	            <div class="chat-room-head">
-	              <h3>입찰 신청</h3>
-	            </div>
-	            <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/bidRequestResult}" enctype="multipart/form-data">
+   		<form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/bidRequestResult}" enctype="multipart/form-data">
+			<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
+			<input type="hidden" name="bTypeCode" th:value="${announcedType}">		
+			<input type="hidden" name="bTitle" th:value="${announcedTitle}">		
+			<div class="chat-room mt">
+	          <div class="mid-side container">
+	          	<div class="row">
+		            <div class="chat-room-head">
+		              <h3>입찰 신청</h3>
+		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">공고 제목</div>
-		              <div class="second-part" >짱좋은 부품 팝니다</div>
+		              <div class="second-part" >[[${announcedTitle}]]</div>
+		            </div>
+		            <div class="group-rom">
+		              <div class="first-part odd">입찰 시작가</div>
+		              <div class="second-part">
+		              	[[${announcedPrice}]]
+		              </div>
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">입찰금액</div>
@@ -53,17 +62,25 @@
 							<input type="file" id="files" class="default" name="files" multiple="multiple">
 						</div>
 					</div>
-		            <div  class="pull-right" style="margin: 0px 10px;">
-		            	<button class="btn btn-primary" type="submit">신청</button>
-		          	</div>
-	          	</form>
-            </div>
-          </div>
-        </div>
+		         
+	            </div>
+	          </div>
+	        </div>
+          	<div class="row" style="margin: 5px 0px;">
+				<div class="form-inline" style="text-align: center;">
+	            	<button class="btn btn-default" type="submit" style="width: 80px;">신청</button>
+				</div>
+			</div>
+       	</form>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		
 		<script type="text/javascript">
+			var notice = $('#notice');
+			notice.addClass('active');
+			notice.parent().find('.sub').css('display','block');
+			notice.parent().find('.sub').children().eq(0).addClass('active');			
+			
 			$(function(){
 				//입찰금액
 				var bPrice = $('[name="bPrice"]');
@@ -115,7 +132,9 @@
 				bPrice.keyup(function(){
 					$(this).onlyNumber();
 					var num = $(this).val();
-					bDeposit.val(num/100*sDepositRate);
+					var sDeposit = num/100*sDepositRate;
+					sDeposit = Math.round(sDeposit);
+					bDeposit.val(sDeposit);
 					$(this).transPrice();
 					bDeposit.transPrice();
 					bDepositText.text(bDeposit.val());
