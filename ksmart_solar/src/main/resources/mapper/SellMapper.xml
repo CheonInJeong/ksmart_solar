@@ -302,9 +302,9 @@
 					#{plDepStartDate},
 					curdate(),
 					#{bPlDateBidding1},
-					sf_7days_after(#{bPlDateBidding1}),
-					sf_7days_after(#{bPlDateBidding1}),
-					sf_10days_after(#{bPlDateBidding1}),
+					sf_bidding_date(#{bPlDateBidding1}),
+					sf_bidding_date(#{bPlDateBidding1}),
+					sf_decide_bidder_date(#{bPlDateBidding1}),
 					concat(sf_b_pl_code(),'_group'))
   		  </insert>
   		  
