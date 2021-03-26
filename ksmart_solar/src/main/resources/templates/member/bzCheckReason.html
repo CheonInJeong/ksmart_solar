@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+	<th:block layout:fragment="customTitle">
+		<title>반려사유 작성</title>
+	</th:block>
+<body>
+	<h4 class="text-center">반려사유 작성</h4>
+	<div class="form-group">
+		<textarea class="form-control" rows="13"></textarea>
+	</div>
+	<div class="form-group text-center">
+		<a th:href=@{#} class="btn btn-info">반려완료</a>
+		<a th:href=@{#} class="btn btn-danger" onclick="returnCancle()">취소</a>
+	</div>
+	
+	<script type="text/javascript">
+		function returnCancle(){
+			window.close();
+		}
+	</script>
+	
+</body>	
+</body>
+</html>

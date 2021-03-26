@@ -18,7 +18,38 @@
 		<result property="bzCheck" 			column="bz_check"/>
 		<result property="bzCheckReason" 	column="bz_check_reason"/>
 	</resultMap>
-
+	
+	<update id="businessAdmit" parameterType="BusinessDTO">
+		UPDATE tb_business
+		SET
+			bz_check_date = NOW(),
+			bz_check = 'Y'
+		WHERE 
+			bz_code = #{bzCode}
+	</update>
+	
+	<select id="getBusinessInfoBybzCode" resultMap="businessResultMap">
+		SELECT
+			bz_code 
+			, m_id
+			, bz_company_name
+			, bz_ceo_name
+			, bz_zipcode
+			, bz_addr
+			, bz_detail_addr
+			, bz_place
+			, bz_license
+			, bz_type
+			, bz_request_date
+			, bz_check_date
+			, bz_check
+			, bz_check_reason
+		FROM 
+			tb_business
+		WHERE 
+			bz_code = #{bzCode}
+	</select>
+	
 	<select id="getAllBusinessAdmitList" resultMap="businessResultMap">
 		SELECT 
 			bz_code

@@ -44,7 +44,9 @@
 					</thead>
 					<tbody>
 						<tr th:each="l : ${businessList}">
-							<td data-title="사업자 관리코드" th:text="${l.bzCode}"></td>
+							<td data-title="사업자 관리코드">
+								<a th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})}>[[${l.bzCode}]]</a>
+							</td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="법인명" th:text="${l.bzCompanyName}"></td>
 							<td data-title="대표자" th:text="${l.bzCeoName}"></td>
@@ -54,8 +56,7 @@
 							<td data-title="사업자 확인일" th:text="${l.bzCheckDate}"></td>
 							<td data-title="사업자 승인 상태" th:text="${l.bzCheck}"></td>
 							<td data-title="승인/반려" th:if="${l.bzCheck} == N">
-								<a class="btn btn-success" th:href=@{#} role="button">승인</a>
-								<a class="btn btn-danger" th:href=@{#} role="button">반려</a>
+								<a class="btn btn-info" th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})} role="button">상세보기</a>
 							</td>
 							<td data-title="승인/반려" th:unless="${l.bzCheck} == N">
 								<span th:if="${l.bzCheck} == Y">승인완료</span>

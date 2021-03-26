@@ -16,6 +16,9 @@ public interface MemberMapper {
 	public MemberDTO getMyInfoById(String login_id);
 	
 	
+	// 전체회원정보 수정
+	public int modifyMember(MemberDTO member);
+	
 	// 전체회원조회
 	public List<MemberDTO> getAllMember();
 	
@@ -24,7 +27,7 @@ public interface MemberMapper {
 	
 	// 회원정보 조회
 	public MemberDTO getMemberInfoById(String mId);
-	
+
 	
 	// 관리자 아이디 조회
 	public List<String> getManager();

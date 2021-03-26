@@ -21,6 +21,24 @@
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
 	
+	<!-- 전체 회원정보수정  -->
+	<update id="modifyMember" parameterType="MemberDTO">
+		UPDATE tb_member
+		SET
+			m_id = #{mId},
+			m_pw = #{mPw},
+			m_name = #{mName},
+			m_level = #{mLevel},
+			m_zipcode = #{mZipcode},
+			m_addr = #{mAddr},
+			m_detail_addr = #{mDetailAddr},
+			m_phone = #{mPhone},
+			m_email = #{mEmail},
+			m_sub_date_modify = NOW()
+		WHERE 
+			m_id = #{mId}
+	</update>
+	
 	<!-- 개인 회원정보수정  -->
 	<update id="modifyMyInfo" parameterType="MemberDTO">
 		UPDATE tb_member

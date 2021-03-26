@@ -25,6 +25,12 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+	// 전체 회원정보수정
+	public int modifyMember(MemberDTO member) {
+		int result = memberMapper.modifyMember(member);
+		return result;
+	}
+	
 	//개인 회원정보수정
 	public int modifyMyInfo(MemberDTO memberDTO) {
 		int result = memberMapper.modifyMyInfo(memberDTO);
