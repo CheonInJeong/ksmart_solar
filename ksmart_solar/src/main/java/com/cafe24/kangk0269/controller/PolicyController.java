@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.StandardDTO;
 import com.cafe24.kangk0269.serivce.PolicyService;
 
@@ -28,16 +27,29 @@ public class PolicyController {
 		this.policyService = policyService;
 	}
 	
+	@PostMapping("/policy/addNewCommission")
+	public String addNewCommssion(StandardDTO standardDto, HttpSession session) {
+		standardDto.setmId((String)session.getAttribute("SID"));
+		policyService.addNewCommission(standardDto);
+		return "redirect:/policy/policyList";
+	}
 	
+	@PostMapping("/policy/addNewTrade")
+	public String addNewTrade(StandardDTO standardDto, HttpSession session) {
+		standardDto.setmId((String)session.getAttribute("SID"));
+		policyService.addNewTrade(standardDto);
+		return "redirect:/policy/policyList";
+	}
+
 	@RequestMapping(value="/ajax/depositCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean depositCheck(@RequestParam(value="depositName", required = false) String depositName) {
-		boolean checkResult = false;
-		System.out.println("ajax로 예치금 명 확인 컨트롤러");
+		boolean checkResult = true;
 		if(depositName!=null && !"".equals(depositName)) {
 			List<StandardDTO> depositList = policyService.getDepositPolicy();
 			for(int i = 0; i<depositList.size(); i++) {
-				if(!depositList.get(i).getsDepositType().equals(depositName)) {
-					checkResult = true;
+				System.out.println(depositList.get(i).getsDepositType()+"<-------이미 존재하는 값");
+				if(depositList.get(i).getsDepositType().equals(depositName)) {
+					checkResult = false;
 				}
 			}
 		}

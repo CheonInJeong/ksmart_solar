@@ -23,6 +23,21 @@
   		  		<result property="sTradeDate" column="s_trade_date"/>
   		  		<result property="sTradeUse" column="s_trade_use"/>
   		</resultMap>
+  		<insert id="addNewCommission" parameterType="StandardDTO">
+  			INSERT 
+  			INTO 
+  				tb_standard_commission(s_commission_type, s_commission_rate, s_commission_date, s_commission_use, m_id)
+			VALUES (#{sCommissionType}, #{sCommissionRate}, NOW(), 'Y', #{mId})
+  		</insert>
+  		
+  		<insert id="addNewTrade" parameterType="StandardDTO">
+  			INSERT 
+  			INTO 
+  				tb_standard_trade(s_trade_type, s_trade_period, s_trade_date, s_trade_use, m_id)
+			VALUES 
+				(#{sTradeType}, #{sTradePeriod}, NOW(), 'Y', #{mId})
+  		</insert>
+  		
   		
   		<insert id="addNewDeposit" parameterType="StandardDTO">
   			INSERT 

@@ -14,8 +14,17 @@ public class PolicyService {
 	@Autowired
 	private final PolicyMapper policyMapper;
 	
+	
 	public PolicyService(PolicyMapper policyMapper) {
 		this.policyMapper = policyMapper;
+	}
+	
+	public void addNewCommission(StandardDTO standardDto) {
+		policyMapper.addNewCommission(standardDto);
+	}
+	
+	public void addNewTrade(StandardDTO standardDto) {
+		policyMapper.addNewTrade(standardDto);
 	}
 	
 	public void addNewDeposit(StandardDTO standardDto) {
