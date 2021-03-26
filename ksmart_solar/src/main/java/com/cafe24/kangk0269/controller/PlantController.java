@@ -1,16 +1,23 @@
 package com.cafe24.kangk0269.controller;
 
+import java.util.List;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.serivce.PlantService;
 
 @Controller
 public class PlantController {
-
-	@GetMapping("/plant/plantList")
-	public String PlantList() {
-		
-		return "/plant/plantList";
-	}
+	
+	@Autowired
+	private PlantService plantService;
+	
 	
 	@GetMapping("/plant/componentList")
 	public String ComponentList() {
@@ -47,5 +54,36 @@ public class PlantController {
 		
 		return "/plant/generationPredict";
 	}
+	
+	
+	@GetMapping("/plant/plantList")
+	public String getPlantList(Model model,HttpSession session) {
+		String SID = (String) session.getAttribute("SID");
+		
+		if(SID == null) {
+			return "/";
+		}
+		
+		List<BusinessPlantDTO> plantListById = plantService.getPlantListById(SID);
+		model.addAttribute("plantListById", plantListById);
+		return "/plant/plantList";
+	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 	
 }

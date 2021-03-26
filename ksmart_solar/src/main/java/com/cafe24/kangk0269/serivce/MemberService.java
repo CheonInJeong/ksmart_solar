@@ -55,7 +55,7 @@ public class MemberService {
 				member.setmLevelName("태양광사업자");
 				break;
 			case 3:
-				member.setmLevelName("재활용사업자");
+				member.setmLevelName("일반사업자");
 				break;
 			case 4:
 				member.setmLevelName("일반회원");

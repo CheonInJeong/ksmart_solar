@@ -24,4 +24,11 @@ public class PlantService {
 
 		return plantMapper.getAllPlantAdmitList();
 	}
+	
+	public List<BusinessPlantDTO> getPlantListById(String SID){
+		List<BusinessPlantDTO> plantList = plantMapper.getPlantListById(SID);
+		return plantList;
+	}
+	
+	
 }

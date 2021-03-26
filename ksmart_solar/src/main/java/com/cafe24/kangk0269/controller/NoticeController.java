@@ -1,9 +1,7 @@
 package com.cafe24.kangk0269.controller;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -71,9 +69,10 @@ public class NoticeController {
 		return "/notice/history";
 	}
 	@PostMapping("/notice/announcement")
-	public String Announcement(String announceTitle, String announceType, Model model) {
+	public String Announcement(String uri,String announceTitle, String announceType, Model model) {
 		System.out.println(announceTitle);
 		System.out.println(announceType);
+		System.out.println(uri);
 		if(announceType!=null && announceType.equals("발전소")) {
 			BidPlantDTO bidPlantdto = bidPlantService.getBidPlantByInfo(announceTitle);
 			model.addAttribute("bidPlantdto", bidPlantdto);
@@ -86,7 +85,15 @@ public class NoticeController {
 	}
 	
 	@PostMapping("/notice/bidRequest")
-	public String bidRequest() {
+	public String bidRequest(String announcedCode,String announcedTitle,String announcedPrice,String announcedType,Model model) {
+		System.out.println(announcedCode+"<-----공고코드");
+		System.out.println(announcedTitle+"<---------공고제목");
+		System.out.println(announcedPrice+"<---------공고 입찰시작가");
+		System.out.println(announcedType+"<----------2=부품인지 1=발전소인지");
+		model.addAttribute("announcedCode", announcedCode);
+		model.addAttribute("announcedTitle", announcedTitle);
+		model.addAttribute("announcedPrice", announcedPrice);
+		model.addAttribute("announcedType", announcedType);
 		return "/notice/bidRequest";
 	}
 	
