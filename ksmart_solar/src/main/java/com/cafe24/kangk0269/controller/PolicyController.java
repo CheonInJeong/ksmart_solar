@@ -1,32 +1,114 @@
 package com.cafe24.kangk0269.controller;
 
-import java.io.File;
-import java.util.HashMap;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafe24.kangk0269.dto.FileDTO;
+import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.StandardDTO;
+import com.cafe24.kangk0269.serivce.PolicyService;
 
 @Controller
 public class PolicyController {
 	
+	@Autowired
+	private final PolicyService policyService;
+	
+	public PolicyController(PolicyService policyService) {
+		this.policyService = policyService;
+	}
 	
 	
-	@GetMapping("/policy/policyList")
-	public String PolicyList() {
+	@RequestMapping(value="/ajax/depositCheck", method = RequestMethod.POST)
+	public @ResponseBody boolean depositCheck(@RequestParam(value="depositName", required = false) String depositName) {
+		boolean checkResult = false;
+		System.out.println("ajax로 예치금 명 확인 컨트롤러");
+		if(depositName!=null && !"".equals(depositName)) {
+			List<StandardDTO> depositList = policyService.getDepositPolicy();
+			for(int i = 0; i<depositList.size(); i++) {
+				if(!depositList.get(i).getsDepositType().equals(depositName)) {
+					checkResult = true;
+				}
+			}
+		}
+		return checkResult;
+	}
+	
+	
+	@PostMapping("/policy/addNewDeposit")
+	public String addNewDeposit(StandardDTO standardDto, HttpSession session) {
 		
+		standardDto.setmId((String)session.getAttribute("SID"));
+		policyService.addNewDeposit(standardDto);
+		
+		return "redirect:/policy/policyList";
+	}
+	
+	
+	
+	@RequestMapping(value="/ajax/modifyTrade",method = RequestMethod.POST)
+	public @ResponseBody void modifyTrade(@RequestParam(value="idx") String idx,
+										  @RequestParam(value="period") int period,
+										  @RequestParam(value="type") String type,
+										  HttpSession session) {
+		StandardDTO standardDto = new StandardDTO();
+		standardDto.setmId((String)session.getAttribute("SID"));
+		standardDto.setsTradePeriod(period);
+		standardDto.setsTradeType(type);
+		System.out.println(idx+"<=---거래기간 인덱스");
+		System.out.println(period+"<=---거래기간 ");
+		System.out.println(type+"<=---거래기간 타입");
+		policyService.modifyTrade(idx, standardDto);
+		
+	}
+	
+	@RequestMapping(value="/ajax/modifyCommission",method = RequestMethod.POST)
+	public @ResponseBody void modifyCommission(@RequestParam(value="idx") String idx,
+												 @RequestParam(value="rate") double rate,
+												 @RequestParam(value="type") String type,
+												 HttpSession session) {
+		StandardDTO standardDto = new StandardDTO();
+		standardDto.setmId((String)session.getAttribute("SID"));
+		standardDto.setsCommissionRate(rate);
+		standardDto.setsCommissionType(type);
+		
+		
+		policyService.modifyCommission(idx, standardDto);
+	
+	}
+	
+	@RequestMapping(value="/ajax/modifyDeposit",method = RequestMethod.POST)
+	public @ResponseBody String modifyDeposit(@RequestParam(value="idx") String idx , 
+											  @RequestParam(value="rate") double rate,
+											  @RequestParam(value="type") String type,
+											  HttpSession session
+											  ) {
+		
+		StandardDTO standardDto = new StandardDTO();
+		standardDto.setsDepositRate(rate);
+		standardDto.setsDepositType(type);
+		standardDto.setmId((String)session.getAttribute("SID"));
+		
+		policyService.modifyDeposit(idx, standardDto);
+		
+		return "redirect:/policy/policyList";
+	}
+	@GetMapping("/policy/policyList")
+	public String PolicyList(Model model) {
+		model.addAttribute("commission", policyService.getCommissionPolicy());
+		model.addAttribute("deposit", policyService.getDepositPolicy());
+		model.addAttribute("trade", policyService.getTradePolicy());
+	
 		return "/policy/policyList";
 	}
 	
