@@ -7,8 +7,13 @@
 				<title>공고정보</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<form action="/notice/bidRequest" method="post">
+		<form id="bidComponentForm" action="/notice/bidRequest" method="post">
 			<div class="chat-room mt" th:if="${bidComponentdto!=null}">
+				<input type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">
+				<input type="hidden" name="announcedTitle" th:value="${bidComponentdto.bCpTitle}">
+				<input type="hidden" name="announcedPrice" th:value="${bidComponentdto.bCpPrice}">
+				<input type="hidden" name="announcedType" th:value="${2}">
+			
 	          <div class="mid-side container">
 	          	<div class="row">
 		            <div class="chat-room-head">
@@ -38,15 +43,17 @@
 		              <div class="first-part odd">진행 상태</div>
 		              <div class="second-part" th:text="${bidComponentdto.bCpStatus}"></div>
 		            </div>
-		            <div th:if="${bidComponentdto.acStatusCode==4}" class="pull-right" style="margin: 0px 10px;">
-		            	<button type="submit" class="btn btn-primary">입찰신청</button>
-		          	</div>
 	            </div>
 	          </div>
 	        </div>
 	    </form>
-        <form action="/notice/bidRequest" method="post">
+        
+        <form id="bidPlantForm" action="/notice/bidRequest" method="post">
 			<div class="chat-room mt" th:if="${bidPlantdto!=null}">
+				<input type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+				<input type="hidden" name="announcedTitle" th:value="${bidPlantdto.bPlTitle}">
+				<input type="hidden" name="announcedPrice" th:value="${bidPlantdto.bPlPrice}">
+				<input type="hidden" name="announcedType" th:value="${1}">
 	          <div class="mid-side container">
 	          	<div class="row">
 		            <div class="chat-room-head">
@@ -76,9 +83,6 @@
 		              <div class="first-part odd">진행 상태</div>
 		              <div class="second-part" th:text="${bidPlantdto.bPlStatus}"></div>
 		            </div>
-		             <div th:if="${bidPlantdto.acStatusCode==4}" class="pull-right" style="margin: 0px 10px;">
-		            	<button type="submit" class="btn btn-primary">입찰신청</button>
-		          	</div>
 	            </div>
 	          </div>
 	        </div>
@@ -87,15 +91,45 @@
         	 th:if="${bidPlantdto!=null}"></div>
         <div th:include="notice/componentInfo :: componentInfoFragment" 
         	 th:if="${bidComponentdto!=null}"></div>
+		<div class="row" style="margin: 5px 0px;">
+			<div class="form-inline" style="text-align: center;">
+				<div class="form-group" th:if="${bidComponentdto != null and bidComponentdto.acStatusCode==4}">
+			 		<button id="bidComponentBtn" class="btn btn-default">입찰신청</button>
+				</div>
+				
+				<div class="form-group" th:if="${bidPlantdto != null and bidPlantdto.acStatusCode==4}">
+			 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
+				</div>
+				
+	        	<a class="form-group" id="returnPage">
+		        	<button class="btn btn-default center-block" type="button" >돌아가기</button>
+	        	</a>
+			</div>
+		</div>
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
+			var link = document.referrer;
+			$('#returnPage').attr('href',link);
+			var linkArr = link.split('/');
+			
 			var notice = $('#notice');
 			notice.addClass('active');
 			notice.parent().find('.sub').css('display','block');
-			notice.parent().find('.sub').children().eq(0).addClass('active');
+			if(linkArr[linkArr.length-1]=='noticeList'){
+				notice.parent().find('.sub').children().eq(0).addClass('active');			
+			}
+			if(linkArr[linkArr.length-1]=='history'){
+				notice.parent().find('.sub').children().eq(1).addClass('active');			
+			}
 			
+			$('#bidComponentBtn').click(function(){
+				$('#bidComponentForm').submit();
+			});
+			$('#bidPlantBtn').click(function(){
+				$('#bidPlantForm').submit();
+			});
 		</script>
 	</th:block>
 </html>

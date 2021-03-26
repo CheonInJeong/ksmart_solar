@@ -7,13 +7,13 @@
 				<title>입찰 신청 확인</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div class="chat-room mt">
-          <div class="mid-side container">
-          	<div class="row">
-	            <div class="chat-room-head">
-	              <h3>입찰 신청 확인</h3>
-	            </div>
-	            <form action="/buy/myHistory">
+	    <form action="/buy/myHistory">
+			<div class="chat-room mt">
+	          <div class="mid-side container">
+	          	<div class="row">
+		            <div class="chat-room-head">
+		              <h3>입찰 신청 확인</h3>
+		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">공고 제목</div>
 		              <div class="second-part" >짱좋은 부품 팝니다</div>
@@ -42,7 +42,7 @@
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">입금자 성명</div>
-		              <div class="second-part" ><input type="text"></div>
+		              <div class="second-part" >누구누구</div>
 		            </div>
 					<div class="group-rom">
 						<div class="first-part odd">파일 첨부</div>
@@ -50,18 +50,23 @@
 							<input type="file" id="files" class="default" name="files" multiple="multiple">
 						</div>
 					</div>
-		            <div  class="pull-right" style="margin: 0px 10px;">
-		            	<button class="btn btn-primary" type="submit">확인</button>
-		          	</div>
-	          	</form>
-            </div>
-          </div>
-        </div>
+	            </div>
+	          </div>
+	        </div>
+          	<div class="row" style="margin: 5px 0px;">
+				<div class="form-inline" style="text-align: center;">
+	            	<button class="btn btn-default" type="submit" style="width: 80px;">확인</button>
+				</div>
+			</div>
+	   	</form>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		
 		<script type="text/javascript">
-		
+			var notice = $('#notice');
+			notice.addClass('active');
+			notice.parent().find('.sub').css('display','block');
+			notice.parent().find('.sub').children().eq(0).addClass('active');		
 		</script>
 	</th:block>
 </html>
