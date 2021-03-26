@@ -11,4 +11,8 @@ public interface PlantMapper {
 
 	// 발전소인증신청목록
 	public List<BusinessPlantDTO> getAllPlantAdmitList();
+	
+	//발전소리스트(아이디)
+	public List<BusinessPlantDTO> getPlantListById(String SID);
+	
 }
