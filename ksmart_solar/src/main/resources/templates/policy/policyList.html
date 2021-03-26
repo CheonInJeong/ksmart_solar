@@ -37,7 +37,7 @@
                   	<td colspan="4" id="modifyDepositMsg"></td>
                   	<td colspan="2">
                   	 <div class=" add-task-row">
-						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#exampleModal" data-whatever="@mdo">정책추가</a>
+						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#depositModal" data-whatever="@mdo">정책추가</a>
 			  		  </div>
 			  		</td>
                   </tr>
@@ -47,7 +47,7 @@
           </div>
           
           <!--///////////////////////////////////모달창 //////////////////////////////////////////// -->
-		<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		<div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
@@ -106,7 +106,7 @@
                   	<td colspan="4" id="modifyCommissionMsg"></td>
                   	<td colspan="2">
                   	 <div class="add-task-row">
-						<a class="btn btn-default btn-sm pull-right" th:href="@{#}">정책추가</a>
+						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#commissionModal" data-whatever="@mdo">정책추가</a>
 			  		  </div>
 			  		</td>
                   </tr>
@@ -115,6 +115,35 @@
             </div>
           </div>
           
+                   <!--///////////////////////////////////모달창 //////////////////////////////////////////// -->
+		<div class="modal fade" id="commissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="exampleModalLabel">거래 수수료 정책 추가하기</h4>
+					</div>
+				<div class="modal-body">
+					<form th:method="post" th:action="@{/policy/addNewCommission}" id="depositFromModal">
+						<div class="form-group">
+							<label for="sCommssionTypeModal" class="control-label">거래금액(미만)</label>
+							<input type="text" class="form-control" id="sCommssionTypeModal" name="sCommissionType">
+						</div>
+						<div class="form-group">
+							<label for="sCommissionRateModal" class="control-label">수수료율(%)</label>
+							<input type="text" class="form-control" id = "sCommissionRateModal" name="sCommissionRate">
+						</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								<button type="submit" class="btn btn-primary" id="sCommissionBtnModal" >추가</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+         <!--모달 끝 -->
+         
           
           <div class="col-md-12 mt">
             <div class="content-panel">
@@ -146,7 +175,7 @@
                   	<td colspan="4" id="modifyTradeMsg"></td>
                   	<td colspan="2">
                   	 <div class="add-task-row">
-						<a class="btn btn-default btn-sm pull-right" th:href="@{#}">정책추가</a>
+						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#tradenModal" data-whatever="@mdo">정책추가</a>
 			  		  </div>
 			  		</td>
                   </tr>
@@ -154,6 +183,39 @@
               </table>
             </div>
           </div>
+          
+          
+                     <!--///////////////////////////////////모달창 //////////////////////////////////////////// -->
+		<div class="modal fade" id="tradenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="exampleModalLabel">거래 기간 정책 추가하기</h4>
+					</div>
+				<div class="modal-body">
+					<form th:method="post" th:action="@{/policy/addNewTrade}" id="depositFromModal">
+						<div class="form-group">
+							<label for="sTradeTypeModal" class="control-label">거래종류</label>
+							<input type="text" class="form-control" id="sTradeTypeModal" name="sTradeType">
+						</div>
+						<div class="form-group">
+							<label for="sTradePeriodModa" class="control-label">기간</label>
+							<input type="text" class="form-control" id = "sTradePeriodModa" name="sTradePeriod">
+						</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								<button type="submit" class="btn btn-primary" id="sTradeBtnModal" >추가</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+         <!--모달 끝 -->
+          
+          
+          
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
@@ -178,22 +240,25 @@
 				commissionType.val(comma(commissionType.val()));
 				
 			})
+			
+			$('#sCommissionBtnModal').click(function(){
+				var commissionPrice = $('#sCommssionTypeModal');
+				
+				$.ajax({
+					url : '/ajax/CommissionCheck',
+         			type : 'POST',
+         			data : {depositName : commissionPrice.val()},
+         			success : function(data){
+         				console.log(data);
+         			}
+				})
+			})
+			
+			
 			$('#sDepositBtnModal').click(function(){
 		         		var depositType = $('#sDepositTypeModal');
 		         		var depositRate = $('#sDepositRateModal');
 		         
-		         	/* 	
-		         		$.ajax({
-		         			url : '/ajax/depositCheck',
-		         			type : 'POST',
-		         			data : {depositName : depositType},
-		         			success : function(data){
-		         				console.log(data);
-		         			}
-		         			
-		         			
-		         		}) */
-		         		
 		         		if(depositType.val()==''){
 		         			alert('예치금 종류를 입력해주세요.');
 		         			depositType.focus();
@@ -204,7 +269,26 @@
 		         			depositRate.focus();
 		         			return;
 		         		}
-		         		$('#depositFromModal').submit();
+		        		
+		         		$.ajax({
+		         			url : '/ajax/depositCheck',
+		         			type : 'POST',
+		         			data : {depositName : depositType.val()},
+		         			success : function(data){
+		         				console.log(data);
+		         				if(data){
+		         					$('#depositFromModal').submit();
+		         					
+		         				}else{
+		         					alert('이미 존재하는 예치금 종류입니다.');
+		         				}
+		         			}
+		         			
+		         			
+		         		}) 
+		         		
+		         		
+		         		
 		         		
 		         		
 		       })
