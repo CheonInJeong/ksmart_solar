@@ -88,7 +88,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			 m_id= #{login_id};
 	</select>
 	
-	<select id="getAccountListByManager" parameterType="List<String>" resultMap="MemberAccountDTOMap">
+<!-- 	<select id="getAccountListByManager" parameterType="List<String>" resultMap="MemberAccountDTOMap">
 		SELECT
 			  m_account_idx	
 			, m_account_number
@@ -105,5 +105,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		  	</foreach>
 			 m_id= #{Id.get()};
 	</select>
-
+ -->
 </mapper>
