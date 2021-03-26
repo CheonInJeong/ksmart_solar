@@ -14,6 +14,8 @@ public interface PolicyMapper {
 	
 	//새로운 정책 추가
 	public int addNewDeposit(StandardDTO standardDto);
+	public int addNewTrade(StandardDTO standardDto);
+	public int addNewCommission(StandardDTO standardDto);
 	
 	
 	//정책 수정..사실 추가
