@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>[[${business.bzCode}]] 상세정보</title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+		<!-- Bootstrap core CSS -->
+		  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+		  <!--external css-->
+		  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
+		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
+		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
+		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
+		  <!-- Custom styles for this template -->
+		  <link th:href="@{/css/style.css}" rel="stylesheet">
+		  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	</th:block>
+	
+	<th:block layout:fragment="Contents">
+	<div id="container-header-title"><strong>[[${business.bzCode}]] 상세정보</strong></div>
+	<div id="container-header-path">회원관리 > 사업자인증신청목록 > [[${business.bzCode}]] 상세정보</div>
+	<div id="container-header-space"></div>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i> [[${business.bzCode}]] 상세정보</h4>
+              <hr>
+              <form class="form-horizontal style-form">
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">사업자 관리코드</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static" th:text="${business.bzCode}"></p>
+                    <input id="bzCode" type="hidden" th:value="${business.bzCode}"/>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">아이디</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.mId}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">법인명</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzCompanyName}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">대표자</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzCeoName}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">사업장 우편번호</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzZipcode}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">사업장 도로명주소</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzAddr}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">사업장 상세주소</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzDetailAddr}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">사업장 소재지</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzPlace}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">사업자등록증 사본</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">
+                    	<a class="card-text" th:href="@{#}" th:text="${business.bzLicense}"></a>
+                    </p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">사업자 분류</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzType}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">사업자 요청일</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzRequestDate}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">사업자 승인 상태</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzCheck}]]</p>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${business.bzCheck != 'N'}">
+                  <label class="col-lg-2 col-sm-2 control-label">사업자 확인일</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzCheckDate}]]</p>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${business.bzCheck} == F">
+                  <label class="col-lg-2 col-sm-2 control-label">반려 사유</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${business.bzCheckReason}]]</p>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${business.bzCheck} == N">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <a id="admitBtn" class="btn btn-info" role="button">승인</a>
+                    <a id="returnBtn" class="btn btn-danger" role="button">반려</a>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <a class="btn btn-success" role="button" onclick="location.href='/member/businessList'">목록이동</a>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- col-lg-12-->
+        </div>
+		
+	</th:block>
+	<th:block layout:fragment="customScript">
+		  <script src="lib/jquery/jquery.min.js"></script>
+		  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
+		  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
+		  <script src="lib/jquery.scrollTo.min.js"></script>
+		  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+		  <!--common script for all pages-->
+		  <script src="lib/common-scripts.js"></script>
+		  <!--script for this page-->
+		  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/date.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
+		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+		  <script src="lib/advanced-form-components.js"></script>
+	
+		<script type="text/javascript">
+			var bzCode = $('#bzCode');
+			
+			$('#admitBtn').click(function(){
+				var result = confirm('승인 완료하시겠습니까?');
+				if(result){
+					console.log('승인완료');
+					var request = $.ajax({
+						url: "/businessAdmitSend",
+						method: "post",
+						data: { bzCode : bzCode.val() },
+					});
+					
+					request.done(function(data){
+						location.href="/getBusinessInfoBybzCode?bzCode=" + bzCode.val();
+					});
+					
+					request.fail(function( jqXHR, textStatus){
+						alert( "Request failed: " + textStatus);
+					})
+				}else{
+					console.log('승인취소');
+				}
+			});
+			
+			$('#returnBtn').click(function(){
+				window.open(
+					'bzCheckReason',
+					'반려사유 작성',
+					'width=400, height=400, left=100, top=100, scrollbar=yes'
+				);
+				
+				var request = $.ajax({
+					url: "/businessReturnSend",
+					method: "post",
+					data: { bzCode : bzCode.val() },
+				});
+				
+				request.done(function(data){
+					location.href="/getBusinessInfoBybzCode?bzCode=" + bzCode.val();
+				});
+				
+				request.fail(function( jqXHR, textStatus){
+					alert( "Request failed: " + textStatus);
+				})
+			});
+			
+			
+			var member = $('#member');
+			member.addClass('active');
+			member.parent().find('.sub').css('display','block');
+			member.parent().find('.sub').children().eq(3).addClass('active');
+		</script>
+	</th:block>
+</html>

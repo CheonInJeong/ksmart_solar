@@ -20,6 +20,17 @@ public class BusinessService {
 		this.businessMapper = businessMapper;
 	}
 
+	// 사업자인증신청 승인
+	public int businessAdmit(BusinessDTO business) {
+		return businessMapper.businessAdmit(business);
+	}
+	
+	// 사업자신청 상세조회
+	public BusinessDTO getBusinessInfoBybzCode(String bzCode) {
+		return businessMapper.getBusinessInfoBybzCode(bzCode);
+	}
+	
+	// 전체 사업자신청 조회
 	public List<BusinessDTO> getAllBusinessAdmitList(){
 
 		return businessMapper.getAllBusinessAdmitList();

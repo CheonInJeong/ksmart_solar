@@ -44,8 +44,8 @@ public class MemberManageController {
 	@PostMapping("/modifyMember")
 	public String modifyMember(MemberDTO member) {
 		System.out.println("수정한 값 " + member);
-		memberService.modifyMyInfo(member);
-		return "/member/getMemberInfoById";
+		memberService.modifyMember(member);
+		return "redirect:/getMemberInfoById?mId=" + member.getmId();
 	}
 	
 	@GetMapping("/modifyMember")
@@ -76,6 +76,29 @@ public class MemberManageController {
 	public String MemberWithdrawList() {
 		
 		return "/member/memberWithdrawList";
+	}
+	
+	@GetMapping("/bzCheckReason")
+	public String bzCheckReason() {
+		return "/member/bzCheckReason";
+	}
+	
+	@PostMapping("/businessAdmitSend")
+	public String businessAdmitSend(@RequestParam(name="bzCode", required=false) String bzCode) {
+		System.out.println("승인된 사업자신청코드 : " + bzCode);
+		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
+		businessService.businessAdmit(business);
+		return "redirect:/getBusinessInfoBybzCode?bzCode=" + business.getBzCode();
+	}
+	
+	@GetMapping("/getBusinessInfoBybzCode")
+	public String getBusinessInfoBybzCode(Model model
+										  ,@RequestParam(value="bzCode", required=false) String bzCode) {
+		System.out.println("사업자신청코드 : " + bzCode);
+		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
+		System.out.println("코드조회결과 : " + business);
+		model.addAttribute("business", business);
+		return "/member/getBusinessInfoBybzCode";
 	}
 	
 	@GetMapping("/member/businessList")
