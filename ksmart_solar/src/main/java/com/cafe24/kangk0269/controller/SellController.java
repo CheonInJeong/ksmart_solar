@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
@@ -33,7 +34,8 @@ public class SellController {
 	}
 	//입찰 신청자 목록 보기
 	@GetMapping("/sell/bidderList")
-	public String getBidderList(@RequestParam(value="bPlCode") String code) {
+	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
+		model.addAttribute("bidder", sellService.getBidderList(code));
 		return "/sell/bidderList";
 	}
 	
@@ -120,11 +122,12 @@ public class SellController {
 	}
 	//내공고목록클릭시
 	@GetMapping("/sell/myHistory")
-	public String MyHistory(Model model,HttpServletRequest request) {
-		HttpSession session = request.getSession();
+	public String MyHistory(Model model,HttpServletRequest request,HttpSession session) {
 		String sessionId = (String)session.getAttribute("SID");
 		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId);
+		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId);
 		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("bidComponentList", bidComponentList);
 		
 		return "/sell/myHistory";
 	}

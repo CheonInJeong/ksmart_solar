@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	<th:block layout:fragment="customTitle">
+				<title>예치금 정책 히스토리</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+				<div class="col-md-12 mt">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i>예치금리스트</h4>
+              <p>　　※ 예치금종류 누르면 역대 정책을 확인 할 수 있습니다.</p>
+              <hr>
+              
+				<form>
+					 <div class="input-group input-daterange col-lg-3">
+   						<input type="text" class="form-control" value="2012-04-05">
+  					 	<div class="input-group-addon">to</div>
+					    <input type="text" class="form-control" value="2012-04-19">
+					</div>
+					  <div><button>검색</button></div>				
+				
+				</form>
+				              
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>
+	                    <a th:href="@{/policy/depositHistory}">예치금종류</a>	
+					</th>
+                    <th>예치금율(%)</th>
+                    <th>등록자</th>
+                    <th>업데이트날짜</th>
+                    <th>수정</th>
+                  </tr>
+                </thead>
+    
+                
+                <tbody id="depositBody">
+					<tr th:each="d, index:${deposit}">
+	                  	<td>1</td>
+	                  	<td>2</td>
+	                    <td>3</td>
+	                    <td>4</td>
+	                 </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var policy = $('#policy');
+			policy.addClass('active');
+			policy.parent().find('.sub').css('display','block');
+			policy.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
+		
+		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
+	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
+		
+		<script>
+			$("div .input-daterange").each(function(){
+			    var $inputs = $(this).find('input');
+			    $inputs.datepicker({ dateFormat: 'yy-mm-dd' });
+			    if ($inputs.length >= 2) {
+			        var $from = $inputs.eq(0);
+			        var $to   = $inputs.eq(1);
+			        $from.on('changeDate', function (e) {
+			            var d = new Date(e.date.valueOf());
+			            $to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
+			        });
+			        $to.on('changeDate', function (e) {
+			            var d = new Date(e.date.valueOf());
+			            $from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
+			        });
+			    }
+			})
+		</script>
+	</th:block>
+</html>

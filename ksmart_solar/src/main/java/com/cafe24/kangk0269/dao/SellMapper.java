@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BoardDto;
 import com.cafe24.kangk0269.dto.BoardFileDTO;
@@ -19,8 +21,14 @@ public interface SellMapper {
 	//파일 수정 메서드
 	public int modifyFile(String code);
 	
+	//해당 아이디의 부품공고 리스트를 가져옴
+	public List<BidComponentDTO> getBidComponentById(String mId);
+	
 	//파일 등록 메서드
 	public int addFile(List<FileDTO> list);
+	//해당 공고 입찰자 목록
+	public List<BidListDTO> getBidderList(String code);
+	
 	//해당 아이디가 가지고 있는 부품 정보 
 	public List<ComponentDTO> getComponent(String mId);
 	

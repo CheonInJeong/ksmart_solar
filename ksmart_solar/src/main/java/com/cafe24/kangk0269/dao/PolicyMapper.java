@@ -12,6 +12,9 @@ import com.cafe24.kangk0269.dto.StandardDTO;
 @Mapper
 public interface PolicyMapper {
 	
+	//거래대금 수수료울 삭제
+	public int removeCommission(int idx);
+	
 	//새로운 정책 추가
 	public int addNewDeposit(StandardDTO standardDto);
 	public int addNewTrade(StandardDTO standardDto);

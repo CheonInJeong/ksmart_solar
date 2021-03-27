@@ -27,6 +27,17 @@ public class PolicyController {
 		this.policyService = policyService;
 	}
 	
+	@GetMapping("/policy/depositHistory")
+	public String getDepositHistory() {
+		return "/policy/depositHistory";
+	}
+	
+	@GetMapping("/policy/removeCommission")
+	public String removeCommission(@RequestParam(value="sCommissionIdx") int idx) {
+		policyService.removeCommission(idx);
+		return "redirect:/policy/policyList";
+	}
+	
 	@PostMapping("/policy/addNewCommission")
 	public String addNewCommssion(StandardDTO standardDto, HttpSession session) {
 		standardDto.setmId((String)session.getAttribute("SID"));
@@ -41,6 +52,20 @@ public class PolicyController {
 		return "redirect:/policy/policyList";
 	}
 
+	@RequestMapping(value="/ajax/commissionCheck", method=RequestMethod.POST)
+	public @ResponseBody boolean commissionCheck(@RequestParam(value="commssionPrice", required = false) String commssionPrice) {
+		boolean checkResult = true;
+		if(commssionPrice!=null && !"".equals(commssionPrice)) {
+			List<StandardDTO> commissionList = policyService.getCommissionPolicy();
+			for(int i=0; i<commissionList.size(); i++) {
+				if(commssionPrice.equals(commissionList.get(i).getsCommissionType())) {
+					checkResult = false;
+				}
+			}
+		}
+		return checkResult;
+	}
+	
 	@RequestMapping(value="/ajax/depositCheck", method = RequestMethod.POST)
 	public @ResponseBody boolean depositCheck(@RequestParam(value="depositName", required = false) String depositName) {
 		boolean checkResult = true;
