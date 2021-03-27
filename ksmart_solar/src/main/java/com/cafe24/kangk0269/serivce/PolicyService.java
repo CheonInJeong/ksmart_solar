@@ -15,9 +15,15 @@ public class PolicyService {
 	private final PolicyMapper policyMapper;
 	
 	
+	
 	public PolicyService(PolicyMapper policyMapper) {
 		this.policyMapper = policyMapper;
 	}
+	
+	public void removeCommission(int idx) {
+		policyMapper.removeCommission(idx);
+	}
+	
 	
 	public void addNewCommission(StandardDTO standardDto) {
 		policyMapper.addNewCommission(standardDto);

@@ -79,29 +79,19 @@
   		  		</association>
   		  </resultMap>
   		  <resultMap type="BidListDTO" id="BidListResultMap">
-  		  		<result property="bPlCode" column="b_pl_code"/>
+  		  		<result property="bCode" column="b_code"/>
+  		  		<result property="announcedCode" column="announced_code"/>
+  		  		<result property="bTitle" column="b_title"/>
   		  		<result property="mId" column="m_id"/>
-  		  		<result property="bPlTitle" column="b_pl_title"/>
-  		  		<result property="bPlContents" column="b_pl_contents"/>
-  		  		<result property="bPlPrice" column="b_pl_price"/>
-  		  		<result property="bPlDocument" column="b_pl_document"/>
-  		  		<result property="plResidual" column="pl_residual"/>
-  		  		<result property="plDepStartDate" column="pl_dep_start_date"/>
-  		  		<result property="bPlCode" column="b_pl_code"/>
-  		  		<result property="plDepUsed" column="pl_dep_used"/>
-  		  		<result property="bPlDateRequest" column="b_pl_date_request"/>
-  		  		<result property="bPlDateBidding1" column="b_pl_date_bidding1"/>
-  		  		<result property="bPlDateBidding2" column="b_pl_date_bidding2"/>
-  		  		<result property="bPlDateDecision1" column="b_pl_date_decision1"/>
-  		  		<result property="bPlDateDecision2" column="b_pl_date_decision2"/>
-  		  		<result property="bPlGroupcode" column="b_pl_groupcode"/>
-  		  		<result property="bPlReCount" column="b_pl_re_count"/>
-  		  		<result property="bPlConfirm" column="b_pl_confirm"/>
-  		  		<result property="bPlConfirmStatus" column="b_pl_confirm_status"/>
-  		  		<result property="bPlRejectReason" column="b_pl_reject_reason"/>
-  		  		<result property="bPlCancelReason" column="b_pl_cancel_date"/>
-  		  		<result property="bPlCancelDate" column="b_pl_cancel_date"/>
-  		  		<result property="acStatusCode" column="ac_status_code"/>
+  		  		<result property="bPrice" column="b_price"/>
+  		  		<result property="bDepositCheck" column="b_pl_document"/>
+  		  		<result property="dcInstructions" column="dc_instructions"/>
+  		  		<result property="dcApplication" column="dc_application"/>
+  		  		<result property="dcProposal" column="dc_proposal"/>
+  		  		<result property="bDate" column="b_date"/>
+  		  		<result property="bCheck" column="b_check"/>
+  		  		<result property="bRank" column="b_rank"/>
+  		  		
   		  </resultMap>
   		  
   		  <resultMap type="ComponentDTO" id="componentResultMap">
@@ -115,8 +105,49 @@
   		  		<result property ="cpDate" column = "cp_date"/>
   		  		<association property ="bidComponentDTO" javaType="BidComponentDTO">
   		  			<id property="cpCode" column="cp_code"/>
+  		  			<result property="cpCode" column="cp_code"/>
   		  		</association>
   		  </resultMap>
+  		  
+  		  <resultMap type="BidComponentDTO" id="bidComponentResultMap">
+  				<result property = "mId" column = "m_id"/>
+  		  		<result property = "bCpCode" column = "b_cp_code"/>
+  		  		<result property = "cpCode" column = "cp_code"/>
+  		  		<result property = "bCpTitle" column = "b_cp_title"/>
+  		  		<result property = "bCpPrice" column = "b_cp_price"/>
+  		  		<result property = "bCpDateBidding1" column = "b_cp_date_bidding1"/>
+  		  		<result property = "bCpDateBidding2" column = "b_cp_date_bidding2"/>
+  		  		<result property = "bCpStatus" column = "b_cp_status"/>
+  		  		<result property = "bCpBidderNumber" column = "b_cp_bidder_number"/>
+  		  		
+  		  		<association property ="componentDTO" javaType="ComponentDTO">
+  		  			<id property = "cpCode" column="cp_code"/>
+  		  			<result property ="cpName" column="cp_name"/>
+  		  		
+  		  		</association>
+  		  	
+  		  </resultMap>
+  		  <select id="getBidderList" resultMap="BidListResultMap" parameterType="String">
+  		  		SELECT 
+					b_code, 
+					announced_code, 
+					m_id, 
+					b_price,  
+					dc_instructions, 
+					dc_application, 
+					dc_proposal,
+					b_date, 
+					b_check, 
+					b_rank
+				FROM 
+					tb_bid_list 
+				WHERE 
+					b_type_code = 1 
+				AND 
+					b_deposit_check ='Y' 
+				AND  
+					announced_code =#{code}
+  		  </select>
   		  
   		  <!--부품 코드로 부품 정보 조회  -->
   		  <select id="getComponentInformation" resultMap = "componentResultMap" parameterType="String">
@@ -134,6 +165,26 @@
 				WHERE cp_code = #{cpCode}
   		  </select>
   		  
+  		  <!--아이디로 등록한 부품공고 조회 -->
+  		  <select id="getBidComponentById" resultMap = "bidComponentResultMap" parameterType="String">
+  		  		SELECT 
+					c.cp_name,
+					b.b_cp_code,
+					b.cp_code, 
+					b.b_cp_title,  
+					b.b_cp_price, 
+					b.b_cp_status,
+					b.b_cp_date_bidding1,
+					b.b_cp_date_bidding2
+				FROM 
+					tb_bid_component AS b
+				inner JOIN 
+					tb_component AS c 
+				ON 
+					b.cp_code = c.cp_code
+				WHERE
+					b.m_id =#{mId}				
+  		  </select>
   		  <!--아이디로 가지고 있는 부품정보조회  -->
   		  <select id="getComponent" resultMap = "componentResultMap" parameterType="String">
 				SELECT 

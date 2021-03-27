@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
 import com.cafe24.kangk0269.dao.SellMapper;
+import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
@@ -29,6 +31,17 @@ public class SellService {
 	public SellService(SellMapper sellMapper,FileUtils fileUtils) {
 		this.sellMapper = sellMapper;
 		this.fileUtils = fileUtils;
+	}
+	
+	//해당 아이디의 부품공고 리스트를 가져옴
+	public List<BidComponentDTO> getBidComponentById(String mId){
+		return sellMapper.getBidComponentById(mId);
+	}
+	
+	
+	//입찰자목록조회
+	public List<BidListDTO> getBidderList(String code) {
+		return sellMapper.getBidderList(code);
 	}
 	
 	//부품 정보 조회
