@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.controller;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
 import com.cafe24.kangk0269.serivce.BidListService;
@@ -104,6 +107,9 @@ public class NoticeController {
 	@RequestMapping(value = "/bankCheck", method=RequestMethod.POST)
 	public @ResponseBody Map<String,Object> bankCheck () {
 		List<String> managerList=memberService.getManager();
+		List<MemberAccountDTO> accountList=accountService.getAccountListByManager(managerList);
+		System.out.println(accountList.get(0).getmAccountBank());
+		List<Map<String,Object>> accountManagerList = new ArrayList<Map<String,Object>>();
 		return null; 
 	}
 	@PostMapping("/notice/bidRequestResult")
