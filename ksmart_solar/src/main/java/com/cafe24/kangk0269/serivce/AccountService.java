@@ -63,5 +63,12 @@ public class AccountService {
 		return memberAccountDTOList;
 		
 	}
+	//개인 계좌조회
+	public List<MemberAccountDTO> getAccountListByManager(List<String> login_id){
+		List<MemberAccountDTO> memberAccountDTOList = bankAccountMapper.getAccountListByManager(login_id);
+		System.out.println(memberAccountDTOList);
+		return memberAccountDTOList;
+		
+	}
 	
 }
