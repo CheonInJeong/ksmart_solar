@@ -45,7 +45,7 @@ public class BusinessController {
 		
 		//
 		bs.setBzCode("");
-		bs.setMId(MId);
+		bs.setmId(MId);
 		bs.setBzCompanyName(bzCompanyName);
 		bs.setBzCeoName(bzCeoName);
 		bs.setBzZipcode(bzZipcode);
