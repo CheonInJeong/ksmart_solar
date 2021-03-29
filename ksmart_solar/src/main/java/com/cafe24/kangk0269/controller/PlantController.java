@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.serivce.PlantService;
@@ -32,23 +33,30 @@ public class PlantController {
 	}
 	
 	@GetMapping("/plant/plantDetail")
-	public String plantDetail() {
-		
+	public String plantDetail(Model model
+			   ,@RequestParam(name="bzCode", required=false) String bzCode) {
+		List<BusinessPlantDTO> plantListByCode = plantService.getPlantListByCode(model, bzCode);
+		model.addAttribute("plantListByCode", plantListByCode);
 		return "/plant/plantDetail";
 	}
 	
+	//수익 분석
 	@GetMapping("/plant/plantDetail/benefitAnalysis")
 	public String benefitAnalysis() {
 		
 		return "/plant/benefitAnalysis";
 	}
 	
+	
+	//발전량 분석
 	@GetMapping("/plant/plantDetail/generationAnalysis")
 	public String generationAnalysis() {
 		
 		return "/plant/generationAnalysis";
 	}
 	
+	
+	//발전량 예측
 	@GetMapping("/plant/plantDetail/generationPredict")
 	public String generationPredict() {
 		

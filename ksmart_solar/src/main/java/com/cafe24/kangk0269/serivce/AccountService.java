@@ -43,9 +43,9 @@ public class AccountService {
 	}
 	
 	
-	//수정을 위한 선택 계좌조회
-	public MemberAccountDTO getAccountByIdx(int mAccountIdx) {
-		return bankAccountMapper.getAccountByIdx(mAccountIdx);
+	//개인 계좌수정화면
+	public MemberAccountDTO modifyAccountByIdx(int mAccountIdx) {
+		return bankAccountMapper.modifyAccountByIdx(mAccountIdx);
 		
 	}
 	

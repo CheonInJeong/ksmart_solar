@@ -30,10 +30,24 @@ public class MyPageController {
 		this.memberService = memberService; 
 	}
 	
+	//관심목록 조회
+	@GetMapping("/mypage/wishlist")
+	public String Wishlist() {
+	
+	return "/mypage/wishlist";
+	}
+	
+	
 	
 	
 	
 	//탈퇴 신청처리
+	
+	
+	
+	
+	
+	
 	
 	//탈퇴 신청화면
 	@GetMapping("/mypage/withdraw")
@@ -106,7 +120,7 @@ public class MyPageController {
 		System.out.println("==================================");
 		System.out.println("입력받은 계좌 인덱스->>" + mAccountIdx);
 		System.out.println("==================================");
-		MemberAccountDTO memberAccountDTO = accountService.getAccountByIdx(mAccountIdx);
+		MemberAccountDTO memberAccountDTO = accountService.modifyAccountByIdx(mAccountIdx);
 		
 		System.out.println("선택계좌정보조회->>" + memberAccountDTO);
 		model.addAttribute("memberAccountDTO", memberAccountDTO);
@@ -142,27 +156,4 @@ public class MyPageController {
 		model.addAttribute("memberAccountDTOList", memberAccountDTOList);
 		return "/mypage/myAccount";
 	}
-	
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	
-
-	
-	
-	
-	
-
-	
-	@GetMapping("/mypage/business")
-	public String Business() {
-		
-		return "/mypage/business";
-	}
-	
-	@GetMapping("/mypage/wishlist")
-	public String Wishlist() {
-		
-		return "/mypage/wishlist";
-	}
-	
-	
 }
