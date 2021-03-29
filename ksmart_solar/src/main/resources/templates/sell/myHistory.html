@@ -42,9 +42,9 @@
                 <tbody>
                   <tr th:each="list:${bidPlantList}">
                   	<td id="historyBPlCode" th:text=${list.bPlCode}></td>
-       				<!--<td th:text="${list.businessPlantDTO.bzPlName}"></td>-->
+       				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
                     <td><a th:href="@{/sell/getBidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
-                    <td th:text="${list.bPlPrice}"></td>
+                    <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
                     <td><a th:href="@{/sell/bidderList(bPlCode=${list.bPlCode})}">[[${list.bPlNumberOfBidder}]]</a></td>
@@ -94,8 +94,8 @@
                   <tr th:each="cp:${bidComponentList}">
                   	<td th:text=${cp.bCpCode}></td>
             		<td th:text="${cp.componentDTO.cpName}"></td>
-                    <td><a th:href="@{/sell/getBidPlantDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
-                    <td th:text="${cp.bCpPrice}"></td>
+                    <td><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
+                    <td th:text="${cp.bCpPrice}" class="bCpPrice"></td>
                     <td th:text="${cp.bCpDateBidding1}"></td>
                     <td th:text="${cp.bCpDateBidding2}"></td>
                     <td th:text="${cp.bCpBidderNumber}"></td>
@@ -119,6 +119,37 @@
 		</script>
 			
 		<script>
+			function comma(str) {
+	  			 str = String(str);
+	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			  	}
+	
+			$('document').ready(function(){
+				$('.bCpPrice').each(function(){
+					
+					var bCpPrice = $('.bCpPrice');
+					var i = bCpPrice.index(this);
+					console.log(i);
+					console.log(bCpPrice.eq(i).text());
+					bCpPrice.eq(i).text(comma(bCpPrice.eq(i).text()));
+				})
+		
+			})
+			
+			$('document').ready(function(){
+				$('.bPlPrice').each(function(){
+					
+					var bPlPrice = $('.bPlPrice');
+					var i = bPlPrice.index(this);
+					console.log(i);
+					console.log(bPlPrice.eq(i).text());
+					bPlPrice.eq(i).text(comma(bPlPrice.eq(i).text()));
+				})
+		
+			})
+		
+		
+		
 			$('.HistoryModifyBtn').click(function(){
 				console.log($('.HistoryModifyBtn').index(this));
 				var i = $('.HistoryModifyBtn').index(this);

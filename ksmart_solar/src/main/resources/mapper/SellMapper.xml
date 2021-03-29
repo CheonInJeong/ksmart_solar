@@ -114,19 +114,192 @@
   		  		<result property = "bCpCode" column = "b_cp_code"/>
   		  		<result property = "cpCode" column = "cp_code"/>
   		  		<result property = "bCpTitle" column = "b_cp_title"/>
+  		  		<result property = "bCpContents" column = "b_cp_contents"/>
   		  		<result property = "bCpPrice" column = "b_cp_price"/>
   		  		<result property = "bCpDateBidding1" column = "b_cp_date_bidding1"/>
   		  		<result property = "bCpDateBidding2" column = "b_cp_date_bidding2"/>
+  		  		<result property = "bCpDateDecision1" column = "b_cp_date_decision1"/>
+  		  		<result property = "bCpDateDecision2" column = "b_cp_date_decision2"/>
   		  		<result property = "bCpStatus" column = "b_cp_status"/>
   		  		<result property = "bCpBidderNumber" column = "b_cp_bidder_number"/>
   		  		
   		  		<association property ="componentDTO" javaType="ComponentDTO">
   		  			<id property = "cpCode" column="cp_code"/>
   		  			<result property ="cpName" column="cp_name"/>
-  		  		
+  		  			<result property ="cpInfo" column="cp_info"/>
+  		  			<result property ="cpMaker" column="cp_maker"/>
+  		  			<result property ="cpUsedate" column="cp_usedate"/>
   		  		</association>
   		  	
   		  </resultMap>
+  		  
+  		  <resultMap type="TradePriorityDTO" id="tradePriorityResultMap" >
+  		  		<result property ="trPrCode" column ="tr_pr_code"/>
+  		  		<result property ="bCode" column ="b_code"/>
+  		  		<result property ="bTypeCode" column ="b_type_code"/>
+  		  		<result property ="announcedCode" column ="announced_code"/>
+  		  		<result property ="announcedTitle" column ="announced_title"/>
+  		  		<result property ="mIdSeller" column ="m_id_seller"/>
+  		  		<result property ="mIdBuyer" column ="m_id_buyer"/>
+  		  		<result property ="trPrPrice" column ="tr_pr_price"/>
+  		  		<result property ="trPayoutCheck" column ="tr_payout_check"/>
+  		  		<result property ="comissionRate" column ="comissionRate"/>
+  		  		<result property ="commission" column ="commission"/>
+  		  		<result property ="availableOut" column ="availableOut"/>
+  		  		
+  		  		
+  		  		<association property ="tradePaymentInDTO" javaType="TradePaymentInDTO">
+  		  			<id property ="bMoDate" column="b_mo_date"/>
+  		  			<result property ="bMoDate" column="b_mo_date"/>
+  		  		</association>
+  		  		
+  		  </resultMap>
+  		  
+  		  <resultMap type="MemberAccountDTO" id="memberAccountResultMap">
+  		  	<result property="mId" column ="m_id"/>
+  		  	<result property="mAccountNumber" column ="m_account_number"/>
+  		  	<result property="mAccountName" column ="m_account_Name"/>
+  		  	<result property="mAccountBank" column ="m_account_bank"/>
+  		  </resultMap>
+  		  
+  		  <resultMap type="TradePaymentOutDTO" id="tradePaymentOutResultMap">
+  		  	<result property="trPayoutCode" column ="tr_payout_code"/>
+  		  	<result property="trPrCode" column ="tr_pr_code"/>
+  		  	<result property="mId" column ="m_id"/>
+  		  	<result property="trPayoutPrice" column ="tr_payout_price"/>
+  		  	<result property="sCommissionRate" column ="s_commission_rate"/>
+  		  	<result property="cTradeCm" column ="c_trade_cm"/>
+  		  	<result property="trPayoutPriceReal" column ="tr_payout_price_real"/>
+  		  	<result property="trPayoutBank" column ="tr_payout_bank"/>
+  		  	<result property="trPayoutAccount" column ="tr_payout_account"/>
+  		  	<result property="trPayoutAccountCheck" column ="tr_payout_account_check"/>
+  		  	<result property="trPayoutAccountName" column ="tr_payout_account_name"/>
+  		  	<result property="trPayoutDate" column ="tr_payout_date"/>
+  		  	<result property="trPayoutCheck" column ="tr_payout_check"/>
+	
+  		  </resultMap>
+  		  
+  		  <update id="modifyApplyYn" parameterType="String">
+  		  		UPDATE tb_trade_priority
+				SET
+					tr_payout_check='Y'
+				WHERE tr_pr_code=#{trPrCode}
+			  		  	
+  		  </update>
+  		  
+  		  <insert id="addApplyPayment"  parameterType="TradePaymentOutDTO">
+				  		  			
+				INSERT 
+				INTO 
+				tb_trade_payment_out(
+					tr_payout_code, 
+					tr_pr_code,
+					m_id, 
+					tr_payout_price, 
+					s_commission_rate, 
+					c_trade_cm, 
+					tr_payout_price_real, 
+					tr_payout_bank, 
+					tr_payout_account, 
+					tr_payout_account_check, 
+					tr_payout_account_name, 
+					tr_payout_date
+					)
+					VALUES (
+					sf_tr_payout_code(),
+					 #{trPrCode}, 
+					 #{mId}, 
+					 #{trPayoutPrice},
+					 #{sCommissionRate},
+					 #{cTradeCm},
+					 #{trPayoutPriceReal}, 
+					 #{trPayoutBank},
+					 #{trPayoutAccount},
+					 'Y',
+					 #{trPayoutAccountName}, 
+					 NOW()
+					)
+				  		  
+  		  </insert>
+  		  
+  		  
+  		    <select id="getAccountInfoByNumber" resultMap = "memberAccountResultMap" parameterType="String">
+  		  		SELECT 
+	  		  		m_id, 
+	  		  		m_account_number, 
+	  		  		m_account_name, 
+	  		  		m_account_bank 
+  		  		FROM 
+  		  			tb_member_account
+				WHERE 
+					m_account_check = 'Y' 
+				AND 
+					m_account_number= #{mAccountNumber}
+  		  </select>
+  		  
+  		  
+  		  <select id="getMemberAccountById" resultMap = "memberAccountResultMap" parameterType="String">
+  		  		SELECT 
+	  		  		m_id, 
+	  		  		m_account_number, 
+	  		  		m_account_name, 
+	  		  		m_account_bank 
+  		  		FROM 
+  		  			tb_member_account
+				WHERE 
+					m_account_check = 'Y' 
+				AND 
+					m_id= #{mId}
+  		  </select>
+  		  
+  		  <select id="getPaymentOutByCode" resultMap = "tradePriorityResultMap" parameterType="String">
+  		  		
+				SELECT 
+			
+					p.tr_pr_code,
+					p.announced_title,
+					p.announced_code,
+					p.m_id_buyer,
+					p.tr_pr_price, 
+					sf_get_commission(p.tr_pr_price) AS comissionRate,
+					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
+					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut
+		
+				FROM 
+					tb_trade_priority as p 
+				
+				WHERE 
+					p.tr_type_code = 14 AND p.tr_pr_code=#{trPrCode}
+
+  		  </select>
+  		  
+  		  
+  		  
+  		  <select id="getPaymentOutList" resultMap = "tradePriorityResultMap" parameterType="String">
+  		  		
+				SELECT 
+					pin.b_mo_date,
+					p.tr_pr_code,
+					p.announced_title,
+					p.announced_code,
+					p.m_id_buyer,
+					p.tr_pr_price, 
+					sf_get_commission(p.tr_pr_price) AS comissionRate,
+					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
+					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut,
+					p.tr_payout_check
+				FROM 
+					tb_trade_priority as p 
+				INNER JOIN
+					tb_trade_payment_in AS pin
+				on
+					pin.announced_code = p.announced_code
+				
+				WHERE 
+					p.tr_type_code = 14 AND p.m_id_seller=#{mIdSeller}
+
+  		  </select>
+  		  
   		  <select id="getBidderList" resultMap="BidListResultMap" parameterType="String">
   		  		SELECT 
 					b_code, 
@@ -204,6 +377,37 @@
 			 
 				
   		  </select>
+  		  
+  		  <select id="getComponentDetail" resultMap="bidComponentResultMap" parameterType="String">
+  		  		SELECT 
+					b.b_cp_code,
+					b.cp_code,
+					b.b_cp_title,
+					b.b_cp_contents,
+					b.b_cp_price,
+					b.cp_usedate,
+					b.b_cp_status, 
+					b.b_cp_date_bidding1,
+					b.b_cp_date_bidding2,
+					b.b_cp_date_decision1,
+					b.b_cp_date_decision2,
+					c.cp_name,
+					c.cp_info,
+					c.cp_maker,
+					c.cp_usedate 
+				FROM 
+					tb_bid_component AS b 
+				INNER JOIN 
+					tb_component AS c
+				ON 
+					b.cp_code = c.cp_code
+				WHERE 
+					b.b_cp_confirm_status = 'Y'
+				AND b.b_cp_code = #{bCpCode}
+				 
+  		  
+  		  </select>
+  		  
   		  <select id="getBidPlantDetail" resultMap ="bidPlantResultMap" parameterType="String">
 	  		  	SELECT 
 	  		  		bz.bz_pl_name,
@@ -296,13 +500,8 @@
 				
   		  </insert>
   		  
-  		  <select id="getNumberOfBidder" resultType="int">
-  		  		SELECT COUNT(1) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
-  		  </select>
-  		  
-  		  <select id="getHighestPriceByCode" resultType="int">
-  		  		SELECT max(b_price) FROM tb_bid_list WHERE announced_code = 'b_pl_210224_0001' AND b_deposit_check = 'Y'
-  		  </select>
+  		
+  		
   		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
   		  		SELECT
 				 	p.bz_pl_name,

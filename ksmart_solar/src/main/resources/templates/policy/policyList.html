@@ -21,6 +21,7 @@
 					</th>
                     <th>예치금율(%)</th>
                     <th>등록자</th>
+                    <th>적용일</th>
                     <th>업데이트날짜</th>
                     <th>수정</th>
                   </tr>
@@ -34,6 +35,7 @@
 	                    <td th:text="${d.sDepositType}" class="depositType"></td>
 	                    <td class="depositRate" th:text ="${d.sDepositRate}"></td>
 	                    <td th:text ="${d.mId}"></td>
+	                    <td th:text ="${d.sDepositApplies}"></td>
 	                    <td th:text ="${d.sDepositDate}"></td>
 	                    <td><button class="modifyDeposit"  data-attr = "0">수정</button></td>
 	                 </tr>
@@ -41,7 +43,7 @@
                  	 	<td colspan="4" id="modifyDepositMsg"></td>
 	                  	<td colspan="2">
 	                  	 <div class=" add-task-row">
-							<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#depositModal" data-whatever="@mdo">정책추가</a>
+						<!-- 	<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#depositModal" data-whatever="@mdo">정책추가</a> -->
 				  		  </div>
 				  		</td>
                 	  </tr>
@@ -89,60 +91,24 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th><a data-toggle="collapse" href="#commissionHistory" aria-expanded="false" aria-controls="collapseExample">기준거래금액</a></th>
+                    <th><a th:href="@{/policy/commissionHistory}">기준거래금액</a></th>
                     <th>수수료율(%)</th>
                     <th>등록자</th>
+                    <th>적용일</th>
                     <th>업데이트날짜</th>
                     <th>수정</th>
                     <th>삭제</th>
                   </tr>
                 </thead>
                 <tbody id="comissionBody">
-                	<tr>
-                		<td colspan="7">
-                			<div class="collapse" id="commissionHistory">
-						 		 <div class="well">
-						  			<!--///////////////////////////-->
-							              <h4><i class="fa fa-angle-right"></i>수수료리스트</h4>
-							           
-							              <hr>
-							              <table class="table table-hover">
-							                <thead>
-							                  <tr>
-							                    <th>#</th>
-							                    <th>1</th>
-							                    <th>2</th>
-							                    <th>3</th>
-							                    <th>4</th>
-							                    <th>5</th>
-							                  </tr>
-							                </thead>
-							                <tbody>
-												<tr>
-								                  	<td>1</td>
-								                  	<td>2</td>
-								                    <td>3</td>
-								                    <td>4</td>
-								                    <td>5</td>
-								                    <td>6</td>
-								                    <td>7</td>
-								                 </tr>
-							                </tbody>
-							              </table>
-						  			<!--///////////////////////////-->
-		
-						 		 </div>
-							</div>
-						</td>
-                	</tr>
-                
                   <tr th:each="c,index:${commission}">
                   	<td style ="display : none" th:text = "${c.sCommissionIdx}" class="commissionIdx"></td>
                   	<td th:text = "${index.count}"></td>
                     <td class="commissionType" th:text = "${c.sCommissionType}"></td>
                     <td class="commissionRate" th:text = "${c.sCommissionRate}"></td>
-                    <td th:text = "${c.mId}">1</td>
-                    <td th:text = "${c.sCommissionDate}">1</td>
+                    <td th:text = "${c.mId}"></td>
+                    <td th:text = "${c.sCommissionApplies}"></td>
+                    <td th:text = "${c.sCommissionDate}"></td>
                     <td><button class="modifyCommssion"  data-attr = "0">수정</button></td>
                     <td><a th:href="@{/policy/removeCommission(sCommissionIdx=${c.sCommissionIdx})}">삭제</a></td>
                   </tr>
@@ -198,58 +164,22 @@
                 <thead>
                   <tr>
                     <th>#</th>
-                    <th><a data-toggle="collapse" href="#tradeHistory" aria-expanded="false" aria-controls="collapseExample">거래종류</a>	</th>
+                    <th><a th:href="@{/policy/tradeHistory}">거래종류</a></th>
                     <th>기간</th>
                     <th>등록자</th>
+                    <th>적용일</th>
                     <th>업데이트날짜</th>
                     <th>수정</th>
                   </tr>
                 </thead>
                 <tbody id="tradeBody">
-                	<tr>
-                		<td colspan="6">
-                			<div class="collapse" id="tradeHistory">
-						 		 <div class="well">
-						  			<!--///////////////////////////-->
-							              <h4><i class="fa fa-angle-right"></i>수수료리스트</h4>
-							           
-							              <hr>
-							              <table class="table table-hover">
-							                <thead>
-							                  <tr>
-							                    <th>#</th>
-							                    <th>1</th>
-							                    <th>2</th>
-							                    <th>3</th>
-							                    <th>4</th>
-							                    <th>5</th>
-							                  </tr>
-							                </thead>
-							                <tbody>
-												<tr>
-								                  	<td>1</td>
-								                  	<td>2</td>
-								                    <td>3</td>
-								                    <td>4</td>
-								                    <td>5</td>
-								                    <td>6</td>
-								                    <td>7</td>
-								                 </tr>
-							                </tbody>
-							              </table>
-						  			<!--///////////////////////////-->
-		
-						 		 </div>
-							</div>
-						</td>
-                	</tr>
-                
                   <tr th:each ="t,index:${trade}">
                   	<td style ="display : none" th:text = "${t.sTradeIdx}" class="tradeIdx"></td>
                   	<td th:text ="${index.count}"></td>
                     <td class="tradeType" th:text ="${t.sTradeType}"></td>
                     <td class="tradePeriod" th:text ="${t.sTradePeriod}"></td>
                     <td th:text = "${t.mId}"></td>
+                    <td th:text = "${t.sTradeApplies}"></td>
                     <td th:text = "${t.sTradeDate}"></td>
                     <td><button class = "modifyTrade" data-attr = "0">수정</button></td>
                   </tr>
@@ -257,7 +187,7 @@
                   	<td colspan="4" id="modifyTradeMsg"></td>
                   	<td colspan="2">
                   	 <div class="add-task-row">
-						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#tradenModal" data-whatever="@mdo">정책추가</a>
+						<!-- <a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#tradenModal" data-whatever="@mdo">정책추가</a> -->
 			  		  </div>
 			  		</td>
                   </tr>
@@ -285,6 +215,7 @@
 							<label for="sTradePeriodModa" class="control-label">기간</label>
 							<input type="text" class="form-control" id = "sTradePeriodModa" name="sTradePeriod">
 						</div>
+						
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 								<button type="submit" class="btn btn-primary" id="sTradeBtnModal" >추가</button>

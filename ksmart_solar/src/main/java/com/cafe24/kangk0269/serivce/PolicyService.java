@@ -15,6 +15,19 @@ public class PolicyService {
 	private final PolicyMapper policyMapper;
 	
 	
+	public List<StandardDTO> getTradeHistory(String startDate, String endDate){
+		return policyMapper.getTradeHistory(startDate,endDate);
+	}
+
+	
+	public List<StandardDTO> getCommissionHistory(String startDate, String endDate){
+		return policyMapper.getCommissionHistory(startDate,endDate);
+	}
+
+	
+	public List<StandardDTO> getDepositHistory(String startDate, String endDate){
+			return policyMapper.getDepositHistory(startDate,endDate);
+	}
 	
 	public PolicyService(PolicyMapper policyMapper) {
 		this.policyMapper = policyMapper;

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+	<th:block layout:fragment="customCss">
+	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	  <!-- Custom styles for this template -->
+	  <link th:href="@{/css/style.css}" rel="stylesheet">
+	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	</th:block>
+	<th:block layout:fragment="customTitle">
+				<title>발전소 공고 조회</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+	
+		<div id="container-header-title"><strong>공고조회</strong></div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 부품공고조회</div>
+      	<div id="container-header-space"></div>
+      <th:block th:each="${detail}">
+	       <div class="row">
+	          <div class="col-md-12">
+	            <div class="content-panel">
+	              <h4><i class="fa fa-angle-right"></i>부품정보</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>부품명</td>
+	                    <td colspan="3" th:text="${detail.componentDTO.cpName}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>부품제조사</td>
+	                  	<td th:text="${detail.componentDTO.cpMaker}"></td>
+	                  	<td>부품사용시작일</td>
+	                    <td th:text="${detail.componentDTO.cpUseDate}"></td>
+	                  </tr>
+	                  <tr>
+	                  	 <td>부품정보</td>
+	                     <td colspan="3" th:text="${detail.componentDTO.cpInfo}"></td>
+	                  </tr>
+	                 
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+	        </div> 
+           <div class="row">
+	          <div class="col-md-12">
+	            <div class="content-panel">
+	              <h4><i class="fa fa-angle-right"></i>공고정보</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td colspan="3" th:text="${detail.bCpCode}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td colspan="3" th:text = "${detail.bCpTitle}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td colspan="3" th:text = "${detail.bCpContents}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>희망가격</td>
+	                  	<td colspan="3"  th:text = "${detail.bCpPrice}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${detail.bCpDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${detail.bCpDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정일시작일</td>
+	               		<td th:text="${detail.bCpDateDecision1}"></td>
+	                  	<td>입찰자결정일시작일</td>
+	                  	<td th:text="${detail.bCpDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>진행상태</td>
+	                  	<td th:text="${detail.bCpStatus}"></td>
+	                  	<td>입찰자수</td>
+	                  	<td th:text="${detail.bCpBidderNumber}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td colspan="4">
+	                  		<div class=" add-task-row">
+                  				<a class="btn btn-default btn-sm pull-right" th:href="@{/sell/myHistory}">목록</a>
+                 			 </div>
+                 		</td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	              
+	            </div>
+	          </div>
+          </div>
+		 </th:block>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
+		<script>
+			//숫자에 콤마 찍는 함수
+			 function comma(str) {
+	       		 str = String(str);
+	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	  		  }
+		 	
+		 	$(document).ready(function(){
+		 		$('#bzPlAreaD').text(comma($('#bzPlAreaD').text()));
+		 		$('#bzPlPowerD').text(comma($('#bzPlPowerD').text()));
+		 		$('#plDepDataResidualD').text(comma($('#plDepDataResidualD').text()));
+		 		$('#bzPlRecD').text(comma($('#bzPlRecD').text()));
+		 		$('#bzPlInvPowerD').text(comma($('#bzPlInvPowerD').text()));
+		 		$('#bzPlInvCountD').text(comma($('#bzPlInvCountD').text()));
+		 		$('#bzPlInvMakerD').text(comma($('#bzPlInvMakerD').text()));
+		 		$('#bPlPriceD').text(comma($('#bPlPriceD').text()));
+		 		$('#bidderNumberD').text(comma($('#bidderNumberD').text()));
+		 	})	 		
+		</script>
+		
+	</th:block>
+</body>
+
+</html>
+					
