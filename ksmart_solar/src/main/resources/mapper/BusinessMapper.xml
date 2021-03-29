@@ -46,6 +46,12 @@
 		<result property="plDepUsed" 		column="pl_dep_used"/>
 		<result property="plDepServicelife" column="pl_dep_servicelife"/>
 	</resultMap>
+	<select id="getInsertBzCode" resultType="String">
+		SELECT sf_bz_code();
+	</select>
+	<select id="getInsertBzPlCode" resultType="String">
+		SELECT sf_bz_pl_code();
+	</select>
 <!-- 	<insert id="solarEntrepreneur" parameterType="BusinessDTO">
 		INSERT INTO tb_business(  
 			 bz_code

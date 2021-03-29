@@ -9,6 +9,7 @@ import lombok.ToString;
 @ToString
 public class BusinessPlantDTO {
 	private String bzPlCode;
+	private String bzCode;
 	private String mId;
 	private String bzPlCheck;
 	private String bzPlName;	

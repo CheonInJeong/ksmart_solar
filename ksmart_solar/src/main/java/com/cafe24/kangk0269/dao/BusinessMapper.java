@@ -23,4 +23,9 @@ public interface BusinessMapper {
 	
 	// 일반 사업자 신청
 	public int addRecycleEntrepreneur(BusinessDTO bs);
+	
+	public String getInsertBzCode();
+
+	public String getInsertBzPlCode();
+	
 }
