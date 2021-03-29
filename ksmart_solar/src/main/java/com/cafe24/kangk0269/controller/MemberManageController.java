@@ -120,6 +120,32 @@ public class MemberManageController {
 		return "/member/businessList";
 	}
 	
+	@PostMapping("/plantReturnSend")
+	public String plantReturnSend(@RequestParam(name="bzPlCode", required=false) String bzPlCode) {
+		System.out.println("반려된 사업자신청코드 : " + bzPlCode);
+		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
+		plantService.plantReturn(plant);
+		return "redirect:/getPlantInfoBybzPlCode?bzPlCode=" + plant.getBzPlCode();
+	}
+	
+	@PostMapping("/plantAdmitSend")
+	public String plantAdmitSend(@RequestParam(name="bzPlCode", required=false) String bzPlCode) {
+		System.out.println("승인된 사업자신청코드 : " + bzPlCode);
+		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
+		plantService.plantAdmit(plant);
+		return "redirect:/getPlantInfoBybzPlCode?bzPlCode=" + plant.getBzPlCode();
+	}
+	
+	@GetMapping("/getPlantInfoBybzPlCode")
+	public String getPlantInfoBybzPlCode(Model model
+										  ,@RequestParam(value="bzPlCode", required=false) String bzPlCode) {
+		System.out.println("발전소사업자코드 : " + bzPlCode);
+		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
+		System.out.println("코드조회결과 : " + plant);
+		model.addAttribute("plant", plant);
+		return "/member/getPlantInfoBybzPlCode";
+	}
+	
 	@GetMapping("/member/plantList")
 	public String PlantList(Model model) {
 		List<BusinessPlantDTO> plantList = plantService.getAllPlantAdmitList();
