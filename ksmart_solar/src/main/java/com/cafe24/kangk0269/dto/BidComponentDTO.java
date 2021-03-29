@@ -6,7 +6,7 @@ public class BidComponentDTO {
 	private String mId;	
 	private String bCpTitle;	
 	private String cpCode;	
-	private String bCpCotents;	
+	private String bCpContents;
 	private int bCpPrice;	
 	private String bCpSpecs;	
 	private String cpUsedate;	
@@ -58,11 +58,11 @@ public class BidComponentDTO {
 	public void setCpCode(String cpCode) {
 		this.cpCode = cpCode;
 	}
-	public String getbCpCotents() {
-		return bCpCotents;
+	public String getbCpContents() {
+		return bCpContents;
 	}
-	public void setbCpCotents(String bCpCotents) {
-		this.bCpCotents = bCpCotents;
+	public void setbCpContents(String bCpContents) {
+		this.bCpContents = bCpContents;
 	}
 	public int getbCpPrice() {
 		return bCpPrice;
@@ -192,18 +192,66 @@ public class BidComponentDTO {
 	}
 	@Override
 	public String toString() {
-		return "BidComponentDTO [bCpCode=" + bCpCode + ", num=" + num + ", mId=" + mId + ", bCpTitle=" + bCpTitle
-				+ ", cpCode=" + cpCode + ", bCpCotents=" + bCpCotents + ", bCpPrice=" + bCpPrice + ", bCpSpecs="
-				+ bCpSpecs + ", cpUsedate=" + cpUsedate + ", bCpDocument=" + bCpDocument + ", bCpStatus=" + bCpStatus
-				+ ", bCpDate=" + bCpDate + ", bCpDateBidding1=" + bCpDateBidding1 + ", bCpDateBidding2="
-				+ bCpDateBidding2 + ", bCpDateDecision1=" + bCpDateDecision1 + ", bCpDateDecision2=" + bCpDateDecision2
-				+ ", bCpGroupcode=" + bCpGroupcode + ", bCpReCount=" + bCpReCount + ", bCpConfirm=" + bCpConfirm
-				+ ", bCpConfirmStatus=" + bCpConfirmStatus + ", bCpRejectReason=" + bCpRejectReason
-				+ ", bCpCancelReason=" + bCpCancelReason + ", bCpCancelDate=" + bCpCancelDate + ", acStatusCode="
-				+ acStatusCode + ", bCpBidderNumber=" + bCpBidderNumber + ", bidListDTO=" + bidListDTO
-				+ ", componentDTO=" + componentDTO + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("BidComponentDTO [bCpCode=");
+		builder.append(bCpCode);
+		builder.append(", num=");
+		builder.append(num);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", bCpTitle=");
+		builder.append(bCpTitle);
+		builder.append(", cpCode=");
+		builder.append(cpCode);
+		builder.append(", bCpContents=");
+		builder.append(bCpContents);
+		builder.append(", bCpPrice=");
+		builder.append(bCpPrice);
+		builder.append(", bCpSpecs=");
+		builder.append(bCpSpecs);
+		builder.append(", cpUsedate=");
+		builder.append(cpUsedate);
+		builder.append(", bCpDocument=");
+		builder.append(bCpDocument);
+		builder.append(", bCpStatus=");
+		builder.append(bCpStatus);
+		builder.append(", bCpDate=");
+		builder.append(bCpDate);
+		builder.append(", bCpDateBidding1=");
+		builder.append(bCpDateBidding1);
+		builder.append(", bCpDateBidding2=");
+		builder.append(bCpDateBidding2);
+		builder.append(", bCpDateDecision1=");
+		builder.append(bCpDateDecision1);
+		builder.append(", bCpDateDecision2=");
+		builder.append(bCpDateDecision2);
+		builder.append(", bCpGroupcode=");
+		builder.append(bCpGroupcode);
+		builder.append(", bCpReCount=");
+		builder.append(bCpReCount);
+		builder.append(", bCpConfirm=");
+		builder.append(bCpConfirm);
+		builder.append(", bCpConfirmStatus=");
+		builder.append(bCpConfirmStatus);
+		builder.append(", bCpRejectReason=");
+		builder.append(bCpRejectReason);
+		builder.append(", bCpCancelReason=");
+		builder.append(bCpCancelReason);
+		builder.append(", bCpCancelDate=");
+		builder.append(bCpCancelDate);
+		builder.append(", acStatusCode=");
+		builder.append(acStatusCode);
+		builder.append(", bCpBidderNumber=");
+		builder.append(bCpBidderNumber);
+		builder.append(", bidListDTO=");
+		builder.append(bidListDTO);
+		builder.append(", componentDTO=");
+		builder.append(componentDTO);
+		builder.append("]");
+		return builder.toString();
 	}
 
+	
 	
 	
 }

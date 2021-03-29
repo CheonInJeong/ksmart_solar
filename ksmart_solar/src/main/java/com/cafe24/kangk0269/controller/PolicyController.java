@@ -27,8 +27,35 @@ public class PolicyController {
 		this.policyService = policyService;
 	}
 	
+	@GetMapping("/policy/tradeHistory")
+	public String getTradeHistory(Model model,
+									@RequestParam(value="startDate",required = false) String startDate,
+									@RequestParam(value="endDate", required = false) String endDate) {
+		
+		model.addAttribute("tradeHistory", policyService.getTradeHistory(startDate, endDate));
+		
+		return "/policy/tradeHistory";
+	}
+	
+	
+	@GetMapping("/policy/commissionHistory")
+	public String getCommissionHistory(Model model,
+									@RequestParam(value="startDate",required = false) String startDate,
+									@RequestParam(value="endDate", required = false) String endDate) {
+		
+		model.addAttribute("commissionHistory", policyService.getCommissionHistory(startDate, endDate));
+		
+		return "/policy/commissionHistory";
+	}
+	
+	
 	@GetMapping("/policy/depositHistory")
-	public String getDepositHistory() {
+	public String getDepositHistory(Model model,
+									@RequestParam(value="startDate",required = false) String startDate,
+									@RequestParam(value="endDate", required = false) String endDate) {
+		
+		model.addAttribute("depositHistory", policyService.getDepositHistory(startDate, endDate));
+		
 		return "/policy/depositHistory";
 	}
 	

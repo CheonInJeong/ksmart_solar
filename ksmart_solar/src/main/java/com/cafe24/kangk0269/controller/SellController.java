@@ -21,6 +21,8 @@ import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
+import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.serivce.SellService;
 
 @Controller
@@ -37,6 +39,14 @@ public class SellController {
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
 		model.addAttribute("bidder", sellService.getBidderList(code));
 		return "/sell/bidderList";
+	}
+	
+	//부품 공고 내용 조회
+	
+	@GetMapping("/sell/getBidComponentDetail")
+	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
+		model.addAttribute("detail", sellService.getComponentDetail(code));
+		return "/sell/bidComponentDetail";
 	}
 	
 	//발전소 공고 내용 조회
@@ -137,14 +147,30 @@ public class SellController {
 		return "/sell/mySell";
 	}
 
+	
+	@RequestMapping(value="/ajax/getAccountInfoByNumber", method=RequestMethod.POST)
+	public @ResponseBody MemberAccountDTO getAccountInfoByAccount(@RequestParam(value="bankAccount") String number) {
+		return sellService.getAccountInfoByAccount(number);
+	}
+	
 	@GetMapping("/sell/applyPayment")
-	public String applyPayment1() {
-		
+	public String applyPayment(@RequestParam(value="trPrCode") String code, Model model,HttpSession session) {
+		model.addAttribute("account", sellService.getMemberAccountById((String)session.getAttribute("SID")));
+		model.addAttribute("applyPayment", sellService.getPaymentOutByCode(code));
 		return "/sell/applyPayment";
 	}
+	@PostMapping("/sell/applyPayment")
+	public String applyPayment(TradePaymentOutDTO trPayOutDto) {
+		sellService.addApplyPayment(trPayOutDto);
+		return "redirect:/sell/paymentList";
+	}
+	
+	
+	//출금 가능한 거래 내역 보기
 	@GetMapping("/sell/paymentList")
-	public String PaymentList() {
-		
+	public String PaymentList(Model model, HttpSession session) {
+		String sessionId = (String)session.getAttribute("SID");
+		model.addAttribute("available", sellService.getPaymentOutList(sessionId));
 		return "/sell/paymentList";
 	}
 	@GetMapping("/sell/qna")
