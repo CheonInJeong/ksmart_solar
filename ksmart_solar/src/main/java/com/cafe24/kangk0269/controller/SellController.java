@@ -34,6 +34,31 @@ public class SellController {
 	public SellController(SellService sellService) {
 		this.sellService = sellService;
 	}
+	//부품 공고 수정 화면
+	@GetMapping("/sell/modifyComponentSell")
+	public String modifyComponentSell(@RequestParam(value="bCpCode") String code, Model model) {
+		return "";
+	}
+	
+	//부품 공고 수정 처리
+	@PostMapping("/sell/modifyComponentSell")
+	public String modifyComponentSell(BidComponentDTO bidComponentDto) {
+		return "redirect:/sell/myHisotry";
+	}
+	
+	
+	//부품 공고 삭제 처리
+	@GetMapping("/sell/removeComponentSell")
+	public String removeComponentSell(@RequestParam(value="bCpCode") String code) {
+		return "redirect:/sell/myHistory";
+	}
+	//부품 공고 등록
+	@PostMapping("sell/")
+	public String regComponentSell(BidComponentDTO bidComponentDto) {
+		return "";
+	}
+	
+	
 	//입찰 신청자 목록 보기
 	@GetMapping("/sell/bidderList")
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
@@ -100,11 +125,8 @@ public class SellController {
 	@RequestMapping(value="/ajax/plantInformation",method = RequestMethod.POST)
 	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode) {
 		BusinessPlantDTO bzPlantDto =sellService.getPlantInformation(plantCode);
-		
 		return bzPlantDto;
-		
 	}
-	
 	
 	 //발전소판매공고신청 버튼 클릭시
 	@GetMapping("/sell/plantSell") 
@@ -124,7 +146,7 @@ public class SellController {
 		model.addAttribute("component", sellService.getComponent(sessionId));
 		return "/sell/componentSell";
 	}
-	//공고신청 메뉴 클릭시
+
 	@GetMapping("/sell/apply")
 	public String Apply() {
 		

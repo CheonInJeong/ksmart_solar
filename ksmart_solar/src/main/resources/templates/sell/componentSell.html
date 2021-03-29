@@ -55,7 +55,7 @@
 	                    </div>
 	                  </div>
               		
-              		
+              				<input type="hidden" name="cpCode" id="cpCode">
 					<div class="form-group ">
 						<label for="b_cp_title" class="control-label col-lg-2">부품이름</label>
 						<div class="col-lg-10">
@@ -183,6 +183,7 @@
 					data : {cpCode : cpCode},
 					success : function(data){
 						if(data){
+							var cpCode = data.cpCode;
 							var cpName = data.cpName;
 							var cpTitle = data.cpTitle;
 							var cpMaker = data.cpMaker;

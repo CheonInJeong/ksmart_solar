@@ -16,7 +16,7 @@
 		<div id="container-header-title"><strong>공고조회</strong></div>
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 부품공고조회</div>
       	<div id="container-header-space"></div>
-      <th:block th:each="${detail}">
+      <th:block th:each="d:${detail}">
 	       <div class="row">
 	          <div class="col-md-12">
 	            <div class="content-panel">
@@ -26,17 +26,17 @@
 	                <tbody>
 	                  <tr>
 	                    <td>부품명</td>
-	                    <td colspan="3" th:text="${detail.componentDTO.cpName}"></td>
+	                    <td colspan="3" th:text="${d.componentDTO.cpName}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>부품제조사</td>
-	                  	<td th:text="${detail.componentDTO.cpMaker}"></td>
+	                  	<td th:text="${d.componentDTO.cpMaker}"></td>
 	                  	<td>부품사용시작일</td>
-	                    <td th:text="${detail.componentDTO.cpUseDate}"></td>
+	                    <td th:text="${d.componentDTO.cpUsedate}"></td>
 	                  </tr>
 	                  <tr>
 	                  	 <td>부품정보</td>
-	                     <td colspan="3" th:text="${detail.componentDTO.cpInfo}"></td>
+	                     <td colspan="3" th:text="${d.componentDTO.cpInfo}"></td>
 	                  </tr>
 	                 
 	                </tbody>
@@ -53,37 +53,37 @@
 	                <tbody>
 	                  <tr>
 	                    <td>공고코드</td>
-	                    <td colspan="3" th:text="${detail.bCpCode}"></td>
+	                    <td colspan="3" th:text="${d.bCpCode}"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고제목</td>
-	                    <td colspan="3" th:text = "${detail.bCpTitle}"></td>
+	                    <td colspan="3" th:text = "${d.bCpTitle}"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고내용</td>
-	                    <td colspan="3" th:text = "${detail.bCpContents}"></td>
+	                    <td colspan="3" th:text = "${d.bCpContents}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>희망가격</td>
-	                  	<td colspan="3"  th:text = "${detail.bCpPrice}"></td>
+	                  	<td colspan="3"  th:text = "${d.bCpPrice}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>공고시작일</td>
-	               		<td th:text="${detail.bCpDateBidding1}"></td>
+	               		<td th:text="${d.bCpDateBidding1}"></td>
 	                  	<td>마감일</td>
-	                  	<td th:text="${detail.bCpDateBidding2}"></td>
+	                  	<td th:text="${d.bCpDateBidding2}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>입찰자결정일시작일</td>
-	               		<td th:text="${detail.bCpDateDecision1}"></td>
+	               		<td th:text="${d.bCpDateDecision1}"></td>
 	                  	<td>입찰자결정일시작일</td>
-	                  	<td th:text="${detail.bCpDateDecision2}"></td>
+	                  	<td th:text="${d.bCpDateDecision2}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>진행상태</td>
-	                  	<td th:text="${detail.bCpStatus}"></td>
+	                  	<td th:text="${d.bCpStatus}"></td>
 	                  	<td>입찰자수</td>
-	                  	<td th:text="${detail.bCpBidderNumber}"></td>
+	                  	<td><a th:href="@{#}">[[${d.bCpBidderNumber}]]</a></td>
 	                  </tr>
 	                  <tr>
 	                  	<td colspan="4">
