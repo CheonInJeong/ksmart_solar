@@ -31,7 +31,7 @@
 						<tr>
 							<th>아이디</th>
 							<th>이름</th>
-							<th>권한번호</th>
+							<th>권한</th>
 							<th>연락처</th>
 							<th>이메일</th>
 							<th>회원가입일</th>
@@ -49,7 +49,7 @@
 								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
 							</td>
 							<td data-title="이름" th:text="${l.mName}"></td>
-							<td data-title="권한번호" th:text="${l.mLevel}"></td>
+							<td data-title="권한" th:text="${l.mLevelName}"></td>
 							<td data-title="연락처" th:text="${l.mPhone}"></td>
 							<td data-title="이메일" th:text="${l.mEmail}"></td>
 							<td data-title="회원가입일" th:text="${l.mSubDate}"></td>

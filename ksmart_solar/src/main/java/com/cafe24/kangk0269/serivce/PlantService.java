@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.kangk0269.dao.PlantMapper;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 
 @Service
@@ -19,7 +20,23 @@ public class PlantService {
 	public PlantService(PlantMapper plantMapper) {
 		this.plantMapper = plantMapper;
 	}
-
+	
+	// 발전소인증신청 반려
+	public int plantReturn(BusinessPlantDTO plant) {
+		return plantMapper.plantReturn(plant);
+	}
+	
+	// 발전소인증신청 승인
+	public int plantAdmit(BusinessPlantDTO plant) {
+		return plantMapper.plantAdmit(plant);
+	}
+	
+	// 발전소 인증 신청 상세정보
+	public BusinessPlantDTO getPlantInfoBybzPlCode(String bzPlCode) {
+		return plantMapper.getPlantInfoBybzPlCode(bzPlCode);
+	}
+	
+	// 전체 발전소 인증 신청 목록
 	public List<BusinessPlantDTO> getAllPlantAdmitList() {
 
 		return plantMapper.getAllPlantAdmitList();
