@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
@@ -76,30 +77,34 @@ public class NoticeController {
 		return "/notice/history";
 	}
 	@PostMapping("/notice/announcement")
-	public String Announcement(String uri,String announceTitle, String announceType, Model model,
+	public String Announcement(String uri,String announceCode, String announceType, Model model,
 							   HttpSession session) {
 		//공고 코드
-		System.out.println(announceTitle);
+		System.out.println(announceCode);
 		System.out.println(announceType);
 		System.out.println(uri);
 		//입찰자 목록 조회해야함
 		String id = (String) session.getAttribute("SID");
-		int getBidListCount = bidListService.getBidListCount(announceTitle,id);
+		int getBidListCount = bidListService.getBidListCount(announceCode,id);
 		//입찰한지 안한지를 보내준다.
 		model.addAttribute("getBidListCount",getBidListCount);
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
-			BidListDTO bidListDTO = bidListService.getBidList(announceTitle,id);
+			//이미 입찰을 했다면 입찰한 정보를 보여준다.
+			BidListDTO bidListDTO = bidListService.getBidList(announceCode,id);
 			if(bidListDTO!=null) {
 				model.addAttribute("bidListDTO",bidListDTO);
 			}
 		}
 		if(announceType!=null && announceType.equals("발전소")) {
-			BidPlantDTO bidPlantdto = bidPlantService.getBidPlantByInfo(announceTitle);
+			BidPlantDTO bidPlantdto = bidPlantService.getBidPlantByInfo(announceCode);
+			BusinessPlantDTO businessPlantDTO = bidPlantService.getPlant(announceCode);
+			System.out.println(businessPlantDTO+"----------------------------------발전소 정보");
 			model.addAttribute("bidPlantdto", bidPlantdto);
+			model.addAttribute("businessPlantDTO", businessPlantDTO);
 		}
 		if(announceType!=null && announceType.equals("부품")) {
-			BidComponentDTO bidComponentdto = bidComponentService.getBidComponentByInfo(announceTitle);
+			BidComponentDTO bidComponentdto = bidComponentService.getBidComponentByInfo(announceCode);
 			model.addAttribute("bidComponentdto", bidComponentdto);
 		}
 		return "/notice/announcement";

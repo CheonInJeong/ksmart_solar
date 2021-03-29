@@ -13,44 +13,48 @@
 		        </div>
 	          	<div class="group-rom">
 		           <div class="second-part" style="width: 100%; height: 200px;">
-		           		<img alt="" src="/img/product.jpg" style="width:100%; height:100%; object-fit:contain !important;">
+		           		<img alt="" th:src="${businessPlantDTO.bzPlPhoto}" style="width:100%; height:100%; object-fit:contain !important;">
 		           </div>
 	          	</div>
            		<div class="group-rom">
 		            <div class="first-part odd">발전소 명</div>
-		            <div class="second-part">xxx발전소</div>
+		            <div class="second-part" th:text="${businessPlantDTO.bzPlName}"></div>
 				</div>
-				<div class="group-rom">
-		           <div class="first-part odd">주소</div>
-		           <div class="second-part" >(우편번호)도로명 주소</div>
+				<div class="group-rom" style="height: 100px;">
+		           <div class="first-part odd" style="height: 100%;">주소</div>
+		           <div class="second-part">	           
+			           <span>([[${businessPlantDTO.bzPlZipcode}]])</span><br/>
+			           <span>[[${businessPlantDTO.bzPlAddr}]]</span><br/>
+			           <span>[[${businessPlantDTO.bzPlDetailAddr}]]</span>
+		           </div>
 		        </div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">발전소 용량</div>
-		           <div class="second-part">100kWh</div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlPower}"></div>
 	          	</div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">하드웨어 여부</div>
-		           <div class="second-part">Y</div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlHardware}"></div>
 	          	</div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">부지면적</div>
-		           <div class="second-part"></div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlArea}"></div>
 	          	</div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">인버터 용량</div>
-		           <div class="second-part"></div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlInvPower}"></div>
 	          	</div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">인버터 수량</div>
-		           <div class="second-part"></div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlInvCount}"></div>
 	          	</div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">인버터 제조사</div>
-		           <div class="second-part"></div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlInvMaker}"></div>
 	          	</div>
 	          	<div class="group-rom">
 		           <div class="first-part odd">계약 REC</div>
-		           <div class="second-part">37000원</div>
+		           <div class="second-part" th:text="${businessPlantDTO.bzPlRec}+'원'"></div>
 	          	</div>
           </div>
         </div>

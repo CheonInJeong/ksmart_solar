@@ -88,7 +88,7 @@
 	        </div>
         </form>
         <div th:include="notice/plantInfo :: plantInfoFragment" 
-        	 th:if="${bidPlantdto!=null}"></div>
+        	 th:if="${bidPlantdto!=null and businessPlantDTO!=null}"></div>
         <div th:include="notice/componentInfo :: componentInfoFragment" 
         	 th:if="${bidComponentdto!=null}"></div>
         <div th:include="notice/bidResult :: bidResultFragment" 
