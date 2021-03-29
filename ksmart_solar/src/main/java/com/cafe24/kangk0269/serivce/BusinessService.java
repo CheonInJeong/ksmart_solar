@@ -20,6 +20,11 @@ public class BusinessService {
 		this.businessMapper = businessMapper;
 	}
 
+	// 사업자인증신청 반려
+	public int businessReturn(BusinessDTO business) {
+		return businessMapper.businessReturn(business);
+	}
+	
 	// 사업자인증신청 승인
 	public int businessAdmit(BusinessDTO business) {
 		return businessMapper.businessAdmit(business);

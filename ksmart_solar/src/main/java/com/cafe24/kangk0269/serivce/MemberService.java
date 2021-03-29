@@ -85,8 +85,24 @@ public class MemberService {
 	}
 	
 	public List<MemberDTO> getAllMember(){
+		List<MemberDTO> memberList = memberMapper.getAllMember();
+		for(int i=0; i < memberList.size(); i++) {
+			int mLevel = memberList.get(i).getmLevel();
+			if(mLevel == 1) {
+				memberList.get(i).setmLevelName("관리자");
+			}
+			if(mLevel == 2) {
+				memberList.get(i).setmLevelName("태양광사업자(판매자)	");
+			}
+			if(mLevel == 3) {
+				memberList.get(i).setmLevelName("재활용 중고 사업자(구매자)");
+			}
+			if(mLevel == 4) {
+				memberList.get(i).setmLevelName("일반회원");
+			}
+		}
 		
-		return memberMapper.getAllMember();
+		return memberList;
 
 	}
 }

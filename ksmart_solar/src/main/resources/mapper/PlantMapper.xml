@@ -20,6 +20,45 @@
 		<result property="bzPlRec" 			column="bz_pl_rec"/>
 	</resultMap>
 
+	<update id="plantReturn" parameterType="BusinessPlantDTO">
+		UPDATE tb_business_plant
+		SET
+			bz_pl_check = 'F'
+		WHERE 
+			bz_pl_code = #{bzPlCode}
+	</update>
+	
+	<update id="plantAdmit" parameterType="BusinessPlantDTO">
+		UPDATE tb_business_plant
+		SET
+			bz_pl_check = 'Y'
+		WHERE 
+			bz_pl_code = #{bzPlCode}
+	</update>
+
+	<select id="getPlantInfoBybzPlCode" resultMap="plantResultMap">
+		SELECT 
+			bz_pl_code
+			, m_id
+			, bz_pl_check
+			, bz_pl_name
+			, bz_pl_zipcode
+			, bz_pl_addr
+			, bz_pl_detail_addr
+			, bz_pl_photo
+			, bz_pl_power
+			, bz_pl_hardware
+			, bz_pl_area
+			, bz_pl_inv_power
+			, bz_pl_inv_count
+			, bz_pl_inv_maker
+			, bz_pl_rec
+		FROM 
+			tb_business_plant
+		WHERE
+			bz_pl_code = #{bzPlCode}
+	</select>
+	
 	<select id="getAllPlantAdmitList" resultMap="plantResultMap">
 		SELECT 
 			bz_pl_code
