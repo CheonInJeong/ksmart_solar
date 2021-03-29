@@ -19,6 +19,28 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
+	<!-- 문의 상세조회  -->
+	<select id="getQna" parameterType="int" resultMap="BoardQnaDTOMap">
+		SELECT 
+			  b_qna_idx
+			, b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp
+		FROM 
+			tb_board_qna
+		WHERE
+			b_qna_idx = #{bQnaIdx}
+	
+	</select>
+	
 	<!-- 문의 조회  -->
 	<select id="getQnaList" resultMap="BoardQnaDTOMap">
 		SELECT 

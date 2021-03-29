@@ -39,12 +39,13 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${noticeDTOList}">
+						<tr th:each="l : ${boardQnaDTOList}">
 							<td data-title="공지제목">
-								<a th:href=@{/help/getNotice(noticeIdx=${l.noticeIdx})}>[[${l.notSubject}]]</a>
+								<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
 							</td>
-							<td data-title="조회수" th:text="${l.notViews}"></td>
-							<td data-title="등록일" th:text="${l.notRegDate}"></td>
+							<td data-title="작성자" th:text="${l.mId}"></td>
+							<td data-title="조회수" th:text="${l.bQnaViews}"></td>
+							<td data-title="등록일" th:text="${l.bQnaRegDate}"></td>
 							<td data-title="수정">
 								<a class="btn btn-info" th:href=@{/help/modifyNotice(noticeIdx=${l.noticeIdx})}>수정</a>
 							</td>

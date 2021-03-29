@@ -27,6 +27,16 @@ public class HelpController {
 	}
 	
 	
+	// 문의 상세조회
+	@GetMapping("/help/getQna")
+	public String getQna(Model model,
+							@RequestParam(name = "bQnaIdx", required = false) int bQnaIdx) {
+		BoardQnaDTO boardQnaDTO = boardQnaService.getQna(bQnaIdx);
+		model.addAttribute("boardQnaDTO", boardQnaDTO);
+		return "/help/getQna";
+		
+	}
+	
 	// 문의 조회
 	@GetMapping("/help/qna")
 	public String Qna(Model model) {
