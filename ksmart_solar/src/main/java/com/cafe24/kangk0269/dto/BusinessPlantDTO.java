@@ -3,6 +3,7 @@ package com.cafe24.kangk0269.dto;
 
 public class BusinessPlantDTO {
 	private String bzPlCode;
+	private String bzCode;
 	private String mId;
 	private String bzPlCheck;
 	private String bzPlName;	
@@ -160,6 +161,12 @@ public class BusinessPlantDTO {
 		builder.append(plantDepDataDTO);
 		builder.append("]");
 		return builder.toString();
+	}
+	public String getBzCode() {
+		return bzCode;
+	}
+	public void setBzCode(String bzCode) {
+		this.bzCode = bzCode;
 	}
 	
 	

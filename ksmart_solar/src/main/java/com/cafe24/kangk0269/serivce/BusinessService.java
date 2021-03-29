@@ -6,8 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.kangk0269.common.DepreciationCalculate;
 import com.cafe24.kangk0269.dao.BusinessMapper;
 import com.cafe24.kangk0269.dto.BusinessDTO;
+import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 
 @Service
 @Transactional
@@ -47,6 +50,27 @@ public class BusinessService {
 		System.out.println(bs);
 		
 		return businessMapper.addRecycleEntrepreneur(bs);
+	}
+
+	public int addSolarEntrepreneur(BusinessDTO bs, BusinessPlantDTO bp, PlantDepreciationDTO pd) {
+		
+		System.out.println(bs);
+		System.out.println(bp);
+		System.out.println(pd);
+		
+		String bzCode = businessMapper.getInsertBzCode();
+		String bzPlCode = businessMapper.getInsertBzPlCode();
+		
+		bp.setBzCode(bzCode);
+		pd.setBzPlCode(bzPlCode);
+		
+		//날짜계산필요 pd.getPlDepBuyDate() - pd.getPlDepStartDate();
+		
+		int PlDepPriceBased = DepreciationCalculate.calculPlDepPriceBased(pd.getPlDepPrice(), 30);
+		
+		System.out.println(PlDepPriceBased);
+		
+		return 1;
 	}
 	
 	

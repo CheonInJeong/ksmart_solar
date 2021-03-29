@@ -3,7 +3,7 @@ package com.cafe24.kangk0269.dto;
 public class PlantDepreciationDTO {
 	private int plDepIdx;	
 	private String bzPlCode;	
-	private int pl_depPriceBased;	
+	private int plDepPriceBased;	
 	private int plDepPrice;	
 	private String plDepStartDate;	
 	private String plDepBuyDate;	
@@ -23,11 +23,11 @@ public class PlantDepreciationDTO {
 	public void setBzPlCode(String bzPlCode) {
 		this.bzPlCode = bzPlCode;
 	}
-	public int getPl_depPriceBased() {
-		return pl_depPriceBased;
+	public int getPlDepPriceBased() {
+		return plDepPriceBased;
 	}
-	public void setPl_depPriceBased(int pl_depPriceBased) {
-		this.pl_depPriceBased = pl_depPriceBased;
+	public void setPlDepPriceBased(int plDepPriceBased) {
+		this.plDepPriceBased = plDepPriceBased;
 	}
 	public int getPlDepPrice() {
 		return plDepPrice;
@@ -72,8 +72,8 @@ public class PlantDepreciationDTO {
 		builder.append(plDepIdx);
 		builder.append(", bzPlCode=");
 		builder.append(bzPlCode);
-		builder.append(", pl_depPriceBased=");
-		builder.append(pl_depPriceBased);
+		builder.append(", plDepPriceBased=");
+		builder.append(plDepPriceBased);
 		builder.append(", plDepPrice=");
 		builder.append(plDepPrice);
 		builder.append(", plDepStartDate=");
