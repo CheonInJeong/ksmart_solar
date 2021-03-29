@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.BoardQnaMapper">
+	<resultMap type="BoardQnaDTO" id="BoardQnaDTOMap">
+		<result property="bQnaIdx"			column="b_qna_idx"/>
+		<result property="bQnaSubject"		column="b_qna_subject"/>
+		<result property="bQnaContents"		column="b_qna_contents"/>
+		<result property="mId"				column="m_id"/>
+		<result property="bQnaRegDate"		column="b_qna_reg_date"/>
+		<result property="bQnaViews"		column="b_qna_views"/>
+		<result property="bQnaOpen"			column="b_qna_open"/>
+		<result property="bQnaPassword"		column="b_qna_password"/>
+		<result property="bQnaRefCode"		column="b_qna_ref_code"/>
+		<result property="bQnaReLev"		column="b_qna_re_lev"/>
+		<result property="bQnaReSeq"		column="b_qna_re_seq"/>
+		<result property="bQnaTemp"			column="b_qna_temp"/>
+	</resultMap>
+	
+	<!-- 문의 조회  -->
+	<select id="getQnaList" resultMap="BoardQnaDTOMap">
+		SELECT 
+			  b_qna_idx
+			, b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp
+		FROM 
+			tb_board_qna
+	</select>
+</mapper>

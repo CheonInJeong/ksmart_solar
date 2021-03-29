@@ -9,6 +9,9 @@ import com.cafe24.kangk0269.dto.BusinessDTO;
 @Mapper
 public interface BusinessMapper {
 
+	// 사업자인증신청 반려
+	public int businessReturn(BusinessDTO business);
+	
 	// 사업자인증신청 승인
 	public int businessAdmit(BusinessDTO business);
 	
@@ -17,4 +20,12 @@ public interface BusinessMapper {
 	
 	// 사업자인증신청목록
 	public List<BusinessDTO> getAllBusinessAdmitList();
+	
+	// 일반 사업자 신청
+	public int addRecycleEntrepreneur(BusinessDTO bs);
+	
+	public String getInsertBzCode();
+
+	public String getInsertBzPlCode();
+	
 }

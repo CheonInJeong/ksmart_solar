@@ -61,8 +61,11 @@ public class MemberManageController {
 	@GetMapping("/member/memberList")
 	public String MemberList(Model model) {
 		List<MemberDTO> memberList = memberService.getAllMember();
-		System.out.println(memberList);
+		List<String> checkbusiness = memberService.checkBusiness();
+		System.out.println("전체회원조회 : " + memberList);
+		System.out.println("등록된 사업장 조회 : " + checkbusiness);
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("checkbusiness", checkbusiness);
 		return "/member/memberList";
 	}
 	
@@ -79,8 +82,19 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/bzCheckReason")
-	public String bzCheckReason() {
+	public String bzCheckReason(Model model
+								,@RequestParam(name="bzCode", required=false) String bzCode) {
+		System.out.println("반려할 사업자신청코드 : " + bzCode);
+		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
+		model.addAttribute("business", business);
 		return "/member/bzCheckReason";
+	}
+	
+	@PostMapping("/businessReturnSend")
+	public String businessReturnSend(BusinessDTO business) {
+		System.out.println("반려사유 추가 : " + business );
+		businessService.businessReturn(business);
+		return "redirect:/bzCheckReason?bzCode=" + business.getBzCode();
 	}
 	
 	@PostMapping("/businessAdmitSend")
@@ -107,6 +121,32 @@ public class MemberManageController {
 		System.out.println(businessList);
 		model.addAttribute("businessList", businessList);
 		return "/member/businessList";
+	}
+	
+	@PostMapping("/plantReturnSend")
+	public String plantReturnSend(@RequestParam(name="bzPlCode", required=false) String bzPlCode) {
+		System.out.println("반려된 사업자신청코드 : " + bzPlCode);
+		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
+		plantService.plantReturn(plant);
+		return "redirect:/getPlantInfoBybzPlCode?bzPlCode=" + plant.getBzPlCode();
+	}
+	
+	@PostMapping("/plantAdmitSend")
+	public String plantAdmitSend(@RequestParam(name="bzPlCode", required=false) String bzPlCode) {
+		System.out.println("승인된 사업자신청코드 : " + bzPlCode);
+		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
+		plantService.plantAdmit(plant);
+		return "redirect:/getPlantInfoBybzPlCode?bzPlCode=" + plant.getBzPlCode();
+	}
+	
+	@GetMapping("/getPlantInfoBybzPlCode")
+	public String getPlantInfoBybzPlCode(Model model
+										  ,@RequestParam(value="bzPlCode", required=false) String bzPlCode) {
+		System.out.println("발전소사업자코드 : " + bzPlCode);
+		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
+		System.out.println("코드조회결과 : " + plant);
+		model.addAttribute("plant", plant);
+		return "/member/getPlantInfoBybzPlCode";
 	}
 	
 	@GetMapping("/member/plantList")

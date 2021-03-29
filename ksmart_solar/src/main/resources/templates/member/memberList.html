@@ -31,7 +31,7 @@
 						<tr>
 							<th>아이디</th>
 							<th>이름</th>
-							<th>권한번호</th>
+							<th>권한</th>
 							<th>연락처</th>
 							<th>이메일</th>
 							<th>회원가입일</th>
@@ -45,20 +45,36 @@
 					</thead>
 					<tbody>
 						<tr th:each="l : ${memberList}">
-							<td data-title="아이디">
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="아이디">
 								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
 							</td>
-							<td data-title="이름" th:text="${l.mName}"></td>
-							<td data-title="권한번호" th:text="${l.mLevel}"></td>
-							<td data-title="연락처" th:text="${l.mPhone}"></td>
-							<td data-title="이메일" th:text="${l.mEmail}"></td>
-							<td data-title="회원가입일" th:text="${l.mSubDate}"></td>
-							<td data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
-							<td data-title="휴면여부" th:text="${l.mRestCheck}"></td>
-							<td data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
-							<td data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
-							<td data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
-							<td data-title="수정">
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="아이디">
+								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+							</td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="이름" th:text="${l.mName}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="이름" th:text="${l.mName}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="권한" th:text="${l.mLevelName}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="권한" th:text="${l.mLevelName}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="연락처" th:text="${l.mPhone}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="연락처" th:text="${l.mPhone}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="이메일" th:text="${l.mEmail}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="이메일" th:text="${l.mEmail}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="회원가입일" th:text="${l.mSubDate}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="회원가입일" th:text="${l.mSubDate}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="휴면여부" th:text="${l.mRestCheck}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="휴면여부" th:text="${l.mRestCheck}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
+							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="수정">
+								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+							</td>
+							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="수정">
 								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 							</td>
 						</tr>

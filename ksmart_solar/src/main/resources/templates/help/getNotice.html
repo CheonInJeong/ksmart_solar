@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>개인 계좌 등록</title>
+		<title>공지사항</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -23,49 +23,36 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>계좌등록</strong></div>
-     	<div id="container-header-path">마이페이지 > 내 계좌관리 > 계좌등록</div>
+		<div id="container-header-title"><strong>공지사항</strong></div>
+     	<div id="container-header-path">고객센터 > 공지사항</div>
      	<div id="container-header-space"></div>	
 		
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
-              <h4 class="mb"><i class="fa fa-angle-right"></i>계좌 등록</h4>
-              <form th:action="@{/mypage/addAccount}" method="post" class="form-horizontal style-form">
-              <input type="text" name="mId" th:value="${session.SID}" hidden="hidden">
+              <h4 class="mb"><i class="fa fa-angle-right"></i>공지사항</h4>
+              <form th:action="@{/help/modifyNotice}" method="post" class="form-horizontal style-form">
+              	<input type="text" name="noticeIdx" th:value=${noticeDTO.noticeIdx} hidden="hidden">
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">계좌번호</label>
+                  <label class="col-sm-2 col-sm-2 control-label">공지제목</label>
                   <div class="col-lg-10">
-                  	<input type="text" name="mAccountNumber" class="form-control">
+                  	<p class="form-control-static">[[${noticeDTO.notSubject}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">예금주명</label>
+                  <label class="col-sm-2 col-sm-2 control-label">공지내용</label>
                   <div class="col-lg-10">
-                  	<input type="text" name="mAccountName" class="form-control">
+                 	 <p class="form-control-static">[[${noticeDTO.notContents}]]</p>
                   </div>
                 </div>
+                
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">은행명</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mAccountBank" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">사용여부</label>
-                  <div class="col-lg-10">
-                  	<label>
-					Y  <input type="radio" value="Y" name="mAccountCheck">
-					</label>
-					<label>
-					N  <input type="radio" value="N" name="mAccountCheck">
-					</label>
-                  </div>
-                </div>
-                <div class="form-group" text-align="center">
                   <div class="col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-info">계좌등록</button>
+                  	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
                   </div>
+                </div>
+                <div style="text-align: center">
+                <button type="submit" class="btn btn-success">수정</button>
                 </div>
               </form>
             </div>
@@ -92,10 +79,10 @@
 		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 		  <script src="lib/advanced-form-components.js"></script>
 		  	<script type="text/javascript">
-			var mypage = $('#mypage');
-			mypage.addClass('active');
-			mypage.parent().find('.sub').css('display','block');
-			mypage.parent().find('.sub').children().eq(1).addClass('active');
-		</script>
+			var help = $('#help');
+			help.addClass('active');
+			help.parent().find('.sub').css('display','block');
+			help.parent().find('.sub').children().eq(0).addClass('active');
+			</script>
 	</th:block>		  
 </html>

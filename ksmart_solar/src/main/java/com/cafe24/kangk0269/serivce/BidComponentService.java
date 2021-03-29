@@ -31,16 +31,27 @@ public class BidComponentService {
 	
 	public List<BidComponentDTO> getBidComponent(String status) {		
 		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponent(status);
+		if(bidComponentList!=null) {
+			for(int i=0; i<bidComponentList.size();i++) {
+				bidComponentList.get(i).setNum(i+1);
+			}
+		}
 		System.out.println(bidComponentList);
 		return bidComponentList;
 	}
-	public BidComponentDTO getBidComponentByInfo(String announceTitle) {		
-		BidComponentDTO bidComponentDTO = bidComponentMapper.getBidComponentByInfo(announceTitle);
+	public BidComponentDTO getBidComponentByInfo(String announceCode) {		
+		BidComponentDTO bidComponentDTO = bidComponentMapper.getBidComponentByInfo(announceCode);
 		System.out.println(bidComponentDTO);
 		return bidComponentDTO;
 	}
 	public List<BidComponentDTO> getBidComponentMyBid(String sId) {
 		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponentMyBid(sId);
+		if(bidComponentList!=null) {
+			System.out.println("확인--------------------------");
+			for(int i=0; i<bidComponentList.size();i++) {
+				bidComponentList.get(i).setNum(i+1);
+			}
+		}
 		return bidComponentList;
 	}
 }

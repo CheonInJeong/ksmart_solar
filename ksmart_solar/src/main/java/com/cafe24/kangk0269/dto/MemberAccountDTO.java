@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.dto;
 
+
 public class MemberAccountDTO {
 
 	private int mAccountIdx;
@@ -9,6 +10,7 @@ public class MemberAccountDTO {
 	private String mAccountBank;	
 	private String mAccountRegDate;	
 	private String mAccountCheck;
+  
 	public int getmAccountIdx() {
 		return mAccountIdx;
 	}
@@ -53,6 +55,7 @@ public class MemberAccountDTO {
 	}
 	@Override
 	public String toString() {
+
 		StringBuilder builder = new StringBuilder();
 		builder.append("MemberAccountDTO [mAccountIdx=");
 		builder.append(mAccountIdx);
@@ -73,6 +76,5 @@ public class MemberAccountDTO {
 	}
 	
 	
-	
-	
+
 }
