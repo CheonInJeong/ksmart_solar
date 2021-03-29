@@ -45,7 +45,7 @@ public class BusinessController {
 		
 		//
 		bs.setBzCode("");
-		bs.setMId(MId);
+		bs.setmId(MId);
 		bs.setBzCompanyName(bzCompanyName);
 		bs.setBzCeoName(bzCeoName);
 		bs.setBzZipcode(bzZipcode);
@@ -72,6 +72,5 @@ public class BusinessController {
 	}
 	
 	//사업자 등록(태양광사업자)
-	
 	
 }
