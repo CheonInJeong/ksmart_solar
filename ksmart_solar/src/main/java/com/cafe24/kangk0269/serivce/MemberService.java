@@ -25,6 +25,12 @@ public class MemberService {
 		this.memberMapper = memberMapper;
 	}
 	
+	// 등록된 사업장
+	public List<String> checkBusiness(){
+		
+		return memberMapper.checkBusiness();
+	}
+	
 	// 전체 회원정보수정
 	public int modifyMember(MemberDTO member) {
 		int result = memberMapper.modifyMember(member);

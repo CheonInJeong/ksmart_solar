@@ -9,6 +9,9 @@ import com.cafe24.kangk0269.dto.MemberDTO;
 @Mapper
 public interface MemberMapper {
 	
+	// 등록된 사업장
+	public List<String> checkBusiness();
+	
 	// 개인 회원정보수정
 	public int modifyMyInfo(MemberDTO member);
 	
