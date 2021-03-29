@@ -101,6 +101,28 @@
 		WHERE
 			m_id = #{SID};
 	</select>
+	<select id="getPlantListByCode" resultMap="plantResultMap" parameterType="String">
+		SELECT 
+			bz_pl_code
+			, m_id
+			, bz_pl_check
+			, bz_pl_name
+			, bz_pl_zipcode
+			, bz_pl_addr
+			, bz_pl_detail_addr
+			, bz_pl_photo
+			, bz_pl_power
+			, bz_pl_hardware
+			, bz_pl_area
+			, bz_pl_inv_power
+			, bz_pl_inv_count
+			, bz_pl_inv_maker
+			, bz_pl_rec
+		FROM 
+			tb_business_plant
+		WHERE
+			bz_pl_code = #{bzCode};
+	</select>
 	
 	
 </mapper> 

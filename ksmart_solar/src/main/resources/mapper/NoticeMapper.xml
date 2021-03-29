@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+PUBLIC "-//mybatis.org//DTD Config 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.NoticeMapper">
+	<resultMap type="NoticeDTO" id="NoticeDTOMap">
+		<result property="noticeIdx"		column="not_idx"/>
+		<result property="notSubject"		column="not_subject"/>
+		<result property="notContents"		column="not_contents"/>
+		<result property="mId"				column="m_id"/>
+		<result property="notRegDate"		column="not_reg_date"/>
+		<result property="notViews"			column="not_views"/>
+		<result property="notTemp"			column="not_temp"/>
+	</resultMap>
+
+	
+	<!-- 공지사항 삭제  -->
+	<delete id="removeNotice" parameterType="int">
+		DELETE FROM 
+			tb_notice 
+		WHERE
+		 	not_idx = #{noticeIdx}
+	</delete>
+	
+	<!-- 공지사항 상세조회 -->
+	<select id="getNotice" parameterType="int" resultMap="NoticeDTOMap">
+		SELECT 
+			  not_idx
+			, not_subject
+			, not_contents
+			, m_id, not_reg_date
+			, not_views
+			, not_temp
+		FROM 
+			tb_notice
+		WHERE 
+			not_idx = #{noticeIdx}
+	</select>
+
+	<!-- 공지사항 수정처리  -->
+	<update id="modifyNotice" parameterType="NoticeDTO">
+		UPDATE tb_notice
+		SET
+			not_subject=#{notSubject},
+			not_contents=#{notContents},
+			not_reg_date=NOW()
+		WHERE 
+			not_idx = #{noticeIdx}
+	
+	</update>
+
+	<!-- 공지사항 수정화면 -->
+	<select id="modifyNoticeByIdx" parameterType="int" resultMap="NoticeDTOMap">
+		SELECT 
+			  not_idx
+			, not_subject
+			, not_contents
+			, m_id, not_reg_date
+			, not_views
+			, not_temp
+		FROM 
+			tb_notice
+		WHERE 
+			not_idx = #{noticeIdx}
+	</select>
+	
+	<!-- 공지사항 등록 -->
+	<insert id="addNotice" parameterType="NoticeDTO">
+		INSERT INTO tb_notice
+			( not_idx
+			, not_subject
+			, not_contents
+			, m_id
+			, not_reg_date
+			, not_views
+			, not_temp)
+		VALUES 
+			(sf_new_notice_idx()
+			, #{notSubject}
+			, #{notContents}
+			, '관리자'
+			, NOW()
+			, 0
+			, 'N')
+	</insert>
+	
+	<!-- 공지사항 조회 -->
+	<select id="getNoticeList" resultMap="NoticeDTOMap">
+		SELECT 
+			  not_idx
+			, not_subject
+			, not_contents
+			, m_id, not_reg_date
+			, not_views
+			, not_temp
+		FROM tb_notice
+		ORDER BY not_reg_date DESC;
+	</select>
+	
+</mapper>

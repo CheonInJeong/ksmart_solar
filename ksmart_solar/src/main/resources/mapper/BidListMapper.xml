@@ -4,6 +4,32 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cafe24.kangk0269.dao.BidListMapper">
+	<resultMap type="BidListDTO" id="BidListDTOMap">
+		<result property="bCode" 					column="b_code" />
+		<result property="announcedCode" 			column="announced_code" />
+		<result property="bTypeCode" 				column="b_type_code" />
+		<result property="mId" 						column="m_id" />
+		<result property="bPrice" 					column="b_price" />
+		<result property="bTitle"					column="b_title" />		
+		<result property="sDepositRate" 			column="s_dep_rate" />	
+		<result property="bDeposit" 				column="b_deposit" />	
+		<result property="bDepositCheck" 			column="b_deposit_check" />	
+		<result property="bMoCode" 					column="b_mo_code" />	
+		<result property="bDepositDate" 			column="b_deposit_date" />	
+		<result property="trTypeCode" 				column="tr_type_code" />	
+		<result property="trTypeName" 				column="tr_type_name" />	
+		<result property="dcInstructions" 			column="dc_instructions" />	
+		<result property="dcApplication" 			column="dc_application" />	
+		<result property="dcProposal" 				column="dc_proposal" />	
+		<result property="bDate" 					column="b_date" />	
+		<result property="bCheck"					column="b_check" />	
+		<result property="bRank" 					column="b_rank" />	
+		<result property="bDepositAvailable" 		column="b_deposit_available" />	
+		<result property="bDepositRefund" 			column="b_deposit_refund" />	
+		<result property="bDateUp" 					column="b_date_up" />
+		<result property="mAccountBankName" 		column="m_account_bank_name" />
+		<result property="mAccountNumber" 			column="m_account_number" />
+	</resultMap>
 	<select id="getDepositRate" resultType="double">
 		SELECT
 			s_deposit_rate
@@ -12,5 +38,72 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE 
 			s_deposit_use ='Y'
 		LIMIT 1;
+	</select>
+	<insert id="addbidList" parameterType="BidListDTO">
+		INSERT INTO tb_bid_list
+			(b_code,
+			 announced_code,
+			 b_type_code,
+			 m_id,
+			 b_price,
+			 b_title,
+			 s_dep_rate,
+		 	 b_deposit,
+			 b_date,
+			 m_account_bank_name,
+			 m_account_number)
+		VALUES 
+			(sf_b_code(),
+			#{announcedCode},
+			#{bTypeCode},
+			#{mId},
+			#{bPrice},
+			#{bTitle},
+			#{sDepositRate},
+			#{bDeposit},
+			NOW(),
+			#{mAccountBankName},
+			#{mAccountNumber})
+	</insert>
+	<select id="getBidListCount" resultType="int">
+		select
+			COUNT(1)
+		FROM
+			tb_bid_list AS bl
+		WHERE 
+			bl.announced_code = #{announceTitle}
+		and
+			bl.m_id=#{id}
+	</select>
+	<select id="getBidList" parameterType="String" resultMap="BidListDTOMap">
+		SELECT 
+			b_code, 
+			announced_code, 
+			b_type_code, 
+			m_id, 
+			b_price, 
+			b_title, 
+			s_dep_rate, 
+			b_deposit, 
+			b_deposit_check,
+			b_mo_code, 
+			b_deposit_date, 
+			tr_type_code, 
+			tr_type_name, 
+			dc_instructions, 
+			dc_application, 
+			dc_proposal, 
+			b_date, 
+			b_check, 
+			b_rank, 
+			b_deposit_available, 
+			b_deposit_refund, 
+			b_date_up, 
+			m_account_bank_name, 
+			m_account_number
+		FROM 
+			tb_bid_list
+		WHERE 
+			m_id = #{id} AND announced_code = #{announceTitle}
 	</select>
 </mapper>
