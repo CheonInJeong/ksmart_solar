@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-		<title>공지사항 등록</title>
+		<title>공지사항</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -23,36 +23,36 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>공지사항 등록</strong></div>
-     	<div id="container-header-path">고객센터 > 공지사항 > 공지사항 등록</div>
+		<div id="container-header-title"><strong>공지사항</strong></div>
+     	<div id="container-header-path">고객센터 > 공지사항</div>
      	<div id="container-header-space"></div>	
 		
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
-              <h4 class="mb"><i class="fa fa-angle-right"></i>공지사항 등록</h4>
-              <form th:action="@{/help/addNotice}" method="post" class="form-horizontal style-form">
+              <h4 class="mb"><i class="fa fa-angle-right"></i>공지사항</h4>
+              <form th:action="@{/help/modifyNotice}" method="post" class="form-horizontal style-form">
+              	<input type="text" name="noticeIdx" th:value=${noticeDTO.noticeIdx} hidden="hidden">
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">공지제목</label>
                   <div class="col-lg-10">
-                  	<input type="text" name="notSubject" class="form-control">
+                  	<p class="form-control-static">[[${noticeDTO.notSubject}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">공지내용</label>
                   <div class="col-lg-10">
-                  	<textarea name="notContents" rows="30" class="form-control"></textarea>
+                 	 <p class="form-control-static">[[${noticeDTO.notContents}]]</p>
                   </div>
                 </div>
                 
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
-                  	<a class="btn btn-info" th:href="@{/help/addNotice}">임시저장</a>	
                   </div>
                 </div>
                 <div style="text-align: center">
-                <button type="submit" class="btn btn-success">등록</button>
+                <button type="submit" class="btn btn-success">수정</button>
                 </div>
               </form>
             </div>

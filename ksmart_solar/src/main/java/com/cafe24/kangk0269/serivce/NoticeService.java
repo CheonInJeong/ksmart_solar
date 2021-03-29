@@ -29,6 +29,16 @@ public class NoticeService {
 		System.out.println("=========================================================");
 	}
 	
+	//공지 삭제
+	public int removeNotice(int noticeIdx) {
+		return noticeMapper.removeNotice(noticeIdx);
+	}
+	
+	//공지사항 상세조회
+	public NoticeDTO getNotice(int noticeIdx) {
+		return noticeMapper.getNotice(noticeIdx);
+	}
+	
 	//공지사항  수정처리
 	public int modifyNotice(NoticeDTO noticeDTO) {
 		int result = noticeMapper.modifyNotice(noticeDTO);

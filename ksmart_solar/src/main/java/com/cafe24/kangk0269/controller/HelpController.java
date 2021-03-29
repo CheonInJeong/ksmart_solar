@@ -9,17 +9,48 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cafe24.kangk0269.dto.BoardQnaDTO;
 import com.cafe24.kangk0269.dto.NoticeDTO;
+import com.cafe24.kangk0269.serivce.BoardQnaService;
 import com.cafe24.kangk0269.serivce.NoticeService;
 
 @Controller
 public class HelpController {
 	
 	private final NoticeService noticeService;
+	private final BoardQnaService boardQnaService;
 	
 	@Autowired
-	public HelpController(NoticeService noticeService) {
+	public HelpController(NoticeService noticeService, BoardQnaService boardQnaService) {
 		this.noticeService = noticeService;
+		this.boardQnaService = boardQnaService;
+	}
+	
+	
+	// 문의 조회
+	@GetMapping("/help/qna")
+	public String Qna(Model model) {
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList();
+		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
+		return "/help/qna";
+	}
+	
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	//공지 삭제
+	@GetMapping("/help/removeNotice")
+	public String removeNotice(@RequestParam(name = "noticeIdx", required = false ) int noticeIdx) {
+		int result = noticeService.removeNotice(noticeIdx);
+		return "redirect:/help/notice";
+	}
+	
+	//공지 상세조회
+	@GetMapping("/help/getNotice")
+	public String getNotice(Model model,
+								@RequestParam(name = "noticeIdx", required = false ) int noticeIdx){
+		modifyNoticeByIdx(model, noticeIdx);
+		return "/help/getNotice";
+		
 	}
 	
 	//공지 수정처리
@@ -35,6 +66,7 @@ public class HelpController {
 	public String modifyNoticeByIdx(Model model,
 									@RequestParam(name = "noticeIdx", required = false ) int noticeIdx) {
 		NoticeDTO noticeDTO = noticeService.modifyNoticeByIdx(noticeIdx);
+		System.out.println("noticeDTO-->" + noticeDTO);
 		model.addAttribute("noticeDTO", noticeDTO);
 		return "/help//modifyNotice";
 	}
@@ -61,11 +93,5 @@ public class HelpController {
 		List<NoticeDTO> noticeDTOList = noticeService.getNoticeList();
 		model.addAttribute("noticeDTOList", noticeDTOList);
 		return "/help/notice";
-	}
-	
-	@GetMapping("/help/qna")
-	public String Qna() {
-		
-		return "/help/qna";
 	}
 }

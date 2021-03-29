@@ -40,7 +40,7 @@
 					<tbody>
 						<tr th:each="l : ${noticeDTOList}">
 							<td data-title="공지제목">
-								<a th:href=@{/#(notSubject=${l.notSubject})}>[[${l.notSubject}]]</a>
+								<a th:href=@{/help/getNotice(noticeIdx=${l.noticeIdx})}>[[${l.notSubject}]]</a>
 							</td>
 							<td data-title="조회수" th:text="${l.notViews}"></td>
 							<td data-title="등록일" th:text="${l.notRegDate}"></td>
@@ -48,7 +48,7 @@
 								<a class="btn btn-info" th:href=@{/help/modifyNotice(noticeIdx=${l.noticeIdx})}>수정</a>
 							</td>
 							<td data-title="삭제">
-								<a class="btn btn-danger" th:href=@{/#(noticeIdx=${l.noticeIdx})}>삭제</a>
+								<a class="btn btn-danger" th:href=@{/help/removeNotice(noticeIdx=${l.noticeIdx})}>삭제</a>
 							</td>
 						</tr>
 					</tbody>

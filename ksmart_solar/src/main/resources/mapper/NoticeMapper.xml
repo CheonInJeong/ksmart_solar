@@ -14,7 +14,29 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="notTemp"			column="not_temp"/>
 	</resultMap>
 
-
+	
+	<!-- 공지사항 삭제  -->
+	<delete id="removeNotice" parameterType="int">
+		DELETE FROM 
+			tb_notice 
+		WHERE
+		 	not_idx = #{noticeIdx}
+	</delete>
+	
+	<!-- 공지사항 상세조회 -->
+	<select id="getNotice" parameterType="int" resultMap="NoticeDTOMap">
+		SELECT 
+			  not_idx
+			, not_subject
+			, not_contents
+			, m_id, not_reg_date
+			, not_views
+			, not_temp
+		FROM 
+			tb_notice
+		WHERE 
+			not_idx = #{noticeIdx}
+	</select>
 
 	<!-- 공지사항 수정처리  -->
 	<update id="modifyNotice" parameterType="NoticeDTO">
@@ -22,7 +44,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		SET
 			not_subject=#{notSubject},
 			not_contents=#{notContents},
-			not_reg_date=NOW(),
+			not_reg_date=NOW()
 		WHERE 
 			not_idx = #{noticeIdx}
 	
@@ -41,7 +63,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tb_notice
 		WHERE 
 			not_idx = #{noticeIdx}
-		
 	</select>
 	
 	<!-- 공지사항 등록 -->

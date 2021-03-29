@@ -36,7 +36,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">공지제목</label>
                   <div class="col-lg-10">
-                  	<input type="text" name="notSubject" th:value=${noticeDTO.notSubject} class="form-control">
+                  	<input type="text" name="notSubject" th:value="${noticeDTO.notSubject}" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
@@ -48,7 +48,7 @@
                 
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
-                  	<a class="btn btn-primary" th:href="@{/help/addNotice}">목록</a>	
+                  	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
                   </div>
                 </div>
                 <div style="text-align: center">
