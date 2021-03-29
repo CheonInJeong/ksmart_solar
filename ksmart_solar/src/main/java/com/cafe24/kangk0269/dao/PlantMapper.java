@@ -24,5 +24,8 @@ public interface PlantMapper {
 	
 	//발전소리스트(아이디)
 	public List<BusinessPlantDTO> getPlantListById(String SID);
+
+	//발전소리스트(코드)
+	public List<BusinessPlantDTO> getPlantListByCode(String bzCode);
 	
 }

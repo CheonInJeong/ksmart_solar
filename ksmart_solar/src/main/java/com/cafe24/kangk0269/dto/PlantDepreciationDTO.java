@@ -10,6 +10,7 @@ public class PlantDepreciationDTO {
 	private int plDepMaintenance;	
 	private String plDepUsed;	
 	private int plDepServicelife;
+	
 	public int getPlDepIdx() {
 		return plDepIdx;
 	}
