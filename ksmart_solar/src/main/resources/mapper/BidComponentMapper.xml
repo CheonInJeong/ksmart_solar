@@ -123,7 +123,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			com.b_cp_code,
 			li.tr_type_name,
 			li.b_date,
-			com.b_cp_status			
+			com.b_cp_status,
+			com.m_id as sell_id		
 		FROM 
 			tb_bid_component AS com
 		join (
