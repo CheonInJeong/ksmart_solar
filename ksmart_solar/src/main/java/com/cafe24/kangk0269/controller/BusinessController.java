@@ -31,7 +31,6 @@ public class BusinessController {
 							,@RequestParam(value="bzDetailAddr", required = false) 		String bzDetailAddr
 							,@RequestParam(value="bzLicense", required = false) 		String bzLicense
 							,HttpSession session) {
-		boolean checkResult = false;
 		
 		System.out.println(bzCompanyName);
 		System.out.println(bzCeoName);
@@ -125,7 +124,7 @@ public class BusinessController {
 	  bs.setBzType("태양광사업자(판매자)");
 	  
 	  bp.setBzPlCode("");
-	  bp.setMId(mId);
+	  bp.setmId(mId);
 	  bp.setBzPlCheck("");
 	  bp.setBzPlName(bzPlName);
 	  bp.setBzPlPhoto(bzPlPhoto);

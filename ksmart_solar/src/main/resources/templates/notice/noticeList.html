@@ -29,7 +29,7 @@
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
-			                      	<input type="hidden" name="announceTitle" th:value="${l.bCpCode}">
+			                      	<input type="hidden" name="announceCode" th:value="${l.bCpCode}">
 			                      	<input type="hidden" name="announceType" value="부품">
 		                    	</form>
 		                    </td>
@@ -71,7 +71,7 @@
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
-			                      	<input type="hidden" name="announceTitle" th:value="${l.bPlCode}">
+			                      	<input type="hidden" name="announceCode" th:value="${l.bPlCode}">
 			                      	<input type="hidden" name="announceType" value="발전소">
 		                    	</form>
 		                    </td>

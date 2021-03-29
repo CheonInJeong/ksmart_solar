@@ -88,16 +88,18 @@
 	        </div>
         </form>
         <div th:include="notice/plantInfo :: plantInfoFragment" 
-        	 th:if="${bidPlantdto!=null}"></div>
+        	 th:if="${bidPlantdto!=null and businessPlantDTO!=null}"></div>
         <div th:include="notice/componentInfo :: componentInfoFragment" 
         	 th:if="${bidComponentdto!=null}"></div>
+        <div th:include="notice/bidResult :: bidResultFragment" 
+        	 th:if="${getBidListCount!=0}"></div>
 		<div class="row" style="margin: 5px 0px;">
 			<div class="form-inline" style="text-align: center;">
-				<div class="form-group" th:if="${bidComponentdto != null and bidComponentdto.acStatusCode==4}">
+				<div class="form-group" th:if="${bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0}">
 			 		<button id="bidComponentBtn" class="btn btn-default">입찰신청</button>
 				</div>
 				
-				<div class="form-group" th:if="${bidPlantdto != null and bidPlantdto.acStatusCode==4}">
+				<div class="form-group" th:if="${bidPlantdto != null and bidPlantdto.acStatusCode==4 and getBidListCount==0}">
 			 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
 				</div>
 				
@@ -113,14 +115,23 @@
 			var link = document.referrer;
 			$('#returnPage').attr('href',link);
 			var linkArr = link.split('/');
-			
-			var notice = $('#notice');
-			notice.addClass('active');
-			notice.parent().find('.sub').css('display','block');
+			console.log(linkArr[linkArr.length-1]);
+			if(linkArr[linkArr.length-1]=='myHistory'){
+				var buy = $('#buy');
+				buy.addClass('active');
+				buy.parent().find('.sub').css('display','block');
+				buy.parent().find('.sub').children().eq(0).addClass('active');			
+			}
 			if(linkArr[linkArr.length-1]=='noticeList'){
+				var notice = $('#notice');
+				notice.addClass('active');
+				notice.parent().find('.sub').css('display','block');
 				notice.parent().find('.sub').children().eq(0).addClass('active');			
 			}
 			if(linkArr[linkArr.length-1]=='history'){
+				var notice = $('#notice');
+				notice.addClass('active');
+				notice.parent().find('.sub').css('display','block');
 				notice.parent().find('.sub').children().eq(1).addClass('active');			
 			}
 			

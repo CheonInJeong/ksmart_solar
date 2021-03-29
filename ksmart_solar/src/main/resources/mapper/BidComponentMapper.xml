@@ -5,7 +5,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <mapper namespace="com.cafe24.kangk0269.dao.BidComponentMapper">
 	<resultMap type="BidComponentDTO" id="BidComponentDTOMap">
-		<result property="num" 			column="num" />
 		<result property="bCpCode" 			column="b_cp_code" />
 		<result property="mId" 				column="sell_id" />
 		<result property="bCpTitle" 		column="b_cp_title" />
@@ -53,7 +52,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 	<select id="getBidComponent" resultMap="BidComponentDTOMap" parameterType="String">
 		SELECT 
-			(@rowNum := @rowNum + 1) as num,
 			b_cp_code, 
 			cp_code, 
 			m_id as sell_id, 
@@ -75,9 +73,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_cp_cancel_reason, 
 			b_cp_cancel_date			
 		FROM tb_bid_component
-		join (
-			select
-				@rowNum := 0) AS r
 		<trim prefix="where">
 			<if test="status != null and status.toString() == '종료'.toString() ">		
 				ac_status_code > 4						
@@ -113,22 +108,19 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_cp_cancel_date,
 			ac_status_code			
 		FROM tb_bid_component
-		WHERE b_cp_code =#{announceTitle}
+		WHERE b_cp_code =#{announceCode}
 		ORDER BY b_cp_date_bidding1 DESC
 	</select>
 	<select id="getBidComponentMyBid" resultMap="BidComponentDTOMap" parameterType="String">
 		SELECT 
-			(@rowNum := @rowNum + 1) as num,
 			com.b_cp_title,
 			com.b_cp_code,
 			li.tr_type_name,
 			li.b_date,
-			com.b_cp_status			
+			com.b_cp_status,
+			com.m_id as sell_id		
 		FROM 
 			tb_bid_component AS com
-		join (
-			select
-				@rowNum := 0) AS r
 		INNER JOIN
 			tb_bid_list AS li
 		ON li.announced_code = com.b_cp_code

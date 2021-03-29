@@ -21,6 +21,21 @@
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
 	
+	<select id="checkBusiness" resultType="String">
+		SELECT
+		 m.m_id,
+		 b.bz_company_name,
+		 b.bz_check,
+		 COUNT(if(b.bz_check = 'Y', bz_code,null))
+		FROM
+			tb_member AS m
+			LEFT JOIN 
+			tb_business AS b
+			ON 
+			m.m_id = b.m_id
+		GROUP BY m.m_id;
+	</select>
+	
 	<!-- 전체 회원정보수정  -->
 	<update id="modifyMember" parameterType="MemberDTO">
 		UPDATE tb_member

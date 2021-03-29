@@ -61,8 +61,11 @@ public class MemberManageController {
 	@GetMapping("/member/memberList")
 	public String MemberList(Model model) {
 		List<MemberDTO> memberList = memberService.getAllMember();
-		System.out.println(memberList);
+		List<String> checkbusiness = memberService.checkBusiness();
+		System.out.println("전체회원조회 : " + memberList);
+		System.out.println("등록된 사업장 조회 : " + checkbusiness);
 		model.addAttribute("memberList", memberList);
+		model.addAttribute("checkbusiness", checkbusiness);
 		return "/member/memberList";
 	}
 	

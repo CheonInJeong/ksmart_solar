@@ -35,8 +35,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			m_account_idx = #{mAccountIdx};
 	</update>
 	
-	<!-- 수정을 위한 선택 계좌조회 -->
-	<select id="getAccountByIdx" parameterType="int" resultMap="MemberAccountDTOMap">
+	<!-- 개인계좌 수정화면 -->
+	<select id="modifyAccountByIdx" parameterType="int" resultMap="MemberAccountDTOMap">
 		SELECT 
 			  m_account_idx
 			, m_id
@@ -98,11 +98,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, m_account_check
 		FROM
 			tb_member_account
-		WHERE m_id in
-		<foreach item="item" index="index" collection="list"
-	      open="(" separator="," close=")">
-			 #{item}
-	  	</foreach>
+		WHERE 
+			m_id in
+			<foreach item="item" index="index" collection="list"
+		      open="(" separator="," close=")">
+				 #{item}
+		  	</foreach>
+	  		and m_account_check = 'Y'
+	  	group by m_account_bank
 	</select>
 
 </mapper>
