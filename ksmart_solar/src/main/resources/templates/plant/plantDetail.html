@@ -12,42 +12,126 @@
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh">
 			<div class="content-panel">
-				<div class="h2 col-md-4">발전소 이름
-					<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
-					<button type="button" id="plantDelete" class="btn btn-danger btn-xs">삭제</button>
-				</div>
-				<div class="h2 col-md-8">
-					<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis" value="수익 예상 분석" style="width: 29%; margin-bottom: 10px;">
-					<!-- 발전량 분석은 하드웨어가 있는 것만 하드웨어 없는 것은 폼을 다시 만들어야함 -->
-					<input type="button" id="" class="btn btn-primary btn-md generationAnalysis"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
-					<input type="button" id="" class="btn btn-primary btn-md generationPredict"  value="예상 발전량" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="h4">발전소 지역</div>
-					<p>전주시 </p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="h4">발전소 용량</div>
-					<p>ㅇㅁㄹ나ㅣㅓㅁㄴㅇㄹ</p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="h4">발전소 지역</div>
-					<p>ㅇㅁㄹ나ㅣㅓㅁㄴㅇㄹ</p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6">
-					<div class="h4">발전소 지역</div>
-					<p>ㅇㅁㄹ나ㅣsdfsdfasdfasdfaefasdfawefdasefdfㅓㅁㄴㅇㄹ</p>
-				</div>
-				
-				
-	            <div id="map" style="width:100%;height:350px;"></div>
+				<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}" style="margin:20px 5% 20px 5%; width:90%;">
+					<div class="h1 col-md-4">
+						<span style="font-weight:900; margin-right: 10px;">[[${l.bzPlName}]]</span>
+						<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
+						<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
+					</div>
+					<div class="h2 col-md-8">
+						<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis" value="수익 예상 분석" style="width: 29%; margin-bottom: 10px;">
+						<!-- 발전량 분석은 하드웨어가 있는 것만 하드웨어 없는 것은 폼을 다시 만들어야함 -->
+						<input type="button" id="" class="btn btn-primary btn-md generationAnalysis"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+						<input type="button" id="" class="btn btn-primary btn-md generationPredict"  value="예상 발전량" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">금일 발전량</div>
+						<p class="h4">[[${plantGenDay}]] [kWh]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">금일 예상 수익</div>
+						<p class="h4">[[${plantGenDay}]] [원]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">금일 REC</div>
+						<p class="h4">[[${plantGenMonth}]] [kWh]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">금일 SMP</div>
+						<p class="h4">[[${plantGenDay}]] [원]</p>
+					</div>
+					
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">금월 발전량</div>
+						<p class="h4">[[${plantGenMonth}]] [kWh]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">금월 예상 수익</div>
+						<p class="h4">[[${plantGenDay}]] [원]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">발전소 초기금액</div>
+						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">발전소 매입금액</div>
+						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+					</div>
+					
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">발전소 용량</div>
+						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 20px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">발전소 부지면적</div>
+						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+					</div>
+					
+					
+		            <div class="col-lg-12">
+						<div class="h3" style="font-weight: 600;">발전소 주소</div>
+						<p id="plAddr" th:data-plAddr="${l.bzPlAddr}">([[${l.bzPlZipcode}]]) [[${l.bzPlAddr}]] [[${l.bzPlDetailAddr}]]</p>
+		            </div>
+		            <div id="map" style="width:100%;height:350px; padding: 0 15"></div>
+		        </div>
 			</div>
 		</div>
 		
 	</th:block>
 	<th:block layout:fragment="customScript">
+		<style>
+		.order-1 { order: 1; }
+		.order-2 { order: 2; }
+		.order-3 { order: 3; }
+		
+		.right-gap {
+		  margin-right: auto;
+		}
+		</style>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d3788a7edce4414e28e5cab2a0ac6ca7&libraries=services"></script>
 		<script>
+		$('#plantDelete').click(function(){
+			var plName = $(this).attr('data-plName');
+			var plCode = $(this).attr('data-plCode');
+			Swal.fire({
+				  title: plName +' 정보를 삭제 하시겠습니까?',
+				  showDenyButton: true,
+				  confirmButtonText: `Yes`,
+				  denyButtonText: `No`,
+				  customClass: {
+				    cancelButton: 'order-1 right-gap',
+				    confirmButton: 'order-2',
+				    denyButton: 'order-3',
+				  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  Swal.fire({
+						  title: '정말 삭제 하시겠습니까?',
+						  showDenyButton: true,
+						  confirmButtonText: `Yes`,
+						  denyButtonText: `No`,
+						  customClass: {
+						    cancelButton: 'order-1 right-gap',
+						    confirmButton: 'order-2',
+						    denyButton: 'order-3',
+						  }
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							//plCode 발전소 코드로 삭제 처리
+							
+						    Swal.fire('삭제처리 되었습니다!', '', 'success')
+						  } else if (result.isDenied) {
+						    Swal.fire('취소되었습니다.', '', 'info')
+						  }
+						})
+				  } else if (result.isDenied) {
+				    Swal.fire('취소되었습니다.', '', 'info')
+				  }
+				})
+		});
+		
+		
 		$('.benefitAnalysis').click(function(){
 			document.location.href = '/plant/plantDetail/benefitAnalysis';
 			
@@ -66,57 +150,49 @@
 		//////////////카카오 맵 api///////////////////
 		///////////////////////////////////////////		
 		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		var infowindow = new kakao.maps.InfoWindow({zIndex:1});
+		
+		
 		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
-		    mapOption = {
-		        center: new kakao.maps.LatLng(37.566826, 126.9786567), // 지도의 중심좌표
-		        level: 3 // 지도의 확대 레벨
-		    };  
-		
+	    mapOption = {
+	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
+	        level: 3 // 지도의 확대 레벨
+	    };  
+
 		// 지도를 생성합니다    
 		var map = new kakao.maps.Map(mapContainer, mapOption); 
-		
-		// 장소 검색 객체를 생성합니다
-		var ps = new kakao.maps.services.Places(); 
-		
-		// 키워드로 장소를 검색합니다
-		ps.keywordSearch('이태원 맛집', placesSearchCB); 
-		
-		// 키워드 검색 완료 시 호출되는 콜백함수 입니다
-		function placesSearchCB (data, status, pagination) {
-		    if (status === kakao.maps.services.Status.OK) {
-		
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정하기위해
-		        // LatLngBounds 객체에 좌표를 추가합니다
-		        var bounds = new kakao.maps.LatLngBounds();
-		
-		        for (var i=0; i<data.length; i++) {
-		            displayMarker(data[i]);    
-		            bounds.extend(new kakao.maps.LatLng(data[i].y, data[i].x));
-		        }       
-		
-		        // 검색된 장소 위치를 기준으로 지도 범위를 재설정합니다
-		        map.setBounds(bounds);
-		    } 
-		}
-		
-		// 지도에 마커를 표시하는 함수입니다
-		function displayMarker(place) {
-		    
-		    // 마커를 생성하고 지도에 표시합니다
-		    var marker = new kakao.maps.Marker({
-		        map: map,
-		        position: new kakao.maps.LatLng(place.y, place.x) 
-		    });
-		
-		    // 마커에 클릭이벤트를 등록합니다
-		    kakao.maps.event.addListener(marker, 'click', function() {
-		        // 마커를 클릭하면 장소명이 인포윈도우에 표출됩니다
-		        infowindow.setContent('<div style="padding:5px;font-size:12px;">' + place.place_name + '</div>');
+	
+		// 주소-좌표 변환 객체를 생성합니다
+		var geocoder = new kakao.maps.services.Geocoder();
+	
+		// 주소로 좌표를 검색합니다
+		var plAddr = $('#plAddr').attr('data-plAddr');
+		var plName = $('#plantDelete').attr('data-plName');
+		geocoder.addressSearch(plAddr, function(result, status) {
+	
+		    // 정상적으로 검색이 완료됐으면 
+		     if (status === kakao.maps.services.Status.OK) {
+	
+		        var coords = new kakao.maps.LatLng(result[0].y, result[0].x);
+	
+		        // 결과값으로 받은 위치를 마커로 표시합니다
+		        var marker = new kakao.maps.Marker({
+		            map: map,
+		            position: coords
+		        });
+	
+		        // 인포윈도우로 장소에 대한 설명을 표시합니다
+		        var infowindow = new kakao.maps.InfoWindow({
+		            content: '<div style="width:150px;text-align:center;padding:6px 0;">' + plName + '</div>'
+		        });
 		        infowindow.open(map, marker);
-		    });
-		}
+	
+		        // 지도의 중심을 결과값으로 받은 위치로 이동시킵니다
+		        map.setCenter(coords);
+		    } 
+		});    
+			
+		
 		</script>
 	</th:block>
 	
