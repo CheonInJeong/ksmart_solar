@@ -19,6 +19,16 @@
 		<result property="bzCheckReason" 	column="bz_check_reason"/>
 	</resultMap>
 	
+	<update id="businessReturn" parameterType="BusinessDTO">
+		UPDATE tb_business
+		SET
+			bz_check_date = NOW(),
+			bz_check = 'F',
+			bz_check_reason = #{bzCheckReason}
+		WHERE 
+			bz_code = #{bzCode}
+	</update>
+	
 	<update id="businessAdmit" parameterType="BusinessDTO">
 		UPDATE tb_business
 		SET

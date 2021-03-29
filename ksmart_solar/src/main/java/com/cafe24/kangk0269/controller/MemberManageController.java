@@ -79,8 +79,19 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/bzCheckReason")
-	public String bzCheckReason() {
+	public String bzCheckReason(Model model
+								,@RequestParam(name="bzCode", required=false) String bzCode) {
+		System.out.println("반려할 사업자신청코드 : " + bzCode);
+		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
+		model.addAttribute("business", business);
 		return "/member/bzCheckReason";
+	}
+	
+	@PostMapping("/businessReturnSend")
+	public String businessReturnSend(BusinessDTO business) {
+		System.out.println("반려사유 추가 : " + business );
+		businessService.businessReturn(business);
+		return "redirect:/bzCheckReason?bzCode=" + business.getBzCode();
 	}
 	
 	@PostMapping("/businessAdmitSend")
