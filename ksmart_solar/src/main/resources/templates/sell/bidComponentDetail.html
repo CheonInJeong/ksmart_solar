@@ -14,44 +14,31 @@
 	<th:block layout:fragment="Contents">
 	
 		<div id="container-header-title"><strong>공고조회</strong></div>
-     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 공고조회</div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 부품공고조회</div>
       	<div id="container-header-space"></div>
-        <th:block th:each="detail:${bidPlantDetail}">
+      <th:block th:each="d:${detail}">
 	       <div class="row">
 	          <div class="col-md-12">
 	            <div class="content-panel">
-	              <h4><i class="fa fa-angle-right"></i>발전소</h4>
+	              <h4><i class="fa fa-angle-right"></i>부품정보</h4>
 	              <hr>
 	              <table class="table">
 	                <tbody>
 	                  <tr>
-	                    <td>발전소명</td>
-	                    <td colspan="5" th:text="${detail.businessPlantDTO.bzPlName}"></td>
+	                    <td>부품명</td>
+	                    <td colspan="3" th:text="${d.componentDTO.cpName}"></td>
 	                  </tr>
 	                  <tr>
-	                    <td>주소</td>
-	                    <td>[[${detail.businessPlantDTO.bzPlZipcode}]] [[${detail.businessPlantDTO.bzPlAddr}]] [[${detail.businessPlantDTO.bzPlDetailAddr}]]</td>
-	                  	<td>부지면적</td>
-	                  	<td id="bzPlAreaD" th:text="${detail.businessPlantDTO.bzPlArea}"></td>
-	                  	<td>하드웨어여부</td>
-	                    <td th:text="${detail.businessPlantDTO.bzPlHardware}"></td>
+	                  	<td>부품제조사</td>
+	                  	<td th:text="${d.componentDTO.cpMaker}"></td>
+	                  	<td>부품사용시작일</td>
+	                    <td th:text="${d.componentDTO.cpUsedate}"></td>
 	                  </tr>
 	                  <tr>
-	                    <td>발전소용량</td>
-	                    <td id="bzPlPowerD" th:text="${detail.businessPlantDTO.bzPlPower}"></td>
-	                    <td>잔존가치</td>
-	                    <td id ="plDepDataResidualD" th:text="${detail.plDepDataResidual}"></td>
-	                    <td>계약REC</td>
-	                    <td id="bzPlRecD" th:text="${detail.businessPlantDTO.bzPlRec}"></td>
+	                  	 <td>부품정보</td>
+	                     <td colspan="3" th:text="${d.componentDTO.cpInfo}"></td>
 	                  </tr>
-	                  <tr>
-	                  	<td>인버터용량</td>
-		                <td id="bzPlInvPowerD" th:text="${detail.businessPlantDTO.bzPlInvPower}"></td>
-		                <td>인버터수량</td>
-		                <td id="bzPlInvCountD" th:text="${detail.businessPlantDTO.bzPlInvCount}"></td>
-	                  	<td>인버터제조사</td>
-	                  	<td id= "bzPlInvMakerD" th:text="${detail.businessPlantDTO.bzPlInvMaker}"></td>
-	                  </tr>
+	                 
 	                </tbody>
 	              </table>
 	            </div>
@@ -66,37 +53,37 @@
 	                <tbody>
 	                  <tr>
 	                    <td>공고코드</td>
-	                    <td colspan="3" th:text="${detail.bPlCode}"></td>
+	                    <td colspan="3" th:text="${d.bCpCode}"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고제목</td>
-	                    <td colspan="3" th:text = "${detail.bPlTitle}"></td>
+	                    <td colspan="3" th:text = "${d.bCpTitle}"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고내용</td>
-	                    <td colspan="3" th:text = "${detail.bPlContents}"></td>
+	                    <td colspan="3" th:text = "${d.bCpContents}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>희망가격</td>
-	                  	<td colspan="3" id="bPlPriceD" th:text = "${detail.bPlPrice}"></td>
+	                  	<td colspan="3"  th:text = "${d.bCpPrice}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>공고시작일</td>
-	               		<td th:text="${detail.bPlDateBidding1}"></td>
+	               		<td th:text="${d.bCpDateBidding1}"></td>
 	                  	<td>마감일</td>
-	                  	<td th:text="${detail.bPlDateBidding2}"></td>
+	                  	<td th:text="${d.bCpDateBidding2}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>입찰자결정일시작일</td>
-	               		<td th:text="${detail.bPlDateDecision1}"></td>
+	               		<td th:text="${d.bCpDateDecision1}"></td>
 	                  	<td>입찰자결정일시작일</td>
-	                  	<td th:text="${detail.bPlDateDecision2}"></td>
+	                  	<td th:text="${d.bCpDateDecision2}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>진행상태</td>
-	                  	<td th:text=${detail.bPlStatus}></td>
+	                  	<td th:text="${d.bCpStatus}"></td>
 	                  	<td>입찰자수</td>
-	                  	<td><a th:href="@{/sell/bidderList(bPlCode=${detail.bPlCode})}">[[${detail.bPlNumberOfBidder}]]</a></td>
+	                  	<td><a th:href="@{#}">[[${d.bCpBidderNumber}]]</a></td>
 	                  </tr>
 	                  <tr>
 	                  	<td colspan="4">
@@ -111,7 +98,7 @@
 	            </div>
 	          </div>
           </div>
-        </th:block>
+		 </th:block>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">

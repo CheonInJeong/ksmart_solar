@@ -21,6 +21,8 @@ import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
+import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.serivce.SellService;
 
 @Controller
@@ -32,11 +34,44 @@ public class SellController {
 	public SellController(SellService sellService) {
 		this.sellService = sellService;
 	}
+	//부품 공고 수정 화면
+	@GetMapping("/sell/modifyComponentSell")
+	public String modifyComponentSell(@RequestParam(value="bCpCode") String code, Model model) {
+		return "";
+	}
+	
+	//부품 공고 수정 처리
+	@PostMapping("/sell/modifyComponentSell")
+	public String modifyComponentSell(BidComponentDTO bidComponentDto) {
+		return "redirect:/sell/myHisotry";
+	}
+	
+	
+	//부품 공고 삭제 처리
+	@GetMapping("/sell/removeComponentSell")
+	public String removeComponentSell(@RequestParam(value="bCpCode") String code) {
+		return "redirect:/sell/myHistory";
+	}
+	//부품 공고 등록
+	@PostMapping("sell/")
+	public String regComponentSell(BidComponentDTO bidComponentDto) {
+		return "";
+	}
+	
+	
 	//입찰 신청자 목록 보기
 	@GetMapping("/sell/bidderList")
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
 		model.addAttribute("bidder", sellService.getBidderList(code));
 		return "/sell/bidderList";
+	}
+	
+	//부품 공고 내용 조회
+	
+	@GetMapping("/sell/getBidComponentDetail")
+	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
+		model.addAttribute("detail", sellService.getComponentDetail(code));
+		return "/sell/bidComponentDetail";
 	}
 	
 	//발전소 공고 내용 조회
@@ -90,11 +125,8 @@ public class SellController {
 	@RequestMapping(value="/ajax/plantInformation",method = RequestMethod.POST)
 	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode) {
 		BusinessPlantDTO bzPlantDto =sellService.getPlantInformation(plantCode);
-		
 		return bzPlantDto;
-		
 	}
-	
 	
 	 //발전소판매공고신청 버튼 클릭시
 	@GetMapping("/sell/plantSell") 
@@ -114,7 +146,7 @@ public class SellController {
 		model.addAttribute("component", sellService.getComponent(sessionId));
 		return "/sell/componentSell";
 	}
-	//공고신청 메뉴 클릭시
+
 	@GetMapping("/sell/apply")
 	public String Apply() {
 		
@@ -137,14 +169,30 @@ public class SellController {
 		return "/sell/mySell";
 	}
 
+	
+	@RequestMapping(value="/ajax/getAccountInfoByNumber", method=RequestMethod.POST)
+	public @ResponseBody MemberAccountDTO getAccountInfoByAccount(@RequestParam(value="bankAccount") String number) {
+		return sellService.getAccountInfoByAccount(number);
+	}
+	
 	@GetMapping("/sell/applyPayment")
-	public String applyPayment1() {
-		
+	public String applyPayment(@RequestParam(value="trPrCode") String code, Model model,HttpSession session) {
+		model.addAttribute("account", sellService.getMemberAccountById((String)session.getAttribute("SID")));
+		model.addAttribute("applyPayment", sellService.getPaymentOutByCode(code));
 		return "/sell/applyPayment";
 	}
+	@PostMapping("/sell/applyPayment")
+	public String applyPayment(TradePaymentOutDTO trPayOutDto) {
+		sellService.addApplyPayment(trPayOutDto);
+		return "redirect:/sell/paymentList";
+	}
+	
+	
+	//출금 가능한 거래 내역 보기
 	@GetMapping("/sell/paymentList")
-	public String PaymentList() {
-		
+	public String PaymentList(Model model, HttpSession session) {
+		String sessionId = (String)session.getAttribute("SID");
+		model.addAttribute("available", sellService.getPaymentOutList(sessionId));
 		return "/sell/paymentList";
 	}
 	@GetMapping("/sell/qna")

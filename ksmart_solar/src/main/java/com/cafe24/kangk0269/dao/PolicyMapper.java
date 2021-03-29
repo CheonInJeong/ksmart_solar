@@ -12,6 +12,11 @@ import com.cafe24.kangk0269.dto.StandardDTO;
 @Mapper
 public interface PolicyMapper {
 	
+	public List<StandardDTO> getDepositHistory(String startDate, String endDate);
+	public List<StandardDTO> getCommissionHistory(String startDate, String endDate);
+	public List<StandardDTO> getTradeHistory(String startDate, String endDate);
+	
+	
 	//거래대금 수수료울 삭제
 	public int removeCommission(int idx);
 	

@@ -98,11 +98,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, m_account_check
 		FROM
 			tb_member_account
-		WHERE m_id in
-		<foreach item="item" index="index" collection="list"
-	      open="(" separator="," close=")">
-			 #{item}
-	  	</foreach>
+		WHERE 
+			m_id in
+			<foreach item="item" index="index" collection="list"
+		      open="(" separator="," close=")">
+				 #{item}
+		  	</foreach>
+	  		and m_account_check = 'Y'
+	  	group by m_account_bank
 	</select>
 
 </mapper>

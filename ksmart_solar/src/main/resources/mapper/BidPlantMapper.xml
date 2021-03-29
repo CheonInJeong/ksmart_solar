@@ -5,7 +5,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 <mapper namespace="com.cafe24.kangk0269.dao.BidPlantMapper">
 	<resultMap type="BidPlantDTO" id="BidPlantDTOMap">
-		<result property="num" 					column="num" />
 		<result property="bPlCode" 				column="b_pl_code" />
 		<result property="mId" 					column="sell_id" />
 		<result property="bPlTitle" 			column="b_pl_title" />
@@ -53,9 +52,25 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<result property="bDateUp" 				column="b_date_up" />
 		</association>
 	</resultMap>
+	<resultMap type="BusinessPlantDTO" id="BusinessPlantDTOMap">
+		<result property="bzPlCode" 			column="bz_pl_code" />
+		<result property="mId" 					column="m_id" />
+		<result property="bzPlCheck" 			column="bz_pl_check" />
+		<result property="bzPlName" 			column="bz_pl_name" />
+		<result property="bzPlZipcode"			column="bz_pl_zipcode" />		
+		<result property="bzPlAddr" 			column="bz_pl_addr" />	
+		<result property="bzPlDetailAddr" 		column="bz_pl_detail_addr" />	
+		<result property="bzPlPhoto" 			column="bz_pl_photo" />	
+		<result property="bzPlPower" 			column="bz_pl_power" />	
+		<result property="bzPlHardware" 		column="bz_pl_hardware" />	
+		<result property="bzPlArea" 			column="bz_pl_area" />	
+		<result property="bzPlInvPower" 		column="bz_pl_inv_power" />	
+		<result property="bzPlInvCount" 		column="bz_pl_inv_count" />	
+		<result property="bzPlInvMaker" 		column="bz_pl_inv_maker" />	
+		<result property="bzPlRec" 				column="bz_pl_rec" />	
+	</resultMap>
 	<select id="getBidPlant" resultMap="BidPlantDTOMap" parameterType="String">
 		SELECT
-			(@rowNum := @rowNum + 1) as num,
 			b_pl_code,
 			bz_pl_code, 
 			m_id as sell_id, 
@@ -81,9 +96,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			ac_status_code
 		FROM 
 			tb_bid_plant
-		join (
-				select
-					@rowNum := 0) AS r
 		<trim prefix="where">
 			<if test="status != null and status.toString() == '종료'.toString() ">		
 				ac_status_code > 4						
@@ -122,12 +134,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		FROM 
 			tb_bid_plant
 		WHERE 
-			b_pl_code = #{announceTitle}
+			b_pl_code = #{announceCode}
 	</select>
 	
 	<select id="getBidPlantMyBid" resultMap="BidPlantDTOMap" parameterType="String">
 		SELECT
-			(@rowNum := @rowNum + 1) as num,
 			pl.b_pl_title,
 			pl.b_pl_code,
 			li.tr_type_name,
@@ -139,12 +150,21 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		INNER JOIN
 			tb_bid_list AS li
 		ON li.announced_code = pl.b_pl_code
-		join (
-				select
-					@rowNum := 0) AS r
 		WHERE 
 			li.m_id = #{sId}
 		ORDER BY li.b_date DESC		
 	</select>
-
+	
+	<select id="getPlant" resultMap="BusinessPlantDTOMap">
+		SELECT
+			bp.*
+		FROM
+			tb_bid_plant AS pl
+		INNER JOIN
+			tb_business_plant AS bp
+		ON 
+			pl.bz_pl_code = bp.bz_pl_code
+		WHERE
+			pl.b_pl_code = #{announceCode}
+	</select>
 </mapper>

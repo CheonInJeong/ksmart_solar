@@ -31,18 +31,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-	                   <td>b_pl_code</td>
-	                   <td>판매합니다.</td>
-	                   <td>id005</td>
-	                   <td>1000000</td>
-	                   <td>4%</td>
-	                   <td>40000</td>
-	                   <td>960000</td>
-	                   <td>2021-03-24</td>
-	                   <td>N</td>
-	                   <td><a th:href="@{/sell/applyPayment}">출금신청</a></td>
-	                  </tr>
+                  <tr th:if = "${#lists.size(available)}>0"th:each="a:${available}">
+	                   <td th:text="${a.announcedCode}"></td>
+	                   <td th:text="${a.announcedTitle}"></td>
+	                   <td th:text="${a.mIdBuyer}"></td>
+	                   <td th:text="${a.trPrPrice}" class="trPrPrice"></td>
+	                   <td th:text="${a.comissionRate}" ></td>
+	                   <td th:text="${a.commission}" class="commission"></td>
+	                   <td th:text="${a.availableOut}" class="availableOut"></td>
+	                   <td th:text ="${a.tradePaymentInDTO.bMoDate}"></td>
+	                   <td th:text="${a.trPayoutCheck}"></td>
+	                   <td><a th:href="@{/sell/applyPayment(trPrCode=${a.trPrCode})}">출금신청</a></td>
+	               </tr>
+	            	<tr th:unless = "${#lists.size(available)}>0">
+	               		<td colspan ="10">출금 신청 할 수 있는 목록이 없습니다.</td>
+	               </tr> 
+	                 
                 </tbody>
               </table>
             </div>
@@ -57,5 +61,49 @@
 			sell.parent().find('.sub').css('display','block');
 			sell.parent().find('.sub').children().eq(3).addClass('active');
 		</script>
+		
+		<script>
+			function comma(str) {
+	  			 str = String(str);
+	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			  	}
+	
+			$('document').ready(function(){
+				$('.trPrPrice').each(function(){
+					
+					var trPrPrice = $('.trPrPrice');
+					var i = trPrPrice.index(this);
+					console.log(i);
+					console.log(trPrPrice.eq(i).text());
+					trPrPrice.eq(i).text(comma(trPrPrice.eq(i).text()));
+				})
+		
+			})
+			
+			$('document').ready(function(){
+				$('.commission').each(function(){
+					
+					var commission = $('.commission');
+					var i = commission.index(this);
+					console.log(i);
+					console.log(commission.eq(i).text());
+					commission.eq(i).text(comma(commission.eq(i).text()));
+				})
+		
+			})
+			$('document').ready(function(){
+				$('.availableOut').each(function(){
+					
+					var availableOut = $('.availableOut');
+					var i = availableOut.index(this);
+					console.log(i);
+					console.log(availableOut.eq(i).text());
+					availableOut.eq(i).text(comma(availableOut.eq(i).text()));
+				})
+		
+			})
+		
+		</script>
+		
 	</th:block>
 </html>

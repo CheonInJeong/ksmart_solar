@@ -13,19 +13,78 @@
   		  	  	<result property="sCommissionDate" column="s_commission_date"/>
   				<result property="sCommissionUse" column="s_commission_use"/>
   				<result property="sCommissionLast" column="s_commission_last"/>
+  				<result property="sCommissionApplies" column="s_commission_applies"/>
   		  		<result property="sDepositIdx" column="s_deposit_idx"/>
   		  		<result property="sDepositRate" column="s_deposit_rate"/>
   		  		<result property="sDepositDate" column="s_deposit_date"/>
   		  		<result property="sDepositType" column="s_deposit_type"/>
   		  		<result property="sDepositUse" column="s_deposit_use"/>
   		  		<result property="sDepositLast" column="s_deposit_last"/>
+  		  		<result property="sDepositApplies" column="s_deposit_applies"/>
   		  		<result property="sTradeIdx" column="s_trade_idx"/>
   		  		<result property="sTradeType" column="s_trade_type"/>
   		  		<result property="sTradePeriod" column="s_trade_period"/>
   		  		<result property="sTradeDate" column="s_trade_date"/>
   		  		<result property="sTradeUse" column="s_trade_use"/>
   		  		<result property="sTradeLast" column="s_trade_last"/>
+  		  		<result property="sTradeApplies" column="s_trade_applies"/>
   		</resultMap>
+  		
+  		<select id="getCommissionHistory" resultMap = "standardResultMap">
+  			SELECT 
+	  			s_commission_idx, 
+	  			s_commission_type, 
+	  			s_commission_rate, 
+	  			s_commission_date, 
+	  			s_commission_use, 
+	  			s_commission_applies,
+	  			m_id
+			FROM 
+				tb_standard_commission
+			<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="startDate!=null and ''.toString() , endDate!=null and ''.toString()">
+						s_commission_applies BETWEEN #{startDate} AND #{endDate}
+					</if>
+			</trim>
+  		</select>
+  		
+  		
+  		<select id="getTradeHistory" resultMap ="standardResultMap">
+  			SELECT 
+  				s_trade_idx, 
+  				s_trade_type, 
+  				s_trade_period, 
+  				s_trade_date, 
+  				s_trade_use,
+  				s_trade_applies, 
+  				m_id
+			FROM 
+				tb_standard_trade 
+			<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="startDate!=null and ''.toString() , endDate!=null and ''.toString()">
+						s_trade_applies BETWEEN #{startDate} AND #{endDate}
+					</if>
+			</trim>
+  		</select>
+  		
+  		<select id="getDepositHistory" resultMap = "standardResultMap">
+  			SELECT 
+  				s_deposit_idx, 
+  				s_deposit_rate, 
+  				s_deposit_date, 
+  				s_deposit_use,
+  				s_deposit_type, 
+  				s_deposit_applies,
+  				m_id
+			FROM 
+				tb_standard_deposit
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="startDate!=null and ''.toString() , endDate!=null and ''.toString()">
+						s_deposit_applies BETWEEN #{startDate} AND #{endDate}
+					</if>
+			</trim>
+  		</select>
+  		
   		<update id="removeCommission" parameterType="int">
   			DELETE FROM tb_standard_commission WHERE s_commission_idx=#{sCommissionIdx}
   		</update>
@@ -120,6 +179,7 @@
   				s_deposit_use,
   				s_deposit_type, 
   				s_deposit_last,
+  				s_deposit_applies,
   				m_id
 			FROM 
 				tb_standard_deposit
@@ -134,7 +194,8 @@
   				s_trade_period, 
   				s_trade_date, 
   				s_trade_use,
-  				s_trade_last, 
+  				s_trade_last,
+  				s_trade_applies, 
   				m_id
 			FROM 
 				tb_standard_trade 
@@ -150,6 +211,7 @@
 	  			s_commission_date, 
 	  			s_commission_use, 
 	  			s_commission_last,
+	  			s_commission_applies,
 	  			m_id
 			FROM 
 				tb_standard_commission

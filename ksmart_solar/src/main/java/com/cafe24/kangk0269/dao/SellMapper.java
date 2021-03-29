@@ -14,13 +14,36 @@ import com.cafe24.kangk0269.dto.BoardFileDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
+import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 
 @Mapper
 public interface SellMapper {
+	
+	//출금신청여부 업데이트
+	public int modifyApplyYn(String code);
+	
+	
 	//파일 수정 메서드
 	public int modifyFile(String code);
 	
+	public BidComponentDTO getComponentDetail(String code);
+	
+	public MemberAccountDTO getAccountInfoByNumber(String number);
+	//출금신청
+	public int addApplyPayment(TradePaymentOutDTO tradePaymentOutDTO);
+	
+	public List<MemberAccountDTO> getMemberAccountById(String mId);
+	
+	//출금신청 화면
+	public TradePriorityDTO getPaymentOutByCode(String code);
+	
+	
+	//출금신청 가능한 리스트 가져오기
+	public List<TradePriorityDTO> getPaymentOutList(String mId);
+		
 	//해당 아이디의 부품공고 리스트를 가져옴
 	public List<BidComponentDTO> getBidComponentById(String mId);
 	
@@ -38,12 +61,7 @@ public interface SellMapper {
 	//공고신청 중 발전소 선택시 선택한 발전소의 정보(잔존가치, 매입금액, 발전소시작일)을 가져오는 메서드
 	public BusinessPlantDTO getPlantInformation(String code);
 	
-	//입찰자 수 불러오기
-	public int getNumberOfBidder();
-	
-	//해당 발전소 공고에서 가장 높게 입찰 받은 가격 불러오기
-	public int getHighestPriceByCode();
-	
+
 	//판매자의 발전소 공고 목록을 가져오는 메서드 
 	public List<BidPlantDTO> getBidPlantbyId(String mId);
 	//공고 코드로 공고 신청 내역 불러오는 메서드

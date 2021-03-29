@@ -41,14 +41,14 @@
                 </thead>
                 <tbody>
                   <tr th:each="list:${bidPlantList}">
-                  	<td id="historyBPlCode" th:text=${list.bPlCode}></td>
-       				<!--<td th:text="${list.businessPlantDTO.bzPlName}"></td>-->
+                  	<td class="historyBPlCode" th:text=${list.bPlCode}></td>
+       				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
                     <td><a th:href="@{/sell/getBidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
-                    <td th:text="${list.bPlPrice}"></td>
+                    <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
                     <td><a th:href="@{/sell/bidderList(bPlCode=${list.bPlCode})}">[[${list.bPlNumberOfBidder}]]</a></td>
-                    <td id="historyStatus" th:text="${list.bPlStatus}"></td>
+                    <td class="historyStatus" th:text="${list.bPlStatus}"></td>
                     <td><button class="HistoryModifyBtn">수정</button></td>
                     <td><button class="HisotryDeleteBtn">삭제</button></td>
                   </tr>
@@ -92,16 +92,16 @@
                 </thead>
                 <tbody>
                   <tr th:each="cp:${bidComponentList}">
-                  	<td th:text=${cp.bCpCode}></td>
+                  	<td class="bCpCode"th:text=${cp.bCpCode}></td>
             		<td th:text="${cp.componentDTO.cpName}"></td>
-                    <td><a th:href="@{/sell/getBidPlantDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
-                    <td th:text="${cp.bCpPrice}"></td>
+                    <td><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
+                    <td th:text="${cp.bCpPrice}" class="bCpPrice"></td>
                     <td th:text="${cp.bCpDateBidding1}"></td>
                     <td th:text="${cp.bCpDateBidding2}"></td>
                     <td th:text="${cp.bCpBidderNumber}"></td>
-                    <td th:text="${cp.bCpStatus}"></td>
-                    <td><button class="">수정</button></td>
-                    <td><button class="">삭제</button></td>
+                    <td class="cpStatus" th:text="${cp.bCpStatus}"></td>
+                    <td><button class="cpModifyBtn">수정</button></td>
+                    <td><button class="cpDeleteBtn">삭제</button></td>
                   </tr>
                 </tbody>
               </table>
@@ -119,16 +119,47 @@
 		</script>
 			
 		<script>
+			function comma(str) {
+	  			 str = String(str);
+	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			  	}
+	
+			$('document').ready(function(){
+				$('.bCpPrice').each(function(){
+					
+					var bCpPrice = $('.bCpPrice');
+					var i = bCpPrice.index(this);
+					console.log(i);
+					console.log(bCpPrice.eq(i).text());
+					bCpPrice.eq(i).text(comma(bCpPrice.eq(i).text()));
+				})
+		
+			})
+			
+			$('document').ready(function(){
+				$('.bPlPrice').each(function(){
+					
+					var bPlPrice = $('.bPlPrice');
+					var i = bPlPrice.index(this);
+					console.log(i);
+					console.log(bPlPrice.eq(i).text());
+					bPlPrice.eq(i).text(comma(bPlPrice.eq(i).text()));
+				})
+		
+			})
+		
+		
+		
 			$('.HistoryModifyBtn').click(function(){
 				console.log($('.HistoryModifyBtn').index(this));
 				var i = $('.HistoryModifyBtn').index(this);
-				var status = $('.HistoryModifyBtn').eq(i).parent().parent().children('#historyStatus').text();
+				var status = $('.HistoryModifyBtn').eq(i).parent().parent().children('.historyStatus').text();
 				if(status !='공고신청'){
 					alert('현재는 공고를 수정 할 수 없습니다.');
 					return;
 				}
-				console.log($('#historyBPlCode').text())
-				var path = '/sell/modifyPlantSell?bPlCode='+$('#historyBPlCode').text();
+				console.log($('.historyStatus').text())
+				var path = '/sell/modifyPlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
 				
 				location.href= path;
 			})
@@ -136,13 +167,41 @@
 			$('.HisotryDeleteBtn').click(function(){
 				console.log($('.HisotryDeleteBtn').index(this));
 				var i = $('.HisotryDeleteBtn').index(this);
-				var status = $('.HisotryDeleteBtn').eq(i).parent().parent().children('#historyStatus').text();
+				var status = $('.HisotryDeleteBtn').eq(i).parent().parent().children('.historyStatus').text();
 				if(status !='공고신청'){
 					alert('현재는 공고를 삭제 할 수 없습니다.');
 					return;
 				}
-				location.href='/sell/removePlantSell?bPlCode='+$('#historyBPlCode').text();
+				location.href='/sell/removePlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
 			})
+			
+			
+			
+			$('.cpModifyBtn').click(function(){
+				console.log($('.cpModifyBtn').index(this));
+				var i = $('.cpModifyBtn').index(this);
+				var status = $('.cpModifyBtn').eq(i).parent().parent().children('.cpStatus').text();
+				if(status !='공고신청'){
+					alert('현재는 공고를 수정 할 수 없습니다.');
+					return;
+				}
+				var path = '/sell/modifyComponentSell?bCpCode='+$('.bCpCode').eq(i).text();
+				
+				location.href= path;
+			})
+			
+			$('.cpDeleteBtn').click(function(){
+				console.log($('.cpDeleteBtn').index(this));
+				var i = $('.cpDeleteBtn').index(this);
+				var status = $('.cpDeleteBtn').eq(i).parent().parent().children('.cpStatus').text();
+				if(status !='공고신청'){
+					alert('현재는 공고를 삭제 할 수 없습니다.');
+					return;
+				}
+				var path = '/sell/removeComponentSell?bCpCode='+$('.bCpCode').eq(i).text();
+				location.href=path;
+			})
+			
 			
 		</script>
 	</th:block>

@@ -10,6 +10,7 @@ public class MemberAccountDTO {
 	private String mAccountBank;	
 	private String mAccountRegDate;	
 	private String mAccountCheck;
+  
 	public int getmAccountIdx() {
 		return mAccountIdx;
 	}
@@ -54,11 +55,26 @@ public class MemberAccountDTO {
 	}
 	@Override
 	public String toString() {
-		return "MemberAccountDTO [mAccountIdx=" + mAccountIdx + ", mId=" + mId + ", mAccountNumber=" + mAccountNumber
-				+ ", mAccountName=" + mAccountName + ", mAccountBank=" + mAccountBank + ", mAccountRegDate="
-				+ mAccountRegDate + ", mAccountCheck=" + mAccountCheck + "]";
+
+		StringBuilder builder = new StringBuilder();
+		builder.append("MemberAccountDTO [mAccountIdx=");
+		builder.append(mAccountIdx);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", mAccountNumber=");
+		builder.append(mAccountNumber);
+		builder.append(", mAccountName=");
+		builder.append(mAccountName);
+		builder.append(", mAccountBank=");
+		builder.append(mAccountBank);
+		builder.append(", mAccountRegDate=");
+		builder.append(mAccountRegDate);
+		builder.append(", mAccountCheck=");
+		builder.append(mAccountCheck);
+		builder.append("]");
+		return builder.toString();
 	}
-
-
 	
+	
+
 }

@@ -10,6 +10,7 @@ public class StandardDTO {
 	private String sCommissionDate;
 	private String sCommissionUse;
 	private String sCommissionLast;
+	private String sCommissionApplies;
 	
 	private int sDepositIdx;
 	private double sDepositRate;
@@ -17,6 +18,7 @@ public class StandardDTO {
 	private String sDepositUse;
 	private String sDepositType;
 	private String sDepositLast;
+	private String sDepositApplies;
 	
 	private int sTradeIdx;
 	private String sTradeType;
@@ -24,6 +26,7 @@ public class StandardDTO {
 	private String sTradeDate;
 	private String sTradeUse;
 	private String sTradeLast;
+	private String sTradeApplies;
 	public String getmId() {
 		return mId;
 	}
@@ -66,6 +69,12 @@ public class StandardDTO {
 	public void setsCommissionLast(String sCommissionLast) {
 		this.sCommissionLast = sCommissionLast;
 	}
+	public String getsCommissionApplies() {
+		return sCommissionApplies;
+	}
+	public void setsCommissionApplies(String sCommissionApplies) {
+		this.sCommissionApplies = sCommissionApplies;
+	}
 	public int getsDepositIdx() {
 		return sDepositIdx;
 	}
@@ -101,6 +110,12 @@ public class StandardDTO {
 	}
 	public void setsDepositLast(String sDepositLast) {
 		this.sDepositLast = sDepositLast;
+	}
+	public String getsDepositApplies() {
+		return sDepositApplies;
+	}
+	public void setsDepositApplies(String sDepositApplies) {
+		this.sDepositApplies = sDepositApplies;
 	}
 	public int getsTradeIdx() {
 		return sTradeIdx;
@@ -138,6 +153,12 @@ public class StandardDTO {
 	public void setsTradeLast(String sTradeLast) {
 		this.sTradeLast = sTradeLast;
 	}
+	public String getsTradeApplies() {
+		return sTradeApplies;
+	}
+	public void setsTradeApplies(String sTradeApplies) {
+		this.sTradeApplies = sTradeApplies;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -155,6 +176,8 @@ public class StandardDTO {
 		builder.append(sCommissionUse);
 		builder.append(", sCommissionLast=");
 		builder.append(sCommissionLast);
+		builder.append(", sCommissionApplies=");
+		builder.append(sCommissionApplies);
 		builder.append(", sDepositIdx=");
 		builder.append(sDepositIdx);
 		builder.append(", sDepositRate=");
@@ -167,6 +190,8 @@ public class StandardDTO {
 		builder.append(sDepositType);
 		builder.append(", sDepositLast=");
 		builder.append(sDepositLast);
+		builder.append(", sDepositApplies=");
+		builder.append(sDepositApplies);
 		builder.append(", sTradeIdx=");
 		builder.append(sTradeIdx);
 		builder.append(", sTradeType=");
@@ -179,11 +204,13 @@ public class StandardDTO {
 		builder.append(sTradeUse);
 		builder.append(", sTradeLast=");
 		builder.append(sTradeLast);
+		builder.append(", sTradeApplies=");
+		builder.append(sTradeApplies);
 		builder.append("]");
 		return builder.toString();
 	}
 	
-	
+
 	
 	
 }
