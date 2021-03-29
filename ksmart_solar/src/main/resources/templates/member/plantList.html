@@ -24,7 +24,7 @@
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 회원리스트</h4>
+				<h4><i class="fa fa-angle-right"></i> 발전소인증신청목록</h4>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
@@ -32,22 +32,31 @@
 						<tr>
 							<th>발전소사업자 코드</th>
 							<th>아이디</th>
-							<th>발전소 인증 상태</th>
 							<th>발전소명</th>
 							<th>발전소사진</th>
+							<th>발전소 도로명주소</th>
+							<th>발전소 인증 상태</th>
 							<th>승인/반려</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="l : ${plantList}">
-							<td data-title="발전소사업자 코드" th:text="${l.bzPlCode}"></td>
+							<td data-title="발전소사업자 코드">
+								<a th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})}>[[${l.bzPlCode}]]</a>
+							</td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
-							<td data-title="발전소 인증 상태" th:text="${l.bzPlCheck}"></td>
 							<td data-title="발전소명" th:text="${l.bzPlName}"></td>
-							<td data-title="발전소사진" th:text="${l.bzPlPhoto}"></td>
+							<td data-title="발전소사진">
+								<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+									<img th:if="${l.bzPlPhoto == null}" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
+									<img th:if="${l.bzPlPhoto == ''}" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
+		                        	<img th:if="${l.bzPlPhoto != null}" th:src="${l.bzPlPhoto}" alt="" style="width: 100%; height: 100%" />
+		                        </div>
+							</td>
+							<td data-title="발전소 도로명주소" th:text="${l.bzPlAddr}"></td>
+							<td data-title="발전소 인증 상태" th:text="${l.bzPlCheck}"></td>
 							<td data-title="승인/반려" th:if="${l.bzPlCheck} == N">
-								<a class="btn btn-success" th:href=@{#} role="button">승인</a>
-								<a class="btn btn-danger" th:href=@{#} role="button">반려</a>
+								<a class="btn btn-info" th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})} role="button">상세보기</a>
 							</td>
 							<td data-title="승인/반려" th:unless="${l.bzPlCheck} == N">
 								<span th:if="${l.bzPlCheck} == Y">승인완료</span>

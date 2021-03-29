@@ -24,7 +24,7 @@
 		var bzCheckReason = $('#bzCheckReason');
 		
 		function returnFinish(){
-			var result = confirm('반려 완료하시겠습니까?');
+			var result = confirm('반려하시겠습니까?');
 			if(result){
 				console.log('반려완료');
 				var request = $.ajax({
@@ -42,7 +42,7 @@
 					alert( "Request failed: " + textStatus);
 				});
 			}else{
-				console.log('승인취소');
+				console.log('반려실패');
 			}
 		}
 		
