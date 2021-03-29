@@ -18,7 +18,88 @@
 		<result property="bzCheck" 			column="bz_check"/>
 		<result property="bzCheckReason" 	column="bz_check_reason"/>
 	</resultMap>
-	
+	<resultMap type="BusinessPlantDTO" id="businessPlantResultMap">
+		<result property="bzPlCode" 		column="bz_pl_code"/>
+		<result property="mId" 				column="m_id"/>
+		<result property="bzPlCheck" 		column="bz_pl_check"/>
+		<result property="bzPlName" 		column="bz_pl_name"/>
+		<result property="bzPlZipcode" 		column="bz_pl_zipcode"/>
+		<result property="bzPlAddr" 		column="bz_pl_addr"/>
+		<result property="bzPlDetailAddr" 	column="bz_pl_detail_addr"/>
+		<result property="bzPlPhoto" 		column="bz_pl_photo"/>
+		<result property="bzPlPower" 		column="bz_pl_power"/>
+		<result property="bzPlHardware" 	column="bz_pl_hardware"/>
+		<result property="bzPlArea" 		column="bz_pl_area"/>
+		<result property="bzPlInvPower" 	column="bz_pl_inv_power"/>
+		<result property="bzPlInvCount" 	column="bz_pl_inv_count"/>
+		<result property="bzPlInvMaker" 	column="bz_pl_inv_maker"/>
+		<result property="bzPlRec" 			column="bz_pl_rec"/>
+	</resultMap>
+	<resultMap type="PlantDepreciationDTO" id="plantDepreciationResultMap">
+		<result property="plDepIdx" 		column="pl_dep_idx"/>
+		<result property="bzPlCode" 		column="bz_pl_code"/>
+		<result property="pl_depPriceBased" column="pl_dep_price_based"/>
+		<result property="plDepPrice" 		column="pl_dep_price"/>
+		<result property="plDepStartDate" 	column="pl_dep_start_date"/>
+		<result property="plDepBuyDate" 	column="pl_dep_buy_date"/>
+		<result property="plDepMaintenance" column="pl_dep_maintenance"/>
+		<result property="plDepUsed" 		column="pl_dep_used"/>
+		<result property="plDepServicelife" column="pl_dep_servicelife"/>
+	</resultMap>
+<!-- 	<insert id="solarEntrepreneur" parameterType="BusinessDTO">
+		INSERT INTO tb_business(  
+			 bz_code
+			,m_id
+			,bz_company_name
+			,bz_ceo_name
+			,bz_zipcode
+			,bz_addr
+			,bz_detail_addr
+			,bz_place
+			,bz_license
+			,bz_type
+			,bz_request_date
+		) VALUES (
+			(SELECT sf_bz_code())
+			,#{mId} 
+			,#{bzCompanyName} 
+			,#{bzCeoName} 
+			,#{bzZipcode}  
+			,#{bzAddr} 
+			,#{bzDetailAddr} 
+			,#{bzPlace}
+			,#{bzLicense} 
+			,'재활용 중고 사업자(구매자)'
+			,NOW()
+		);
+	</insert> -->
+	<insert id="addRecycleEntrepreneur" parameterType="BusinessDTO">
+		INSERT INTO tb_business(  
+			 bz_code
+			,m_id
+			,bz_company_name
+			,bz_ceo_name
+			,bz_zipcode
+			,bz_addr
+			,bz_detail_addr
+			,bz_place
+			,bz_license
+			,bz_type
+			,bz_request_date
+		) VALUES (
+			(SELECT sf_bz_code())
+			,#{mId} 
+			,#{bzCompanyName} 
+			,#{bzCeoName} 
+			,#{bzZipcode} 
+			,#{bzAddr} 
+			,#{bzDetailAddr} 
+			,#{bzPlace}
+			,#{bzLicense} 
+			,'재활용 중고 사업자(구매자)'
+			,NOW()
+		);
+	</insert>
 	<update id="businessAdmit" parameterType="BusinessDTO">
 		UPDATE tb_business
 		SET

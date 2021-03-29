@@ -35,4 +35,15 @@ public class BusinessService {
 
 		return businessMapper.getAllBusinessAdmitList();
 	}
+	
+	// 일반 사업자 신청
+	public int addRecycleEntrepreneur(BusinessDTO bs){
+		
+		System.out.println(bs);
+		
+		return businessMapper.addRecycleEntrepreneur(bs);
+	}
+	
+	
+	
 }

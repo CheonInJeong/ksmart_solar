@@ -14,7 +14,11 @@
 			<div id="sessionLEVEL" th:data-session-level="${session.SLEVEL}"></div>
 		</div>
 		<div id="container-header-title"><strong>발전소 리스트</strong></div>
-		<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트</div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">메인화면 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
+		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px;">
 			<div class="content-panel" style="min-height: 70vh; padding: 5vh 5% 5vh 5%; overflow:auto; ">
