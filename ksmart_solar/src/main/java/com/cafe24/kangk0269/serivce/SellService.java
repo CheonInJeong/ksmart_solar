@@ -15,6 +15,7 @@ import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -35,6 +36,13 @@ public class SellService {
 		this.sellMapper = sellMapper;
 		this.fileUtils = fileUtils;
 	}
+	
+	//입찰자 정보 얻기
+	public BusinessDTO getBuyerInfoById(String mId) {
+		return sellMapper.getBuyerInfoById(mId);
+		
+	}
+	
 	//출금신청
 	public void addApplyPayment(TradePaymentOutDTO tradePaymentOutDTO) {
 		sellMapper.addApplyPayment(tradePaymentOutDTO);
@@ -62,14 +70,27 @@ public class SellService {
 		return sellMapper.getPaymentOutList(mId);
 	}
 	//해당 아이디의 부품공고 리스트를 가져옴
-	public List<BidComponentDTO> getBidComponentById(String mId){
-		return sellMapper.getBidComponentById(mId);
+	public List<BidComponentDTO> getBidComponentById(String mId, String searchKeyCp, String searchValueCp){
+		if(searchKeyCp!=null) {
+			if("bCpCode".equals(searchKeyCp)) {
+				searchKeyCp ="b_cp_code";
+			}else if("cpName".equals(searchKeyCp)) {
+				searchKeyCp ="cp_name";
+			}else if("bCpDateBidding1".equals(searchKeyCp)) {
+				searchKeyCp ="b_cp_date_bidding1";
+			}else if("bCpTitle".equals(searchKeyCp)) {
+				searchKeyCp = "b_cp_title";
+			}else {
+				searchKeyCp = "b_cp_status";
+			}
+		}
+		return sellMapper.getBidComponentById(mId,searchKeyCp,searchValueCp);
 	}
 	
 	
 	//입찰자목록조회
-	public List<BidListDTO> getBidderList(String code) {
-		return sellMapper.getBidderList(code);
+	public List<BidListDTO> getPlantBidderList(String code) {
+		return sellMapper.getPlantBidderList(code);
 	}
 	
 	//부품 정보 조회
@@ -113,7 +134,6 @@ public class SellService {
 	//발전소 신청
 	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.addPlantApply(bidPlantDto);
-		
 		System.out.println(bidPlantDto.getbPlCode()+"<------파일 관련 공고 코드");
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
@@ -127,9 +147,25 @@ public class SellService {
 	}
 	
 
-	public	List<BidPlantDTO> getBidPlantbyId(String mId){
-		List<BidPlantDTO> bidPlantList = sellMapper.getBidPlantbyId(mId);
-		
+	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue ){
+
+		if(searchKey!=null) {
+			if("bPlCode".equals(searchKey)) {
+				searchKey = "b_pl_code";
+			}else if("bzPlName".equals(searchKey)) {
+				searchKey = "bz_pl_name";
+			}else if("bPlDateBidding1".equals(searchKey)){
+				searchKey = "b_pl_date_bidding1";
+			}else if("bPlTitle".equals(searchKey)){
+				searchKey = "b_pl_title";
+			}else {
+				searchKey = "b_pl_status";
+			}
+			
+			
+		}
+		List<BidPlantDTO> bidPlantList = sellMapper.getBidPlantbyId(mId,searchKey,searchValue);
+			
 		return bidPlantList;
 	}
 	

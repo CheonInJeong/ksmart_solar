@@ -26,6 +26,10 @@ public class BidListDTO {
 	private String mAccountBankName;
 	private String mAccountNumber;
 	private String mPaymentName;
+
+	//인정추가
+	private String bzPlName;
+	private String bPlTitle;
 	public String getbCode() {
 		return bCode;
 	}
@@ -176,62 +180,29 @@ public class BidListDTO {
 	public void setmPaymentName(String mPaymentName) {
 		this.mPaymentName = mPaymentName;
 	}
+	public String getBzPlName() {
+		return bzPlName;
+	}
+	public void setBzPlName(String bzPlName) {
+		this.bzPlName = bzPlName;
+	}
+	public String getbPlTitle() {
+		return bPlTitle;
+	}
+	public void setbPlTitle(String bPlTitle) {
+		this.bPlTitle = bPlTitle;
+	}
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BidListDTO [bCode=");
-		builder.append(bCode);
-		builder.append(", announcedCode=");
-		builder.append(announcedCode);
-		builder.append(", bTypeCode=");
-		builder.append(bTypeCode);
-		builder.append(", bTitle=");
-		builder.append(bTitle);
-		builder.append(", mId=");
-		builder.append(mId);
-		builder.append(", bPrice=");
-		builder.append(bPrice);
-		builder.append(", sDepositRate=");
-		builder.append(sDepositRate);
-		builder.append(", bDeposit=");
-		builder.append(bDeposit);
-		builder.append(", bDepositCheck=");
-		builder.append(bDepositCheck);
-		builder.append(", bMoCode=");
-		builder.append(bMoCode);
-		builder.append(", bDepositDate=");
-		builder.append(bDepositDate);
-		builder.append(", trTypeCode=");
-		builder.append(trTypeCode);
-		builder.append(", trTypeName=");
-		builder.append(trTypeName);
-		builder.append(", dcInstructions=");
-		builder.append(dcInstructions);
-		builder.append(", dcApplication=");
-		builder.append(dcApplication);
-		builder.append(", dcProposal=");
-		builder.append(dcProposal);
-		builder.append(", bDate=");
-		builder.append(bDate);
-		builder.append(", bCheck=");
-		builder.append(bCheck);
-		builder.append(", bRank=");
-		builder.append(bRank);
-		builder.append(", bDepositAvailable=");
-		builder.append(bDepositAvailable);
-		builder.append(", bDepositRefund=");
-		builder.append(bDepositRefund);
-		builder.append(", bDateUp=");
-		builder.append(bDateUp);
-		builder.append(", mAccountBankName=");
-		builder.append(mAccountBankName);
-		builder.append(", mAccountNumber=");
-		builder.append(mAccountNumber);
-		builder.append(", mPaymentName=");
-		builder.append(mPaymentName);
-		builder.append("]");
-		return builder.toString();
+		return "BidListDTO [bCode=" + bCode + ", announcedCode=" + announcedCode + ", bTypeCode=" + bTypeCode
+				+ ", bTitle=" + bTitle + ", mId=" + mId + ", bPrice=" + bPrice + ", sDepositRate=" + sDepositRate
+				+ ", bDeposit=" + bDeposit + ", bDepositCheck=" + bDepositCheck + ", bMoCode=" + bMoCode
+				+ ", bDepositDate=" + bDepositDate + ", trTypeCode=" + trTypeCode + ", trTypeName=" + trTypeName
+				+ ", dcInstructions=" + dcInstructions + ", dcApplication=" + dcApplication + ", dcProposal="
+				+ dcProposal + ", bDate=" + bDate + ", bCheck=" + bCheck + ", bRank=" + bRank + ", bDepositAvailable="
+				+ bDepositAvailable + ", bDepositRefund=" + bDepositRefund + ", bDateUp=" + bDateUp
+				+ ", mAccountBankName=" + mAccountBankName + ", mAccountNumber=" + mAccountNumber + ", mPaymentName="
+				+ mPaymentName + ", bzPlName=" + bzPlName + ", bPlTitle=" + bPlTitle + "]";
 	}
-	
 	
 }

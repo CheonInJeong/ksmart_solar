@@ -2,17 +2,78 @@ package com.cafe24.kangk0269.serivce;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.common.FileUtils;
 import com.cafe24.kangk0269.dao.PolicyMapper;
+import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.StandardDTO;
 
+
+@Transactional
 @Service
 public class PolicyService {
 
 	@Autowired
 	private final PolicyMapper policyMapper;
+	@Autowired
+	private final FileUtils fileUtils;
+	
+	public PolicyService(PolicyMapper policyMapper,FileUtils fileUtils) {
+		this.policyMapper = policyMapper;
+		this.fileUtils = fileUtils;
+	}
+	
+	//파일삭제
+	public void  removeFile(int idx) {
+		 policyMapper.removeFile(idx);
+	}
+	
+	//파일다운로드
+	public FileDTO getFileInfo(int idx) {
+		return policyMapper.getFileInfo(idx);
+	}
+	
+
+	
+	
+	//업로드 된 입찰 파일 조회
+	public List<FileDTO> getBidFileList(){
+		
+		return policyMapper.getBidFileList();
+	}
+	
+	//업로드 된 공고 파일 조회
+	public List<FileDTO> getNoticeFileList(){
+		
+		return policyMapper.getNoticeFileList();
+	}
+	
+	//입찰 관련 파일 등록
+		public void addBidFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
+			List<FileDTO> filelist = fileUtils.parseFileInfo("입찰서류",6,"입찰서류", multipartHttpServletRequest,request);
+			if(CollectionUtils.isEmpty(filelist)==false) {
+				policyMapper.addFile(filelist);
+			}
+		}
+	
+	
+	//공고 관련 파일 등록
+	public void addNoticeFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
+		List<FileDTO> filelist = fileUtils.parseFileInfo("공고서류",5,"공고서류", multipartHttpServletRequest,request);
+		if(CollectionUtils.isEmpty(filelist)==false) {
+			policyMapper.addFile(filelist);
+		}
+	}
+	
 	
 	
 	public List<StandardDTO> getTradeHistory(String startDate, String endDate){
@@ -29,9 +90,7 @@ public class PolicyService {
 			return policyMapper.getDepositHistory(startDate,endDate);
 	}
 	
-	public PolicyService(PolicyMapper policyMapper) {
-		this.policyMapper = policyMapper;
-	}
+	
 	
 	public void removeCommission(int idx) {
 		policyMapper.removeCommission(idx);

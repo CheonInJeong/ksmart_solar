@@ -1,6 +1,7 @@
 package com.cafe24.kangk0269.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 import com.cafe24.kangk0269.serivce.BusinessService;
 import com.cafe24.kangk0269.serivce.MemberService;
 import com.cafe24.kangk0269.serivce.PlantService;
@@ -61,23 +64,25 @@ public class MemberManageController {
 	@GetMapping("/member/memberList")
 	public String MemberList(Model model) {
 		List<MemberDTO> memberList = memberService.getAllMember();
-		List<String> checkbusiness = memberService.checkBusiness();
 		System.out.println("전체회원조회 : " + memberList);
-		System.out.println("등록된 사업장 조회 : " + checkbusiness);
 		model.addAttribute("memberList", memberList);
-		model.addAttribute("checkbusiness", checkbusiness);
 		return "/member/memberList";
 	}
 	
 	@GetMapping("/member/memberLoginHistory")
-	public String MemberLoginHistory() {
+	public String MemberLoginHistory(Model model) {
 		
+		Map<String, Object> resultMap = memberService.getLoginHistory();
+		System.out.println(resultMap.get("loginHistory"));
+		model.addAttribute("loginHistoryList", resultMap.get("loginHistory"));
 		return "/member/memberLoginHistory";
 	}
 
 	@GetMapping("/member/memberWithdrawList")
-	public String MemberWithdrawList() {
+	public String MemberWithdrawList(Model model) {
 		
+		List<MemberRevokeDTO> withdrawAdmitList = memberService.getWithdrawAdmitMember();
+		model.addAttribute("withdrawAdmitList", withdrawAdmitList);
 		return "/member/memberWithdrawList";
 	}
 	
@@ -158,8 +163,9 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/member/account")
-	public String Account() {
-		
+	public String Account(Model model) {
+		List<MemberAccountDTO> allBankAccountList = memberService.getAllBankAccount();
+		model.addAttribute("allBankAccountList", allBankAccountList);
 		return "/member/account";
 	}
 	
@@ -252,7 +258,7 @@ public class MemberManageController {
 		//권한
 		session.setAttribute("SLEVEL", "관리자"); 
 		//이름 
-		session.setAttribute("SNAME","홍길동");
+		session.setAttribute("SNAME","김관리");
 		return "main";
 	}
 	//버튼 로그인 (태양광사업자)
@@ -263,7 +269,7 @@ public class MemberManageController {
 		//권한
 		session.setAttribute("SLEVEL", "태양광사업자"); 
 		//이름 
-		session.setAttribute("SNAME","김태풍");
+		session.setAttribute("SNAME","강태양");
 		return "main";
 	}
 	//버튼 로그인 (관리자)
@@ -274,7 +280,7 @@ public class MemberManageController {
 		//권한
 		session.setAttribute("SLEVEL", "재활용사업자"); 
 		//이름 
-		session.setAttribute("SNAME","박선비");
+		session.setAttribute("SNAME","박구매");
 		return "main";
 	}
 	

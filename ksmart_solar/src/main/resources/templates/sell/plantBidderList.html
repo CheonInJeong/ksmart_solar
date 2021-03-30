@@ -7,12 +7,23 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>입찰자목록</strong></div>
+     	<div id="container-header-path">정책관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> >입찰자목록</div>
+      	<div id="container-header-space"></div>		
+		
 		<div class="row mt">
           <div class="col-md-12">
             <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i>발전소 입찰자 목록</h4><hr><table class="table table-striped table-advance table-hover">
-               	발전소 : 쏠라발전소
-               	공고제목 : 팝니다.
+              <h4><i class="fa fa-angle-right"></i>발전소 입찰자 목록</h4>
+            	 <th:block th:each="p:${plant}">
+					<p>　　발전소 :  [[${p.businessPlantDTO.bzPlName}]]</p>
+	               	<p>　　공고제목 : [[${p.bPlTitle}]] </p>
+        		 </th:block> 
+              <hr>
+             
+             
+              
+              <table class="table table-striped table-advance table-hover">
                
                 <thead>
                   <tr>
@@ -25,10 +36,11 @@
                     <th><i class=" fa fa-edit"></i>서류3</th>
                     <th><i class=" fa fa-edit"></i>서류적합</th>
                     <th>순위</th>
+                    <th>상세보기</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="b:${bidder}">
+                  <tr th:if="${#lists.size(bidder)}>0" th:each="b:${bidder}">
                   	<td th:text="${b.bCode}"></td>
                   	<td th:text="${b.mId}"></td>
                   	<td th:text="${b.bPrice}" class="bidPrice"></td>
@@ -37,6 +49,10 @@
                   	<td>서류3</td>
                   	<td th:text=${b.bCheck}></td>
                   	<td th:text=${b.bRank}></td>
+                  	<td><a th:href="@{/sell/plantBidderDetail(mId=${b.mId})}" class="btn btn-default">상세보기</a></td>
+                  </tr>
+                  <tr th:unless="${#lists.size(bidder)}>0">
+                  	<td colspan="8" style="text-align:center;">아직 입찰자가 없습니다.</td>
                   </tr>
                 </tbody>
               </table>
@@ -44,38 +60,7 @@
           </div>
         </div>
         
-        <div class="row mt">
-          <div class="col-md-12">
-            <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i>부품 입찰자 목록</h4><hr><table class="table table-striped table-advance table-hover">
-                <thead>
-                  <tr>
-                  	<th>부품공고코드</th>
-                    <th><i class="fa fa-bullhorn"></i>부품명</th>
-                    <th class="hidden-phone"><i class="fa fa-question-circle"></i>공고명</th>
-                    <th><i class="fa fa-bookmark"></i>입찰자</th>
-                    <th><i class=" fa fa-edit"></i>서류1</th>
-                    <th><i class=" fa fa-edit"></i>서류2</th>
-                    <th><i class=" fa fa-edit"></i>서류3</th>
-                    <th><i class=" fa fa-edit"></i>서류적합</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 <tr>
-                  	<td>b_cm_code1</td>
-                  	<td>핵좋은부품</td>
-                  	<td>부품팝니다.</td>
-                  	<td>id005</td>
-                  	<td>서류1</td>
-                  	<td>서류2</td>
-                  	<td>서류3</td>
-                  	<td>Y</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
+  
         
 	</th:block>
 	<th:block layout:fragment="customScript">

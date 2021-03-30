@@ -11,6 +11,7 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BoardDto;
 import com.cafe24.kangk0269.dto.BoardFileDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -21,6 +22,9 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface SellMapper {
+	
+	//입찰자 정보 얻기
+	public BusinessDTO getBuyerInfoById(String id);
 	
 	//출금신청여부 업데이트
 	public int modifyApplyYn(String code);
@@ -45,12 +49,13 @@ public interface SellMapper {
 	public List<TradePriorityDTO> getPaymentOutList(String mId);
 		
 	//해당 아이디의 부품공고 리스트를 가져옴
-	public List<BidComponentDTO> getBidComponentById(String mId);
+	public List<BidComponentDTO> getBidComponentById(String mId,String searchKeyCp, String searchValueCp);
 	
 	//파일 등록 메서드
 	public int addFile(List<FileDTO> list);
+	
 	//해당 공고 입찰자 목록
-	public List<BidListDTO> getBidderList(String code);
+	public List<BidListDTO> getPlantBidderList(String code);
 	
 	//해당 아이디가 가지고 있는 부품 정보 
 	public List<ComponentDTO> getComponent(String mId);
@@ -63,7 +68,7 @@ public interface SellMapper {
 	
 
 	//판매자의 발전소 공고 목록을 가져오는 메서드 
-	public List<BidPlantDTO> getBidPlantbyId(String mId);
+	public List<BidPlantDTO> getBidPlantbyId(String mId,String searchKey, String searchValue);
 	//공고 코드로 공고 신청 내역 불러오는 메서드
 	public List<BidPlantDTO> getBidPlantbyCode(String code);
 	
@@ -81,4 +86,5 @@ public interface SellMapper {
 	
 	//발전소 이름 가져오는 메서드
 	public List<BusinessPlantDTO> getPlantName(String mId);
+	
 }

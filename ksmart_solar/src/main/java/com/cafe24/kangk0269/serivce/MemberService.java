@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -10,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.kangk0269.dao.MemberMapper;
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Service
 @Transactional
@@ -24,11 +27,25 @@ public class MemberService {
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
 	}
+
+	// 전체회원계좌 조회
+	public List<MemberAccountDTO> getAllBankAccount(){
+		return memberMapper.getAllBankAccount();
+	}
 	
-	// 등록된 사업장
-	public List<String> checkBusiness(){
+	// 탈퇴신청회원 조회
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(){
+		return memberMapper.getWithdrawAdmitMember();
+	}
+	
+	// 로그인 기록 조회
+	public Map<String, Object> getLoginHistory(){
 		
-		return memberMapper.checkBusiness();
+		List<Map<String, Object>> loginHistory = memberMapper.getLoginHistory();
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		resultMap.put("loginHistory", loginHistory);
+		
+		return resultMap;
 	}
 	
 	// 전체 회원정보수정
