@@ -27,11 +27,14 @@
 				<h4><i class="fa fa-angle-right"></i> 입출금내역</h4>
 	              <section id="no-more-tables">
 	              	<hr>
+	              	<div class="pull-right">
+	              		<a class="btn btn-info" role="button" onclick="insertBtn()">입출금 입력</a>
+	              	</div>
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
 							<th>입출금코드</th>
-							<th>아이디</th>
+							<th>거래회원</th>
 							<th>입출금구분</th>
 							<th>금액</th>
 							<th>비고</th>
@@ -42,7 +45,7 @@
 					<tbody>
 						<tr th:each="l : ${bidMoneyList}">
 							<td data-title="입출금코드" th:text="${l.bMoCode}"></td>
-							<td data-title="아이디" th:text="${l.mId}"></td>
+							<td data-title="거래회원" th:text="${l.mId}"></td>
 							<td data-title="입출금구분" th:text="${l.bMoType}"></td>
 							<td data-title="금액" th:text="${l.bMoAmount}"></td>
 							<td data-title="비고" th:text="${l.bMoDetail}"></td>
@@ -51,6 +54,25 @@
 						</tr>
 					</tbody>
 				</table>
+				<div class="text-center">
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</div>
 				</section>
 				</div>
 			</div>
@@ -66,6 +88,15 @@
 	  <!--common script for all pages-->
 	  <script src="lib/common-scripts.js"></script>
 		<script type="text/javascript">
+			function insertBtn(){
+				window.open(
+					'/bidMoneyInsert',
+					'입출금 입력',
+					'width=500, height=500, left=100, top=100, scrollbar=yes'
+				);
+				
+			}
+		
 			var profit = $('#profit');
 			profit.addClass('active');
 			profit.parent().find('.sub').css('display','block');

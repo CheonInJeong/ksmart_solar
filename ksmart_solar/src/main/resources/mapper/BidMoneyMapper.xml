@@ -17,6 +17,34 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bMoDate" 			column="b_mo_date"/>
 	</resultMap>
 	
+	<!-- 입출금 내역 입력 -->
+	<insert id="addBidMoney" parameterType="BidMoneyDTO">
+		INSERT INTO tb_bid_money
+		(b_mo_code
+		, related_code
+		, m_id
+		, b_mo_type
+		, related_table
+		, b_mo_amount
+		, b_mo_detail
+		, m_id_manager
+		, b_mo_totalmoney
+		, b_mo_date)
+		VALUES (
+		''
+		, ''
+		, ''
+		, ''
+		, ''
+		, 0
+		, ''
+		, ''
+		, 0
+		, NOW()
+		)
+	</insert>
+	
+	<!-- 전체 입출금 내역 조회 -->
 	<select id="getBidMoneyList" resultMap="bidmoneyResultMap">
 		SELECT 
 			b_mo_code
