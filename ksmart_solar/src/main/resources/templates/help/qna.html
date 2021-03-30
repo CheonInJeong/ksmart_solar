@@ -47,10 +47,10 @@
 							<td data-title="조회수" th:text="${l.bQnaViews}"></td>
 							<td data-title="등록일" th:text="${l.bQnaRegDate}"></td>
 							<td data-title="수정">
-								<a class="btn btn-info" th:href=@{/help/modifyNotice(bQnaIdx=${l.bQnaIdx})}>수정</a>
+								<a class="btn btn-info" th:href=@{/help/modifyQna(bQnaIdx=${l.bQnaIdx})}>수정</a>
 							</td>
 							<td data-title="삭제">
-								<a class="btn btn-danger" th:href=@{/help/removeNotice(bQnaIdx=${l.bQnaIdx})}>삭제</a>
+								<a class="btn btn-danger" th:href=@{/help/removeQna(bQnaIdx=${l.bQnaIdx})}>삭제</a>
 							</td>
 						</tr>
 					</tbody>
