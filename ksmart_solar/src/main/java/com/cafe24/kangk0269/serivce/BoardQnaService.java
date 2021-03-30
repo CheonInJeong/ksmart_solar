@@ -28,6 +28,11 @@ public class BoardQnaService {
 		System.out.println("=========================================================");
 	}
 	
+	//문의 등록
+	public int addQna(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.addQna(boardQnaDTO);
+	}
+	
 	//문의 상세조회
 	public BoardQnaDTO getQna(int bQnaIdx) {
 		return boardQnaMapper.getQna(bQnaIdx);

@@ -23,7 +23,7 @@
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
-            <a class="btn btn-info" th:href=@{/help/addNotice}>문의등록</a>
+            <a class="btn btn-info" th:href=@{/help/addQna}>문의등록</a>
 				<h4><i class="fa fa-angle-right"></i> 문의하기</h4>
 	              <section id="no-more-tables">
 	              	<hr>
@@ -40,17 +40,17 @@
 					</thead>
 					<tbody>
 						<tr th:each="l : ${boardQnaDTOList}">
-							<td data-title="공지제목">
+							<td data-title="문의제목">
 								<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
 							</td>
 							<td data-title="작성자" th:text="${l.mId}"></td>
 							<td data-title="조회수" th:text="${l.bQnaViews}"></td>
 							<td data-title="등록일" th:text="${l.bQnaRegDate}"></td>
 							<td data-title="수정">
-								<a class="btn btn-info" th:href=@{/help/modifyNotice(noticeIdx=${l.noticeIdx})}>수정</a>
+								<a class="btn btn-info" th:href=@{/help/modifyNotice(bQnaIdx=${l.bQnaIdx})}>수정</a>
 							</td>
 							<td data-title="삭제">
-								<a class="btn btn-danger" th:href=@{/help/removeNotice(noticeIdx=${l.noticeIdx})}>삭제</a>
+								<a class="btn btn-danger" th:href=@{/help/removeNotice(bQnaIdx=${l.bQnaIdx})}>삭제</a>
 							</td>
 						</tr>
 					</tbody>
