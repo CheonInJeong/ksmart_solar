@@ -15,7 +15,7 @@ public class TradePriorityDTO {
 	private int bDeposit;
 	private String trPrConclusionDate1;
 	private String trPrConclusionDate2;
-	private String trTypeCode;
+	private int trTypeCode;
 	private String trTypeName;
 	private String trPrDateUp;
 	private String trPayoutCheck;
@@ -138,11 +138,11 @@ public class TradePriorityDTO {
 		this.trPrConclusionDate2 = trPrConclusionDate2;
 	}
 
-	public String getTrTypeCode() {
+	public int getTrTypeCode() {
 		return trTypeCode;
 	}
 
-	public void setTrTypeCode(String trTypeCode) {
+	public void setTrTypeCode(int trTypeCode) {
 		this.trTypeCode = trTypeCode;
 	}
 
@@ -204,56 +204,15 @@ public class TradePriorityDTO {
 
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("TradePriorityDTO [trPrCode=");
-		builder.append(trPrCode);
-		builder.append(", bCode=");
-		builder.append(bCode);
-		builder.append(", bTypeCode=");
-		builder.append(bTypeCode);
-		builder.append(", announcedCode=");
-		builder.append(announcedCode);
-		builder.append(", announcedTitle=");
-		builder.append(announcedTitle);
-		builder.append(", bGroupcode=");
-		builder.append(bGroupcode);
-		builder.append(", mIdSeller=");
-		builder.append(mIdSeller);
-		builder.append(", mIdBuyer=");
-		builder.append(mIdBuyer);
-		builder.append(", trPrRank=");
-		builder.append(trPrRank);
-		builder.append(", trPrPrice=");
-		builder.append(trPrPrice);
-		builder.append(", sDepositRate=");
-		builder.append(sDepositRate);
-		builder.append(", bDeposit=");
-		builder.append(bDeposit);
-		builder.append(", trPrConclusionDate1=");
-		builder.append(trPrConclusionDate1);
-		builder.append(", trPrConclusionDate2=");
-		builder.append(trPrConclusionDate2);
-		builder.append(", trTypeCode=");
-		builder.append(trTypeCode);
-		builder.append(", trTypeName=");
-		builder.append(trTypeName);
-		builder.append(", trPrDateUp=");
-		builder.append(trPrDateUp);
-		builder.append(", trPayoutCheck=");
-		builder.append(trPayoutCheck);
-		builder.append(", comissionRate=");
-		builder.append(comissionRate);
-		builder.append(", commission=");
-		builder.append(commission);
-		builder.append(", availableOut=");
-		builder.append(availableOut);
-		builder.append(", tradePaymentInDTO=");
-		builder.append(tradePaymentInDTO);
-		builder.append("]");
-		return builder.toString();
+		return "TradePriorityDTO [trPrCode=" + trPrCode + ", bCode=" + bCode + ", bTypeCode=" + bTypeCode
+				+ ", announcedCode=" + announcedCode + ", announcedTitle=" + announcedTitle + ", bGroupcode="
+				+ bGroupcode + ", mIdSeller=" + mIdSeller + ", mIdBuyer=" + mIdBuyer + ", trPrRank=" + trPrRank
+				+ ", trPrPrice=" + trPrPrice + ", sDepositRate=" + sDepositRate + ", bDeposit=" + bDeposit
+				+ ", trPrConclusionDate1=" + trPrConclusionDate1 + ", trPrConclusionDate2=" + trPrConclusionDate2
+				+ ", trTypeCode=" + trTypeCode + ", trTypeName=" + trTypeName + ", trPrDateUp=" + trPrDateUp
+				+ ", trPayoutCheck=" + trPayoutCheck + ", comissionRate=" + comissionRate + ", commission=" + commission
+				+ ", availableOut=" + availableOut + ", tradePaymentInDTO=" + tradePaymentInDTO + "]";
 	}
-	
-
 	
 }
 

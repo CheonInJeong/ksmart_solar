@@ -15,39 +15,35 @@
 		</div>
 		<div id="container-header-space"></div>
    		<form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
-			<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
+<!-- 			<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
 			<input type="hidden" name="bTypeCode" th:value="${announcedType}">		
 			<input type="hidden" name="bTitle" th:value="${announcedTitle}">
 			<input type="hidden" name="sDepositRate">
-			<input  type="hidden" name="mId" th:value="${session.SID}">
+			<input  type="hidden" name="mId" th:value="${session.SID}"> -->
 					
 			<div class="chat-room mt">
 	          <aside class="mid-side container">
 	            <div class="chat-room-head">
-	              <h3>입찰 신청</h3>
+	              <h3>대금 신청</h3>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" >[[${announcedTitle}]]</div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰 시작가</div>
-	              <div class="second-part" id="bidPrice">
-	              	[[${announcedPrice}]]
-	              </div>
+	              <div class="second-part" th:text="${bidListDTO.bTitle}"></div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입찰금액</div>
-	              <div class="second-part">
-	              	<input type="hidden" name="bPrice">
-	              	<input type="text" id="bPrice" placeholder="0">
+	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bPrice}">
 	              </div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">예치금</div>
-	              <div class="second-part" id="bDeposit">0
+	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bDeposit}">
 	              </div>
-              		<input type="hidden" name="bDeposit">
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">납부해야할 금액</div>
+	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.trPayinPrice}">
+	              </div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입금 은행</div>
@@ -67,15 +63,9 @@
 	              <div class="first-part odd">입금자 성명</div>
 	              <div class="second-part" ><input name="mPaymentName" type="text" ></div>
 	            </div>
-				<div class="group-rom">
-					<div class="first-part odd">파일 첨부</div>
-					<div class="second-part">
-						<input type="file" id="files" class="default" name="files" multiple="multiple">
-					</div>
-				</div>
 	          </aside>
 	        </div>
-          	<div class="row" style="margin: 5px 0px;">
+	        <div class="row" style="margin: 5px 0px;">
 				<div class="form-inline" style="text-align: center;">
 	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">신청</button>
 				</div>
@@ -96,13 +86,6 @@
 				var form = $('form');
 				//입찰금액
 				var bPrice = $('#bPrice');
-				var bPrice1 = $('[name="bPrice"]');
-				//예치금
-				var bDeposit = $('[name="bDeposit"]');
-				//보여지는 예치금
-				var bDepositText = $('#bDeposit');
-				//예치금율
-				var sDepositRate = 0;			
 				//은행명
 				var bank = $('#bank');
 				//해당 은행 계좌 번호
@@ -186,35 +169,13 @@
 				}
 				//입찰금액을 입력할 때 
 				bPrice.keyup(function(){
-					//입찰금액에 숫자만 가능하게
-					$(this).onlyNumber();
-					var num = $(this).val();
-					//입력한 입찰금액에 예치금 계산
-					var sDeposit = num/100*sDepositRate;
-					//소숫점은 반올림
-					sDeposit = Math.round(sDeposit);
-					//계산한 예치금을 bDeposit파라미터에 담기
-					bDeposit.val(sDeposit);
-					//입찰금액에 콤마찍기
-					$(this).transPrice();
-					//예치금에 콤마찍기
-					bDeposit.transPrice();
-					//보여지는 예치금
-					bDepositText.text(bDeposit.val());
+					
 					
 				});
 				
 				bidResultBtn.click(function(){
 					console.log(bPrice.val());
-					if(bPrice.val()==""){
-						alert('입찰 가격을 입력해주세요.');
-						return false;
-					}
-					if(Number(bPrice.val().replace(/,/g,''))<Number(bidPrice.text().replace(/,/g,''))){
-						alert('입찰가격이 낮습니다.');
-						bPrice.focus();
-						return false;
-					}
+					
 					if(accountNumber.text()==""){
 						alert('은행을 선택해주세요.');
 						return false;
@@ -224,13 +185,8 @@
 						mPaymentName.focus();
 						return false;
 					}
-					//예치금에 콤마지워서 보내기
-					bDeposit.val(Number(bDeposit.val().replace(/,/g,'')));
-					//입찰금액에 콤마지워서 보내기
-					bPrice1.val(Number(bPrice.val().replace(/,/g,'')));
-					console.log(bPrice1.val());
-					console.log(bDeposit.val());
-					form.submit();
+					
+					//form.submit();
 				});
 				
 			});

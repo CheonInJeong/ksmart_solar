@@ -9,7 +9,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="mId" 				column="sell_id" />
 		<result property="bCpTitle" 		column="b_cp_title" />
 		<result property="cpCode" 			column="cp_code" />
-		<result property="bCpCotents"		column="b_cp_contents" />		
+		<result property="bCpContents"		column="b_cp_contents" />		
 		<result property="bCpPrice" 		column="b_cp_price" />	
 		<result property="cpUsedate" 		column="cp_usedate" />	
 		<result property="bCpStatus" 		column="b_cp_status" />	

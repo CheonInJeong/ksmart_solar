@@ -19,6 +19,9 @@ public class TradePaymentInDTO {
 	private String bMoCode;	
 	private String bMoDate;	
 	private String trPayinStatus;
+	private String mAccountBankName;
+	private String mAccountNumber;
+	private String mPaymentName;
 	public String getTrPayinCode() {
 		return trPayinCode;
 	}
@@ -127,47 +130,34 @@ public class TradePaymentInDTO {
 	public void setTrPayinStatus(String trPayinStatus) {
 		this.trPayinStatus = trPayinStatus;
 	}
+	public String getmAccountBankName() {
+		return mAccountBankName;
+	}
+	public void setmAccountBankName(String mAccountBankName) {
+		this.mAccountBankName = mAccountBankName;
+	}
+	public String getmAccountNumber() {
+		return mAccountNumber;
+	}
+	public void setmAccountNumber(String mAccountNumber) {
+		this.mAccountNumber = mAccountNumber;
+	}
+	public String getmPaymentName() {
+		return mPaymentName;
+	}
+	public void setmPaymentName(String mPaymentName) {
+		this.mPaymentName = mPaymentName;
+	}
 	@Override
 	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("TradePaymentInDTO [trPayinCode=");
-		builder.append(trPayinCode);
-		builder.append(", trPrCode=");
-		builder.append(trPrCode);
-		builder.append(", bCode=");
-		builder.append(bCode);
-		builder.append(", announcedCode=");
-		builder.append(announcedCode);
-		builder.append(", mIdSeller=");
-		builder.append(mIdSeller);
-		builder.append(", mIdBuyer=");
-		builder.append(mIdBuyer);
-		builder.append(", bPrice=");
-		builder.append(bPrice);
-		builder.append(", sDepositRate=");
-		builder.append(sDepositRate);
-		builder.append(", bDeposit=");
-		builder.append(bDeposit);
-		builder.append(", trPayinPrice=");
-		builder.append(trPayinPrice);
-		builder.append(", sCommissionRate=");
-		builder.append(sCommissionRate);
-		builder.append(", cTradeCm=");
-		builder.append(cTradeCm);
-		builder.append(", trPayinDate1=");
-		builder.append(trPayinDate1);
-		builder.append(", trPayinDate2=");
-		builder.append(trPayinDate2);
-		builder.append(", trPayinCheck=");
-		builder.append(trPayinCheck);
-		builder.append(", bMoCode=");
-		builder.append(bMoCode);
-		builder.append(", bMoDate=");
-		builder.append(bMoDate);
-		builder.append(", trPayinStatus=");
-		builder.append(trPayinStatus);
-		builder.append("]");
-		return builder.toString();
+		return "TradePaymentInDTO [trPayinCode=" + trPayinCode + ", trPrCode=" + trPrCode + ", bCode=" + bCode
+				+ ", announcedCode=" + announcedCode + ", mIdSeller=" + mIdSeller + ", mIdBuyer=" + mIdBuyer
+				+ ", bPrice=" + bPrice + ", sDepositRate=" + sDepositRate + ", bDeposit=" + bDeposit + ", trPayinPrice="
+				+ trPayinPrice + ", sCommissionRate=" + sCommissionRate + ", cTradeCm=" + cTradeCm + ", trPayinDate1="
+				+ trPayinDate1 + ", trPayinDate2=" + trPayinDate2 + ", trPayinCheck=" + trPayinCheck + ", bMoCode="
+				+ bMoCode + ", bMoDate=" + bMoDate + ", trPayinStatus=" + trPayinStatus + ", mAccountBankName="
+				+ mAccountBankName + ", mAccountNumber=" + mAccountNumber + ", mPaymentName=" + mPaymentName + "]";
 	}
+	
 
 }

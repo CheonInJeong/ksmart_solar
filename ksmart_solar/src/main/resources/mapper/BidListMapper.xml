@@ -51,7 +51,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 	 b_deposit,
 			 b_date,
 			 m_account_bank_name,
-			 m_account_number)
+			 m_account_number,
+			 m_payment_name)
 		VALUES 
 			(sf_b_code(),
 			#{announcedCode},
@@ -63,7 +64,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			#{bDeposit},
 			NOW(),
 			#{mAccountBankName},
-			#{mAccountNumber})
+			#{mAccountNumber},
+			#{mPaymentName})
 	</insert>
 	<select id="getBidListCount" resultType="int">
 		select
@@ -71,7 +73,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		FROM
 			tb_bid_list AS bl
 		WHERE 
-			bl.announced_code = #{announceTitle}
+			bl.announced_code = #{announceCode}
 		and
 			bl.m_id=#{id}
 	</select>
@@ -103,7 +105,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			m_account_number
 		FROM 
 			tb_bid_list
-		WHERE 
-			m_id = #{id} AND announced_code = #{announceTitle}
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			<if test="id != null">
+				and m_id = #{id} 
+			</if>
+			<if test="announceCode != null">
+				and announced_code = #{announceCode}
+			</if>
+			<if test="bCode!=null">
+				and b_code = #{bCode}
+			</if>
+		</trim>
 	</select>
 </mapper>

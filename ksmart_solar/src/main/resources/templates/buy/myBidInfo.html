@@ -3,61 +3,59 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div th:fragment="myBidInfoFragment">
 	<div class="chat-room mt" >
-		<div class="mid-side container">
-        	<div class="row">
-				<div class="chat-room-head">
-             		<h3>입찰 정보</h3>
-           		</div>
-           		<div class="group-rom">
-		            <div class="first-part odd">공고 제목</div>
-		            <div class="second-part" th:text="${title}"></div>
-				</div>
-				<div class="group-rom">
-		           <div class="first-part odd">입찰금액</div>
-		           <div class="second-part" ></div>
-		        </div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">예치금</div>
-		           <div class="second-part" ></div>
-	          	</div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">입금 은행</div>
-		           <div class="second-part">관리자 계좌의 은행</div>
-	          	</div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">관리자계좌번호</div>
-		           <div class="second-part">관리자의 계좌번호</div>
-	          	</div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">입금자 성명</div>
-		           <div class="second-part">입금하는 사람 이름</div>
-	          	</div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">파일 첨부</div>
-		           <div class="second-part">입찰 파일</div>
-	          	</div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">관리자 입금 확인 여부</div>
-		           <div class="second-part" th:if="${status=='입찰대기' or status=='입찰실패'}">미확인</div>
-		           <div class="second-part" th:unless="${status eq '입찰대기' or status eq'입찰실패'}">확인</div>
-	          	</div>
-	          	<div class="group-rom" th:if="${status=='입찰실패'}">
-		           <div class="first-part odd">입찰실패 사유</div>
-		           <div class="second-part" th:if="${status=='입찰실패'}">예치금 미납</div>
-	          	</div>
-	          	<div class="group-rom">
-		           <div class="first-part odd">예치금 환불여부</div>
-		           <div class="second-part" th:if="${
-		           status=='입찰취소' or
-		           status=='입찰종료' or
-		           status=='계약종료'}">가능</div>
-		           <div class="second-part" th:unless="${
-		           status=='입찰취소' or
-		           status=='입찰종료' or
-		           status=='계약종료'}">불가능</div>
-	          	</div>
-          </div>
-        </div>
+		<aside class="mid-side container">
+			<div class="chat-room-head">
+            		<h3>입찰 정보</h3>
+          		</div>
+          		<div class="group-rom">
+	            <div class="first-part odd">공고 제목</div>
+	            <div class="second-part" th:text="${title}"></div>
+			</div>
+			<div class="group-rom">
+	           <div class="first-part odd">입찰금액</div>
+	           <div class="second-part" ></div>
+	        </div>
+          	<div class="group-rom">
+	           <div class="first-part odd">예치금</div>
+	           <div class="second-part" ></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">입금 은행</div>
+	           <div class="second-part">관리자 계좌의 은행</div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">관리자계좌번호</div>
+	           <div class="second-part">관리자의 계좌번호</div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">입금자 성명</div>
+	           <div class="second-part">입금하는 사람 이름</div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">파일 첨부</div>
+	           <div class="second-part">입찰 파일</div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">관리자 입금 확인 여부</div>
+	           <div class="second-part" th:if="${status=='입찰대기' or status=='입찰실패'}">미확인</div>
+	           <div class="second-part" th:unless="${status eq '입찰대기' or status eq'입찰실패'}">확인</div>
+          	</div>
+          	<div class="group-rom" th:if="${status=='입찰실패'}">
+	           <div class="first-part odd">입찰실패 사유</div>
+	           <div class="second-part" th:if="${status=='입찰실패'}">예치금 미납</div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">예치금 환불여부</div>
+	           <div class="second-part" th:if="${
+	           status=='입찰취소' or
+	           status=='입찰종료' or
+	           status=='계약종료'}">가능</div>
+	           <div class="second-part" th:unless="${
+	           status=='입찰취소' or
+	           status=='입찰종료' or
+	           status=='계약종료'}">불가능</div>
+          	</div>
+        </aside>
 	</div>
 </div>
 
