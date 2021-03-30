@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cafe24.kangk0269.api.KakaoLoginApi;
 import com.cafe24.kangk0269.dao.MemberMapper;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MemberKakao;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Service
@@ -84,7 +86,7 @@ public class MemberService {
 				member.setmLevelName("태양광사업자");
 				break;
 			case 3:
-				member.setmLevelName("일반사업자");
+				member.setmLevelName("재활용사업자");
 				break;
 			case 4:
 				member.setmLevelName("일반회원");
@@ -102,6 +104,43 @@ public class MemberService {
 		int result = memberMapper.addMember(memberDTO);
 		return result;
 	}
+	
+	public MemberDTO memberLoginKakao(String accessToken) {
+		MemberKakao mk = new MemberKakao();
+		KakaoLoginApi kakaoApi = new KakaoLoginApi();
+		HashMap<String, Object> memberInfo = kakaoApi.getUserInfo(accessToken);
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println(memberInfo);
+		String kakaoId = (String) memberInfo.get("kakaoId");
+		String nickName = (String) memberInfo.get("nickName");
+		String thumbnailImage = (String) memberInfo.get("thumbnailImage");
+		String kakaoEmail = (String) memberInfo.get("kakaoEmail");
+		
+		MemberDTO memberDTO = memberMapper.getMyInfoById("kakao" + kakaoId);
+		System.out.println();
+		System.out.println();
+		System.out.println();
+		System.out.println(memberDTO);
+		if(memberDTO == null) {
+			//카카오로 가입
+			mk.setKakaoId(kakaoId);
+			mk.setNickName(nickName);
+			mk.setKakaoEmail(kakaoEmail);
+			mk.setThumbnailImage(thumbnailImage);
+			mk.setmId("kakao" + kakaoId);
+			mk.setmPw("kakaoPW" + kakaoId);
+			int kakaoInsertResult = memberMapper.addMemberKakao(mk);
+			if(kakaoInsertResult == 0) {
+				return null;
+			}
+			memberDTO = memberMapper.getMyInfoById("kakao" + kakaoId);
+		}
+		System.out.println(memberDTO);
+		return memberDTO;
+	}
+	
 	public List<String> getManager() {
 		List<String> managerList = memberMapper.getManager();
 		return managerList;
@@ -115,10 +154,10 @@ public class MemberService {
 				memberList.get(i).setmLevelName("관리자");
 			}
 			if(mLevel == 2) {
-				memberList.get(i).setmLevelName("태양광사업자(판매자)	");
+				memberList.get(i).setmLevelName("태양광사업자");
 			}
 			if(mLevel == 3) {
-				memberList.get(i).setmLevelName("재활용 중고 사업자(구매자)");
+				memberList.get(i).setmLevelName("재활용사업자");
 			}
 			if(mLevel == 4) {
 				memberList.get(i).setmLevelName("일반회원");

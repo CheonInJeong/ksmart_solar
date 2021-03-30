@@ -5,6 +5,7 @@
 	<resultMap type="MemberDTO" id="memberResultMap">
 		<result property="mId" 					column="m_id"/>
 		<result property="mPw" 					column="m_pw"/>
+		<result property="kakaoId" 				column="m_id_kakao"/>
 		<result property="mName" 				column="m_name"/>
 		<result property="mLevel" 				column="m_level"/>
 		<result property="mZipcode" 			column="m_zipcode"/>
@@ -20,7 +21,49 @@
 		<result property="mRevokeDelayCheck" 	column="m_revoke_delay_check"/>
 		<result property="mStateModifyDate" 	column="m_state_modify_date"/>
 	</resultMap>
-	
+	<resultMap type="MemberKakao" id="memberKakaoResultMap">
+		<result property="mId" 					column="m_id"/>
+		<result property="mPw" 					column="m_pw"/>
+		<result property="kakaoId" 				column="m_id_kakao"/>
+		<result property="nickName" 			column="m_name"/>
+		<result property="kakaoEmail" 			column="m_email"/>
+		<result property="thumbnailImage" 		column="m_photo"/>
+	</resultMap>
+	<insert id="addMemberKakao" parameterType="MemberKakao">
+		INSERT INTO tb_member(  
+			 m_id
+			,m_pw
+			,m_id_kakao
+			,m_name
+			,m_level
+			,m_email
+			,m_photo
+			,m_sub_date
+		) VALUES (
+			#{mId}
+			,#{mPw}
+			,#{kakaoId} 
+			,#{nickName} 
+			,4
+			,#{kakaoEmail} 
+			,#{thumbnailImage} 
+			,NOW()
+		);
+	</insert>
+	<select id="checkBusiness" resultType="String">
+		SELECT
+		 m.m_id,
+		 b.bz_company_name,
+		 b.bz_check,
+		 COUNT(if(b.bz_check = 'Y', bz_code,null))
+		FROM
+			tb_member AS m
+			LEFT JOIN 
+			tb_business AS b
+			ON 
+			m.m_id = b.m_id
+		GROUP BY m.m_id;
+	</select>
 	<!-- 전체회원계좌 조회 -->
 	<select id="getAllBankAccount" resultType="MemberAccountDTO">
 		SELECT 
