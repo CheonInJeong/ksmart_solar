@@ -31,7 +31,7 @@
 		                  <div class="form-group">
 		                    <label class="control-label col-lg-2">신청금액</label>
 		                    <div class="col-lg-10">
-		                      <input class=" form-control"   name="trPayoutPrice" th:value="${a.trPrPrice}" type="text" readonly>
+		                      <input class=" form-control"  id="trPayoutPrice" name="trPayoutPrice" th:value="${a.trPrPrice}" type="text" readonly>
 		                    </div>
 		                  </div>
 		                  <div class="form-group ">
@@ -43,13 +43,13 @@
 		                  <div class="form-group">
 		                    <label class="control-label col-lg-2">거래수수료</label>
 		                    <div class="col-lg-10">
-		                      <input class=" form-control" th:value="${a.commission}" name="cTradeCm" type="text" readonly>
+		                      <input class=" form-control" th:value="${a.commission}" id="cTradeCm" name="cTradeCm" type="text" readonly>
 		                    </div>
 		                  </div>
 		                 <div class="form-group">
 		                 	<label class="control-label col-lg-2">출금금액</label>
 		                  	<div class="col-lg-10">
-		                    	<input class=" form-control"  name="trPayoutPriceReal" th:value="${a.availableOut}" type="text" readonly>
+		                    	<input class=" form-control"  id="trPayoutPriceReal" name="trPayoutPriceReal" th:value="${a.availableOut}" type="text" readonly>
 		                  	</div>
 		                </div>
 		                
@@ -111,6 +111,31 @@
 		</script>
 		
 		<script>
+			//콤마
+			function comma(str) {
+	   			 str = String(str);
+	   		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			  	}
+			
+			//콤마 없애기
+			function rm_comma(num){
+				 	   var number = num + "";
+				 	   return number.replace(/,/g,"");
+				 	}
+	
+			var trPayoutPrice = $('#trPayoutPrice'); //출금가능금액
+			var cTradeCm = $('#cTradeCm'); //수수료
+			var trPayoutPriceReal =$('#trPayoutPriceReal'); //실제출금금액
+			$('document').ready(function(){
+			
+				trPayoutPrice.val(comma(trPayoutPrice.val()));
+				cTradeCm.val(comma(cTradeCm.val()));
+				trPayoutPriceReal.val(comma(trPayoutPriceReal.val()));
+				
+				})
+		
+		
+		
 			//은행선택
 				var trPayoutBank = $('#trPayoutBank');//은행명
 				var trPayoutAccount = $('#trPayoutAccount');//계좌번호
@@ -157,7 +182,11 @@
 					trPayoutAccountName.focus();
 					return;
 				}
-				
+				//콤마없애기
+				rm_comma
+				trPayoutPrice.val(rm_comma(trPayoutPrice.val()));
+				cTradeCm.val(rm_comma(cTradeCm.val()));
+				trPayoutPriceReal.val(rm_comma(trPayoutPriceReal.val()));
 				$('#applyPaymentForm').submit();
 				
 			})
@@ -169,7 +198,6 @@
 				trPayoutAccount.val('');
 				trPayoutAccountName.val('');
 			})
-			
 		
 		</script>
 		

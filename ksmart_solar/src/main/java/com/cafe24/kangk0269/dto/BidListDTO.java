@@ -25,6 +25,10 @@ public class BidListDTO {
 	private String bDateUp;
 	private String mAccountBankName;
 	private String mAccountNumber;
+	
+	//인정추가
+	private String bzPlName;
+	private String bPlTitle;
 	public String getbCode() {
 		return bCode;
 	}
@@ -169,6 +173,18 @@ public class BidListDTO {
 	public void setmAccountNumber(String mAccountNumber) {
 		this.mAccountNumber = mAccountNumber;
 	}
+	public String getBzPlName() {
+		return bzPlName;
+	}
+	public void setBzPlName(String bzPlName) {
+		this.bzPlName = bzPlName;
+	}
+	public String getbPlTitle() {
+		return bPlTitle;
+	}
+	public void setbPlTitle(String bPlTitle) {
+		this.bPlTitle = bPlTitle;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -220,9 +236,14 @@ public class BidListDTO {
 		builder.append(mAccountBankName);
 		builder.append(", mAccountNumber=");
 		builder.append(mAccountNumber);
+		builder.append(", bzPlName=");
+		builder.append(bzPlName);
+		builder.append(", bPlTitle=");
+		builder.append(bPlTitle);
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 
 }

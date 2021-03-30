@@ -4,13 +4,28 @@ package com.cafe24.kangk0269.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.StandardDTO;
 
 
 
 @Mapper
 public interface PolicyMapper {
+	//다운로드 된 파일 삭제
+	public int removeFile(int idx);
+	
+	//파일 다운로드
+	public FileDTO getFileInfo(int idx);
+
+	//업로드된 공고 파일 조회
+	public List<FileDTO> getNoticeFileList();
+	public List<FileDTO> getBidFileList();
+	
+	//공고파일업로드
+	public int addFile(List<FileDTO> list);
+	
 	
 	public List<StandardDTO> getDepositHistory(String startDate, String endDate);
 	public List<StandardDTO> getCommissionHistory(String startDate, String endDate);

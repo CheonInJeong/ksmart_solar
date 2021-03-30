@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>테스트</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>내공고목록</strong></div>
+     	<div id="container-header-path">판매관리 > 내공고목록</div>
+      	<div id="container-header-space"></div>		
+	
+		<div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i>입찰자 정보</h4>
+              <hr>
+              <table class="table">
+              
+              	<tr>
+              		<td>아이디</td>
+              		<td th:text="${member.mId}"><td>
+              	</tr>
+              	<tr>
+              		<td>회사명</td>
+              		<td th:text="${member.bzCompanyName}"></td>
+              	</tr>
+              	<tr>
+              		<td>대표명</td>
+              		<td th:text="${member.bzCeoName}"></td>
+              	</tr>
+              	<tr>
+              		<td>회사소재지</td>
+              		<td>[[${member.bzZipcode}]] [[${member.bzAddr}]] [[${member.bzDetailAddr}]]</td>
+              	</tr>
+     
+              </table>
+            </div>
+          </div>
+        </div>
+        
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(1).addClass('active');
+		</script>
+			
+		<script>
+			function comma(str) {
+	  			 str = String(str);
+	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			  	}
+	
+			$('document').ready(function(){
+				$('.bCpPrice').each(function(){
+					
+					var bCpPrice = $('.bCpPrice');
+					var i = bCpPrice.index(this);
+					console.log(i);
+					console.log(bCpPrice.eq(i).text());
+					bCpPrice.eq(i).text(comma(bCpPrice.eq(i).text()));
+				})
+		
+			})
+			
+			$('document').ready(function(){
+				$('.bPlPrice').each(function(){
+					
+					var bPlPrice = $('.bPlPrice');
+					var i = bPlPrice.index(this);
+					console.log(i);
+					console.log(bPlPrice.eq(i).text());
+					bPlPrice.eq(i).text(comma(bPlPrice.eq(i).text()));
+				})
+		
+			})
+		
+		
+		
+			$('.HistoryModifyBtn').click(function(){
+				console.log($('.HistoryModifyBtn').index(this));
+				var i = $('.HistoryModifyBtn').index(this);
+				var status = $('.HistoryModifyBtn').eq(i).parent().parent().children('.historyStatus').text();
+				if(status !='공고신청'){
+					alert('현재는 공고를 수정 할 수 없습니다.');
+					return;
+				}
+				console.log($('.historyStatus').text())
+				var path = '/sell/modifyPlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
+				
+				location.href= path;
+			})
+			
+			$('.HisotryDeleteBtn').click(function(){
+				console.log($('.HisotryDeleteBtn').index(this));
+				var i = $('.HisotryDeleteBtn').index(this);
+				var status = $('.HisotryDeleteBtn').eq(i).parent().parent().children('.historyStatus').text();
+				if(status !='공고신청'){
+					alert('현재는 공고를 삭제 할 수 없습니다.');
+					return;
+				}
+				location.href='/sell/removePlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
+			})
+			
+			
+			
+			$('.cpModifyBtn').click(function(){
+				console.log($('.cpModifyBtn').index(this));
+				var i = $('.cpModifyBtn').index(this);
+				var status = $('.cpModifyBtn').eq(i).parent().parent().children('.cpStatus').text();
+				if(status !='공고신청'){
+					alert('현재는 공고를 수정 할 수 없습니다.');
+					return;
+				}
+				var path = '/sell/modifyComponentSell?bCpCode='+$('.bCpCode').eq(i).text();
+				
+				location.href= path;
+			})
+			
+			$('.cpDeleteBtn').click(function(){
+				console.log($('.cpDeleteBtn').index(this));
+				var i = $('.cpDeleteBtn').index(this);
+				var status = $('.cpDeleteBtn').eq(i).parent().parent().children('.cpStatus').text();
+				if(status !='공고신청'){
+					alert('현재는 공고를 삭제 할 수 없습니다.');
+					return;
+				}
+				var path = '/sell/removeComponentSell?bCpCode='+$('.bCpCode').eq(i).text();
+				location.href=path;
+			})
+			
+			
+		</script>
+	</th:block>
+</html>
