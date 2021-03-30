@@ -35,6 +35,29 @@
 		<result property="trPayoutWdDate" 		column="tr_payout_wd_date"/>
 		<result property="bMoCode" 				column="b_mo_code"/>
 	</resultMap>
+	<resultMap type="TradePaymentInDTO" id="paymentInMap">
+		<result property="trPayinCode" 				column="tr_payin_code"/>
+		<result property="trPrCode" 				column="tr_pr_code"/>
+		<result property="bCode" 					column="b_code"/>
+		<result property="announcedCode" 			column="announced_code"/>
+		<result property="mIdSeller" 				column="m_id_seller"/>
+		<result property="mIdBuyer" 				column="m_id_buyer"/>
+		<result property="bPrice" 					column="b_price"/>
+		<result property="sDepositRate" 			column="s_deposit_rate"/>
+		<result property="bDeposit" 				column="b_deposit"/>
+		<result property="trPayinPrice" 			column="tr_payin_price"/>
+		<result property="sCommissionRate" 			column="s_commission_rate"/>
+		<result property="cTradeCm" 				column="c_trade_cm"/>
+		<result property="trPayinDate1" 			column="tr_payin_date1"/>
+		<result property="trPayinDate2" 			column="tr_payin_date2"/>
+		<result property="trPayinCheck" 			column="tr_payin_check"/>
+		<result property="bMoCode" 					column="b_mo_code"/>
+		<result property="bMoDate" 					column="b_mo_date"/>
+		<result property="trPayinStatus" 			column="tr_payin_status"/>
+		<result property="mAccountBankName" 		column="m_account_bank_name"/>
+		<result property="mAccountNumber" 			column="m_account_number"/>
+		<result property="mPaymentName" 			column="m_payment_name"/>
+	</resultMap>
 	
 	<select id="getPaymentOutList" resultMap="paymentoutResultMap">
 		SELECT 
@@ -75,5 +98,29 @@
 		FROM 
 			tb_trade_deposit_out;
 	</select>
-
+	<select id="getTradePaymentIn" parameterType="String" resultMap="paymentInMap">
+		SELECT
+			tr_payin_code, 
+			tr_pr_code, 
+			b_code, 
+			announced_code, 
+			m_id_seller, 
+			m_id_buyer, 
+			b_price, 
+			s_deposit_rate, 
+			b_deposit, 
+			tr_payin_price, 
+			s_commission_rate, 
+			c_trade_cm, 
+			tr_payin_date1, 
+			tr_payin_date2, 
+			tr_payin_check, 
+			b_mo_code, 
+			b_mo_date, 
+			tr_payin_status
+		FROM
+			tb_trade_payment_in AS tp
+		WHERE
+			b_code = #{bCode}
+	</select>
 </mapper>

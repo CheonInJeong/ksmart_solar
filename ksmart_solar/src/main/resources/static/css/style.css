@@ -2722,7 +2722,7 @@ ul.inbox-pagination li {
     border-spacing: 0;
     display: table;
     table-layout: fixed;
-/*     width: 100%; */
+	/* width: 95%; */
 	margin : 30px;
     position: relative;
 }
@@ -2736,7 +2736,7 @@ ul.inbox-pagination li {
 }
 
 .chat-room .mid-side {
-    width: 75%;
+    width: 25%;
     background: #fff;
     border-right: 1px solid #e5e8ef;
 }
@@ -2999,7 +2999,7 @@ ul.chat-available-user li a:hover {
 }
 
 .group-rom .second-part{
-    width: 60%;
+    width: 75%;
 }
 
 .group-rom .third-part{

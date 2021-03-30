@@ -30,11 +30,18 @@ public class BidListService {
 		System.out.println("확인");
 		bidListMapper.addbidList(bidListDTO);
 	}
-	public int getBidListCount(String announceTitle, String id) {
-		return bidListMapper.getBidListCount(announceTitle, id);
+	public int getBidListCount(String announceCode, String id) {
+		return bidListMapper.getBidListCount(announceCode, id);
 	}
-	public BidListDTO getBidList(String announceTitle, String id) {
-		return bidListMapper.getBidList(announceTitle, id);
+	public BidListDTO getBidList(String announceCode, String id) {
+		return getBidList(announceCode,id,null);
+	}
+	public BidListDTO getBidList(String bCode) {
+		System.out.println("확인");
+		return getBidList(null,null,bCode);
+	}
+	public BidListDTO getBidList(String announceCode, String id,String bCode) {
+		return bidListMapper.getBidList(announceCode, id,bCode);
 	}
 
 }

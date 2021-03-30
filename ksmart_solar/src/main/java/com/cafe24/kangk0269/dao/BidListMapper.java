@@ -13,6 +13,6 @@ public interface BidListMapper {
 	
 	public double getDepositRate();
 	public int addbidList(BidListDTO bidListDTO);
-	public int getBidListCount(String announceTitle, String id);
-	public BidListDTO getBidList(String announceTitle, String id);
+	public int getBidListCount(String announceCode, String id);
+	public BidListDTO getBidList(String announceCode, String id,String bCode);
 }

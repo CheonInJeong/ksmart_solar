@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>입찰 신청</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>발전소 리스트</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">메인화면 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
+		</div>
+		<div id="container-header-space"></div>
+   		<form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
+<!-- 			<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
+			<input type="hidden" name="bTypeCode" th:value="${announcedType}">		
+			<input type="hidden" name="bTitle" th:value="${announcedTitle}">
+			<input type="hidden" name="sDepositRate">
+			<input  type="hidden" name="mId" th:value="${session.SID}"> -->
+					
+			<div class="chat-room mt">
+	          <aside class="mid-side container">
+	            <div class="chat-room-head">
+	              <h3>대금 신청</h3>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">공고 제목</div>
+	              <div class="second-part" th:text="${bidListDTO.bTitle}"></div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입찰금액</div>
+	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bPrice}">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">예치금</div>
+	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bDeposit}">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">납부해야할 금액</div>
+	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.trPayinPrice}">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입금 은행</div>
+	              <div class="second-part" >
+	              	<select id="bank">
+	              		<option>:::::은행선택:::::</option>
+	              	</select>
+	              	<input type="hidden" name="mAccountBankName">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">관리자계좌번호</div>
+	              <div class="second-part" id="accountNumber"></div>
+	              <input type="hidden" name="mAccountNumber">
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입금자 성명</div>
+	              <div class="second-part" ><input name="mPaymentName" type="text" ></div>
+	            </div>
+	          </aside>
+	        </div>
+	        <div class="row" style="margin: 5px 0px;">
+				<div class="form-inline" style="text-align: center;">
+	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">신청</button>
+				</div>
+			</div>
+       	</form>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		
+		<script type="text/javascript">
+			var notice = $('#notice');
+			notice.addClass('active');
+			notice.parent().find('.sub').css('display','block');
+			notice.parent().find('.sub').children().eq(0).addClass('active');			
+			
+			$(function(){
+				//입금자 이름
+				var mPaymentName = $('[name="mPaymentName"]');			
+				var form = $('form');
+				//입찰금액
+				var bPrice = $('#bPrice');
+				//은행명
+				var bank = $('#bank');
+				//해당 은행 계좌 번호
+				var accountNumber = $('#accountNumber');
+				//입찰 시작가
+				var bidPrice = $('#bidPrice');
+				bidPrice.text(bidPrice.text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				//예치금율
+				var DepositRate = $('[name="sDepositRate"]');
+				//은행명
+				var mAccountBankName = $('[name="mAccountBankName"]');
+				//계좌 번호
+				var AccountNumber = $('[name="mAccountNumber"]');
+				var bidResultBtn = $('#bidResultBtn');
+				//예치금율 가져오는 비동기호출
+				$.ajax({
+					  url: '/sDepositRateCheck', 
+					  method: 'POST',
+					  async:false,
+					  success: function(data){
+						  if(data != null){
+							  sDepositRate = data;
+							  DepositRate.val(data);
+						  }
+					  },
+					  error : function(xhr,status,error){
+						  console.log("xhr: " + xhr);
+						  console.log("status: " + status);
+						  console.log("error: " + error);
+					  }
+				});
+				//관리자 계좌 은행 리스트
+				var mAccountBank = [];
+				//관리자 계좌번호 리스트
+				var mAccountNumber = [];
+				//관리자 계좌 가져오기
+				$.ajax({
+					  url: '/bankCheck', 
+					  method: 'POST',
+					  //ajax가 실행이 끝날때까지 스크립트를 기다리게 한다.
+				      async:false,
+					  success: function(data){
+						  if(data != null){
+							 var option = "";
+							 for(i=0; i<data.length;i++){
+								 option += "<option>"+data[i].mAccountBank+"</option>"
+								 mAccountBank.push(data[i].mAccountBank);
+								 mAccountNumber.push(data[i].mAccountNumber);
+								 console.log(data[i].mAccountNumber);
+							 }
+							 bank.append(option);
+						  }
+					  },
+					  error : function(xhr,status,error){
+						  console.log("1xhr: " + xhr);
+						  console.log("1status: " + status);
+						  console.log("1error: " + error);
+					  }
+				});
+				//은행 선택시 해당 은행의 관리자 계좌 번호 보여주기
+				bank.change(function(){
+					for(i=0;i<mAccountBank.length;i++){						
+						if($(this).val()==mAccountBank[i]){
+							mAccountBankName.val(mAccountBank[i]);
+							AccountNumber.val(mAccountNumber[i]);
+							accountNumber.text(mAccountNumber[i]);
+							break;
+						}else{
+							accountNumber.text("");
+						}
+					}
+				});
+				//숫자에 콤마찍는 플러그인
+				$.fn.transPrice = function(){
+					var price = $(this).val().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+					$(this).val(price);
+				}
+				//숫자만 입력하게 하는 플러그인
+				$.fn.onlyNumber = function(){
+					$(this).val($(this).val().replace(/[^0-9]/g,''));
+				}
+				//입찰금액을 입력할 때 
+				bPrice.keyup(function(){
+					
+					
+				});
+				
+				bidResultBtn.click(function(){
+					console.log(bPrice.val());
+					
+					if(accountNumber.text()==""){
+						alert('은행을 선택해주세요.');
+						return false;
+					}
+					if(mPaymentName.val()==""){
+						alert('이름을 입력해주세요.');
+						mPaymentName.focus();
+						return false;
+					}
+					
+					//form.submit();
+				});
+				
+			});
+		</script>
+	</th:block>
+</html>

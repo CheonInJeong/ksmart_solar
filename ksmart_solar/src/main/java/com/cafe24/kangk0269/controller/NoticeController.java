@@ -21,11 +21,13 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
+import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
 import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.BidPlantService;
 import com.cafe24.kangk0269.serivce.MemberService;
+import com.cafe24.kangk0269.serivce.TradeService;
 
 @Controller
 public class NoticeController {
@@ -37,16 +39,19 @@ public class NoticeController {
 	private final BidComponentService bidComponentService;
 	private final BidPlantService bidPlantService;
 	private final BidListService bidListService;
+	private final TradeService tradeService;
 	
 	@Autowired
 	public NoticeController(BidComponentService bidComponentService,
 							BidPlantService bidPlantService,
-							BidListService bidListService) {
+							BidListService bidListService,
+							TradeService tradeService) {
 		this.bidComponentService = bidComponentService; 
 		this.bidPlantService = bidPlantService; 
-		this.bidListService = bidListService; 
+		this.bidListService = bidListService;
+		this.tradeService = tradeService;
 	}
-	
+	//진행중인 공고 목록
 	@GetMapping("/notice/noticeList")
 	public String NoticeList(Model model) {
 		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("진행");
@@ -61,7 +66,7 @@ public class NoticeController {
 		}
 		return "/notice/noticeList";
 	}
-	
+	//마감한 공고 목록
 	@GetMapping("/notice/history")
 	public String History(Model model) {
 		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("종료");
@@ -76,8 +81,9 @@ public class NoticeController {
 		}
 		return "/notice/history";
 	}
+	//공고 상세 정보 페이지
 	@PostMapping("/notice/announcement")
-	public String Announcement(String uri,String announceCode, String announceType, Model model,
+	public String Announcement(String announceCode, String announceType, Model model,
 							   HttpSession session) {
 		//공고 코드
 		System.out.println(announceCode);
@@ -113,8 +119,20 @@ public class NoticeController {
 		}
 		return "/notice/announcement";
 	}
-	
-	
+	//대금납부 신청 페이지
+	@PostMapping("/notice/paymentInRequest")
+	public String paymentIn(String bCode, Model model) {
+		System.out.println(bCode+"-------------------------------------------");
+		if(bCode!=null) {
+			BidListDTO bidListDTO = bidListService.getBidList(bCode);
+			TradePaymentInDTO tradePaymentInDTO = tradeService.getTradePaymentIn(bCode);
+			System.out.println(bidListDTO+"-------------------------------------------------");
+			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
+			model.addAttribute("bidListDTO", bidListDTO);
+		}
+		return "/notice/paymentInRequest";
+	}
+	//입찰신청 페이지
 	@PostMapping("/notice/bidRequest")
 	public String bidRequest(String announcedCode,String announcedTitle,String announcedPrice,String announcedType,Model model) {
 		System.out.println(announcedCode+"<-----공고코드");
@@ -140,11 +158,12 @@ public class NoticeController {
 		System.out.println(accountList.get(0).getmAccountBank());
 		return accountList; 
 	}
+	//입찰 확인 페이지
 	@GetMapping("/notice/bidRequestResult")
 	public String bidRequestResult(BidListDTO bidListDTO) {
 		return "/notice/bidRequestResult";
 	}
-	
+	//입찰신청 등록
 	@PostMapping("/notice/addbidRequest")
 	public String addbidRequest(BidListDTO bidListDTO) {
 		System.out.println(bidListDTO);
