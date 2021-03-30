@@ -82,17 +82,21 @@ public class NoticeController {
 		//공고 코드
 		System.out.println(announceCode);
 		System.out.println(announceType);
-		System.out.println(uri);
 		//입찰자 목록 조회해야함
 		String id = (String) session.getAttribute("SID");
-		int getBidListCount = bidListService.getBidListCount(announceCode,id);
-		//입찰한지 안한지를 보내준다.
+		System.out.println(id+"------------------------------------------id");
+		int getBidListCount =0 ;
+		if(id!=null) {
+			getBidListCount = bidListService.getBidListCount(announceCode,id);
+			//입찰한지 안한지를 보내준다.
+		}
 		model.addAttribute("getBidListCount",getBidListCount);
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
 			//이미 입찰을 했다면 입찰한 정보를 보여준다.
 			BidListDTO bidListDTO = bidListService.getBidList(announceCode,id);
 			if(bidListDTO!=null) {
+				System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------");
 				model.addAttribute("bidListDTO",bidListDTO);
 			}
 		}

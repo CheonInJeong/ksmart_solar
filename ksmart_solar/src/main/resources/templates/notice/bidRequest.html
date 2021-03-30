@@ -7,6 +7,13 @@
 				<title>입찰 신청</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>발전소 리스트</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">메인화면 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
+		</div>
+		<div id="container-header-space"></div>
    		<form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
 			<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
 			<input type="hidden" name="bTypeCode" th:value="${announcedType}">		
@@ -15,61 +22,58 @@
 			<input  type="hidden" name="mId" th:value="${session.SID}">
 					
 			<div class="chat-room mt">
-	          <div class="mid-side container">
-	          	<div class="row">
-		            <div class="chat-room-head">
-		              <h3>입찰 신청</h3>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">공고 제목</div>
-		              <div class="second-part" >[[${announcedTitle}]]</div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">입찰 시작가</div>
-		              <div class="second-part" id="bidPrice">
-		              	[[${announcedPrice}]]
-		              </div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">입찰금액</div>
-		              <div class="second-part">
-		              	<input type="hidden" name="bPrice">
-		              	<input type="text" id="bPrice" placeholder="0">
-		              </div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">예치금</div>
-		              <div class="second-part" id="bDeposit">0
-		              </div>
-	              		<input type="hidden" name="bDeposit">
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">입금 은행</div>
-		              <div class="second-part" >
-		              	<select id="bank">
-		              		<option>:::::은행선택:::::</option>
-		              	</select>
-		              	<input type="hidden" name="mAccountBankName">
-		              </div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">관리자계좌번호</div>
-		              <div class="second-part" id="accountNumber"></div>
-		              <input type="hidden" name="mAccountNumber">
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">입금자 성명</div>
-		              <div class="second-part" ><input type="text" ></div>
-		            </div>
-					<div class="group-rom">
-						<div class="first-part odd">파일 첨부</div>
-						<div class="second-part">
-							<input type="file" id="files" class="default" name="files" multiple="multiple">
-						</div>
-					</div>
-		         
+	          <aside class="mid-side container">
+	            <div class="chat-room-head">
+	              <h3>입찰 신청</h3>
 	            </div>
-	          </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">공고 제목</div>
+	              <div class="second-part" >[[${announcedTitle}]]</div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입찰 시작가</div>
+	              <div class="second-part" id="bidPrice">
+	              	[[${announcedPrice}]]
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입찰금액</div>
+	              <div class="second-part">
+	              	<input type="hidden" name="bPrice">
+	              	<input type="text" id="bPrice" placeholder="0">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">예치금</div>
+	              <div class="second-part" id="bDeposit">0
+	              </div>
+              		<input type="hidden" name="bDeposit">
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입금 은행</div>
+	              <div class="second-part" >
+	              	<select id="bank">
+	              		<option>:::::은행선택:::::</option>
+	              	</select>
+	              	<input type="hidden" name="mAccountBankName">
+	              </div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">관리자계좌번호</div>
+	              <div class="second-part" id="accountNumber"></div>
+	              <input type="hidden" name="mAccountNumber">
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입금자 성명</div>
+	              <div class="second-part" ><input name="mPaymentName" type="text" ></div>
+	            </div>
+				<div class="group-rom">
+					<div class="first-part odd">파일 첨부</div>
+					<div class="second-part">
+						<input type="file" id="files" class="default" name="files" multiple="multiple">
+					</div>
+				</div>
+	          </aside>
 	        </div>
           	<div class="row" style="margin: 5px 0px;">
 				<div class="form-inline" style="text-align: center;">
@@ -87,6 +91,8 @@
 			notice.parent().find('.sub').children().eq(0).addClass('active');			
 			
 			$(function(){
+				//입금자 이름
+				var mPaymentName = $('[name="mPaymentName"]');			
 				var form = $('form');
 				//입찰금액
 				var bPrice = $('#bPrice');
@@ -211,6 +217,11 @@
 					}
 					if(accountNumber.text()==""){
 						alert('은행을 선택해주세요.');
+						return false;
+					}
+					if(mPaymentName.val()==""){
+						alert('이름을 입력해주세요.');
+						mPaymentName.focus();
 						return false;
 					}
 					//예치금에 콤마지워서 보내기

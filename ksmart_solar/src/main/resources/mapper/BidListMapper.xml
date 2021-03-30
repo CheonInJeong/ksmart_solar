@@ -51,7 +51,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		 	 b_deposit,
 			 b_date,
 			 m_account_bank_name,
-			 m_account_number)
+			 m_account_number,
+			 m_payment_name)
 		VALUES 
 			(sf_b_code(),
 			#{announcedCode},
@@ -63,7 +64,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			#{bDeposit},
 			NOW(),
 			#{mAccountBankName},
-			#{mAccountNumber})
+			#{mAccountNumber},
+			#{mPaymentName})
 	</insert>
 	<select id="getBidListCount" resultType="int">
 		select

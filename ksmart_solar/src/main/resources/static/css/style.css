@@ -2722,7 +2722,8 @@ ul.inbox-pagination li {
     border-spacing: 0;
     display: table;
     table-layout: fixed;
-    width: 100%;
+/*     width: 100%; */
+	margin : 30px;
     position: relative;
 }
 
