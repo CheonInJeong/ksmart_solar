@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
+
+<th:block layout:fragment="customTitle">
+	<title>문의사항 수정</title>
+</th:block>
+
+<th:block layout:fragment="customCss">
+	<!-- Bootstrap core CSS -->
+	<link th:href="@{/lib/bootstrap/css/bootstrap.min.css}"
+		rel="stylesheet">
+	<!--external css-->
+	<link th:href="@{/lib/font-awesome/css/font-awesome.css}"
+		rel="stylesheet" />
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
+	<link rel="stylesheet" type="text/css"
+		th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
+	<!-- Custom styles for this template -->
+	<link th:href="@{/css/style.css}" rel="stylesheet">
+	<link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+</th:block>
+
+<th:block layout:fragment="Contents">
+	<div id="container-header-title">
+		<strong>문의사항 수정</strong>
+	</div>
+	<div id="container-header-path">고객센터 > 문의사항 > 문의사항 수정</div>
+	<div id="container-header-space"></div>
+
+	<div class="row mt">
+		<div class="col-lg-12">
+			<div class="form-panel">
+				<h4 class="mb">
+					<i class="fa fa-angle-right"></i>문의사항 수정
+				</h4>
+				<form th:action="@{/help/modifyQna}" method="post" class="form-horizontal style-form">
+					<input type="text" name="bQnaIdx" th:value=${boardQnaDTO.bQnaIdx} hidden="hidden">
+					<input type="text" hidden="hidden" name="mId" th:value="${session.SID}">
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">문의제목</label>
+						<div class="col-lg-10">
+							<input type="text" name="bQnaSubject" th:value="${boardQnaDTO.bQnaSubject}" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">문의내용</label>
+						<div class="col-lg-10">
+							<textarea name="bQnaContents" rows="30" class="form-control">[[${boardQnaDTO.bQnaContents}]]</textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">비밀글 여부</label>
+						<div class="col-lg-10">
+							<label> Y <input type="radio" value="Y" name="bQnaOpen">
+							</label> 
+							<label> N <input type="radio" value="N" name="bQnaOpen">
+							</label>
+						</div>
+					</div>
+						<div id="password" style="display:none" class="form-group" >
+							<label class="col-sm-2 col-sm-2 control-label">비밀글 암호</label>
+							<div class="col-lg-10">
+								<input type="text" name="bQnaPassword" class="form-control">
+							</div>
+						</div>
+
+						<div class="form-group">
+							<div class="col-lg-offset-2 col-lg-10">
+								<a class="btn btn-primary" th:href="@{/help/qna}">목록</a> <a
+									class="btn btn-info" th:href="@{/help/addNotice}">임시저장</a>
+							</div>
+						</div>
+						<div style="text-align: center">
+							<button type="submit" class="btn btn-success">수정</button>
+						</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customScript">
+	<script src="lib/jquery/jquery.min.js"></script>
+	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
+	<script class="include" type="text/javascript"
+		src="lib/jquery.dcjqaccordion.2.7.js"></script>
+	<script src="lib/jquery.scrollTo.min.js"></script>
+	<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
+	<!--common script for all pages-->
+	<script src="lib/common-scripts.js"></script>
+	<!--script for this page-->
+	<script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-daterangepicker/date.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-daterangepicker/moment.min.js"></script>
+	<script type="text/javascript"
+		src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
+	<script src="lib/advanced-form-components.js"></script>
+	
+	<script type="text/javascript">
+	/* 
+		//비밀글 암호 오픈,클로즈
+		$('input[name=bQnaOpen]').on('click', function() {
+			var bQnaOpenValue = $('input[name=bQnaOpen]:checked').val();
+			
+			if (bQnaOpenValue == 'Y') {
+			$('#password').css('display', 'block');
+			return false;
+			} else if (bQnaOpenValue == 'N') {
+			$('#password').css('display', 'none');
+			return false;
+			}
+		});
+	 */
+	
+		//메뉴탭
+		var help = $('#help');
+		help.addClass('active');
+		help.parent().find('.sub').css('display', 'block');
+		help.parent().find('.sub').children().eq(1).addClass('active');
+	</script>
+</th:block>
+</html>
