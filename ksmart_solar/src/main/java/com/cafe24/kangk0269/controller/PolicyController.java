@@ -1,19 +1,28 @@
 package com.cafe24.kangk0269.controller;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.dto.BoardFileDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.StandardDTO;
 import com.cafe24.kangk0269.serivce.PolicyService;
 
@@ -26,6 +35,70 @@ public class PolicyController {
 	public PolicyController(PolicyService policyService) {
 		this.policyService = policyService;
 	}
+	
+	//파일 다운로드
+	@GetMapping("/policy/downloadFile")
+	public void downloadBoardFile(@RequestParam(value="idx") int idx,
+								  HttpServletResponse response) throws Exception{
+		System.out.println("boadService메서드 실행 ");
+		FileDTO fileDto = policyService.getFileInfo(idx);
+		System.out.println("boadService메서드 실행 완료");
+		
+		if(ObjectUtils.isEmpty(fileDto)==false) {
+			String fileName = fileDto.getOriginalFileName();
+			System.out.println(fileName);
+			String filePath = fileDto.getStoredFilePath();
+			System.out.println(filePath);
+			
+			//실제 저장되어 있는 파일을 읽어 온 후 byte 형식으로 변환
+			byte[] files = FileUtils.readFileToByteArray(new File(fileDto.getStoredFilePath()));
+			response.setContentType("application/octet-stream");
+			response.setContentLength(files.length);
+			response.setHeader("Content-Disposition", "attachment; fileName=\""+URLEncoder.encode(fileName,"UTF-8")+"\";");
+			response.setHeader("Content-Transfer-Encoding", "binary");
+			
+			response.getOutputStream().write(files);
+			response.getOutputStream().flush();
+			response.getOutputStream().close();
+		}
+		
+		
+	}
+	
+	
+	
+	//서류등록 버튼 눌렀을 때
+	@GetMapping("/policy/document")
+	public String Document(Model model) {
+		//업로드 된 공고 서류 목록을 보여줌
+		model.addAttribute("fileList", policyService.getNoticeFileList());
+		model.addAttribute("bidFileList", policyService.getBidFileList());
+		return "/policy/document";
+	}
+	
+	//업로드 된 파일삭제
+	@GetMapping("/policy/removeFile")
+	public String removeFile(@RequestParam(value="idx") int idx) {
+		policyService.removeFile(idx);
+		return "redirect:/policy/document";
+	}
+	//입찰 서류 업로드
+	@PostMapping("/policy/addBidFile")
+	public String addBidFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception{
+		policyService.addBidFile(multipartHttpServletRequest, request);
+		
+		return "redirect:/policy/document";
+	}
+	
+	
+	//공고서류 업로드 
+	@PostMapping("/policy/addNoticeFile")
+	public String addNoticeFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception{
+		policyService.addNoticeFile(multipartHttpServletRequest, request);
+		
+		return "redirect:/policy/document";
+	}
+	
 	
 	@GetMapping("/policy/tradeHistory")
 	public String getTradeHistory(Model model,
@@ -176,10 +249,6 @@ public class PolicyController {
 		return "/policy/policyList";
 	}
 	
-	@GetMapping("/policy/document")
-	public String Document() {
-		
-		return "/policy/document";
-	}
+
 
 }

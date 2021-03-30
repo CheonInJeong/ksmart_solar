@@ -7,20 +7,25 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>내공고목록</strong></div>
+     	<div id="container-header-path">판매관리 > 내공고목록</div>
+      	<div id="container-header-space"></div>		
+	
 		<div class="row mt">
           <div class="col-md-12">
             <div class="content-panel">
               <h4><i class="fa fa-angle-right"></i>내발전소공고목록</h4>
         			  <p>※해당 공고의 입찰자 수를 클릭하면 입찰자 목록을 확인 할 수 있습니다.</p>      
               <hr>
-              <form>
-            	<select>
-            		<option>공고코드</option>
-            		<option>발전소명</option>
-            		<option>공고시작일</option>
-            		<option>진행상황</option>
+              <form th:action="@{/sell/myHistory}">
+            	<select name="searchKey">
+            		<option value="bPlCode">공고코드</option>
+            		<option value="bzPlName">발전소명</option>
+            		<option value="bzPlTitle">공고명</option>
+            		<option value="bPlDateBidding1">공고시작일</option>
+            		<option value="bPlStatus">진행상황</option>
             	</select>
-            	<input type="text" placeholder="검색어">
+            	<input type="text" placeholder="검색어" name="searchValue">
             	<input type="submit" value = "검색">
                </form>
               <table class="table table-striped table-advance table-hover">
@@ -47,7 +52,7 @@
                     <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
-                    <td><a th:href="@{/sell/bidderList(bPlCode=${list.bPlCode})}">[[${list.bPlNumberOfBidder}]]</a></td>
+                    <td><a th:href="@{/sell/plantBidderList(bPlCode=${list.bPlCode})}">[[${list.bPlNumberOfBidder}]]</a></td>
                     <td class="historyStatus" th:text="${list.bPlStatus}"></td>
                     <td><button class="HistoryModifyBtn">수정</button></td>
                     <td><button class="HisotryDeleteBtn">삭제</button></td>
@@ -64,13 +69,14 @@
               <h4><i class="fa fa-angle-right"></i>내부품공고목록</h4>
               <hr>
               <form>
-            	<select>
-            		<option>공고코드</option>
-            		<option>발전소명</option>
-            		<option>공고시작일</option>
-            		<option>진행상황</option>
+            	<select name="searchKeyCp">
+            		<option value="bCpCode">공고코드</option>
+            		<option value="cpName">부품명</option>
+            		<option value="bCpTitle">공고명</option>
+            		<option value="bCpDateBidding1">공고시작일</option>
+            		<option value="bCpStatus">진행상황</option>
             	</select>
-            	<input type="text" placeholder="검색어">
+            	<input type="text" placeholder="검색어" name="searchValueCp">
             	<input type="submit" value="검색">
                </form>
               

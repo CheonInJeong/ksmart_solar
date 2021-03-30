@@ -60,10 +60,10 @@ public class SellController {
 	
 	
 	//입찰 신청자 목록 보기
-	@GetMapping("/sell/bidderList")
+	@GetMapping("/sell/plantBidderList")
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
-		model.addAttribute("bidder", sellService.getBidderList(code));
-		return "/sell/bidderList";
+		model.addAttribute("bidder", sellService.getPlantBidderList(code));
+		return "/sell/plantBidderList";
 	}
 	
 	//부품 공고 내용 조회
@@ -154,10 +154,10 @@ public class SellController {
 	}
 	//내공고목록클릭시
 	@GetMapping("/sell/myHistory")
-	public String MyHistory(Model model,HttpServletRequest request,HttpSession session) {
+	public String MyHistory(Model model,HttpSession session,String searchKey, String searchValue,String searchKeyCp,String searchValueCp) {
 		String sessionId = (String)session.getAttribute("SID");
-		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId);
-		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId);
+		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue);
+		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp);
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidComponentList", bidComponentList);
 		

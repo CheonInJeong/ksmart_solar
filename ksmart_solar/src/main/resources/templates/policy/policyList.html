@@ -7,6 +7,11 @@
 				<title>정책리스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>정책리스트</strong></div>
+     	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a></div>
+      	<div id="container-header-space"></div>
+	
+	
 		<div class="col-md-12 mt">
             <div class="content-panel">
               <h4><i class="fa fa-angle-right"></i>예치금리스트</h4>
@@ -22,7 +27,6 @@
                     <th>예치금율(%)</th>
                     <th>등록자</th>
                     <th>적용일</th>
-                    <th>업데이트날짜</th>
                     <th>수정</th>
                   </tr>
                 </thead>
@@ -35,7 +39,6 @@
 	                    <td th:text="${d.sDepositType}" class="depositType"></td>
 	                    <td class="depositRate" th:text ="${d.sDepositRate}"></td>
 	                    <td th:text ="${d.mId}"></td>
-	                    <td th:text ="${d.sDepositApplies}"></td>
 	                    <td th:text ="${d.sDepositDate}"></td>
 	                    <td><button class="modifyDeposit"  data-attr = "0">수정</button></td>
 	                 </tr>
@@ -95,7 +98,6 @@
                     <th>수수료율(%)</th>
                     <th>등록자</th>
                     <th>적용일</th>
-                    <th>업데이트날짜</th>
                     <th>수정</th>
                     <th>삭제</th>
                   </tr>
@@ -107,7 +109,6 @@
                     <td class="commissionType" th:text = "${c.sCommissionType}"></td>
                     <td class="commissionRate" th:text = "${c.sCommissionRate}"></td>
                     <td th:text = "${c.mId}"></td>
-                    <td th:text = "${c.sCommissionApplies}"></td>
                     <td th:text = "${c.sCommissionDate}"></td>
                     <td><button class="modifyCommssion"  data-attr = "0">수정</button></td>
                     <td><a th:href="@{/policy/removeCommission(sCommissionIdx=${c.sCommissionIdx})}">삭제</a></td>
@@ -168,7 +169,6 @@
                     <th>기간</th>
                     <th>등록자</th>
                     <th>적용일</th>
-                    <th>업데이트날짜</th>
                     <th>수정</th>
                   </tr>
                 </thead>
@@ -179,7 +179,6 @@
                     <td class="tradeType" th:text ="${t.sTradeType}"></td>
                     <td class="tradePeriod" th:text ="${t.sTradePeriod}"></td>
                     <td th:text = "${t.mId}"></td>
-                    <td th:text = "${t.sTradeApplies}"></td>
                     <td th:text = "${t.sTradeDate}"></td>
                     <td><button class = "modifyTrade" data-attr = "0">수정</button></td>
                   </tr>
@@ -341,7 +340,7 @@
 					$('.modifyDeposit').eq(i).text('수정완료');
 					//html()을 사용해서, input 박스로 바꿔주고 value 값은 text()를 통해서 가져옴
 					depositRate.eq(i).html('<input type="text" value="'+depositRate.eq(i).text()+'" class="depositRate">');
-					$('#modifyDepositMsg').text('등록자와 업데이트 날짜는 자동으로 갱신됩니다.');
+					$('#modifyDepositMsg').text('수정한 정책은 수정완료 버튼 클릭 시 바로 적용됩니다.');
 				}else{		
 					//수정가능한 상태 data-attr = 1 이면 실행
 					//
@@ -383,7 +382,7 @@
 					//html()을 사용해서, input 박스로 바꿔주고 value 값은 text()를 통해서 가져옴
 					commissionRate.eq(i).html('<input type="text" value="'+commissionRate.eq(i).text()+'" class="commissionRate">');
 					commissionType.eq(i).html('<input type="text" value="'+commissionType.eq(i).text()+'" class="commissionType">');
-					$('#modifyCommssionMsg').text('등록자와 업데이트 날짜는 자동으로 갱신됩니다.');
+					$('#modifyCommssionMsg').text('수정한 정책은 수정완료 버튼 클릭 시 바로 적용됩니다.');
 				}else{		
 					//수정가능한 상태 data-attr = 1 이면 실행
 					//
@@ -428,7 +427,7 @@
 					$('.modifyTrade').eq(i).text('수정완료');
 					//html()을 사용해서, input 박스로 바꿔주고 value 값은 text()를 통해서 가져옴
 					tradePeriod.eq(i).html('<input type="text" value="'+tradePeriod.eq(i).text()+'" class="tradePeriod">');
-					$('#modifyTradeMsg').text('등록자와 업데이트 날짜는 자동으로 갱신됩니다.');
+					$('#modifyTradeMsg').text('수정한 정책은 수정완료 버튼 클릭 시 바로 적용됩니다.');
 				}else{		
 					//수정가능한 상태 data-attr = 1 이면 실행
 					//
