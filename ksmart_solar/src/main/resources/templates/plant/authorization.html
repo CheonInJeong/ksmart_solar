@@ -310,36 +310,10 @@
 					bzPlDetailAddr = bzDetailAddr;
 				}
 				
-				
-				
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////파일 업로드 ImgBB///////////////////////////////
-				///////////////////////////////////////////////////////////////////////
 				var file = document.getElementById('bzLicense');
 				var form = new FormData();
 				var fileURL = '';
 				form.append("image", file.files[0])
-				
-				var settings = {
-				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
-				  "method": "POST",
-				  "timeout": 0,
-				  "processData": false,
-				  "mimeType": "multipart/form-data",
-				  "contentType": false,
-				  "data": form
-				};
-				
-				
-				$.ajax(settings).done(function (response) {
-				  console.log(response);
-				  var jx = JSON.parse(response);
-				  fileURL = jx.data.url;
-				});
-				
-				console.log(fileURL + ' <<< fileURL');
-				
-				
 				var file2 = document.getElementById('bzPlPhoto');
 				var form2 = new FormData();
 				var fileURL2 = '';
@@ -352,77 +326,84 @@
 				  "processData": false,
 				  "mimeType": "multipart/form-data",
 				  "contentType": false,
-				  "data": form2
+				  "data": form
 				};
-				
-				
 				$.ajax(settings).done(function (response) {
 				  console.log(response);
 				  var jx = JSON.parse(response);
-				  fileURL2 = jx.data.url;
+				  fileURL = jx.data.url;
+			      console.log(fileURL + ' <<< fileURL');
+					var settings = {
+					  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+					  "method": "POST",
+					  "timeout": 0,
+					  "processData": false,
+					  "mimeType": "multipart/form-data",
+					  "contentType": false,
+					  "data": form2
+					};
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+						var jx = JSON.parse(response);
+						fileURL2 = jx.data.url;
+						console.log(fileURL + ' <<< fileURL2222');
+						console.log(fileURL2 + ' <<< fileURL2222');
+						$.ajax({
+					        url     : '/ajax/solarEntrepreneur',
+					        type    : 'POST',
+					        data    : {
+					        	 bzCompanyName : bzCompanyName
+					        	,bzCeoName : bzCeoName
+					        	,bzZipcode : bzZipcode
+					        	,bzAddr : bzAddr
+					        	,bzDetailAddr:bzDetailAddr
+					        	,bzLicense:fileURL
+					        	,bzPlName:bzPlName
+					        	,bzPlPhoto:fileURL2
+					        	,bzPlZipcode:bzPlZipcode
+					        	,bzPlAddr:bzPlAddr
+					        	,bzPlDetailAddr:bzPlDetailAddr
+					        	,bzPlPower:bzPlPower
+					        	,bzPlArea:bzPlArea
+					        	,bzPlInvPower:bzPlInvPower
+					        	,bzPlInvCount:bzPlInvCount
+					        	,bzPlInvMaker:bzPlInvMaker
+					        	,bzPlRec:bzPlRec
+					        	,bzPlHardware:bzPlHardware
+					        	,plDepPrice:plDepPrice
+					        	,plDepMaintenance:plDepMaintenance
+					        	,plDepBuyDate:plDepBuyDate
+					        	,plDepStartDate:plDepStartDate
+					        },
+					        success : function(data) {
+					        	console.log(data);
+					        	if(data == 1){
+					        		Swal.fire({
+										  title: '신청이 완료되었습니다.!',
+										  icon: 'success'
+										});
+					        		setTimeout(function(){
+					        			//document.location.href = '/';
+					        		}, 3000);
+					        	}else{
+					        		Swal.fire({
+										  title: '신청에 실패했습니다!',
+										  text: '다시 시도해주세요.',
+										  icon: 'error'
+										});
+					        		setTimeout(function(){
+						        		//document.location.href = '/';
+					        		}, 3000);
+					        	}
+					        },
+					        error : function(xhr,status,error) {
+					        	console.log("xhr: " + xhr);
+					        	console.log("status: " + status);
+					        	console.log("error: " + error);
+					        }
+					    });
+					});
 				});
-				
-				console.log(fileURL + ' <<< fileURL');
-				
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				
-				setTimeout(function(){
-					$.ajax({
-				        url     : '/ajax/solarEntrepreneur',
-				        type    : 'POST',
-				        data    : {
-				        	 bzCompanyName : bzCompanyName
-				        	,bzCeoName : bzCeoName
-				        	,bzZipcode : bzZipcode
-				        	,bzAddr : bzAddr
-				        	,bzDetailAddr:bzDetailAddr
-				        	,bzLicense:bzLicense
-				        	,bzPlName:bzPlName
-				        	,bzPlPhoto:bzPlPhoto
-				        	,bzPlZipcode:bzPlZipcode
-				        	,bzPlAddr:bzPlAddr
-				        	,bzPlDetailAddr:bzPlDetailAddr
-				        	,bzPlPower:bzPlPower
-				        	,bzPlArea:bzPlArea
-				        	,bzPlInvPower:bzPlInvPower
-				        	,bzPlInvCount:bzPlInvCount
-				        	,bzPlInvMaker:bzPlInvMaker
-				        	,bzPlRec:bzPlRec
-				        	,bzPlHardware:bzPlHardware
-				        	,plDepPrice:plDepPrice
-				        	,plDepMaintenance:plDepMaintenance
-				        	,plDepBuyDate:plDepBuyDate
-				        	,plDepStartDate:plDepStartDate
-				        },
-				        success : function(data) {
-				        	console.log(data);
-				        	if(data == 1){
-				        		Swal.fire({
-									  title: '신청이 완료되었습니다.!',
-									  icon: 'success'
-									});
-				        		setTimeout(function(){
-				        			document.location.href = '/';
-				        		}, 3000);
-				        	}else{
-				        		Swal.fire({
-									  title: '신청에 실패했습니다!',
-									  text: '다시 시도해주세요.',
-									  icon: 'error'
-									});
-				        		setTimeout(function(){
-					        		//document.location.href = '/';
-				        		}, 3000);
-				        	}
-				        },
-				        error : function(xhr,status,error) {
-				        	console.log("xhr: " + xhr);
-				        	console.log("status: " + status);
-				        	console.log("error: " + error);
-				        }
-				    })}, 2000);
 			}
 		
 			$('#solarEntrepreneurBtn').click(function(){
