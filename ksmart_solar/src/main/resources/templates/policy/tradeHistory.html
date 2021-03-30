@@ -7,11 +7,13 @@
 				<title>예치금 정책 히스토리</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-				<div class="col-md-12 mt">
+		<div id="container-header-title"><strong>거래기간히스토리</strong></div>
+     	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a> >거래기간히스토리</div>
+      	<div id="container-header-space"></div>
+	
+	
+		<div class="col-md-12 mt">
             <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i>거래기간 히스토리</h4>
-              <hr>
-              
 				<form>
 					 <div class="input-group input-daterange col-lg-3">
    						<input type="text" class="form-control" name="startDate" >
@@ -19,7 +21,6 @@
 					    <input type="text" class="form-control" name="endDate">
 					</div>
 					  <div><button>검색</button></div>				
-				
 				</form>
 				              
               <table class="table table-hover">

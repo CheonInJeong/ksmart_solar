@@ -7,12 +7,17 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>서류관리</strong></div>
+     	<div id="container-header-path">정책관리 > 서류관리</div>
+      	<div id="container-header-space"></div>
+	
+	
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="form-panel">
-					<form th:action="@{/policy/addFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form">
+					<form th:action="@{/policy/addNoticeFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form">
 						<div class="form-group">
-							<label class="control-label col-md-3">파일업로드</label>
+							<label class="control-label col-md-3">공고신청관련파일업로드</label>
 							<div class="col-md-4 col-xs-4" >
 								<!-- multiple 설정을 하면 하나의 태그에서 여러 파일 첨부 가능 -->
 								<input type="file" name="files" multiple="multiple" class="default" />
@@ -22,9 +27,91 @@
 							</div>
 						</div>
 					</form>
+					
+					<div class="form-group">
+						
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<td>서류이름</td>
+										<td>파일크기</td>
+										<td>등록자</td>
+										<td>등록일</td>
+										<td>삭제</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+										<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+										<td th:text="${f.fileSize}+kb"></td>
+										<td th:text="${f.creatorId}"></td>
+										<td th:text="${f.createdDatetime}"></td>
+										<td><a th:href="@{/policy/removeFile(idx=${f.idx})}">삭제</a></td>
+									</tr>
+									<tr th:unless="${#lists.size(fileList)}>0">
+										<td colspan="5">등록 된 파일이 없습니다.</td>
+									</tr>
+								</tbody>
+							</table>
+							
+						
+					
+						
+					
+						
+					</div>
+				</div>
+			</div>
+		</div>		
+		
+		<div class="row mt">
+			<div class="col-lg-12">
+				<div class="form-panel">
+					<form th:action="@{/policy/addBidFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form">
+						<div class="form-group">
+							<label class="control-label col-md-3">입찰신청파일업로드</label>
+							<div class="col-md-4 col-xs-4" >
+								<!-- multiple 설정을 하면 하나의 태그에서 여러 파일 첨부 가능 -->
+								<input type="file" name="files" multiple="multiple" class="default" />
+							</div>
+							<div class="col-md-4 col-xs-4">
+								<input type="submit" value="업로드" class="default"/>
+							</div>
+						</div>
+					</form>
+					
+					<div class="form-group">
+						
+							<table class="table table-hover">
+								<thead>
+									<tr>
+										<td>서류이름</td>
+										<td>파일크기</td>
+										<td>등록자</td>
+										<td>등록일</td>
+										<td>삭제</td>
+									</tr>
+								</thead>
+								<tbody>
+									<tr th:if="${#lists.size(bidFileList)}>0" th:each="b:${bidFileList}">
+										<td><a th:href="@{/policy/downloadFile(idx=${b.idx})}">[[${b.originalFileName}]]</a></td>
+										<td th:text="${b.fileSize}+kb"></td>
+										<td th:text="${b.creatorId}"></td>
+										<td th:text="${b.createdDatetime}"></td>
+										<td><a th:href="@{/policy/removeFile(idx=${b.idx})}">삭제</a></td>
+									</tr>
+									<tr th:unless="${#lists.size(bidFileList)}>0"></tr>
+								</tbody>
+							</table>
+						<th:block th:unless="${#lists.size(fileList)}>0" >
+							<p>등록 된 파일이 없습니다</p>
+						</th:block>
+					</div>
 				</div>
 			</div>
 		</div>			
+		
+			
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
