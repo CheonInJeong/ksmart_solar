@@ -7,20 +7,20 @@
 				<title>예치금 정책 히스토리</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-				<div class="col-md-12 mt">
+		<div id="container-header-title"><strong>예치금히스토리</strong></div>
+     	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a> >예치금히스토리</div>
+      	<div id="container-header-space"></div>		
+				
+		<div class="col-md-12 mt">
+				
             <div class="content-panel">
-              <h4><i class="fa fa-angle-right"></i>예치금리스트</h4>
-              <p>　　※ 예치금종류 누르면 역대 정책을 확인 할 수 있습니다.</p>
-              <hr>
-              
-				<form>
-					 <div class="input-group input-daterange col-lg-3">
+				<form class="form-group form-inline">
+					 <div class="input-group input-daterange col-lg-3 form-inline">
    						<input type="text" class="form-control" name="startDate" >
   					 	<div class="input-group-addon">to</div>
 					    <input type="text" class="form-control" name="endDate">
 					</div>
-					  <div><button>검색</button></div>				
-				
+					  <div><button class="form-inline">검색</button></div>				
 				</form>
 				              
               <table class="table table-hover">

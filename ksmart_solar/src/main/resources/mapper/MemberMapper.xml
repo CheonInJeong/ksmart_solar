@@ -64,7 +64,44 @@
 			m.m_id = b.m_id
 		GROUP BY m.m_id;
 	</select>
+	<!-- 전체회원계좌 조회 -->
+	<select id="getAllBankAccount" resultType="MemberAccountDTO">
+		SELECT 
+			m_account_idx			AS mAccountIdx
+			, m_id					AS mId
+			, m_account_number		AS mAccountNumber
+			, m_account_name		AS mAccountName
+			, m_account_bank		AS mAccountBank
+			, m_account_reg_date	AS mAccountRegDate
+			, m_account_check		AS mAccountCheck
+		FROM 
+			tb_member_account
+	</select>
 	
+	<!-- 탈퇴신청회원 조회 -->
+	<select id="getWithdrawAdmitMember" resultType="MemberRevokeDTO">
+		SELECT 
+			m_revoke_idx			AS mRevokeIdx
+			, m_id					AS mId
+			, m_revoke_reason		AS mRevokeReason
+			, m_revoke_date			AS mRevokeDate
+			, m_revoke_cancel_date	AS mRevokeCancelDate
+			, m_revoke_final_date	AS mRevokeFinalDate
+		FROM 
+			tb_member_revoke
+	</select>
+	
+	<!-- 로그인 기록 조회 -->
+	<select id="getLoginHistory" resultType="map">
+		SELECT 
+			m_log_idx 	AS mLogIdx
+			, m_id		AS mId
+			, m_log_in	AS mLogIn
+			, m_log_out	As mLogOut
+		FROM 
+			tb_member_log
+	</select>
+
 	<!-- 전체 회원정보수정  -->
 	<update id="modifyMember" parameterType="MemberDTO">
 		UPDATE tb_member

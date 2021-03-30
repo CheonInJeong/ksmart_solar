@@ -6,16 +6,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.kangk0269.dto.BidMoneyDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
+import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.serivce.BidMoneyService;
+import com.cafe24.kangk0269.serivce.MemberService;
 import com.cafe24.kangk0269.serivce.TradeService;
 
 @Controller
 public class ProfitController {
 
+	@Autowired
+	private MemberService memberService;
+	
 	@Autowired
 	private TradeService tradeService;
 
@@ -30,6 +38,26 @@ public class ProfitController {
 	@GetMapping("/profit/commission")
 	public String Commission() {
 		return "/profit/commission";
+	}
+	
+	@PostMapping("/bidMoneyInsertSend")
+	public String bidMoneyInsertSend(@RequestParam(name="mId", required=false) String mId
+									,@RequestParam(name="bMoDetail", required=false) String bMoDetail
+									,@RequestParam(name="bMoAmount", required=false) String bMoAmount
+									,@RequestParam(name="bMoType", required=false) String bMoType) {
+		System.out.println("거래회원 : " + mId);
+		System.out.println("거래유형 : " + bMoType);
+		System.out.println("상세내역 : " + bMoDetail);
+		System.out.println("금액 : " + bMoAmount);
+		
+		return "/profit/bidMoneyInsert";
+	}
+	
+	@GetMapping("/bidMoneyInsert")
+	public String bidMoneyInsert(Model model) {
+		List<MemberDTO> memberList = memberService.getAllMember();
+		model.addAttribute("memberList", memberList);
+		return "/profit/bidMoneyInsert";
 	}
 	
 	@GetMapping("/profit/balance")

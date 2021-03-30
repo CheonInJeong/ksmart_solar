@@ -1,17 +1,26 @@
 package com.cafe24.kangk0269.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
+import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Mapper
 public interface MemberMapper {
 	
-	// 등록된 사업장
-	public List<String> checkBusiness();
+	// 전체회원계좌 조회
+	public List<MemberAccountDTO> getAllBankAccount();
+	
+	// 탈퇴신청회원 조회
+	public List<MemberRevokeDTO> getWithdrawAdmitMember();
+	
+	// 로그인 기록 조회
+	public List<Map<String,Object>> getLoginHistory();
 	
 	// 개인 회원정보수정
 	public int modifyMyInfo(MemberDTO member);
