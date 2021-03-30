@@ -34,6 +34,16 @@ public class SellController {
 	public SellController(SellService sellService) {
 		this.sellService = sellService;
 	}
+	
+	//입찰자 정보 보기 (회원정보+입찰내용)
+	@GetMapping("/sell/plantBidderDetail")
+	public String plantBidderDetail(@RequestParam(value="mId") String id,Model model) {
+		model.addAttribute("member", sellService.getBuyerInfoById(id));
+		return "sell/plantBidderDetail";
+	}
+	
+	
+	
 	//부품 공고 수정 화면
 	@GetMapping("/sell/modifyComponentSell")
 	public String modifyComponentSell(@RequestParam(value="bCpCode") String code, Model model) {
@@ -63,7 +73,8 @@ public class SellController {
 	@GetMapping("/sell/plantBidderList")
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
 		model.addAttribute("bidder", sellService.getPlantBidderList(code));
-		return "/sell/plantBidderList";
+		model.addAttribute("plant", sellService.getBidPlantbyCode(code));
+		return "sell/plantBidderList";
 	}
 	
 	//부품 공고 내용 조회
@@ -71,7 +82,7 @@ public class SellController {
 	@GetMapping("/sell/getBidComponentDetail")
 	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
 		model.addAttribute("detail", sellService.getComponentDetail(code));
-		return "/sell/bidComponentDetail";
+		return "sell/bidComponentDetail";
 	}
 	
 	//발전소 공고 내용 조회
@@ -79,7 +90,7 @@ public class SellController {
 	public String getBidPlantDetail(@RequestParam(value="bPlCode") String code,Model model) {
 		List<BidPlantDTO> bidPlantDetail = sellService.getBidPlantDetail(code);
 		model.addAttribute("bidPlantDetail", bidPlantDetail);
-		return "/sell/bidPlantDetail";
+		return "sell/bidPlantDetail";
 	}
 	
 	//발전소 공고 삭제
@@ -100,7 +111,7 @@ public class SellController {
 	@GetMapping("/sell/modifyPlantSell")
 	public ModelAndView modifyPlantSell(@RequestParam(value="bPlCode") String bPlCode) {
 		System.out.println(bPlCode+"<---컨트롤러");
-		ModelAndView mv = new ModelAndView("/sell/modifyPlantSell");
+		ModelAndView mv = new ModelAndView("sell/modifyPlantSell");
 		mv.addObject("bidPlant", sellService.getBidPlantbyCode(bPlCode));
 		return mv;
 	}
@@ -144,13 +155,13 @@ public class SellController {
 		HttpSession session = request.getSession();
 		String sessionId = (String)session.getAttribute("SID");
 		model.addAttribute("component", sellService.getComponent(sessionId));
-		return "/sell/componentSell";
+		return "sell/componentSell";
 	}
 
 	@GetMapping("/sell/apply")
 	public String Apply() {
 		
-		return "/sell/apply";
+		return "sell/apply";
 	}
 	//내공고목록클릭시
 	@GetMapping("/sell/myHistory")
@@ -161,12 +172,12 @@ public class SellController {
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidComponentList", bidComponentList);
 		
-		return "/sell/myHistory";
+		return "sell/myHistory";
 	}
 	@GetMapping("/sell/mySell")
 	public String MySell() {
 		
-		return "/sell/mySell";
+		return "sell/mySell";
 	}
 
 	
@@ -179,7 +190,7 @@ public class SellController {
 	public String applyPayment(@RequestParam(value="trPrCode") String code, Model model,HttpSession session) {
 		model.addAttribute("account", sellService.getMemberAccountById((String)session.getAttribute("SID")));
 		model.addAttribute("applyPayment", sellService.getPaymentOutByCode(code));
-		return "/sell/applyPayment";
+		return "sell/applyPayment";
 	}
 	@PostMapping("/sell/applyPayment")
 	public String applyPayment(TradePaymentOutDTO trPayOutDto) {
@@ -193,11 +204,11 @@ public class SellController {
 	public String PaymentList(Model model, HttpSession session) {
 		String sessionId = (String)session.getAttribute("SID");
 		model.addAttribute("available", sellService.getPaymentOutList(sessionId));
-		return "/sell/paymentList";
+		return "sell/paymentList";
 	}
 	@GetMapping("/sell/qna")
 	public String Qna() {
 		
-		return "/sell/qna";
+		return "sell/qna";
 	}
 }

@@ -15,6 +15,7 @@ import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -35,6 +36,13 @@ public class SellService {
 		this.sellMapper = sellMapper;
 		this.fileUtils = fileUtils;
 	}
+	
+	//입찰자 정보 얻기
+	public BusinessDTO getBuyerInfoById(String mId) {
+		return sellMapper.getBuyerInfoById(mId);
+		
+	}
+	
 	//출금신청
 	public void addApplyPayment(TradePaymentOutDTO tradePaymentOutDTO) {
 		sellMapper.addApplyPayment(tradePaymentOutDTO);
