@@ -1,23 +1,13 @@
 package com.cafe24.kangk0269.common;
 
 public class DepreciationCalculate {
+	
 	//발전소 감가 관련 메서드
-	
-	//
-	
-	public static int calculPlDepPriceBased(int plDepPrice, int intMonth) {
-		
-		
-		
-		//현재연수 = 시작일 240개월 발전소 매입일 계산
+	public int calculPlDepPriceBased(int plDepPrice, int plDepServicelife) {
 		
 		double[] rateArray = {0.007936508,0.007539683,0.007142857,0.006746032,0.006349206,0.005952381,0.005555556,0.00515873,0.004761905,0.004365079,0.003968254,0.003571429,0.003174603,0.002777778,0.002380952,0.001984127,0.001587302,0.001190476,0.000793651,0.000396825};
-		
-		
-		int pastMonth = 240 - intMonth;
-		
+		int pastMonth = plDepServicelife;
 		double sumRate = 0;
-		
 		System.out.println(pastMonth/12 + " <<< 12로 나눈 값");
 		System.out.println(pastMonth%12 + " <<< 12로 나눈 나머지");
 		
@@ -38,4 +28,8 @@ public class DepreciationCalculate {
 		
 		return PlDepPriceBased;
 	}
+	
+	
+	
+	
 }

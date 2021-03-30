@@ -26,6 +26,20 @@ public class PlantController {
 		return "/plant/componentList";
 	}
 	
+
+	@GetMapping("/plant/componentListAll")
+	public String componentListAll(HttpSession session) {
+		String SLEVEL = (String) session.getAttribute("SLEVEL");
+		System.out.println(SLEVEL);
+		if(!"관리자".equals(SLEVEL)) {
+			System.out.println("메인이동");
+			return "main";
+		}
+		System.out.println("리스트이동");
+		return "/plant/componentListAll";
+	}
+	
+	
 	@GetMapping("/plant/authorization")
 	public String Authorization() {
 		
@@ -77,7 +91,19 @@ public class PlantController {
 		return "/plant/plantList";
 	}
 	
-	
+	@GetMapping("/plant/plantListAll")
+	public String getPlantListAll(HttpSession session) {
+		
+		String SLEVEL = (String) session.getAttribute("SLEVEL");
+		
+		if(!"관리자".equals(SLEVEL)) {
+			
+			return "main";
+		}
+		
+		
+		return "/plant/plantListAll";
+	}
 	
 	
 	

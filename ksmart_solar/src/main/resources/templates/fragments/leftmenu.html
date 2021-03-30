@@ -6,7 +6,7 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered" th:if="${session.SID ne null}"><a href="/profile.html"><img src="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered" th:if="${session.SID ne null}"><a href="/mypage/myInfo"><img src="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered" th:if="${session.SID ne null}">[[${session.SNAME}]] ([[${session.SLEVEL}]])</h5>
           <h5 class="centered" th:if="${session.SID ne null}"><small>[[${session.SID}]]</small></h5>
           <li class="mt">
@@ -24,7 +24,17 @@
             <ul class="sub">
               <li><a th:href="@{/plant/plantList}">#발전소리스트</a></li>
               <li><a th:href="@{/plant/componentList}">#부품리스트</a></li>
-              <li><a th:href="@{/plant/authorization}">#발전소 인증 신청</a></li>
+            </ul>
+          </li>
+          
+         <li class="sub-menu">
+            <a href="javascript:;" id="plant">
+              <i class="fa fa-dashboard"></i>
+              <span>#발전소 관리(관리자)-강석인</span>
+              </a>
+            <ul class="sub">
+              <li><a th:href="@{/plant/plantListAll}">#발전소전체리스트</a></li>
+              <li><a th:href="@{/plant/componentListAll}">#부품전체리스트</a></li>
             </ul>
           </li>
           
@@ -37,6 +47,7 @@
               <li><a th:href="@{/mypage/myInfo}">#내 정보 관리</a></li>             
               <li><a th:href="@{/mypage/myAccount}">#내 계좌 관리</a></li>             
               <li><a th:href="@{/mypage/wishlist}">#관심목록</a></li>
+              <li><a th:href="@{/plant/authorization}">#사업자 인증 신청(강석인)</a></li>
             </ul>
           </li>
           <li class="sub-menu">
