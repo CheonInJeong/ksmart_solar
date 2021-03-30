@@ -11,6 +11,7 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BoardDto;
 import com.cafe24.kangk0269.dto.BoardFileDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -21,6 +22,9 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface SellMapper {
+	
+	//입찰자 정보 얻기
+	public BusinessDTO getBuyerInfoById(String id);
 	
 	//출금신청여부 업데이트
 	public int modifyApplyYn(String code);
@@ -82,4 +86,5 @@ public interface SellMapper {
 	
 	//발전소 이름 가져오는 메서드
 	public List<BusinessPlantDTO> getPlantName(String mId);
+	
 }

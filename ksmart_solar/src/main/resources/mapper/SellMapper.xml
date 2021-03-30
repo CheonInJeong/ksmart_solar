@@ -91,8 +91,7 @@
   		  		<result property="bDate" column="b_date"/>
   		  		<result property="bCheck" column="b_check"/>
   		  		<result property="bRank" column="b_rank"/>
-  		  		<result property="bPlTitle" column ="b_pl_title"/>
-  		  		<result property="bzPlName" column ="bz_pl_name"/>
+  		  	
   		  		
   		  		
   		  		
@@ -180,8 +179,34 @@
   		  	<result property="trPayoutAccountName" column ="tr_payout_account_name"/>
   		  	<result property="trPayoutDate" column ="tr_payout_date"/>
   		  	<result property="trPayoutCheck" column ="tr_payout_check"/>
-	
   		  </resultMap>
+  		  
+  		  <resultMap type="businessDTO" id="businessResultMap">
+  		  	<result property="mId" column ="m_id"/>
+  		  	<result property="bzCompanyName" column ="bz_company_name"/>
+  		  	<result property="bzCeoName" column ="bz_ceo_name"/>
+  		  	<result property="bzZipcode" column ="bz_zipcode"/>
+  		  	<result property="bzDetailAddr" column ="bz_detail_addr"/>
+  		  	<result property="bzAddr" column ="bz_addr"/>
+  		  </resultMap>
+  		  
+  		  
+  		  <select id="getBuyerInfoById" parameterType="String" resultMap="businessResultMap">
+  		  	SELECT 
+				b.m_id,
+				b.bz_ceo_name,
+				b.bz_company_name,  
+				b.bz_zipcode,b.bz_addr,b.bz_detail_addr
+				
+			FROM 
+				tb_member AS m 
+			INNER JOIN tb_business AS b on
+				m.m_id = b.m_id 
+			WHERE
+			 	m.m_level=3
+			AND
+				m.m_id=#{mId}
+  		  </select>
   		  
   		  <update id="modifyApplyYn" parameterType="String">
   		  		UPDATE tb_trade_priority
@@ -316,21 +341,11 @@
 					l.dc_proposal,
 					l.b_date, 
 					l.b_check, 
-					l.b_rank,
-					p.b_pl_title,
-					b.bz_pl_name
+					l.b_rank
+					
 				FROM 
 					tb_bid_list AS l
-					
-				INNER join
-					tb_bid_plant AS p
-					
-				ON l.announced_code = p.b_pl_code
-				
-				INNER join
-					tb_business_plant AS b
-				ON 
-					p.bz_pl_code = b.bz_pl_code
+
 				WHERE 
 					b_type_code = 1 
 				AND
@@ -633,5 +648,7 @@
 					p.m_id = #{mId}
 
   		  </select>
+  		 
+  		  
 		  		  
   	</mapper>
