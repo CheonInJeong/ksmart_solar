@@ -1,6 +1,10 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -44,33 +48,70 @@ public class BusinessService {
 		return businessMapper.getAllBusinessAdmitList();
 	}
 	
-	// 일반 사업자 신청
+	// 일반 사업자 신청(석인)
 	public int addRecycleEntrepreneur(BusinessDTO bs){
 		
 		System.out.println(bs);
 		
 		return businessMapper.addRecycleEntrepreneur(bs);
 	}
-
-	public int addSolarEntrepreneur(BusinessDTO bs, BusinessPlantDTO bp, PlantDepreciationDTO pd) {
-		
+	
+	
+	//태양광 사업자 신청(3개테이블 insert, 석인)
+	public int addSolarEntrepreneur(BusinessDTO bs, BusinessPlantDTO bp, PlantDepreciationDTO pd) throws ParseException {
 		System.out.println(bs);
 		System.out.println(bp);
 		System.out.println(pd);
 		
-		String bzCode = businessMapper.getInsertBzCode();
+		
 		String bzPlCode = businessMapper.getInsertBzPlCode();
+		String bzCode = businessMapper.getInsertBzCode();
+		String plDepUsed = "Y";
+		int plDepServicelife = 240;
+		String startDateString = pd.getPlDepStartDate();
+		String buyDateString = pd.getPlDepBuyDate();
+		int PlDepPriceBased = 0;
+		System.out.println(startDateString + " <<< startDateString");
+		System.out.println(buyDateString + " <<< buyDateString");
 		
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		Date startDate = transFormat.parse(startDateString);
+		Date buyDate = transFormat.parse(buyDateString);
+		DepreciationCalculate dc = new DepreciationCalculate();
+		
+		if((buyDate.getTime() - startDate.getTime()) == 0) {
+			plDepUsed = "N";
+			PlDepPriceBased = pd.getPlDepPrice();
+		}else {
+			long diffTime = buyDate.getTime() - startDate.getTime();
+			TimeUnit time = TimeUnit.DAYS; 
+			long diffrence = time.convert(diffTime, TimeUnit.MILLISECONDS);
+			System.out.println("The difference in days is : "+diffrence);
+			System.out.println("The difference in Month is : "+diffrence/30);
+			int diffenceMonth = (int) (diffrence/30);
+			plDepServicelife = 240 - diffenceMonth;
+			PlDepPriceBased = dc.calculPlDepPriceBased(pd.getPlDepPrice(), diffenceMonth);
+		}
+		
+		bp.setBzPlCode(bzPlCode);
 		bp.setBzCode(bzCode);
+		bp.setBzPlCheck("N");
 		pd.setBzPlCode(bzPlCode);
+		pd.setPlDepPriceBased(PlDepPriceBased);
+		pd.setPlDepUsed(plDepUsed);
+		pd.setPlDepServicelife(plDepServicelife);
+		 
+		int addBusinessResult = businessMapper.addRecycleEntrepreneur(bs);
+		System.out.println(bp.getBzCode() + " <<< getBzCode");
+		System.out.println(businessMapper.getInsertBzCode() + " <<< 쿼리 실행결과");
+		int addPlantResult = businessMapper.addSolarEntrepreneur(bp);
+		int addDepreciation = businessMapper.addDepreciation(pd);
+		int returnResult = 0;
 		
-		//날짜계산필요 pd.getPlDepBuyDate() - pd.getPlDepStartDate();
-		
-		int PlDepPriceBased = DepreciationCalculate.calculPlDepPriceBased(pd.getPlDepPrice(), 30);
-		
-		System.out.println(PlDepPriceBased);
-		
-		return 1;
+		if(addBusinessResult == 1 && addPlantResult == 1 && addDepreciation == 1) {
+			returnResult = 1;
+		}
+		return returnResult;
 	}
 	
 	

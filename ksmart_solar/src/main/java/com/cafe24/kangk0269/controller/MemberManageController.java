@@ -258,7 +258,7 @@ public class MemberManageController {
 		//권한
 		session.setAttribute("SLEVEL", "관리자"); 
 		//이름 
-		session.setAttribute("SNAME","홍길동");
+		session.setAttribute("SNAME","김관리");
 		return "main";
 	}
 	//버튼 로그인 (태양광사업자)
@@ -269,7 +269,7 @@ public class MemberManageController {
 		//권한
 		session.setAttribute("SLEVEL", "태양광사업자"); 
 		//이름 
-		session.setAttribute("SNAME","김태풍");
+		session.setAttribute("SNAME","강태양");
 		return "main";
 	}
 	//버튼 로그인 (관리자)
@@ -280,7 +280,7 @@ public class MemberManageController {
 		//권한
 		session.setAttribute("SLEVEL", "재활용사업자"); 
 		//이름 
-		session.setAttribute("SNAME","박선비");
+		session.setAttribute("SNAME","박구매");
 		return "main";
 	}
 	

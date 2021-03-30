@@ -19,6 +19,73 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
+	<!-- 문의 삭제 -->
+	<delete id="removeQna" parameterType="int">
+		DELETE FROM 
+			tb_board_qna 
+		WHERE 
+			b_qna_idx = #{bQnaIdx}
+	</delete>
+	
+	<!-- 문의 수정 -->
+	<update id="modifyQna" parameterType="BoardQnaDTO">
+			UPDATE tb_board_qna
+		SET
+			 b_qna_subject = #{bQnaSubject}
+			,b_qna_contents = #{bQnaContents}
+			,m_id = #{mId}
+			,b_qna_reg_date = NOW()
+			,b_qna_views = 0
+			,b_qna_open = #{bQnaOpen}
+			,b_qna_password = #{bQnaPassword}
+		WHERE 
+			b_qna_idx= #{bQnaIdx}
+	</update>
+	
+	<!-- 문의 등록 -->
+	<insert id="addQna" parameterType="BoardQnaDTO">
+		INSERT INTO tb_board_qna
+			( b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_temp)
+		VALUES 
+			( #{bQnaSubject}
+			, #{bQnaContents}
+			, #{mId}
+			, NOW()
+			, 0
+			, #{bQnaOpen}
+			, #{bQnaPassword}
+			, 'N')
+	</insert>
+	
+	<!-- 문의 상세조회  -->
+	<select id="getQna" parameterType="int" resultMap="BoardQnaDTOMap">
+		SELECT 
+			  b_qna_idx
+			, b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp
+		FROM 
+			tb_board_qna
+		WHERE
+			b_qna_idx = #{bQnaIdx}
+	
+	</select>
+	
 	<!-- 문의 조회  -->
 	<select id="getQnaList" resultMap="BoardQnaDTOMap">
 		SELECT 
