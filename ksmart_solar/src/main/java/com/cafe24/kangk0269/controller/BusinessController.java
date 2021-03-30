@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.controller;
 
+import java.text.ParseException;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ public class BusinessController {
 	@Autowired
 	private BusinessService businessService;
 	
-	//사업자 등록(일반사업자)
+	//사업자 등록(일반사업자, 석인)
 	@RequestMapping(value="/ajax/recycleEntrepreneur", method = RequestMethod.POST)
 	public @ResponseBody int addRecycleEntrepreneur(
 							 @RequestParam(value="bzCompanyName", required = false)	 	String bzCompanyName
@@ -39,18 +41,11 @@ public class BusinessController {
 		System.out.println(bzDetailAddr);
 		System.out.println(bzLicense + " <<< 파일");
 		
-		
 		BusinessDTO bs = new BusinessDTO();
 		
 		String mId = (String) session.getAttribute("SID");
-		
 		System.out.println(mId + " <<< mId");
-		
-		if(mId == null || bzCompanyName == null || bzCeoName == null) {
-			return 0;
-		}
-		
-		//
+		if(mId == null || bzCompanyName == null || bzCeoName == null) {return 0;}		
 		bs.setBzCode("");
 		bs.setmId(mId);
 		bs.setBzCompanyName(bzCompanyName);
@@ -62,13 +57,11 @@ public class BusinessController {
 		bs.setBzLicense(bzLicense);
 		bs.setBzType("재활용 중고 사업자(구매자)");
 		
-		
-		
 		return businessService.addRecycleEntrepreneur(bs);
 	}
 	
 	
-	  //사업자 등록(태양광사업자)
+	  //사업자 등록(태양광사업자, 석인)
 	  @RequestMapping(value="/ajax/solarEntrepreneur", method = RequestMethod.POST)
 	  public @ResponseBody int addsolarEntrepreneur(
 									  @RequestParam(value="bzCompanyName", required = false) 	String bzCompanyName
@@ -95,23 +88,16 @@ public class BusinessController {
 									  ,@RequestParam(value="plDepMaintenance", required = false)int plDepMaintenance
 									  ,@RequestParam(value="plDepBuyDate", required = false) 	String plDepBuyDate
 									  ,@RequestParam(value="plDepStartDate", required = false) 	String plDepStartDate
-									  ,HttpSession session) { 
-	  
-	  System.out.println(bzCompanyName); System.out.println(bzCeoName);
-	  System.out.println(bzZipcode); System.out.println(bzAddr);
-	  System.out.println(bzDetailAddr); System.out.println(bzLicense + " <<< 파일");
-	  
-	  
+									  ,HttpSession session) throws ParseException { 
+	  System.out.println("///////////addsolarEntrepreneur실행////////////");
 	  BusinessDTO bs = new BusinessDTO();
 	  BusinessPlantDTO bp = new BusinessPlantDTO();
 	  PlantDepreciationDTO pd = new PlantDepreciationDTO();
 	  
 	  String mId = (String) session.getAttribute("SID");
 	  
-	  
 	  if(mId == null || bzCompanyName == null || bzCeoName == null) { return 0; }
 	  
-	  // 
 	  bs.setBzCode(""); 
 	  bs.setmId(mId); 
 	  bs.setBzCompanyName(bzCompanyName);
@@ -140,7 +126,6 @@ public class BusinessController {
 	  bp.setBzPlHardware(bzPlHardware);
 	  
 	  pd.setBzPlCode("");
-	  //구해야함
 	  pd.setPlDepPriceBased(0);
 	  pd.setPlDepPrice(plDepPrice);
 	  pd.setPlDepStartDate(plDepStartDate);
@@ -149,9 +134,6 @@ public class BusinessController {
 	  pd.setPlDepUsed("");
 	  pd.setPlDepServicelife(0);
 	  
-	  
-	  
 	  return businessService.addSolarEntrepreneur(bs, bp, pd); }
-	 
 	
 }
