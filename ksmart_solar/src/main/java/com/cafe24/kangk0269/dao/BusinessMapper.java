@@ -5,6 +5,8 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe24.kangk0269.dto.BusinessDTO;
+import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 
 @Mapper
 public interface BusinessMapper {
@@ -24,8 +26,16 @@ public interface BusinessMapper {
 	// 일반 사업자 신청
 	public int addRecycleEntrepreneur(BusinessDTO bs);
 	
-	public String getInsertBzCode();
+	//태양광사업자 insert
+	public int addSolarEntrepreneur(BusinessPlantDTO bp);
 
+	//태양광사업자 감가계산 table insert
+	public int addDepreciation(PlantDepreciationDTO pd);
+	
+	//bz_code
+	public String getInsertBzCode();
+	
+	//bz_pl_code
 	public String getInsertBzPlCode();
 	
 }

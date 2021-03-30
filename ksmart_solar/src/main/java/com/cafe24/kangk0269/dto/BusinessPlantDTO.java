@@ -18,6 +18,8 @@ public class BusinessPlantDTO {
 	private int bzPlInvCount;	
 	private String bzPlInvMaker;	
 	private int bzPlRec;
+	private String bzPlRegDate;	
+	private String bzPlModDate;	
 	private PlantDepreciationDTO plantDepreciationDTO;
 	private PlantDepDataDTO plantDepDataDTO;
 	public String getBzPlCode() {
@@ -167,6 +169,18 @@ public class BusinessPlantDTO {
 	}
 	public void setBzCode(String bzCode) {
 		this.bzCode = bzCode;
+	}
+	public String getBzPlRegDate() {
+		return bzPlRegDate;
+	}
+	public void setBzPlRegDate(String bzPlRegDate) {
+		this.bzPlRegDate = bzPlRegDate;
+	}
+	public String getBzPlModDate() {
+		return bzPlModDate;
+	}
+	public void setBzPlModDate(String bzPlModDate) {
+		this.bzPlModDate = bzPlModDate;
 	}
 	
 	
