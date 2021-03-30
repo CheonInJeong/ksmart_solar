@@ -4,6 +4,7 @@ package com.cafe24.kangk0269.dto;
 public class MemberDTO {
 	private String mId;
 	private String mPw;
+	private String kakaoId;
 	private String mName;
 	private int mLevel;
 	private String mZipcode;
@@ -159,5 +160,11 @@ public class MemberDTO {
 		builder.append(mStateModifyDate);
 		builder.append("]");
 		return builder.toString();
+	}
+	public String getKakaoId() {
+		return kakaoId;
+	}
+	public void setKakaoId(String kakaoId) {
+		this.kakaoId = kakaoId;
 	}
 }

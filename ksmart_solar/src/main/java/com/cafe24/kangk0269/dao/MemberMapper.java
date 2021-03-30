@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MemberKakao;
 
 @Mapper
 public interface MemberMapper {
@@ -34,5 +35,8 @@ public interface MemberMapper {
 	
 	// 관리자 아이디 조회
 	public List<String> getManager();
+	
+	//카카오 회원가입
+	public int addMemberKakao(MemberKakao mk);
 
 }
