@@ -19,7 +19,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
-	<!-- 문의 검색  -->
+	<!-- 문의 검색
 		SELECT 
 			  b_qna_idx
 			, b_qna_subject
@@ -39,7 +39,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="searchKey != null	and searchKey !=''.toString()">
 				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%')
 			</if>
-		</trim>
+		</trim> -->
+		
 	<!-- 문의 삭제 -->
 	<delete id="removeQna" parameterType="int">
 		DELETE FROM 
