@@ -117,10 +117,22 @@
 			tr_payin_check, 
 			b_mo_code, 
 			b_mo_date, 
-			tr_payin_status
+			tr_payin_status,
+			m_account_bank_name,
+			m_account_number,
+			m_payment_name
 		FROM
 			tb_trade_payment_in AS tp
 		WHERE
 			b_code = #{bCode}
 	</select>
+	<update id="modifyTradePaymentIn" parameterType="TradePaymentInDTO">
+		UPDATE tb_trade_payment_in
+		SET
+			m_account_bank_name=#{mAccountBankName},
+			m_account_number=#{mAccountNumber},
+			m_payment_name=#{mPaymentName}
+		WHERE 
+			b_code=#{bCode}
+	</update>
 </mapper>
