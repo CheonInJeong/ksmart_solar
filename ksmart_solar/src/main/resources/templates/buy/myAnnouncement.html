@@ -51,7 +51,7 @@
 	        </div>
 	    </form>
         
-        <div th:include="notice/componentInfo :: componentInfoFragment"></div>
+        <div th:include="buy/myComponentInfo :: componentInfoFragment"></div>
         <div th:include="buy/myBidInfo :: myBidInfoFragment"></div>
         <div th:include="buy/tradePayment :: tradePaymentFragment" 
         th:unless="${status=='입찰대기' or 
