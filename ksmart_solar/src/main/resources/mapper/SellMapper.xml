@@ -197,6 +197,16 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  <select id="getBidPlantCode" parameterType="String" resultMap="bidPlantResultMap">
+  		  	SELECT 
+  		  		b_pl_code 
+  		  	FROM 
+  		  		tb_bid_plant 
+  		  	WHERE 
+  		  		bz_pl_code = #{bzPlCode}
+  		 </select>
+  		
+  		  
   		  <update id="modifyDocumentCheck" parameterType="map">
   		  	UPDATE 
   		  		tb_bid_list
