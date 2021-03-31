@@ -35,10 +35,20 @@ public class SellController {
 		this.sellService = sellService;
 	}
 	
+	//서류 적합성 수정
+	@RequestMapping(value= "/ajax/modifyDocumentCheck" , method= RequestMethod.POST)
+	public @ResponseBody String modifyDocumentCheck(@RequestParam(value="bCode") String code,
+													@RequestParam(value="documentYn") String check) {
+		System.out.println(code+"-----"+check);
+		sellService.modifyDocumentCheck(code, check);
+		return check;
+	}
+	
 	//입찰자 정보 보기 (회원정보+입찰내용)
 	@GetMapping("/sell/plantBidderDetail")
-	public String plantBidderDetail(@RequestParam(value="mId") String id,Model model) {
-		model.addAttribute("member", sellService.getBuyerInfoById(id));
+	public String plantBidderDetail(@RequestParam(value="code") String code,
+									Model model) {
+		model.addAttribute("member", sellService.getBuyerInfoByCode(code));
 		return "sell/plantBidderDetail";
 	}
 	
@@ -119,9 +129,8 @@ public class SellController {
 	//발전소 판매 공고 등록
 	@PostMapping("/sell/plantSell")
 	public String regPlantSell(BidPlantDTO bidPlantDto, MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
-		if(bidPlantDto!=null&&!"".equals(bidPlantDto.getmId())) {
+	
 			sellService.addPlantApply(bidPlantDto, multipartHttpServletRequest,request);
-		}
 
 		return "redirect:/sell/myHistory";
 	}

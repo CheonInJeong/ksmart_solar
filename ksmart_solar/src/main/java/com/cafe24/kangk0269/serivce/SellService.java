@@ -37,9 +37,14 @@ public class SellService {
 		this.fileUtils = fileUtils;
 	}
 	
+	//서류적합성 수정
+	public void modifyDocumentCheck(String code, String check) {
+		sellMapper.modifyDocumentCheck(code, check);
+	}
+	
 	//입찰자 정보 얻기
-	public BusinessDTO getBuyerInfoById(String mId) {
-		return sellMapper.getBuyerInfoById(mId);
+	public BidListDTO getBuyerInfoByCode(String code) {
+		return sellMapper.getBuyerInfoByCode(code);
 		
 	}
 	

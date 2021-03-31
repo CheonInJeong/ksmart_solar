@@ -4,14 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
-import com.cafe24.kangk0269.dto.BoardDto;
-import com.cafe24.kangk0269.dto.BoardFileDTO;
-import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -23,8 +19,12 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	//서류 적합성 판단 수정
+	public int modifyDocumentCheck(@Param(value="bCode") String code
+								  ,@Param(value="bCheck") String check);
+	
 	//입찰자 정보 얻기
-	public BusinessDTO getBuyerInfoById(String id);
+	public BidListDTO getBuyerInfoByCode(String code);
 	
 	//출금신청여부 업데이트
 	public int modifyApplyYn(String code);
