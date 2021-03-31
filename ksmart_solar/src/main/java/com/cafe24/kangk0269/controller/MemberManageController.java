@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.kangk0269.api.CrawlingApi;
 import com.cafe24.kangk0269.api.KakaoLoginApi;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
@@ -338,13 +339,21 @@ public class MemberManageController {
 		return "redirect:/login";
 	}
 	
-	//로그아웃
+	// 카카오로그아웃
 	@GetMapping("/logoutKakao")
 	public String logoutKakao(HttpSession session) {
 		KakaoLoginApi kakaoApi = new KakaoLoginApi();
 		kakaoApi.kakaoLogout((String)session.getAttribute("accessToken"));
 		session.invalidate();
 		return "redirect:/login";
+	}
+	
+	// 카카오로그아웃
+	@GetMapping("/crawlingTest")
+	public String crawlingTest() {
+		CrawlingApi ca = new CrawlingApi();
+		ca.crawLingKpxData();
+		return "main";
 	}
 	
 }
