@@ -29,6 +29,23 @@ public class BoardQnaService {
 	}
 	
 	
+	//문의 검색
+	public List<BoardQnaDTO> getQnaList(String searchKey, String searchValue){
+		if(searchKey != null) {
+			if("bQnaSubject".equals(searchKey)) {
+				searchKey = "b_qna_subject";
+			}else if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}
+		}
+		return boardQnaMapper.getQnaList(searchKey, searchValue);
+	}
+	
+	//답글 등록
+	public int addReQna(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.addReQna(boardQnaDTO);
+	}
+	
 	//문의 삭제
 	public int removeQna(int bQnaIdx) {
 		return boardQnaMapper.removeQna(bQnaIdx);

@@ -26,6 +26,31 @@ public class HelpController {
 		this.boardQnaService = boardQnaService;
 	}
 	
+	//문의 검색
+	@GetMapping("/help/QnaList")
+	public String getQnaList(@RequestParam(name = "searchKey", required = false ) String searchKey
+							,@RequestParam(name = "searchValue", required = false ) String searchValue
+							,Model model) {
+		List<BoardQnaDTO> BoardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue);
+		return "/help/qna";
+	}
+	
+	//답글 처리
+	@PostMapping("/help/addReQna")
+	public String addReQna(BoardQnaDTO boardQnaDTO) {
+		boardQnaService.addReQna(boardQnaDTO);
+		return "redirect:/help/qna";
+	}
+	
+	//답글 화면
+	@GetMapping("/help/addReQna")
+	public String addReQna(Model model,
+							@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
+		getQna(model, bQnaIdx);
+		return "/help/addReQna";
+		
+	}
+	
 	//문의 삭제
 	@GetMapping("/help/removeQna")
 	public String removeQna(@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
