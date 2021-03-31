@@ -19,4 +19,6 @@ public interface TradeMapper {
 	
 	//거래대금납부목록(본인)
 	public TradePaymentInDTO getTradePaymentIn(String bCode);
+	//대금신청 정보 갱신
+	public int modifyTradePaymentIn(TradePaymentInDTO paymentInDTO);
 }

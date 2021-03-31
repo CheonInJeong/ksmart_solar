@@ -33,4 +33,8 @@ public class TradeService {
 	public TradePaymentInDTO getTradePaymentIn(String bCode) {
 		return tradeMapper.getTradePaymentIn(bCode);
 	}
+	public int modifyTradePaymentIn(TradePaymentInDTO paymentInDTO) {
+		return tradeMapper.modifyTradePaymentIn(paymentInDTO);
+	}
+	
 }
