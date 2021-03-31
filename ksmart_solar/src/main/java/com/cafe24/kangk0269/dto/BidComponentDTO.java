@@ -7,7 +7,7 @@ public class BidComponentDTO {
 	private String bCpTitle;	
 	private String cpCode;	
 	private String bCpContents;
-	private int bCpPrice;	
+	private long bCpPrice;	
 	private String bCpSpecs;	
 	private String cpUsedate;	
 	private String bCpDocument;	
@@ -64,7 +64,7 @@ public class BidComponentDTO {
 	public void setbCpContents(String bCpContents) {
 		this.bCpContents = bCpContents;
 	}
-	public int getbCpPrice() {
+	public long getbCpPrice() {
 		return bCpPrice;
 	}
 	public void setbCpPrice(int bCpPrice) {

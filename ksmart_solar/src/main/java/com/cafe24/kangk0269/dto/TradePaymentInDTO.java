@@ -7,7 +7,7 @@ public class TradePaymentInDTO {
 	private String announcedCode;
 	private String mIdSeller;
 	private String mIdBuyer;	
-	private int bPrice;
+	private long bPrice;
 	private String sDepositRate;
 	private int bDeposit;
 	private int trPayinPrice;	
@@ -58,7 +58,7 @@ public class TradePaymentInDTO {
 	public void setmIdBuyer(String mIdBuyer) {
 		this.mIdBuyer = mIdBuyer;
 	}
-	public int getbPrice() {
+	public long getbPrice() {
 		return bPrice;
 	}
 	public void setbPrice(int bPrice) {

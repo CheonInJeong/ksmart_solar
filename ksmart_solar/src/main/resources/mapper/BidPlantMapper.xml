@@ -28,29 +28,30 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bPlCancelReason" 		column="b_pl_cancel_reason" />	
 		<result property="bPlCancelDate" 		column="b_pl_cancel_date" />	
 		<result property="acStatusCode" 		column="ac_status_code" />
-		<association property="bidListDTO" javaType="BidListDTO">
-			<id 	property="bCode" 				column="b_code"/>
-			<result property="announcedCode" 		column="announced_code" />
-			<result property="bTypeCode" 			column="b_type_code" />
-			<result property="mId"					column="buy_id" />
-			<result property="bPrice" 				column="b_price" />
-			<result property="sDepositRate" 		column="s_dep_rate" />
-			<result property="bDeposit" 			column="b_deposit" />
-			<result property="bDepositCheck" 		column="b_deposit_check" />
-			<result property="bMoCode" 				column="b_mo_code" />
-			<result property="bDepositDate" 		column="b_deposit_date" />
-			<result property="trTypeCode" 			column="tr_type_code" />
-			<result property="trTypeName" 			column="tr_type_name" />
-			<result property="dcInstructions" 		column="dc_instructions" />
-			<result property="dcApplication" 		column="dc_application" />
-			<result property="dcProposal" 			column="dc_proposal" />
-			<result property="bDate" 				column="b_date" />
-			<result property="bCheck" 				column="b_check" />
-			<result property="bRank" 				column="b_rank" />
-			<result property="bDepositAvailable" 	column="b_deposit_available" />
-			<result property="bDepositRefund" 		column="b_deposit_refund" />
-			<result property="bDateUp" 				column="b_date_up" />
-		</association>
+		<collection property="bidListDTO" 	resultMap="bidListDTOMap"/>
+	</resultMap>
+	<resultMap type="bidListDTO" id="bidListDTOMap">
+		<result property="bCode" 				column="b_code"/>
+		<result property="announcedCode" 		column="announced_code" />
+		<result property="bTypeCode" 			column="b_type_code" />
+		<result property="mId"					column="buy_id" />
+		<result property="bPrice" 				column="b_price" />
+		<result property="sDepositRate" 		column="s_dep_rate" />
+		<result property="bDeposit" 			column="b_deposit" />
+		<result property="bDepositCheck" 		column="b_deposit_check" />
+		<result property="bMoCode" 				column="b_mo_code" />
+		<result property="bDepositDate" 		column="b_deposit_date" />
+		<result property="trTypeCode" 			column="tr_type_code" />
+		<result property="trTypeName" 			column="tr_type_name" />
+		<result property="dcInstructions" 		column="dc_instructions" />
+		<result property="dcApplication" 		column="dc_application" />
+		<result property="dcProposal" 			column="dc_proposal" />
+		<result property="bDate" 				column="b_date" />
+		<result property="bCheck" 				column="b_check" />
+		<result property="bRank" 				column="b_rank" />
+		<result property="bDepositAvailable" 	column="b_deposit_available" />
+		<result property="bDepositRefund" 		column="b_deposit_refund" />
+		<result property="bDateUp" 				column="b_date_up" />
 	</resultMap>
 	<resultMap type="BusinessPlantDTO" id="BusinessPlantDTOMap">
 		<result property="bzPlCode" 			column="bz_pl_code" />
@@ -139,6 +140,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	
 	<select id="getBidPlantMyBid" resultMap="BidPlantDTOMap" parameterType="String">
 		SELECT
+			li.b_code,
 			pl.b_pl_title,
 			pl.b_pl_code,
 			li.tr_type_name,

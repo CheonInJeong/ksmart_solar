@@ -8,7 +8,7 @@ public class BidPlantDTO {
 	private String mId; 
 	private String bPlTitle; 
 	private String bPlContents;
-	private int bPlPrice; 
+	private long bPlPrice; 
 	private int plDepDataResidual;
 	private int plDepPrice;
 	private String plDepStartDate;
@@ -66,7 +66,7 @@ public class BidPlantDTO {
 	public void setbPlContents(String bPlContents) {
 		this.bPlContents = bPlContents;
 	}
-	public int getbPlPrice() {
+	public long getbPlPrice() {
 		return bPlPrice;
 	}
 	public void setbPlPrice(int bPlPrice) {

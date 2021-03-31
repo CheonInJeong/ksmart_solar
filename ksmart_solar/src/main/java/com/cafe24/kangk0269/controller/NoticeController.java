@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
@@ -93,8 +96,8 @@ public class NoticeController {
 		ComponentDTO componentDTO			= null;
 		TradePaymentInDTO tradePaymentInDTO = null;
 		//공고 코드
-		System.out.println(announceCode);
-		System.out.println(announceType);
+		System.out.println(announceCode+"---------------------------------------------------공고코드");
+		System.out.println(announceType+"---------------------------------------------------타입");
 		//입찰자 목록 조회해야함
 		String id = (String) session.getAttribute("SID");
 		System.out.println(id+"------------------------------------------id");
@@ -146,6 +149,15 @@ public class NoticeController {
 		}
 		return "/notice/paymentInRequest";
 	}
+	//입찰 취소
+	@PostMapping("/notice/bidCancel")
+	public String bidCancel(String bCode) {
+		System.out.println(bCode);
+		int result = bidListService.bidCancel(bCode);
+		System.out.println(result);
+		return "redirect:/buy/myHistory";
+	}
+	
 	@PostMapping("/notice/modifyPaymentIn")
 	public String modifyPaymentIn(String bCode, Model model) {
 		System.out.println(bCode+"-------------------------------------------");
@@ -193,13 +205,19 @@ public class NoticeController {
 	//입찰 확인 페이지
 	@GetMapping("/notice/bidRequestResult")
 	public String bidRequestResult(BidListDTO bidListDTO) {
+		System.out.println(bidListDTO);
 		return "/notice/bidRequestResult";
 	}
 	//입찰신청 등록
 	@PostMapping("/notice/addbidRequest")
-	public String addbidRequest(BidListDTO bidListDTO) {
+	public String addbidRequest(BidListDTO bidListDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) {
 		System.out.println(bidListDTO);
-		bidListService.addbidList(bidListDTO);
+		try {
+			bidListService.addbidList(bidListDTO,multipartHttpServletRequest,request);
+		} catch (Exception e) {
+			System.out.println("파일등록 실패");
+			e.printStackTrace();
+		}
 		return "redirect:/notice/bidRequestResult";
 	}
 }
