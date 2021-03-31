@@ -140,10 +140,12 @@ public class SellService {
 	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.addPlantApply(bidPlantDto);
 		//조회처리과정추가
-		System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
-		System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
-		System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
-		System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		/*
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 */
 		BidPlantDTO bidCode =sellMapper.getBidPlantCode(bidPlantDto.getBzPlCode());
 		System.out.println(bidCode.getbPlCode()+"<-------bidCode.getbPlCode()");
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
