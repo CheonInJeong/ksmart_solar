@@ -6,7 +6,8 @@
       <div id="sidebar" class="nav-collapse ">
         <!-- sidebar menu start-->
         <ul class="sidebar-menu" id="nav-accordion">
-          <p class="centered" th:if="${session.SID ne null}"><a href="/mypage/myInfo"><img src="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
+          <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><a href="/mypage/myInfo"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></a></p>
+          <p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><a href="/mypage/myInfo"><img src="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
           <h5 class="centered" th:if="${session.SID ne null}">[[${session.SNAME}]] ([[${session.SLEVEL}]])</h5>
           <h5 class="centered" th:if="${session.SID ne null}"><small>[[${session.SID}]]</small></h5>
           <li class="mt">
@@ -24,17 +25,6 @@
             <ul class="sub">
               <li><a th:href="@{/plant/plantList}">#발전소리스트</a></li>
               <li><a th:href="@{/plant/componentList}">#부품리스트</a></li>
-            </ul>
-          </li>
-          
-         <li class="sub-menu">
-            <a href="javascript:;" id="plant">
-              <i class="fa fa-dashboard"></i>
-              <span>#발전소 관리(관리자)-강석인</span>
-              </a>
-            <ul class="sub">
-              <li><a th:href="@{/plant/plantListAll}">#발전소전체리스트</a></li>
-              <li><a th:href="@{/plant/componentListAll}">#부품전체리스트</a></li>
             </ul>
           </li>
           

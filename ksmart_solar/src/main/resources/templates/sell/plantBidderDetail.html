@@ -8,7 +8,7 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>내공고목록</strong></div>
-     	<div id="container-header-path">판매관리 > 내공고목록</div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> ><!--  <a th:href="@{/sell/plantBidderList}">입찰자목록</a> > --> 입찰자 정보</div>
       	<div id="container-header-space"></div>		
 	
 		<div class="row mt">
@@ -17,24 +17,51 @@
               <h4><i class="fa fa-angle-right"></i>입찰자 정보</h4>
               <hr>
               <table class="table">
-              
               	<tr>
               		<td>아이디</td>
-              		<td th:text="${member.mId}"><td>
+              		<td th:text="${member.businessDTO.mId}"><td>
               	</tr>
               	<tr>
               		<td>회사명</td>
-              		<td th:text="${member.bzCompanyName}"></td>
+              		<td th:text="${member.businessDTO.bzCompanyName}"></td>
               	</tr>
               	<tr>
               		<td>대표명</td>
-              		<td th:text="${member.bzCeoName}"></td>
+              		<td th:text="${member.businessDTO.bzCeoName}"></td>
               	</tr>
               	<tr>
               		<td>회사소재지</td>
-              		<td>[[${member.bzZipcode}]] [[${member.bzAddr}]] [[${member.bzDetailAddr}]]</td>
+              		<td>[[${member.businessDTO.bzZipcode}]] [[${member.businessDTO.bzAddr}]] [[${member.businessDTO.bzDetailAddr}]]</td>
               	</tr>
-     
+              </table>
+            </div>
+          </div>
+        </div>
+        
+       <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i>입찰 정보</h4>
+              <hr>
+              <table class="table">
+              	<tr>
+              		<td>입찰코드</td>
+              		<td th:text ="${member.bCode}" id="bCode"></td>
+              	</tr>
+              	<tr>
+              		<td>제시가격</td>
+              		<td th:text="${member.bPrice}"><td>
+              	</tr>
+              	<tr>
+              		<td>입찰서류</td>
+              		<td>가격제안서(입찰서).hwp</td>
+              		<td>입찰참가신청서.hwp</td>
+              	</tr>
+              	<tr>
+              		<td>서류적합여부</td>
+              		<td class="documentYn" th:text="${member.bCheck}"></td>
+              		<td><button type="button" class="btn btn-default" id="documentYnBtn" data-attr="0">수정</button></td>
+              	</tr>
               </table>
             </div>
           </div>
@@ -50,89 +77,46 @@
 		</script>
 			
 		<script>
-			function comma(str) {
-	  			 str = String(str);
-	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-			  	}
-	
-			$('document').ready(function(){
-				$('.bCpPrice').each(function(){
-					
-					var bCpPrice = $('.bCpPrice');
-					var i = bCpPrice.index(this);
-					console.log(i);
-					console.log(bCpPrice.eq(i).text());
-					bCpPrice.eq(i).text(comma(bCpPrice.eq(i).text()));
-				})
-		
-			})
-			
-			$('document').ready(function(){
-				$('.bPlPrice').each(function(){
-					
-					var bPlPrice = $('.bPlPrice');
-					var i = bPlPrice.index(this);
-					console.log(i);
-					console.log(bPlPrice.eq(i).text());
-					bPlPrice.eq(i).text(comma(bPlPrice.eq(i).text()));
-				})
-		
-			})
-		
-		
-		
-			$('.HistoryModifyBtn').click(function(){
-				console.log($('.HistoryModifyBtn').index(this));
-				var i = $('.HistoryModifyBtn').index(this);
-				var status = $('.HistoryModifyBtn').eq(i).parent().parent().children('.historyStatus').text();
-				if(status !='공고신청'){
-					alert('현재는 공고를 수정 할 수 없습니다.');
-					return;
-				}
-				console.log($('.historyStatus').text())
-				var path = '/sell/modifyPlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
+			$('#documentYnBtn').click(function(){
+				var documentYn =$('.documentYn');
+				var checkedValue;
+				var code = $('#bCode').text();
 				
-				location.href= path;
-			})
-			
-			$('.HisotryDeleteBtn').click(function(){
-				console.log($('.HisotryDeleteBtn').index(this));
-				var i = $('.HisotryDeleteBtn').index(this);
-				var status = $('.HisotryDeleteBtn').eq(i).parent().parent().children('.historyStatus').text();
-				if(status !='공고신청'){
-					alert('현재는 공고를 삭제 할 수 없습니다.');
-					return;
+				if($('#documentYnBtn').attr('data-attr')=='0'){
+					
+					if(documentYn.text()=='Y'){
+						documentYn.html('적합 <input type="radio" class="documentYn" name="bCheck" value="Y" checked> 비적합  <input type="radio" class="documentYn" name="bCheck" value="N">');
+					}else{
+						documentYn.html('적합 <input type="radio" class="documentYn" name="bCheck" value="Y"> 비적합  <input type="radio" class="documentYn" name="bCheck" value="N" checked>');
+					}
+					
+					$(this).attr('data-attr',1);
+					$(this).text('수정완료');
+
+					 
+				}else if($(this).attr('data-attr')=='1'){
+					checkedValue=$(':input:radio[name="bCheck"]:checked').val();
+					$.ajax({
+					url : '/ajax/modifyDocumentCheck',
+         			type : 'POST',
+         			data : {documentYn : checkedValue,bCode : code},
+         			success : function(data){
+         				documentYn.html('');
+         				documentYn.text(data);
+         			},
+         			error :function(request,status,error){
+         			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+         		   }
+				})
+					
+					
+					$(this).attr('data-attr',0);
+					
+					$(this).text('수정');
 				}
-				location.href='/sell/removePlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
-			})
 			
-			
-			
-			$('.cpModifyBtn').click(function(){
-				console.log($('.cpModifyBtn').index(this));
-				var i = $('.cpModifyBtn').index(this);
-				var status = $('.cpModifyBtn').eq(i).parent().parent().children('.cpStatus').text();
-				if(status !='공고신청'){
-					alert('현재는 공고를 수정 할 수 없습니다.');
-					return;
-				}
-				var path = '/sell/modifyComponentSell?bCpCode='+$('.bCpCode').eq(i).text();
 				
-				location.href= path;
 			})
-			
-			$('.cpDeleteBtn').click(function(){
-				console.log($('.cpDeleteBtn').index(this));
-				var i = $('.cpDeleteBtn').index(this);
-				var status = $('.cpDeleteBtn').eq(i).parent().parent().children('.cpStatus').text();
-				if(status !='공고신청'){
-					alert('현재는 공고를 삭제 할 수 없습니다.');
-					return;
-				}
-				var path = '/sell/removeComponentSell?bCpCode='+$('.bCpCode').eq(i).text();
-				location.href=path;
-			})
-			
 			
 		</script>
 	</th:block>

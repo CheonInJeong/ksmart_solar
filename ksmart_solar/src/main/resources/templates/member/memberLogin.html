@@ -23,6 +23,10 @@
 					  <input type="password" class="form-control" id="memberPassword" placeholder="비밀번호를 입력하세요.">
 					</div><br>
 					<button id="signInBtn" type="button" class="btn btn-success btn-lg col-xs-12" onclick="signInSubmit()">로 그 인</button>
+					<br><br><br>
+					<div style="background-color: #FEE500; border-radius: 8px;">
+					    <a class="center-block" id="kakao-login-btn" style="margin-left: calc(50% - 111px); margin-right: calc(50% - 111px);"></a>
+					</div>
 					<div style="height: 15vh;"></div>
 					<div class="row">
 						<form th:action="@{/login/manager}" method="get"><button id="" type="submit" class="btn btn-default btn-lg col-xs-10 col-xs-offset-1" style="margin-bottom: 20px;">관리자로그인</button></form>
@@ -35,27 +39,76 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="/js/kakao.js"></script>
 		<script type="text/javascript">
-		$('#signInBtn').click(function(){
-			//아이디, 비밀번호 입력 확인
-			var mId = $('#memberId').val();
-			var mPw = $('#memberPassword').val();
-			if(mId == null || mId == "" || mId == 'undefined'){
-				Swal.fire({
-					  title: '아이디를 입력해주세요!',
-					  icon: 'info'
-					})
-				$('#memberId').focus();
-				return;
-			}else if(mPw == null || mPw == "" || mPw == 'undefined'){
-				Swal.fire({
-					  title: '비밀번호를 입력해주세요!',
-					  icon: 'info'
-					})
-				$('#memberPassword').focus();
-				return;
-			}
+			//카카오 javascript: d3788a7edce4414e28e5cab2a0ac6ca7
+		      //<![CDATA[
+		        // 사용할 앱의 JavaScript 키를 설정해 주세요.
+		        var userKey = 'd3788a7edce4414e28e5cab2a0ac6ca7';
+		        Kakao.init(userKey);
+		        // 카카오 로그인 버튼을 생성합니다.
+		        Kakao.Auth.createLoginButton({
+		          container: '#kakao-login-btn',
+		          success: function(authObj) {
+		            var accessToken =  authObj.access_token;
+		            var refrechToken = authObj.refresh_token;
+		            $.ajax({
+				        url     : '/ajax/loginKakao',
+				        type    : 'POST',
+				        data    : {accessToken:accessToken, refrechToken:refrechToken},
+				        success : function(data) {
+				        	console.log(data);
+				        	if(data == '성공'){
+				        		Swal.fire({
+									  title: '로그인 성공!',
+									  icon: 'success'
+									});
+				        		document.location.href = '/';
+				        	}else{
+				        		Swal.fire({
+									  title: '로그인실패!',
+									  text: '아이디나 비밀번호가 잘못입력 되었습니다.',
+									  icon: 'error'
+									});
+				        	}
+				        },
+				        error : function(xhr,status,error) {
+				        	console.log("xhr: " + xhr);
+				        	console.log("status: " + status);
+				        	console.log("error: " + error);
+				        }
+				    });
+		          },
+		          
+		          fail: function(err) {
+		             alert(JSON.stringify(err));
+		          }
+		        });
+		      //]]>
+				
+		
+		
 			
+			$('#signInBtn').click(function(){
+				//아이디, 비밀번호 입력 확인
+				var mId = $('#memberId').val();
+				var mPw = $('#memberPassword').val();
+				if(mId == null || mId == "" || mId == 'undefined'){
+					Swal.fire({
+						  title: '아이디를 입력해주세요!',
+						  icon: 'info'
+						})
+					$('#memberId').focus();
+					return;
+				}else if(mPw == null || mPw == "" || mPw == 'undefined'){
+					Swal.fire({
+						  title: '비밀번호를 입력해주세요!',
+						  icon: 'info'
+						})
+					$('#memberPassword').focus();
+					return;
+				}
+				
 			
 			$.ajax({
 		        url     : '/ajax/login',

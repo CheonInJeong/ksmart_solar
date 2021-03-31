@@ -91,7 +91,14 @@
   		  		<result property="bDate" column="b_date"/>
   		  		<result property="bCheck" column="b_check"/>
   		  		<result property="bRank" column="b_rank"/>
-  		  	
+  		  		<association property="businessDTO">
+  		  			<result property="mId" column="m_id"/>
+  		  			<result property="bzCeoName" column="bz_ceo_name"/>
+  		  			<result property="bzCompanyName" column="bz_company_name"/>
+  		  			<result property="bzZipcode" column="bz_zipcode"/>
+  		  			<result property="bzAddr" column="bz_addr"/>
+  		  			<result property="bzDetailAddr" column="bz_detail_addr"/>
+  		  		</association>
   		  		
   		  		
   		  		
@@ -190,22 +197,34 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  <update id="modifyDocumentCheck" parameterType="map">
+  		  	UPDATE 
+  		  		tb_bid_list
+			SET
+				b_check=#{bCheck}
+			WHERE 
+				b_code = #{bCode}
   		  
-  		  <select id="getBuyerInfoById" parameterType="String" resultMap="businessResultMap">
+  		  </update>
+  		  
+  		  
+  		  <select id="getBuyerInfoByCode" parameterType="String" resultMap="BidListResultMap">
   		  	SELECT 
 				b.m_id,
 				b.bz_ceo_name,
 				b.bz_company_name,  
-				b.bz_zipcode,b.bz_addr,b.bz_detail_addr
-				
-			FROM 
-				tb_member AS m 
-			INNER JOIN tb_business AS b on
-				m.m_id = b.m_id 
+				b.bz_zipcode,b.bz_addr,b.bz_detail_addr,
+				l.b_code,
+				l.b_check,
+				l.b_price	
+			FROM 	
+				tb_business AS b 
+			INNER JOIN 
+				tb_bid_list AS l
+			ON
+				l.m_id = b.m_id
 			WHERE
-			 	m.m_level=3
-			AND
-				m.m_id=#{mId}
+				l.b_code=#{bCode}
   		  </select>
   		  
   		  <update id="modifyApplyYn" parameterType="String">

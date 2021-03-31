@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,10 +16,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.kangk0269.api.KakaoLoginApi;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MemberKakao;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 import com.cafe24.kangk0269.serivce.BusinessService;
 import com.cafe24.kangk0269.serivce.MemberService;
@@ -241,10 +244,53 @@ public class MemberManageController {
 				session.setAttribute("SLEVEL", resultLevel);
 				//이름
 				session.setAttribute("SNAME", resultName);	
+				session.setAttribute("SPHOTO", member.getmPhoto());	
 				
 				
 			}else {
 				checkResult = "비번불일치";
+			}
+		}
+		return checkResult;
+	}
+	
+	//카카오 로그인
+	@RequestMapping(value="/ajax/loginKakao", method = RequestMethod.POST)
+	public @ResponseBody String memberLoginKakao(@RequestParam(value="accessToken", required = false)  String accessToken
+												,@RequestParam(value="refrechToken", required = false) String refrechToken
+												,HttpSession session) {
+		System.out.println(accessToken + " <<< accessToken");
+		System.out.println(refrechToken + " <<< refrechToken");
+		
+		String checkResult = "";
+		if(accessToken != null && !"".equals(accessToken)) {	
+			MemberDTO md = memberService.memberLoginKakao(accessToken);
+			if(md != null) {
+				String resultId = md.getmId();
+				String resultName = md.getmName();
+				int resultLevel = md.getmLevel();
+				String mLevel = "";
+				System.out.println(resultLevel + " <<<<<<<<<<< resultLevel");
+				if(resultLevel == 1) {
+					mLevel = "관리자";
+				}
+				if(resultLevel == 2) {
+					mLevel = "태양광사업자";
+				}
+				if(resultLevel == 3) {
+					mLevel = "재활용사업자";
+				}
+				if(resultLevel == 4) {
+					mLevel = "일반회원";
+				}
+				session.setAttribute("SID", resultId);
+				session.setAttribute("SPHOTO", md.getmPhoto());
+				session.setAttribute("SLEVEL", mLevel);
+				session.setAttribute("SNAME", resultName);
+				session.setAttribute("accessToken", accessToken);
+				checkResult = "성공";
+			} else {
+				checkResult = "실패";
 			}
 		}
 		return checkResult;
@@ -288,6 +334,15 @@ public class MemberManageController {
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
+		session.invalidate();
+		return "redirect:/login";
+	}
+	
+	//로그아웃
+	@GetMapping("/logoutKakao")
+	public String logoutKakao(HttpSession session) {
+		KakaoLoginApi kakaoApi = new KakaoLoginApi();
+		kakaoApi.kakaoLogout((String)session.getAttribute("accessToken"));
 		session.invalidate();
 		return "redirect:/login";
 	}

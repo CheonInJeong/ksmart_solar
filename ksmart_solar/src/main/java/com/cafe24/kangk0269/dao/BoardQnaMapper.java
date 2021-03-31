@@ -9,6 +9,12 @@ import com.cafe24.kangk0269.dto.BoardQnaDTO;
 @Mapper
 public interface BoardQnaMapper {
 
+	//문의 검색
+	public List<BoardQnaDTO> getQnaList(String searchKey, String searchValue);
+	
+	//답글 등록
+	public int addReQna(BoardQnaDTO boardQnaDTO);
+	
 	//문의 삭제
 	public int removeQna(int bQnaIdx);
 	
