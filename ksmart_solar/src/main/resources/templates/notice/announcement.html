@@ -39,7 +39,7 @@
 		          	</div>
 		            <div class="group-rom">
 		              <div class="first-part odd">입찰 시작가</div>
-		              <div class="second-part" th:text="${bidComponentdto.bCpPrice}"></div>
+		              <div class="second-part price" th:text="${bidComponentdto.bCpPrice}"></div>
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">부품 사용 시작일</div>
@@ -84,11 +84,11 @@
 	          	</div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입찰 시작가</div>
-	              <div class="second-part" th:text="${bidPlantdto.bPlPrice}"></div>
+	              <div class="second-part price" th:text="${bidPlantdto.bPlPrice}"></div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">잔존 가치</div>
-	              <div class="second-part" th:text="${bidPlantdto.plDepDataResidual}"></div>
+	              <div class="second-part price" th:text="${bidPlantdto.plDepDataResidual}"></div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입찰 신청기간</div>
@@ -120,10 +120,19 @@
 				<div class="form-group" th:if="${bidPlantdto != null and bidPlantdto.acStatusCode==4 and getBidListCount==0}">
 			 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
 				</div>
+				<div class="form-group" th:if="${bidListDTO != null and (bidListDTO.trTypeCode==1 or bidListDTO.trTypeCode==3)}">
+			 		<button id="bidPlantBtn" class="btn btn-default">입찰취소</button>
+				</div>
 				<form class="form-group" action="/notice/paymentInRequest" method="post">
-					<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11}">
+					<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11 and tradePaymentInDTO.mAccountBankName==null}">
 						<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">					
 				 		<button id="paymantIn" type="submit" class="btn btn-default">대금 납부</button>
+					</div>
+				</form>
+				<form class="form-group" action="/notice/modifyPaymentIn" method="post">
+					<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11 and tradePaymentInDTO.mAccountBankName!=null}">
+						<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">					
+				 		<button id="paymantIn" type="submit" class="btn btn-default">대금 납부 수정</button>
 					</div>
 				</form>
 				
@@ -162,7 +171,12 @@
 				notice.parent().find('.sub').css('display','block');
 				notice.parent().find('.sub').children().eq(1).addClass('active');			
 			}
-		
+			$(function(){
+				var price = $('.price');
+				price.each(function(){
+					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				})
+			})
 			$('#bidComponentBtn').click(function(){
 				$('#bidComponentForm').submit();
 			});

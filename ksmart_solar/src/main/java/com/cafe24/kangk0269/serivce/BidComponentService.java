@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 
 @Service
 @Transactional
@@ -53,5 +54,8 @@ public class BidComponentService {
 			}
 		}
 		return bidComponentList;
+	}
+	public ComponentDTO getComponent(String CpCode) {
+		return bidComponentMapper.getComponent(CpCode);
 	}
 }

@@ -20,6 +20,7 @@ import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
@@ -85,6 +86,12 @@ public class NoticeController {
 	@PostMapping("/notice/announcement")
 	public String Announcement(String announceCode, String announceType, Model model,
 							   HttpSession session) {
+		BidListDTO bidListDTO 				= null;
+		BidPlantDTO bidPlantdto 			= null;
+		BusinessPlantDTO businessPlantDTO 	= null;
+		BidComponentDTO bidComponentdto		= null;
+		ComponentDTO componentDTO			= null;
+		TradePaymentInDTO tradePaymentInDTO = null;
 		//공고 코드
 		System.out.println(announceCode);
 		System.out.println(announceType);
@@ -100,22 +107,29 @@ public class NoticeController {
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
 			//이미 입찰을 했다면 입찰한 정보를 보여준다.
-			BidListDTO bidListDTO = bidListService.getBidList(announceCode,id);
+			bidListDTO = bidListService.getBidList(announceCode,id);
 			if(bidListDTO!=null) {
 				System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------");
 				model.addAttribute("bidListDTO",bidListDTO);
 			}
 		}
 		if(announceType!=null && announceType.equals("발전소")) {
-			BidPlantDTO bidPlantdto = bidPlantService.getBidPlantByInfo(announceCode);
-			BusinessPlantDTO businessPlantDTO = bidPlantService.getPlant(announceCode);
+			bidPlantdto = bidPlantService.getBidPlantByInfo(announceCode);
+			businessPlantDTO = bidPlantService.getPlant(announceCode);
 			System.out.println(businessPlantDTO+"----------------------------------발전소 정보");
 			model.addAttribute("bidPlantdto", bidPlantdto);
 			model.addAttribute("businessPlantDTO", businessPlantDTO);
 		}
 		if(announceType!=null && announceType.equals("부품")) {
-			BidComponentDTO bidComponentdto = bidComponentService.getBidComponentByInfo(announceCode);
+			bidComponentdto = bidComponentService.getBidComponentByInfo(announceCode);
+			componentDTO = bidComponentService.getComponent(bidComponentdto.getCpCode());
 			model.addAttribute("bidComponentdto", bidComponentdto);
+			model.addAttribute("componentDTO", componentDTO);
+		}
+		if(bidListDTO!=null && bidListDTO.getTrTypeCode()==11) {
+			tradePaymentInDTO = tradeService.getTradePaymentIn(bidListDTO.getbCode());
+			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
+			System.out.println(tradePaymentInDTO.getmAccountBankName()+"========================================대금납부할 은행");
 		}
 		return "/notice/announcement";
 	}
@@ -131,6 +145,24 @@ public class NoticeController {
 			model.addAttribute("bidListDTO", bidListDTO);
 		}
 		return "/notice/paymentInRequest";
+	}
+	@PostMapping("/notice/modifyPaymentIn")
+	public String modifyPaymentIn(String bCode, Model model) {
+		System.out.println(bCode+"-------------------------------------------");
+		if(bCode!=null) {
+			BidListDTO bidListDTO = bidListService.getBidList(bCode);
+			TradePaymentInDTO tradePaymentInDTO = tradeService.getTradePaymentIn(bCode);
+			System.out.println(bidListDTO+"-------------------------------------------------");
+			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
+			model.addAttribute("bidListDTO", bidListDTO);
+		}
+		return "/notice/modifyPaymentIn";
+	}
+	@PostMapping("/notice/addpaymentInRequest")
+	public String addpaymentInRequest(TradePaymentInDTO paymentInDTO) {
+		System.out.println(paymentInDTO);
+		tradeService.modifyTradePaymentIn(paymentInDTO);
+		return "redirect:/buy/myHistory";
 	}
 	//입찰신청 페이지
 	@PostMapping("/notice/bidRequest")
