@@ -139,8 +139,16 @@ public class SellService {
 	//발전소 신청
 	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.addPlantApply(bidPlantDto);
-		System.out.println(bidPlantDto.getbPlCode()+"<------파일 관련 공고 코드");
-		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
+		//조회처리과정추가
+		/*
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 * System.out.println(bidPlantDto.getBzPlCode()+"<-----발전소코드");
+		 */
+		BidPlantDTO bidCode =sellMapper.getBidPlantCode(bidPlantDto.getBzPlCode());
+		System.out.println(bidCode.getbPlCode()+"<-------bidCode.getbPlCode()");
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
 			sellMapper.addFile(filelist);
 		}
@@ -152,7 +160,7 @@ public class SellService {
 	}
 	
 
-	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue ){
+	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue){
 
 		if(searchKey!=null) {
 			if("bPlCode".equals(searchKey)) {

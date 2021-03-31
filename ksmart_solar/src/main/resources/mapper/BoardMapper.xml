@@ -23,6 +23,8 @@
   		  		<result property="creatorId" column="creator_id"/>
   		  </resultMap>
   		  
+  		
+  		  
   		  <select id="selectBoardFileInfo" parameterType="map" resultMap ="boardfileResultMap">
   		  		select
   		  			original_file_name,

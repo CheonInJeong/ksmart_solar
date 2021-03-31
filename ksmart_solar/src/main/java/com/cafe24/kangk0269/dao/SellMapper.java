@@ -19,6 +19,11 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	
+	//발전소 공고 코드 가져오기
+	public BidPlantDTO getBidPlantCode(String code) ;
+
+	
 	//서류 적합성 판단 수정
 	public int modifyDocumentCheck(@Param(value="bCode") String code
 								  ,@Param(value="bCheck") String check);
