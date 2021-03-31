@@ -8,7 +8,13 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>수익 분석</strong></div>
-		<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트 > 발전소 상세정보 > 수익 분석</div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">메인화면 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
+			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>>
+			<a href="/plant/plantDetail" style="text-decoration: none;"> 발전소 상세정보 </a>>
+			<a href="/plant/plantDetail/benefitAnalysis" style="text-decoration: none;"> 수익 분석 </a>
+		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
 			<div class="content-panel">

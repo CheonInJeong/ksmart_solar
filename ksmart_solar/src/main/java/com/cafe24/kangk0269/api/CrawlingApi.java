@@ -14,16 +14,6 @@ import org.jsoup.nodes.Element;
 
 public class CrawlingApi {
 	
-	/*
-	 * public void crawLingKpxData() throws IOException { String URL = ""; Document
-	 * doc = Jsoup.connect(URL).get(); Elements elem = doc.select("");
-	 * 
-	 * 
-	 * 
-	 * 
-	 * }
-	 */
-	
     public PlantKpxDTO crawLingKpxData() {
     	//크롤링할 url지정
     	String url = "https://www.kpx.or.kr/";
@@ -125,21 +115,39 @@ public class CrawlingApi {
             count1++;
         }
         System.out.println("============================================================");
+        
         System.out.println("============================================================");
         while (ie2.hasNext()) {
         	String smpValue = "";
         	if(count2 == 1) {
-        		
+        		//REC 날짜
+        		smpValue = ie2.next().text();
+        		int idx = smpValue.indexOf("(");
+        		smpValue = smpValue.substring(0, idx);
+        		if(smpValue.contains(".")) {
+        			smpValue = smpValue.replace(".", "-");
+        		}
+        		pk.setPlKpxRecDate(smpValue);
         	}else if(count2 == 2) {
-        		
+        		//REC 거래량
+        		smpValue = ie2.next().text();
+        		pk.setPlKpxRecTrade(smpValue);
         	}else if(count2 == 3) {
-        		
+        		//REC 평균
+        		smpValue = ie2.next().text();
+        		pk.setPlKpxRecAvg(smpValue);
         	}else if(count2 == 4) {
-        		
+        		//REC 최고가
+        		smpValue = ie2.next().text();
+        		pk.setPlKpxRecMax(smpValue);
         	}else if(count2 == 5) {
-        		
+        		//REC 최저가
+        		smpValue = ie2.next().text();
+        		pk.setPlKpxRecMin(smpValue);
         	}else if(count2 == 6) {
-        		
+        		//REC 종가
+        		smpValue = ie2.next().text();
+        		pk.setPlKpxRecEnd(smpValue);
         	}
         	System.out.println(smpValue);
         	count2++;

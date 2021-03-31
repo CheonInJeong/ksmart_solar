@@ -21,19 +21,19 @@ public class ScheduledTimer {
 	private PlantService plantService;
 	
 	//매일 오전 8시에 실행 되는 api
-	@Scheduled(cron = "0  00  8  *  *  *") 
+	@Scheduled(cron = "0  01  8  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		RadiationApi raApi = new RadiationApi();
 		raApi.weatherApiAction();
 	}
 	
-	@Scheduled(cron = "0  55  11  *  *  *") 
+	@Scheduled(cron = "0  00  8  *  *  *") 
 	public void kpxApiTimer() {
 		CrawlingApi crawlingApi = new CrawlingApi();
 		PlantKpxDTO pk = new PlantKpxDTO();
 		pk = crawlingApi.crawLingKpxData();
 		System.out.println(pk);
-		System.out.println(plantService.getAllPlantAdmitList());
+		plantService.crawLingKpxData(pk);
 		
 	}
 	
