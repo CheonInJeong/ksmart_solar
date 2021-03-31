@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.dto;
 
+import java.util.List;
+
 public class BidPlantDTO {
 	//제발좀 되라
 	private int num;
@@ -8,7 +10,7 @@ public class BidPlantDTO {
 	private String mId; 
 	private String bPlTitle; 
 	private String bPlContents;
-	private int bPlPrice; 
+	private long bPlPrice; 
 	private int plDepDataResidual;
 	private int plDepPrice;
 	private String plDepStartDate;
@@ -29,6 +31,16 @@ public class BidPlantDTO {
 	private String bPlCancelReason; 
 	private String bPlCancelDate;
 	private BidListDTO bidListDTO;
+	private List<BidListDTO> bidListDTOList;
+	public List<BidListDTO> getBidListDTOList() {
+		return bidListDTOList;
+	}
+	public void setBidListDTOList(List<BidListDTO> bidListDTOList) {
+		this.bidListDTOList = bidListDTOList;
+	}
+	public void setbPlPrice(long bPlPrice) {
+		this.bPlPrice = bPlPrice;
+	}
 	private BusinessPlantDTO businessPlantDTO;
 	public int getNum() {
 		return num;
@@ -66,7 +78,7 @@ public class BidPlantDTO {
 	public void setbPlContents(String bPlContents) {
 		this.bPlContents = bPlContents;
 	}
-	public int getbPlPrice() {
+	public long getbPlPrice() {
 		return bPlPrice;
 	}
 	public void setbPlPrice(int bPlPrice) {
@@ -255,6 +267,8 @@ public class BidPlantDTO {
 		builder.append(bPlCancelDate);
 		builder.append(", bidListDTO=");
 		builder.append(bidListDTO);
+		builder.append(", bidListDTOList=");
+		builder.append(bidListDTOList);
 		builder.append(", businessPlantDTO=");
 		builder.append(businessPlantDTO);
 		builder.append("]");

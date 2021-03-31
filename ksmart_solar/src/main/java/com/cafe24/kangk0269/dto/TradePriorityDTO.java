@@ -10,7 +10,7 @@ public class TradePriorityDTO {
 	private String mIdSeller;
 	private String mIdBuyer;
 	private int trPrRank;
-	private int trPrPrice;
+	private long trPrPrice;
 	private double sDepositRate;
 	private int bDeposit;
 	private String trPrConclusionDate1;
@@ -98,7 +98,7 @@ public class TradePriorityDTO {
 		this.trPrRank = trPrRank;
 	}
 
-	public int getTrPrPrice() {
+	public long getTrPrPrice() {
 		return trPrPrice;
 	}
 

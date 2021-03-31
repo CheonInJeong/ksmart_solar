@@ -76,6 +76,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			bl.announced_code = #{announceCode}
 		and
 			bl.m_id=#{id}
+		and
+			(tr_type_code=1 OR tr_type_code=3)
 	</select>
 	<select id="getBidList" parameterType="String" resultMap="BidListDTOMap">
 		SELECT 
@@ -116,5 +118,26 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				and b_code = #{bCode}
 			</if>
 		</trim>
+		ORDER BY b_date desc
+		LIMIT 1
 	</select>
+	<select id="getBidCode" resultType="String">
+		SELECT 
+			b_code
+		FROM 
+			tb_bid_list
+		WHERE 
+			announced_code = #{announceCode} and
+			m_id=#{id} and
+			tr_type_code = 1
+	</select>
+	<update id="bidCancel" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code=4,
+			tr_type_name='입찰취소',
+			b_deposit_available='Y'
+		WHERE 
+			b_code = #{bCode}
+	</update>
 </mapper>

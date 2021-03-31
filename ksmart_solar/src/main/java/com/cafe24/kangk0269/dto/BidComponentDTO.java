@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.dto;
 
+import java.util.List;
+
 public class BidComponentDTO {
 	private String bCpCode;	
 	private int num;	
@@ -7,7 +9,7 @@ public class BidComponentDTO {
 	private String bCpTitle;	
 	private String cpCode;	
 	private String bCpContents;
-	private int bCpPrice;	
+	private long bCpPrice;	
 	private String bCpSpecs;	
 	private String cpUsedate;	
 	private String bCpDocument;	
@@ -27,6 +29,7 @@ public class BidComponentDTO {
 	private int acStatusCode;
 	private int bCpBidderNumber;
 	private BidListDTO bidListDTO;
+	private List<BidListDTO> bidListDTOList;
 	private ComponentDTO componentDTO;
 	public String getbCpCode() {
 		return bCpCode;
@@ -64,10 +67,10 @@ public class BidComponentDTO {
 	public void setbCpContents(String bCpContents) {
 		this.bCpContents = bCpContents;
 	}
-	public int getbCpPrice() {
+	public long getbCpPrice() {
 		return bCpPrice;
 	}
-	public void setbCpPrice(int bCpPrice) {
+	public void setbCpPrice(long bCpPrice) {
 		this.bCpPrice = bCpPrice;
 	}
 	public String getbCpSpecs() {
@@ -184,6 +187,12 @@ public class BidComponentDTO {
 	public void setBidListDTO(BidListDTO bidListDTO) {
 		this.bidListDTO = bidListDTO;
 	}
+	public List<BidListDTO> getBidListDTOList() {
+		return bidListDTOList;
+	}
+	public void setBidListDTOList(List<BidListDTO> bidListDTOList) {
+		this.bidListDTOList = bidListDTOList;
+	}
 	public ComponentDTO getComponentDTO() {
 		return componentDTO;
 	}
@@ -245,13 +254,12 @@ public class BidComponentDTO {
 		builder.append(bCpBidderNumber);
 		builder.append(", bidListDTO=");
 		builder.append(bidListDTO);
+		builder.append(", bidListDTOList=");
+		builder.append(bidListDTOList);
 		builder.append(", componentDTO=");
 		builder.append(componentDTO);
 		builder.append("]");
 		return builder.toString();
 	}
-
-	
-	
-	
+		
 }

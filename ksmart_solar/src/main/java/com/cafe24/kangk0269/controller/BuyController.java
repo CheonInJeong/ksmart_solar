@@ -35,6 +35,11 @@ public class BuyController {
 		if(sId != null) {
 			List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(sId);
 			List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(sId);
+			System.out.println(bidPlantList+"--------------------------------------------입찰신청한 발전소 목록");
+			System.out.println(bidPlantList.get(0).getBidListDTO().getTrTypeName()+"--------------------------------------------1");
+			System.out.println(bidPlantList.get(1).getBidListDTO().getTrTypeName()+"--------------------------------------------2");
+			System.out.println(bidPlantList.get(0).getBidListDTOList().get(0).getTrTypeName()+"--------------------------------------------입찰신청한 발전소 목록");
+			System.out.println(bidPlantList.size());
 			if(bidPlantList!=null) {				
 				model.addAttribute("bidPlantList", bidPlantList);
 			}
