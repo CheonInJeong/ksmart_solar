@@ -19,6 +19,27 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
+	<!-- 문의 검색  -->
+		SELECT 
+			  b_qna_idx
+			, b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp
+		FROM 
+			tb_board_qna	
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null	and searchKey !=''.toString()">
+				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%')
+			</if>
+		</trim>
 	<!-- 문의 삭제 -->
 	<delete id="removeQna" parameterType="int">
 		DELETE FROM 
