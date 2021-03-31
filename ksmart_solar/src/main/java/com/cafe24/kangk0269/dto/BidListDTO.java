@@ -6,7 +6,7 @@ public class BidListDTO {
 	private String bTypeCode;	
 	private String bTitle;	
 	private String mId;
-	private int bPrice;
+	private long bPrice;
 	private double sDepositRate;
 	private int bDeposit;	
 	private String bDepositCheck;
@@ -27,182 +27,276 @@ public class BidListDTO {
 	private String mAccountNumber;
 	private String mPaymentName;
 
-	//인정추가
-	private String bzPlName;
-	private String bPlTitle;
+	private BusinessDTO businessDTO;
+
 	public String getbCode() {
 		return bCode;
 	}
+
 	public void setbCode(String bCode) {
 		this.bCode = bCode;
 	}
+
 	public String getAnnouncedCode() {
 		return announcedCode;
 	}
+
 	public void setAnnouncedCode(String announcedCode) {
 		this.announcedCode = announcedCode;
 	}
+
 	public String getbTypeCode() {
 		return bTypeCode;
 	}
+
 	public void setbTypeCode(String bTypeCode) {
 		this.bTypeCode = bTypeCode;
 	}
+
 	public String getbTitle() {
 		return bTitle;
 	}
+
 	public void setbTitle(String bTitle) {
 		this.bTitle = bTitle;
 	}
+
 	public String getmId() {
 		return mId;
 	}
+
 	public void setmId(String mId) {
 		this.mId = mId;
 	}
-	public int getbPrice() {
+
+	public long getbPrice() {
 		return bPrice;
 	}
-	public void setbPrice(int bPrice) {
+
+	public void setbPrice(long bPrice) {
 		this.bPrice = bPrice;
 	}
+
 	public double getsDepositRate() {
 		return sDepositRate;
 	}
+
 	public void setsDepositRate(double sDepositRate) {
 		this.sDepositRate = sDepositRate;
 	}
+
 	public int getbDeposit() {
 		return bDeposit;
 	}
+
 	public void setbDeposit(int bDeposit) {
 		this.bDeposit = bDeposit;
 	}
+
 	public String getbDepositCheck() {
 		return bDepositCheck;
 	}
+
 	public void setbDepositCheck(String bDepositCheck) {
 		this.bDepositCheck = bDepositCheck;
 	}
+
 	public String getbMoCode() {
 		return bMoCode;
 	}
+
 	public void setbMoCode(String bMoCode) {
 		this.bMoCode = bMoCode;
 	}
+
 	public String getbDepositDate() {
 		return bDepositDate;
 	}
+
 	public void setbDepositDate(String bDepositDate) {
 		this.bDepositDate = bDepositDate;
 	}
+
 	public int getTrTypeCode() {
 		return trTypeCode;
 	}
+
 	public void setTrTypeCode(int trTypeCode) {
 		this.trTypeCode = trTypeCode;
 	}
+
 	public String getTrTypeName() {
 		return trTypeName;
 	}
+
 	public void setTrTypeName(String trTypeName) {
 		this.trTypeName = trTypeName;
 	}
+
 	public String getDcInstructions() {
 		return dcInstructions;
 	}
+
 	public void setDcInstructions(String dcInstructions) {
 		this.dcInstructions = dcInstructions;
 	}
+
 	public String getDcApplication() {
 		return dcApplication;
 	}
+
 	public void setDcApplication(String dcApplication) {
 		this.dcApplication = dcApplication;
 	}
+
 	public String getDcProposal() {
 		return dcProposal;
 	}
+
 	public void setDcProposal(String dcProposal) {
 		this.dcProposal = dcProposal;
 	}
+
 	public String getbDate() {
 		return bDate;
 	}
+
 	public void setbDate(String bDate) {
 		this.bDate = bDate;
 	}
+
 	public String getbCheck() {
 		return bCheck;
 	}
+
 	public void setbCheck(String bCheck) {
 		this.bCheck = bCheck;
 	}
+
 	public int getbRank() {
 		return bRank;
 	}
+
 	public void setbRank(int bRank) {
 		this.bRank = bRank;
 	}
+
 	public String getbDepositAvailable() {
 		return bDepositAvailable;
 	}
+
 	public void setbDepositAvailable(String bDepositAvailable) {
 		this.bDepositAvailable = bDepositAvailable;
 	}
+
 	public String getbDepositRefund() {
 		return bDepositRefund;
 	}
+
 	public void setbDepositRefund(String bDepositRefund) {
 		this.bDepositRefund = bDepositRefund;
 	}
+
 	public String getbDateUp() {
 		return bDateUp;
 	}
+
 	public void setbDateUp(String bDateUp) {
 		this.bDateUp = bDateUp;
 	}
+
 	public String getmAccountBankName() {
 		return mAccountBankName;
 	}
+
 	public void setmAccountBankName(String mAccountBankName) {
 		this.mAccountBankName = mAccountBankName;
 	}
+
 	public String getmAccountNumber() {
 		return mAccountNumber;
 	}
+
 	public void setmAccountNumber(String mAccountNumber) {
 		this.mAccountNumber = mAccountNumber;
 	}
+
 	public String getmPaymentName() {
 		return mPaymentName;
 	}
+
 	public void setmPaymentName(String mPaymentName) {
 		this.mPaymentName = mPaymentName;
 	}
-	public String getBzPlName() {
-		return bzPlName;
+
+	public BusinessDTO getBusinessDTO() {
+		return businessDTO;
 	}
-	public void setBzPlName(String bzPlName) {
-		this.bzPlName = bzPlName;
+
+	public void setBusinessDTO(BusinessDTO businessDTO) {
+		this.businessDTO = businessDTO;
 	}
-	public String getbPlTitle() {
-		return bPlTitle;
-	}
-	public void setbPlTitle(String bPlTitle) {
-		this.bPlTitle = bPlTitle;
-	}
+
 	@Override
 	public String toString() {
-		return "BidListDTO [bCode=" + bCode + ", announcedCode=" + announcedCode + ", bTypeCode=" + bTypeCode
-				+ ", bTitle=" + bTitle + ", mId=" + mId + ", bPrice=" + bPrice + ", sDepositRate=" + sDepositRate
-				+ ", bDeposit=" + bDeposit + ", bDepositCheck=" + bDepositCheck + ", bMoCode=" + bMoCode
-				+ ", bDepositDate=" + bDepositDate + ", trTypeCode=" + trTypeCode + ", trTypeName=" + trTypeName
-				+ ", dcInstructions=" + dcInstructions + ", dcApplication=" + dcApplication + ", dcProposal="
-				+ dcProposal + ", bDate=" + bDate + ", bCheck=" + bCheck + ", bRank=" + bRank + ", bDepositAvailable="
-				+ bDepositAvailable + ", bDepositRefund=" + bDepositRefund + ", bDateUp=" + bDateUp
-				+ ", mAccountBankName=" + mAccountBankName + ", mAccountNumber=" + mAccountNumber + ", mPaymentName="
-				+ mPaymentName + ", bzPlName=" + bzPlName + ", bPlTitle=" + bPlTitle + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("BidListDTO [bCode=");
+		builder.append(bCode);
+		builder.append(", announcedCode=");
+		builder.append(announcedCode);
+		builder.append(", bTypeCode=");
+		builder.append(bTypeCode);
+		builder.append(", bTitle=");
+		builder.append(bTitle);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", bPrice=");
+		builder.append(bPrice);
+		builder.append(", sDepositRate=");
+		builder.append(sDepositRate);
+		builder.append(", bDeposit=");
+		builder.append(bDeposit);
+		builder.append(", bDepositCheck=");
+		builder.append(bDepositCheck);
+		builder.append(", bMoCode=");
+		builder.append(bMoCode);
+		builder.append(", bDepositDate=");
+		builder.append(bDepositDate);
+		builder.append(", trTypeCode=");
+		builder.append(trTypeCode);
+		builder.append(", trTypeName=");
+		builder.append(trTypeName);
+		builder.append(", dcInstructions=");
+		builder.append(dcInstructions);
+		builder.append(", dcApplication=");
+		builder.append(dcApplication);
+		builder.append(", dcProposal=");
+		builder.append(dcProposal);
+		builder.append(", bDate=");
+		builder.append(bDate);
+		builder.append(", bCheck=");
+		builder.append(bCheck);
+		builder.append(", bRank=");
+		builder.append(bRank);
+		builder.append(", bDepositAvailable=");
+		builder.append(bDepositAvailable);
+		builder.append(", bDepositRefund=");
+		builder.append(bDepositRefund);
+		builder.append(", bDateUp=");
+		builder.append(bDateUp);
+		builder.append(", mAccountBankName=");
+		builder.append(mAccountBankName);
+		builder.append(", mAccountNumber=");
+		builder.append(mAccountNumber);
+		builder.append(", mPaymentName=");
+		builder.append(mPaymentName);
+		builder.append(", businessDTO=");
+		builder.append(businessDTO);
+		builder.append("]");
+		return builder.toString();
 	}
+
+	
+	
 	
 }

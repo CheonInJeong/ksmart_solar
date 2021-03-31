@@ -49,7 +49,7 @@
                   	<td>서류3</td>
                   	<td th:text=${b.bCheck}></td>
                   	<td th:text=${b.bRank}></td>
-                  	<td><a th:href="@{/sell/plantBidderDetail(mId=${b.mId})}" class="btn btn-default">상세보기</a></td>
+                  	<td><a th:href="@{/sell/plantBidderDetail(code=${b.bCode})}" class="btn btn-default">상세보기</a></td>
                   </tr>
                   <tr th:unless="${#lists.size(bidder)}>0">
                   	<td colspan="8" style="text-align:center;">아직 입찰자가 없습니다.</td>
