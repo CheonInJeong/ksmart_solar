@@ -43,12 +43,13 @@ public class SellController {
 		sellService.modifyDocumentCheck(code, check);
 		return check;
 	}
-	
+	//**********************************here!*********************************************
 	//입찰자 정보 보기 (회원정보+입찰내용)
 	@GetMapping("/sell/plantBidderDetail")
 	public String plantBidderDetail(@RequestParam(value="code") String code,
 									Model model) {
 		model.addAttribute("member", sellService.getBuyerInfoByCode(code));
+		model.addAttribute("file",sellService.getBidderFileList(code));
 		return "sell/plantBidderDetail";
 	}
 	
@@ -89,6 +90,8 @@ public class SellController {
 	
 	//부품 공고 내용 조회
 	
+
+	
 	@GetMapping("/sell/getBidComponentDetail")
 	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
 		model.addAttribute("detail", sellService.getComponentDetail(code));
@@ -98,8 +101,9 @@ public class SellController {
 	//발전소 공고 내용 조회
 	@GetMapping("/sell/getBidPlantDetail")
 	public String getBidPlantDetail(@RequestParam(value="bPlCode") String code,Model model) {
-		List<BidPlantDTO> bidPlantDetail = sellService.getBidPlantDetail(code);
-		model.addAttribute("bidPlantDetail", bidPlantDetail);
+		
+		model.addAttribute("bidPlantDetail", sellService.getBidPlantDetail(code));
+		model.addAttribute("file", sellService.getsellerFileList(code));
 		return "sell/bidPlantDetail";
 	}
 	
@@ -212,7 +216,12 @@ public class SellController {
 	@GetMapping("/sell/paymentList")
 	public String PaymentList(Model model, HttpSession session) {
 		String sessionId = (String)session.getAttribute("SID");
-		model.addAttribute("available", sellService.getPaymentOutList(sessionId));
+		//출금가능한목록
+		model.addAttribute("available", sellService.getPaymentAvailable(sessionId));
+		
+		//출금신청한 목록
+		model.addAttribute("apply", sellService.getPaymentApplyList(sessionId));
+		//출금완료된 목록
 		return "sell/paymentList";
 	}
 	@GetMapping("/sell/qna")
