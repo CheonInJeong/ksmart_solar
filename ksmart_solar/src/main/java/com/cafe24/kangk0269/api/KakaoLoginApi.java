@@ -69,7 +69,6 @@ public class KakaoLoginApi {
 	        // TODO Auto-generated catch block
 	        e.printStackTrace();
 	    }
-	    System.out.println("리턴이안됨?");
 	    return userInfo;
 	}
 	

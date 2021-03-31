@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.kangk0269.api.CrawlingApi;
 import com.cafe24.kangk0269.api.KakaoLoginApi;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
@@ -296,41 +297,6 @@ public class MemberManageController {
 		return checkResult;
 	}
 	
-	//버튼 로그인 (관리자)
-	@GetMapping("/login/manager")
-	public String loginManager(HttpSession session) {
-		//아이디 
-		session.setAttribute("SID", "manager01"); 
-		//권한
-		session.setAttribute("SLEVEL", "관리자"); 
-		//이름 
-		session.setAttribute("SNAME","김관리");
-		return "main";
-	}
-	//버튼 로그인 (태양광사업자)
-	@GetMapping("/login/solar")
-	public String loginSolar(HttpSession session) {
-		//아이디 
-		session.setAttribute("SID", "solar01"); 
-		//권한
-		session.setAttribute("SLEVEL", "태양광사업자"); 
-		//이름 
-		session.setAttribute("SNAME","강태양");
-		return "main";
-	}
-	//버튼 로그인 (관리자)
-	@GetMapping("/login/recycle")
-	public String loginRecycle(HttpSession session) {
-		//아이디 
-		session.setAttribute("SID", "recycle01"); 
-		//권한
-		session.setAttribute("SLEVEL", "재활용사업자"); 
-		//이름 
-		session.setAttribute("SNAME","박구매");
-		return "main";
-	}
-	
-	
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
@@ -338,7 +304,7 @@ public class MemberManageController {
 		return "redirect:/login";
 	}
 	
-	//로그아웃
+	// 카카오로그아웃
 	@GetMapping("/logoutKakao")
 	public String logoutKakao(HttpSession session) {
 		KakaoLoginApi kakaoApi = new KakaoLoginApi();

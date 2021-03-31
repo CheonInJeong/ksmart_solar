@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.text.DecimalFormat;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,8 @@ import org.springframework.ui.Model;
 import com.cafe24.kangk0269.dao.PlantMapper;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
+import com.cafe24.kangk0269.dto.PlantKpxDTO;
 
 @Service
 @Transactional
@@ -50,15 +53,37 @@ public class PlantService {
 
 	public List<BusinessPlantDTO> getPlantListByCode(Model model, String bzCode) {
 		List<BusinessPlantDTO> plantList = plantMapper.getPlantListByCode(bzCode);
+		return plantList;
+	}
+	
+	public List<BusinessPlantDTO> getPlantDetail(Model model, String bzCode) {
+		List<BusinessPlantDTO> plantList = plantMapper.getPlantListByCode(bzCode);
+		PlantKpxDTO pk = plantMapper.getKpxTodayData();
+		String bzPlCode = plantList.get(0).getBzPlCode();
+		PlantDepreciationDTO pd = plantMapper.getPlantDepreciationByBzCode(bzPlCode);
 		
-		//발전량 예시(구현 예정)
+		DecimalFormat formatter = new DecimalFormat("###,###");
+		model.addAttribute("area", formatter.format(plantList.get(0).getBzPlArea()));
+		model.addAttribute("power", formatter.format(plantList.get(0).getBzPlPower()));
+		model.addAttribute("depPrice", formatter.format(pd.getPlDepPrice()));
+		model.addAttribute("basedPrice", formatter.format(pd.getPlDepPriceBased()));
+		model.addAttribute("plantKpx", pk);
+		model.addAttribute("plantDepreciation", pd);
+		model.addAttribute("plantListByCode", plantList);
+		
+		
+		
 		double plantGenDay = 111.12;
 		double plantGenMonth = 36542.12;
-		
 		model.addAttribute("plantGenDay", plantGenDay);
 		model.addAttribute("plantGenMonth", plantGenMonth);
 		
 		return plantList;
+	}
+
+	public int crawLingKpxData(PlantKpxDTO pk) {
+		int result = plantMapper.crawLingKpxData(pk);
+		return result;
 	}
 	
 	

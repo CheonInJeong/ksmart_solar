@@ -19,7 +19,108 @@
 		<result property="bzPlInvMaker" 	column="bz_pl_inv_maker"/>
 		<result property="bzPlRec" 			column="bz_pl_rec"/>
 	</resultMap>
-
+	<resultMap type="PlantKpxDTO" id="plantKpxResultMap">
+		<result property="plKpxIdx" 			column="pl_kpx_idx"/>
+		<result property="plKpxTime" 			column="pl_kpx_time"/>
+		<result property="plKpxSmpShoreDate" 	column="pl_kpx_smp_shore_date"/>
+		<result property="plKpxSmpShoreMax" 	column="pl_kpx_smp_shore_max"/>
+		<result property="plKpxSmpShoreMin" 	column="pl_kpx_smp_shore_min"/>
+		<result property="plKpxSmpShoreAvg" 	column="pl_kpx_smp_shore_avg"/>
+		<result property="plKpxSmpJejuDate" 	column="pl_kpx_smp_jeju_date"/>
+		<result property="plKpxSmpJejuMax" 		column="pl_kpx_smp_jeju_max"/>
+		<result property="plKpxSmpJejuMin" 		column="pl_kpx_smp_jeju_min"/>
+		<result property="plKpxSmpJejuAvg" 		column="pl_kpx_smp_jeju_avg"/>
+		<result property="plKpxRecDate" 		column="pl_kpx_rec_date"/>
+		<result property="plKpxRecTrade" 		column="pl_kpx_rec_trade"/>
+		<result property="plKpxRecAvg" 			column="pl_kpx_rec_avg"/>
+		<result property="plKpxRecMax" 			column="pl_kpx_rec_max"/>
+		<result property="plKpxRecMin" 			column="pl_kpx_rec_min"/>
+		<result property="plKpxRecEnd" 			column="pl_kpx_rec_end"/> 
+	</resultMap>
+	<resultMap type="PlantDepreciationDTO" id="plantDepreciationResultMap">
+		<result property="plDepIdx" 		column="pl_dep_idx"/>
+		<result property="bzPlCode" 		column="bz_pl_code"/>
+		<result property="plDepPriceBased" 	column="pl_dep_price_based"/>
+		<result property="plDepPrice" 		column="pl_dep_price"/>
+		<result property="plDepStartDate" 	column="pl_dep_start_date"/>
+		<result property="plDepBuyDate" 	column="pl_dep_buy_date"/>
+		<result property="plDepMaintenance" column="pl_dep_maintenance"/>
+		<result property="plDepUsed" 		column="pl_dep_used"/>
+		<result property="plDepServicelife" column="pl_dep_servicelife"/>
+	</resultMap>
+	<select id="getPlantDepreciationByBzCode" resultMap="plantDepreciationResultMap" parameterType="String">
+		SELECT
+			bz_pl_code
+			,pl_dep_price_based
+			,pl_dep_price
+			,pl_dep_start_date
+			,pl_dep_buy_date
+			,pl_dep_maintenance
+			,pl_dep_used
+			,pl_dep_servicelife
+		FROM
+			tb_plant_depreciation
+		WHERE
+			bz_pl_code = #{bzPlCode};
+	</select>
+	<select id="getKpxTodayData" resultMap="plantKpxResultMap">
+		SELECT
+			pl_kpx_time
+			,pl_kpx_smp_shore_date
+			,pl_kpx_smp_shore_max
+			,pl_kpx_smp_shore_min
+			,pl_kpx_smp_shore_avg
+			,pl_kpx_smp_jeju_date
+			,pl_kpx_smp_jeju_max
+			,pl_kpx_smp_jeju_min
+			,pl_kpx_smp_jeju_avg
+			,pl_kpx_rec_date
+			,pl_kpx_rec_trade
+			,pl_kpx_rec_avg
+			,pl_kpx_rec_max
+			,pl_kpx_rec_min
+			,pl_kpx_rec_end
+		FROM
+			tb_plant_kpx
+		ORDER BY 
+			pl_kpx_time DESC
+		LIMIT 1;
+	</select>
+	
+	<insert id="crawLingKpxData" parameterType="PlantKpxDTO">
+		INSERT INTO tb_plant_kpx
+			(pl_kpx_time
+			,pl_kpx_smp_shore_date
+			,pl_kpx_smp_shore_max
+			,pl_kpx_smp_shore_min
+			,pl_kpx_smp_shore_avg
+			,pl_kpx_smp_jeju_date
+			,pl_kpx_smp_jeju_max
+			,pl_kpx_smp_jeju_min
+			,pl_kpx_smp_jeju_avg
+			,pl_kpx_rec_date
+			,pl_kpx_rec_trade
+			,pl_kpx_rec_avg
+			,pl_kpx_rec_max
+			,pl_kpx_rec_min
+			,pl_kpx_rec_end)
+		VALUES
+			(#{plKpxTime}
+			,#{plKpxSmpShoreDate}
+			,#{plKpxSmpShoreMax}
+			,#{plKpxSmpShoreMin}
+			,#{plKpxSmpShoreAvg}
+			,#{plKpxSmpJejuDate}
+			,#{plKpxSmpJejuMax}
+			,#{plKpxSmpJejuMin}
+			,#{plKpxSmpJejuAvg}
+			,#{plKpxRecDate}
+			,#{plKpxRecTrade}
+			,#{plKpxRecAvg}
+			,#{plKpxRecMax}
+			,#{plKpxRecMin}
+			,#{plKpxRecEnd});
+	</insert>
 	<update id="plantReturn" parameterType="BusinessPlantDTO">
 		UPDATE tb_business_plant
 		SET

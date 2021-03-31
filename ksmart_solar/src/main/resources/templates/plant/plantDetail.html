@@ -7,7 +7,7 @@
 		<title>발전소 상세정보</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>발전소 리스트</strong></div>
+		<div id="container-header-title"><strong>발전소 상세정보</strong></div>
 		<div id="container-header-path">
 			<a href="/" style="text-decoration: none;">메인화면 </a>>
 			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
@@ -24,60 +24,60 @@
 						<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
 					</div>
 					<div class="h2 col-md-8">
-						<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis" value="수익 분석" style="width: 29%; margin-bottom: 10px;">
+						<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-4" value="수익 분석" style="width: 29%; margin-bottom: 10px;">
 						<!-- 발전량 분석은 하드웨어가 있는 것만 하드웨어 없는 것은 폼을 다시 만들어야함 -->
-						<input type="button" id="" class="btn btn-primary btn-md generationAnalysis"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
-						<input type="button" id="" class="btn btn-primary btn-md generationPredict"  value="예상 발전량" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+						<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-4"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+						<input type="button" id="" class="btn btn-primary btn-md generationPredict col-xs-4"  value="예상 발전량" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금일 발전량</div>
-						<p class="h4">[[${plantGenDay}]] [kWh]</p>
+						<p class="h3">[[${plantGenDay}]] <small>[kWh]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금일 예상 수익</div>
-						<p class="h4">[[${plantGenDay}]] [원]</p>
+						<p class="h3">[[${plantGenDay}]] <small>[원]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금일 REC</div>
-						<p class="h4">[[${plantGenMonth}]] [kWh]</p>
+						<p class="h3">[[${plantKpx.plKpxRecAvg}]] <small>[원/REC]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금일 SMP</div>
-						<p class="h4">[[${plantGenDay}]] [원]</p>
+						<p class="h3">[[${plantKpx.plKpxSmpShoreAvg}]] <small>[원/kWh]</small></p>
 					</div>
 					
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금월 발전량</div>
-						<p class="h4">[[${plantGenMonth}]] [kWh]</p>
+						<p class="h3">[[${plantGenMonth}]] <small>[kWh]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금월 예상 수익</div>
-						<p class="h4">[[${plantGenDay}]] [원]</p>
+						<p class="h3">[[${plantGenDay}]] <small>[원]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">발전소 초기금액</div>
-						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+						<p class="h3">[[${depPrice}]] <small>[원]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">발전소 매입금액</div>
-						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+						<p class="h3">[[${basedPrice}]] <small>[원]</small></p>
 					</div>
 					
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">발전소 용량</div>
-						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+						<p class="h3">[[${power}]] <small>[kW]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">발전소 부지면적</div>
-						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+						<p class="h3">[[${area}]] <small>[㎡]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">발전 시작일</div>
-						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+						<p class="h3">[[${plantDepreciation.plDepStartDate}]]</p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">발전소 매입일</div>
-						<p class="h4">[[${l.bzPlZipcode}]] [원]</p>
+						<p class="h3">[[${plantDepreciation.plDepBuyDate}]]</p>
 					</div>
 					
 					

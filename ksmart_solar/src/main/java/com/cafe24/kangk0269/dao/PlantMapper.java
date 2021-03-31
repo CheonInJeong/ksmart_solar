@@ -6,6 +6,8 @@ import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
+import com.cafe24.kangk0269.dto.PlantKpxDTO;
 
 @Mapper
 public interface PlantMapper {
@@ -27,5 +29,11 @@ public interface PlantMapper {
 
 	//발전소리스트(코드)
 	public List<BusinessPlantDTO> getPlantListByCode(String bzCode);
+
+	//KPX 크롤링
+	public int crawLingKpxData(PlantKpxDTO pk);
 	
+	public PlantKpxDTO getKpxTodayData();
+	
+	public PlantDepreciationDTO getPlantDepreciationByBzCode(String bzPlCode);
 }
