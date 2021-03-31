@@ -45,8 +45,8 @@
 						</thead>
 						<tbody>
 							<tr th:each="l : ${boardQnaDTOList}">
-								<td data-title="문의제목"><a
-									th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
+								<td data-title="문의제목">
+									<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
 								</td>
 								<td data-title="작성자" th:text="${l.mId}"></td>
 								<td data-title="조회수" th:text="${l.bQnaViews}"></td>

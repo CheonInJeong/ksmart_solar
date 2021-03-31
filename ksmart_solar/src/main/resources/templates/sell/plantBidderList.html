@@ -31,9 +31,6 @@
                    
                     <th><i class="fa fa-bookmark"></i>입찰자</th>
                     <th>희망가격</th>
-                    <th><i class=" fa fa-edit"></i>서류1</th>
-                    <th><i class=" fa fa-edit"></i>서류2</th>
-                    <th><i class=" fa fa-edit"></i>서류3</th>
                     <th><i class=" fa fa-edit"></i>서류적합</th>
                     <th>순위</th>
                     <th>상세보기</th>
@@ -44,9 +41,6 @@
                   	<td th:text="${b.bCode}"></td>
                   	<td th:text="${b.mId}"></td>
                   	<td th:text="${b.bPrice}" class="bidPrice"></td>
-                  	<td>서류1</td>
-                  	<td>서류2</td>
-                  	<td>서류3</td>
                   	<td th:text=${b.bCheck}></td>
                   	<td th:text=${b.bRank}></td>
                   	<td><a th:href="@{/sell/plantBidderDetail(code=${b.bCode})}" class="btn btn-default">상세보기</a></td>
