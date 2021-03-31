@@ -54,8 +54,12 @@
               	</tr>
               	<tr>
               		<td>입찰서류</td>
-              		<td>가격제안서(입찰서).hwp</td>
-              		<td>입찰참가신청서.hwp</td>
+              		<th:block  th:if="${#lists.size(file)}>0" th:each="f:${file}">
+	                <td colspan="2"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+	                </th:block>
+	                <th:block th:unless="${#lists.size(file)}>0">
+	                <td>등록 된 파일이 없습니다.</td>
+	                </th:block>
               	</tr>
               	<tr>
               		<td>서류적합여부</td>

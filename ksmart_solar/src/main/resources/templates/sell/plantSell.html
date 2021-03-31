@@ -68,11 +68,19 @@
 	                    </div>
 	                  </div>
 	                 <div class="form-group">
-	                 	<label for="files" class="control-label col-lg-2">공고신청파일</label>
+	                 	<label for="files" class="control-label col-lg-2">공고신청서</label>
 	                  	<div class="col-lg-10">
 	                    	<input type="file" id="files" class="default" name="files" multiple="multiple">
 	                  	</div>
 	                </div>
+	          <!--       <div class="form-group">
+	                 	<label for="files" class="control-label col-lg-2">물건명세서</label>
+	                  	<div class="col-lg-10">
+	                    	<input type="file" id="files" class="default" name="files" multiple="multiple">
+	                  	</div>
+	                </div> -->
+	                
+	                
 	                  <div class="form-group ">
 	                    <label for="bPlContents" class="control-label col-lg-2">상세설명</label>
 	                    <div class="col-lg-10">
@@ -143,6 +151,12 @@
 	 		var plDepDataResidual;
 	 		var plDepPrice;
 	 		var plDepStartDate;
+	 		
+	 		$('#plDepDataResidual').val('');
+			$('#plDepPrice').val('');
+			$('#plDepStartDate').val('');
+			$('#bzPlCode').val('');
+	 		
 	 		
 	 		//ajax 시작
 	 		$.ajax({

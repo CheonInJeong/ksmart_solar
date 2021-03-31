@@ -107,6 +107,15 @@
 	                  	<td>입찰자수</td>
 	                  	<td><a th:href="@{/sell/bidderList(bPlCode=${detail.bPlCode})}">[[${detail.bPlNumberOfBidder}]]</a></td>
 	                  </tr>
+	                   <tr>
+	                  	<td>공고서류</td>
+	                  	<th:block  th:if="${#lists.size(file)}>0" th:each="f:${file}">
+	                  	<td colspan="2"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+	                  	</th:block>
+	                  	<th:block th:unless="${#lists.size(file)}>0" >
+	                  	<td>등록 된 파일이 없습니다.</td>
+	                  	</th:block>
+	                  </tr>
 	                  <tr>
 	                  	<td colspan="4">
 	                  		<div class=" add-task-row">
@@ -114,6 +123,8 @@
                  			 </div>
                  		</td>
 	                  </tr>
+	                  
+	                 
 	                </tbody>
 	              </table>
 	              
