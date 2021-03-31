@@ -59,7 +59,7 @@ public class PolicyService {
 	
 	//입찰 관련 파일 등록
 		public void addBidFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
-			List<FileDTO> filelist = fileUtils.parseFileInfo("입찰서류",6,"입찰서류", multipartHttpServletRequest,request);
+			List<FileDTO> filelist = fileUtils.parseFileInfo("입찰서류",2,"입찰서류", multipartHttpServletRequest,request);
 			if(CollectionUtils.isEmpty(filelist)==false) {
 				policyMapper.addFile(filelist);
 			}
@@ -68,7 +68,7 @@ public class PolicyService {
 	
 	//공고 관련 파일 등록
 	public void addNoticeFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
-		List<FileDTO> filelist = fileUtils.parseFileInfo("공고서류",5,"공고서류", multipartHttpServletRequest,request);
+		List<FileDTO> filelist = fileUtils.parseFileInfo("공고서류",1,"공고서류", multipartHttpServletRequest,request);
 		if(CollectionUtils.isEmpty(filelist)==false) {
 			policyMapper.addFile(filelist);
 		}

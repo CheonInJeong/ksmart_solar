@@ -46,25 +46,26 @@
 	              	<select id="bank">
 	              		<option>:::::은행선택:::::</option>
 	              	</select>
-	              	<input type="hidden" name="mAccountBankName">
+	              	<input type="hidden" id="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
+	              	<input type="hidden" name="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
 	              </div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">관리자계좌번호</div>
-	              <div class="second-part" id="accountNumber"></div>
-	              <input type="hidden" name="mAccountNumber">
+	              <div class="second-part" id="accountNumber" th:text="${tradePaymentInDTO.mAccountNumber}"></div>
+	              <input type="hidden" name="mAccountNumber" th:value="${tradePaymentInDTO.mAccountNumber}">
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입금자 성명</div>
 	              <div class="second-part" >
-	              	<input name="mPaymentName" type="text" >
+	              	<input name="mPaymentName" type="text" th:value="${tradePaymentInDTO.mPaymentName}">
 	              </div>
 	            </div>
 	          </aside>
 	        </div>
 	        <div class="row" style="margin: 5px 0px;">
 				<div class="form-inline" style="text-align: center;">
-	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">신청</button>
+	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">수정</button>
 				</div>
 			</div>
        	</form>
@@ -147,6 +148,14 @@
 						  console.log("1error: " + error);
 					  }
 				});
+				var BankName = $('#mAccountBankName');
+				
+				bank.children().each(function(){
+					if($(this).val()==BankName.val()){
+						console.log($(this).val());
+						$(this).prop('selected',true);
+					}
+				})
 				//은행 선택시 해당 은행의 관리자 계좌 번호 보여주기
 				bank.change(function(){
 					for(i=0;i<mAccountBank.length;i++){						

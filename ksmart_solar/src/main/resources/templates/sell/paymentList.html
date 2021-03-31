@@ -53,6 +53,43 @@
           </div>
         </div>
       	
+      	 <div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel">
+              <h4><i class="fa fa-angle-right"></i>거래 완료 목록</h4><hr><table class="table table-striped table-advance table-hover">
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-bullhorn"></i>공고코드</th>
+                    <th class="hidden-phone"><i class="fa fa-question-circle"></i>공고명</th>
+                    <th>구매자</th>
+                    <th><i class="fa fa-bookmark"></i>거래대금</th>
+                    <th><i class=" fa fa-edit"></i>수수료율</th>
+                    <th><i class=" fa fa-edit"></i>수수료</th>
+                    <th><i class="fa fa-edit"></i>출금가능액</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr th:if = "${#lists.size(apply)}>0"th:each="ap:${apply}">
+	                   <td th:text="${ap.announcedCode}"></td>
+	                   <td th:text="${ap.announcedTitle}"></td>
+	                   <td th:text="${ap.mIdBuyer}"></td>
+	                   <td th:text="${ap.trPrPrice}" class="trPrPrice"></td>
+	                   <td th:text="${ap.comissionRate}" ></td>
+	                   <td th:text="${ap.commission}" class="commission"></td>
+	                   <td th:text="${ap.availableOut}" class="availableOut"></td>
+	
+	               </tr>
+	            	<tr th:unless = "${#lists.size(apply)}>0">
+	               		<td colspan ="10">출금 신청 할 수 있는 목록이 없습니다.</td>
+	               </tr> 
+	                 
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      	
+      	
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">

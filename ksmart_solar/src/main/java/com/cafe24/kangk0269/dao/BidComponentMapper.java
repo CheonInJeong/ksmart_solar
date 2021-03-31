@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 
 @Mapper
 public interface BidComponentMapper {
@@ -13,4 +14,5 @@ public interface BidComponentMapper {
 	//해당 공고 리스트 조회
 	public BidComponentDTO getBidComponentByInfo(String announceCode);
 	public List<BidComponentDTO> getBidComponentMyBid(String sId);
+	public ComponentDTO getComponent(String CpCode);
 }

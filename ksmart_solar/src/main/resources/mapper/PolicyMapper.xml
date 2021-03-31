@@ -73,9 +73,11 @@
 			WHERE 
 				f.deleted_yn ='N' 
 			AND
-				f.file_sort_idx = '6'
+				f.file_sort_idx = '2'
 			AND 
 				m.m_level=1
+			AND 
+				f.related_table_code='입찰서류'
 				
   		</select>
   		
@@ -97,9 +99,11 @@
 			WHERE 
 				f.deleted_yn ='N' 
 			AND
-				f.file_sort_idx = '5'
+				f.file_sort_idx = '1'
 			AND 
 				m.m_level=1
+			AND 
+				f.related_table_code='공고서류'	
 				
   		</select>
   		
