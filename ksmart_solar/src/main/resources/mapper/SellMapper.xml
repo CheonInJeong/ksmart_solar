@@ -12,6 +12,7 @@
   		  	  	<result property="fileSize" column="file_size"/>
   				<result property="createdDatetime" column="created_datetime"/>
   		  		<result property="creatorId" column="creator_id"/>
+  		  		<result property="fileSortIdx" column="file_sort_idx"/>
   		</resultMap>
   		<resultMap type = "BidPlantDTO" id = "bidPlantResultMap">
   		  		<result property="bPlCode" column="b_pl_code"/>
@@ -197,6 +198,40 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  <delete id="removeApplyFile" parameterType="String">
+  		  	DELETE FROM tb_file WHERE related_table_code =#{bPlCode}
+  		  
+  		  </delete>
+  		  
+  		  <select id="getFileList"  parameterType ="FileDTO" resultMap="fileResultMap">
+  			
+			SELECT 
+				idx,
+				file_sort_name,
+				original_file_name, 
+				creator_id,
+				created_datetime,
+				format(ROUND(file_size/1024),0) AS file_size
+			FROM tb_file  
+			WHERE 
+				file_sort_idx= #{fileSortIdx}
+			AND 
+				related_table_code = #{relatedTableCode}
+				
+  		</select>
+  		  
+  		  
+  		  
+  		  <select id="getBidPlantCode" parameterType="String" resultMap="bidPlantResultMap">
+  		  	SELECT 
+  		  		b_pl_code 
+  		  	FROM 
+  		  		tb_bid_plant 
+  		  	WHERE 
+  		  		bz_pl_code = #{bzPlCode}
+  		 </select>
+  		
+  		  
   		  <update id="modifyDocumentCheck" parameterType="map">
   		  	UPDATE 
   		  		tb_bid_list
@@ -317,13 +352,16 @@
 					tb_trade_priority as p 
 				
 				WHERE 
-					p.tr_type_code = 14 AND p.tr_pr_code=#{trPrCode}
+					p.tr_type_code = 14 
+				AND 
+					p.tr_pr_code=#{trPrCode}
+					
 
   		  </select>
   		  
   		  
-  		  
-  		  <select id="getPaymentOutList" resultMap = "tradePriorityResultMap" parameterType="String">
+  		  <!--출금신청 가능한 목록  -->
+  		  <select id="getPaymentAvailable" resultMap = "tradePriorityResultMap" parameterType="String">
   		  		
 				SELECT 
 					pin.b_mo_date,
@@ -344,9 +382,44 @@
 					pin.announced_code = p.announced_code
 				
 				WHERE 
-					p.tr_type_code = 14 AND p.m_id_seller=#{mIdSeller}
+					p.tr_type_code = 14 
+				AND 
+					p.m_id_seller=#{mIdSeller}
+				AND 
+					p.tr_payout_check='N'
 
   		  </select>
+  		  <!-- 출금신청한 목록  -->
+  		  	<select id="getPaymentApplyList" resultMap = "tradePriorityResultMap" parameterType="String">
+  		  		SELECT 
+					p.tr_pr_code,
+					p.announced_title,
+					p.announced_code,
+					p.m_id_buyer,
+					p.tr_pr_price, 
+					sf_get_commission(p.tr_pr_price) AS comissionRate,
+					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
+					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut,
+					p.tr_payout_check,
+					pout.tr_payout_check
+			
+				FROM 
+					tb_trade_priority as p 
+				
+				INNER JOIN
+					tb_trade_payment_out AS pout
+				on
+					p.m_id_seller = pout.m_id
+				WHERE 
+					p.m_id_seller='id002'
+				AND 
+					p.tr_payout_check = 'Y'
+				AND 
+					pout.tr_payout_check='N'
+					
+  		  	</select>
+  		  
+  		  
   		  
   		  <select id="getPlantBidderList" resultMap="BidListResultMap" parameterType="String">
   		  		  

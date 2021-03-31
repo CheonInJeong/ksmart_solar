@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +45,18 @@ public class SellService {
 	
 	//입찰자 정보 얻기
 	public BidListDTO getBuyerInfoByCode(String code) {
+		
 		return sellMapper.getBuyerInfoByCode(code);
 		
+	}
+	
+	//입찰자 서류 얻기
+	public List<FileDTO> getBidderFileList(String code){
+		FileDTO fileDto = new FileDTO();
+		fileDto.setFileSortIdx(2);
+		fileDto.setRelatedTableCode(code);
+		
+		return sellMapper.getFileList(fileDto);
 	}
 	
 	//출금신청
@@ -71,9 +82,15 @@ public class SellService {
 	}
 	
 	//출금 가능 한 리스트
-	public List<TradePriorityDTO> getPaymentOutList(String mId){
-		return sellMapper.getPaymentOutList(mId);
+	public List<TradePriorityDTO> getPaymentAvailable(String mId){
+		return sellMapper.getPaymentAvailable(mId);
 	}
+	
+	//출금 신청 한 리스트
+	public List<TradePriorityDTO> getPaymentApplyList(String mId){
+		return sellMapper.getPaymentApplyList(mId);
+	}
+	
 	//해당 아이디의 부품공고 리스트를 가져옴
 	public List<BidComponentDTO> getBidComponentById(String mId, String searchKeyCp, String searchValueCp){
 		if(searchKeyCp!=null) {
@@ -112,7 +129,14 @@ public class SellService {
 	public BidComponentDTO getComponentDetail(String code) {
 		return sellMapper.getComponentDetail(code);
 	}
-	
+	//판매자가 등록한 서류 얻기
+	public List<FileDTO> getsellerFileList(String code){
+		FileDTO fileDto = new FileDTO();
+		fileDto.setFileSortIdx(1);
+		fileDto.setRelatedTableCode(code);
+		
+		return sellMapper.getFileList(fileDto);
+	}
 	
 	//발전소 공고 내용 조회
 	public List<BidPlantDTO> getBidPlantDetail(String code){
@@ -121,6 +145,7 @@ public class SellService {
 	
 	public void removePlantApply(String code) {
 		sellMapper.removePlantApply(code);
+		sellMapper.removeApplyFile(code);
 	}
 	
 	public List<BidPlantDTO> getBidPlantbyCode(String code){
@@ -131,7 +156,7 @@ public class SellService {
 		sellMapper.modifyPlantApply(bidPlantDto);
 		System.out.println(bidPlantDto.getbPlCode()+"<---파일 업데이트 getPlCode");
 		sellMapper.modifyFile(bidPlantDto.getbPlCode());
-		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
 			sellMapper.addFile(filelist);
 		}
@@ -139,8 +164,10 @@ public class SellService {
 	//발전소 신청
 	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.addPlantApply(bidPlantDto);
-		System.out.println(bidPlantDto.getbPlCode()+"<------파일 관련 공고 코드");
-		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"발전소공고신청서류", multipartHttpServletRequest,request);
+		//조회처리과정추가
+		BidPlantDTO bidCode =sellMapper.getBidPlantCode(bidPlantDto.getBzPlCode());
+		System.out.println(bidCode.getbPlCode()+"<-------bidCode.getbPlCode()");
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
 			sellMapper.addFile(filelist);
 		}
@@ -152,7 +179,7 @@ public class SellService {
 	}
 	
 
-	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue ){
+	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue){
 
 		if(searchKey!=null) {
 			if("bPlCode".equals(searchKey)) {

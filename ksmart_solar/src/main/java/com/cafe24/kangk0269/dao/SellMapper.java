@@ -19,6 +19,14 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	
+	//판매자가 올린 파일 리스트 가져오기
+	public List<FileDTO> getFileList(FileDTO fileDto);
+	
+	//발전소 공고 코드 가져오기
+	public BidPlantDTO getBidPlantCode(String code) ;
+
+	
 	//서류 적합성 판단 수정
 	public int modifyDocumentCheck(@Param(value="bCode") String code
 								  ,@Param(value="bCheck") String check);
@@ -46,7 +54,11 @@ public interface SellMapper {
 	
 	
 	//출금신청 가능한 리스트 가져오기
-	public List<TradePriorityDTO> getPaymentOutList(String mId);
+	public List<TradePriorityDTO> getPaymentAvailable(String mId);
+	
+	//출금신청한 파일
+	public List<TradePriorityDTO> getPaymentApplyList(String mId);
+	
 		
 	//해당 아이디의 부품공고 리스트를 가져옴
 	public List<BidComponentDTO> getBidComponentById(String mId,String searchKeyCp, String searchValueCp);
@@ -77,6 +89,8 @@ public interface SellMapper {
 	
 	//공고 신청 삭제 메서드
 	public int removePlantApply(String code);
+	//공고 신청 삭제시 관련 공고 파일 삭제
+	public int removeApplyFile(String code);
 	
 	//공고신청 수정 처리 메서드
 	public int modifyPlantApply(BidPlantDTO bidPlantDto);

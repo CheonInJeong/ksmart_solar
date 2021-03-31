@@ -48,6 +48,8 @@
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
+                  	<a class="btn btn-info" th:if="${session.SID == 'id001'}" th:href="@{/help/modifyNotice(noticeIdx=${noticeDTO.noticeIdx})}">수정</a>
+                  	<a class="btn btn-danger" th:if="${session.SID == 'id001'}" th:href="@{/help/removeNotice(noticeIdx=${noticeDTO.noticeIdx})}">삭제</a>
                   </div>
                 </div>
               </form>

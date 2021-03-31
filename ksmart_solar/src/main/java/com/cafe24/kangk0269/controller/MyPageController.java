@@ -13,8 +13,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.PickDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.MemberService;
+import com.cafe24.kangk0269.serivce.PickService;
 
 
 @Controller
@@ -22,21 +24,34 @@ public class MyPageController {
 	
 	private final AccountService accountService;
 	private final MemberService memberService;
+	private final PickService pickService;
 	
 	@Autowired
-	public MyPageController(AccountService accountService, MemberService memberService) {
+	public MyPageController(AccountService accountService, MemberService memberService, PickService pickService ) {
 		this.accountService = accountService; 
 		this.memberService = memberService; 
+		this.pickService = pickService; 
+	}
+	
+	//관심목록 등록
+	@PostMapping("/mypage/addWishlist")
+	
+	
+	//관심목록 삭제
+	@GetMapping("/mypage/removeWishlist")
+	public String removeWishlist(@RequestParam(name = "pIdx", required = false ) int pIdx) {
+		int result = pickService.removeWishlist(pIdx);
+		return "redirect:/mypage/wishlist";
 	}
 	
 	//관심목록 조회
 	@GetMapping("/mypage/wishlist")
-	public String Wishlist() {
-	
-	return "/mypage/wishlist";
+	public String Wishlist(Model model, HttpSession session) {
+		String log_id = (String)session.getAttribute("SID");
+		List<PickDTO> pickDTOList = pickService.getWishList(log_id);
+		model.addAttribute("pickDTOList", pickDTOList);
+		return "/mypage/wishlist";
 	}
-	
-	
 	
 	
 	

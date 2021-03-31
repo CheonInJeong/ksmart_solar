@@ -28,8 +28,8 @@
 	           </div>
 	        </div>
           	<div class="group-rom">
-	           <div class="first-part odd">발전소 용량</div>
-	           <div class="second-part" th:text="${businessPlantDTO.bzPlPower}"></div>
+	           <div class="first-part odd ">발전소 용량</div>
+	           <div class="second-part price" th:text="${businessPlantDTO.bzPlPower}"></div>
           	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">하드웨어 여부</div>
@@ -37,15 +37,15 @@
           	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">부지면적</div>
-	           <div class="second-part" th:text="${businessPlantDTO.bzPlArea}"></div>
+	           <div class="second-part price" th:text="${businessPlantDTO.bzPlArea}"></div>
           	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">인버터 용량</div>
-	           <div class="second-part" th:text="${businessPlantDTO.bzPlInvPower}"></div>
+	           <div class="second-part price" th:text="${businessPlantDTO.bzPlInvPower}"></div>
           	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">인버터 수량</div>
-	           <div class="second-part" th:text="${businessPlantDTO.bzPlInvCount}"></div>
+	           <div class="second-part price" th:text="${businessPlantDTO.bzPlInvCount}+'개'"></div>
           	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">인버터 제조사</div>
@@ -53,7 +53,7 @@
           	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">계약 REC</div>
-	           <div class="second-part" th:text="${businessPlantDTO.bzPlRec}+'원'"></div>
+	           <div class="second-part price" th:text="${businessPlantDTO.bzPlRec}+'원'"></div>
           	</div>
         </aside>
 	</div>
