@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>테스트</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>부품등록</strong></div>
+     	<div id="container-header-path">판매관리 > 부품등록</div>
+      	<div id="container-header-space"></div>
+		
+		<div class=	"row mt">
+			<div class="col-lg-6 col-md-6 col-sm-6 form-inline">
+	            <div class="form-panel">
+	            <form th:action="@{/sell/sellComponent}" id="componentForm">
+		              <div class=" form-group">
+		              	<label class="control-label col-lg-2">부품명</label>
+		             	<input type = "text" class="form-control col-lg-10" name="cpName" id="cpName">
+		              </div>
+		               <div class=" form-group">
+		               	<label class="control-label col-lg-2">부품정보</label>
+		             	<textarea name="cpInfo" class="form-control col-lg-10" id="cpInfo"></textarea>
+		              </div>
+		               <div class=" form-group">
+		               	<label class="control-label col-lg-2">부품제조사</label>
+		             	<input type = "text" class="form-control col-lg-10" name="cpMaker" id="cpMaker">
+		              </div>
+		               <div class=" form-group">
+		               	<label class="control-label col-lg-2">부품제조일</label>
+		             	<input type = "text" class="form-control col-lg-10 form-control form-control-inline input-medium nomal-date-picker hasDatepicker" name="cpMakedate" id="cpMakedate">
+		              </div>
+		              <div class="form-group">
+		              	<label class="control-label col-lg-2">부품사용시작일</label>
+		              	<input type="text" class="form-control col-lg-10 form-control form-control-inline input-medium nomal-date-picker hasDatepicker" name="cpDate" id="cpDate">
+		              </div>
+		              <div class="form-group">
+		         	 	<button type="button" class="btn btn-default" id="componentBtn">등록</button>
+		        	  </div>
+	        	  </form>
+	            </div>
+	          </div>
+	         </div>
+		
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
+		
+		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
+	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
+	 	
+	 	<script>
+	 		$('#componentBtn').click(function(){
+	 			var cpName = $('#cpName');
+	 			var cpInfo =$('#cpInfo');
+	 			var cpMaker =$('#cpMaker');
+	 			var cpMakedate =$('#cpMakedate');
+	 			var cpDate =$('#cpDate');
+	 			
+	 			if(cpName.val()==''){
+	 				alert('부품명을 입력해주세요.');
+	 				cpName.focus();
+	 				return;
+	 			}
+	 			if(cpInfo.val().length==0){
+	 				alert('부품정보를 입력해주세요.');
+	 				cpInfo.focus();
+	 				return;
+	 			}
+	 			if(cpMaker.val()==''){
+	 				alert('부품 제조사를 입력해주세요.');
+	 				cpMaker.focus();
+	 				return;
+	 			}
+	 			if(cpMakedate.val()==''){
+	 				alert('부품 제조일을 입력해주세요.');
+	 				cpMakedate.focus();
+	 				return;
+	 			}
+	 			if(cpDate.val()==''){
+	 				alert('부품 사용 시작일을 입력해주세요.');
+	 				cpDate.focus();
+	 				return;
+	 			}
+	 			$('#componentForm').submit();
+	 			
+	 		})
+	 	</script>
+	</th:block>
+</html>

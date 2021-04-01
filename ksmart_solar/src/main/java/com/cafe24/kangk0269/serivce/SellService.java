@@ -1,5 +1,7 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -12,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
@@ -32,11 +35,40 @@ public class SellService {
 	private final SellMapper sellMapper;
 	@Autowired
 	private final FileUtils fileUtils;
+	@Autowired
+	private final FileMapper fileMapper;
 	
-	public SellService(SellMapper sellMapper,FileUtils fileUtils) {
+	public SellService(SellMapper sellMapper,FileUtils fileUtils, FileMapper fileMapper) {
 		this.sellMapper = sellMapper;
 		this.fileUtils = fileUtils;
+		this.fileMapper = fileMapper;
 	}
+	
+	
+	//페이징처리
+	
+	
+	
+	
+	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
+	public void updateAcStatus(){
+		System.out.println("updateAcStatus 실행");
+		List<BidPlantDTO> acList = sellMapper.getAcStatus();
+		for(int i=0 ; i<acList.size();i++) {
+			String decisionDate = acList.get(i).getbPlDateDecision1();
+			
+			if(decisionDate!=null) {
+				decisionDate = decisionDate.substring(0,10);
+				Date date = new Date();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String today = format.format(date);
+				if(decisionDate.equals(today)) {
+					sellMapper.updateAcStatus();
+				}
+			}
+		}
+	}
+	
 	
 	//서류적합성 수정
 	public void modifyDocumentCheck(String code, String check) {
@@ -56,7 +88,7 @@ public class SellService {
 		fileDto.setFileSortIdx(2);
 		fileDto.setRelatedTableCode(code);
 		
-		return sellMapper.getFileList(fileDto);
+		return fileMapper.getFileList(fileDto);
 	}
 	
 	//출금신청
@@ -89,6 +121,10 @@ public class SellService {
 	//출금 신청 한 리스트
 	public List<TradePriorityDTO> getPaymentApplyList(String mId){
 		return sellMapper.getPaymentApplyList(mId);
+	}
+	
+	public List<TradePriorityDTO> getPaymentOutList(String mId){
+		return sellMapper.getPaymentOutList(mId);
 	}
 	
 	//해당 아이디의 부품공고 리스트를 가져옴
@@ -135,7 +171,7 @@ public class SellService {
 		fileDto.setFileSortIdx(1);
 		fileDto.setRelatedTableCode(code);
 		
-		return sellMapper.getFileList(fileDto);
+		return fileMapper.getFileList(fileDto);
 	}
 	
 	//발전소 공고 내용 조회
@@ -145,7 +181,7 @@ public class SellService {
 	
 	public void removePlantApply(String code) {
 		sellMapper.removePlantApply(code);
-		sellMapper.removeApplyFile(code);
+		fileMapper.removeApplyFile(code);
 	}
 	
 	public List<BidPlantDTO> getBidPlantbyCode(String code){
@@ -155,10 +191,10 @@ public class SellService {
 	public void modifyPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.modifyPlantApply(bidPlantDto);
 		System.out.println(bidPlantDto.getbPlCode()+"<---파일 업데이트 getPlCode");
-		sellMapper.modifyFile(bidPlantDto.getbPlCode());
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
-			sellMapper.addFile(filelist);
+			fileMapper.removeApplyFile(bidPlantDto.getbPlCode());
+			fileMapper.addFile(filelist);
 		}
 	}
 	//발전소 신청
@@ -169,7 +205,7 @@ public class SellService {
 		System.out.println(bidCode.getbPlCode()+"<-------bidCode.getbPlCode()");
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
-			sellMapper.addFile(filelist);
+			fileMapper.addFile(filelist);
 		}
 	}
 	

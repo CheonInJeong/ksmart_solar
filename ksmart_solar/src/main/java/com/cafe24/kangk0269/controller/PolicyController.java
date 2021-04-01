@@ -212,7 +212,7 @@ public class PolicyController {
 	@RequestMapping(value="/ajax/modifyCommission",method = RequestMethod.POST)
 	public @ResponseBody void modifyCommission(@RequestParam(value="idx") String idx,
 												 @RequestParam(value="rate") double rate,
-												 @RequestParam(value="type") String type,
+												 @RequestParam(value="type") int type,
 												 HttpSession session) {
 		StandardDTO standardDto = new StandardDTO();
 		standardDto.setmId((String)session.getAttribute("SID"));
