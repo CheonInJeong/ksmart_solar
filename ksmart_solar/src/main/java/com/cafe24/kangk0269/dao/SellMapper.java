@@ -19,6 +19,10 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	public int updateAcStatus();
+	
+	//공고상태 및  낙찰자 결정 시간 가져오기
+	public List<BidPlantDTO> getAcStatus();
 	
 	//판매자가 올린 파일 리스트 가져오기
 	public List<FileDTO> getFileList(FileDTO fileDto);
@@ -59,6 +63,8 @@ public interface SellMapper {
 	//출금신청한 파일
 	public List<TradePriorityDTO> getPaymentApplyList(String mId);
 	
+	//출금완료 리스트
+	public  List<TradePriorityDTO> getPaymentOutList(String mId);
 		
 	//해당 아이디의 부품공고 리스트를 가져옴
 	public List<BidComponentDTO> getBidComponentById(String mId,String searchKeyCp, String searchValueCp);

@@ -43,7 +43,6 @@ public class SellController {
 		sellService.modifyDocumentCheck(code, check);
 		return check;
 	}
-	//**********************************here!*********************************************
 	//입찰자 정보 보기 (회원정보+입찰내용)
 	@GetMapping("/sell/plantBidderDetail")
 	public String plantBidderDetail(@RequestParam(value="code") String code,
@@ -176,6 +175,15 @@ public class SellController {
 		
 		return "sell/apply";
 	}
+	
+	//////////////////////////////////////////////////////////////////
+
+	
+	//////////////////////////////////////////////////////////////////
+	
+	
+	
+	
 	//내공고목록클릭시
 	@GetMapping("/sell/myHistory")
 	public String MyHistory(Model model,HttpSession session,String searchKey, String searchValue,String searchKeyCp,String searchValueCp) {
@@ -222,11 +230,12 @@ public class SellController {
 		//출금신청한 목록
 		model.addAttribute("apply", sellService.getPaymentApplyList(sessionId));
 		//출금완료된 목록
+		
+		model.addAttribute("finish",sellService.getPaymentOutList(sessionId));
 		return "sell/paymentList";
 	}
 	@GetMapping("/sell/qna")
 	public String Qna() {
-		
 		return "sell/qna";
 	}
 }
