@@ -188,6 +188,14 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  
+  		  <insert id="addComponent">
+  		  	INSERT 
+  		  	INTO 
+  		  		tb_component(cp_code, m_id, cp_name, cp_info, cp_maker, cp_makedate, cp_usedate, cp_date)
+			VALUES (sf_cp_code(), #{mId}, #{cpName}, #{cpInfo}, #{cpMaker}, #{cpMakedate}, #{cpUsedate}, NOW())
+  		  </insert>
+  		  
   		  <update id="updateAcStatus">
   		  	UPDATE 
   		  		tb_bid_plant
@@ -204,6 +212,9 @@
   		  	SELECT b_pl_date_decision1 FROM tb_bid_plant;
   		  </select>
   		  
+  		  <select id="getBidComponentCode" resultMap="bidComponentResultMap" parameterType="String">
+  		  	SELECT b_cp_code FROM tb_bid_component WHERE cp_code = #{cpCode}
+  		  </select>
   		  
   		  <select id="getBidPlantCode" parameterType="String" resultMap="bidPlantResultMap">
   		  	SELECT 
