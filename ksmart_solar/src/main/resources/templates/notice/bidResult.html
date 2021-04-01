@@ -23,7 +23,7 @@
               <div class="first-part odd">관리자계좌번호</div>
               <div class="second-part" th:text="${bidListDTO.mAccountNumber}"></div>
             </div>
-            <div class="group-rom" th:if="${bidListDTO.trTypeCode>5}">
+            <div class="group-rom" th:if="${bidListDTO.trTypeCode>5 and bidListDTO.trTypeCode<15}">
               <div class="first-part odd">순위</div>
               <div class="second-part" th:text="${bidListDTO.bRank+'순위'}"></div>
             </div>

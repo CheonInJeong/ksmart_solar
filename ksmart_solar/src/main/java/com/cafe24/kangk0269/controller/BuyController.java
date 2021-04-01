@@ -35,7 +35,6 @@ public class BuyController {
 		if(sId != null) {
 			List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(sId);
 			List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(sId);
-			bidPlantList.get(1).setNum(bidPlantList.get(0).getBidListDTOList().size());
 			if(bidComponentList!=null && bidComponentList.size()>1) {
 				for(int i=0; i<bidComponentList.size();i++) {
 					if(i!=0) {

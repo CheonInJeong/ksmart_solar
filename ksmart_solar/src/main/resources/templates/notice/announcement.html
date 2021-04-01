@@ -14,12 +14,16 @@
 			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
 		</div>
 		<div id="container-header-space"></div>
+		<input type="hidden" id="bCpReCount" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpReCount}">
+		<input type="hidden" id="bCpGroupcode" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpGroupcode}">
+		<input type="hidden" id="bPlReCount" 	th:if="${bidPlantdto!=null}" 		th:value="${bidPlantdto.bPlReCount}">
+		<input type="hidden" id="bPlGroupcode" 	th:if="${bidPlantdto!=null}"		th:value="${bidPlantdto.bPlGroupcode}">
 		<form id="bidComponentForm" action="/notice/bidRequest" method="post">
 			<div class="chat-room mt" th:if="${bidComponentdto!=null}" >
-				<input type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">
-				<input type="hidden" name="announcedTitle" th:value="${bidComponentdto.bCpTitle}">
-				<input type="hidden" name="announcedPrice" th:value="${bidComponentdto.bCpPrice}">
-				<input type="hidden" name="announcedType" th:value="${2}">
+				<input type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
+				<input type="hidden" name="announcedTitle" 	th:value="${bidComponentdto.bCpTitle}">
+				<input type="hidden" name="announcedPrice" 	th:value="${bidComponentdto.bCpPrice}">
+				<input type="hidden" name="announcedType" 	th:value="${2}">
 			
 	          	<aside class="mid-side container" >
 		            <div class="chat-room-head">
@@ -29,7 +33,11 @@
 		              <div class="first-part odd">공고 제목</div>
 		              <div class="second-part" th:text="${bidComponentdto.bCpTitle}"></div>
 		            </div>
-		            
+		            <div class="group-rom">
+		              <div class="first-part odd">재공고 여부</div>
+		              <div class="second-part" th:if="${bidComponentdto.bCpReCount==0}">신규</div>
+		              <div class="second-part" th:if="${bidComponentdto.bCpReCount>0}">재공고</div>
+		            </div>
 		        	<div class="group-rom">
 				       <div class="first-part odd" style="width: 25%; height: 200px; padding-top:90px;">공고 내용</div>
 			           <div class="second-part" style="width: 75%; height: 200px;">
@@ -39,7 +47,7 @@
 		          	</div>
 		            <div class="group-rom">
 		              <div class="first-part odd">입찰 시작가</div>
-		              <div class="second-part price" th:text="${bidComponentdto.bCpPrice}"></div>
+		              <div class="second-part price" th:text="${bidComponentdto.bCpPrice+'원'}"></div>
 		            </div>
 		            <div class="group-rom">
 		              <div class="first-part odd">부품 사용 시작일</div>
@@ -75,6 +83,11 @@
 	              <div class="first-part odd">공고 제목</div>
 	              <div class="second-part" th:text="${bidPlantdto.bPlTitle}"></div>
 	            </div>
+	             <div class="group-rom">
+	              <div class="first-part odd">재공고 여부</div>
+	              <div class="second-part" th:if="${bidPlantdto.bPlReCount==0}">신규</div>
+	              <div class="second-part" th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
+	            </div>
 	            <div class="group-rom">
 			       <div class="first-part odd" style="width: 25%; height: 200px; padding-top:90px;">공고 내용</div>
 		           <div class="second-part" style="width: 75%; height: 200px;">
@@ -84,11 +97,11 @@
 	          	</div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입찰 시작가</div>
-	              <div class="second-part price" th:text="${bidPlantdto.bPlPrice}"></div>
+	              <div class="second-part price" th:text="${bidPlantdto.bPlPrice+'원'}"></div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">잔존 가치</div>
-	              <div class="second-part price" th:text="${bidPlantdto.plDepDataResidual}"></div>
+	              <div class="second-part price" th:text="${bidPlantdto.plDepDataResidual+'원'}"></div>
 	            </div>
 	            <div class="group-rom">
 	              <div class="first-part odd">입찰 신청기간</div>
@@ -110,14 +123,19 @@
         <div th:include="notice/componentInfo :: componentInfoFragment" 
         	 th:if="${bidComponentdto!=null}"></div>
         <div th:include="notice/bidResult :: bidResultFragment" 
-        	 th:if="${getBidListCount!=0}"></div>
+        	 th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=1 and bidListDTO.trTypeCode<=10) 
+        	 		or (bidListDTO != null and bidListDTO.trTypeCode==15)}"></div>
+        <div th:include="notice/paymentInResult :: paymentInResultFragment" 
+        	 th:if="${bidListDTO != null and tradePaymentInDTO!=null and bidListDTO.trTypeCode>=11 and bidListDTO.trTypeCode<=14}"></div>
 		<div class="row" style="margin: 5px 0px;">
 			<div class="form-inline" style="text-align: center;">
-				<div class="form-group" th:if="${bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0}">
+				<div class="form-group" th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
+													or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
 			 		<button id="bidComponentBtn" class="btn btn-default">입찰신청</button>
 				</div>
 				
-				<div class="form-group" th:if="${bidPlantdto != null and bidPlantdto.acStatusCode==4 and getBidListCount==0}">
+				<div class="form-group" th:if="${(bidPlantdto != null and bidPlantdto.acStatusCode==4 and getBidListCount==0)
+													or (bidPlantdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
 			 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
 				</div>
 				<form class="form-group" action="/notice/bidCancel" method="post">
@@ -187,12 +205,72 @@
 					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 				})
 			})
+			var bCpReCount = $('#bCpReCount');
+			var bPlReCount = $('#bPlReCount');
+			var bCpGroupcode = $('#bCpGroupcode');
+			var bPlGroupcode = $('#bPlGroupcode');
 			$('#bidComponentBtn').click(function(){
+				
 				$('#bidComponentForm').submit();
 			});
 			$('#bidPlantBtn').click(function(){
+				console.log(bPlGroupcode.val()+'--------------------그룹코드');
+				if(bPlReCount.val()>0){
+					var count = 0;
+					$.ajax({
+						  url: '/reBidCount', 
+						  method: 'get',
+						  data : {bGroupcode : bPlGroupcode.val()},
+						  async:false,
+						  success: function(data){
+							  if(data > 0){
+								  console.log(data);
+								  count = data;
+								  alert('이전공고에서 계약취소 또는 대금 미납하셔서 입찰하실 수 없습니다.');
+							  }
+						  },
+						  error : function(xhr,status,error){
+							  console.log("xhr: " + xhr);
+							  console.log("status: " + status);
+							  console.log("error: " + error);
+						  }
+					});
+					console.log(count);
+					if(count!=0){
+						console.log('입찰못함')
+						return false;
+					}
+				}
 				$('#bidPlantForm').submit();
 			});
+			function bidReCount (ReCount,bGroupcode){
+				if(ReCount.val()>0){
+					var count = 0;
+					$.ajax({
+						  url: '/reBidCount', 
+						  method: 'get',
+						  data : {bGroupcode : bGroupcode.val()},
+						  async:false,
+						  success: function(data){
+							  if(data > 0){
+								  console.log(data);
+								  count = data;
+								  alert('이전공고에서 계약취소 또는 대금 미납하셔서 입찰하실 수 없습니다.');
+							  }
+						  },
+						  error : function(xhr,status,error){
+							  console.log("xhr: " + xhr);
+							  console.log("status: " + status);
+							  console.log("error: " + error);
+						  }
+					});
+					console.log(count);
+					if(count!=0){
+						console.log('입찰못함')
+						return false;
+					}
+				}
+			}
 		</script>
 	</th:block>
 </html>
