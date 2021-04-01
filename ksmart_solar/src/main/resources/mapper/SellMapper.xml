@@ -31,6 +31,7 @@
   		  		<result property="bPlDateDecision2" column="b_pl_date_decision2"/>
   		  		<result property="bPlGroupcode" column="b_pl_groupcode"/>
   		  		<result property="bPlStatus" column="b_pl_status"/>
+  		  		<result property="acStatusCode" column = "ac_status_code"/>
   		  		<result property="bPlNumberOfBidder" column="b_pl_number_of_bidder"/>
   		  		<association property="businessPlantDTO" javaType="BusinessPlantDTO">
   		  			<id property="bzPlName" column="bz_pl_Name"/>
@@ -198,28 +199,21 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
-  		  <delete id="removeApplyFile" parameterType="String">
-  		  	DELETE FROM tb_file WHERE related_table_code =#{bPlCode}
-  		  
-  		  </delete>
-  		  
-  		  <select id="getFileList"  parameterType ="FileDTO" resultMap="fileResultMap">
-  			
-			SELECT 
-				idx,
-				file_sort_name,
-				original_file_name, 
-				creator_id,
-				created_datetime,
-				format(ROUND(file_size/1024),0) AS file_size
-			FROM tb_file  
+  		  <update id="updateAcStatus">
+  		  	UPDATE 
+  		  		tb_bid_plant
+			SET
+				b_pl_status='거래진행중',
+				ac_status_code= 5
 			WHERE 
-				file_sort_idx= #{fileSortIdx}
-			AND 
-				related_table_code = #{relatedTableCode}
-				
-  		</select>
+				ac_status_code = 4
+  		  	AND 
+				b_pl_date_decision1 = CURDATE();
+  		  </update>
   		  
+  		  <select id="getAcStatus" resultMap="bidPlantResultMap">
+  		  	SELECT b_pl_date_decision1 FROM tb_bid_plant;
+  		  </select>
   		  
   		  
   		  <select id="getBidPlantCode" parameterType="String" resultMap="bidPlantResultMap">
@@ -411,7 +405,7 @@
 				on
 					p.m_id_seller = pout.m_id
 				WHERE 
-					p.m_id_seller='id002'
+					p.m_id_seller=#{mId}
 				AND 
 					p.tr_payout_check = 'Y'
 				AND 
@@ -419,6 +413,35 @@
 					
   		  	</select>
   		  
+  		  
+  		  <!-- -출금완료 목록 -->
+  		  <select id="getPaymentOutList" resultMap="tradePriorityResultMap" parameterType="String">
+  		  		SELECT 
+					p.tr_pr_code,
+					p.announced_title,
+					p.announced_code,
+					p.m_id_buyer,
+					p.tr_pr_price, 
+					sf_get_commission(p.tr_pr_price) AS comissionRate,
+					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
+					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut,
+					p.tr_payout_check,
+					pout.tr_payout_check
+			
+				FROM 
+					tb_trade_priority as p 
+				
+				INNER JOIN
+					tb_trade_payment_out AS pout
+				on
+					p.m_id_seller = pout.m_id
+				WHERE 
+					p.m_id_seller='id002'
+				AND 
+					p.tr_payout_check = 'Y'
+				AND 
+					pout.tr_payout_check='Y'
+  		  </select>
   		  
   		  
   		  <select id="getPlantBidderList" resultMap="BidListResultMap" parameterType="String">
@@ -618,26 +641,6 @@
 				WHERE 
 					b_pl_code=#{bPlCode}
   		  </select>
-  		  <update id="modifyFile" parameterType="String">
-  		  		UPDATE 
-  		  			tb_file
-				SET
-					deleted_yn ='Y'
-				WHERE
-					related_table_code=#{bPlCode} 
-  		  </update>
-  		  <insert id="addFile" parameterType="FileDTO">
-  		  		INSERT 
-  		  		INTO
-  		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime, file_sort_idx, file_sort_name)
-				VALUES
-			<foreach collection = "list" item="item" separator=",">
-					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW() ,#{item.fileSortIdx},#{item.fileSortName})
-			</foreach>
-				
-  		  </insert>
-  		  
-  		
   		
   		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
   		  		SELECT

@@ -276,6 +276,8 @@
 				tb_standard_deposit
 			WHERE  
 				s_deposit_use ='Y'
+			ORDER BY  
+				s_deposit_type asc
   		</select>
   		
   		<select id="getTradePolicy" resultMap = "standardResultMap">
@@ -291,7 +293,9 @@
 			FROM 
 				tb_standard_trade 
 			WHERE 
-				s_trade_use = 'Y'
+				s_trade_use = 'Y' 
+			ORDER BY 
+				s_trade_type asc
   		</select>
   		
   		<select id="getCommissionPolicy" resultMap = "standardResultMap">
@@ -308,6 +312,8 @@
 				tb_standard_commission
 			WHERE 
 				s_commission_use ='Y'
+			ORDER BY 
+				s_commission_type asc
   		</select>
   	
 		  		  
