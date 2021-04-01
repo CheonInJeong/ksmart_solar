@@ -215,29 +215,6 @@
   		  	SELECT b_pl_date_decision1 FROM tb_bid_plant;
   		  </select>
   		  
-  		  <delete id="removeApplyFile" parameterType="String">
-  		  	DELETE FROM tb_file WHERE related_table_code =#{bPlCode}
-  		  
-  		  </delete>
-  		  
-  		  <select id="getFileList"  parameterType ="FileDTO" resultMap="fileResultMap">
-  			
-			SELECT 
-				idx,
-				file_sort_name,
-				original_file_name, 
-				creator_id,
-				created_datetime,
-				format(ROUND(file_size/1024),0) AS file_size
-			FROM tb_file  
-			WHERE 
-				file_sort_idx= #{fileSortIdx}
-			AND 
-				related_table_code = #{relatedTableCode}
-				
-  		</select>
-  		  
-  		  
   		  
   		  <select id="getBidPlantCode" parameterType="String" resultMap="bidPlantResultMap">
   		  	SELECT 
@@ -664,26 +641,6 @@
 				WHERE 
 					b_pl_code=#{bPlCode}
   		  </select>
-  		  <update id="modifyFile" parameterType="String">
-  		  		UPDATE 
-  		  			tb_file
-				SET
-					deleted_yn ='Y'
-				WHERE
-					related_table_code=#{bPlCode} 
-  		  </update>
-  		  <insert id="addFile" parameterType="FileDTO">
-  		  		INSERT 
-  		  		INTO
-  		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime, file_sort_idx, file_sort_name)
-				VALUES
-			<foreach collection = "list" item="item" separator=",">
-					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW() ,#{item.fileSortIdx},#{item.fileSortName})
-			</foreach>
-				
-  		  </insert>
-  		  
-  		
   		
   		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
   		  		SELECT

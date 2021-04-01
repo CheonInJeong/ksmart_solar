@@ -29,22 +29,23 @@
             <div class="form-panel">
               <div class="form">
                 <form class="cmxform form-horizontal style-form" id="signupForm" method="post" th:action="@{sell/applyComponentSell}" enctype="application/form-data">
-                  <input type="hidden" name="m_id" th:value="${session.SID}">
+                  <input type="hidden" id="sessionId" name="mId" th:value="${session.SID}">
               
-					<div class="radio">
+				<!-- 	<div class="radio">
 						<label>
                   			<input type="radio" name="optionsRadios" id="oldComponent" value="option1" checked="">기존부품
                 		 </label>
                 		 <label>
                   			<input type="radio" name="optionsRadios" id="newComponent" value="option1" >새로운부품
                 		 </label>
-              		</div>
+              		</div> -->
               		
               		<div class="form-group" id="selectInvisible">
 	                   <label for="username" class="control-label col-lg-2">부품선택</label>
 	                    <div class="col-lg-10">
 	                      <select class="form-control" id="componentSelect">
-	                      	<option value="0">부품을 선택해주세요.</option>
+	                      	<option value="0">::부품을 선택해주세요::</option>
+	                      	<option value="1">새로운 부품 등록</option>
 	                        <th:block th:if="${#lists.size(component)}>0" th:each="c : ${component}">
 							 	<option th:value="${c.cpCode}" th:text="${c.cpName}"></option>
 							  </th:block> 
@@ -175,38 +176,47 @@
 			
 			
 			$('#componentSelect').change(function(){
-				var cpCode = $('select option:selected').val();
 				
-				$.ajax({
-					url : '/ajax/componentInformation',
-					type : 'POST',
-					data : {cpCode : cpCode},
-					success : function(data){
-						if(data){
-							var cpCode = data.cpCode;
-							var cpName = data.cpName;
-							var cpTitle = data.cpTitle;
-							var cpMaker = data.cpMaker;
-							var cpMakedate = data.cpMakedate;
-							var cpUsedate = data.cpUsedate;
-							var cpInfo = data.cpInfo;
-							console.log(cpName);
-							$('#cpName').val(cpName);
-							$('#cpTitle').val(cpTitle);
-							$('#cpMaker').val(cpMaker);
-							$('#cpMakedate').val(cpMakedate);
-							$('#cpUsedate').val(cpUsedate);
-							$('#cpInfo').text(cpInfo);
-						}
-						
-						
-					},
-					error : function(xhr,status,error) {
-		        	console.log("xhr: " + xhr);
-		        	console.log("status: " + status);
-		        	console.log("error: " + error);
-		       		}
-				});				
+				
+				var cpCode = $('select option:selected').val();
+				if(cpCode=='1'){
+					window.open('/sell/addComponent?mId='+$('#sessionId').val(), '부품등록','width=600, height=600,left=100, top = 100, scrollbar=no'
+);
+				}
+				
+				if(cpCode!='0'||cpCode!='new'){
+					$.ajax({
+						url : '/ajax/componentInformation',
+						type : 'POST',
+						data : {cpCode : cpCode},
+						success : function(data){
+							if(data){
+								var cpCode = data.cpCode;
+								var cpName = data.cpName;
+								var cpTitle = data.cpTitle;
+								var cpMaker = data.cpMaker;
+								var cpMakedate = data.cpMakedate;
+								var cpUsedate = data.cpUsedate;
+								var cpInfo = data.cpInfo;
+								console.log(cpName);
+								$('#cpName').val(cpName);
+								$('#cpTitle').val(cpTitle);
+								$('#cpMaker').val(cpMaker);
+								$('#cpMakedate').val(cpMakedate);
+								$('#cpUsedate').val(cpUsedate);
+								$('#cpInfo').text(cpInfo);
+							}
+							
+							
+						},
+						error : function(xhr,status,error) {
+			        	console.log("xhr: " + xhr);
+			        	console.log("status: " + status);
+			        	console.log("error: " + error);
+			       		}
+					});				
+				}
+				
 			})
 			
 		</script>

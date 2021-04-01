@@ -18,9 +18,13 @@
  * ========================================================= */
 
 !function( $ ) {
-	 $('.default-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 7 });s
+	$('.default-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 7 });
 	$(function(){
 			$(".default-date-picker").datepicker({
+				dateFormat:'yyyy-mm-dd'
+				});
+			
+			$(".nomal-date-picker").datepicker({
 				dateFormat:'yyyy-mm-dd'
 				});
 			

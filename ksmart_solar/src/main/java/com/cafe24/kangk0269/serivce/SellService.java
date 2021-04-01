@@ -14,6 +14,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
@@ -34,10 +35,13 @@ public class SellService {
 	private final SellMapper sellMapper;
 	@Autowired
 	private final FileUtils fileUtils;
+	@Autowired
+	private final FileMapper fileMapper;
 	
-	public SellService(SellMapper sellMapper,FileUtils fileUtils) {
+	public SellService(SellMapper sellMapper,FileUtils fileUtils, FileMapper fileMapper) {
 		this.sellMapper = sellMapper;
 		this.fileUtils = fileUtils;
+		this.fileMapper = fileMapper;
 	}
 	
 	
@@ -84,7 +88,7 @@ public class SellService {
 		fileDto.setFileSortIdx(2);
 		fileDto.setRelatedTableCode(code);
 		
-		return sellMapper.getFileList(fileDto);
+		return fileMapper.getFileList(fileDto);
 	}
 	
 	//출금신청
@@ -167,7 +171,7 @@ public class SellService {
 		fileDto.setFileSortIdx(1);
 		fileDto.setRelatedTableCode(code);
 		
-		return sellMapper.getFileList(fileDto);
+		return fileMapper.getFileList(fileDto);
 	}
 	
 	//발전소 공고 내용 조회
@@ -177,7 +181,7 @@ public class SellService {
 	
 	public void removePlantApply(String code) {
 		sellMapper.removePlantApply(code);
-		sellMapper.removeApplyFile(code);
+		fileMapper.removeApplyFile(code);
 	}
 	
 	public List<BidPlantDTO> getBidPlantbyCode(String code){
@@ -187,10 +191,10 @@ public class SellService {
 	public void modifyPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.modifyPlantApply(bidPlantDto);
 		System.out.println(bidPlantDto.getbPlCode()+"<---파일 업데이트 getPlCode");
-		sellMapper.modifyFile(bidPlantDto.getbPlCode());
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
-			sellMapper.addFile(filelist);
+			fileMapper.removeApplyFile(bidPlantDto.getbPlCode());
+			fileMapper.addFile(filelist);
 		}
 	}
 	//발전소 신청
@@ -201,7 +205,7 @@ public class SellService {
 		System.out.println(bidCode.getbPlCode()+"<-------bidCode.getbPlCode()");
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
 		if (CollectionUtils.isEmpty(filelist) == false) {
-			sellMapper.addFile(filelist);
+			fileMapper.addFile(filelist);
 		}
 	}
 	

@@ -29,6 +29,9 @@ public class BidPlantDTO {
 	private String bPlRejectReason;
 	private String bPlCancelReason; 
 	private String bPlCancelDate;
+	
+	private BusinessPlantDTO businessPlantDTO;
+	
 	private BidListDTO bidListDTO;
 	private List<BidListDTO> bidListDTOList;
 	public int getNum() {
@@ -181,6 +184,12 @@ public class BidPlantDTO {
 	public void setbPlCancelDate(String bPlCancelDate) {
 		this.bPlCancelDate = bPlCancelDate;
 	}
+	public BusinessPlantDTO getBusinessPlantDTO() {
+		return businessPlantDTO;
+	}
+	public void setBusinessPlantDTO(BusinessPlantDTO businessPlantDTO) {
+		this.businessPlantDTO = businessPlantDTO;
+	}
 	public BidListDTO getBidListDTO() {
 		return bidListDTO;
 	}
@@ -246,6 +255,8 @@ public class BidPlantDTO {
 		builder.append(bPlCancelReason);
 		builder.append(", bPlCancelDate=");
 		builder.append(bPlCancelDate);
+		builder.append(", businessPlantDTO=");
+		builder.append(businessPlantDTO);
 		builder.append(", bidListDTO=");
 		builder.append(bidListDTO);
 		builder.append(", bidListDTOList=");
@@ -253,5 +264,6 @@ public class BidPlantDTO {
 		builder.append("]");
 		return builder.toString();
 	}
+	
 	
 }
