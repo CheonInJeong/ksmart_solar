@@ -141,7 +141,7 @@ public class NoticeController {
 	}
 	//대금납부 신청 페이지
 	@PostMapping("/notice/paymentInRequest")
-	public String paymentIn(String bCode, Model model) {
+	public String paymentIn(String bCode, Model model,String url) {
 		System.out.println(bCode+"-------------------------------------------");
 		if(bCode!=null) {
 			BidListDTO bidListDTO = bidListService.getBidList(bCode);
@@ -149,6 +149,7 @@ public class NoticeController {
 			System.out.println(bidListDTO+"-------------------------------------------------");
 			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
 			model.addAttribute("bidListDTO", bidListDTO);
+			model.addAttribute("url", url);
 		}
 		return "/notice/paymentInRequest";
 	}
@@ -159,9 +160,9 @@ public class NoticeController {
 		bidListService.bidCancel(bCode);
 		return "redirect:/buy/myHistory";
 	}
-	
+	//대금납부 수정
 	@PostMapping("/notice/modifyPaymentIn")
-	public String modifyPaymentIn(String bCode, Model model) {
+	public String modifyPaymentIn(String bCode, Model model,String url) {
 		System.out.println(bCode+"-------------------------------------------");
 		if(bCode!=null) {
 			BidListDTO bidListDTO = bidListService.getBidList(bCode);
@@ -169,6 +170,7 @@ public class NoticeController {
 			System.out.println(bidListDTO+"-------------------------------------------------");
 			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
 			model.addAttribute("bidListDTO", bidListDTO);
+			model.addAttribute("url", url);
 		}
 		return "/notice/modifyPaymentIn";
 	}
@@ -180,11 +182,13 @@ public class NoticeController {
 	}
 	//입찰신청 페이지
 	@PostMapping("/notice/bidRequest")
-	public String bidRequest(String announcedCode,String announcedTitle,String announcedPrice,String announcedType,Model model) {
+	public String bidRequest(String announcedCode,String announcedTitle,String announcedPrice,String announcedType,Model model,String url) {
 		System.out.println(announcedCode+"<-----공고코드");
 		System.out.println(announcedTitle+"<---------공고제목");
 		System.out.println(announcedPrice+"<---------공고 입찰시작가");
 		System.out.println(announcedType+"<----------2=부품인지 1=발전소인지");
+		System.out.println(url);
+		model.addAttribute("url", url);
 		model.addAttribute("announcedCode", announcedCode);
 		model.addAttribute("announcedTitle", announcedTitle);
 		model.addAttribute("announcedPrice", announcedPrice);

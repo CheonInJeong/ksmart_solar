@@ -7,11 +7,13 @@
 				<title>입찰 신청</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>발전소 리스트</strong></div>
+		<div id="container-header-title"><strong>입찰 신청</strong></div>
 		<div id="container-header-path">
-			<a href="/" style="text-decoration: none;">메인화면 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#"  style="text-decoration: none;"> 공고정보 </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 입찰신청 </a>
+			<input type="hidden" id="url" th:value="${url}">
 		</div>
 		<div id="container-header-space"></div>
    		<form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
@@ -78,19 +80,34 @@
           	<div class="row" style="margin: 5px 0px;">
 				<div class="form-inline" style="text-align: center;">
 	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">신청</button>
+	            	<button id="bidResulCanceltBtn" class="btn btn-default" type="button" style="width: 80px;">취소</button>
 				</div>
 			</div>
        	</form>
 	</th:block>
 	<th:block layout:fragment="customScript">
-		
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
-			var notice = $('#notice');
-			notice.addClass('active');
-			notice.parent().find('.sub').css('display','block');
-			notice.parent().find('.sub').children().eq(0).addClass('active');			
 			
 			$(function(){
+				var url = $('#url');
+				link2 = url.val();
+				console.log(link2);
+				var firstUrl = $('#firstUrl');
+				var secondUrl = $('#secondUrl');
+				var thirdUrl = $('#thirdUrl');
+				var a = $('a');
+				a.each(function(){
+					if($(this).attr('href')==link2){
+						$(this).parent().parent().parent().children().eq(0).addClass('active');
+						$(this).parent().parent().css('display','block');
+						$(this).parent().addClass('active');
+						firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+						secondUrl.text($(this).parent().text());
+						secondUrl.attr('href',$(this).prop('href'));
+					}
+				});
+				
 				//입금자 이름
 				var mPaymentName = $('[name="mPaymentName"]');			
 				var form = $('form');
@@ -207,20 +224,37 @@
 				bidResultBtn.click(function(){
 					console.log(bPrice.val());
 					if(bPrice.val()==""){
-						alert('입찰 가격을 입력해주세요.');
+						Swal.fire({
+							  title: '입찰실패!',
+							  text: '입찰 가격을 입력해주세요.',
+							  icon: 'info'
+							});
+						bPrice.focus();
 						return false;
 					}
 					if(Number(bPrice.val().replace(/,/g,''))<Number(bidPrice.text().replace(/,/g,''))){
-						alert('입찰가격이 낮습니다.');
+						Swal.fire({
+							  title: '입찰실패!',
+							  text: '입찰가격이 낮습니다.',
+							  icon: 'info'
+							});
 						bPrice.focus();
 						return false;
 					}
 					if(accountNumber.text()==""){
-						alert('은행을 선택해주세요.');
+						Swal.fire({
+							  title: '입찰실패!',
+							  text: '은행을 선택해주세요.',
+							  icon: 'info'
+							});
 						return false;
 					}
 					if(mPaymentName.val()==""){
-						alert('이름을 입력해주세요.');
+						Swal.fire({
+							  title: '입찰실패!',
+							  text: '이름을 입력해주세요.',
+							  icon: 'info'
+							});
 						mPaymentName.focus();
 						return false;
 					}
@@ -230,9 +264,17 @@
 					bPrice1.val(Number(bPrice.val().replace(/,/g,'')));
 					console.log(bPrice1.val());
 					console.log(bDeposit.val());
+					Swal.fire({
+						  title: '입찰성공!',
+						  icon: 'success'
+						});
 					form.submit();
 				});
-				
+				var bidResulCanceltBtn = $('#bidResulCanceltBtn')
+				bidResulCanceltBtn.click(function(){
+					console.log('취소');
+					location.href = '/notice/noticeList';
+				});
 			});
 		</script>
 	</th:block>
