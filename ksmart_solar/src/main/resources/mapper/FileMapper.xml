@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  	<mapper namespace="com.cafe24.kangk0269.dao.SellMapper">
+  	
+  		<resultMap type = "FileDTO" id = "fileResultMap">
+  		  		<result property="relatedTableCode" column="related_table_code"/>
+  		  	  	<result property="originalFileName" column="original_file_name"/>
+  		  	  	<result property="storedFilePath" column="stored_file_path"/>
+  		  	  	<result property="fileSize" column="file_size"/>
+  				<result property="createdDatetime" column="created_datetime"/>
+  		  		<result property="creatorId" column="creator_id"/>
+  		  		<result property="fileSortIdx" column="file_sort_idx"/>
+  		</resultMap>
+  		
+  		  <!-- 파일 삭제 -->
+  		  <delete id="removeApplyFile" parameterType="String">
+  		  	DELETE FROM tb_file WHERE related_table_code =#{bPlCode}
+  		  </delete>
+  		  
+  		  <!-- 파일 리스트 가져오기  -->
+  		  <select id="getFileList"  parameterType ="FileDTO" resultMap="fileResultMap">
+  			
+			SELECT 
+				idx,
+				file_sort_name,
+				original_file_name, 
+				creator_id,
+				created_datetime,
+				format(ROUND(file_size/1024),0) AS file_size
+			FROM tb_file  
+			WHERE 
+				file_sort_idx= #{fileSortIdx}
+			AND 
+				related_table_code = #{relatedTableCode}
+				
+  		</select>
+  		  
+  		<!-- 파일등록 -->
+  		  <insert id="addFile" parameterType="FileDTO">
+  		  		INSERT 
+  		  		INTO
+  		  			 tb_file(related_table_code, original_file_name, stored_file_path, file_size, creator_id, created_datetime, file_sort_idx, file_sort_name)
+				VALUES
+			<foreach collection = "list" item="item" separator=",">
+					 (#{item.relatedTableCode}, #{item.originalFileName}, #{item.storedFilePath}, #{item.fileSize}, #{item.creatorId}, NOW() ,#{item.fileSortIdx},#{item.fileSortName})
+			</foreach>
+				
+  		  </insert>
+		  		  
+  	</mapper>

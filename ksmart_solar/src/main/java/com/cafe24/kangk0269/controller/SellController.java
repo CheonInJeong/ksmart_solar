@@ -35,6 +35,9 @@ public class SellController {
 		this.sellService = sellService;
 	}
 	
+	
+	
+	
 	//서류 적합성 수정
 	@RequestMapping(value= "/ajax/modifyDocumentCheck" , method= RequestMethod.POST)
 	public @ResponseBody String modifyDocumentCheck(@RequestParam(value="bCode") String code,
@@ -73,13 +76,18 @@ public class SellController {
 		return "redirect:/sell/myHistory";
 	}
 	//부품 공고 등록
-	@PostMapping("sell/")
+	@PostMapping("/sell/addComponent")
 	public String regComponentSell(BidComponentDTO bidComponentDto) {
 		return "";
 	}
+	//부품 공고 등록 페이지
+	@GetMapping("/sell/addComponent")
+	public String addComponent(@RequestParam(value="mId") String mId) {
+		System.out.println(mId+"<--------------mId");
+		return "sell/addComponent";
+	}
 	
-	
-	//입찰 신청자 목록 보기
+	//발전소 입찰 신청자 목록 보기
 	@GetMapping("/sell/plantBidderList")
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
 		model.addAttribute("bidder", sellService.getPlantBidderList(code));
@@ -87,10 +95,10 @@ public class SellController {
 		return "sell/plantBidderList";
 	}
 	
-	//부품 공고 내용 조회
-	
 
 	
+
+	//부품 공고 내용 조회
 	@GetMapping("/sell/getBidComponentDetail")
 	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
 		model.addAttribute("detail", sellService.getComponentDetail(code));
