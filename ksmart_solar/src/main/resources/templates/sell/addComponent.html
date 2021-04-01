@@ -15,6 +15,7 @@
 			<div class="col-lg-6 col-md-6 col-sm-6 form-inline">
 	            <div class="form-panel">
 	            <form th:action="@{/sell/sellComponent}" id="componentForm">
+	            	<input type="hidden" name="mId" th:value="${session.SID}" id="mId">
 		              <div class=" form-group">
 		              	<label class="control-label col-lg-2">부품명</label>
 		             	<input type = "text" class="form-control col-lg-10" name="cpName" id="cpName">
@@ -33,7 +34,7 @@
 		              </div>
 		              <div class="form-group">
 		              	<label class="control-label col-lg-2">부품사용시작일</label>
-		              	<input type="text" class="form-control col-lg-10 form-control form-control-inline input-medium nomal-date-picker hasDatepicker" name="cpDate" id="cpDate">
+		              	<input type="text" class="form-control col-lg-10 form-control form-control-inline input-medium nomal-date-picker hasDatepicker" name="cpUsedate" id="cpUsedate">
 		              </div>
 		              <div class="form-group">
 		         	 	<button type="button" class="btn btn-default" id="componentBtn">등록</button>
@@ -62,7 +63,7 @@
 	 			var cpInfo =$('#cpInfo');
 	 			var cpMaker =$('#cpMaker');
 	 			var cpMakedate =$('#cpMakedate');
-	 			var cpDate =$('#cpDate');
+	 			var cpUsedate =$('#cpUsedate');
 	 			
 	 			if(cpName.val()==''){
 	 				alert('부품명을 입력해주세요.');
@@ -84,12 +85,25 @@
 	 				cpMakedate.focus();
 	 				return;
 	 			}
-	 			if(cpDate.val()==''){
+	 			if(cpUsedate.val()==''){
 	 				alert('부품 사용 시작일을 입력해주세요.');
-	 				cpDate.focus();
+	 				cpUsedate.focus();
 	 				return;
 	 			}
-	 			$('#componentForm').submit();
+	 			$.ajax({
+	 				url : '/sell/addComponent',
+	 				type : 'post',
+	 				data : {mId : $('#mId').val(),cpName : cpName.val(),cpInfo : cpInfo.val(),cpMaker : cpMaker.val(),cpMakedate : cpMakedate.val(), cpUsedate : cpUsedate.val()},
+	 				success : function(data){
+	 					console.log(data);
+	 					//부모창 새로고침
+	 					window.opener.location.reload();
+	 					//팝업창 닫기
+	 					window.close();
+	 				}
+	 				
+	 				
+	 			})
 	 			
 	 		})
 	 	</script>

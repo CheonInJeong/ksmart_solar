@@ -45,10 +45,23 @@ public class SellService {
 	}
 	
 	
-	//페이징처리
+
 	
 	
-	
+	//부품공고 등록
+	public void addComponentApply(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+		sellMapper.addComponentApply(bidComponentDto);
+		//조회처리과정추가
+		BidComponentDTO bidCode = sellMapper.getBidComponentCode(bidComponentDto.getCpCode());
+		
+		
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getCpCode(),1,"공고서류", multipartHttpServletRequest,request);
+		
+		if (CollectionUtils.isEmpty(filelist) == false) {
+			fileMapper.addFile(filelist);
+		}
+	}
+		
 	
 	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
 	public void updateAcStatus(){
@@ -165,6 +178,12 @@ public class SellService {
 	public BidComponentDTO getComponentDetail(String code) {
 		return sellMapper.getComponentDetail(code);
 	}
+	
+	//부품등록
+	public void addComponent(ComponentDTO componentDto) {
+		sellMapper.addComponent(componentDto);
+	}
+	
 	//판매자가 등록한 서류 얻기
 	public List<FileDTO> getsellerFileList(String code){
 		FileDTO fileDto = new FileDTO();

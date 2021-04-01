@@ -26,14 +26,16 @@ public class HelpController {
 		this.boardQnaService = boardQnaService;
 	}
 	
+	
 	//문의 검색
 	@GetMapping("/help/QnaList")
-	public String getQnaList(@RequestParam(name = "searchKey", required = false ) String searchKey
-							,@RequestParam(name = "searchValue", required = false ) String searchValue
-							,Model model) {
-		List<BoardQnaDTO> BoardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue);
+	public String getQnaList(@RequestParam(name = "searchKey", required = false) String searchKey,
+			@RequestParam(name = "searchValue", required = false) String searchValue, Model model) {
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue);
+		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
 		return "/help/qna";
 	}
+	 
 	
 	//답글 처리
 	@PostMapping("/help/addReQna")
@@ -97,6 +99,7 @@ public class HelpController {
 		return "/help/getQna";
 		
 	}
+	
 	
 	// 문의 조회
 	@GetMapping("/help/qna")

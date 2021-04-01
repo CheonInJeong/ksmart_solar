@@ -4,11 +4,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
@@ -18,9 +20,12 @@ import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.MemberService;
 import com.cafe24.kangk0269.serivce.PickService;
 
+import ch.qos.logback.classic.Logger;
+
 
 @Controller
 public class MyPageController {
+	
 	
 	private final AccountService accountService;
 	private final MemberService memberService;
@@ -32,6 +37,7 @@ public class MyPageController {
 		this.memberService = memberService; 
 		this.pickService = pickService; 
 	}
+	
 	
 	//관심목록 등록
 	@PostMapping("/mypage/addWishlist")
@@ -81,7 +87,25 @@ public class MyPageController {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	//개인정보 수정처리
+	
+	/*
+	 * //개인 비밀번호 수정처리
+	 * 
+	 * @PostMapping("/mypage/modifyPw") public String modifyPw(@RequestBody String
+	 * pw, HttpSession session) {
+	 * 
+	 * return pw;
+	 * 
+	 * }
+	 */
+	
+	//개인 비밀번호 수정화면
+	@GetMapping("/mypage/modifyPw")
+	public String modifyPw() {
+		return "/mypage/modifyPw";
+	}
+	
+	//개인 프로필 수정처리
 	@PostMapping("/mypage/ModifyMyInfo")
 	public String modifyMyInfo(MemberDTO memberDTO) {
 		System.out.println("====================================");
@@ -91,7 +115,7 @@ public class MyPageController {
 		return "redirect:/mypage/myInfo";
 	}
 	
-	//개인정보 수정화면
+	//개인 프로필 수정화면
 	@GetMapping("/mypage/ModifyMyInfo")
 	public String modifyMyInfo(Model model, HttpSession session) {
 		getMyInfoById(model,session);

@@ -35,20 +35,37 @@
 							<th>거래수수료 총액</th>
 							<th>취소수수료 총액</th>
 							<th>정산금액</th>
-							<th>정산일자</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td data-title="#">1</td>
-							<td data-title="월">3월</td>
-							<td data-title="거래수수료 총액">1,100,000</td>
-							<td data-title="취소수수료 총액">2,000,000</td>
-							<td data-title="정산금액">3,100,000</td>
-							<td data-title="정산일자">2021-03-31 00:00:00</td>
+						<tr th:each="l, status : ${calculateList}">
+							<td data-title="#">[[${status.count}]]</td>
+							<td data-title="월" th:text="${l.ymDate}"></td>
+							<td data-title="거래수수료 총액" th:text="${l.sucTotal}"></td>
+							<td data-title="취소수수료 총액" th:text="${l.failTotal}"></td>
+							<td data-title="정산금액" th:text="${l.cmTotal}"></td>
 						</tr>
 					</tbody>
 				</table>
+				<div class="text-center">
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</div>
 				</section>
 				</div>
 			</div>

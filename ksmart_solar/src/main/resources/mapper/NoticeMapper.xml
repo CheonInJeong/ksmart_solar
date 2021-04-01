@@ -68,16 +68,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 공지사항 등록 -->
 	<insert id="addNotice" parameterType="NoticeDTO">
 		INSERT INTO tb_notice
-			( not_idx
-			, not_subject
+			( not_subject
 			, not_contents
 			, m_id
 			, not_reg_date
 			, not_views
 			, not_temp)
 		VALUES 
-			(sf_new_notice_idx()
-			, #{notSubject}
+			( #{notSubject}
 			, #{notContents}
 			, '관리자'
 			, NOW()

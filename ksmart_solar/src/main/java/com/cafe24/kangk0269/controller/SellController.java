@@ -36,8 +36,6 @@ public class SellController {
 	}
 	
 	
-	
-	
 	//서류 적합성 수정
 	@RequestMapping(value= "/ajax/modifyDocumentCheck" , method= RequestMethod.POST)
 	public @ResponseBody String modifyDocumentCheck(@RequestParam(value="bCode") String code,
@@ -75,10 +73,24 @@ public class SellController {
 	public String removeComponentSell(@RequestParam(value="bCpCode") String code) {
 		return "redirect:/sell/myHistory";
 	}
-	//부품 공고 등록
-	@PostMapping("/sell/addComponent")
-	public String regComponentSell(BidComponentDTO bidComponentDto) {
-		return "";
+	//부품 등록
+	@RequestMapping(value="/sell/addComponent", method=RequestMethod.POST)
+	public @ResponseBody String regComponentSell( @RequestParam(value="mId") String mId,
+									@RequestParam(value="cpName") String cpName,
+									@RequestParam(value="cpInfo") String cpInfo,
+									@RequestParam(value="cpMaker") String cpMaker,
+									@RequestParam(value="cpMakedate") String cpMakedate,
+									@RequestParam(value="cpUsedate") String cpUsedate	) {
+		ComponentDTO componentDto = new ComponentDTO();
+		componentDto.setmId(mId);
+
+		componentDto.setCpInfo(cpInfo);
+		componentDto.setCpMakedate(cpMakedate);
+		componentDto.setCpMaker(cpMaker);
+		componentDto.setCpName(cpName);
+		componentDto.setCpUsedate(cpUsedate);
+		sellService.addComponent(componentDto);
+		return "성공";
 	}
 	//부품 공고 등록 페이지
 	@GetMapping("/sell/addComponent")
@@ -145,6 +157,12 @@ public class SellController {
 
 		return "redirect:/sell/myHistory";
 	}
+	//부품 판매 공고 등록
+	@PostMapping("/sell/componentSell")
+	public String regComponentSell(BidComponentDTO bidComponentDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
+			sellService.addComponentApply(bidComponentDTO, multipartHttpServletRequest,request);
+			return "redirect:/sell/myHisotry";
+	}
 	
 	//부품 선택 시 해당 부품의 정보를 가져옴
 	@RequestMapping(value="/ajax/componentInformation",method = RequestMethod.POST)
@@ -183,13 +201,6 @@ public class SellController {
 		
 		return "sell/apply";
 	}
-	
-	//////////////////////////////////////////////////////////////////
-
-	
-	//////////////////////////////////////////////////////////////////
-	
-	
 	
 	
 	//내공고목록클릭시

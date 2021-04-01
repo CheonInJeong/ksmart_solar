@@ -16,6 +16,12 @@
 	<link th:href="@{/css/style.css}" rel="stylesheet">
 	<link th:href="@{/css/style-responsive.css}" rel="stylesheet">
 	<link th:href="@{/css/table-responsive.css}" rel="stylesheet">
+		<style>
+	th, tbody {
+		text-align:center;
+	}
+	</style>
+	
 </th:block>
 
 <th:block layout:fragment="Contents">
@@ -31,26 +37,32 @@
 				<h4>
 					<i class="fa fa-angle-right"></i> 문의하기
 				</h4>
-
+			
+					<div th:include="help/searchQna :: searchFragment"></div>
+				
+				
 				<section id="no-more-tables">
 					<hr>
 					<table class="table table-condensed cf">
 						<thead class="cf">
 							<tr>
-								<th>문의제목</th>
-								<th>작성자</th>
-								<th>조회수</th>
-								<th>등록일</th>
+								<th class="col-md-5">문의제목</th>
+								<th class="col-md-2">작성자</th>
+								<th class="col-md-2">조회수</th>
+								<th class="col-md-3">등록일</th>
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each="l : ${boardQnaDTOList}">
+							<tr th:if="${#lists.size(boardQnaDTOList) > 0}" th:each="l : ${boardQnaDTOList}">
 								<td data-title="문의제목">
 									<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
 								</td>
 								<td data-title="작성자" th:text="${l.mId}"></td>
 								<td data-title="조회수" th:text="${l.bQnaViews}"></td>
 								<td data-title="등록일" th:text="${l.bQnaRegDate}"></td>
+							</tr>
+							<tr th:unless="${#lists.size(boardQnaDTOList) > 0}" >
+								<td colspan="9" style="text-align: center;">조회환 내용이 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>

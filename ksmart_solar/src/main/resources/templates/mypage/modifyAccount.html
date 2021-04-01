@@ -58,10 +58,10 @@
                   <label class="col-sm-2 col-sm-2 control-label">사용여부</label>
                   <div class="col-lg-10">
                   	<label>
-					Y  <input type="radio" value="Y" name="mAccountCheck">
+					Y  <input type="radio" value="Y" name="mAccountCheck" th:checked="${memberAccountDTO.mAccountCheck == 'Y'}">
 					</label>
 					<label>
-					N  <input type="radio" value="N" name="mAccountCheck">
+					N  <input type="radio" value="N" name="mAccountCheck" th:checked="${memberAccountDTO.mAccountCheck == 'N'}">
 					</label>
                   </div>
                 </div>
