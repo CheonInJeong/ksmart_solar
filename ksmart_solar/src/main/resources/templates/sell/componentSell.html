@@ -28,8 +28,9 @@
             <h4><i class="fa fa-angle-right"></i>부품 판매 공고 신청</h4>
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="signupForm" method="post" th:action="@{sell/applyComponentSell}" enctype="application/form-data">
+                <form class="cmxform form-horizontal style-form" id="componentSellForm" method="post" th:action="@{/sell/componentSell}" enctype="application/form-data">
                   <input type="hidden" id="sessionId" name="mId" th:value="${session.SID}">
+                  
               
 				<!-- 	<div class="radio">
 						<label>
@@ -50,7 +51,7 @@
 							 	<option th:value="${c.cpCode}" th:text="${c.cpName}"></option>
 							  </th:block> 
 								  <th:block th:unless="${#lists.size(component)}>0">
-							 	<option>현재 판매 할 수 있는 부품이 없습니다.</option>
+							 	<option value="2">현재 판매 할 수 있는 부품이 없습니다.</option>
 							 </th:block> 
 							</select>
 	                    </div>
@@ -94,16 +95,16 @@
               	
                   
                   <div class="form-group ">
-                    <label for="b_cp_title" class="control-label col-lg-2">공고제목</label>
+                    <label for="bCpTitle" class="control-label col-lg-2">공고제목</label>
                     <div class="col-lg-10">
-                      <input class=" form-control" id="b_cp_title" name="b_cp_title" type="text">
+                      <input class=" form-control" id="bCpTitle" name="bCpTitle" type="text">
                     </div>
                   </div>
                   
                   <div class="form-group ">
-                    <label for="b_cp_price" class="control-label col-lg-2">희망가</label>
+                    <label for="bCpPrice" class="control-label col-lg-2">희망가</label>
                     <div class="col-lg-10">
-                      <input class=" form-control" id="b_cp_price" name="b_cp_price" type="text">
+                      <input class=" form-control" id="bCpPrice" name="bCpPrice" type="text">
                     </div>
                   </div>
                   
@@ -114,21 +115,21 @@
                   	</div>
                 </div>
                   <div class="form-group ">
-                    <label for="componentDetail" class="control-label col-lg-2">상세설명</label>
+                    <label for="bCpContents" class="control-label col-lg-2">상세설명</label>
                     <div class="col-lg-10">
-                      <textarea id = "componentDetail"class="form-control"></textarea>
+                      <textarea id = "bCpContents"class="form-control" name="bCpContents"></textarea>
                     </div>
                   </div>
                  <div class="form-group">
                   <label class="control-label col-lg-2">공고시작일</label>
                   <div class="col-lg-10">
-                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" name="b_cp_date_bidding1">
+                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" id="bCpDateBidding1" name="bCpDateBidding1">
                     <span class="help-block"></span>
                   </div>
                 </div>                  
                   <div class="form-group">
                     <div class="col-lg-offset-2 col-lg-10">
-                      <button class="btn btn-theme" type="submit">신청</button>
+                      <button class="btn btn-theme" type="button" id="componentSellBtn">신청</button>
                       <button class="btn btn-theme04" type="button">Cancel</button>
                     </div>
                   </div>
@@ -159,6 +160,30 @@
 		  <script th:src="@{/lib/advanced-form-components.js}"></script>
 		<script>
 			
+			var bCpPrice = document.getElementById('bCpPrice');
+			bCpPrice.onkeyup = function(){
+      			this.value = this.value.replace(/[^0-9]/g,'');
+				this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				}
+			
+			
+			 function comma(str) {
+	       		 str = String(str);
+	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	  		  
+		 	//콤마 없애는 함수
+		 	function rm_comma(num){
+		 	   var number = num + "";
+		 	   return number.replace(/,/g,"");
+		 	}
+		 	
+		 	$('document').ready(function(){
+		 		$('#bCpPrice').val(comma($('#bCpPrice').val()));
+		 	
+		 	})
+		 	}
+			
+		
 			$('#newComponent').click(function(){
 				$('#selectInvisible').attr('style','display:none;');
 				$('#cpName').val('');
@@ -180,8 +205,7 @@
 				
 				var cpCode = $('select option:selected').val();
 				if(cpCode=='1'){
-					window.open('/sell/addComponent?mId='+$('#sessionId').val(), '부품등록','width=600, height=600,left=100, top = 100, scrollbar=no'
-);
+					window.open('/sell/addComponent?mId='+$('#sessionId').val(), '부품등록','width=600, height=600,left=100, top = 100, scrollbar=no');
 				}
 				
 				if(cpCode!='0'||cpCode!='new'){
@@ -218,6 +242,48 @@
 				}
 				
 			})
+			
+			$('#componentSellBtn').click(function(){
+				 var selected = $('select option:selected').val();
+				 var bCpTitle = $('#bCpTitle');
+				 var bCpPrice = $('#bCpPrice');
+				 var bCpContents = $('#bCpContents');
+				 var files = $('#files');
+				 var bCpDateBidding1 = $('#bCpDateBidding1');
+				 
+				if( selected==0 ||selected==2){
+					alert('부품을 선택해주세요.');
+					return;
+				}
+				 
+				 if(bCpTitle.val()==''){
+					 alert('공고제목을 입력해주세요.');
+					 bCpTitle.focus();
+					 return;
+				 }
+				 if(bCpPrice.val()==''){
+					 alert('희망가격을 입력해주세요.');
+					 bCpPrice.focus();
+					 return;
+				 }
+				 if(bCpContents.val()==''){
+					 alert('공고내용을 입력해주세요.');
+					 bCpContents.focus();
+					 return;
+				 }
+				 if(files.val()==''){
+					 alert('공고신청파일을 업로드 해주세요.');
+					 return;
+				 }
+				 if(bCpDateBidding1.val()==''){
+					 alert('공고시작날짜를 입력해주세요.');
+					 return;
+				 }
+				 
+					$('#bCpPrice').val(rm_comma($('#bPlPrice').val()));
+					$('#componentSellForm').submit();
+			})
+			
 			
 		</script>
 				

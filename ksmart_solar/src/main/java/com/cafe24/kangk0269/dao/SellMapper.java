@@ -10,7 +10,6 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
-import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.dto.TradePriorityDTO;
@@ -21,9 +20,16 @@ public interface SellMapper {
 	
 	public int updateAcStatus();
 	
+	//부품 공고 등록
+	
+	public int addComponentApply(BidComponentDTO bidComponentDto);	
+	//부품등록
+	public int addComponent(ComponentDTO componentDto);
+	
 	//공고상태 및  낙찰자 결정 시간 가져오기
 	public List<BidPlantDTO> getAcStatus();
-	
+	//부품 공고 코드 가져오기
+	public BidComponentDTO getBidComponentCode(String code) ;
 	//발전소 공고 코드 가져오기
 	public BidPlantDTO getBidPlantCode(String code) ;
 
