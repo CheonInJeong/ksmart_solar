@@ -5,15 +5,6 @@
   
   	<mapper namespace="com.cafe24.kangk0269.dao.SellMapper">
   	
-  		<resultMap type = "FileDTO" id = "fileResultMap">
-  		  		<result property="relatedTableCode" column="related_table_code"/>
-  		  	  	<result property="originalFileName" column="original_file_name"/>
-  		  	  	<result property="storedFilePath" column="stored_file_path"/>
-  		  	  	<result property="fileSize" column="file_size"/>
-  				<result property="createdDatetime" column="created_datetime"/>
-  		  		<result property="creatorId" column="creator_id"/>
-  		  		<result property="fileSortIdx" column="file_sort_idx"/>
-  		</resultMap>
   		<resultMap type = "BidPlantDTO" id = "bidPlantResultMap">
   		  		<result property="bPlCode" column="b_pl_code"/>
   		  	  	<result property="bzPlCode" column="bz_pl_code"/>
@@ -101,9 +92,7 @@
   		  			<result property="bzAddr" column="bz_addr"/>
   		  			<result property="bzDetailAddr" column="bz_detail_addr"/>
   		  		</association>
-  		  		
-  		  		
-  		  		
+
   		  </resultMap>
   		  
   		  <resultMap type="ComponentDTO" id="componentResultMap">
