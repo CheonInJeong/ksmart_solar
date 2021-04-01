@@ -9,6 +9,7 @@ public class TradeFailDTO {
 	private double bCancelRate;
 	private int bCancel;
 	private String trFailDate;
+	// 관련 공고코드
 	private String announcedCode;
 	
 	public String getAnnouncedCode() {

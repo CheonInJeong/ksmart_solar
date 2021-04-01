@@ -40,7 +40,10 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/commission")
-	public String Commission() {
+	public String Commission(Model model) {
+		List<TradePaymentOutDTO> successCmList = tradeService.getSuccessCommission();
+		System.out.println("성공수수료조회 : " + successCmList);
+		model.addAttribute("successCmList", successCmList);
 		return "/profit/commission";
 	}
 	

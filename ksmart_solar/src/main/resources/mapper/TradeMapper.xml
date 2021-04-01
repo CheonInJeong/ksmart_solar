@@ -59,6 +59,28 @@
 		<result property="mPaymentName" 			column="m_payment_name"/>
 	</resultMap>
 
+	<!-- 거래수수료목록 -->
+	<select id="getSuccessCommission" resultMap="paymentoutResultMap">
+		SELECT 
+			CONCAT('tr_suc_',DATE_FORMAT(i.b_mo_date,'%y%m%d'),'_',LPAD((@rownum := @rownum + 1),4,0)) AS trSucCode
+			, r.announced_code AS announcedCode
+			, m_id
+			, o.c_trade_cm
+			, i.b_mo_date	AS bMoDate
+		FROM 
+			tb_trade_payment_out AS o
+			LEFT join
+			tb_trade_priority AS r
+			ON 
+			o.tr_pr_code = r.tr_pr_code
+			LEFT JOIN 
+			tb_trade_payment_in AS i
+			ON 
+			r.tr_pr_code = i.tr_pr_code
+			JOIN 
+			(SELECT @rownum := 0) AS var
+	</select>
+
 	<!-- 취소수수료목록 -->
 	<select id="getFailCommission" resultType="TradeFailDTO">
 		SELECT 

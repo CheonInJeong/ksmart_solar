@@ -23,6 +23,10 @@ public class TradeService {
 		this.tradeMapper = tradeMapper;
 	}
 	
+	public List<TradePaymentOutDTO> getSuccessCommission(){
+		return tradeMapper.getSuccessCommission();
+	}
+	
 	public List<TradeFailDTO> getFailCommission(){
 		return tradeMapper.getFailCommission();
 	}
