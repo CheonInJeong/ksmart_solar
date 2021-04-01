@@ -58,7 +58,45 @@
 		<result property="mAccountNumber" 			column="m_account_number"/>
 		<result property="mPaymentName" 			column="m_payment_name"/>
 	</resultMap>
-
+	
+	<!-- 월말정산 조회 -->
+	<select id="getCalculateList" resultType="TradeFailDTO">
+		SELECT
+			SUM(cancelTotal)		AS 'failTotal'
+			,SUM(successTotal)		AS 'sucTotal'
+			,SUM(commissionTotal)	AS 'cmTotal'
+			,result.ym				AS 'ymDate'
+		from
+				(
+				SELECT
+					SUM(f.b_cancel)	AS 'cancelTotal'
+					, 0 AS 'successTotal'
+					,SUM(f.b_cancel)	AS 'commissionTotal'
+					,DATE_FORMAT(f.tr_fail_date,'%y년 %m월') AS 'ym'
+				FROM
+					tb_trade_fail AS f
+				GROUP BY DATE_FORMAT(f.tr_fail_date,'%y%m')
+				UNION
+				SELECT
+					0 AS 'cancelTotal'
+					,SUM(o.c_trade_cm)	AS 'successTotal'
+					,SUM(o.c_trade_cm)	AS 'commissionTotal'
+					,DATE_FORMAT(i.b_mo_date,'%y년 %m월')	AS 'ym'
+				FROM
+					tb_trade_payment_out AS o
+					LEFT join
+					tb_trade_priority AS r
+					ON 
+					o.tr_pr_code = r.tr_pr_code
+					LEFT JOIN 
+					tb_trade_payment_in AS i
+					ON 
+					r.tr_pr_code = i.tr_pr_code
+				GROUP BY DATE_FORMAT(i.b_mo_date,'%y%m')
+				) AS result
+		GROUP BY ym;
+	</select>
+	
 	<!-- 거래수수료목록 -->
 	<select id="getSuccessCommission" resultMap="paymentoutResultMap">
 		SELECT 

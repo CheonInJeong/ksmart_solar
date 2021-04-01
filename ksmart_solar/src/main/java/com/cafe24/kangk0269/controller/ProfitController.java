@@ -76,7 +76,10 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/calculate")
-	public String Calculate() {
+	public String Calculate(Model model) {
+		List<TradeFailDTO> calculateList = tradeService.getCalculateList();
+		System.out.println("수수료 정산 : " + calculateList);
+		model.addAttribute("calculateList", calculateList);
 		return "/profit/calculate";
 	}
 	
