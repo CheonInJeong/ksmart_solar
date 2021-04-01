@@ -3,7 +3,7 @@
   PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
   
-  	<mapper namespace="com.cafe24.kangk0269.dao.SellMapper">
+  	<mapper namespace="com.cafe24.kangk0269.dao.FileMapper">
   	
   		<resultMap type = "FileDTO" id = "fileResultMap">
   		  		<result property="relatedTableCode" column="related_table_code"/>
