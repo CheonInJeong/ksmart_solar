@@ -7,11 +7,11 @@
 				<title>공고정보</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>발전소 리스트</strong></div>
+		<div id="container-header-title"><strong>공고정보</strong></div>
 		<div id="container-header-path">
-			<a href="/" style="text-decoration: none;">메인화면 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 공고정보 </a>
 		</div>
 		<div id="container-header-space"></div>
 		<input type="hidden" id="bCpReCount" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpReCount}">
@@ -24,7 +24,7 @@
 				<input type="hidden" name="announcedTitle" 	th:value="${bidComponentdto.bCpTitle}">
 				<input type="hidden" name="announcedPrice" 	th:value="${bidComponentdto.bCpPrice}">
 				<input type="hidden" name="announcedType" 	th:value="${2}">
-			
+				<input type="hidden" name="url">
 	          	<aside class="mid-side container" >
 		            <div class="chat-room-head">
 		              <h3>부품 공고</h3>
@@ -75,6 +75,7 @@
 				<input type="hidden" name="announcedTitle" th:value="${bidPlantdto.bPlTitle}">
 				<input type="hidden" name="announcedPrice" th:value="${bidPlantdto.bPlPrice}">
 				<input type="hidden" name="announcedType" th:value="${1}">
+				<input type="hidden" name="url">
 	          <aside class="mid-side container">
 	            <div class="chat-room-head">
 	              <h3>발전소 공고</h3>
@@ -146,13 +147,15 @@
 				</form>
 				<form class="form-group" action="/notice/paymentInRequest" method="post">
 					<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11 and tradePaymentInDTO.mAccountBankName==null}">
-						<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">					
+						<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+						<input type="hidden" name="url">					
 				 		<button id="paymantIn" type="submit" class="btn btn-default">대금 납부</button>
 					</div>
 				</form>
 				<form class="form-group" action="/notice/modifyPaymentIn" method="post">
 					<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11 and tradePaymentInDTO.mAccountBankName!=null}">
-						<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">					
+						<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+						<input type="hidden" name="url">					
 				 		<button type="submit" class="btn btn-default">대금 납부 수정</button>
 					</div>
 				</form>
@@ -176,29 +179,28 @@
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
 			var link = document.referrer;
 			$('#returnPage').attr('href',link);
 			var linkArr = link.split('/');
-			console.log(linkArr[linkArr.length-1]);
-			if(linkArr[linkArr.length-1]=='myHistory'){
-				var buy = $('#buy');
-				buy.addClass('active');
-				buy.parent().find('.sub').css('display','block');
-				buy.parent().find('.sub').children().eq(0).addClass('active');			
-			}
-			if(linkArr[linkArr.length-1]=='noticeList'){
-				var notice = $('#notice');
-				notice.addClass('active');
-				notice.parent().find('.sub').css('display','block');
-				notice.parent().find('.sub').children().eq(0).addClass('active');			
-			}
-			if(linkArr[linkArr.length-1]=='history'){
-				var notice = $('#notice');
-				notice.addClass('active');
-				notice.parent().find('.sub').css('display','block');
-				notice.parent().find('.sub').children().eq(1).addClass('active');			
-			}
+			var link2 = ('/'+linkArr[linkArr.length-2]+'/'+linkArr[linkArr.length-1])
+			var firstUrl = $('#firstUrl');
+			var secondUrl = $('#secondUrl');
+			var thirdUrl = $('#thirdUrl');
+			var a = $('a');
+			a.each(function(){
+				if($(this).attr('href')==link2){
+					$(this).parent().parent().parent().children().eq(0).addClass('active');
+					$(this).parent().parent().css('display','block');
+					$(this).parent().addClass('active');
+					firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+					secondUrl.text($(this).parent().text());
+					secondUrl.attr('href',$(this).prop('href'));
+				}
+			});
+			var url = $('[name="url"]')
+			url.val(link2);
 			$(function(){
 				var price = $('.price');
 				price.each(function(){
@@ -210,40 +212,20 @@
 			var bCpGroupcode = $('#bCpGroupcode');
 			var bPlGroupcode = $('#bPlGroupcode');
 			$('#bidComponentBtn').click(function(){
-				
+				if(!bidReCount(bCpReCount,bCpGroupcode)){
+					return false;
+				}
 				$('#bidComponentForm').submit();
 			});
 			$('#bidPlantBtn').click(function(){
-				console.log(bPlGroupcode.val()+'--------------------그룹코드');
-				if(bPlReCount.val()>0){
-					var count = 0;
-					$.ajax({
-						  url: '/reBidCount', 
-						  method: 'get',
-						  data : {bGroupcode : bPlGroupcode.val()},
-						  async:false,
-						  success: function(data){
-							  if(data > 0){
-								  console.log(data);
-								  count = data;
-								  alert('이전공고에서 계약취소 또는 대금 미납하셔서 입찰하실 수 없습니다.');
-							  }
-						  },
-						  error : function(xhr,status,error){
-							  console.log("xhr: " + xhr);
-							  console.log("status: " + status);
-							  console.log("error: " + error);
-						  }
-					});
-					console.log(count);
-					if(count!=0){
-						console.log('입찰못함')
-						return false;
-					}
+				if(!bidReCount(bPlReCount,bPlGroupcode)){
+					return false;
 				}
 				$('#bidPlantForm').submit();
 			});
+			
 			function bidReCount (ReCount,bGroupcode){
+				var result = true;
 				if(ReCount.val()>0){
 					var count = 0;
 					$.ajax({
@@ -255,7 +237,11 @@
 							  if(data > 0){
 								  console.log(data);
 								  count = data;
-								  alert('이전공고에서 계약취소 또는 대금 미납하셔서 입찰하실 수 없습니다.');
+								  Swal.fire({
+									  title: '입찰실패!',
+									  text: '이전공고에서 계약취소 또는 대금 미납하셔서 입찰하실 수 없습니다.',
+									  icon: 'error'
+									});
 							  }
 						  },
 						  error : function(xhr,status,error){
@@ -267,9 +253,10 @@
 					console.log(count);
 					if(count!=0){
 						console.log('입찰못함')
-						return false;
+						result = false;
 					}
 				}
+				return result;
 			}
 		</script>
 	</th:block>

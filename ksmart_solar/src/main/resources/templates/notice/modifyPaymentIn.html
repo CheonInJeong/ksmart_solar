@@ -4,15 +4,18 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>입찰 신청</title>
+				<title>대금납부 수정</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>발전소 리스트</strong></div>
+		<div id="container-header-title"><strong>대금납부 수정</strong></div>
 		<div id="container-header-path">
-			<a href="/" style="text-decoration: none;">메인화면 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#"  style="text-decoration: none;"> 공고정보 </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 대금납부 수정 </a>
+			<input type="hidden" id="url" th:value="${url}">
 		</div>
+		
 		<div id="container-header-space"></div>
    		<form id="paymentInForm" method="post" th:action="@{/notice/addpaymentInRequest}">
    			<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
@@ -71,14 +74,28 @@
        	</form>
 	</th:block>
 	<th:block layout:fragment="customScript">
-		
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
-			var notice = $('#notice');
-			notice.addClass('active');
-			notice.parent().find('.sub').css('display','block');
-			notice.parent().find('.sub').children().eq(0).addClass('active');			
-			
 			$(function(){
+				
+				var url = $('#url');
+				link2 = url.val();
+				console.log(link2);
+				var firstUrl = $('#firstUrl');
+				var secondUrl = $('#secondUrl');
+				var thirdUrl = $('#thirdUrl');
+				var a = $('a');
+				a.each(function(){
+					if($(this).attr('href')==link2){
+						$(this).parent().parent().parent().children().eq(0).addClass('active');
+						$(this).parent().parent().css('display','block');
+						$(this).parent().addClass('active');
+						firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+						secondUrl.text($(this).parent().text());
+						secondUrl.attr('href',$(this).prop('href'));
+					}
+				});
+				
 				//입금자 이름
 				var mPaymentName = $('[name="mPaymentName"]');			
 				var form = $('form');
@@ -184,15 +201,26 @@
 					console.log(bPrice.val());
 					
 					if(accountNumber.text()==""){
-						alert('은행을 선택해주세요.');
+						Swal.fire({
+							  title: '대금납부 수정 실패!',
+							  text: '은행을 선택해주세요.',
+							  icon: 'info'
+							});
 						return false;
 					}
 					if(mPaymentName.val()==""){
-						alert('이름을 입력해주세요.');
+						Swal.fire({
+							  title: '대금납부 수정 실패!',
+							  text: '이름을 입력해주세요.',
+							  icon: 'info'
+							});
 						mPaymentName.focus();
 						return false;
 					}
-					
+					Swal.fire({
+						  title: '대금납부 수정!',
+						  icon: 'success'
+						});
 					form.submit();
 				});
 				
