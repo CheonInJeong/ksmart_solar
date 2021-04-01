@@ -35,6 +35,15 @@ public class MyPageController {
 	
 	//관심목록 등록
 	@PostMapping("/mypage/addWishlist")
+	public String addWishlist(HttpSession session,
+			@RequestParam(name = "announcedCode", required = false ) String announcedCode) {
+		System.out.println("addWishlist 실행");
+		String login_id = (String)session.getAttribute("SID");
+		pickService.addWishlist(announcedCode, login_id);
+		return "/mypage/wishlist";
+		
+		
+	}
 	
 	
 	//관심목록 삭제

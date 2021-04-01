@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.annotation.PostConstruct;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,6 +30,13 @@ public class MemberService {
 	@Autowired
 	public MemberService(MemberMapper memberMapper) {
 		this.memberMapper = memberMapper;
+	}
+	
+	@PostConstruct
+	public void initialize() {
+		System.out.println("=========================================================");
+		System.out.println("MemberService bean 등록");
+		System.out.println("=========================================================");
 	}
 
 	// 전체회원계좌 조회

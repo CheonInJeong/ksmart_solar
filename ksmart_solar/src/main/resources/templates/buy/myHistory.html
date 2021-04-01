@@ -33,8 +33,9 @@
                 </thead>
                 <tbody>
                 	<th:block th:if="${bidComponentList != null}" th:each="l:${bidComponentList}">
+                		<th:block th:if="${bidPlantList != null}" th:each="j:${l.bidListDTOList}">
 		                  <tr>
-		                    <td th:text="${l.num}"></td>
+		                    <td th:text="${l.num=l.num+1}"></td>
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
@@ -43,10 +44,11 @@
 		                    	</form>
 		                    </td>
 		                    <td th:text="${l.mId}"></td>
-		                    <td th:text="${l.bidListDTO.trTypeName}"></td>
+		                    <td th:text="${j.trTypeName}"></td>
 		                    <td th:text="${l.bCpStatus}"></td>
-		                    <td th:text="${l.bidListDTO.bDate}"></td>
+		                    <td th:text="${j.bDate}"></td>
 		                  </tr>
+		                  </th:block>
                 	</th:block>
 		                  <tr>
 		                    <td>1</td>
@@ -204,8 +206,9 @@
                 </thead>
                 <tbody>
                 	<th:block th:if="${bidPlantList != null}" th:each="l:${bidPlantList}">
+	                	<th:block th:if="${bidPlantList != null}" th:each="j:${l.bidListDTOList}">
 		                  <tr>
-		                    <td th:text="${l.num}"></td>
+		                    <td th:text="${l.num=l.num+1}"></td>
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
@@ -214,10 +217,11 @@
 		                    	</form>
 		                    </td>
 		                    <td th:text="${l.mId}"></td>
-		                    <td th:text="${l.bidListDTO.trTypeName}"></td>
+		                    <td th:text="${j.trTypeName}"></td>
 		                    <td th:text="${l.bPlStatus}"></td>
-		                    <td th:text="${l.bidListDTO.bDate}"></td>
+		                    <td th:text="${j.bDate}"></td>
 		                  </tr>
+	                	</th:block>
                 	</th:block>
                 	<th:block th:if="${bidPlantList==null || bidPlantList.size()==0}">
 		                  <tr>

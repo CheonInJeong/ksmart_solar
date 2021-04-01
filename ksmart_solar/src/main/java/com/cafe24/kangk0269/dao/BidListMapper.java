@@ -22,4 +22,9 @@ public interface BidListMapper {
 	public String getBidCode(String announceCode, String id);
 	//입찰 취소
 	public int bidCancel(String bCode);
+	//입찰 취소시 발전소 공고 리스트의 입찰자 목록 -1
+	public int bidPlantMemberMinus(String plCode); 
+	//입찰 취소시 부품 공고 리스트의 입찰자 목록 -1
+	public int bidComponentMemberMinus(String cpCode); 
+
 }
