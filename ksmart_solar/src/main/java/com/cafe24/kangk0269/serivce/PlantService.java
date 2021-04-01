@@ -3,6 +3,8 @@ package com.cafe24.kangk0269.serivce;
 import java.text.DecimalFormat;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +25,13 @@ public class PlantService {
 	@Autowired
 	public PlantService(PlantMapper plantMapper) {
 		this.plantMapper = plantMapper;
+	}
+	
+	@PostConstruct
+	public void initialize() {
+		System.out.println("=========================================================");
+		System.out.println("PlantService bean 등록");
+		System.out.println("=========================================================");
 	}
 	
 	// 발전소인증신청 반려

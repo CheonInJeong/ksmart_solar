@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import javax.annotation.PostConstruct;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,6 +27,13 @@ public class BusinessService {
 	@Autowired
 	public BusinessService(BusinessMapper businessMapper) {
 		this.businessMapper = businessMapper;
+	}
+	
+	@PostConstruct
+	public void initialize() {
+		System.out.println("=========================================================");
+		System.out.println("BusinessService bean 등록");
+		System.out.println("=========================================================");
 	}
 
 	// 사업자인증신청 반려
