@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,13 +36,9 @@ public class BidPlantService {
 		return bidPlantDTO;
 	}
 	public List<BidPlantDTO> getBidPlantMyBid(String sId) {
-		List<BidPlantDTO> bidPlantList = bidPlantMapper.getBidPlantMyBid(sId);
-		if(bidPlantList!=null) {
-			for(int i=0; i<bidPlantList.size();i++) {
-				bidPlantList.get(i).setNum(i+1);
-			}
-		}
-		return bidPlantList;
+		List<BidPlantDTO> bidPlantListdto = bidPlantMapper.getBidPlantMyBid(sId);
+		List<BidPlantDTO> bidPlantList = null;
+		return bidPlantListdto;
 	}
 	public BusinessPlantDTO getPlant(String announceCode) {
 		return bidPlantMapper.getPlant(announceCode);

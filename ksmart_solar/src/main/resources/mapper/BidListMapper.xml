@@ -140,4 +140,18 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE 
 			b_code = #{bCode}
 	</update>
+	<update id="bidPlantMemberMinus">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_number_of_bidder=b_pl_number_of_bidder-1
+		WHERE 
+			b_pl_code = #{plCode}
+	</update>
+	<update id="bidComponentMemberMinus">
+		UPDATE tb_bid_component
+		SET
+			b_cp_bidder_number=b_cp_bidder_number-1
+		WHERE 
+			b_cp_code = #{cpCode}
+	</update>
 </mapper>

@@ -106,6 +106,7 @@ public class NoticeController {
 			getBidListCount = bidListService.getBidListCount(announceCode,id);
 			//입찰한지 안한지를 보내준다.
 		}
+		System.out.println(getBidListCount+"-------------------------------------getBidListCount");
 		model.addAttribute("getBidListCount",getBidListCount);
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
@@ -153,8 +154,7 @@ public class NoticeController {
 	@PostMapping("/notice/bidCancel")
 	public String bidCancel(String bCode) {
 		System.out.println(bCode);
-		int result = bidListService.bidCancel(bCode);
-		System.out.println(result);
+		bidListService.bidCancel(bCode);
 		return "redirect:/buy/myHistory";
 	}
 	
@@ -218,6 +218,6 @@ public class NoticeController {
 			System.out.println("파일등록 실패");
 			e.printStackTrace();
 		}
-		return "redirect:/notice/bidRequestResult";
+		return "redirect:/buy/myHistory";
 	}
 }

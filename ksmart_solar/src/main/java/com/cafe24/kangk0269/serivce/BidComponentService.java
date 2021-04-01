@@ -47,12 +47,6 @@ public class BidComponentService {
 	}
 	public List<BidComponentDTO> getBidComponentMyBid(String sId) {
 		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponentMyBid(sId);
-		if(bidComponentList!=null) {
-			System.out.println("확인--------------------------");
-			for(int i=0; i<bidComponentList.size();i++) {
-				bidComponentList.get(i).setNum(i+1);
-			}
-		}
 		return bidComponentList;
 	}
 	public ComponentDTO getComponent(String CpCode) {

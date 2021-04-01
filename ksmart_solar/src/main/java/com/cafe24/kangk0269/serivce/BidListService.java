@@ -50,13 +50,29 @@ public class BidListService {
 		}
 		 
 	}
-	
+	//공고 취소
 	public int bidCancel(String bCode) {
-		return bidListMapper.bidCancel(bCode);
+		int result = bidListMapper.bidCancel(bCode);
+		System.out.println(result+"=====================================취소 성공");
+		if(result==1) {
+			BidListDTO bidListDTO = getBidList(bCode);
+			System.out.println(bidListDTO.getbTypeCode()+"========================================공고 종류");
+			System.out.println(bidListDTO.getAnnouncedCode()+"=============================================공고코드");
+			if(bidListDTO!=null && bidListDTO.getbTypeCode().equals("1")) {
+				System.out.println("발전소");
+				bidListMapper.bidPlantMemberMinus(bidListDTO.getAnnouncedCode());
+			}else if(bidListDTO!=null && bidListDTO.getbTypeCode().equals("2")) {
+				System.out.println("부품");
+				bidListMapper.bidComponentMemberMinus(bidListDTO.getAnnouncedCode());
+			}
+		}
+		return result;
 	}
+	//내가 입찰을 했는지 안했는지
 	public int getBidListCount(String announceCode, String id) {
 		return bidListMapper.getBidListCount(announceCode, id);
 	}
+	//공고 조회
 	public BidListDTO getBidList(String announceCode, String id) {
 		return getBidList(announceCode,id,null);
 	}
