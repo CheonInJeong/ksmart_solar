@@ -9,8 +9,42 @@ public class TradeFailDTO {
 	private double bCancelRate;
 	private int bCancel;
 	private String trFailDate;
+	// 관련 공고코드
 	private String announcedCode;
 	
+	// 취소수수료 총액
+	private int failTotal;
+	// 거래수수료 총액
+	private int sucTotal;
+	// 수수료 총액
+	private int cmTotal;
+	// 일자(년월)
+	private String ymDate;
+	
+	public int getFailTotal() {
+		return failTotal;
+	}
+	public void setFailTotal(int failTotal) {
+		this.failTotal = failTotal;
+	}
+	public int getSucTotal() {
+		return sucTotal;
+	}
+	public void setSucTotal(int sucTotal) {
+		this.sucTotal = sucTotal;
+	}
+	public int getCmTotal() {
+		return cmTotal;
+	}
+	public void setCmTotal(int cmTotal) {
+		this.cmTotal = cmTotal;
+	}
+	public String getYmDate() {
+		return ymDate;
+	}
+	public void setYmDate(String ymDate) {
+		this.ymDate = ymDate;
+	}
 	public String getAnnouncedCode() {
 		return announcedCode;
 	}
@@ -86,8 +120,17 @@ public class TradeFailDTO {
 		builder.append(trFailDate);
 		builder.append(", announcedCode=");
 		builder.append(announcedCode);
+		builder.append(", failTotal=");
+		builder.append(failTotal);
+		builder.append(", sucTotal=");
+		builder.append(sucTotal);
+		builder.append(", cmTotal=");
+		builder.append(cmTotal);
+		builder.append(", ymDate=");
+		builder.append(ymDate);
 		builder.append("]");
 		return builder.toString();
 	}
+	
 
 }

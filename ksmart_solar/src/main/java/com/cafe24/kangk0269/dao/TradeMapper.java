@@ -12,6 +12,12 @@ import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 @Mapper
 public interface TradeMapper {
 
+	// 월말정산리스트
+	public List<TradeFailDTO> getCalculateList();
+	
+	// 대금수수료목록
+	public List<TradePaymentOutDTO> getSuccessCommission();
+	
 	// 취소수수료목록
 	public List<TradeFailDTO> getFailCommission();
 	
