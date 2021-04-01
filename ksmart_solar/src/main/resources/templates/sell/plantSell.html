@@ -131,7 +131,9 @@
  		
 
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}">
+	  	 $('.default-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 7 });
+	  	</script>
 	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
 
 	 	<script>

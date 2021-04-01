@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<div th:fragment="paymentInResultFragment">
+	<div class="chat-room mt" >
+		<aside class="mid-side container">
+			<div class="chat-room-head">
+            		<h3>납부 정보</h3>
+          		</div>
+          	<div class="group-rom">
+	            <div class="first-part odd ">입찰금액</div>
+	            <div class="second-part price" th:text="${tradePaymentInDTO.bPrice+'원'}"></div>
+			</div>
+          	<div class="group-rom">
+	           <div class="first-part odd ">예치금</div>
+	            <div class="second-part price" th:text="${tradePaymentInDTO.bDeposit+'원'}"></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">납부 금액</div>
+	            <div class="second-part price" th:text="${tradePaymentInDTO.trPayinPrice+'원'}"></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">관리자 계좌 은행</div>
+	            <div class="second-part" th:text="${tradePaymentInDTO.mAccountBankName}"></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">관리자 계좌 번호</div>
+	            <div class="second-part" th:text="${tradePaymentInDTO.mAccountNumber}"></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">입금자 성명</div>
+	            <div class="second-part" th:text="${tradePaymentInDTO.mPaymentName}"></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">납부 상태</div>
+	            <div class="second-part" th:text="${tradePaymentInDTO.trPayinStatus}"></div>
+          	</div>
+          	<div class="group-rom">
+	           <div class="first-part odd">납부 기간</div>
+	            <div class="second-part" th:text="${tradePaymentInDTO.trPayinDate1 +' ~ '+tradePaymentInDTO.trPayinDate2}"></div>
+          	</div>
+        </aside>
+	</div>
+</div>
+
+</html>

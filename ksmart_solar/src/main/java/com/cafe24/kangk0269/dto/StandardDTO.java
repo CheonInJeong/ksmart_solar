@@ -5,7 +5,7 @@ public class StandardDTO {
 	private String mId;
 	
 	private int sCommissionIdx;
-	private String sCommissionType;
+	private int sCommissionType;
 	private double sCommissionRate;
 	private String sCommissionDate;
 	private String sCommissionUse;
@@ -39,10 +39,10 @@ public class StandardDTO {
 	public void setsCommissionIdx(int sCommissionIdx) {
 		this.sCommissionIdx = sCommissionIdx;
 	}
-	public String getsCommissionType() {
+	public int getsCommissionType() {
 		return sCommissionType;
 	}
-	public void setsCommissionType(String sCommissionType) {
+	public void setsCommissionType(int sCommissionType) {
 		this.sCommissionType = sCommissionType;
 	}
 	public double getsCommissionRate() {

@@ -76,8 +76,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			bl.announced_code = #{announceCode}
 		and
 			bl.m_id=#{id}
-		and
-			(tr_type_code=1 OR tr_type_code=3)
 	</select>
 	<select id="getBidList" parameterType="String" resultMap="BidListDTOMap">
 		SELECT 
@@ -140,4 +138,29 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE 
 			b_code = #{bCode}
 	</update>
+	<update id="bidPlantMemberMinus">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_number_of_bidder=b_pl_number_of_bidder-1
+		WHERE 
+			b_pl_code = #{plCode}
+	</update>
+	<update id="bidComponentMemberMinus">
+		UPDATE tb_bid_component
+		SET
+			b_cp_bidder_number=b_cp_bidder_number-1
+		WHERE 
+			b_cp_code = #{cpCode}
+	</update>
+	<!-- 재공고시 이전공고에서 계약을 취소한 적이 있는지 -->
+	<select id="reBidCount" parameterType="String" resultType="int">
+	SELECT
+		COUNT(1)
+	FROM
+		tb_trade_priority AS tp
+	WHERE 
+		b_groupcode = #{groupCode}
+		AND m_id_buyer = #{id}
+		AND (tr_type_code = 8 OR tr_type_code = 12)
+	</select>
 </mapper>

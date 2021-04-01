@@ -17,7 +17,6 @@ public class BidPlantDTO {
 	private String bPlStatus;
 	private int acStatusCode; 
 	private int bPlNumberOfBidder; 
-	private String acStatusName; 
 	private String bPlDateRequest; 
 	private String bPlDateBidding1; 
 	private String bPlDateBidding2;
@@ -30,18 +29,11 @@ public class BidPlantDTO {
 	private String bPlRejectReason;
 	private String bPlCancelReason; 
 	private String bPlCancelDate;
+	
+	private BusinessPlantDTO businessPlantDTO;
+	
 	private BidListDTO bidListDTO;
 	private List<BidListDTO> bidListDTOList;
-	public List<BidListDTO> getBidListDTOList() {
-		return bidListDTOList;
-	}
-	public void setBidListDTOList(List<BidListDTO> bidListDTOList) {
-		this.bidListDTOList = bidListDTOList;
-	}
-	public void setbPlPrice(long bPlPrice) {
-		this.bPlPrice = bPlPrice;
-	}
-	private BusinessPlantDTO businessPlantDTO;
 	public int getNum() {
 		return num;
 	}
@@ -81,7 +73,7 @@ public class BidPlantDTO {
 	public long getbPlPrice() {
 		return bPlPrice;
 	}
-	public void setbPlPrice(int bPlPrice) {
+	public void setbPlPrice(long bPlPrice) {
 		this.bPlPrice = bPlPrice;
 	}
 	public int getPlDepDataResidual() {
@@ -119,12 +111,6 @@ public class BidPlantDTO {
 	}
 	public void setbPlNumberOfBidder(int bPlNumberOfBidder) {
 		this.bPlNumberOfBidder = bPlNumberOfBidder;
-	}
-	public String getAcStatusName() {
-		return acStatusName;
-	}
-	public void setAcStatusName(String acStatusName) {
-		this.acStatusName = acStatusName;
 	}
 	public String getbPlDateRequest() {
 		return bPlDateRequest;
@@ -198,17 +184,23 @@ public class BidPlantDTO {
 	public void setbPlCancelDate(String bPlCancelDate) {
 		this.bPlCancelDate = bPlCancelDate;
 	}
+	public BusinessPlantDTO getBusinessPlantDTO() {
+		return businessPlantDTO;
+	}
+	public void setBusinessPlantDTO(BusinessPlantDTO businessPlantDTO) {
+		this.businessPlantDTO = businessPlantDTO;
+	}
 	public BidListDTO getBidListDTO() {
 		return bidListDTO;
 	}
 	public void setBidListDTO(BidListDTO bidListDTO) {
 		this.bidListDTO = bidListDTO;
 	}
-	public BusinessPlantDTO getBusinessPlantDTO() {
-		return businessPlantDTO;
+	public List<BidListDTO> getBidListDTOList() {
+		return bidListDTOList;
 	}
-	public void setBusinessPlantDTO(BusinessPlantDTO businessPlantDTO) {
-		this.businessPlantDTO = businessPlantDTO;
+	public void setBidListDTOList(List<BidListDTO> bidListDTOList) {
+		this.bidListDTOList = bidListDTOList;
 	}
 	@Override
 	public String toString() {
@@ -239,8 +231,6 @@ public class BidPlantDTO {
 		builder.append(acStatusCode);
 		builder.append(", bPlNumberOfBidder=");
 		builder.append(bPlNumberOfBidder);
-		builder.append(", acStatusName=");
-		builder.append(acStatusName);
 		builder.append(", bPlDateRequest=");
 		builder.append(bPlDateRequest);
 		builder.append(", bPlDateBidding1=");
@@ -265,14 +255,15 @@ public class BidPlantDTO {
 		builder.append(bPlCancelReason);
 		builder.append(", bPlCancelDate=");
 		builder.append(bPlCancelDate);
+		builder.append(", businessPlantDTO=");
+		builder.append(businessPlantDTO);
 		builder.append(", bidListDTO=");
 		builder.append(bidListDTO);
 		builder.append(", bidListDTOList=");
 		builder.append(bidListDTOList);
-		builder.append(", businessPlantDTO=");
-		builder.append(businessPlantDTO);
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	
 }

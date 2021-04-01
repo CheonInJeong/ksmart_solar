@@ -27,7 +27,7 @@ public class BuyController {
 		this.bidComponentService = bidComponentService; 
 		this.bidPlantService = bidPlantService; 
 	}
-	
+	//내가 입찰한 공고
 	@GetMapping("/buy/myHistory")
 	public String MyHistory(HttpSession session, Model model) {
 		System.out.println(session.getAttribute("SID"));
@@ -35,11 +35,20 @@ public class BuyController {
 		if(sId != null) {
 			List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(sId);
 			List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(sId);
-			System.out.println(bidPlantList+"--------------------------------------------입찰신청한 발전소 목록");
-			System.out.println(bidPlantList.get(0).getBidListDTO().getTrTypeName()+"--------------------------------------------1");
-			System.out.println(bidPlantList.get(1).getBidListDTO().getTrTypeName()+"--------------------------------------------2");
-			System.out.println(bidPlantList.get(0).getBidListDTOList().get(0).getTrTypeName()+"--------------------------------------------입찰신청한 발전소 목록");
-			System.out.println(bidPlantList.size());
+			if(bidComponentList!=null && bidComponentList.size()>1) {
+				for(int i=0; i<bidComponentList.size();i++) {
+					if(i!=0) {
+						bidComponentList.get(i).setNum(bidComponentList.get(i-1).getBidListDTOList().size()+bidComponentList.get(i-1).getNum());
+					}
+				}
+			}
+			if(bidPlantList!=null && bidPlantList.size()>1) {
+				for(int i=0; i<bidPlantList.size();i++) {
+					if(i!=0) {
+						bidPlantList.get(i).setNum(bidPlantList.get(i-1).getBidListDTOList().size()+bidPlantList.get(i-1).getNum());
+					}
+				}
+			}
 			if(bidPlantList!=null) {				
 				model.addAttribute("bidPlantList", bidPlantList);
 			}
@@ -49,7 +58,7 @@ public class BuyController {
 		}
 		return "/buy/myHistory";
 	}
-	
+	//예치금 환불 신청
 	@GetMapping("/buy/applyRefund")
 	public String ApplyRefund(HttpSession session, Model model) {
 		System.out.println(session.getAttribute("SID"));

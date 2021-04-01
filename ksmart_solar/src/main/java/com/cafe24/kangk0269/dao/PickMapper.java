@@ -9,6 +9,10 @@ import com.cafe24.kangk0269.dto.PickDTO;
 @Mapper
 public interface PickMapper {
 	
+	
+	//관심목록 등록
+	public int addWishlist(String announcedCode, String login_id);
+	
 	//관심목록 삭제
 	public int removeWishlist(int pIdx);
 	

@@ -106,19 +106,22 @@ public class NoticeController {
 			getBidListCount = bidListService.getBidListCount(announceCode,id);
 			//입찰한지 안한지를 보내준다.
 		}
+		System.out.println(getBidListCount+"-------------------------------------getBidListCount");
 		model.addAttribute("getBidListCount",getBidListCount);
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
 			//이미 입찰을 했다면 입찰한 정보를 보여준다.
 			bidListDTO = bidListService.getBidList(announceCode,id);
 			if(bidListDTO!=null) {
-				System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------");
+				System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
+				System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
 				model.addAttribute("bidListDTO",bidListDTO);
 			}
 		}
 		if(announceType!=null && announceType.equals("발전소")) {
 			bidPlantdto = bidPlantService.getBidPlantByInfo(announceCode);
 			businessPlantDTO = bidPlantService.getPlant(announceCode);
+			System.out.println(bidPlantdto+"----------------------------------발전소 공고 정보");
 			System.out.println(businessPlantDTO+"----------------------------------발전소 정보");
 			model.addAttribute("bidPlantdto", bidPlantdto);
 			model.addAttribute("businessPlantDTO", businessPlantDTO);
@@ -129,10 +132,10 @@ public class NoticeController {
 			model.addAttribute("bidComponentdto", bidComponentdto);
 			model.addAttribute("componentDTO", componentDTO);
 		}
-		if(bidListDTO!=null && bidListDTO.getTrTypeCode()==11) {
+		if(bidListDTO!=null && bidListDTO.getTrTypeCode()>=11 && bidListDTO.getTrTypeCode()<=14) {
 			tradePaymentInDTO = tradeService.getTradePaymentIn(bidListDTO.getbCode());
 			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
-			System.out.println(tradePaymentInDTO.getmAccountBankName()+"========================================대금납부할 은행");
+			System.out.println(tradePaymentInDTO+"===============================================tradePaymentInDTO");
 		}
 		return "/notice/announcement";
 	}
@@ -153,8 +156,7 @@ public class NoticeController {
 	@PostMapping("/notice/bidCancel")
 	public String bidCancel(String bCode) {
 		System.out.println(bCode);
-		int result = bidListService.bidCancel(bCode);
-		System.out.println(result);
+		bidListService.bidCancel(bCode);
 		return "redirect:/buy/myHistory";
 	}
 	
@@ -218,6 +220,16 @@ public class NoticeController {
 			System.out.println("파일등록 실패");
 			e.printStackTrace();
 		}
-		return "redirect:/notice/bidRequestResult";
+		return "redirect:/buy/myHistory";
+	}
+	//재공고 입찰시 이전 공고에서 거래를 취소한 적이 있는지 파악
+	@RequestMapping(value = "/reBidCount",method = RequestMethod.GET )
+	public @ResponseBody int reBidCount(String bGroupcode,HttpSession session) {
+		System.out.println("입찰 카운드 들어옴");
+		System.out.println(bGroupcode);
+		System.out.println(session.getAttribute("SID"));
+		int count = bidListService.reBidCount(bGroupcode, (String)session.getAttribute("SID"));
+		System.out.println(count);
+		return count;
 	}
 }

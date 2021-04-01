@@ -28,6 +28,11 @@ public class PickService {
 		System.out.println("=========================================================");
 	}
 	
+	//관심목록 등록
+	public int addWishlist(String announcedCode, String login_id) {
+		return pickMapper.addWishlist(announcedCode, login_id);
+	}
+	
 	//관심목록 삭제
 	public int removeWishlist(int pIdx) {
 		return pickMapper.removeWishlist(pIdx); 
