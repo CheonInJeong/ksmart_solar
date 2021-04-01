@@ -83,5 +83,8 @@ public class BidListService {
 	public BidListDTO getBidList(String announceCode, String id,String bCode) {
 		return bidListMapper.getBidList(announceCode, id,bCode);
 	}
+	public int reBidCount(String groupCode, String id) {
+		return bidListMapper.reBidCount(groupCode, id);
+	}
 
 }
