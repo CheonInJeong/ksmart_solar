@@ -13,6 +13,7 @@ import com.cafe24.kangk0269.dto.BidMoneyDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
+import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.serivce.BidMoneyService;
 import com.cafe24.kangk0269.serivce.MemberService;
@@ -31,7 +32,10 @@ public class ProfitController {
 	private BidMoneyService bidMoneyService;
 	
 	@GetMapping("/profit/cancel")
-	public String Cancel() {
+	public String Cancel(Model model) {
+		List<TradeFailDTO> cancelCmList = tradeService.getFailCommission();
+		System.out.println("취소수수료조회 : " + cancelCmList);
+		model.addAttribute("cancelCmList", cancelCmList);
 		return "/profit/cancel";
 	}
 	
