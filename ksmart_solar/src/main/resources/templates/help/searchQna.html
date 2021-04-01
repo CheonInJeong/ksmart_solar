@@ -2,10 +2,12 @@
 <html>
 <div th:fragment="searchFragment">
 	<form th:action="@{/help/QnaList}" method="get">
-		<select name="">
-		
+		<select name="searchKey">
+			<option value="mId">작성자</option>
+			<option value="bQnaSubject">문의 제목</option>
 		</select>	
+		<input type="text" name="searchValue">
+		<button type="submit">검색</button> 
 	</form>
 </div>
-</body>
 </html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+			<title>비밀번호 수정</title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+	
+	</th:block>
+	
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>비밀번호 수정</strong></div>
+     	<div id="container-header-path">마이페이지 > 내 정보관리 > 비밀번호 수정</div>
+     	<div id="container-header-space"></div>	
+		
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <h4 class="mb"><i class="fa fa-angle-right"></i>비밀번호 수정</h4>
+              <form th:action="@{/mypage/modifyPw}" method="post" class="form-horizontal style-form" >
+				<div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">현재비밀번호</label>
+                  <div class="col-lg-10">
+                  	<input type="text" name="mPw" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">새 비밀번호</label>
+                  <div class="col-lg-10">
+                  	<input type="text" name="newPw" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">새 비밀번호 확인</label>
+                  <div class="col-lg-10">
+                  	<input type="text" name="newPwCheck" class="form-control">
+                  </div>
+                </div>
+				<div class="form-group">
+                  <div class="col-lg-offset-2 col-lg-10">
+                    <button id="modifyBtn" type="submit" class="btn btn-info">수정</a>
+                  </div>
+                </div>	
+              </form>
+            </div>
+          </div>
+        </div>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+	
+		<script type="text/javascript">
+			//메뉴 버튼
+			var mypage = $('#mypage');
+			mypage.addClass('active');
+			mypage.parent().find('.sub').css('display','block');
+			mypage.parent().find('.sub').children().eq(0).addClass('active');
+			
+			/* 
+			//유효성 검사
+			var mPw = $('[name="mPw"]');
+			
+			$('#modifyBtn').click(function(){
+				if(mPw.val()==''){
+					alert('현재 비밀번호를 입력해주세요.');
+					mPw.focus();
+					return false;
+				}
+			 */
+		</script>
+	</th:block>
+</html>
+
