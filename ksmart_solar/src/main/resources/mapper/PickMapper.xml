@@ -15,6 +15,18 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- 관심목록 등록  -->
+	<insert id="addWishlist" parameterType="String">
+		INSERT INTO tb_pick
+			(b_gen_regoods_code
+			, m_id
+			, p_reg_date)
+		VALUES
+			 ( #{announcedCode}
+			 , #{login_id}
+			 , NOW())	
+	</insert>
+	
 	<!-- 관심목록 삭제 -->
 	<delete id="removeWishlist" parameterType="int">
 		DELETE 
