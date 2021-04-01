@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.kangk0269.dao.TradeMapper;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
+import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 
@@ -20,6 +21,10 @@ public class TradeService {
 	@Autowired
 	public TradeService(TradeMapper tradeMapper) {
 		this.tradeMapper = tradeMapper;
+	}
+	
+	public List<TradeFailDTO> getFailCommission(){
+		return tradeMapper.getFailCommission();
 	}
 
 	public List<TradePaymentOutDTO> getPaymentOutList(){

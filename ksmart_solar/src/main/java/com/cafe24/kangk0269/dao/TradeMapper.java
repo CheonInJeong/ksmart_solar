@@ -5,12 +5,16 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
+import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 
 @Mapper
 public interface TradeMapper {
 
+	// 취소수수료목록
+	public List<TradeFailDTO> getFailCommission();
+	
 	// 거래대금출금신청목록
 	public List<TradePaymentOutDTO> getPaymentOutList();
 	
