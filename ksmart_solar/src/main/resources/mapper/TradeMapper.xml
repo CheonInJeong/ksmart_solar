@@ -58,6 +58,30 @@
 		<result property="mAccountNumber" 			column="m_account_number"/>
 		<result property="mPaymentName" 			column="m_payment_name"/>
 	</resultMap>
+
+	<!-- 취소수수료목록 -->
+	<select id="getFailCommission" resultType="TradeFailDTO">
+		SELECT 
+			tr_fail_code	AS trFailCode
+			, related_code	AS relatedCode
+			, COALESCE(i.announced_code, r.announced_code) AS announcedCode
+			, tr_fail_type	AS trFailType
+			, m_id			AS mId
+			, tr_fail_basis	AS trFailBasis
+			, b_cancel_rate	AS bCancelRate
+			, b_cancel		AS bCancel
+			, tr_fail_date	AS trFailDate
+		FROM 
+			tb_trade_fail AS f
+			LEFT JOIN 
+			tb_trade_payment_in AS i
+			ON 
+			f.related_code = i.tr_payin_code
+			LEFT JOIN 
+			tb_trade_priority AS r
+			ON 
+			f.related_code = r.tr_pr_code;
+	</select>
 	
 	<select id="getPaymentOutList" resultMap="paymentoutResultMap">
 		SELECT 
