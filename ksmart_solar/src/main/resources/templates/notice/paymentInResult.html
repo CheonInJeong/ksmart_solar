@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div th:fragment="paymentInResultFragment">
-	<div class="chat-room mt" >
+	<!-- <div class="chat-room mt" >
 		<aside class="mid-side container">
 			<div class="chat-room-head">
             		<h3>납부 정보</h3>
@@ -40,6 +40,46 @@
 	            <div class="second-part" th:text="${tradePaymentInDTO.trPayinDate1 +' ~ '+tradePaymentInDTO.trPayinDate2}"></div>
           	</div>
         </aside>
+	</div> -->
+	<div class="row">
+	  <div class="col-md-12">
+	    <div class="content-panel">
+	      <h4><i class="fa fa-angle-right"></i>납부 정보</h4>
+	      <hr>
+	      <table class="table">
+	        <tbody>
+	          <tr>
+	             <td>입찰금액</td>
+	             <td colspan="3" class="price" th:text="${tradePaymentInDTO.bPrice+'원'}"></td>
+	          </tr>
+	          <tr>
+	           	 <td>예치금</td>
+	           	 <td class="price" th:text="${tradePaymentInDTO.bDeposit+'원'}"></td>
+	          	 <td>납부 금액</td>
+	             <td class="price" th:text="${tradePaymentInDTO.trPayinPrice+'원'}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>관리자 계좌 은행</td>
+	             <td th:text="${tradePaymentInDTO.mAccountBankName}"></td>
+	          	 <td>관리자 계좌 번호</td>
+	             <td th:text="${tradePaymentInDTO.mAccountNumber}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>입금자 성명</td>
+	             <td  th:text="${tradePaymentInDTO.mPaymentName}"></td>
+	          	 <td>납부 상태</td>
+	             <td  th:text="${tradePaymentInDTO.trPayinStatus}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>납부 시작일</td>
+	             <td  th:text="${tradePaymentInDTO.trPayinDate1}"></td>
+	          	 <td>납부 마감일</td>
+	             <td th:text="${tradePaymentInDTO.trPayinDate2}"></td>
+	          </tr>
+	        </tbody>
+	      </table>
+	    </div>
+	  </div>
 	</div>
 </div>
 

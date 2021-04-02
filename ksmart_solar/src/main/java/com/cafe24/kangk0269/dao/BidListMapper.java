@@ -2,11 +2,13 @@ package com.cafe24.kangk0269.dao;
 
 
 
+
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
 import com.cafe24.kangk0269.dto.BidListDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 
 @Mapper
 public interface BidListMapper {
@@ -28,5 +30,7 @@ public interface BidListMapper {
 	public int bidComponentMemberMinus(String cpCode);
 	//재공고시 이전공고에서 계약을 취소했는지 대금을 미납했는지 여부 판단
 	public int reBidCount(String groupCode, String id); 
+	//입찰신청시 필요한 서류
+	public List<FileDTO> getBidFileList(); 
 
 }

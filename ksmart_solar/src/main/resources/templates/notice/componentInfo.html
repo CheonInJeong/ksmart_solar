@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div th:fragment="componentInfoFragment">
-	<div class="chat-room mt" >
+	<!-- <div class="chat-room mt" >
 		<aside class="mid-side container">
 			<div class="chat-room-head">
             		<h3>부품 정보</h3>
@@ -28,6 +28,35 @@
 	           <div class="second-part" th:text="${componentDTO.cpUsedate}"></div>
           	</div>
         </aside>
+	</div> -->
+
+	<div class="row">
+	  <div class="col-md-12">
+	    <div class="content-panel">
+	      <h4><i class="fa fa-angle-right"></i>부품 정보</h4>
+	      <hr>
+	      <table class="table">
+	        <tbody>
+	          <tr>
+	             <td>부품명</td>
+	             <td colspan="3" th:text="${componentDTO.cpName}"></td>
+	          </tr>
+	          <tr>
+	           	 <td>부품제조사</td>
+	           	 <td th:text="${componentDTO.cpMaker}"></td>
+	          	 <td>제조일</td>
+	             <td th:text="${componentDTO.cpMakedate}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>부품정보</td>
+	             <td th:text="${componentDTO.cpInfo}"></td>
+	          	 <td>부품사용시작일</td>
+	             <td th:text="${componentDTO.cpUsedate}"></td>
+	          </tr>
+	        </tbody>
+	      </table>
+	    </div>
+	  </div>
 	</div>
 </div>
 
