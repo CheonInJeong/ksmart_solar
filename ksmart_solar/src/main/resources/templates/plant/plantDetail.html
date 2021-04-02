@@ -16,8 +16,8 @@
 		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh">
-			<div class="content-panel">
-				<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}" style="margin:20px 5% 20px 5%; width:90%;">
+			<div class="content-panel" style="padding: 30px;">
+				<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}">
 					<div class="h1 col-md-6">
 						<span style="font-weight:900; margin-right: 10px;">[[${l.bzPlName}]]</span>
 						<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
