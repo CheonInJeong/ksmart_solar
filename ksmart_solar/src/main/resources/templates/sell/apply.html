@@ -10,8 +10,30 @@
 		<div id="container-header-title"><strong>공고신청</strong></div>
      	<div id="container-header-path">판매관리 > 공고신청</div>
       	<div id="container-header-space"></div>
-		
-		<div class=	"row mt">
+
+	 <div class="form-horizontal form-inline " >
+	 	<div class="container-fluid">
+		<div class="row" >
+		  <div class="form-group col-md-6 col-sm-6 col-md-offset-6 col-sm-offset-6" >
+		    <div class="thumbnail col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2" >
+		      <div class="caption" style="text-align:center; min-height:400px" >
+		        <h3>발전소판매</h3>
+		        <p><a th:href="@{/sell/plantSell(mId=${session.SID})}" class="btn btn-default" role="button">바로가기</a></p>
+		      </div>
+		    </div>
+		  </div>
+		  <div class="form-group col-md-6 col-sm-6 col-md-offset-6 col-sm-offset-6">
+		    <div class="thumbnail col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2" >
+		      <div class="caption" style="text-align:center; min-height:400px">
+		        <h3>부품 판매</h3>
+		        <p><a th:href="@{/sell/componentSell(mId=${session.SID})} "class="btn btn-default">바로가기</a></p>
+		      </div>
+		    </div>
+		  </div>
+		 </div>
+		 </div>
+	</div>	 
+<!-- 		<div class=	"row mt" style="padding: 30px;">
 			<div class="col-lg-6 col-md-6 col-sm-6 form-inline">
 	            <div class="form-panel">
 	              <div class=" form">
@@ -28,7 +50,7 @@
 	              </div>
 	            </div>
 	          </div>
-		</div>
+		</div> -->
 		
 		
 		

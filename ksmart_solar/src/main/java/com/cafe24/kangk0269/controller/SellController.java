@@ -35,7 +35,6 @@ public class SellController {
 		this.sellService = sellService;
 	}
 	
-	
 	//서류 적합성 수정
 	@RequestMapping(value= "/ajax/modifyDocumentCheck" , method= RequestMethod.POST)
 	public @ResponseBody String modifyDocumentCheck(@RequestParam(value="bCode") String code,
@@ -58,21 +57,38 @@ public class SellController {
 	//부품 공고 수정 화면
 	@GetMapping("/sell/modifyComponentSell")
 	public String modifyComponentSell(@RequestParam(value="bCpCode") String code, Model model) {
-		return "";
+		model.addAttribute("component", sellService.getComponentDetail(code));
+		
+		return "sell/modifyComponentSell";
 	}
 	
 	//부품 공고 수정 처리
 	@PostMapping("/sell/modifyComponentSell")
-	public String modifyComponentSell(BidComponentDTO bidComponentDto) {
-		return "redirect:/sell/myHisotry";
+	public String modifyComponentSell(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) {
+		try {
+			sellService.modifyComponentSell(bidComponentDto,multipartHttpServletRequest,request);
+		} catch (Exception e) {
+		
+		}
+		return "redirect:/sell/myHistory";
 	}
 	
 	
 	//부품 공고 삭제 처리
 	@GetMapping("/sell/removeComponentSell")
 	public String removeComponentSell(@RequestParam(value="bCpCode") String code) {
+		sellService.removeComponentSell(code);
 		return "redirect:/sell/myHistory";
 	}
+	
+	//부품 판매 공고 등록
+	@PostMapping("/sell/componentSell")
+	public String regComponentSell(BidComponentDTO bidComponentDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
+		sellService.addComponentApply(bidComponentDTO, multipartHttpServletRequest,request);
+		return "redirect:/sell/myHistory";
+	}
+	
+	
 	//부품 등록
 	@RequestMapping(value="/sell/addComponent", method=RequestMethod.POST)
 	public @ResponseBody String regComponentSell( @RequestParam(value="mId") String mId,
@@ -107,9 +123,6 @@ public class SellController {
 		return "sell/plantBidderList";
 	}
 	
-
-	
-
 	//부품 공고 내용 조회
 	@GetMapping("/sell/getBidComponentDetail")
 	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
@@ -157,12 +170,7 @@ public class SellController {
 
 		return "redirect:/sell/myHistory";
 	}
-	//부품 판매 공고 등록
-	@PostMapping("/sell/componentSell")
-	public String regComponentSell(BidComponentDTO bidComponentDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
-			sellService.addComponentApply(bidComponentDTO, multipartHttpServletRequest,request);
-			return "redirect:/sell/myHisotry";
-	}
+	
 	
 	//부품 선택 시 해당 부품의 정보를 가져옴
 	@RequestMapping(value="/ajax/componentInformation",method = RequestMethod.POST)

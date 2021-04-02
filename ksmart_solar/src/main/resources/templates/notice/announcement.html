@@ -14,6 +14,8 @@
 			<a href="#" id="thirdUrl" style="text-decoration: none;"> 공고정보 </a>
 		</div>
 		<div id="container-header-space"></div>
+		<div class="col-md-12 mt">
+            <div class="content-panel" style="padding: 30px;">
 		<input type="hidden" id="bCpReCount" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpReCount}">
 		<input type="hidden" id="bCpGroupcode" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpGroupcode}">
 		<input type="hidden" id="bPlReCount" 	th:if="${bidPlantdto!=null}" 		th:value="${bidPlantdto.bPlReCount}">
@@ -195,6 +197,7 @@
 				
 			</div>
 		</div>
+		</div></div>
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
