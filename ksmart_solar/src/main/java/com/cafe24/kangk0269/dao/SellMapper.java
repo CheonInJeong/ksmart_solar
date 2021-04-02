@@ -17,25 +17,34 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface SellMapper {
-	
+	//공고 상태 변경
 	public int updateAcStatus();
+	//공고상태 및  낙찰자 결정 시간 가져오기
+	public List<BidPlantDTO> getAcStatus();
 	
+	
+	//서류 적합성 판단 수정
+	public int modifyDocumentCheck(@Param(value="bCode") String code
+								 ,@Param(value="bCheck") String check);
+	
+	//부품 공고 코드 가져오기(파일등록을 위한)
+	public BidComponentDTO getBidComponentCode(String code) ;
+	//부품 공고 
+	public BidComponentDTO getBidComponentByCode(String code);
+	//부품 공고 수정처리
+	public int modifyComponentSell(BidComponentDTO bidComponentDto);
+	//부품 공고 삭제
+	public int removeComponentSell(String code);
 	//부품 공고 등록
-	
 	public int addComponentApply(BidComponentDTO bidComponentDto);	
 	//부품등록
 	public int addComponent(ComponentDTO componentDto);
-	
-	//공고상태 및  낙찰자 결정 시간 가져오기
-	public List<BidPlantDTO> getAcStatus();
-	//부품 공고 코드 가져오기
-	public BidComponentDTO getBidComponentCode(String code) ;
-	//발전소 공고 코드 가져오기
+
+
+	//발전소 공고 코드 가져오기(파일등록을 위한)
 	public BidPlantDTO getBidPlantCode(String code) ;
 
-	//서류 적합성 판단 수정
-	public int modifyDocumentCheck(@Param(value="bCode") String code
-								  ,@Param(value="bCheck") String check);
+	
 	
 	//입찰자 정보 얻기
 	public BidListDTO getBuyerInfoByCode(String code);
@@ -43,7 +52,7 @@ public interface SellMapper {
 	//출금신청여부 업데이트
 	public int modifyApplyYn(String code);
 	
-	
+	//부품 정보 가져오기
 	public BidComponentDTO getComponentDetail(String code);
 	
 	public MemberAccountDTO getAccountInfoByNumber(String number);
