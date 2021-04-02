@@ -39,10 +39,7 @@ public class MemberService {
 		System.out.println("=========================================================");
 	}
 
-	// 전체회원계좌 조회
-	public List<MemberAccountDTO> getAllBankAccount(){
-		return memberMapper.getAllBankAccount();
-	}
+
 	
 	// 탈퇴신청회원 조회
 	public List<MemberRevokeDTO> getWithdrawAdmitMember(){

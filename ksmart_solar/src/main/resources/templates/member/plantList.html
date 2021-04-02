@@ -30,17 +30,18 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
+							<th>번호</th>
 							<th>발전소사업자 코드</th>
 							<th>아이디</th>
 							<th>발전소명</th>
 							<th>발전소사진</th>
-							<th>발전소 도로명주소</th>
-							<th>발전소 인증 상태</th>
+							<th>발전소주소</th>
 							<th>승인/반려</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${plantList}">
+						<tr th:each="l, status : ${plantList}">
+							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="발전소사업자 코드">
 								<a th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})}>[[${l.bzPlCode}]]</a>
 							</td>
@@ -53,8 +54,7 @@
 		                        	<img th:if="${l.bzPlPhoto != null}" th:src="${l.bzPlPhoto}" alt="" style="width: 100%; height: 100%" />
 		                        </div>
 							</td>
-							<td data-title="발전소 도로명주소" th:text="${l.bzPlAddr}"></td>
-							<td data-title="발전소 인증 상태" th:text="${l.bzPlCheck}"></td>
+							<td data-title="발전소주소" th:text="${l.bzPlAddr}"></td>
 							<td data-title="승인/반려" th:if="${l.bzPlCheck} == N">
 								<a class="btn btn-info" th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})} role="button">상세보기</a>
 							</td>

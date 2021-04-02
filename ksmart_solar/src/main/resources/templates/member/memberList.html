@@ -23,60 +23,154 @@
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 회원리스트</h4>
+				<h4><i class="fa fa-angle-right"></i> 활동회원리스트</h4>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
+							<th>번호</th>
 							<th>아이디</th>
 							<th>이름</th>
 							<th>권한</th>
 							<th>연락처</th>
 							<th>이메일</th>
-							<th>회원가입일</th>
-							<th>회원정보수정일</th>
-							<th>휴면여부</th>
-							<th>탈퇴여부</th>
-							<th>탈퇴유예여부</th>
-							<th>회원상태변경일</th>
 							<th>수정</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${memberList}">
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="아이디">
+						<tr th:each="l, status : ${memberList}">
+							<th:block th:if="${l.mRevokeCheck == 'N' and l.mRestCheck == 'N' and l.mRevokeDelayCheck == 'N'}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="아이디">
 								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
 							</td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="아이디">
+							<td data-title="이름" th:text="${l.mName}"></td>
+							<td data-title="권한" th:text="${l.mLevelName}"></td>
+							<td data-title="연락처" th:text="${l.mPhone}"></td>
+							<td data-title="이메일" th:text="${l.mEmail}"></td>
+							<td data-title="수정">
+								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+							</td>
+							</th:block>
+						</tr>
+					</tbody>
+				</table>
+				<div class="text-center">
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</div>
+				</section>
+				</div>
+			</div>
+		</div>
+		<div class="row mt">
+			<div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 휴면회원리스트</h4>
+	              <section id="no-more-tables">
+	              	<hr>
+	                <table class="table table-condensed cf">
+	                  <thead class="cf">
+						<tr>
+							<th>번호</th>
+							<th>아이디</th>
+							<th>이름</th>
+							<th>권한</th>
+							<th>연락처</th>
+							<th>이메일</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="l, status : ${memberList}">
+							<th:block th:if="${l.mRestCheck == 'Y'}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="아이디">
 								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
 							</td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="이름" th:text="${l.mName}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="이름" th:text="${l.mName}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="권한" th:text="${l.mLevelName}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="권한" th:text="${l.mLevelName}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="연락처" th:text="${l.mPhone}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="연락처" th:text="${l.mPhone}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="이메일" th:text="${l.mEmail}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="이메일" th:text="${l.mEmail}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="회원가입일" th:text="${l.mSubDate}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="회원가입일" th:text="${l.mSubDate}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="회원정보수정일" th:text="${l.mSubDateModify}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="휴면여부" th:text="${l.mRestCheck}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="휴면여부" th:text="${l.mRestCheck}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="탈퇴여부" th:text="${l.mRevokeCheck}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="탈퇴유예여부" th:text="${l.mRevokeDelayCheck}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="회원상태변경일" th:text="${l.mStateModifyDate}"></td>
-							<td th:if="${l.mRevokeCheck == 'Y'}" class="info" data-title="수정">
+							<td data-title="이름" th:text="${l.mName}"></td>
+							<td data-title="권한" th:text="${l.mLevelName}"></td>
+							<td data-title="연락처" th:text="${l.mPhone}"></td>
+							<td data-title="이메일" th:text="${l.mEmail}"></td>
+							<td data-title="수정">
 								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 							</td>
-							<td th:unless="${l.mRevokeCheck == 'Y'}" data-title="수정">
+							</th:block>
+						</tr>
+					</tbody>
+				</table>
+				<div class="text-center">
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</div>
+				</section>
+				</div>
+			</div>
+		</div>
+		<div class="row mt">
+			<div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 탈퇴회원리스트</h4>
+	              <section id="no-more-tables">
+	              	<hr>
+	                <table class="table table-condensed cf">
+	                  <thead class="cf">
+						<tr>
+							<th>번호</th>
+							<th>아이디</th>
+							<th>이름</th>
+							<th>권한</th>
+							<th>연락처</th>
+							<th>이메일</th>
+							<th>수정</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="l, status : ${memberList}">
+							<th:block th:if="${l.mRevokeCheck == 'Y'}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="아이디">
+								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+							</td>
+							<td data-title="이름" th:text="${l.mName}"></td>
+							<td data-title="권한" th:text="${l.mLevelName}"></td>
+							<td data-title="연락처" th:text="${l.mPhone}"></td>
+							<td data-title="이메일" th:text="${l.mEmail}"></td>
+							<td data-title="수정">
 								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 							</td>
+							</th:block>
 						</tr>
 					</tbody>
 				</table>

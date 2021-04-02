@@ -30,20 +30,19 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
+							<th>번호</th>
 							<th>사업자 관리코드</th>
 							<th>아이디</th>
 							<th>법인명</th>
 							<th>대표자</th>
 							<th>사업장 소재지</th>
 							<th>사업자 분류</th>
-							<th>사업자 요청일</th>
-							<th>사업자 확인일</th>
-							<th>사업자 승인 상태</th>
 							<th>승인/반려</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${businessList}">
+						<tr th:each="l, status : ${businessList}">
+							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="사업자 관리코드">
 								<a th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})}>[[${l.bzCode}]]</a>
 							</td>
@@ -52,9 +51,6 @@
 							<td data-title="대표자" th:text="${l.bzCeoName}"></td>
 							<td data-title="사업장 소재지" th:text="${l.bzPlace}"></td>
 							<td data-title="사업자 분류" th:text="${l.bzType}"></td>
-							<td data-title="사업자 요청일" th:text="${l.bzRequestDate}"></td>
-							<td data-title="사업자 확인일" th:text="${l.bzCheckDate}"></td>
-							<td data-title="사업자 승인 상태" th:text="${l.bzCheck}"></td>
 							<td data-title="승인/반려" th:if="${l.bzCheck} == N">
 								<a class="btn btn-info" th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})} role="button">상세보기</a>
 							</td>

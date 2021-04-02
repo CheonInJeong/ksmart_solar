@@ -13,30 +13,83 @@
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 회원계좌조회</h4>
+				<h4><i class="fa fa-angle-right"></i> 회원사용계좌</h4>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>계좌관리인덱스</th>
+							<th>번호</th>
 							<th>아이디</th>
 							<th>은행명</th>
 							<th>계좌번호</th>
 							<th>예금주명</th>
 							<th>계좌등록일</th>
-							<th>계좌사용구분</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each = "l : ${allBankAccountList}">
-							<td data-title="계좌관리인덱스" th:text="${l.mAccountIdx}"></td>
+							<th:block th:if="${l.mAccountCheck == 'Y'}">
+							<td data-title="번호" th:text="${l.mAccountIdx}"></td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="은행명" th:text="${l.mAccountBank}"></td>
 							<td data-title="계좌번호" th:text="${l.mAccountNumber}"></td>
 							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
 							<td data-title="계좌등록일" th:text="${l.mAccountRegDate}"></td>
-							<td data-title="계좌사용구분" th:text="${l.mAccountCheck}"></td>
+							</th:block>
+						</tr>
+					</tbody>
+				</table>
+				<div class="text-center">
+				  <ul class="pagination">
+				    <li>
+				      <a href="#" aria-label="Previous">
+				        <span aria-hidden="true">&laquo;</span>
+				      </a>
+				    </li>
+				    <li><a href="#">1</a></li>
+				    <li><a href="#">2</a></li>
+				    <li><a href="#">3</a></li>
+				    <li><a href="#">4</a></li>
+				    <li><a href="#">5</a></li>
+				    <li>
+				      <a href="#" aria-label="Next">
+				        <span aria-hidden="true">&raquo;</span>
+				      </a>
+				    </li>
+				  </ul>
+				</div>
+				</section>
+				</div>
+			</div>
+		</div>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 회원미사용계좌</h4>
+	              <section id="no-more-tables">
+	              	<hr>
+	                <table class="table table-condensed cf">
+	                  <thead class="cf">
+						<tr>
+							<th>번호</th>
+							<th>아이디</th>
+							<th>은행명</th>
+							<th>계좌번호</th>
+							<th>예금주명</th>
+							<th>계좌등록일</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each = "l : ${allBankAccountList}">
+							<th:block th:if="${l.mAccountCheck == 'N'}">
+							<td data-title="번호" th:text="${l.mAccountIdx}"></td>
+							<td data-title="아이디" th:text="${l.mId}"></td>
+							<td data-title="은행명" th:text="${l.mAccountBank}"></td>
+							<td data-title="계좌번호" th:text="${l.mAccountNumber}"></td>
+							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
+							<td data-title="계좌등록일" th:text="${l.mAccountRegDate}"></td>
+							</th:block>
 						</tr>
 					</tbody>
 				</table>

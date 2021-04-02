@@ -9,6 +9,8 @@ import com.cafe24.kangk0269.dto.MemberAccountDTO;
 @Mapper
 public interface BankAccountMapper {
 	
+	//전체회원계좌 조회
+	public List<MemberAccountDTO> getAllBankAccount();
 	
 	//계좌 삭제처리
 	public int removeAccount(int mAccountIdx);

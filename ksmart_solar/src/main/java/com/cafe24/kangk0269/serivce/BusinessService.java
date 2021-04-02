@@ -46,7 +46,12 @@ public class BusinessService {
 		return businessMapper.businessAdmit(business);
 	}
 	
-	// 사업자신청 상세조회
+	// 사업자신청 상세조회(아이디)
+	public List<BusinessDTO> getBusinessInfoById(String mId) {
+		return businessMapper.getBusinessInfoById(mId);
+	}
+	
+	// 사업자신청 상세조회(사업자코드)
 	public BusinessDTO getBusinessInfoBybzCode(String bzCode) {
 		return businessMapper.getBusinessInfoBybzCode(bzCode);
 	}

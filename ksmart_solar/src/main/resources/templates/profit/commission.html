@@ -30,7 +30,7 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>대금수수료코드</th>
+							<th>번호</th>
 							<th>거래공고</th>
 							<th>수수료납부회원</th>
 							<th>거래 수수료금액</th>
@@ -38,8 +38,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${successCmList}">
-							<td data-title="대금수수료코드" th:text="${l.trSucCode}"></td>
+						<tr th:each="l, status : ${successCmList}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="대금수수료코드" th:text="${l.trSucCode}" style="display: none;"></td>
 							<td data-title="거래공고" th:text="${l.announcedCode}"></td>
 							<td data-title="수수료납부회원" th:text=${l.mId}></td>
 							<td data-title="거래 수수료금액" th:text=${l.cTradeCm}></td>

@@ -30,30 +30,28 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>예치금출금신청 코드</th>
+							<th>번호</th>
+							<th style="display: none;">예치금출금신청 코드</th>
 							<th>출금신청자아이디</th>
 							<th>신청금액</th>
 							<th>은행명</th>
 							<th>구매자 계좌</th>
-							<th>계좌 확인</th>
 							<th>예금주명</th>
 							<th>신청시간</th>
-							<th>출금여부</th>
 							<th>출금시간</th>
 							<th>출금</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${depositOutList}">
-							<td data-title="예치금출금신청 코드" th:text="${l.trDepCode}"></td>
+						<tr th:each="l, status : ${depositOutList}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="예치금출금신청 코드" th:text="${l.trDepCode}" style="display: none;"></td>
 							<td data-title="출금신청자아이디" th:text="${l.mId}"></td>
 							<td data-title="신청금액" th:text="${l.trDepDeposit}"></td>
 							<td data-title="은행명" th:text="${l.mAccountBankName}"></td>
 							<td data-title="구매자 계좌" th:text="${l.mAccountNumber}"></td>
-							<td data-title="계좌 확인" th:text="${l.trDepAccountCheck}"></td>
 							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
 							<td data-title="신청시간" th:text="${l.trDepDate}"></td>
-							<td data-title="출금여부" th:text="${l.trDepCheck}"></td>
 							<td data-title="출금시간" th:text="${l.trDepWdDate}"></td>
 							<td data-title="출금">
 								<span th:if="${l.trDepCheck == 'Y'}">출금완료</span>

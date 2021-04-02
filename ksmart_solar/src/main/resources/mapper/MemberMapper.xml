@@ -64,19 +64,6 @@
 			m.m_id = b.m_id
 		GROUP BY m.m_id;
 	</select>
-	<!-- 전체회원계좌 조회 -->
-	<select id="getAllBankAccount" resultType="MemberAccountDTO">
-		SELECT 
-			m_account_idx			AS mAccountIdx
-			, m_id					AS mId
-			, m_account_number		AS mAccountNumber
-			, m_account_name		AS mAccountName
-			, m_account_bank		AS mAccountBank
-			, m_account_reg_date	AS mAccountRegDate
-			, m_account_check		AS mAccountCheck
-		FROM 
-			tb_member_account
-	</select>
 	
 	<!-- 탈퇴신청회원 조회 -->
 	<select id="getWithdrawAdmitMember" resultType="MemberRevokeDTO">

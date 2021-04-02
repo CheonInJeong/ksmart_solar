@@ -162,6 +162,30 @@
 			bz_code = #{bzCode}
 	</update>
 	
+	<!-- 사업자인증신청 상세정보(아이디) -->
+	<select id="getBusinessInfoById" resultMap="businessResultMap">
+		SELECT
+			bz_code 
+			, m_id
+			, bz_company_name
+			, bz_ceo_name
+			, bz_zipcode
+			, bz_addr
+			, bz_detail_addr
+			, bz_place
+			, bz_license
+			, bz_type
+			, bz_request_date
+			, bz_check_date
+			, bz_check
+			, bz_check_reason
+		FROM 
+			tb_business
+		WHERE 
+			m_id = #{mId}
+	</select>
+	
+	<!-- 사업자인증신청 상세정보(사업자코드) -->
 	<select id="getBusinessInfoBybzCode" resultMap="businessResultMap">
 		SELECT
 			bz_code 

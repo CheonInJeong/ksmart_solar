@@ -30,6 +30,11 @@ public class AccountService {
 		System.out.println("=========================================================");
 	}
 	
+	// 전체회원계좌 조회
+	public List<MemberAccountDTO> getAllBankAccount(){
+		return bankAccountMapper.getAllBankAccount();
+	}
+	
 	//계좌 삭제처리
 	public int removeAccount(int mAccountIdx) {
 		int result = bankAccountMapper.removeAccount(mAccountIdx);

@@ -33,7 +33,8 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>입출금코드</th>
+							<th>번호</th>
+							<th style="display: none;">입출금코드</th>
 							<th>거래회원</th>
 							<th>입출금구분</th>
 							<th>금액</th>
@@ -43,8 +44,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${bidMoneyList}">
-							<td data-title="입출금코드" th:text="${l.bMoCode}"></td>
+						<tr th:each="l, status : ${bidMoneyList}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="입출금코드" th:text="${l.bMoCode}" style="display: none;"></td>
 							<td data-title="거래회원" th:text="${l.mId}"></td>
 							<td data-title="입출금구분" th:text="${l.bMoType}"></td>
 							<td data-title="금액" th:text="${l.bMoAmount}"></td>

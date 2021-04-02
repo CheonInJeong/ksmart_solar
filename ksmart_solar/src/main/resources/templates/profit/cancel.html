@@ -30,7 +30,7 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>취소수수료코드</th>
+							<th>번호</th>
 							<th>거래공고</th>
 							<th>수수료납부회원</th>
 							<th>취소 수수료금액</th>
@@ -38,8 +38,9 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l : ${cancelCmList}">
-							<td data-title="취소수수료코드" th:text="${l.trFailCode}"></td>
+						<tr th:each="l, status : ${cancelCmList}">
+							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="취소수수료코드" th:text="${l.trFailCode}" style="display: none;"></td>
 							<td data-title="거래공고" th:text="${l.announcedCode}"></td>
 							<td data-title="수수료납부회원" th:text="${l.mId}"></td>
 							<td data-title="취소 수수료금액" th:text="${l.bCancel}"></td>

@@ -29,15 +29,15 @@
 	              	<table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>#</th>
+							<th>번호</th>
 							<th>아이디</th>
 							<th>로그인 시간</th>
 							<th>로그아웃 시간</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:if="${#lists.size(loginHistoryList) > 0}" th:each="l : ${loginHistoryList}">
-							<td data-title="로그 인덱스" th:text="${l.mLogIdx}"></td>
+						<tr th:if="${#lists.size(loginHistoryList) > 0}" th:each="l, status : ${loginHistoryList}">
+							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="로그인 시간" th:text="${l.mLogIn}"></td>
 							<td data-title="로그아웃 시간" th:text="${l.mLogOut}"></td>
