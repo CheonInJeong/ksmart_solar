@@ -8,45 +8,94 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>발전량 분석</strong></div>
-		<div id="container-header-path">
-			<a href="/" style="text-decoration: none;">메인화면 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>>
-			<a href="/plant/plantDetail" style="text-decoration: none;"> 발전소 상세정보 </a>>
-			<a href="/plant/plantDetail/generationAnalysis" style="text-decoration: none;"> 발전량 분석 </a>
+		<div id="container-header-path" style="color: black;">
+			<a href="/" >메인화면 </a>>
+			<a href="/plant/plantList" > 내 발전소 관리 </a>>
+			<a href="/plant/plantList"> 발전소 리스트 </a>>
+			<a href="/plant/plantDetail" > 발전소 상세정보 </a>>
+			<a href="/plant/plantDetail/generationAnalysis"> 발전량 분석 </a>
 		</div>
 		<div id="container-header-space"></div>
-		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
-			<div class="content-panel">
-				<div style="width: 80%; margin: 0 10% 0 10%;">
-				<div class="panel panel-default">
-					<canvas id="myChart"></canvas>
+		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh;">
+		<div class="content-panel col-xs-12">
+			<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}" style="margin:20px 5% 20px 5%; width:90%;">
+				<div class="h1 col-md-6">
+					<span style="font-weight:900; margin-right: 10px;">[[${l.bzPlName}]]</span>
+					<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
+					<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
 				</div>
+				<div class="h2 col-md-6 col-xs-12">
+					<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
+					<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-6"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;">금일 발전량</div>
+					<p class="h3">[[${plantGenDay}]] <small>[kWh]</small></p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;">금일 예상 수익</div>
+					<p class="h3">[[${plantGenDay}]] <small>[원]</small></p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;" id="plantPower" th:data-power="${power}">발전소 용량</div>
+					<p class="h3">[[${power}]] <small>[kW]</small></p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;">발전소 주소</div>
+					<p id="plAddr" th:data-plAddr="${l.bzPlAddr}">([[${l.bzPlZipcode}]]) [[${l.bzPlAddr}]] [[${l.bzPlDetailAddr}]]</p>
+	            </div>
+	        </div>
+	        <div class="col-xs-12" style="height: 5vh;"></div>
+	        <div class="row">
+				<div class="col-md-6">
+					<div> 어제 </div>
+					<canvas id="myChart1"></canvas>
+				</div>
+				<div class="col-md-6">
+					<div> 오늘 </div>
+					<canvas id="myChart2"></canvas>
 				</div>
 			</div>
 		</div>
-		
+		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
+		<script src="/js/plant.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script type="text/javascript">
-			var ctx = document.getElementById('myChart').getContext('2d');
-			var chart = new Chart(ctx, {
-			    // The type of chart we want to create
-			    type: 'line',
-	
-			    // The data for our dataset
+			var plantPowerInput = $('#plantPower').attr('data-power');
+			var plantPower = plantPowerInput.replace(",", "");
+			var plantPowerArray = [];
+			for(var i=0; i<24; i++){
+				plantPowerArray.push(plantPower);
+			}
+			console.log(plantPowerArray);
+			
+			var ctx1 = document.getElementById('myChart1').getContext('2d');
+			var ctx2 = document.getElementById('myChart2').getContext('2d');
+			
+			//발전소 용량(line), 누적발전량(bar), 발전량(line, dot)
+			
+			var chartData1 = [0,0,0,4,5,6,7,8,10,20,30,50,80,100,90,80,70,40,20,10,0,0,0,0];
+			var chartData2 = [0,0,0,4,5,6,17,82,100,120,130,150,180,130,90,80,70,40,20,10,0,0,0,0];
+			var mixedChart = new Chart(ctx1, {
+			    type: 'bar',
 			    data: {
-			        labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
-			        datasets: [{
-			            label: 'My First dataset',
-			            backgroundColor: 'rgb(255, 99, 132)',
-			            borderColor: 'rgb(255, 99, 132)',
-			            data: [0, 10, 5, 2, 20, 30, 45]
-			        }]
+			        datasets: [{label: 'Bar Dataset', data: chartData1, backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)',order: 1}
+			        		  ,{label: 'Line Dataset', data: plantPowerArray, type: 'line', borderColor: 'rgb(255, 99, 132)',order: 2}],
+			        labels: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
 			    },
-	
-			    // Configuration options go here
+			    options: {}
+			});
+			var chart2 = new Chart(ctx2, {
+			    type: 'bar',
+			    data: {
+			        labels: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23'],
+			        datasets: [
+			        	{label: 'R',
+			            backgroundColor: 'rgb(255, 99, 132)',borderColor: 'rgb(255, 99, 132)',
+			            data: chartData2}]
+			    },
 			    options: {}
 			});
 		</script>
