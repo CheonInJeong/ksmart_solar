@@ -41,6 +41,11 @@ public class BoardQnaService {
 		return boardQnaMapper.getQnaList(searchKey, searchValue);
 	}
 	
+	//문의 조회수 증가
+	public int addQnaViews(int bQnaIdx) {
+		return boardQnaMapper.addQnaViews(bQnaIdx);
+	}
+	
 	//답글 등록
 	public int addReQna(BoardQnaDTO boardQnaDTO) {
 		return boardQnaMapper.addReQna(boardQnaDTO);
