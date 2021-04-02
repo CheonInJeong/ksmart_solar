@@ -24,6 +24,7 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
@@ -137,6 +138,7 @@ public class NoticeController {
 			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
 			System.out.println(tradePaymentInDTO+"===============================================tradePaymentInDTO");
 		}
+		List<FileDTO> fileDTO = bidListService.getBidFileList();
 		return "/notice/announcement";
 	}
 	//대금납부 신청 페이지

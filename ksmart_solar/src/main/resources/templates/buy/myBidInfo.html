@@ -40,10 +40,6 @@
 	           <div class="second-part" th:if="${status=='입찰대기' or status=='입찰실패'}">미확인</div>
 	           <div class="second-part" th:unless="${status eq '입찰대기' or status eq'입찰실패'}">확인</div>
           	</div>
-          	<div class="group-rom" th:if="${status=='입찰실패'}">
-	           <div class="first-part odd">입찰실패 사유</div>
-	           <div class="second-part" th:if="${status=='입찰실패'}">예치금 미납</div>
-          	</div>
           	<div class="group-rom">
 	           <div class="first-part odd">예치금 환불여부</div>
 	           <div class="second-part" th:if="${

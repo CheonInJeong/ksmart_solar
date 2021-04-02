@@ -18,14 +18,14 @@
 		<input type="hidden" id="bCpGroupcode" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpGroupcode}">
 		<input type="hidden" id="bPlReCount" 	th:if="${bidPlantdto!=null}" 		th:value="${bidPlantdto.bPlReCount}">
 		<input type="hidden" id="bPlGroupcode" 	th:if="${bidPlantdto!=null}"		th:value="${bidPlantdto.bPlGroupcode}">
-		<form id="bidComponentForm" action="/notice/bidRequest" method="post">
+		<form id="bidComponentForm" action="/notice/bidRequest" method="post" class="container-fluid">
 			<div class="chat-room mt" th:if="${bidComponentdto!=null}" >
 				<input type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
 				<input type="hidden" name="announcedTitle" 	th:value="${bidComponentdto.bCpTitle}">
 				<input type="hidden" name="announcedPrice" 	th:value="${bidComponentdto.bCpPrice}">
 				<input type="hidden" name="announcedType" 	th:value="${2}">
 				<input type="hidden" name="url">
-	          	<aside class="mid-side container" >
+	          	<aside class="mid-side container-fluid" >
 		            <div class="chat-room-head">
 		              <h3>부품 공고</h3>
 		            </div>
@@ -129,6 +129,24 @@
         <div th:include="notice/paymentInResult :: paymentInResultFragment" 
         	 th:if="${bidListDTO != null and tradePaymentInDTO!=null and bidListDTO.trTypeCode>=11 and bidListDTO.trTypeCode<=14}"></div>
 		<div class="row" style="margin: 5px 0px;">
+		<div class="chat-room mt" th:if="${bidPlantdto!=null}">
+	    	<aside class="mid-side container">
+	            <div class="chat-room-head">
+	              <h3>입찰 신청 서류</h3>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">공고 제목</div>
+	              <div class="second-part" th:text="${bidPlantdto.bPlTitle}"></div>
+	            </div>
+	            <div class="group-rom" th:if="${#lists.size(bidFileList)}>0" th:each="b:${bidFileList}">
+		           <div class="second-part" style="width: 100%; height: 200px;">
+		           		<a th:href="@{/policy/downloadFile(idx=${b.idx})}">[[${b.originalFileName}]]
+		           			<span>[[${b.fileSize+'kb'}]]</span>
+		           		</a>
+		           </div>
+          		</div>
+	        </aside>
+	      </div>
 			<div class="form-inline" style="text-align: center;">
 				<div class="form-group" th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
 													or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
@@ -173,7 +191,7 @@
 					<input th:if="${bidPlantdto != null}" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">					
 		        	<button class="btn btn-warning center-block" type="submit" >찜하기</button>
 	        	</form>
-
+				
 			</div>
 		</div>
 	</th:block>

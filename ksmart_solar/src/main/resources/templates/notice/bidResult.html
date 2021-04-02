@@ -23,6 +23,20 @@
               <div class="first-part odd">관리자계좌번호</div>
               <div class="second-part" th:text="${bidListDTO.mAccountNumber}"></div>
             </div>
+            <div class="group-rom">
+              <div class="first-part odd">입금자 성명</div>
+              <div class="second-part" th:text="${bidListDTO.mPaymentName}"></div>
+            </div>
+            <div class="group-rom">
+              <div class="first-part odd">입금 여부</div>
+              <div class="second-part" th:text="${bidListDTO.bDepositCheck}"></div>
+            </div>
+            <div class="group-rom" th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=3 and bidListDTO.trTypeCode<=14)}">
+              <div class="first-part odd">예치금 환불 가능 여부</div>
+              <div class="second-part" th:if="${bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='N' }">가능</div>
+              <div class="second-part" th:if="${bidListDTO.bDepositAvailable=='N' and 
+              									(bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='Y')}">불가능</div>
+            </div>
             <div class="group-rom" th:if="${bidListDTO.trTypeCode>5 and bidListDTO.trTypeCode<15}">
               <div class="first-part odd">순위</div>
               <div class="second-part" th:text="${bidListDTO.bRank+'순위'}"></div>
