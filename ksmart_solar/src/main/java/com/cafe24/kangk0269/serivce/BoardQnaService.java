@@ -48,6 +48,11 @@ public class BoardQnaService {
 	
 	//답글 등록
 	public int addReQna(BoardQnaDTO boardQnaDTO) {
+		if(boardQnaDTO.getBQnaOpen().equals("Y")) {
+			boardQnaDTO.setBQnaOpen("Y");
+		}else {
+			boardQnaDTO.setBQnaOpen("N");
+		}
 		return boardQnaMapper.addReQna(boardQnaDTO);
 	}
 	

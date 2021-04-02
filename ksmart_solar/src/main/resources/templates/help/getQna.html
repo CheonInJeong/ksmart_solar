@@ -29,9 +29,14 @@
 		
 		<div class="row mt">
           <div class="col-lg-12">
+          
             <div class="form-panel">
               <h4 class="mb"><i class="fa fa-angle-right"></i>문의사항</h4>
               <form class="form-horizontal style-form">
+          <div class="form-inline" style="text-align: right; margin-right: 20px;" >
+	          <span>조회수 [[${boardQnaDTO.bQnaViews}]] &nbsp&nbsp&nbsp&nbsp&nbsp</span>            
+	          <span>등록일 [[${boardQnaDTO.bQnaRegDate}]]</span>
+          </div>		
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">문의제목</label>
                   <div class="col-lg-10">
@@ -48,7 +53,7 @@
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/qna}">목록</a>	
-                  	<a class="btn btn-success" th:if="${session.SID == 'id001'}" th:href="@{/help/addReQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">답글</a>
+                  	<a class="btn btn-success" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/addReQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">답글</a>
                   	<a class="btn btn-info" th:if="${session.SID == boardQnaDTO.mId}" th:href="@{/help/modifyQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">수정</a>
                   	<a class="btn btn-danger" th:if="${session.SID == boardQnaDTO.mId}" th:href="@{/help/removeQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">삭제</a>
                   </div>
