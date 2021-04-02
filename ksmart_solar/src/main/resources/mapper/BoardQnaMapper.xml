@@ -44,6 +44,17 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</select>
    -->
 		 
+		
+	<!-- 문의 조회수 증가  -->	 
+	<update id="addQnaViews">
+		UPDATE 
+			tb_board_qna
+		SET
+			b_qna_views = b_qna_views + 1
+		WHERE 
+			b_qna_idx = #{bQnaIdx}
+	</update>		 
+			 
 	<!-- 문의 삭제 -->
 	<delete id="removeQna" parameterType="int">
 		DELETE FROM 

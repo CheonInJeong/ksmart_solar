@@ -9,6 +9,9 @@ import com.cafe24.kangk0269.dto.NoticeDTO;
 @Mapper
 public interface NoticeMapper {
 	
+	//공지 조회수 증가
+	public int addNoticeViews(int noticeIdx);
+	
 	//공지 삭제
 	public int removeNotice(int noticeIdx);
 	

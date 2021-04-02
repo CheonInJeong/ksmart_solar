@@ -9,10 +9,7 @@ import lombok.ToString;
 @ToString
 public class PickDTO {
 	private int pIdx;
-	private String bPlComponentCode;	
-	private String bPlComponentSub;
+	private String pCode;	
 	private String mId;
 	private String pRegDate;	
-	private String bEndDate;
-	private String bTypeCode;
 }
