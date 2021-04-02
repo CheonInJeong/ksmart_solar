@@ -15,6 +15,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 
 	
+	<!-- 공지 조회수 증가  -->
+	<update id="addNoticeViews">
+		UPDATE 
+			tb_notice
+		SET
+			not_views = not_views + 1
+		WHERE not_idx = #{noticeIdx}
+	</update>
+	
 	<!-- 공지사항 삭제  -->
 	<delete id="removeNotice" parameterType="int">
 		DELETE FROM 

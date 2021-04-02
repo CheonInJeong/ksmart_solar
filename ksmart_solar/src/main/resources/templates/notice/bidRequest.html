@@ -16,7 +16,7 @@
 			<input type="hidden" id="url" th:value="${url}">
 		</div>
 		<div id="container-header-space"></div>
-   		<form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
+   		<!-- <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
 			<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
 			<input type="hidden" name="bTypeCode" th:value="${announcedType}">		
 			<input type="hidden" name="bTitle" th:value="${announcedTitle}">
@@ -83,7 +83,85 @@
 	            	<button id="bidResulCanceltBtn" class="btn btn-default" type="button" style="width: 80px;">취소</button>
 				</div>
 			</div>
-       	</form>
+       	</form> -->
+       	
+       	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <div class="form">
+                <form class="cmxform form-horizontal style-form" method="post" th:action="@{/notice/addbidRequest}" enctype="multipart/form-data">
+                	<input type="hidden" name="announcedCode" th:value="${announcedCode}">			
+					<input type="hidden" name="bTypeCode" th:value="${announcedType}">		
+					<input type="hidden" name="bTitle" th:value="${announcedTitle}">
+					<input type="hidden" name="sDepositRate">
+					<input  type="hidden" name="mId" th:value="${session.SID}">
+		              <h4><i class="fa fa-angle-right"></i>입찰 신청</h4>
+		              <hr>
+	                  <div class="form-group">
+	                    <label class="control-label col-lg-2">공고 제목</label>
+	                    <div class="col-lg-10">
+	                       <div th:text="${announcedTitle}"></div>
+	                    </div>
+	                  </div>
+	                  <div class="form-group">
+	                    <label class="control-label col-lg-2">입찰시작가</label>
+	                    <div class="col-lg-10">
+		              		<div id="bidPrice" th:text="${announcedPrice}+'원'"></div>
+	                    </div>
+	                  </div>
+	                  <div class="form-group">
+	                    <label class="control-label col-lg-2">입찰금액</label>
+	                    <div class="col-lg-10">
+	                    	<input type="hidden" name="bPrice">
+	              			<input type="text" id="bPrice" placeholder="0">원
+	                    </div>
+	                  </div>
+	                  <div class="form-group ">
+	                    <label class="control-label col-lg-2">예치금</label>
+	                    <div class="col-lg-10">
+	                    	<div>
+	                    		<span id="bDeposit">0</span>원
+	                    	</div>
+			              	<input type="hidden" name="bDeposit">
+	                    </div>
+	                  </div>
+	                 <div class="form-group">
+		                 <label class="control-label col-lg-2">관리자 계좌 은행</label>
+			             <div class="col-lg-10" >
+				             <select id="bank" style="width: 30%; text-align-last:center;">
+				             	<option style="text-align: center;">:::::은행선택:::::</option>
+				             </select>
+			              	<input type="hidden" name="mAccountBankName">
+			             </div>
+	                </div>
+	                  <div class="form-group ">
+			            <label class="control-label col-lg-2">관리자 계좌 번호</label>
+			            <div class="col-lg-10" id="accountNumber"></div>
+			            <input type="hidden" name="mAccountNumber">
+	                  </div>
+	                 <div class="form-group">
+				         <label class="control-label col-lg-2">입금자 성명</label>
+				         <div class="col-lg-10" >
+				         	<input name="mPaymentName" style="width: 30%;" type="text" >
+				         </div>
+	                 </div>
+	                 <div class="form-group">
+						<div class="control-label col-lg-2">파일 첨부</div>
+						<div class="col-lg-10">
+							<input type="file" id="files" class="default" name="files" multiple="multiple">
+						</div>
+					</div>                 
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+		<div class="row" style="margin: 5px 0px;">
+			<div class="form-inline" style="text-align: center;">
+				<button id="bidResultBtn" class="btn btn-theme" type="button" style="width: 80px;">신청</button>
+				<button id="bidResultCancelBtn" class="btn btn-danger" type="button" style="width: 80px;">취소</button>
+			</div>
+		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -270,10 +348,10 @@
 						});
 					form.submit();
 				});
-				var bidResulCanceltBtn = $('#bidResulCanceltBtn')
+				var bidResulCanceltBtn = $('#bidResultCancelBtn')
 				bidResulCanceltBtn.click(function(){
 					console.log('취소');
-					location.href = '/notice/noticeList';
+					location.href = link2;
 				});
 			});
 		</script>

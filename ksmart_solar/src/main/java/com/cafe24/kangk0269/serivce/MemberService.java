@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartResolver;
 
 import com.cafe24.kangk0269.api.KakaoLoginApi;
 import com.cafe24.kangk0269.dao.MemberMapper;
@@ -39,7 +40,17 @@ public class MemberService {
 		System.out.println("=========================================================");
 	}
 
-
+	// 프로필 사진 수정
+	public MultipartResolver multipartResolver() {
+	  org.springframework.web.multipart.commons.CommonsMultipartResolver multipartResolver = new org.springframework.web.multipart.commons.CommonsMultipartResolver();
+	  multipartResolver.setMaxUploadSize(10485760); // 1024 * 1024 * 10
+	  return multipartResolver;
+	}
+	
+	// 전체회원계좌 조회
+	public List<MemberAccountDTO> getAllBankAccount(){
+		return memberMapper.getAllBankAccount();
+	}
 	
 	// 탈퇴신청회원 조회
 	public List<MemberRevokeDTO> getWithdrawAdmitMember(){

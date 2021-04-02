@@ -16,18 +16,16 @@
 		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh">
-			<div class="content-panel">
-				<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}" style="margin:20px 5% 20px 5%; width:90%;">
-					<div class="h1 col-md-4">
+			<div class="content-panel" style="padding: 30px;">
+				<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}">
+					<div class="h1 col-md-6">
 						<span style="font-weight:900; margin-right: 10px;">[[${l.bzPlName}]]</span>
 						<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
 						<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
 					</div>
-					<div class="h2 col-md-8">
-						<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-4" value="수익 분석" style="width: 29%; margin-bottom: 10px;">
-						<!-- 발전량 분석은 하드웨어가 있는 것만 하드웨어 없는 것은 폼을 다시 만들어야함 -->
-						<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-4"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
-						<input type="button" id="" class="btn btn-primary btn-md generationPredict col-xs-4"  value="예상 발전량" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+					<div class="h2 col-md-6 col-xs-12">
+						<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
+						<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-6"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금일 발전량</div>
@@ -101,71 +99,14 @@
 		  margin-right: auto;
 		}
 		</style>
+		<script src="/js/plant.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d3788a7edce4414e28e5cab2a0ac6ca7&libraries=services"></script>
 		<script>
-		$('#plantDelete').click(function(){
-			var plName = $(this).attr('data-plName');
-			var plCode = $(this).attr('data-plCode');
-			Swal.fire({
-				  title: plName +' 정보를 삭제 하시겠습니까?',
-				  showDenyButton: true,
-				  confirmButtonText: `Yes`,
-				  denyButtonText: `No`,
-				  customClass: {
-				    cancelButton: 'order-1 right-gap',
-				    confirmButton: 'order-2',
-				    denyButton: 'order-3',
-				  }
-				}).then((result) => {
-				  if (result.isConfirmed) {
-					  Swal.fire({
-						  title: '정말 삭제 하시겠습니까?',
-						  showDenyButton: true,
-						  confirmButtonText: `Yes`,
-						  denyButtonText: `No`,
-						  customClass: {
-						    cancelButton: 'order-1 right-gap',
-						    confirmButton: 'order-2',
-						    denyButton: 'order-3',
-						  }
-						}).then((result) => {
-						  if (result.isConfirmed) {
-							//plCode 발전소 코드로 삭제 처리
-							
-						    Swal.fire('삭제처리 되었습니다!', '', 'success')
-						  } else if (result.isDenied) {
-						    Swal.fire('취소되었습니다.', '', 'info')
-						  }
-						})
-				  } else if (result.isDenied) {
-				    Swal.fire('취소되었습니다.', '', 'info')
-				  }
-				})
-		});
-		
-		
-		$('.benefitAnalysis').click(function(){
-			document.location.href = '/plant/plantDetail/benefitAnalysis';
-			
-		});
-		$('.generationAnalysis').click(function(){
-			document.location.href = '/plant/plantDetail/generationAnalysis';
-			
-		});
-		$('.generationPredict').click(function(){
-			document.location.href = '/plant/plantDetail/generationPredict';
-			
-		});
-		
-		
 		///////////////////////////////////////////		
 		//////////////카카오 맵 api///////////////////
 		///////////////////////////////////////////		
 		// 마커를 클릭하면 장소명을 표출할 인포윈도우 입니다
-		
-		
-		
 		var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
 	    mapOption = {
 	        center: new kakao.maps.LatLng(33.450701, 126.570667), // 지도의 중심좌표
@@ -204,8 +145,6 @@
 		        map.setCenter(coords);
 		    } 
 		});    
-			
-		
 		</script>
 	</th:block>
 	

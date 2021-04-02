@@ -193,7 +193,7 @@ public class MemberManageController {
 	
 	@GetMapping("/member/account")
 	public String Account(Model model) {
-		List<MemberAccountDTO> allBankAccountList = accountService.getAllBankAccount();
+		List<MemberAccountDTO> allBankAccountList = memberService.getAllBankAccount();
 		model.addAttribute("allBankAccountList", allBankAccountList);
 		return "/member/account";
 	}
