@@ -8,34 +8,61 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>수익 분석</strong></div>
-		<div id="container-header-path">
-			<a href="/" style="text-decoration: none;">메인화면 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 내 발전소 관리 </a>>
-			<a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a>>
-			<a href="/plant/plantDetail" style="text-decoration: none;"> 발전소 상세정보 </a>>
-			<a href="/plant/plantDetail/benefitAnalysis" style="text-decoration: none;"> 수익 분석 </a>
+		<div id="container-header-path" style="color: black;">
+			<a href="/" >메인화면 </a>>
+			<a href="/plant/plantList" > 내 발전소 관리 </a>>
+			<a href="/plant/plantList"> 발전소 리스트 </a>>
+			<a href="/plant/plantDetail" > 발전소 상세정보 </a>>
+			<a href="/plant/plantDetail/benefitAnalysis"> 수익 분석 </a>
 		</div>
 		<div id="container-header-space"></div>
-		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
-			<div class="content-panel">
-				<div style="width: 80%; margin: 0 10% 0 10%;">
-				<div class="panel panel-default">
-					<div class="panel-heading">발전소 1</div>
-					<div class="panel-body">
-						<button type="button" id="plantDetailMove">발전소 상세화면으로 이동</button>
-						발전소 정보
-					</div>
+		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh;">
+		<div class="content-panel col-xs-12">
+			<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}" style="margin:20px 5% 20px 5%; width:90%;">
+				<div class="h1 col-md-6">
+					<span style="font-weight:900; margin-right: 10px;">[[${l.bzPlName}]]</span>
+					<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
+					<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
 				</div>
+				<div class="h2 col-md-6 col-xs-12">
+					<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
+					<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-6"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;">금일 발전량</div>
+					<p class="h3">[[${plantGenDay}]] <small>[kWh]</small></p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;">금일 예상 수익</div>
+					<p class="h3">[[${plantGenDay}]] <small>[원]</small></p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;" id="plantPower" th:data-power="${power}">발전소 용량</div>
+					<p class="h3">[[${power}]] <small>[kW]</small></p>
+				</div>
+				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+					<div class="h3" style="font-weight: 600;">발전소 주소</div>
+					<p id="plAddr" th:data-plAddr="${l.bzPlAddr}">([[${l.bzPlZipcode}]]) [[${l.bzPlAddr}]] [[${l.bzPlDetailAddr}]]</p>
+	            </div>
+	        </div>
+	        <div class="col-xs-12" style="height: 5vh;"></div>
+	        <div class="row">
+				<div class="col-md-6">
+					<div> 어제 </div>
+					<canvas id="myChart1"></canvas>
 				</div>
 			</div>
+		</div>
 		</div>
 		
 	</th:block>
 	<th:block layout:fragment="customScript">
+		<script src="/js/plant.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script type="text/javascript">
-			$('#plantDetailMove').click(function(){
-				document.location.href = '/plant/plantDetail';
-			});
+		//발전소 가치 , 발전소 감가, 발전소 유지비용	
+		
+		
 		</script>
 	</th:block>
 	
