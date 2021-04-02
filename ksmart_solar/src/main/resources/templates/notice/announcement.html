@@ -18,106 +18,125 @@
 		<input type="hidden" id="bCpGroupcode" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpGroupcode}">
 		<input type="hidden" id="bPlReCount" 	th:if="${bidPlantdto!=null}" 		th:value="${bidPlantdto.bPlReCount}">
 		<input type="hidden" id="bPlGroupcode" 	th:if="${bidPlantdto!=null}"		th:value="${bidPlantdto.bPlGroupcode}">
-		<form id="bidComponentForm" action="/notice/bidRequest" method="post" class="container-fluid">
-			<div class="chat-room mt" th:if="${bidComponentdto!=null}" >
-				<input type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
+		
+		<form id="bidComponentForm" action="/notice/bidRequest" method="post">
+            <div class="row" th:if="${bidComponentdto!=null}">
+            	<input type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
 				<input type="hidden" name="announcedTitle" 	th:value="${bidComponentdto.bCpTitle}">
 				<input type="hidden" name="announcedPrice" 	th:value="${bidComponentdto.bCpPrice}">
 				<input type="hidden" name="announcedType" 	th:value="${2}">
 				<input type="hidden" name="url">
-	          	<aside class="mid-side container-fluid" >
-		            <div class="chat-room-head">
-		              <h3>부품 공고</h3>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">공고 제목</div>
-		              <div class="second-part" th:text="${bidComponentdto.bCpTitle}"></div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">재공고 여부</div>
-		              <div class="second-part" th:if="${bidComponentdto.bCpReCount==0}">신규</div>
-		              <div class="second-part" th:if="${bidComponentdto.bCpReCount>0}">재공고</div>
-		            </div>
-		        	<div class="group-rom">
-				       <div class="first-part odd" style="width: 25%; height: 200px; padding-top:90px;">공고 내용</div>
-			           <div class="second-part" style="width: 75%; height: 200px;">
-				        	<div style="width:100%; height:100%; object-fit:contain !important; overflow: scroll;" 
-				        	th:text="${bidComponentdto.bCpContents}"></div>
-			           </div>
-		          	</div>
-		            <div class="group-rom">
-		              <div class="first-part odd">입찰 시작가</div>
-		              <div class="second-part price" th:text="${bidComponentdto.bCpPrice+'원'}"></div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">부품 사용 시작일</div>
-		              <div class="second-part" th:text="${bidComponentdto.cpUsedate}"></div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">입찰 신청기간</div>
-		              <div class="second-part" th:text="${bidComponentdto.bCpDateBidding1+'   ~   '+bidComponentdto.bCpDateBidding2}"></div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">낙찰자 결정 기간</div>
-		              <div class="second-part" th:text="${bidComponentdto.bCpDateDecision1+'   ~   '+bidComponentdto.bCpDateDecision2}"></div>
-		            </div>
-		            <div class="group-rom">
-		              <div class="first-part odd">진행 상태</div>
-		              <div class="second-part" th:text="${bidComponentdto.bCpStatus}"></div>
-		            </div>
-		       </aside>
-            </div>
+	          <div class="col-md-12">
+	            <div class="content-panel">
+	              <h4><i class="fa fa-angle-right"></i>부품 공고</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td colspan="3" ></td>
+	                  </tr>
+	                  <tr>
+	                    <td>재공고 여부</td>
+	                    <td colspan="3" >
+	                    	<div th:if="${bidComponentdto.bCpReCount==0}">신규</div>
+		              		<div th:if="${bidComponentdto.bCpReCount>0}">재공고</div>
+	                    </td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td colspan="3" th:text="${bidComponentdto.bCpTitle}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td colspan="3" th:text="${bidComponentdto.bCpContents}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰 시작가</td>
+	                  	<td colspan="3" class="price" th:text="${bidComponentdto.bCpPrice+'원'}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${bidComponentdto.bCpDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${bidComponentdto.bCpDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정시작일</td>
+	               		<td th:text="${bidComponentdto.bCpDateDecision1}"></td>
+	                  	<td>입찰자결정마감일</td>
+	                  	<td th:text="${bidComponentdto.bCpDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>진행상태</td>
+	                  	<td colspan="3" th:text=${bidComponentdto.bCpStatus}></td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+          </div>
     	</form>
         
-        <form id="bidPlantForm" action="/notice/bidRequest" method="post">
-			<div class="chat-room mt" th:if="${bidPlantdto!=null}">
-				<input type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+        
+        
+        <form id="bidPlantForm" action="/notice/bidRequest" method="post" >
+	        <div class="row" th:if="${bidPlantdto!=null}">
+	        	<input type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
 				<input type="hidden" name="announcedTitle" th:value="${bidPlantdto.bPlTitle}">
 				<input type="hidden" name="announcedPrice" th:value="${bidPlantdto.bPlPrice}">
 				<input type="hidden" name="announcedType" th:value="${1}">
 				<input type="hidden" name="url">
-	          <aside class="mid-side container">
-	            <div class="chat-room-head">
-	              <h3>발전소 공고</h3>
+	          <div class="col-md-12">
+	            <div class="content-panel">
+	              <h4><i class="fa fa-angle-right"></i>발전소 공고</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td colspan="3" th:text="${bidPlantdto.bPlCode}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>재공고 여부</td>
+	                    <td colspan="3" >
+	                    	<div th:if="${bidPlantdto.bPlReCount==0}">신규</div>
+		              		<div th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
+	                    </td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td colspan="3" th:text="${bidPlantdto.bPlTitle}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td colspan="3" th:text="${bidPlantdto.bPlContents}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰 시작가</td>
+	                  	<td colspan="3" class="price" th:text="${bidPlantdto.bPlPrice+'원'}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${bidPlantdto.bPlDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${bidPlantdto.bPlDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정시작일</td>
+	               		<td th:text="${bidPlantdto.bPlDateDecision1}"></td>
+	                  	<td>입찰자결정마감일</td>
+	                  	<td th:text="${bidPlantdto.bPlDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>진행상태</td>
+	                  	<td colspan="3" th:text=${bidPlantdto.bPlStatus}></td>
+	                  </tr>
+	                </tbody>
+	              </table>
 	            </div>
-	             <div class="group-rom">
-	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" th:text="${bidPlantdto.bPlTitle}"></div>
-	            </div>
-	             <div class="group-rom">
-	              <div class="first-part odd">재공고 여부</div>
-	              <div class="second-part" th:if="${bidPlantdto.bPlReCount==0}">신규</div>
-	              <div class="second-part" th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
-	            </div>
-	            <div class="group-rom">
-			       <div class="first-part odd" style="width: 25%; height: 200px; padding-top:90px;">공고 내용</div>
-		           <div class="second-part" style="width: 75%; height: 200px;">
-			        	<div style="width:100%; height:100%; object-fit:contain !important; overflow: scroll;" 
-			        	th:text="${bidPlantdto.bPlContents}"></div>
-		           </div>
-	          	</div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰 시작가</div>
-	              <div class="second-part price" th:text="${bidPlantdto.bPlPrice+'원'}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">잔존 가치</div>
-	              <div class="second-part price" th:text="${bidPlantdto.plDepDataResidual+'원'}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰 신청기간</div>
-	              <div class="second-part" th:text="${bidPlantdto.bPlDateBidding1+'   ~   '+bidPlantdto.bPlDateBidding2}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">낙찰자 결정 기간</div>
-	              <div class="second-part" th:text="${bidPlantdto.bPlDateDecision1+'   ~   '+bidPlantdto.bPlDateDecision2}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">진행 상태</div>
-	              <div class="second-part" th:text="${bidPlantdto.bPlStatus}"></div>
-	            </div>
-	          </aside>
-	        </div>
+	          </div>
+          </div>
         </form>
         <div th:include="notice/plantInfo :: plantInfoFragment" 
         	 th:if="${bidPlantdto!=null and businessPlantDTO!=null}"></div>
@@ -129,24 +148,6 @@
         <div th:include="notice/paymentInResult :: paymentInResultFragment" 
         	 th:if="${bidListDTO != null and tradePaymentInDTO!=null and bidListDTO.trTypeCode>=11 and bidListDTO.trTypeCode<=14}"></div>
 		<div class="row" style="margin: 5px 0px;">
-		<div class="chat-room mt" th:if="${bidPlantdto!=null}">
-	    	<aside class="mid-side container">
-	            <div class="chat-room-head">
-	              <h3>입찰 신청 서류</h3>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" th:text="${bidPlantdto.bPlTitle}"></div>
-	            </div>
-	            <div class="group-rom" th:if="${#lists.size(bidFileList)}>0" th:each="b:${bidFileList}">
-		           <div class="second-part" style="width: 100%; height: 200px;">
-		           		<a th:href="@{/policy/downloadFile(idx=${b.idx})}">[[${b.originalFileName}]]
-		           			<span>[[${b.fileSize+'kb'}]]</span>
-		           		</a>
-		           </div>
-          		</div>
-	        </aside>
-	      </div>
 			<div class="form-inline" style="text-align: center;">
 				<div class="form-group" th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
 													or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
@@ -278,4 +279,53 @@
 			}
 		</script>
 	</th:block>
+	<!-- <div class="chat-room mt" th:if="${bidPlantdto!=null}">
+				<input type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+				<input type="hidden" name="announcedTitle" th:value="${bidPlantdto.bPlTitle}">
+				<input type="hidden" name="announcedPrice" th:value="${bidPlantdto.bPlPrice}">
+				<input type="hidden" name="announcedType" th:value="${1}">
+				<input type="hidden" name="url">
+	          <aside class="mid-side container">
+	            <div class="chat-room-head">
+	              <h3>발전소 공고</h3>
+	            </div>
+	             <div class="group-rom">
+	              <div class="first-part odd">공고 제목</div>
+	              <div class="second-part" th:text="${bidPlantdto.bPlTitle}"></div>
+	            </div>
+	             <div class="group-rom">
+	              <div class="first-part odd">재공고 여부</div>
+	              <div class="second-part" th:if="${bidPlantdto.bPlReCount==0}">신규</div>
+	              <div class="second-part" th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
+	            </div>
+	            <div class="group-rom">
+			       <div class="first-part odd" style="width: 25%; height: 200px; padding-top:90px;">공고 내용</div>
+		           <div class="second-part" style="width: 75%; height: 200px;">
+			        	<div style="width:100%; height:100%; object-fit:contain !important; overflow: scroll;" 
+			        	th:text="${bidPlantdto.bPlContents}"></div>
+		           </div>
+	          	</div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입찰 시작가</div>
+	              <div class="second-part price" th:text="${bidPlantdto.bPlPrice+'원'}"></div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">잔존 가치</div>
+	              <div class="second-part price" th:text="${bidPlantdto.plDepDataResidual+'원'}"></div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">입찰 신청기간</div>
+	              <div class="second-part" th:text="${bidPlantdto.bPlDateBidding1+'   ~   '+bidPlantdto.bPlDateBidding2}"></div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">낙찰자 결정 기간</div>
+	              <div class="second-part" th:text="${bidPlantdto.bPlDateDecision1+'   ~   '+bidPlantdto.bPlDateDecision2}"></div>
+	            </div>
+	            <div class="group-rom">
+	              <div class="first-part odd">진행 상태</div>
+	              <div class="second-part" th:text="${bidPlantdto.bPlStatus}"></div>
+	            </div>
+	          </aside>
+	        </div> -->
 </html>
+

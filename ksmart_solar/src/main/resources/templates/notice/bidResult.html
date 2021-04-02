@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div th:fragment="bidResultFragment">
-	<div class="chat-room mt" >
+<!-- 	<div class="chat-room mt" >
 		<aside class="mid-side container">
             <div class="chat-room-head">
               <h3>입찰 정보</h3>
@@ -52,6 +52,56 @@
 				</div>
 			</div>
          </aside>
+	</div> -->
+	<div class="row">
+	  <div class="col-md-12">
+	    <div class="content-panel">
+	      <h4><i class="fa fa-angle-right"></i>입찰 정보</h4>
+	      <hr>
+	      <table class="table">
+	        <tbody>
+	          <tr>
+	             <td>입찰금액</td>
+	             <td class="price" th:text="${bidListDTO.bPrice+'원'}"></td>
+	           	 <td>예치금</td>
+	           	 <td class="price" th:text="${bidListDTO.bDeposit+'원'}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>관리자 계좌 은행</td>
+	             <td th:text="${bidListDTO.mAccountBankName}"></td>
+	          	 <td>관리자 계좌 번호</td>
+	             <td th:text="${bidListDTO.mAccountNumber}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>입금자 성명</td>
+	             <td  th:text="${bidListDTO.mPaymentName}"></td>
+	          	 <td>납부 상태</td>
+	             <td  th:text="${bidListDTO.bDepositCheck}"></td>
+	          </tr>
+	         <tr th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=3 and bidListDTO.trTypeCode<=14)}">
+              <td>예치금 환불 가능 여부</td>
+              <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='N' }">가능</td>
+              <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='N' and 
+              									(bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='Y')}">불가능</td>
+            </tr>
+            <tr th:if="${bidListDTO.trTypeCode>5 and bidListDTO.trTypeCode<15}">
+              <td>순위</td>
+              <td colspan="3" th:text="${bidListDTO.bRank+'순위'}"></td>
+            </tr>
+	          <tr>
+	          	 <td>내 진행 상태</td>
+	             <td colspan="3" th:text="${bidListDTO.trTypeName}"></td>
+	          </tr>
+	          <tr>
+	          	 <td>파일 첨부</td>
+	             <td colspan="3">
+					<input type="file" id="files" class="default" name="files" multiple="multiple">
+				</td>
+	          </tr>
+	        </tbody>
+	      </table>
+	    </div>
+	  </div>
 	</div>
 </div>
 
