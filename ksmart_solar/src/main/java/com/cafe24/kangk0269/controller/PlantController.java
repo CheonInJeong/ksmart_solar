@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.controller;
 
+import java.text.ParseException;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.cafe24.kangk0269.api.CrawlingApi;
+import com.cafe24.kangk0269.common.DepreciationCalculate;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.serivce.PlantService;
 
@@ -55,9 +57,14 @@ public class PlantController {
 	  
 	//수익 분석
 	@GetMapping("/plant/plantDetail/benefitAnalysis")
-	public String benefitAnalysis() {
-		
-		return "/plant/benefitAnalysis";
+	public String benefitAnalysis(HttpSession session, Model model) throws ParseException {
+		String bzCode = (String)session.getAttribute("SBZCODE");
+		plantService.noResidualValue(bzCode);
+		if(bzCode != null) {
+			plantService.getBenefitAnalysis(model, bzCode);
+			return "/plant/benefitAnalysis";
+		}
+		return "main";
 	}
 	
 	
@@ -72,13 +79,6 @@ public class PlantController {
 		return "main";
 	}
 	
-	
-	//발전량 예측
-	@GetMapping("/plant/plantDetail/generationPredict")
-	public String generationPredict() {
-		
-		return "/plant/generationPredict";
-	}
 	
 	
 	@GetMapping("/plant/plantList")
