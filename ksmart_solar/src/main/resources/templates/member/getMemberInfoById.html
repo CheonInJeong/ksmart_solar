@@ -103,6 +103,77 @@
                     <p class="form-control-static">[[${member.mEmail}]]</p>
                   </div>
                 </div>
+                <div class="form-group" th:if="${member.mLevel} == 2 or ${member.mLevel} == 3">
+                  <label class="col-lg-2 col-sm-2 control-label">등록 사업장</label>
+                  <div class="col-lg-10 col-sm-10">
+                  	<th:block th:each="l : ${businessList}">
+                  		<a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+						  <p th:if="${l.bzCheck = 'Y'}" class="form-control-static">[[${l.bzCompanyName}]]</p>
+						</a>
+						<div class="collapse" id="collapseExample">
+						  <div class="well">
+						    ...
+						  </div>
+						</div>
+                    </th:block>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${member.mLevel} == 2">
+                  <label class="col-lg-2 col-sm-2 control-label">보유 발전소</label>
+                  <div class="col-lg-10 col-sm-10">
+                  	<p class="form-control-static"></p>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${member.mLevel} == 2">
+                  <label class="col-lg-2 col-sm-2 control-label">보유 부품</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <p class="form-control-static"></p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">등록 계좌</label>
+                  <div class="col-lg-10 col-sm-10">
+	                  <th:block th:each="l : ${accountList}">
+	                    <p th:if="${l.mAccountCheck == 'N'}" class="form-control-static"><del>([[${l.mAccountBank}]]) [[${l.mAccountNumber}]]</del></p>
+	                    <p th:unless="${l.mAccountCheck == 'N'}" class="form-control-static">([[${l.mAccountBank}]]) [[${l.mAccountNumber}]]</p>
+	                  </th:block>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${member.mLevel} == 2">
+                  <label class="col-lg-2 col-sm-2 control-label">등록 공고</label>
+                  <div class="col-lg-10 col-sm-10">
+                  	<p class="form-control-static"></p>
+                  </div>
+                </div>
+                <div class="form-group" th:if="${member.mLevel} == 3">
+                  <label class="col-lg-2 col-sm-2 control-label">참여 공고</label>
+                  <div class="col-lg-10 col-sm-10">
+                    <th:block th:each="l : ${bidPlantList}">
+                    	<p class="form-control-static">[[${l.bPlTitle}]]</p>
+                    </th:block>
+                    <th:block th:each="l : ${bidComponentList}">
+                    	<p class="form-control-static">[[${l.bCpTitle}]]</p>
+                    </th:block>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">회원가입일</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${member.mSubDate}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">회원정보수정일</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${member.mSubDateModify}]]</p>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-lg-2 col-sm-2 control-label">회원상태변경일</label>
+                  <div class="col-lg-10">
+                    <p class="form-control-static">[[${member.mStateModifyDate}]]</p>
+                  </div>
+                </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                     <a class="btn btn-info" th:href="@{/modifyMember(mId=${member.mId})}" role="button">수정</a>

@@ -18,32 +18,57 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.kangk0269.api.CrawlingApi;
 import com.cafe24.kangk0269.api.KakaoLoginApi;
+import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
+import com.cafe24.kangk0269.serivce.AccountService;
+import com.cafe24.kangk0269.serivce.BidComponentService;
+import com.cafe24.kangk0269.serivce.BidPlantService;
+import com.cafe24.kangk0269.serivce.BoardQnaService;
 import com.cafe24.kangk0269.serivce.BusinessService;
 import com.cafe24.kangk0269.serivce.MemberService;
+import com.cafe24.kangk0269.serivce.NoticeService;
 import com.cafe24.kangk0269.serivce.PlantService;
 
 @Controller
 public class MemberManageController {
-	@Autowired
-	private MemberService memberService;
+	private final MemberService memberService;
+	private final BusinessService businessService;
+	private final PlantService plantService;
+	private final AccountService accountService;
+	private final BidPlantService bidPlantService;
+	private final BidComponentService bidComponentService;
 	
 	@Autowired
-	private BusinessService businessService;
-
-	@Autowired
-	private PlantService plantService;
+	public MemberManageController(MemberService memberService, BusinessService businessService
+								 ,PlantService plantService, AccountService accountService
+								 ,BidPlantService bidPlantService, BidComponentService bidComponentService) {
+		this.memberService = memberService;
+		this.businessService = businessService;
+		this.plantService = plantService;
+		this.accountService = accountService;
+		this.bidPlantService = bidPlantService;
+		this.bidComponentService = bidComponentService;
+	}
 	
 	@GetMapping("/getMemberInfoById")
 	public String getMemberInfoById(Model model
 									,@RequestParam(value="mId", required=false) String mId) {
 		MemberDTO member = memberService.getMemberInfoById(mId);
+		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
+		List<BusinessDTO> businessList = businessService.getBusinessInfoById(mId);
+		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(mId);
+		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(mId);
 		model.addAttribute("member", member);
+		model.addAttribute("accountList", accountList);
+		model.addAttribute("businessList", businessList);
+		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("bidComponentList", bidComponentList);
 		return "/member/getMemberInfoById";
 		
 	}

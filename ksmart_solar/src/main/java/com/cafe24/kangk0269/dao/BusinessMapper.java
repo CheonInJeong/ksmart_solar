@@ -17,8 +17,11 @@ public interface BusinessMapper {
 	// 사업자인증신청 승인
 	public int businessAdmit(BusinessDTO business);
 	
-	// 사업자인증신청 상세정보
+	// 사업자인증신청 상세정보(사업자코드)
 	public BusinessDTO getBusinessInfoBybzCode(String bzCode);
+	
+	// 사업자인증신청 상세정보(아이디)
+	public List<BusinessDTO> getBusinessInfoById(String mId);
 	
 	// 사업자인증신청목록
 	public List<BusinessDTO> getAllBusinessAdmitList();

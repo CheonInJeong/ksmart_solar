@@ -30,6 +30,7 @@ public class AccountService {
 		System.out.println("=========================================================");
 	}
 	
+	
 	//계좌 삭제처리
 	public int removeAccount(int mAccountIdx) {
 		int result = bankAccountMapper.removeAccount(mAccountIdx);

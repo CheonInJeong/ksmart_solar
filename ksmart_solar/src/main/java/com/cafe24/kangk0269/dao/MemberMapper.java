@@ -13,7 +13,7 @@ import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 @Mapper
 public interface MemberMapper {
 	
-	// 전체회원계좌 조회
+	//전체회원계좌 조회
 	public List<MemberAccountDTO> getAllBankAccount();
 	
 	// 탈퇴신청회원 조회

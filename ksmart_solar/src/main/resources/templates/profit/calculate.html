@@ -30,7 +30,7 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>#</th>
+							<th>번호</th>
 							<th>월</th>
 							<th>거래수수료 총액</th>
 							<th>취소수수료 총액</th>
@@ -39,7 +39,7 @@
 					</thead>
 					<tbody>
 						<tr th:each="l, status : ${calculateList}">
-							<td data-title="#">[[${status.count}]]</td>
+							<td data-title="번호">[[${status.count}]]</td>
 							<td data-title="월" th:text="${l.ymDate}"></td>
 							<td data-title="거래수수료 총액" th:text="${l.sucTotal}"></td>
 							<td data-title="취소수수료 총액" th:text="${l.failTotal}"></td>
