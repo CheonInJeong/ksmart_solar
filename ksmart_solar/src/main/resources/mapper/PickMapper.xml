@@ -7,11 +7,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<resultMap type="PickDTO" id="PickDTOMap">
 		<result property="pIdx"					column="p_idx"/>
 		<result property="bPlComponentCode"		column="b_gen_regoods_code"/>
-		<result property="bPlComponentSub"		column="b_gen_regoods_sub"/>
 		<result property="mId"					column="m_id"/>
 		<result property="pRegDate"				column="p_reg_date"/>
-		<result property="bTypeCode"			column="b_type_code"/>
-		<result property="bEndDate"				column="b_end_date"/>
 	</resultMap>
 	
 	

@@ -87,14 +87,14 @@ public class MyPageController {
 	
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
-	
 	/*
 	 * //개인 비밀번호 수정처리
 	 * 
-	 * @PostMapping("/mypage/modifyPw") public String modifyPw(@RequestBody String
-	 * pw, HttpSession session) {
+	 * @PostMapping("/mypage/modifyPw") public String modifyPw(HttpSession session)
+	 * { String login_id = (String)session.getAttribute("SID"); MemberDTO member =
+	 * memberService.getMemberInfoById(login_id); String resultPw = member.getmPw();
 	 * 
-	 * return pw;
+	 * return "/";
 	 * 
 	 * }
 	 */

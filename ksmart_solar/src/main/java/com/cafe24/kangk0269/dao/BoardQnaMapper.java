@@ -12,6 +12,9 @@ public interface BoardQnaMapper {
 	//문의 검색
 	public List<BoardQnaDTO> getQnaList(String searchKey, String searchValue);
 	
+	//문의 조회수 증가
+	public int addQnaViews(int bQnaIdx);
+	
 	//답글 등록
 	public int addReQna(BoardQnaDTO boardQnaDTO);
 	
