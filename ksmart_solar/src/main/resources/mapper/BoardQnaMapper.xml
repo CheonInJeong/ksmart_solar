@@ -44,6 +44,17 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</select>
    -->
 		 
+		
+	<!-- 문의 조회수 증가  -->	 
+	<update id="addQnaViews">
+		UPDATE 
+			tb_board_qna
+		SET
+			b_qna_views = b_qna_views + 1
+		WHERE 
+			b_qna_idx = #{bQnaIdx}
+	</update>		 
+			 
 	<!-- 문의 삭제 -->
 	<delete id="removeQna" parameterType="int">
 		DELETE FROM 
@@ -67,6 +78,27 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_qna_idx= #{bQnaIdx}
 	</update>
 	
+	<!-- 답글 등록  -->
+		<insert id="addReQna" parameterType="BoardQnaDTO">
+			INSERT INTO tb_board_qna
+				( b_qna_subject
+				, b_qna_contents
+				, m_id
+				, b_qna_reg_date
+				, b_qna_views
+				, b_qna_open
+				, b_qna_password
+				, b_qna_temp)
+			VALUES 
+				( #{bQnaSubject}
+				, #{bQnaContents}
+				, '관리자'
+				, NOW()
+				, 0
+				, #{bQnaOpen}
+				, #{bQnaPassword}
+				, 'N')
+		</insert>
 	<!-- 문의 등록 -->
 	<insert id="addQna" parameterType="BoardQnaDTO">
 		INSERT INTO tb_board_qna

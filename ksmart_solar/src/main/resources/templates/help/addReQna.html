@@ -57,6 +57,22 @@
 							<textarea name="bQnaContents" rows="30" class="form-control">[[${boardQnaDTO.bQnaContents}]]</textarea>
 						</div>
 					</div>
+					
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">비밀글 여부</label>
+						<div class="col-lg-10">
+							<label> Y <input type="radio" value="Y" name="bQnaOpen" th:checked="${boardQnaDTO.bQnaOpen == 'Y'}" checked onclick="return(false);">
+							</label> 
+							<label> N <input type="radio" value="N" name="bQnaOpen" th:checked="${boardQnaDTO.bQnaOpen == 'N'}" checked onclick="return(false);">
+							</label>
+						</div>
+					</div>
+						<div id="password" class="form-group" th:if="${boardQnaDTO.bQnaOpen == 'Y'}">
+							<label class="col-sm-2 col-sm-2 control-label">비밀글 암호</label>
+							<div class="col-lg-10">
+								<input type="text" name="bQnaPassword" class="form-control">
+							</div>
+						</div>
 
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
@@ -65,7 +81,7 @@
 							</div>
 						</div>
 						<div style="text-align: center">
-							<button type="submit" class="btn btn-success">수정</button>
+							<button type="submit" class="btn btn-success">등록</button>
 						</div>
 				</form>
 			</div>

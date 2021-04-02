@@ -7,11 +7,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<resultMap type="PickDTO" id="PickDTOMap">
 		<result property="pIdx"					column="p_idx"/>
 		<result property="bPlComponentCode"		column="b_gen_regoods_code"/>
-		<result property="bPlComponentSub"		column="b_gen_regoods_sub"/>
 		<result property="mId"					column="m_id"/>
 		<result property="pRegDate"				column="p_reg_date"/>
-		<result property="bTypeCode"			column="b_type_code"/>
-		<result property="bEndDate"				column="b_end_date"/>
 	</resultMap>
 	
 	
@@ -39,14 +36,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 관심목록 조회  -->
 	<select id="getWishList" parameterType="String" resultMap="PickDTOMap">
 		SELECT 
-			  p_idx
-			, b_gen_regoods_code
-			, b_gen_regoods_sub
-			, m_id
-			, p_reg_date
-			, b_type_code
-			, b_end_date
-		FROM
+	  	  p_idx
+		, p_code
+		, m_id
+		, p_reg_date
+		FROM 
 			tb_pick
 		WHERE
 			m_id = #{log_id}

@@ -46,6 +46,7 @@
 				
 				$('#memberId').val(mId);
 				$('#memberPassword').val(mPw);
+				$('#signInBtn').click();
 			});
 			$('#solarLogin').click(function(){
 				var mId = 'id002';
@@ -61,6 +62,7 @@
 				
 				$('#memberId').val(mId);
 				$('#memberPassword').val(mPw);
+				$('#signInBtn').click();
 			});
 			
 		
@@ -142,13 +144,16 @@
 							  title: '로그인 성공!',
 							  icon: 'success'
 							});
-		        		document.location.href = '/';
+		        		
+		        		setTimeout(() =>
+			        		document.location.href = '/'
+		        		,1000);
 		        	}else{
-		        		Swal.fire({
-							  title: '로그인실패!',
-							  text: '아이디나 비밀번호가 잘못입력 되었습니다.',
-							  icon: 'error'
-							});
+			        		Swal.fire({
+								  title: '로그인실패!',
+								  text: '아이디나 비밀번호가 잘못입력 되었습니다.',
+								  icon: 'error'
+								})
 		        	}
 		        },
 		        error : function(xhr,status,error) {

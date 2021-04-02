@@ -29,6 +29,11 @@ public class NoticeService {
 		System.out.println("=========================================================");
 	}
 	
+	//공지 조회수 증가
+	public int addNoticeViews(int noticeIdx) throws Exception {
+		return noticeMapper.addNoticeViews(noticeIdx);
+	}
+	
 	//공지 삭제
 	public int removeNotice(int noticeIdx) {
 		return noticeMapper.removeNotice(noticeIdx);
