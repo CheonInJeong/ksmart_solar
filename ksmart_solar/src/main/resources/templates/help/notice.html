@@ -14,6 +14,11 @@
 	  <link th:href="@{/css/style.css}" rel="stylesheet">
 	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
 	  <link th:href="@{/css/table-responsive.css}" rel="stylesheet">
+	<style>
+	th, tbody {
+		text-align:center;
+	}
+	</style>	  
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
@@ -30,9 +35,9 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th>공지제목</th>
-							<th>조회수</th>
-							<th>등록일</th>
+							<th class="col-md-8">공지제목</th>
+							<th class="col-md-2">조회수</th>
+							<th class="col-md-2">등록일</th>
 						</tr>
 					</thead>
 					<tbody>

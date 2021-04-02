@@ -90,10 +90,13 @@ public class HelpController {
 		return "/help/addQna";
 	}
 	
-	// 문의 상세조회
+	// 문의 상세조회 + 문의 조회수 증가
 	@GetMapping("/help/getQna")
 	public String getQna(Model model,
 							@RequestParam(name = "bQnaIdx", required = false) int bQnaIdx) {
+		
+		boardQnaService.addQnaViews(bQnaIdx);
+		
 		BoardQnaDTO boardQnaDTO = boardQnaService.getQna(bQnaIdx);
 		model.addAttribute("boardQnaDTO", boardQnaDTO);
 		return "/help/getQna";
@@ -111,6 +114,7 @@ public class HelpController {
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	
+	
 	//공지 삭제
 	@GetMapping("/help/removeNotice")
 	public String removeNotice(@RequestParam(name = "noticeIdx", required = false ) int noticeIdx) {
@@ -118,10 +122,13 @@ public class HelpController {
 		return "redirect:/help/notice";
 	}
 	
-	//공지 상세조회
+	//공지 상세조회 + 공지 조회수 증가
 	@GetMapping("/help/getNotice")
 	public String getNotice(Model model,
-								@RequestParam(name = "noticeIdx", required = false ) int noticeIdx){
+								@RequestParam(name = "noticeIdx", required = false ) int noticeIdx) throws Exception{
+		
+		noticeService.addNoticeViews(noticeIdx);
+		
 		modifyNoticeByIdx(model, noticeIdx);
 		return "/help/getNotice";
 		
