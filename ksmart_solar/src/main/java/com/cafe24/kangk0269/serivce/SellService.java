@@ -45,17 +45,34 @@ public class SellService {
 	}
 	
 	
-
+	//부품공고 수정
+	public void modifyComponentSell(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+		fileMapper.removeApplyFile(bidComponentDto.getbCpCode());
+		sellMapper.modifyComponentSell(bidComponentDto);
+		BidComponentDTO bidCode = sellMapper.getBidComponentCode(bidComponentDto.getbCpCode());
+		
+		
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidComponentDto.getbCpCode(),1,"공고서류", multipartHttpServletRequest,request);
+		
+		if (CollectionUtils.isEmpty(filelist) == false) {
+			fileMapper.addFile(filelist);
+		}
+	}
 	
+	//부품공고 삭제
+	public void removeComponentSell(String code) {
+		sellMapper.removeComponentSell(code);
+	}
 	
 	//부품공고 등록
 	public void addComponentApply(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		sellMapper.addComponentApply(bidComponentDto);
+		System.out.println(bidComponentDto.getCpCode()+"<-----부품코드");
 		//조회처리과정추가
 		BidComponentDTO bidCode = sellMapper.getBidComponentCode(bidComponentDto.getCpCode());
 		
 		
-		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getCpCode(),1,"공고서류", multipartHttpServletRequest,request);
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbCpCode(),1,"공고서류", multipartHttpServletRequest,request);
 		
 		if (CollectionUtils.isEmpty(filelist) == false) {
 			fileMapper.addFile(filelist);

@@ -130,6 +130,7 @@
   		  			<result property ="cpInfo" column="cp_info"/>
   		  			<result property ="cpMaker" column="cp_maker"/>
   		  			<result property ="cpUsedate" column="cp_usedate"/>
+  		  			<result property ="cpMakedate" column="cp_makedate"/>
   		  		</association>
   		  	
   		  </resultMap>
@@ -188,6 +189,57 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  <update id="modifyComponentSell" parameterType="BidComponentDTO">
+  		  		UPDATE tb_bid_component
+					SET
+						b_cp_title=#{bCpTitle},
+						b_cp_contents=#{bCpContents},
+						b_cp_price=#{bCpPrice},
+						b_cp_date_bidding1=#{bCpDateBidding1}
+					WHERE 
+						b_cp_code=#{bCpCode}
+				  		  	
+  		  </update>
+  		  
+  		  
+  		  <delete id="removeComponentSell" parameterType="String">
+  		  		DELETE FROM tb_bid_component WHERE b_cp_code=#{bCpCode}
+  		  </delete>
+  		  
+  		  <insert id="addComponentApply" parameterType="BidComponentDTO">
+  		  		INSERT INTO tb_bid_component
+					(b_cp_code
+					,cp_code
+					, m_id
+					, b_cp_title
+					, b_cp_contents
+					, b_cp_price
+					, cp_usedate
+					, b_cp_date
+					, b_cp_date_bidding1
+					, b_cp_date_bidding2
+					, b_cp_date_decision1
+					, b_cp_date_decision2
+					, b_cp_groupcode)
+				VALUES 
+					(sf_b_cp_code()
+					, #{cpCode}
+					, #{mId}
+					, #{bCpTitle}
+					, #{bCpContents}
+					, #{bCpPrice}
+					, #{cpUsedate}
+					, now()
+					, #{bCpDateBidding1}
+					, sf_bidding_date(#{bCpDateBidding1})
+					, sf_bidding_date(#{bCpDateBidding1})
+					, sf_decide_bidder_date(#{bCpDateBidding1})
+					, concat(sf_b_cp_code(),'_group'))
+
+  		  		
+  		  	
+  		  
+  		  </insert>
   		  
   		  <insert id="addComponent">
   		  	INSERT 
@@ -200,7 +252,7 @@
   		  	UPDATE 
   		  		tb_bid_plant
 			SET
-				b_pl_status='거래진행중',
+				b_pl_status='공고마감',
 				ac_status_code= 5
 			WHERE 
 				ac_status_code = 4
@@ -436,7 +488,7 @@
 				on
 					p.m_id_seller = pout.m_id
 				WHERE 
-					p.m_id_seller='id002'
+					p.m_id_seller=#{mId}
 				AND 
 					p.tr_payout_check = 'Y'
 				AND 
@@ -554,7 +606,8 @@
 					c.cp_name,
 					c.cp_info,
 					c.cp_maker,
-					c.cp_usedate 
+					c.cp_usedate,
+					c.cp_makedate 
 				FROM 
 					tb_bid_component AS b 
 				INNER JOIN 
@@ -562,8 +615,7 @@
 				ON 
 					b.cp_code = c.cp_code
 				WHERE 
-					b.b_cp_confirm_status = 'Y'
-				AND b.b_cp_code = #{bCpCode}
+				 b.b_cp_code = #{bCpCode}
 				 
   		  
   		  </select>
