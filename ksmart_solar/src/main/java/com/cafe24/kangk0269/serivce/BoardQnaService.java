@@ -46,16 +46,12 @@ public class BoardQnaService {
 		return boardQnaMapper.addQnaViews(bQnaIdx);
 	}
 	
-	//답글 등록
-	public int addReQna(BoardQnaDTO boardQnaDTO) {
-		if(boardQnaDTO.getBQnaOpen().equals("Y")) {
-			boardQnaDTO.setBQnaOpen("Y");
-		}else {
-			boardQnaDTO.setBQnaOpen("N");
-		}
-		return boardQnaMapper.addReQna(boardQnaDTO);
-	}
-	
+	/*
+	 * //답글 등록 public int addReQna(BoardQnaDTO boardQnaDTO) {
+	 * if(boardQnaDTO.getBQnaOpen().equals("Y")) { boardQnaDTO.setBQnaOpen("Y");
+	 * }else { boardQnaDTO.setBQnaOpen("N"); } return
+	 * boardQnaMapper.addReQna(boardQnaDTO); }
+	 */
 	//문의 삭제
 	public int removeQna(int bQnaIdx) {
 		return boardQnaMapper.removeQna(bQnaIdx);
