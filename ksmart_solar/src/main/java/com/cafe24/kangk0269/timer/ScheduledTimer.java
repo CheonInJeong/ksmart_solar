@@ -42,7 +42,11 @@ public class ScheduledTimer {
 	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
 	@Scheduled(cron = "0  00  0  *  *  *") 
 	public void updateAcStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
-		sellService.updateAcStatus();
+		try {
+			sellService.updateAcStatus();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		
 	}
 	

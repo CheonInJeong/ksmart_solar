@@ -12,93 +12,108 @@
 				<title>발전소 공고 조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<style>
+			body{
+			position : relative;
+			}
+		</style>
+		
 	
 		<div id="container-header-title"><strong>공고조회</strong></div>
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 부품공고조회</div>
       	<div id="container-header-space"></div>
-      <th:block th:each="d:${detail}">
-	       <div class="row">
-	          <div class="col-md-12">
-	            <div class="content-panel" style="padding: 30px;">
-	              <h4><i class="fa fa-angle-right"></i>부품정보</h4>
-	              <hr>
-	              <table class="table">
-	                <tbody>
-	                  <tr>
-	                    <td>부품명</td>
-	                    <td colspan="3" th:text="${d.componentDTO.cpName}"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>부품제조사</td>
-	                  	<td th:text="${d.componentDTO.cpMaker}"></td>
-	                  	<td>부품사용시작일</td>
-	                    <td th:text="${d.componentDTO.cpUsedate}"></td>
-	                  </tr>
-	                  <tr>
-	                  	 <td>부품정보</td>
-	                     <td colspan="3" th:text="${d.componentDTO.cpInfo}"></td>
-	                  </tr>
-	                 
-	                </tbody>
-	              </table>
-	            </div>
-	          </div>
-	        </div> 
-           <div class="row">
-	          <div class="col-md-12">
-	            <div class="content-panel">
-	              <h4><i class="fa fa-angle-right"></i>공고정보</h4>
-	              <hr>
-	              <table class="table">
-	                <tbody>
-	                  <tr>
-	                    <td>공고코드</td>
-	                    <td colspan="3" th:text="${d.bCpCode}"></td>
-	                  </tr>
-	                  <tr>
-	                    <td>공고제목</td>
-	                    <td colspan="3" th:text = "${d.bCpTitle}"></td>
-	                  </tr>
-	                  <tr>
-	                    <td>공고내용</td>
-	                    <td colspan="3" th:text = "${d.bCpContents}"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>입찰시작가</td>
-	                  	<td colspan="3"  th:text = "${d.bCpPrice}"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>공고시작일</td>
-	               		<td th:text="${d.bCpDateBidding1}"></td>
-	                  	<td>마감일</td>
-	                  	<td th:text="${d.bCpDateBidding2}"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>입찰자결정시작일</td>
-	               		<td th:text="${d.bCpDateDecision1}"></td>
-	                  	<td>입찰자결정마감일</td>
-	                  	<td th:text="${d.bCpDateDecision2}"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>진행상태</td>
-	                  	<td th:text="${d.bCpStatus}"></td>
-	                  	<td>입찰자수</td>
-	                  	<td><a th:href="@{#}">[[${d.bCpBidderNumber}]]</a></td>
-	                  </tr>
-	                  <tr>
-	                  	<td colspan="4">
-	                  		<div class=" add-task-row">
-                  				<a class="btn btn-default btn-sm pull-right" th:href="@{/sell/myHistory}">목록</a>
-                 			 </div>
-                 		</td>
-	                  </tr>
-	                </tbody>
-	              </table>
-	              
-	            </div>
-	          </div>
-          </div>
-		 </th:block>
+      	
+      	 <div>
+	      	<ul class="nav nav-tabs nav-justified" id="myNav" >
+			  <li role="presentation" class="active" ><a href="#section1">부품정보</a></li>
+			  <li role="presentation"><a href="#section2">공고정보</a></li>
+			  <li role="presentation"><a href="#section3">계약정보</a></li>
+			  <li role="presentation"><a href="#section4">문의글</a></li>
+			</ul>
+		</div>
+      	
+      	
+	<th:block th:each="d:${detail}">
+		<div class="row">
+			<div class="col-md-12">
+				<div class="content-panel" style="padding: 30px;">
+
+					<div id="section1">
+						<h4><i class="fa fa-angle-right"></i>부품정보</h4>
+						<hr>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>부품명</td>
+									<td colspan="3" th:text="${d.componentDTO.cpName}"></td>
+								</tr>
+								<tr>
+									<td>부품제조사</td>
+									<td th:text="${d.componentDTO.cpMaker}"></td>
+									<td>부품사용시작일</td>
+									<td th:text="${d.componentDTO.cpUsedate}"></td>
+								</tr>
+									<tr>
+									<td>부품정보</td>
+									<td colspan="3" th:text="${d.componentDTO.cpInfo}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+	       
+      		     	<div  id="section2">
+	          
+						<h4><i class="fa fa-angle-right"></i>공고정보</h4>
+						<hr>
+						<table class="table">
+							<tbody>
+								<tr>
+									<td>공고코드</td>
+									<td colspan="3" th:text="${d.bCpCode}" id="bCpCode"></td>
+								</tr>
+								<tr>
+									<td>공고제목</td>
+									<td colspan="3" th:text = "${d.bCpTitle}"></td>
+								</tr>
+								<tr>
+									<td>공고내용</td>
+									<td colspan="3" th:text = "${d.bCpContents}"></td>
+								</tr>
+								<tr>
+									<td>입찰시작가</td>
+									<td colspan="3"  th:text = "${d.bCpPrice}" id="bCpPrice"></td>
+								</tr>
+								<tr>
+									<td>공고시작일</td>
+									<td th:text="${d.bCpDateBidding1}"></td>
+									<td>마감일</td>
+									<td th:text="${d.bCpDateBidding2}"></td>
+								</tr>
+								<tr>
+									<td>입찰자결정시작일</td>
+									<td th:text="${d.bCpDateDecision1}"></td>
+									<td>입찰자결정마감일</td>
+									<td th:text="${d.bCpDateDecision2}"></td>
+								</tr>
+								<tr>
+									<td>진행상태</td>
+									<td th:text="${d.bCpStatus}"></td>
+									<td>입찰자수</td>
+									<td id="bidderNumber" style="color :blue;">[[${d.bCpBidderNumber}]]</td>
+								</tr>
+								<tr>
+									<td colspan="4">
+										<div class=" add-task-row">
+											<a class="btn btn-default btn-sm pull-right" th:href="@{/sell/myHistory}">목록</a>
+										</div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+			</div>   
+		</div>
+	</th:block>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
@@ -115,16 +130,37 @@
 	  		  }
 		 	
 		 	$(document).ready(function(){
-		 		$('#bzPlAreaD').text(comma($('#bzPlAreaD').text()));
-		 		$('#bzPlPowerD').text(comma($('#bzPlPowerD').text()));
-		 		$('#plDepDataResidualD').text(comma($('#plDepDataResidualD').text()));
-		 		$('#bzPlRecD').text(comma($('#bzPlRecD').text()));
-		 		$('#bzPlInvPowerD').text(comma($('#bzPlInvPowerD').text()));
-		 		$('#bzPlInvCountD').text(comma($('#bzPlInvCountD').text()));
-		 		$('#bzPlInvMakerD').text(comma($('#bzPlInvMakerD').text()));
-		 		$('#bPlPriceD').text(comma($('#bPlPriceD').text()));
-		 		$('#bidderNumberD').text(comma($('#bidderNumberD').text()));
-		 	})	 		
+		 		$('#bCpPrice').text(comma($('#bCpPrice').text()));
+		 		
+		 		$('body').attr('data-spy','scroll');
+		 		$('body').attr('data-target','.nabvar');
+		 		$('body').attr('data-offset','50');
+		 		
+		
+				$('body').scrollspy({target: ".navbar", offset: 50}); 
+							
+				$("#myNav a").on('click', function(event) {
+			 		if (this.hash !== "") {
+						event.preventDefault();
+			 			var hash = this.hash;
+			
+						$('html, body').animate({scrollTop: $(hash).offset().top}, 800, function(){
+			 
+							 window.location.hash = hash;
+						 });
+					 } 
+				 });
+			});
+			 	
+		 	
+		 	var bidderNumber = $('#bidderNumber');
+		 	bidderNumber.click(function(){
+			if($(this).text()=='0'){
+				alert('아직 입찰자가 없습니다.');
+			}else{
+				location.href='/sell/componentBidderList?bCpCode='+$('#bCpCode').text();
+			}
+		})	
 		</script>
 		
 	</th:block>
