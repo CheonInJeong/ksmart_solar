@@ -36,14 +36,13 @@ public class HelpController {
 		return "/help/qna";
 	}
 	 
-	
-	//답글 처리
-	@PostMapping("/help/addReQna")
-	public String addReQna(BoardQnaDTO boardQnaDTO) {
-		boardQnaService.addReQna(boardQnaDTO);
-		return "redirect:/help/qna";
-	}
-	
+	/*
+	 * //답글 처리
+	 * 
+	 * @PostMapping("/help/addReQna") public String addReQna(BoardQnaDTO
+	 * boardQnaDTO) { boardQnaService.addReQna(boardQnaDTO); return
+	 * "redirect:/help/qna"; }
+	 */
 	//답글 화면
 	@GetMapping("/help/addReQna")
 	public String addReQna(Model model,
