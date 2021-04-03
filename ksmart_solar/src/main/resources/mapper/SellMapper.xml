@@ -189,6 +189,24 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  <update id="modifyRank" parameterType="map">
+				UPDATE 
+					tb_bid_list
+				SET
+					b_rank=#{bRank}
+				WHERE 
+					b_code= #{bCode} 		  
+  		  </update>
+  		  
+  		  <select id="rankCheck" parameterType="String" resultMap ="BidListResultMap">
+  		  		SELECT
+  		  			 b_rank
+				FROM 
+					tb_bid_list 
+				WHERE 
+					announced_code = #{bCode}
+  		  </select>
+  		  
   		  <update id="modifyComponentSell" parameterType="BidComponentDTO">
   		  		UPDATE tb_bid_component
 					SET
@@ -292,12 +310,14 @@
   		  <select id="getBuyerInfoByCode" parameterType="String" resultMap="BidListResultMap">
   		  	SELECT 
 				b.m_id,
+				l.announced_code,
 				b.bz_ceo_name,
 				b.bz_company_name,  
 				b.bz_zipcode,b.bz_addr,b.bz_detail_addr,
 				l.b_code,
 				l.b_check,
-				l.b_price	
+				l.b_price,
+				l.b_rank	
 			FROM 	
 				tb_business AS b 
 			INNER JOIN 
@@ -496,16 +516,13 @@
   		  </select>
   		  
   		  
-  		  <select id="getPlantBidderList" resultMap="BidListResultMap" parameterType="String">
+  		  <select id="getBidderList" resultMap="BidListResultMap" parameterType="String">
   		  		  
   		  	SELECT 
 					l.b_code, 
 					l.announced_code, 
 					l.m_id, 
 					l.b_price,  
-					l.dc_instructions, 
-					l.dc_application, 
-					l.dc_proposal,
 					l.b_date, 
 					l.b_check, 
 					l.b_rank
@@ -514,9 +531,8 @@
 					tb_bid_list AS l
 
 				WHERE 
-					b_type_code = 1 
-				AND
-					b_check ='Y'
+				
+					b_deposit_check ='Y'
 				AND 
 					announced_code =#{code}
   		  
@@ -552,7 +568,8 @@
 					b.b_cp_price, 
 					b.b_cp_status,
 					b.b_cp_date_bidding1,
-					b.b_cp_date_bidding2
+					b.b_cp_date_bidding2,
+					b.b_cp_bidder_number
 				FROM 
 					tb_bid_component AS b
 				inner JOIN 
@@ -603,6 +620,7 @@
 					b.b_cp_date_bidding2,
 					b.b_cp_date_decision1,
 					b.b_cp_date_decision2,
+					b.b_cp_bidder_number,
 					c.cp_name,
 					c.cp_info,
 					c.cp_maker,

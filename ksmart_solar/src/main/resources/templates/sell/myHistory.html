@@ -134,7 +134,7 @@
                     <td th:text="${cp.bCpPrice}" class="bCpPrice"></td>
                     <td th:text="${cp.bCpDateBidding1}"></td>
                     <td th:text="${cp.bCpDateBidding2}"></td>
-                    <td th:text="${cp.bCpBidderNumber}"></td>
+                    <td><a th:href="@{/sell/componentBidderList(bCpCode=${cp.bCpCode})}">[[${cp.bCpBidderNumber}]]</a></td>
                     <td class="cpStatus" th:text="${cp.bCpStatus}"></td>
                     <td><button class="cpModifyBtn">수정</button></td>
                     <td><button class="cpDeleteBtn">삭제</button></td>

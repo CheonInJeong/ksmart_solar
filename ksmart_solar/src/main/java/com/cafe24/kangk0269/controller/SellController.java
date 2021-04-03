@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
@@ -35,28 +36,61 @@ public class SellController {
 		this.sellService = sellService;
 	}
 	
+	
+	@RequestMapping(value="/ajax/modifyRank", method= RequestMethod.POST)
+	public @ResponseBody int modifyRank(@RequestParam(value="bRank") int rank
+										,@RequestParam(value="bCode") String code) throws Exception {
+		sellService.modifyRank(rank, code);
+		
+		return rank;
+	}
+
+	@RequestMapping(value="/ajax/rankCheck", method= RequestMethod.POST)
+	public @ResponseBody boolean rankCheck(@RequestParam(value="rank") int rank,
+											@RequestParam(value="announcedCode") String code) throws Exception {
+		
+		boolean rankCheck = false;
+		System.out.println(rank+"<----------int");
+		System.out.println(code);
+
+		  List<BidListDTO> rankList = sellService.rankCheck(code); 
+		  for(int i=0;i<rankList.size();i++) {
+			  System.out.println(rankList.get(i).getbRank());
+			  if(rank == rankList.get(i).getbRank()) { rankCheck = true; }
+
+		  }
+		  
+		return rankCheck;
+	}
+	@GetMapping("/sell/componentBidderList")
+	public String componentBidderList(@RequestParam(value="bCpCode") String code,Model model) throws Exception {
+		model.addAttribute("bidder", sellService.getBidderList(code));
+		model.addAttribute("component",sellService.getComponentDetail(code));
+		return "sell/componentBidderList";
+	}
+	
 	//서류 적합성 수정
 	@RequestMapping(value= "/ajax/modifyDocumentCheck" , method= RequestMethod.POST)
 	public @ResponseBody String modifyDocumentCheck(@RequestParam(value="bCode") String code,
-													@RequestParam(value="documentYn") String check) {
+													@RequestParam(value="documentYn") String check) throws Exception {
 		System.out.println(code+"-----"+check);
 		sellService.modifyDocumentCheck(code, check);
 		return check;
 	}
 	//입찰자 정보 보기 (회원정보+입찰내용)
-	@GetMapping("/sell/plantBidderDetail")
-	public String plantBidderDetail(@RequestParam(value="code") String code,
-									Model model) {
+	@GetMapping("/sell/bidderDetail")
+	public String bidderDetail(@RequestParam(value="code") String code,
+							   Model model) throws Exception {
 		model.addAttribute("member", sellService.getBuyerInfoByCode(code));
 		model.addAttribute("file",sellService.getBidderFileList(code));
-		return "sell/plantBidderDetail";
+		return "sell/bidderDetail";
 	}
 	
 	
 	
 	//부품 공고 수정 화면
 	@GetMapping("/sell/modifyComponentSell")
-	public String modifyComponentSell(@RequestParam(value="bCpCode") String code, Model model) {
+	public String modifyComponentSell(@RequestParam(value="bCpCode") String code, Model model)  throws Exception{
 		model.addAttribute("component", sellService.getComponentDetail(code));
 		
 		return "sell/modifyComponentSell";
@@ -64,7 +98,9 @@ public class SellController {
 	
 	//부품 공고 수정 처리
 	@PostMapping("/sell/modifyComponentSell")
-	public String modifyComponentSell(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) {
+	public String modifyComponentSell(BidComponentDTO bidComponentDto,
+									  MultipartHttpServletRequest multipartHttpServletRequest,
+									  HttpServletRequest request) throws Exception {
 		try {
 			sellService.modifyComponentSell(bidComponentDto,multipartHttpServletRequest,request);
 		} catch (Exception e) {
@@ -76,14 +112,16 @@ public class SellController {
 	
 	//부품 공고 삭제 처리
 	@GetMapping("/sell/removeComponentSell")
-	public String removeComponentSell(@RequestParam(value="bCpCode") String code) {
+	public String removeComponentSell(@RequestParam(value="bCpCode") String code) throws Exception {
 		sellService.removeComponentSell(code);
 		return "redirect:/sell/myHistory";
 	}
 	
 	//부품 판매 공고 등록
 	@PostMapping("/sell/componentSell")
-	public String regComponentSell(BidComponentDTO bidComponentDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
+	public String regComponentSell(BidComponentDTO bidComponentDTO,
+								  MultipartHttpServletRequest multipartHttpServletRequest ,
+								  HttpServletRequest request) throws Exception {
 		sellService.addComponentApply(bidComponentDTO, multipartHttpServletRequest,request);
 		return "redirect:/sell/myHistory";
 	}
@@ -91,12 +129,12 @@ public class SellController {
 	
 	//부품 등록
 	@RequestMapping(value="/sell/addComponent", method=RequestMethod.POST)
-	public @ResponseBody String regComponentSell( @RequestParam(value="mId") String mId,
+	public @ResponseBody String regComponentSell ( @RequestParam(value="mId") String mId,
 									@RequestParam(value="cpName") String cpName,
 									@RequestParam(value="cpInfo") String cpInfo,
 									@RequestParam(value="cpMaker") String cpMaker,
 									@RequestParam(value="cpMakedate") String cpMakedate,
-									@RequestParam(value="cpUsedate") String cpUsedate	) {
+									@RequestParam(value="cpUsedate") String cpUsedate) throws Exception {
 		ComponentDTO componentDto = new ComponentDTO();
 		componentDto.setmId(mId);
 
@@ -110,29 +148,29 @@ public class SellController {
 	}
 	//부품 공고 등록 페이지
 	@GetMapping("/sell/addComponent")
-	public String addComponent(@RequestParam(value="mId") String mId) {
+	public String addComponent(@RequestParam(value="mId") String mId)  throws Exception {
 		System.out.println(mId+"<--------------mId");
 		return "sell/addComponent";
 	}
 	
 	//발전소 입찰 신청자 목록 보기
 	@GetMapping("/sell/plantBidderList")
-	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model) {
-		model.addAttribute("bidder", sellService.getPlantBidderList(code));
+	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model)  throws Exception{
+		model.addAttribute("bidder", sellService.getBidderList(code));
 		model.addAttribute("plant", sellService.getBidPlantbyCode(code));
 		return "sell/plantBidderList";
 	}
 	
 	//부품 공고 내용 조회
 	@GetMapping("/sell/getBidComponentDetail")
-	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model) {
+	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model)  throws Exception{
 		model.addAttribute("detail", sellService.getComponentDetail(code));
 		return "sell/bidComponentDetail";
 	}
 	
 	//발전소 공고 내용 조회
 	@GetMapping("/sell/getBidPlantDetail")
-	public String getBidPlantDetail(@RequestParam(value="bPlCode") String code,Model model) {
+	public String getBidPlantDetail(@RequestParam(value="bPlCode") String code,Model model)  throws Exception{
 		
 		model.addAttribute("bidPlantDetail", sellService.getBidPlantDetail(code));
 		model.addAttribute("file", sellService.getsellerFileList(code));
@@ -141,21 +179,23 @@ public class SellController {
 	
 	//발전소 공고 삭제
 	@GetMapping("/sell/removePlantSell")
-	public String removePlantSell(@RequestParam (value="bPlCode") String code) {
+	public String removePlantSell(@RequestParam (value="bPlCode") String code)  throws Exception {
 		System.out.println(code+"<---삭제할 공고의 코드");
 		sellService.removePlantApply(code);
 		return "redirect:/sell/myHistory";
 	}
 	//발전소 공고 수정 처리
 	@PostMapping("/sell/modifyPlantSell")
-	public String modifyPlantSell(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
+	public String modifyPlantSell(BidPlantDTO bidPlantDto,
+								  MultipartHttpServletRequest multipartHttpServletRequest ,
+								  HttpServletRequest request) throws Exception {
 		sellService.modifyPlantApply(bidPlantDto, multipartHttpServletRequest, request);
 		return "redirect:/sell/myHistory";
 	}
 	
 	//발전소 공고 수정 화면 처리
 	@GetMapping("/sell/modifyPlantSell")
-	public ModelAndView modifyPlantSell(@RequestParam(value="bPlCode") String bPlCode) {
+	public ModelAndView modifyPlantSell(@RequestParam(value="bPlCode") String bPlCode)  throws Exception {
 		System.out.println(bPlCode+"<---컨트롤러");
 		ModelAndView mv = new ModelAndView("sell/modifyPlantSell");
 		mv.addObject("bidPlant", sellService.getBidPlantbyCode(bPlCode));
@@ -164,7 +204,9 @@ public class SellController {
 	
 	//발전소 판매 공고 등록
 	@PostMapping("/sell/plantSell")
-	public String regPlantSell(BidPlantDTO bidPlantDto, MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) throws Exception {
+	public String regPlantSell(BidPlantDTO bidPlantDto,
+							   MultipartHttpServletRequest multipartHttpServletRequest ,
+							   HttpServletRequest request) throws Exception {
 	
 			sellService.addPlantApply(bidPlantDto, multipartHttpServletRequest,request);
 
@@ -174,20 +216,20 @@ public class SellController {
 	
 	//부품 선택 시 해당 부품의 정보를 가져옴
 	@RequestMapping(value="/ajax/componentInformation",method = RequestMethod.POST)
-	public @ResponseBody ComponentDTO componentInformation(@RequestParam(value="cpCode") String cpCode) {
+	public @ResponseBody ComponentDTO componentInformation(@RequestParam(value="cpCode") String cpCode)  throws Exception{
 		return sellService.getComponentInformation(cpCode);
 	}
 	
 	//발전소 공고 등록시 선택한 발전소의 정보를 가져옴
 	@RequestMapping(value="/ajax/plantInformation",method = RequestMethod.POST)
-	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode) {
+	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode)  throws Exception{
 		BusinessPlantDTO bzPlantDto =sellService.getPlantInformation(plantCode);
 		return bzPlantDto;
 	}
 	
 	 //발전소판매공고신청 버튼 클릭시
 	@GetMapping("/sell/plantSell") 
-	public ModelAndView plantSell(@RequestParam(name="mId") String mId) { 
+	public ModelAndView plantSell(@RequestParam(name="mId") String mId)  throws Exception{ 
 		ModelAndView mv = new ModelAndView("/sell/plantSell");
 		List<BusinessPlantDTO> plantList =	sellService.getPlantName(mId); 
 		mv.addObject("plantList", plantList);
@@ -197,7 +239,7 @@ public class SellController {
 
 	//부품판매공고신청 버튼 클릭시
 	@GetMapping("/sell/componentSell")
-	public String componentSell(Model model,HttpServletRequest request) {
+	public String componentSell(Model model,HttpServletRequest request)  throws Exception{
 		HttpSession session = request.getSession();
 		String sessionId = (String)session.getAttribute("SID");
 		model.addAttribute("component", sellService.getComponent(sessionId));
@@ -213,7 +255,12 @@ public class SellController {
 	
 	//내공고목록클릭시
 	@GetMapping("/sell/myHistory")
-	public String MyHistory(Model model,HttpSession session,String searchKey, String searchValue,String searchKeyCp,String searchValueCp) {
+	public String MyHistory(Model model,
+							HttpSession session,
+							String searchKey, 
+							String searchValue,
+							String searchKeyCp,
+							String searchValueCp)  throws Exception{
 		String sessionId = (String)session.getAttribute("SID");
 		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue);
 		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp);
@@ -230,18 +277,18 @@ public class SellController {
 
 	
 	@RequestMapping(value="/ajax/getAccountInfoByNumber", method=RequestMethod.POST)
-	public @ResponseBody MemberAccountDTO getAccountInfoByAccount(@RequestParam(value="bankAccount") String number) {
+	public @ResponseBody MemberAccountDTO getAccountInfoByAccount(@RequestParam(value="bankAccount") String number)  throws Exception{
 		return sellService.getAccountInfoByAccount(number);
 	}
 	
 	@GetMapping("/sell/applyPayment")
-	public String applyPayment(@RequestParam(value="trPrCode") String code, Model model,HttpSession session) {
+	public String applyPayment(@RequestParam(value="trPrCode") String code, Model model,HttpSession session)  throws Exception{
 		model.addAttribute("account", sellService.getMemberAccountById((String)session.getAttribute("SID")));
 		model.addAttribute("applyPayment", sellService.getPaymentOutByCode(code));
 		return "sell/applyPayment";
 	}
 	@PostMapping("/sell/applyPayment")
-	public String applyPayment(TradePaymentOutDTO trPayOutDto) {
+	public String applyPayment(TradePaymentOutDTO trPayOutDto) throws Exception {
 		sellService.addApplyPayment(trPayOutDto);
 		return "redirect:/sell/paymentList";
 	}
@@ -249,7 +296,7 @@ public class SellController {
 	
 	//출금 가능한 거래 내역 보기
 	@GetMapping("/sell/paymentList")
-	public String PaymentList(Model model, HttpSession session) {
+	public String PaymentList(Model model, HttpSession session) throws Exception {
 		String sessionId = (String)session.getAttribute("SID");
 		//출금가능한목록
 		model.addAttribute("available", sellService.getPaymentAvailable(sessionId));

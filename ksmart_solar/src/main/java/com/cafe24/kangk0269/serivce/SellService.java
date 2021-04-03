@@ -2,7 +2,6 @@ package com.cafe24.kangk0269.serivce;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -44,9 +43,21 @@ public class SellService {
 		this.fileMapper = fileMapper;
 	}
 	
+	//upcate rank
+	
+	public void modifyRank(int rank,String code) throws Exception {
+		sellMapper.modifyRank(rank, code);
+	}
+	
+	//rank check
+	public List<BidListDTO> rankCheck(String bCode) throws Exception {
+		return sellMapper.rankCheck(bCode);
+	}
 	
 	//부품공고 수정
-	public void modifyComponentSell(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+	public void modifyComponentSell(BidComponentDTO bidComponentDto,
+									MultipartHttpServletRequest multipartHttpServletRequest,
+									HttpServletRequest request) throws Exception {
 		fileMapper.removeApplyFile(bidComponentDto.getbCpCode());
 		sellMapper.modifyComponentSell(bidComponentDto);
 		BidComponentDTO bidCode = sellMapper.getBidComponentCode(bidComponentDto.getbCpCode());
@@ -60,12 +71,14 @@ public class SellService {
 	}
 	
 	//부품공고 삭제
-	public void removeComponentSell(String code) {
+	public void removeComponentSell(String code)  throws Exception {
 		sellMapper.removeComponentSell(code);
 	}
 	
 	//부품공고 등록
-	public void addComponentApply(BidComponentDTO bidComponentDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+	public void addComponentApply(BidComponentDTO bidComponentDto,
+								  MultipartHttpServletRequest multipartHttpServletRequest,
+								  HttpServletRequest request) throws Exception {
 		sellMapper.addComponentApply(bidComponentDto);
 		System.out.println(bidComponentDto.getCpCode()+"<-----부품코드");
 		//조회처리과정추가
@@ -81,7 +94,7 @@ public class SellService {
 		
 	
 	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
-	public void updateAcStatus(){
+	public void updateAcStatus() throws Exception{
 		System.out.println("updateAcStatus 실행");
 		List<BidPlantDTO> acList = sellMapper.getAcStatus();
 		for(int i=0 ; i<acList.size();i++) {
@@ -101,19 +114,19 @@ public class SellService {
 	
 	
 	//서류적합성 수정
-	public void modifyDocumentCheck(String code, String check) {
+	public void modifyDocumentCheck(String code, String check) throws Exception {
 		sellMapper.modifyDocumentCheck(code, check);
 	}
 	
 	//입찰자 정보 얻기
-	public BidListDTO getBuyerInfoByCode(String code) {
+	public BidListDTO getBuyerInfoByCode(String code) throws Exception {
 		
 		return sellMapper.getBuyerInfoByCode(code);
 		
 	}
 	
 	//입찰자 서류 얻기
-	public List<FileDTO> getBidderFileList(String code){
+	public List<FileDTO> getBidderFileList(String code) throws Exception{
 		FileDTO fileDto = new FileDTO();
 		fileDto.setFileSortIdx(2);
 		fileDto.setRelatedTableCode(code);
@@ -122,43 +135,43 @@ public class SellService {
 	}
 	
 	//출금신청
-	public void addApplyPayment(TradePaymentOutDTO tradePaymentOutDTO) {
+	public void addApplyPayment(TradePaymentOutDTO tradePaymentOutDTO) throws Exception {
 		sellMapper.addApplyPayment(tradePaymentOutDTO);
 		String trPrCode = tradePaymentOutDTO.getTrPrCode();
 		sellMapper.modifyApplyYn(trPrCode);
 	}
 	
 	
-	public MemberAccountDTO getAccountInfoByAccount(String number) {
+	public MemberAccountDTO getAccountInfoByAccount(String number)  throws Exception{
 		return sellMapper.getAccountInfoByNumber(number);
 	}
 	
 	//회원 계좌 얻기
-	public List<MemberAccountDTO> getMemberAccountById(String mId) {
+	public List<MemberAccountDTO> getMemberAccountById(String mId) throws Exception {
 		return sellMapper.getMemberAccountById(mId);
 	}
 	
 	//출금신청 화면
-	public TradePriorityDTO getPaymentOutByCode(String code) {
+	public TradePriorityDTO getPaymentOutByCode(String code) throws Exception {
 		return sellMapper.getPaymentOutByCode(code);
 	}
 	
 	//출금 가능 한 리스트
-	public List<TradePriorityDTO> getPaymentAvailable(String mId){
+	public List<TradePriorityDTO> getPaymentAvailable(String mId) throws Exception{
 		return sellMapper.getPaymentAvailable(mId);
 	}
 	
 	//출금 신청 한 리스트
-	public List<TradePriorityDTO> getPaymentApplyList(String mId){
+	public List<TradePriorityDTO> getPaymentApplyList(String mId) throws Exception{
 		return sellMapper.getPaymentApplyList(mId);
 	}
 	
-	public List<TradePriorityDTO> getPaymentOutList(String mId){
+	public List<TradePriorityDTO> getPaymentOutList(String mId) throws Exception{
 		return sellMapper.getPaymentOutList(mId);
 	}
 	
 	//해당 아이디의 부품공고 리스트를 가져옴
-	public List<BidComponentDTO> getBidComponentById(String mId, String searchKeyCp, String searchValueCp){
+	public List<BidComponentDTO> getBidComponentById(String mId, String searchKeyCp, String searchValueCp) throws Exception{
 		if(searchKeyCp!=null) {
 			if("bCpCode".equals(searchKeyCp)) {
 				searchKeyCp ="b_cp_code";
@@ -177,32 +190,32 @@ public class SellService {
 	
 	
 	//입찰자목록조회
-	public List<BidListDTO> getPlantBidderList(String code) {
-		return sellMapper.getPlantBidderList(code);
+	public List<BidListDTO> getBidderList(String code) throws Exception {
+		return sellMapper.getBidderList(code);
 	}
 	
 	//부품 정보 조회
 	
-	public ComponentDTO getComponentInformation(String code) {
+	public ComponentDTO getComponentInformation(String code) throws Exception {
 		return sellMapper.getComponentInformation(code);
 	}
 	
 	//부품 리스트 조회
-	public List<ComponentDTO> getComponent(String mId){
+	public List<ComponentDTO> getComponent(String mId) throws Exception{
 		return sellMapper.getComponent(mId);
 	}
 	//부품 공고 내용 조회
-	public BidComponentDTO getComponentDetail(String code) {
+	public BidComponentDTO getComponentDetail(String code) throws Exception {
 		return sellMapper.getComponentDetail(code);
 	}
 	
 	//부품등록
-	public void addComponent(ComponentDTO componentDto) {
+	public void addComponent(ComponentDTO componentDto) throws Exception {
 		sellMapper.addComponent(componentDto);
 	}
 	
 	//판매자가 등록한 서류 얻기
-	public List<FileDTO> getsellerFileList(String code){
+	public List<FileDTO> getsellerFileList(String code) throws Exception{
 		FileDTO fileDto = new FileDTO();
 		fileDto.setFileSortIdx(1);
 		fileDto.setRelatedTableCode(code);
@@ -211,20 +224,22 @@ public class SellService {
 	}
 	
 	//발전소 공고 내용 조회
-	public List<BidPlantDTO> getBidPlantDetail(String code){
+	public List<BidPlantDTO> getBidPlantDetail(String code) throws Exception{
 		return sellMapper.getBidPlantDetail(code);
 	}
 	
-	public void removePlantApply(String code) {
+	public void removePlantApply(String code)  throws Exception{
 		sellMapper.removePlantApply(code);
 		fileMapper.removeApplyFile(code);
 	}
 	
-	public List<BidPlantDTO> getBidPlantbyCode(String code){
+	public List<BidPlantDTO> getBidPlantbyCode(String code) throws Exception{
 		return sellMapper.getBidPlantbyCode(code);
 	}
 	//발전소 공고 수정
-	public void modifyPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+	public void modifyPlantApply(BidPlantDTO bidPlantDto,
+								 MultipartHttpServletRequest multipartHttpServletRequest,
+								 HttpServletRequest request) throws Exception {
 		sellMapper.modifyPlantApply(bidPlantDto);
 		System.out.println(bidPlantDto.getbPlCode()+"<---파일 업데이트 getPlCode");
 		List<FileDTO> filelist = fileUtils.parseFileInfo(bidPlantDto.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
@@ -234,7 +249,9 @@ public class SellService {
 		}
 	}
 	//발전소 신청
-	public void addPlantApply(BidPlantDTO bidPlantDto,MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
+	public void addPlantApply(BidPlantDTO bidPlantDto,
+					 		  MultipartHttpServletRequest multipartHttpServletRequest,
+					 		  HttpServletRequest request) throws Exception {
 		sellMapper.addPlantApply(bidPlantDto);
 		//조회처리과정추가
 		BidPlantDTO bidCode =sellMapper.getBidPlantCode(bidPlantDto.getBzPlCode());
@@ -245,13 +262,13 @@ public class SellService {
 		}
 	}
 	
-	public BusinessPlantDTO getPlantInformation(String code){
+	public BusinessPlantDTO getPlantInformation(String code)  throws Exception{
 		BusinessPlantDTO bzPlantDto = sellMapper.getPlantInformation(code);
 		return bzPlantDto;
 	}
 	
 
-	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue){
+	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue)  throws Exception{
 
 		if(searchKey!=null) {
 			if("bPlCode".equals(searchKey)) {
@@ -266,14 +283,13 @@ public class SellService {
 				searchKey = "b_pl_status";
 			}
 			
-			
 		}
 		List<BidPlantDTO> bidPlantList = sellMapper.getBidPlantbyId(mId,searchKey,searchValue);
 			
 		return bidPlantList;
 	}
 	
-	public List<BusinessPlantDTO> getPlantName(String mId){
+	public List<BusinessPlantDTO> getPlantName(String mId)  throws Exception{
 		List<BusinessPlantDTO> bzPlDto = sellMapper.getPlantName(mId);
 
 		return bzPlDto;
