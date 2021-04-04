@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cafe24.kangk0269.common.Criteria;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -260,10 +262,12 @@ public class SellController {
 							String searchKey, 
 							String searchValue,
 							String searchKeyCp,
-							String searchValueCp)  throws Exception{
+							String searchValueCp,
+							@ModelAttribute("bidPlantDTO") BidPlantDTO bidPlantDTO,
+							@ModelAttribute("bidComponentDTO") BidComponentDTO bidComponentDTO)  throws Exception{
 		String sessionId = (String)session.getAttribute("SID");
-		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue);
-		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp);
+		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue,bidPlantDTO);
+		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp,bidComponentDTO);
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidComponentList", bidComponentList);
 		

@@ -63,25 +63,9 @@
                   <tfoot>
                   <tr>
                   	<td colspan ="10" style="text-align:center;">
-                  		<nav>
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
+                  		<th:block layout:fragment="paging">
+                  			<nav th:replace="sell/common :: pagination"></nav>
+                  		</th:block>
                   	</td>
                   </tr>
                 </tfoot>
@@ -142,26 +126,10 @@
                   </tbody>
                   <tfoot>
                    <tr>
-                  	<td colspan ="10" style="text-align:center;">
-                  		<nav>
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
+                   	<td colspan ="10" style="text-align:center;">
+	                 	<th:block layout:fragment="paging">
+                  			<nav th:replace="sell/common :: pagination"></nav>
+                  		</th:block>
                   	</td>
                   </tr>
                   </tfoot>
@@ -264,7 +232,17 @@
 				location.href=path;
 			})
 			
-			
+		
 		</script>
+				<script th:inline="javascript">
+			/*<![CDATA[*/
+
+			function movePage(uri, queryString) {
+				location.href = uri + queryString;
+			}
+
+			/*]]>*/
+		</script>
+	
 	</th:block>
 </html>

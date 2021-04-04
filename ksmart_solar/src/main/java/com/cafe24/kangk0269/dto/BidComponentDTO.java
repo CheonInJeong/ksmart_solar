@@ -2,7 +2,7 @@ package com.cafe24.kangk0269.dto;
 
 import java.util.List;
 
-public class BidComponentDTO {
+public class BidComponentDTO extends CommonDTO {
 	private String bCpCode;	
 	private int num;	
 	private String mId;	

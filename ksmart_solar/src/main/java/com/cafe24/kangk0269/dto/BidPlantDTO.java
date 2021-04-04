@@ -2,7 +2,7 @@ package com.cafe24.kangk0269.dto;
 
 import java.util.List;
 
-public class BidPlantDTO {
+public class BidPlantDTO extends CommonDTO {
 	//제발좀 되라
 	private int num;
 	private String bPlCode;

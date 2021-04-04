@@ -12,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.common.Criteria;
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.common.Pagination;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
@@ -171,7 +173,7 @@ public class SellService {
 	}
 	
 	//해당 아이디의 부품공고 리스트를 가져옴
-	public List<BidComponentDTO> getBidComponentById(String mId, String searchKeyCp, String searchValueCp) throws Exception{
+	public List<BidComponentDTO> getBidComponentById(String mId, String searchKeyCp, String searchValueCp, BidComponentDTO bidComponentDTO) throws Exception{
 		if(searchKeyCp!=null) {
 			if("bCpCode".equals(searchKeyCp)) {
 				searchKeyCp ="b_cp_code";
@@ -185,7 +187,20 @@ public class SellService {
 				searchKeyCp = "b_cp_status";
 			}
 		}
-		return sellMapper.getBidComponentById(mId,searchKeyCp,searchValueCp);
+		
+		List<BidComponentDTO> bidComponentList = null;
+		int bidComponentCount = sellMapper.getBidComponentCount(mId, bidComponentDTO);
+		Pagination pagination = new Pagination(bidComponentDTO);
+		pagination.setTotalRecordCount(bidComponentCount);
+		bidComponentDTO.setPagination(pagination);
+		if(bidComponentCount > 0) {
+			bidComponentList = sellMapper.getBidComponentById(mId,searchKeyCp,searchValueCp,bidComponentDTO);
+		}
+		
+		
+		
+		
+		return bidComponentList;
 	}
 	
 	
@@ -268,7 +283,7 @@ public class SellService {
 	}
 	
 
-	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue)  throws Exception{
+	public	List<BidPlantDTO> getBidPlantbyId(String mId, String searchKey, String searchValue,BidPlantDTO bidPlantDTO)  throws Exception{
 
 		if(searchKey!=null) {
 			if("bPlCode".equals(searchKey)) {
@@ -284,7 +299,15 @@ public class SellService {
 			}
 			
 		}
-		List<BidPlantDTO> bidPlantList = sellMapper.getBidPlantbyId(mId,searchKey,searchValue);
+		List<BidPlantDTO> bidPlantList = null;
+		int bidPlantCount = sellMapper.getBidPlantCount(mId, bidPlantDTO);
+		Pagination pagination = new Pagination(bidPlantDTO);
+		pagination.setTotalRecordCount(bidPlantCount);
+		bidPlantDTO.setPagination(pagination);
+		if(bidPlantCount > 0) {
+			bidPlantList = sellMapper.getBidPlantbyId(mId,searchKey,searchValue,bidPlantDTO);
+		}
+		
 			
 		return bidPlantList;
 	}

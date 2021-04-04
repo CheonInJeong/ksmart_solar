@@ -557,9 +557,23 @@
 					 tb_component
 				WHERE cp_code = #{cpCode}
   		  </select>
-  		  
+  		  <select id="getBidComponentCount" resultType="int" parameterType="map">
+  		  		SELECT 
+					count(1)
+				FROM 
+					tb_bid_component AS b
+				inner JOIN 
+					tb_component AS c 
+				ON 
+					b.cp_code = c.cp_code
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="mId!=null and ''.toString()">
+						b.m_id = #{mId}
+					</if>
+				</trim>
+  		  </select>
   		  <!--아이디로 등록한 부품공고 조회 -->
-  		  <select id="getBidComponentById" resultMap = "bidComponentResultMap" parameterType="String">
+  		  <select id="getBidComponentById" resultMap = "bidComponentResultMap" parameterType="map">
   		  		SELECT 
 					c.cp_name,
 					b.b_cp_code,
@@ -584,6 +598,8 @@
 						and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
 					</if>
 				</trim>
+				LIMIT
+					#{bidComponentDTO.pagination.firstRecordIndex},#{bidComponentDTO.recordsPerPage}
 					
 								
   		  </select>
@@ -712,7 +728,23 @@
 					b_pl_code=#{bPlCode}
   		  </select>
   		
-  		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="String">
+  		  <select id="getBidPlantCount" resultType="int" parameterType="map">
+  		  		SELECT
+				 	count(1)
+				FROM 
+					tb_bid_plant AS b
+				left JOIN 
+					tb_business_plant AS p 
+				ON 
+					b.bz_pl_code = p.bz_pl_code 
+				 
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="mId!=null and ''.toString()">
+						b.m_id = #{mId}
+					</if>
+				</trim>
+  		  </select>
+  		  <select id="getBidPlantbyId" resultMap="bidPlantResultMap" parameterType="map">
   		  		SELECT
 				 	p.bz_pl_name,
 				 	b.b_pl_code,
@@ -731,12 +763,14 @@
 				 
 				<trim prefix="WHERE" prefixOverrides="AND / OR ">
 					<if test="mId!=null and ''.toString()">
-						b.m_id = #{mId}
+						b.m_id = #{mId} 
 					</if>
 					<if test="searchValue!=null and ''.toString()">
-						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+						and #{searchKey} LIKE CONCAT ('%',#{searchValue},'%')
 					</if>
 				</trim>
+				LIMIT
+					#{bidPlantDTO.pagination.firstRecordIndex},#{bidPlantDTO.recordsPerPage}
 				
   		  </select>
   		  <!--발전소 판매 공고 신청  -->
