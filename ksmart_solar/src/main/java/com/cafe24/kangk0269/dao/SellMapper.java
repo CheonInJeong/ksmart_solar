@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import com.cafe24.kangk0269.common.Criteria;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -80,9 +81,16 @@ public interface SellMapper {
 	
 	//출금완료 리스트
 	public  List<TradePriorityDTO> getPaymentOutList(String mId) throws Exception;
-		
+	
+	//판매자 발전소 목록의 수
+	public int getBidComponentCount(@Param(value="mId") String mId
+									,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO) throws Exception;
+	
 	//해당 아이디의 부품공고 리스트를 가져옴
-	public List<BidComponentDTO> getBidComponentById(String mId,String searchKeyCp, String searchValueCp) throws Exception;
+	public List<BidComponentDTO> getBidComponentById(@Param(value="mId") String mId
+													,@Param(value="searchKeyCp") String searchKeyCp
+													,@Param(value="searchValueCp") String searchValueCp
+													,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO) throws Exception;
 	
 	//해당 공고 입찰자 목록
 	public List<BidListDTO> getBidderList(String code) throws Exception;
@@ -96,9 +104,14 @@ public interface SellMapper {
 	//공고신청 중 발전소 선택시 선택한 발전소의 정보(잔존가치, 매입금액, 발전소시작일)을 가져오는 메서드
 	public BusinessPlantDTO getPlantInformation(String code) throws Exception;
 	
-
+	//판매자 발전소 목록의 수
+	public int getBidPlantCount(@Param(value="mId") String mId
+								,@Param(value="bidPlantDTO") BidPlantDTO bidPlantDTO) throws Exception;
 	//판매자의 발전소 공고 목록을 가져오는 메서드 
-	public List<BidPlantDTO> getBidPlantbyId(String mId,String searchKey, String searchValue) throws Exception;
+	public List<BidPlantDTO> getBidPlantbyId(@Param(value="mId") String mId
+											,@Param(value="searchKey") String searchKey
+											,@Param(value="searchValue") String searchValue
+											,@Param(value="bidPlantDTO") BidPlantDTO bidPlantDTO) throws Exception;
 	//공고 코드로 공고 신청 내역 불러오는 메서드
 	public List<BidPlantDTO> getBidPlantbyCode(String code) throws Exception;
 	
