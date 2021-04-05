@@ -53,7 +53,7 @@ public class ScheduledTimer {
 		
 	}
 	//예약한 시간에 예치금 정책 적용 상태 바꾸는 메서드
-	@Scheduled(cron = "00  14  16  *  *  *") 
+	@Scheduled(cron = "30  00  0  *  *  *") 
 	public void updateDepositStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			policyService.updateDeposit();
@@ -65,7 +65,7 @@ public class ScheduledTimer {
 	
 	
 	//예약한 시간에 거래기간 정책 적용 상태 바꾸는 메서드
-	@Scheduled(cron = "00  18  16  *  *  *") 
+	@Scheduled(cron = "00  01  0  *  *  *") 
 	public void updateTradeStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			policyService.updateTrade();
@@ -76,7 +76,7 @@ public class ScheduledTimer {
 	}
 	
 	//예약한 시간에 수수료 정책 적용 상태 바꾸는 메서드
-		@Scheduled(cron = "30  00  16  *  *  *") 
+		@Scheduled(cron = "30  01  0  *  *  *") 
 		public void updateCommissionStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 			try {
 				policyService.updateCommission();
