@@ -1,4 +1,5 @@
 package com.cafe24.kangk0269.dto;
+
 public class TradeDepositOutDTO {
 	private String trDepCode;
 	private String bCode;
@@ -13,6 +14,11 @@ public class TradeDepositOutDTO {
 	private String trDepCheck;
 	private String trDepWdDate;
 	private String bMoCode;
+	// 예치금 출금신청 관련공고
+	private String announcedCode;
+	private String bTitle;
+	private String bTypeCode;
+	
 	public String getTrDepCode() {
 		return trDepCode;
 	}
@@ -91,6 +97,24 @@ public class TradeDepositOutDTO {
 	public void setbMoCode(String bMoCode) {
 		this.bMoCode = bMoCode;
 	}
+	public String getAnnouncedCode() {
+		return announcedCode;
+	}
+	public void setAnnouncedCode(String announcedCode) {
+		this.announcedCode = announcedCode;
+	}
+	public String getbTitle() {
+		return bTitle;
+	}
+	public void setbTitle(String bTitle) {
+		this.bTitle = bTitle;
+	}
+	public String getbTypeCode() {
+		return bTypeCode;
+	}
+	public void setbTypeCode(String bTypeCode) {
+		this.bTypeCode = bTypeCode;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -120,8 +144,15 @@ public class TradeDepositOutDTO {
 		builder.append(trDepWdDate);
 		builder.append(", bMoCode=");
 		builder.append(bMoCode);
+		builder.append(", announcedCode=");
+		builder.append(announcedCode);
+		builder.append(", bTitle=");
+		builder.append(bTitle);
+		builder.append(", bTypeCode=");
+		builder.append(bTypeCode);
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 }

@@ -100,8 +100,9 @@
 	<!-- 거래수수료목록 -->
 	<select id="getSuccessCommission" resultMap="paymentoutResultMap">
 		SELECT 
-			CONCAT('tr_suc_',DATE_FORMAT(i.b_mo_date,'%y%m%d'),'_',LPAD((@rownum := @rownum + 1),4,0)) AS trSucCode
-			, r.announced_code AS announcedCode
+			r.announced_code AS announcedCode
+			, r.announced_title AS announcedTitle
+			, if(r.b_type_code=1,'발전소','부품') AS bType
 			, m_id
 			, o.c_trade_cm
 			, i.b_mo_date	AS bMoDate
@@ -115,39 +116,91 @@
 			tb_trade_payment_in AS i
 			ON 
 			r.tr_pr_code = i.tr_pr_code
-			JOIN 
-			(SELECT @rownum := 0) AS var
+		ORDER BY i.b_mo_date
 	</select>
 
 	<!-- 취소수수료목록 -->
 	<select id="getFailCommission" resultType="TradeFailDTO">
-		SELECT 
-			tr_fail_code	AS trFailCode
-			, related_code	AS relatedCode
-			, COALESCE(i.announced_code, r.announced_code) AS announcedCode
-			, tr_fail_type	AS trFailType
-			, m_id			AS mId
-			, tr_fail_basis	AS trFailBasis
-			, b_cancel_rate	AS bCancelRate
-			, b_cancel		AS bCancel
-			, tr_fail_date	AS trFailDate
-		FROM 
-			tb_trade_fail AS f
-			LEFT JOIN 
-			tb_trade_payment_in AS i
-			ON 
-			f.related_code = i.tr_payin_code
-			LEFT JOIN 
-			tb_trade_priority AS r
-			ON 
-			f.related_code = r.tr_pr_code;
+		SELECT
+			tr_fail_code		AS	trFailCode
+			, related_code		AS	relatedCode
+			, tr_fail_type		AS	trFailType
+			, m_id				AS	mId
+			, announcedCode	
+			, announcedTitle
+			, bType		
+			, bankName
+			, accountNumber
+			, paymentName
+			, tr_fail_basis		AS	trFailBasis
+			, b_cancel_rate		AS	bCancelRate
+			, b_cancel			AS	bCancel
+			, tr_fail_date		AS	trFailDate
+		FROM
+			(	
+			SELECT 
+				tr_fail_code	
+				, related_code		
+				, tr_fail_type	
+				, a.m_id				
+				, b.announced_code	AS announcedCode
+				, b.announced_title	AS announcedTitle
+				, if(b.b_type_code=1,'발전소','부품') AS bType	
+				, e.m_account_bank_name	AS bankName
+				, e.m_account_number		AS accountNumber
+				, e.m_payment_name		AS paymentName
+				, tr_fail_basis	
+				, b_cancel_rate	
+				, b_cancel			
+				, tr_fail_date		
+			FROM 
+				tb_trade_fail AS a
+				INNER JOIN 
+				tb_trade_priority AS b
+				ON 
+				a.related_code = b.tr_pr_code
+				LEFT JOIN 
+				tb_bid_list AS e
+				ON 
+				b.b_code = e.b_code
+			UNION ALL
+			SELECT 
+				tr_fail_code		
+				, related_code		
+				, tr_fail_type		
+				, m_id				
+				, d.announced_code	AS announcedCode
+				, d.announced_title	AS announcedTitle
+				, if(d.b_type_code=1,'발전소','부품')	AS bType
+				, c.m_account_bank_name	AS bankName
+				, c.m_account_number		AS accountNumber
+				, c.m_payment_name		AS paymentName
+				, tr_fail_basis	
+				, b_cancel_rate
+				, b_cancel		
+				, tr_fail_date	
+			FROM 
+				tb_trade_fail AS a
+				INNER JOIN 
+				tb_trade_payment_in AS c
+				ON 
+				a.related_code = c.tr_payin_code
+				LEFT JOIN 
+				tb_trade_priority AS d
+				ON 
+				c.tr_pr_code = d.tr_pr_code
+			) AS result
+		ORDER BY tr_fail_date
 	</select>
 	
 	<select id="getPaymentOutList" resultMap="paymentoutResultMap">
 		SELECT 
 			tr_payout_code
-			, tr_pr_code
+			, a.tr_pr_code
 			, m_id
+			, b.announced_code	AS announcedCode
+			, b.announced_title	AS announcedTitle
+			, if(b.b_type_code=1,'발전소','부품') AS bType
 			, tr_payout_price
 			, s_commission_rate
 			, c_trade_cm
@@ -157,30 +210,41 @@
 			, tr_payout_account_check
 			, tr_payout_account_name
 			, tr_payout_date
-			, tr_payout_check
+			, a.tr_payout_check
 			, tr_payout_wd_date
 			, b_mo_code
 		FROM 
-			tb_trade_payment_out;
+			tb_trade_payment_out AS a
+			LEFT JOIN 
+			tb_trade_priority AS b
+			ON 
+			a.tr_pr_code = b.tr_pr_code
 	</select>
 	
 	<select id="getDepositOutList" resultMap="depositoutResultMap">
 		SELECT 
 			tr_dep_code
-			, b_code
-			, m_id
-			, b_deposit
+			, a.b_code
+			, a.m_id
+			, b.announced_code					AS announcedCode
+			, b.b_title							AS bTitle
+			, if(b.b_type_code=1,'발전소','부품')	AS bTypeCode
+			, a.b_deposit
 			, tr_dep_deposit
-			, m_account_bank_name
-			, m_account_number
+			, a.m_account_bank_name
+			, a.m_account_number
 			, tr_dep_account_check
 			, m_account_name
 			, tr_dep_date
 			, tr_dep_check
 			, tr_dep_wd_date
-			, b_mo_code
+			, a.b_mo_code
 		FROM 
-			tb_trade_deposit_out;
+			tb_trade_deposit_out AS a
+			LEFT JOIN
+			tb_bid_list AS b
+			ON 
+			a.b_code = b.b_code
 	</select>
 	<!-- 대금납부 정보 -->
 	<select id="getTradePaymentIn" parameterType="String" resultMap="paymentInMap">

@@ -34,11 +34,10 @@
 							<th style="display: none;">거래완료 출금 코드</th>
 							<th>출금신청회원</th>
 							<th>신청금액</th>
-							<th>거래수수료</th>
 							<th>출금금액</th>
-							<th>은행명</th>
-							<th>판매자 계좌</th>
+							<th>판매자계좌</th>
 							<th>예금주명</th>
+							<th>관련공고</th>
 							<th>신청시간</th>
 							<th>출금시간</th>
 							<th>출금</th>
@@ -49,12 +48,17 @@
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="거래완료 출금 코드" th:text="${l.trPayoutCode}" style="display: none;"></td>
 							<td data-title="출금신청회원" th:text="${l.mId}"></td>
-							<td data-title="신청금액" th:text="${l.trPayoutPrice}"></td>
-							<td data-title="거래수수료" th:text="${l.cTradeCm}"></td>
+							<td data-title="신청금액">[[${l.trPayoutPrice}]] (-[[${l.cTradeCm}]])</td>
 							<td data-title="출금금액" th:text="${l.trPayoutPriceReal}"></td>
-							<td data-title="은행명" th:text="${l.trPayoutBank}"></td>
-							<td data-title="판매자 계좌" th:text="${l.trPayoutAccount}"></td>
+							<td data-title="판매자계좌">([[${l.trPayoutBank}]]) [[${l.trPayoutAccount}]]</td>
 							<td data-title="예금주명" th:text="${l.trPayoutAccountName}"></td>
+							<td data-title="관련공고">
+								<form th:action="@{/notice/announcement}" method="post">
+									<a class="announceTitle">[[${l.announcedTitle}]]</a>
+			                      	<input type="hidden" name="announceCode" th:value="${l.announcedCode}">
+			                      	<input type="hidden" name="announceType" th:value="${l.bType}">
+								</form>
+							</td>
 							<td data-title="신청시간" th:text="${l.trPayoutDate}"></td>
 							<td data-title="출금시간" th:text="${l.trPayoutWdDate}"></td>
 							<td data-title="출금">
@@ -83,6 +87,10 @@
 			profit.addClass('active');
 			profit.parent().find('.sub').css('display','block');
 			profit.parent().find('.sub').children().eq(5).addClass('active');
+			
+			$('.announceTitle').click(function(){
+				$(this).parent().submit();
+			});
 		</script>
 	</th:block>
 </html>

@@ -9,6 +9,9 @@ import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 
 @Mapper
 public interface BidPlantMapper {
+	//등록 발전소공고 조회(판매자아이디)
+	public List<BidPlantDTO> getBidPlantById(String mId); 
+	
 	//공고 리스트 조회(진핸중과 마감 구분)
 	public List<BidPlantDTO> getBidPlant(String status);
 	//해당 공고 리스트 조회

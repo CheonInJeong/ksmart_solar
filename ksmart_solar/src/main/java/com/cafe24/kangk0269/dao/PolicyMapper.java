@@ -34,11 +34,36 @@ public interface PolicyMapper {
 	
 	//거래대금 수수료울 삭제
 	public int removeCommission(int idx);
+	public int removeDeposit(int idx);
+	
+	
+	//예치금상태없데이트(스케쥴러)
+	public int updateDepositStatusN(StandardDTO standardDto);
+	public int updateDepositStatusY(String status);
+	//예치금상태없데이트(스케쥴러)
+	public int updateTradeStatusN(String sTradeType, String sTradeLast);
+	public int updateTradeStatusY(String status);
+	//거래대금 수수료 상태없데이트(스케쥴러)
+	public int updateCommissionStatusN(@Param(value="type") int type,
+										@Param(value="sCommissionLast") String yesterday);
+	public int updateCommissionStatusY(String status);
+	
+	
+	
+	//적용일 가져오기
+	public List<StandardDTO> getDepositReservationDate();
+	public List<StandardDTO> getTradeReservationDate();
+	public List<StandardDTO> getCommissionReservationDate();
 	
 	//새로운 정책 추가
 	public int addNewDeposit(StandardDTO standardDto);
 	public int addNewTrade(StandardDTO standardDto);
 	public int addNewCommission(StandardDTO standardDto);
+	
+	//정책사용 마지막 날 업데이트
+	public int modifyDepositLastDay(StandardDTO standardDto);
+	public int modifyCommissionLastDay(StandardDTO standardDto);
+	public int modifyTradePolicy(StandardDTO standardDto);
 	
 	
 	//정책 수정..사실 추가

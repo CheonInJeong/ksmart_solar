@@ -36,6 +36,7 @@ public class SellController {
 	
 	public SellController(SellService sellService) {
 		this.sellService = sellService;
+		
 	}
 	
 	
@@ -265,9 +266,12 @@ public class SellController {
 							String searchValueCp,
 							@ModelAttribute("bidPlantDTO") BidPlantDTO bidPlantDTO,
 							@ModelAttribute("bidComponentDTO") BidComponentDTO bidComponentDTO)  throws Exception{
+		
 		String sessionId = (String)session.getAttribute("SID");
+		
 		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue,bidPlantDTO);
 		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp,bidComponentDTO);
+		
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidComponentList", bidComponentList);
 		

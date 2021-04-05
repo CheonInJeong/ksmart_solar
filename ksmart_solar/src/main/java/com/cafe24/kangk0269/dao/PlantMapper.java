@@ -12,6 +12,9 @@ import com.cafe24.kangk0269.dto.PlantKpxDTO;
 @Mapper
 public interface PlantMapper {
 
+	// 운영발전소리스트(아이디)
+	public List<BusinessPlantDTO> getOperPlantListById(String mId);
+	
 	// 발전소인증신청 반려
 	public int plantReturn(BusinessPlantDTO plant);
 	

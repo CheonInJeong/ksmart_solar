@@ -27,6 +27,15 @@ public class StandardDTO {
 	private String sTradeUse;
 	private String sTradeLast;
 	private String sTradeApplies;
+	
+	private String sReservation;
+	
+	public String getsReservation() {
+		return sReservation;
+	}
+	public void setsReservation(String sReservation) {
+		this.sReservation = sReservation;
+	}
 	public String getmId() {
 		return mId;
 	}
@@ -206,11 +215,9 @@ public class StandardDTO {
 		builder.append(sTradeLast);
 		builder.append(", sTradeApplies=");
 		builder.append(sTradeApplies);
+		builder.append(", sReservation=");
+		builder.append(sReservation);
 		builder.append("]");
 		return builder.toString();
 	}
-	
-
-	
-	
 }
