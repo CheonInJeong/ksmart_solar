@@ -1,6 +1,10 @@
 package com.cafe24.kangk0269.controller;
 
+import java.io.IOException;
 import java.util.List;
+
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -30,7 +34,8 @@ public class HelpController {
 	//문의 검색
 	@GetMapping("/help/QnaList")
 	public String getQnaList(@RequestParam(name = "searchKey", required = false) String searchKey,
-			@RequestParam(name = "searchValue", required = false) String searchValue, Model model) {
+							 @RequestParam(name = "searchValue", required = false) String searchValue
+							 ,Model model) {
 		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue);
 		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
 		return "/help/qna";
@@ -85,7 +90,11 @@ public class HelpController {
 	
 	// 문의 등록화면
 	@GetMapping("/help/addQna")
-	public String addQna() {
+	public String addQna(HttpServletResponse response, HttpSession session) throws IOException {
+		String log_id = (String)session.getAttribute("SID");
+		if(log_id == null) {
+			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
+		}
 		return "/help/addQna";
 	}
 	

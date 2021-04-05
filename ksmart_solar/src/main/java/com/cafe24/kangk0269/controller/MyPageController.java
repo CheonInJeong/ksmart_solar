@@ -1,8 +1,11 @@
 package com.cafe24.kangk0269.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.ws.Response;
 
 import org.mybatis.logging.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -61,9 +64,13 @@ public class MyPageController {
 	
 	//관심목록 조회
 	@GetMapping("/mypage/wishlist")
-	public String Wishlist(Model model, HttpSession session) {
+	public String Wishlist(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		String log_id = (String)session.getAttribute("SID");
+		if(log_id == null) {
+			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
+		}
 		List<PickDTO> pickDTOList = pickService.getWishList(log_id);
+		System.out.println("pickDTOList-->" + pickDTOList);
 		model.addAttribute("pickDTOList", pickDTOList);
 		return "/mypage/wishlist";
 	}
@@ -118,15 +125,18 @@ public class MyPageController {
 	//개인 프로필 수정화면
 	@GetMapping("/mypage/ModifyMyInfo")
 	public String modifyMyInfo(Model model, HttpSession session) {
-		getMyInfoById(model,session);
+		/* getMyInfoById(null, model,session); */
 		return "/mypage/ModifyMyInfo";
 	}
 	
 	
 	//개인 회원조회 화면
 	@GetMapping("/mypage/myInfo")
-	public String getMyInfoById(Model model, HttpSession session) {
+	public String getMyInfoById(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		String login_id = (String)session.getAttribute("SID");
+		if(login_id == null) {
+			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
+		}
 		System.out.println("=============================");
 		System.out.println("로그인아이디-->" + login_id);
 		System.out.println("=============================");
@@ -191,8 +201,11 @@ public class MyPageController {
 	
 	//개인 계좌조회
 	@GetMapping("/mypage/myAccount")
-	public String getAccountListById(Model model, HttpSession session) {
+	public String getAccountListById(HttpServletResponse response, Model model, HttpSession session) throws IOException {
 		String login_id = (String)session.getAttribute("SID");
+		if(login_id == null) {
+			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
+		}
 		System.out.println("================================================");
 		System.out.println("로그인 아이디->" + login_id);
 		System.out.println("================================================");
