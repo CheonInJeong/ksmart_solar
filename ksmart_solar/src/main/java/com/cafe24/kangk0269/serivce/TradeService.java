@@ -43,6 +43,7 @@ public class TradeService {
 
 		return tradeMapper.getDepositOutList();
 	}
+	//대금납부 정보 
 	public TradePaymentInDTO getTradePaymentIn(String bCode) {
 		return tradeMapper.getTradePaymentIn(bCode);
 	}

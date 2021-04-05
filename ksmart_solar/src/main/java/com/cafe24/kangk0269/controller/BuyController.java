@@ -1,6 +1,7 @@
 package com.cafe24.kangk0269.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -11,8 +12,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.serivce.BidComponentService;
+import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.BidPlantService;
 
 @Controller
@@ -20,12 +23,15 @@ public class BuyController {
 	
 	private final BidComponentService bidComponentService;
 	private final BidPlantService bidPlantService;
+	private final BidListService bidListService;
 	
 	@Autowired
 	public BuyController(BidComponentService bidComponentService,
-							BidPlantService bidPlantService) {
+							BidPlantService bidPlantService
+							,BidListService bidListService) {
 		this.bidComponentService = bidComponentService; 
 		this.bidPlantService = bidPlantService; 
+		this.bidListService = bidListService; 
 	}
 	//내가 입찰한 공고
 	@GetMapping("/buy/myHistory")
@@ -58,28 +64,16 @@ public class BuyController {
 		}
 		return "/buy/myHistory";
 	}
-	//예치금 환불 신청
+	//예치금 환불 리스트
 	@GetMapping("/buy/applyRefund")
 	public String ApplyRefund(HttpSession session, Model model) {
 		System.out.println(session.getAttribute("SID"));
-		String sId = (String) session.getAttribute("SID");
-		if(sId != null) {
-			List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(sId);
-			List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(sId);
-			if(bidPlantList!=null) {				
-				model.addAttribute("bidPlantList", bidPlantList);
-			}
-			if(bidComponentList != null) {
-				model.addAttribute("bidComponentList", bidComponentList);
-			}
+		String id = (String) session.getAttribute("SID");
+		if(id != null) {
+			Map<String, List<BidListDTO>> refundList = bidListService.getApplyRefundList(id);
+			model.addAttribute("refundList", refundList);
 		}
 		return "/buy/applyRefund";
-	}
-	
-	@GetMapping("/buy/depositList")
-	public String DepositList() {
-		
-		return "/buy/depositList";
 	}
 	
 	@GetMapping("/buy/qna")
@@ -87,20 +81,11 @@ public class BuyController {
 		
 		return "/buy/qna";
 	}
+	//예치금 출금 신청
 	@PostMapping("/buy/refundRequest")
-	public String refundRequest() {
+	public String refundRequest(String bCode,String bDeposit) {
 		
 		return "/buy/refundRequest";
 	}
-	@GetMapping("/buy/refundRequest")
-	public String getrefundRequest() {
-		
-		return "/buy/refundRequest";
-	}
-	@PostMapping("/buy/myAnnouncement")
-	public String myAnnouncement(String status, String title, Model model) {
-		model.addAttribute("status", status);
-		model.addAttribute("title", title);
-		return "/buy/myAnnouncement";
-	}
+	
 }
