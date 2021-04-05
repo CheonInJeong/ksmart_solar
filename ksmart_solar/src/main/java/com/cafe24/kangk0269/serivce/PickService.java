@@ -38,9 +38,15 @@ public class PickService {
 		return pickMapper.removeWishlist(pIdx); 
 	}
 	
-	//관심목록 조회
-	public List<PickDTO> getWishList(String log_id){
-		List<PickDTO> pickDTOList = pickMapper.getWishList(log_id);
+	//관심 발전소목록 조회
+	public List<PickDTO> getPlWishList(String log_id){
+		List<PickDTO> pickDTOList = pickMapper.getPlWishList(log_id);
+		return pickDTOList;
+	}
+		
+	//관심 부품목록 조회
+	public List<PickDTO> getCpWishList(String log_id){
+		List<PickDTO> pickDTOList = pickMapper.getCpWishList(log_id);
 		return pickDTOList;
 	}
 }
