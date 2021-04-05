@@ -18,12 +18,20 @@
 			body{
 			position : relative;
 			}
+			.navbar1 {
+			  overflow: hidden;
+			  position: fixed; /* Set the navbar to fixed position */
+			  top: 0; /* Position the navbar at the top of the page */
+			  width: 100%; /* Full width */
+			}
+			
 		</style>
 		
 
 		<div id="container-header-title"><strong>공고조회</strong></div>
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 공고조회</div>
       	<div id="container-header-space"></div>
+      	<div class="navbar1">
       	<div>
 	      	<ul class="nav nav-tabs nav-justified" id="myNav" >
 			  <li role="presentation" class="active" ><a href="#section1">발전소정보</a></li>
@@ -31,6 +39,7 @@
 			  <li role="presentation"><a href="#section3">계약정보</a></li>
 			  <li role="presentation"><a href="#section4">문의글</a></li>
 			</ul>
+		</div>
 		</div>
       	
         <th:block th:each="detail:${bidPlantDetail}">

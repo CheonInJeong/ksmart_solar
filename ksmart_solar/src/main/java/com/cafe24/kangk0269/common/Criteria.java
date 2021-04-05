@@ -14,11 +14,6 @@ public class Criteria {
 	/** 화면 하단에 출력할 페이지 사이즈 */
 	private int pageSize;
 
-	/** 검색 키워드 */
-	private String searchKeyword;
-
-	/** 검색 유형 */
-	private String searchType;
 	
 	public int getCurrentPageNo() {
 		return currentPageNo;
@@ -44,21 +39,7 @@ public class Criteria {
 		this.pageSize = pageSize;
 	}
 
-	public String getSearchKeyword() {
-		return searchKeyword;
-	}
-
-	public void setSearchKeyword(String searchKeyword) {
-		this.searchKeyword = searchKeyword;
-	}
-
-	public String getSearchType() {
-		return searchType;
-	}
-
-	public void setSearchType(String searchType) {
-		this.searchType = searchType;
-	}
+	
 	
 
 	@Override
@@ -70,10 +51,6 @@ public class Criteria {
 		builder.append(recordsPerPage);
 		builder.append(", pageSize=");
 		builder.append(pageSize);
-		builder.append(", searchKeyword=");
-		builder.append(searchKeyword);
-		builder.append(", searchType=");
-		builder.append(searchType);
 		builder.append("]");
 		return builder.toString();
 	}
@@ -94,8 +71,6 @@ public class Criteria {
 				.queryParam("currentPageNo", pageNo)
 				.queryParam("recordsPerPage", recordsPerPage)
 				.queryParam("pageSize", pageSize)
-				.queryParam("searchType", searchType)
-				.queryParam("searchKeyword", searchKeyword)
 				.build()
 				.encode();
 

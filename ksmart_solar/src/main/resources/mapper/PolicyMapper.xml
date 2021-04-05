@@ -13,21 +13,19 @@
   		  	  	<result property="sCommissionDate" column="s_commission_date"/>
   				<result property="sCommissionUse" column="s_commission_use"/>
   				<result property="sCommissionLast" column="s_commission_last"/>
-  				<result property="sCommissionApplies" column="s_commission_applies"/>
   		  		<result property="sDepositIdx" column="s_deposit_idx"/>
   		  		<result property="sDepositRate" column="s_deposit_rate"/>
   		  		<result property="sDepositDate" column="s_deposit_date"/>
   		  		<result property="sDepositType" column="s_deposit_type"/>
   		  		<result property="sDepositUse" column="s_deposit_use"/>
   		  		<result property="sDepositLast" column="s_deposit_last"/>
-  		  		<result property="sDepositApplies" column="s_deposit_applies"/>
   		  		<result property="sTradeIdx" column="s_trade_idx"/>
   		  		<result property="sTradeType" column="s_trade_type"/>
   		  		<result property="sTradePeriod" column="s_trade_period"/>
   		  		<result property="sTradeDate" column="s_trade_date"/>
   		  		<result property="sTradeUse" column="s_trade_use"/>
   		  		<result property="sTradeLast" column="s_trade_last"/>
-  		  		<result property="sTradeApplies" column="s_trade_applies"/>
+  		  		<result property="sReservation" column ="s_reservation"/>
   		</resultMap>
   		
   		<resultMap type = "FileDTO" id = "fileResultMap">
@@ -38,6 +36,82 @@
   				<result property="createdDatetime" column="created_datetime"/>
   		  		<result property="creatorId" column="creator_id"/>
   		</resultMap>
+		<!-- 거래대금 수수료  스케쥴러-->
+		
+		<!--///////////////여기서 안씀//////////////////////  -->
+		<update id="updateCommissionStatusN" parameterType="map">
+				UPDATE
+				 	tb_standard_commission
+				SET
+					s_commission_use='N'
+					,s_commission_last = #{sCommissionLast}
+		
+				WHERE 	s_commission_use='Y' AND s_commission_type = #{sCommissionType}
+		</update>
+		<!-- /////////////////////////안써 -->
+		<update id="updateCommissionStatusY" parameterType="String">
+			UPDATE 
+				tb_standard_commission
+			SET
+				s_commission_use='Y'
+			WHERE 
+				s_reservation=#{sReservation}
+		
+		</update>
+		
+		<select id="getCommissionReservationDate" resultMap="standardResultMap">
+			SELECT s_reservation,s_commission_type FROM tb_standard_commission WHERE s_commission_use = 'N'
+		</select>
+
+
+
+		<!-- 거래기간 스케쥴러  -->
+		<update id="updateTradeStatusN" parameterType="StandardDTO">
+				UPDATE
+				 	tb_standard_trade
+				SET
+					s_trade_use='N',
+					s_trade_last=#{sTradeLast}
+				WHERE 	s_trade_use='Y' AND s_trade_type = #{sTradeType}
+		</update>
+		
+		<update id="updateTradeStatusY" parameterType="String">
+			UPDATE 
+				tb_standard_trade
+			SET
+				s_trade_use='Y'
+			WHERE 
+				s_reservation=#{sReservation}
+		
+		</update>
+		
+		<select id="getTradeReservationDate" resultMap="standardResultMap">
+			SELECT s_reservation,s_trade_type FROM tb_standard_trade WHERE s_trade_use = 'N'
+		</select>
+		
+		<!-- 예치금 스케쥴러 -->
+		<update id="updateDepositStatusN" parameterType="StandardDTO">
+				UPDATE
+				 	tb_standard_deposit
+				SET
+					s_deposit_use='N',
+					s_deposit_last=#{sDepositLast}
+				WHERE 	s_deposit_use='Y' AND s_deposit_type = #{sDepositType} 
+		</update>
+		<update id="updateDepositStatusY" parameterType="String">
+			UPDATE 
+				tb_standard_deposit
+			SET
+				s_deposit_use='Y'
+			WHERE 
+				s_reservation=#{sReservation}
+		
+		</update>
+
+		<select id="getDepositReservationDate" resultMap="standardResultMap">
+			SELECT s_reservation,s_deposit_type FROM tb_standard_deposit WHERE s_deposit_use = 'N'
+		</select>
+
   		
   		<delete id="removeFile" parameterType="String">
   				DELETE FROM tb_file WHERE idx=${idx};
@@ -128,15 +202,13 @@
 	  			s_commission_rate, 
 	  			s_commission_date, 
 	  			s_commission_use, 
-	  			s_commission_applies,
+	  			s_reservation,
+	  			s_commission_last,
 	  			m_id
 			FROM 
 				tb_standard_commission
-			<trim prefix="WHERE" prefixOverrides="AND / OR ">
-					<if test="startDate!=null and ''.toString() , endDate!=null and ''.toString()">
-						s_commission_applies BETWEEN #{startDate} AND #{endDate}
-					</if>
-			</trim>
+			ORDER BY s_commission_use desc
+		
   		</select>
   		
   		
@@ -147,15 +219,13 @@
   				s_trade_period, 
   				s_trade_date, 
   				s_trade_use,
-  				s_trade_applies, 
+  				s_trade_last,
+  				s_reservation,
   				m_id
 			FROM 
 				tb_standard_trade 
-			<trim prefix="WHERE" prefixOverrides="AND / OR ">
-					<if test="startDate!=null and ''.toString() , endDate!=null and ''.toString()">
-						s_trade_applies BETWEEN #{startDate} AND #{endDate}
-					</if>
-			</trim>
+			ORDER BY s_trade_use desc
+			
   		</select>
   		
   		<select id="getDepositHistory" resultMap = "standardResultMap">
@@ -165,42 +235,45 @@
   				s_deposit_date, 
   				s_deposit_use,
   				s_deposit_type, 
-  				s_deposit_applies,
+  				s_deposit_last, 
+  				s_reservation,
   				m_id
 			FROM 
 				tb_standard_deposit
-				<trim prefix="WHERE" prefixOverrides="AND / OR ">
-					<if test="startDate!=null and ''.toString() , endDate!=null and ''.toString()">
-						s_deposit_applies BETWEEN #{startDate} AND #{endDate}
-					</if>
-			</trim>
+			ORDER BY s_deposit_use desc
+				
   		</select>
   		
-  		<update id="removeCommission" parameterType="int">
+  		<delete id="removeDeposit" parameterType="int">
+  			DELETE FROM tb_standard_deposit WHERE s_deposit_idx=#{sDepositIdx}
+  			
+  		</delete>
+  		
+  		<delete id="removeCommission" parameterType="int">
   			DELETE FROM tb_standard_commission WHERE s_commission_idx=#{sCommissionIdx}
-  		</update>
+  		</delete>
   		
   		<insert id="addNewCommission" parameterType="StandardDTO">
   			INSERT 
   			INTO 
-  				tb_standard_commission(s_commission_type, s_commission_rate, s_commission_date, s_commission_use, m_id)
-			VALUES (#{sCommissionType}, #{sCommissionRate}, NOW(), 'Y', #{mId})
+  				tb_standard_commission(s_commission_type, s_commission_rate, s_commission_date, s_commission_use, m_id,s_reservation)
+			VALUES (#{sCommissionType}, #{sCommissionRate}, NOW(), 'N', #{mId},#{sReservation})
   		</insert>
   		
   		<insert id="addNewTrade" parameterType="StandardDTO">
   			INSERT 
   			INTO 
-  				tb_standard_trade(s_trade_type, s_trade_period, s_trade_date, s_trade_use, m_id)
+  				tb_standard_trade(s_trade_type, s_trade_period, s_trade_date, s_trade_use, m_id,s_reservation)
 			VALUES 
-				(#{sTradeType}, #{sTradePeriod}, NOW(), 'Y', #{mId})
+				(#{sTradeType}, #{sTradePeriod}, NOW(), 'N', #{mId},#{sReservation})
   		</insert>
   		
   		
   		<insert id="addNewDeposit" parameterType="StandardDTO">
   			INSERT 
   			INTO 
-  				tb_standard_deposit(s_deposit_type, s_deposit_rate, s_deposit_date, s_deposit_use, m_id)
-			VALUES (#{sDepositType}, #{sDepositRate}, NOW(), 'Y', #{mId})
+  				tb_standard_deposit(s_deposit_type, s_deposit_rate, s_deposit_date, s_deposit_use, m_id,s_reservation)
+			VALUES (#{sDepositType}, #{sDepositRate}, NOW(), 'N', #{mId},#{sReservation})
   		</insert>
   		
   		
@@ -270,7 +343,7 @@
   				s_deposit_use,
   				s_deposit_type, 
   				s_deposit_last,
-  				s_deposit_applies,
+  				s_reservation,
   				m_id
 			FROM 
 				tb_standard_deposit
@@ -288,7 +361,7 @@
   				s_trade_date, 
   				s_trade_use,
   				s_trade_last,
-  				s_trade_applies, 
+  				s_reservation,
   				m_id
 			FROM 
 				tb_standard_trade 
@@ -306,7 +379,7 @@
 	  			s_commission_date, 
 	  			s_commission_use, 
 	  			s_commission_last,
-	  			s_commission_applies,
+	  			s_reservation,
 	  			m_id
 			FROM 
 				tb_standard_commission
