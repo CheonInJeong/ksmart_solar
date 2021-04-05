@@ -103,9 +103,6 @@ public class PlantService {
 		//리턴해야할 것들
 		//240개 값, 유지비용,
 		int[] benefitGraph = new int[240];
-		System.out.println(bzCode);
-		System.out.println(model.getAttribute("plName"));
-		
 		
 		List<BusinessPlantDTO> plantList = plantMapper.getPlantListByCode(bzCode);
 		model.addAttribute("plantName", plantList.get(0).getBzPlName());
@@ -125,12 +122,13 @@ public class PlantService {
 	
 	
 	//bz_pl_code 입력시 현재 잔존가치를 리턴해주는 메서드
-	public int noResidualValue (String bz_pl_code) throws ParseException {
+	public int noResidualValue (String bz_pl_code, Model model) throws ParseException {
 		double[] rateArray = {0.007936508,0.007539683,0.007142857,0.006746032,0.006349206,0.005952381,0.005555556,0.00515873,0.004761905,0.004365079,0.003968254,0.003571429,0.003174603,0.002777778,0.002380952,0.001984127,0.001587302,0.001190476,0.000793651,0.000396825};
 		System.out.println(bz_pl_code + " <<< 입력받은 bz_pl_code 값");
 		PlantDepreciationDTO pdc = getPlantDepreciationByBzCode(bz_pl_code);
 		int residualValue = 0;
-		
+		double printRate = 0;
+		int	diffenceMonth = 0;
 		String startDateString = pdc.getPlDepStartDate();
 		int priceBased = pdc.getPlDepPriceBased(); 
 		if(startDateString != null) { 
@@ -144,17 +142,38 @@ public class PlantService {
 			long diffrence =	time.convert(diffTime, TimeUnit.MILLISECONDS);
 			System.out.println("The difference in days is : "+diffrence);
 			System.out.println("The difference in Month is : "+diffrence/30); 
-			int	diffenceMonth = (int) (diffrence/30);
+			diffenceMonth = (int) (diffrence/30);
 			  
 			double sumRate = 0; 
 			if((diffenceMonth/12) > 0) { 
 				for(int i=0; i<diffenceMonth/12; i++) { 
 				sumRate += rateArray[i]*12; 
 				} 
-			} 
+			}
 			sumRate += (rateArray[(diffenceMonth/12)])*((diffenceMonth%12));
 			residualValue = (int) (priceBased - (priceBased * sumRate)); 
+			printRate = Math.round((sumRate * 1000));
+			System.out.println("///////////////////////////////////////");
+			System.out.println("///////////////////////////////////////");
+			System.out.println("감가율 : " + printRate/10 + "%");
+			System.out.println("경과시간 : " + (diffenceMonth/12) + "년 " + diffenceMonth%12 + "개월" );
 		}
+		System.out.println("기준금액 : " + priceBased + "원");
+		System.out.println("잔존가치 : " + residualValue + "원");
+		System.out.println("///////////////////////////////////////");
+		System.out.println("///////////////////////////////////////");
+		
+		//감가율*10 , 경과시간(연), 경과시간(월), 기준금액, 잔존가치
+		//int[] returnArry = {(int)printRate, (diffenceMonth/12), (diffenceMonth%12), priceBased, residualValue};
+		DecimalFormat formatter = new DecimalFormat("###,###");
+		model.addAttribute("residualRate", printRate/10);
+		model.addAttribute("pastYear", (diffenceMonth/12));
+		model.addAttribute("pastMonth", (diffenceMonth%12));
+		model.addAttribute("startDate", startDateString.replace("-", ""));
+		model.addAttribute("basedPrice", formatter.format((priceBased/1000)*1000));
+		model.addAttribute("basedPrice2", (priceBased/1000)*1000);
+		model.addAttribute("residualPrice", formatter.format((residualValue/1000)*1000));
+		
 		return residualValue;
 	}
 
