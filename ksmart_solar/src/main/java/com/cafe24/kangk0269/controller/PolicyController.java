@@ -65,14 +65,13 @@ public class PolicyController {
 		
 	}
 	
-	
-	
 	//서류등록 버튼 눌렀을 때
 	@GetMapping("/policy/document")
 	public String Document(Model model) {
 		//업로드 된 공고 서류 목록을 보여줌
 		model.addAttribute("fileList", policyService.getNoticeFileList());
 		model.addAttribute("bidFileList", policyService.getBidFileList());
+		policyService.updateTrade();
 		return "/policy/document";
 	}
 	
@@ -132,6 +131,13 @@ public class PolicyController {
 		return "/policy/depositHistory";
 	}
 	
+	@GetMapping("/policy/removeDeposit")
+	public String removeDeposit(@RequestParam(value="idx") int idx) {
+		policyService.removeDeposit(idx);
+		return "redirect:/policy/depositHistory";
+	}
+	
+	
 	@GetMapping("/policy/removeCommission")
 	public String removeCommission(@RequestParam(value="sCommissionIdx") int idx) {
 		policyService.removeCommission(idx);
@@ -153,16 +159,18 @@ public class PolicyController {
 	}
 
 	@RequestMapping(value="/ajax/commissionCheck", method=RequestMethod.POST)
-	public @ResponseBody boolean commissionCheck(@RequestParam(value="commssionPrice", required = false) String commssionPrice) {
-		boolean checkResult = true;
-		if(commssionPrice!=null && !"".equals(commssionPrice)) {
+	public @ResponseBody boolean commissionCheck(@RequestParam(value="commissionPrice", required = false) int commissionPrice) {
+		boolean checkResult = false;
+		System.out.println(commissionPrice);
+		
 			List<StandardDTO> commissionList = policyService.getCommissionPolicy();
 			for(int i=0; i<commissionList.size(); i++) {
-				if(commssionPrice.equals(commissionList.get(i).getsCommissionType())) {
-					checkResult = false;
+				if(commissionPrice==commissionList.get(i).getsCommissionType()) {
+					System.out.println(commissionList.get(i).getsCommissionType() + "::동일한 기준 존재");
+					checkResult = true;
 				}
 			}
-		}
+		
 		return checkResult;
 	}
 	
@@ -188,7 +196,7 @@ public class PolicyController {
 		standardDto.setmId((String)session.getAttribute("SID"));
 		policyService.addNewDeposit(standardDto);
 		
-		return "redirect:/policy/policyList";
+		return "redirect:/policy/depositHistory";
 	}
 	
 	

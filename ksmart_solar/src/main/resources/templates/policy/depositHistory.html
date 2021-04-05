@@ -5,7 +5,18 @@
 	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
 	<th:block layout:fragment="customTitle">
 				<title>예치금 정책 히스토리</title>
+				
 	</th:block>
+	
+	
+	
+	<th:block layout:fragment="customCss">
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/advanced-datatable/css/jquery.dataTables.css}" />	
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />	
+	
+	</th:block>
+	
+	
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>예치금히스토리</strong></div>
      	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a> >예치금히스토리</div>
@@ -13,25 +24,22 @@
 				
 		<div class="col-md-12 mt">
 				
-            <div class="content-panel" style="padding: 30px;">
-				<form class="form-group form-inline">
-					 <div class="input-group input-daterange col-lg-3 form-inline">
-   						<input type="text" class="form-control" name="startDate" >
-  					 	<div class="input-group-addon">to</div>
-					    <input type="text" class="form-control" name="endDate">
-					</div>
-					  <div><button class="form-inline">검색</button></div>				
-				</form>
-				              
-              <table class="table table-hover">
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
+            	<div style="text-align : right; margin-bottom: 20px;">
+					<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#depositModal" data-whatever="@mdo">정책변경</a>
+				</div>
+              <table class="table table-hover" id="historyTable">
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>예치금종류</th>
                     <th>예치금율(%)</th>
+                    <th>사용여부</th>
+                    <th>적용/예정일</th>
+                    <th>마지막사용일</th>
                     <th>등록자</th>
-                    <th>적용일</th>
-                    <th>업데이트일</th>
+                    <th>수정일</th>
+                    <th>삭제</th>
                   </tr>
                 </thead>
     
@@ -39,16 +47,74 @@
                 <tbody id="depositBody">
 					<tr th:each="h, index:${depositHistory}">
 	                  	<td th:text="${index.count}"></td>
-	                  	<td th:text="${h.sDepositType}"></td>
+	                  	
+	                  	<td th:text="${h.sDepositType}" class="depositType"></td>
 	                  	<td th:text="${h.sDepositRate}"></td>
+	                  	
+	                  	<td th:if="${h.sDepositUse=='Y'}"th:text="사용"></td>
+	                  	<td th:if="${h.sDepositUse=='N'}"th:text="미사용"></td>
+	                  	<td th:text="${h.sReservation}"></td>
+	                    <td th:text="${h.sDepositLast}"></td>
 	                  	<td th:text="${h.mId}"></td>
-	                    <td th:text="${h.sDepositApplies}"></td>
 	                    <td th:text="${h.sDepositDate}"></td>
+	                    <td th:if="${h.sDepositLast == null and h.sDepositUse=='N'}"><a th:href="@{/policy/removeDeposit(idx=${h.sDepositIdx})}" class="btn btn-default btn-xs">삭제</a></td>
 	                 </tr>
                 </tbody>
               </table>
+             </div>
+           </div> 
+             
+             
+          <div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="exampleModalLabel">예치금 정책 변경하기</h4>
+					</div>
+				<div class="modal-body">
+					<form th:method="post" th:action="@{/policy/addNewDeposit}" id="depositFromModal">
+						<div class="form-group">
+							<label for="sDepositTypeModal" class="control-label">예치금종류</label>
+							<select class="form-control" name="sDepositType" id="depositSelect">
+								<option value="0">::선택::</option>
+								<th:block th:each="d:${depositHistory}">
+									<option th:text="${d.sDepositType}" th:value="${d.sDepositType}"></option>
+								</th:block>
+							</select>
+						</div>
+						<div class="form-group">
+							<label for="sDepositRateModal" class="control-label">수수료율</label>
+							<input type="text" class="form-control" id = "sDepositRateModal" name="sDepositRate">
+						</div>
+						<div class="form-group date-picker-z-index" >
+							<label for="sReservation" class="control-label">정책적용일</label>
+							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sReservationModal" name="sReservation">
+						</div>
+						
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								<button type="button" class="btn btn-primary" id="sDepositBtnModal" >추가</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+             
+             
+             
+       <!--   <div class="col-md-12 mt">
+				
+           <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
+             
+              <th:block layout:fragment="addDeposit">
+                  	<nav th:replace="policy/addDeposit :: addDeposit"></nav>
+              </th:block>
+              
+              
             </div>
-          </div>
+          </div> -->
 
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -60,26 +126,36 @@
 		</script>
 		
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
+		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
-		
 		<script>
-			$("div .input-daterange").each(function(){
-			    var $inputs = $(this).find('input');
-			    $inputs.datepicker({ dateFormat: 'yy-mm-dd' });
-			    if ($inputs.length >= 2) {
-			        var $from = $inputs.eq(0);
-			        var $to   = $inputs.eq(1);
-			        $from.on('changeDate', function (e) {
-			            var d = new Date(e.date.valueOf());
-			            $to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
-			        });
-			        $to.on('changeDate', function (e) {
-			            var d = new Date(e.date.valueOf());
-			            $from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
-			        });
-			    }
-			})
+		$(function(){
+			$('#historyTable').DataTable();
+		})
+		
+		//예치금 변경
+			$('#sDepositBtnModal').click(function(){
+		         		var depositRate = $('#sDepositRateModal');
+		      			var sReservationModal = $('#sReservationModal')
+		         		if($('#depositSelect option:selected').val()=='0'){
+		         			alert('예치금 종류를 선택해주세요.');
+		         			return;
+		         		}
+		         		if(depositRate.val()==''){
+		         			alert('예치금율을 입력해주세요.');
+		         			depositRate.focus();
+		         			return;
+		         		}
+		         		
+		         		if(sReservationModal.val()==''){
+		         			alert('적용일을 입력해주세요.');
+		         			depositRate.focus();
+		         			return;
+		         		}
+		        		
+		         		$('#depositFromModal').submit();
+		       })
 		</script>
 	</th:block>
 </html>

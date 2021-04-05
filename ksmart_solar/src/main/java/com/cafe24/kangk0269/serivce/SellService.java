@@ -45,7 +45,7 @@ public class SellService {
 		this.fileMapper = fileMapper;
 	}
 	
-	//upcate rank
+	//update rank
 	
 	public void modifyRank(int rank,String code) throws Exception {
 		sellMapper.modifyRank(rank, code);
@@ -99,6 +99,7 @@ public class SellService {
 	public void updateAcStatus() throws Exception{
 		System.out.println("updateAcStatus 실행");
 		List<BidPlantDTO> acList = sellMapper.getAcStatus();
+		
 		for(int i=0 ; i<acList.size();i++) {
 			String decisionDate = acList.get(i).getbPlDateDecision1();
 			
@@ -189,10 +190,15 @@ public class SellService {
 		}
 		
 		List<BidComponentDTO> bidComponentList = null;
+		
 		int bidComponentCount = sellMapper.getBidComponentCount(mId, bidComponentDTO);
+		
 		Pagination pagination = new Pagination(bidComponentDTO);
+		
 		pagination.setTotalRecordCount(bidComponentCount);
+		
 		bidComponentDTO.setPagination(pagination);
+		
 		if(bidComponentCount > 0) {
 			bidComponentList = sellMapper.getBidComponentById(mId,searchKeyCp,searchValueCp,bidComponentDTO);
 		}

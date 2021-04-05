@@ -19,7 +19,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
-	<!-- 
+	
+	<!-- 검색에러 왜? 
 	<select id="getQnaList" resultMap="BoardQnaDTOMap" parameterType="String">
 		SELECT 
 			  b_qna_idx
@@ -42,9 +43,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			</if>
 		</trim> 
 	</select>
-   -->
 		 
-		
+		 -->
 	<!-- 문의 조회수 증가  -->	 
 	<update id="addQnaViews">
 		UPDATE 

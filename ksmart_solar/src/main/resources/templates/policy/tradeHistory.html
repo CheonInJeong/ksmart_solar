@@ -3,9 +3,15 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
 	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	  
 	<th:block layout:fragment="customTitle">
-				<title>예치금 정책 히스토리</title>
+				<title>거래 정책 히스토리</title>
 	</th:block>
+	
+	<th:block layout:fragment="customCss">
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/advanced-datatable/css/jquery.dataTables.css}" />	
+	</th:block>
+	
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>거래기간히스토리</strong></div>
      	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a> >거래기간히스토리</div>
@@ -13,35 +19,30 @@
 	
 	
 		<div class="col-md-12 mt">
-            <div class="content-panel" style="padding: 30px;">
-				<form>
-					 <div class="input-group input-daterange col-lg-3">
-   						<input type="text" class="form-control" name="startDate" >
-  					 	<div class="input-group-addon">to</div>
-					    <input type="text" class="form-control" name="endDate">
-					</div>
-					  <div><button>검색</button></div>				
-				</form>
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
 				              
-              <table class="table table-hover">
+              <table class="table table-hover" id="historyTable">
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>거래종류</th>
                     <th>기간</th>
-                    <th>적용일</th>
+                    <th>사용여부</th>
+                 	<th>적용일</th>
+                    <th>마지막사용일</th>
                     <th>등록자</th>
-                    <th>등록일</th>
+                    <th>수정일</th>
                   </tr>
                 </thead>
-    
-                
                 <tbody>
 					<tr th:each="h, index:${tradeHistory}">
 	                  	<td th:text="${index.count}"></td>
 	                  	<td th:text="${h.sTradeType}"></td>
 	                  	<td th:text="${h.sTradePeriod}"></td>
-	                  	<td th:text="${h.sTradeApplies}"></td>
+	                  	<td th:if="${h.sTradeUse=='Y'}"th:text="사용"></td>
+	                  	<td th:if="${h.sTradeUse=='N'}"th:text="미사용"></td>
+	                    <td th:text="${h.sReservation}"></td>
+	                    <td th:text="${h.sTradeLast}"></td>
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sTradeDate}"></td>
 	                 </tr>
@@ -60,26 +61,13 @@
 		</script>
 		
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
-	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
+		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
 		
 		<script>
-			$("div .input-daterange").each(function(){
-			    var $inputs = $(this).find('input');
-			    $inputs.datepicker({ dateFormat: 'yy-mm-dd' });
-			    if ($inputs.length >= 2) {
-			        var $from = $inputs.eq(0);
-			        var $to   = $inputs.eq(1);
-			        $from.on('changeDate', function (e) {
-			            var d = new Date(e.date.valueOf());
-			            $to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
-			        });
-			        $to.on('changeDate', function (e) {
-			            var d = new Date(e.date.valueOf());
-			            $from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
-			        });
-			    }
-			})
+		$(function(){
+			$('#historyTable').DataTable();
+		});
 		</script>
+		
 	</th:block>
 </html>
