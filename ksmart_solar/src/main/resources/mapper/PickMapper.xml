@@ -15,6 +15,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<result property="bPlPrice"				column="b_pl_price"/>
 			<result property="bPlDateBidding2"		column="b_pl_date_bidding2"/>
 		</association>
+		<association property="bidComponentDTO" javaType="BidComponentDTO">
+			<id		property="bCpCode"				column="b_cp_code"/>
+			<result property="bCpTitle"				column="b_cp_title"/>
+			<result property="bCpPrice"				column="b_cp_price"/>
+			<result property="bCpDateBidding2"		column="b_cp_date_bidding2"/>
+		
+		</association>
 	</resultMap>
 	
 	
@@ -39,8 +46,28 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			p_idx = #{pIdx}
 	</delete>
 	
-	<!-- 관심목록 조회  -->
-	<select id="getWishList" parameterType="String" resultMap="PickDTOMap">
+	<!-- 관심 부품목록 조회 -->
+	<select id="getCpWishList" parameterType="String" resultMap="PickDTOMap">
+		SELECT 
+			  p.p_idx
+			, p.p_code
+			, p.m_id
+			, bc.b_cp_price
+			, bc.b_cp_title
+			, bc.b_cp_date_bidding2
+		FROM 
+			tb_pick AS p
+		INNER JOIN
+			tb_bid_component AS bc
+		ON 
+			p.p_code = bc.b_cp_code
+		WHERE
+			p.m_id = #{login_id}
+	</select>
+	
+	
+	<!-- 관심 발전소목록 조회  -->
+	<select id="getPlWishList" parameterType="String" resultMap="PickDTOMap">
 		SELECT 
 			  p.p_idx
 			, p.p_code

@@ -26,20 +26,39 @@
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:if="${pickDTOList != null}" th:each="l:${pickDTOList}">
+                	<th:block th:if="${picPlkDTOList != null}" th:each="l:${picPlkDTOList}">
 	                	<tr>
 		                    <td data-title="공고 코드" th:text="${l.pCode}"></td>
 		                    <td data-title="공고 제목">
-			                	<a th:href=@{/help/getPick(pIdx=${l.pIdx})}>[[${l.bPlTitle}]]</a>
+			                	<a th:href=@{/help/getPick(pIdx=${l.pIdx})}>[[${l.bidPlantDTO.bPlTitle}]]</a>
 		                    </td>
-		                    <td data-title="입찰 시작가" th:text="${l.bPlPrice}"></td>
-		                    <td data-title="입찰 마감일" th:text="${l.bPlDateBidding2}"></td>
+		                    <td data-title="입찰 시작가" th:text="${l.bidPlantDTO.bPlPrice}"></td>
+		                    <td data-title="입찰 마감일" th:text="${l.bidPlantDTO.bPlDateBidding2}"></td>
 							<td data-title="삭제">
 								<a th:href="@{/mypage/removeWishlist(pIdx=${l.pIdx})}">삭제</a>
 							</td>
 	                	</tr>
                 	</th:block>
-                	<th:block th:if="${pickDTOList == null || pickDTOList.size() == 0}">
+                	<th:block th:if="${picPlkDTOList == null || picPlkDTOList.size() == 0}">
+		                  <tr>
+		                    <td colspan="5" style="text-align: center;">찜한 부품 공고가 없습니다.</td>		                 
+		                  </tr>
+                	</th:block>
+                	
+                	<th:block th:if="${pickCpDTOList != null}" th:each="l:${pickCpDTOList}">
+	                	<tr>
+		                    <td data-title="공고 코드" th:text="${l.pCode}"></td>
+		                    <td data-title="공고 제목">
+			                	<a th:href=@{/help/getPick(pIdx=${l.pIdx})}>[[${l.bidComponentDTO.bCpTitle}]]</a>
+		                    </td>
+		                    <td data-title="입찰 시작가" th:text="${l.bidComponentDTO.bCpPrice}"></td>
+		                    <td data-title="입찰 마감일" th:text="${l.bidComponentDTO.bCpDateBidding2}"></td>
+							<td data-title="삭제">
+								<a th:href="@{/mypage/removeWishlist(pIdx=${l.pIdx})}">삭제</a>
+							</td>
+	                	</tr>
+                	</th:block>
+                	<th:block th:if="${${pickCpDTOList == null || ${pickCpDTOList.size() == 0}">
 		                  <tr>
 		                    <td colspan="5" style="text-align: center;">찜한 부품 공고가 없습니다.</td>		                 
 		                  </tr>
@@ -49,6 +68,9 @@
             </div>
           </div>
         </div>
+        
+        
+        
         
 	</th:block>
 	<th:block layout:fragment="customScript">

@@ -13,4 +13,5 @@ public class PickDTO {
 	private String mId;
 	private String pRegDate;	
 	private BidPlantDTO bidPlantDTO;
+	private BidComponentDTO bidComponentDTO;
 }

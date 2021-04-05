@@ -69,9 +69,10 @@ public class MyPageController {
 		if(log_id == null) {
 			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
 		}
-		List<PickDTO> pickDTOList = pickService.getWishList(log_id);
-		System.out.println("pickDTOList-->" + pickDTOList);
-		model.addAttribute("pickDTOList", pickDTOList);
+		List<PickDTO> picPlkDTOList = pickService.getPlWishList(log_id);
+		List<PickDTO> pickCpDTOList = pickService.getCpWishList(log_id);
+		System.out.println("pickDTOList-->" + picPlkDTOList);
+		model.addAttribute("pickDTOList", pickCpDTOList);
 		return "/mypage/wishlist";
 	}
 	

@@ -16,6 +16,9 @@ public interface PickMapper {
 	//관심목록 삭제
 	public int removeWishlist(int pIdx);
 	
-	//관심목록 조회
-	public List<PickDTO> getWishList(String log_id);
+	//관심 발전소 조회
+	public List<PickDTO> getPlWishList(String log_id);
+	
+	//관심 발전소 조회
+	public List<PickDTO> getCpWishList(String log_id);
 }
