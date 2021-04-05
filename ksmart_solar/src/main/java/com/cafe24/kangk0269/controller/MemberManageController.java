@@ -22,6 +22,7 @@ import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
@@ -34,6 +35,7 @@ import com.cafe24.kangk0269.serivce.BusinessService;
 import com.cafe24.kangk0269.serivce.MemberService;
 import com.cafe24.kangk0269.serivce.NoticeService;
 import com.cafe24.kangk0269.serivce.PlantService;
+import com.cafe24.kangk0269.serivce.SellService;
 
 @Controller
 public class MemberManageController {
@@ -43,32 +45,41 @@ public class MemberManageController {
 	private final AccountService accountService;
 	private final BidPlantService bidPlantService;
 	private final BidComponentService bidComponentService;
+	private final SellService sellService;
 	
 	@Autowired
 	public MemberManageController(MemberService memberService, BusinessService businessService
 								 ,PlantService plantService, AccountService accountService
-								 ,BidPlantService bidPlantService, BidComponentService bidComponentService) {
+								 ,BidPlantService bidPlantService, BidComponentService bidComponentService
+								 ,SellService sellService) {
 		this.memberService = memberService;
 		this.businessService = businessService;
 		this.plantService = plantService;
 		this.accountService = accountService;
 		this.bidPlantService = bidPlantService;
 		this.bidComponentService = bidComponentService;
+		this.sellService = sellService;
 	}
 	
 	@GetMapping("/getMemberInfoById")
 	public String getMemberInfoById(Model model
-									,@RequestParam(value="mId", required=false) String mId) {
+									,@RequestParam(value="mId", required=false) String mId) throws Exception {
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
 		List<BusinessDTO> businessList = businessService.getBusinessInfoById(mId);
 		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(mId);
+		List<BidPlantDTO> plantList = bidPlantService.getBidPlantById(mId);
 		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(mId);
+		List<BusinessPlantDTO> operPlantList = plantService.getOperPlantListById(mId);
+		List<ComponentDTO> componentList = sellService.getComponent(mId);
 		model.addAttribute("member", member);
 		model.addAttribute("accountList", accountList);
 		model.addAttribute("businessList", businessList);
 		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("plantList", plantList);
 		model.addAttribute("bidComponentList", bidComponentList);
+		model.addAttribute("operPlantList", operPlantList);
+		model.addAttribute("componentList", componentList);
 		return "/member/getMemberInfoById";
 		
 	}
