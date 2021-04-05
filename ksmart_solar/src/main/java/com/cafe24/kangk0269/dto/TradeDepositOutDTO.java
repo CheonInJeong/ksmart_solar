@@ -21,5 +21,10 @@ public class TradeDepositOutDTO {
 	private String trDepCheck;
 	private String trDepWdDate;
 	private String bMoCode;
+	// 예치금 출금신청 관련공고
+	private String announcedCode;
+	private String bTitle;
+	private String bTypeCode;
+	
 	
 }

@@ -48,6 +48,38 @@
 		<result property="plDepUsed" 		column="pl_dep_used"/>
 		<result property="plDepServicelife" column="pl_dep_servicelife"/>
 	</resultMap>
+	<!-- 운영발전소리스트(아이디) -->
+	<select id="getOperPlantListById" resultMap="plantResultMap">
+		SELECT 
+			a.bz_pl_code
+			, a.m_id
+			, bz_code
+			, bz_pl_check
+			, bz_pl_name
+			, bz_pl_zipcode
+			, bz_pl_addr
+			, bz_pl_detail_addr
+			, bz_pl_addr_code
+			, bz_pl_photo
+			, bz_pl_power
+			, bz_pl_hardware
+			, bz_pl_area
+			, bz_pl_inv_power
+			, bz_pl_inv_count
+			, bz_pl_inv_maker
+			, bz_pl_rec
+			, bz_pl_reg_date
+			, bz_pl_mod_date
+		FROM 
+			tb_business_plant AS a
+			LEFT JOIN 
+			tb_bid_plant AS b
+			ON a.bz_pl_code = b.bz_pl_code
+			WHERE 
+			b.b_pl_code IS NULL AND 
+			a.bz_pl_check = 'Y' AND 
+			a.m_id = #{mId}
+	</select>
 	<select id="getPlantDepreciationByBzCode" resultMap="plantDepreciationResultMap" parameterType="String">
 		SELECT
 			bz_pl_code

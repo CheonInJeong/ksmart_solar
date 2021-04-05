@@ -16,18 +16,26 @@ public class TradePaymentOutDTO {
 	private String trPayoutCheck;	
 	private String trPayoutWdDate;
 	private String bMoCode;
-	// 거래수수료 코드 추가
-	private String trSucCode;
 	// 공고코드 추가
 	private String announcedCode;
+	// 공고제목 추가
+	private String announcedTitle;
+	// 공고품목 유형 추가
+	private String bType;
 	// 거래수수료 입금 시간 추가
 	private String bMoDate;
 	
-	public String getTrSucCode() {
-		return trSucCode;
+	public String getAnnouncedTitle() {
+		return announcedTitle;
 	}
-	public void setTrSucCode(String trSucCode) {
-		this.trSucCode = trSucCode;
+	public void setAnnouncedTitle(String announcedTitle) {
+		this.announcedTitle = announcedTitle;
+	}
+	public String getbType() {
+		return bType;
+	}
+	public void setbType(String bType) {
+		this.bType = bType;
 	}
 	public String getbMoDate() {
 		return bMoDate;
@@ -164,15 +172,16 @@ public class TradePaymentOutDTO {
 		builder.append(trPayoutWdDate);
 		builder.append(", bMoCode=");
 		builder.append(bMoCode);
-		builder.append(", trSucCode=");
-		builder.append(trSucCode);
 		builder.append(", announcedCode=");
 		builder.append(announcedCode);
+		builder.append(", announcedTitle=");
+		builder.append(announcedTitle);
+		builder.append(", bType=");
+		builder.append(bType);
 		builder.append(", bMoDate=");
 		builder.append(bMoDate);
 		builder.append("]");
 		return builder.toString();
 	}
-	
 	
 }

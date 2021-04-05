@@ -37,6 +37,11 @@ public class PlantService {
 		System.out.println("=========================================================");
 	}
 	
+	// 운영발전소리스트(아이디)
+	public List<BusinessPlantDTO> getOperPlantListById(String mId){
+		return plantMapper.getOperPlantListById(mId);
+	}
+	
 	// 발전소인증신청 반려
 	public int plantReturn(BusinessPlantDTO plant) {
 		return plantMapper.plantReturn(plant);
