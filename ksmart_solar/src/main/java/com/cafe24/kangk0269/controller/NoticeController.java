@@ -1,9 +1,6 @@
 package com.cafe24.kangk0269.controller;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -17,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
@@ -89,7 +85,7 @@ public class NoticeController {
 	//공고 상세 정보 페이지
 	@PostMapping("/notice/announcement")
 	public String Announcement(String announceCode, String announceType, Model model,
-							   HttpSession session) {
+							   HttpSession session) throws Exception {
 		BidListDTO bidListDTO 				= null;
 		BidPlantDTO bidPlantdto 			= null;
 		BusinessPlantDTO businessPlantDTO 	= null;
@@ -101,6 +97,9 @@ public class NoticeController {
 		System.out.println(announceType+"---------------------------------------------------타입");
 		//입찰자 목록 조회해야함
 		String id = (String) session.getAttribute("SID");
+		String level = (String) session.getAttribute("SLEVEL");
+		model.addAttribute("level", level);
+		model.addAttribute("id", id);
 		System.out.println(id+"------------------------------------------id");
 		int getBidListCount =0 ;
 		if(id!=null) {
@@ -114,11 +113,14 @@ public class NoticeController {
 			//이미 입찰을 했다면 입찰한 정보를 보여준다.
 			bidListDTO = bidListService.getBidList(announceCode,id);
 			if(bidListDTO!=null) {
+				List<FileDTO> fileList = bidListService.getBidFileList(bidListDTO.getbCode());
 				System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
 				System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
 				model.addAttribute("bidListDTO",bidListDTO);
+				model.addAttribute("fileList",fileList);
 			}
 		}
+		//발전소 공고라면 발전소 정보와 발전소 공고의 정보를 가져온다.
 		if(announceType!=null && announceType.equals("발전소")) {
 			bidPlantdto = bidPlantService.getBidPlantByInfo(announceCode);
 			businessPlantDTO = bidPlantService.getPlant(announceCode);
@@ -127,12 +129,14 @@ public class NoticeController {
 			model.addAttribute("bidPlantdto", bidPlantdto);
 			model.addAttribute("businessPlantDTO", businessPlantDTO);
 		}
+		//부품 공고라면 부품 정보와 부품 공고의 정보를 가져온다.
 		if(announceType!=null && announceType.equals("부품")) {
 			bidComponentdto = bidComponentService.getBidComponentByInfo(announceCode);
 			componentDTO = bidComponentService.getComponent(bidComponentdto.getCpCode());
 			model.addAttribute("bidComponentdto", bidComponentdto);
 			model.addAttribute("componentDTO", componentDTO);
 		}
+		//계약중이라면 계약 정보를 가져온다.
 		if(bidListDTO!=null && bidListDTO.getTrTypeCode()>=11 && bidListDTO.getTrTypeCode()<=14) {
 			tradePaymentInDTO = tradeService.getTradePaymentIn(bidListDTO.getbCode());
 			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
@@ -175,6 +179,37 @@ public class NoticeController {
 			model.addAttribute("url", url);
 		}
 		return "/notice/modifyPaymentIn";
+	}
+	//입찰 수정
+	@PostMapping("/notice/modifyBidRequest")
+	public String modifyBidRequest(String bCode, Model model,String url,String announcedPrice) {
+		System.out.println(bCode+"-------------------------------------------");
+		if(bCode!=null) {
+			BidListDTO bidListDTO = bidListService.getBidList(bCode);
+			System.out.println(bidListDTO+"-------------------------------------------------");
+			model.addAttribute("announcedPrice", announcedPrice);
+			model.addAttribute("bidListDTO", bidListDTO);
+			model.addAttribute("url", url);
+		}
+		return "/notice/modifyBidRequest";
+	}
+	//입찰수정 액션
+	@PostMapping("/notice/modifyBidRequestAction")
+	public String modifyBidRequestAction(Model model, BidListDTO bidListDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request) {
+		System.out.println(bidListDTO.getbCode()+"=======================bidListDTO.bCode");
+		System.out.println(bidListDTO.getbDeposit()+"==========================bidListDTO.Deposit");
+		System.out.println(bidListDTO.getbPrice()+"==========================bidListDTO.bPrice");
+		System.out.println(bidListDTO.getsDepositRate()+"==========================bidListDTO.getsDepositRate");
+		System.out.println(bidListDTO.getmAccountBankName()+"==========================bidListDTO.mAccountBankName");
+		System.out.println(bidListDTO.getmAccountNumber()+"==========================bidListDTO.mAccountNumber");
+		System.out.println(bidListDTO.getmPaymentName()+"==========================bidListDTO.mPaymentName");
+		try {
+			bidListService.modifyBidList(bidListDTO,multipartHttpServletRequest,request);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return "redirect:/buy/myHistory";
 	}
 	@PostMapping("/notice/addpaymentInRequest")
 	public String addpaymentInRequest(TradePaymentInDTO paymentInDTO) {
@@ -237,5 +272,12 @@ public class NoticeController {
 		int count = bidListService.reBidCount(bGroupcode, (String)session.getAttribute("SID"));
 		System.out.println(count);
 		return count;
+	}
+	//계약 취소
+	@PostMapping("/notice/tradeCancel")
+	public String tradeCancel(String bCode) {
+		System.out.println(bCode);
+		bidListService.tradeCancel(bCode);
+		return "redirect:/notice/noticeList";
 	}
 }

@@ -1,6 +1,9 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -46,9 +49,9 @@ public class BidListService {
 		}
 		 
 	}
-	//공고 취소
+	//입찰 취소
 	public int bidCancel(String bCode) {
-		int result = bidListMapper.bidCancel(bCode);
+		int result = bidListMapper.bidCancel(bCode,"입찰");
 		System.out.println(result+"=====================================취소 성공");
 		if(result==1) {
 			BidListDTO bidListDTO = getBidList(bCode);
@@ -79,11 +82,59 @@ public class BidListService {
 	public BidListDTO getBidList(String announceCode, String id,String bCode) {
 		return bidListMapper.getBidList(announceCode, id,bCode);
 	}
+	//이전공고에서 거래중에 취소를 했는지 안했는지
 	public int reBidCount(String groupCode, String id) {
 		return bidListMapper.reBidCount(groupCode, id);
 	}
 	public List<FileDTO> getBidFileList() {
 		return bidListMapper.getBidFileList();
+	}
+	//입찰 신청 수정
+	public int modifyBidList(BidListDTO bidListDTO,MultipartHttpServletRequest multipartHttpServletRequest ,HttpServletRequest request)  {
+		System.out.println("확인");
+		int result=0;
+		List<FileDTO> filelist;
+		try {
+			bidListMapper.modifyBidList(bidListDTO);
+			filelist = fileUtils.parseFileInfo(bidListDTO.getbCode(),2,"입찰서류", multipartHttpServletRequest,request);
+			if (CollectionUtils.isEmpty(filelist) == false) {
+				fileMapper.removeApplyFile(bidListDTO.getbCode());
+				fileMapper.addFile(filelist);
+			}
+			result=1;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return result;
+	}
+	//입찰 신청시에 등록한 파일 목록
+	public List<FileDTO> getBidFileList(String bCode) throws Exception{
+		FileDTO fileDto = new FileDTO();
+		fileDto.setFileSortIdx(2);
+		fileDto.setRelatedTableCode(bCode);
+		
+		return fileMapper.getFileList(fileDto);
+	}
+	//계약 취소
+	public int tradeCancel(String bCode) {
+		bidListMapper.bidCancel(bCode, "계약");
+		return bidListMapper.tradeCancel(bCode);
+	}
+	//환불 가능한 목록
+	public Map<String, List<BidListDTO>> getApplyRefundList(String id) {
+		List<BidListDTO> RefundPossibleList = bidListMapper.getApplyRefundList(id,"가능");
+		List<BidListDTO> RefundCompleteList = bidListMapper.getApplyRefundList(id,"완료");
+		List<BidListDTO> RefundRequestList = bidListMapper.getApplyRefundList(id,"신청");
+		System.out.println(RefundPossibleList+"--------------------------------------RefundPossibleList");
+		System.out.println(RefundCompleteList+"--------------------------------------RefundCompleteList");
+		System.out.println(RefundRequestList+"--------------------------------------RefundRequestList");
+		Map<String, List<BidListDTO>> refundList = new HashMap<String, List<BidListDTO>>();
+		refundList.put("RefundPossibleList", RefundPossibleList);
+		refundList.put("RefundCompleteList", RefundCompleteList);
+		refundList.put("RefundRequestList", RefundRequestList);
+		
+		return refundList;
 	}
 
 }

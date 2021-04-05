@@ -4,26 +4,27 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>대금납부 수정</title>
+				<title>입찰 수정</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>대금납부 수정</strong></div>
+		<div id="container-header-title"><strong>입찰 수정</strong></div>
 		<div id="container-header-path">
 			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
 			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
 			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
 			<a href="#"  style="text-decoration: none;"> 공고정보 </a>>
-			<a href="#" id="thirdUrl" style="text-decoration: none;"> 대금납부 수정 </a>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 입찰수정 </a>
 			<input type="hidden" id="url" th:value="${url}">
 		</div>
 		<div id="container-header-space"></div>
-		<div class="row mt">
+       	<div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="paymentInForm" method="post" th:action="@{/notice/addpaymentInRequest}">
-                	<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
-		              <h4><i class="fa fa-angle-right"></i>대금납부 수정</h4>
+                <form class="cmxform form-horizontal style-form" method="post" th:action="@{/notice/modifyBidRequestAction}" enctype="multipart/form-data">
+                	<input type="hidden" name="sDepositRate">
+                	<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">			
+		              <h4><i class="fa fa-angle-right"></i>입찰 수정</h4>
 		              <hr>
 	                  <div class="form-group">
 	                    <label class="control-label col-lg-2">공고 제목</label>
@@ -32,21 +33,25 @@
 	                    </div>
 	                  </div>
 	                  <div class="form-group">
+	                    <label class="control-label col-lg-2">입찰시작가</label>
+	                    <div class="col-lg-10">
+		              		<div id="bidPrice" th:text="${announcedPrice}+'원'"></div>
+	                    </div>
+	                  </div>
+	                  <div class="form-group">
 	                    <label class="control-label col-lg-2">입찰금액</label>
 	                    <div class="col-lg-10">
-		              		<div class="second-part" id="bPrice" th:text="${tradePaymentInDTO.bPrice}+'원'"></div>
+	                    	<input type="hidden" name="bPrice" th:value="${bidListDTO.bPrice}">
+	              			<input type="text" id="bPrice" style="width: 30%;" th:value="${bidListDTO.bPrice}">원
 	                    </div>
 	                  </div>
 	                  <div class="form-group ">
 	                    <label class="control-label col-lg-2">예치금</label>
 	                    <div class="col-lg-10">
-			              <div id="bDeposit" th:text="${tradePaymentInDTO.bDeposit}+'원'"></div>
-	                    </div>
-	                  </div>
-	                  <div class="form-group ">
-	                    <label class="control-label col-lg-2">납부 금액</label>
-	                    <div class="col-lg-10">
-		                    <div id="trPayinPrice" th:text="${tradePaymentInDTO.trPayinPrice}+'원'"></div>
+	                    	<div>
+	                    		<span id="bDeposit">[[${bidListDTO.bDeposit}]]</span>원
+	                    	</div>
+			              	<input type="hidden" name="bDeposit" th:value="${bidListDTO.bDeposit}">
 	                    </div>
 	                  </div>
 	                 <div class="form-group">
@@ -55,21 +60,27 @@
 				             <select id="bank" style="width: 30%; text-align-last:center;">
 				             	<option style="text-align: center;">:::::은행선택:::::</option>
 				             </select>
-				             <input type="hidden" id="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
-	              			 <input type="hidden" name="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
+			              	<input type="hidden" id="mAccountBankName" th:value="${bidListDTO.mAccountBankName}">
+	              			<input type="hidden" name="mAccountBankName" th:value="${bidListDTO.mAccountBankName}">
 			             </div>
 	                </div>
 	                  <div class="form-group ">
-			             <label class="control-label col-lg-2">관리자 계좌 번호</label>
-			             <div class="col-lg-10" id="accountNumber" th:text="${tradePaymentInDTO.mAccountNumber}"></div>
-			             <input type="hidden" name="mAccountNumber" th:value="${tradePaymentInDTO.mAccountNumber}">
+			            <label class="control-label col-lg-2">관리자 계좌 번호</label>
+			            <div class="col-lg-10" id="accountNumber"  th:text="${bidListDTO.mAccountNumber}"></div>
+			            <input type="hidden" name="mAccountNumber" th:value="${bidListDTO.mAccountNumber}">
 	                  </div>
 	                 <div class="form-group">
 				         <label class="control-label col-lg-2">입금자 성명</label>
 				         <div class="col-lg-10" >
-				         	<input name="mPaymentName" style="width: 30%;" type="text" th:value="${tradePaymentInDTO.mPaymentName}">
+				         	<input name="mPaymentName" style="width: 30%;" type="text" th:value="${bidListDTO.mPaymentName}">
 				         </div>
-	                 </div>                  
+	                 </div>
+	                 <div class="form-group">
+						<div class="control-label col-lg-2">파일 첨부</div>
+						<div class="col-lg-10">
+							<input type="file" id="files" class="default" name="files" multiple="multiple">
+						</div>
+					</div>                 
                 </form>
               </div>
             </div>
@@ -81,69 +92,12 @@
 				<button id="bidResultCancelBtn" class="btn btn-danger" type="button" style="width: 80px;">취소</button>
 			</div>
 		</div>
-		
-	<!-- 
-   		<form id="paymentInForm" method="post" th:action="@{/notice/addpaymentInRequest}">
-   			<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
-			<div class="chat-room mt">
-	          <aside class="mid-side container">
-	            <div class="chat-room-head">
-	              <h3>대금 신청 수정</h3>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" th:text="${bidListDTO.bTitle}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰금액</div>
-	              <div class="second-part" id="bPrice" th:text="${tradePaymentInDTO.bPrice}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">예치금</div>
-	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bDeposit}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">납부해야할 금액</div>
-	              <div class="second-part" id="trPayinPrice" th:text="${tradePaymentInDTO.trPayinPrice}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금 은행</div>
-	              <div class="second-part" >
-	              	<select id="bank">
-	              		<option>:::::은행선택:::::</option>
-	              	</select>
-	              	<input type="hidden" id="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
-	              	<input type="hidden" name="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">관리자계좌번호</div>
-	              <div class="second-part" id="accountNumber" th:text="${tradePaymentInDTO.mAccountNumber}"></div>
-	              <input type="hidden" name="mAccountNumber" th:value="${tradePaymentInDTO.mAccountNumber}">
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금자 성명</div>
-	              <div class="second-part" >
-	              	<input name="mPaymentName" type="text" th:value="${tradePaymentInDTO.mPaymentName}">
-	              </div>
-	            </div>
-	          </aside>
-	        </div>
-	        <div class="row" style="margin: 5px 0px;">
-				<div class="form-inline" style="text-align: center;">
-	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">수정</button>
-				</div>
-			</div>
-       	</form> -->
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
+			
 			$(function(){
-				
 				var url = $('#url');
 				link2 = url.val();
 				console.log(link2);
@@ -167,18 +121,22 @@
 				var form = $('form');
 				//입찰금액
 				var bPrice = $('#bPrice');
+				bPrice.val(bPrice.val().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				var bPrice1 = $('[name="bPrice"]');
+				//예치금
+				var bDeposit = $('[name="bDeposit"]');
+				//보여지는 예치금
+				var bDepositText = $('#bDeposit');
+				bDepositText.text(bDepositText.text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				//예치금율
+				var sDepositRate = 0;			
 				//은행명
 				var bank = $('#bank');
 				//해당 은행 계좌 번호
 				var accountNumber = $('#accountNumber');
-				//예치금
-				var bDeposit = $('#bDeposit');
-				//납부해야할 금액
-				var trPayinPrice = $('#trPayinPrice');
-				
-				bPrice.text(bPrice.text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-				bDeposit.text(bDeposit.text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-				trPayinPrice.text(trPayinPrice.text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				//입찰 시작가
+				var bidPrice = $('#bidPrice');
+				bidPrice.text(bidPrice.text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
 				//예치금율
 				var DepositRate = $('[name="sDepositRate"]');
 				//은행명
@@ -232,7 +190,6 @@
 					  }
 				});
 				var BankName = $('#mAccountBankName');
-				
 				bank.children().each(function(){
 					if($(this).val()==BankName.val()){
 						console.log($(this).val());
@@ -261,17 +218,49 @@
 				$.fn.onlyNumber = function(){
 					$(this).val($(this).val().replace(/[^0-9]/g,''));
 				}
-				
-				$('#bidResultCancelBtn').click(function(){
-					location.href = link2 ;
+				//입찰금액을 입력할 때 
+				bPrice.keyup(function(){
+					//입찰금액에 숫자만 가능하게
+					$(this).onlyNumber();
+					var num = $(this).val();
+					//입력한 입찰금액에 예치금 계산
+					var sDeposit = num/100*sDepositRate;
+					//소숫점은 반올림
+					sDeposit = Math.round(sDeposit);
+					//계산한 예치금을 bDeposit파라미터에 담기
+					bDeposit.val(sDeposit);
+					//입찰금액에 콤마찍기
+					$(this).transPrice();
+					//예치금에 콤마찍기
+					bDeposit.transPrice();
+					//보여지는 예치금
+					bDepositText.text(bDeposit.val());
+					
 				});
-
+				var BankName = $('#mAccountBankName');
 				bidResultBtn.click(function(){
 					console.log(bPrice.val());
-					
+					if(bPrice.val()==""){
+						Swal.fire({
+							  title: '수정실패!',
+							  text: '입찰 가격을 입력해주세요.',
+							  icon: 'info'
+							});
+						bPrice.focus();
+						return false;
+					}
+					if(Number(bPrice.val().replace(/,/g,''))<Number(bidPrice.text().replace(/,/g,''))){
+						Swal.fire({
+							  title: '수정실패!',
+							  text: '입찰가격이 낮습니다.',
+							  icon: 'info'
+							});
+						bPrice.focus();
+						return false;
+					}
 					if(accountNumber.text()==""){
 						Swal.fire({
-							  title: '대금납부 수정 실패!',
+							  title: '수정실패!',
 							  text: '은행을 선택해주세요.',
 							  icon: 'info'
 							});
@@ -279,20 +268,30 @@
 					}
 					if(mPaymentName.val()==""){
 						Swal.fire({
-							  title: '대금납부 수정 실패!',
+							  title: '수정실패!',
 							  text: '이름을 입력해주세요.',
 							  icon: 'info'
 							});
 						mPaymentName.focus();
 						return false;
 					}
+					//예치금에 콤마지워서 보내기
+					bDeposit.val(Number(bDeposit.val().replace(/,/g,'')));
+					//입찰금액에 콤마지워서 보내기
+					bPrice1.val(Number(bPrice.val().replace(/,/g,'')));
+					console.log(bPrice1.val());
+					console.log(bDeposit.val());
 					Swal.fire({
-						  title: '대금납부 수정!',
+						  title: '수정성공!',
 						  icon: 'success'
 						});
 					form.submit();
 				});
-				
+				var bidResulCanceltBtn = $('#bidResultCancelBtn')
+				bidResulCanceltBtn.click(function(){
+					console.log('취소');
+					location.href = link2;
+				});
 			});
 		</script>
 	</th:block>

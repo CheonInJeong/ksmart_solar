@@ -81,7 +81,7 @@
 	         <tr th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=3 and bidListDTO.trTypeCode<=14)}">
               <td>예치금 환불 가능 여부</td>
               <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='N' }">가능</td>
-              <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='N' and 
+              <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='N' or 
               									(bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='Y')}">불가능</td>
             </tr>
             <tr th:if="${bidListDTO.trTypeCode>5 and bidListDTO.trTypeCode<15}">
@@ -93,10 +93,13 @@
 	             <td colspan="3" th:text="${bidListDTO.trTypeName}"></td>
 	          </tr>
 	          <tr>
-	          	 <td>파일 첨부</td>
-	             <td colspan="3">
-					<input type="file" id="files" class="default" name="files" multiple="multiple">
-				</td>
+          		<td>첨부 파일</td>
+				<th:block  th:if="${fileList.size()>0}" th:each="f:${fileList}">
+                  	<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+                </th:block>
+                <th:block th:if="${fileList.size()==0}" >
+                  	<td colspan="3">등록 된 파일이 없습니다.</td>
+                </th:block>
 	          </tr>
 	        </tbody>
 	      </table>

@@ -182,6 +182,7 @@
 		FROM 
 			tb_trade_deposit_out;
 	</select>
+	<!-- 대금납부 정보 -->
 	<select id="getTradePaymentIn" parameterType="String" resultMap="paymentInMap">
 		SELECT
 			tr_payin_code, 
