@@ -7,7 +7,13 @@
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
-	  <link rel="stylesheet" type="text/css" th:href="@{/lib/advanced-datatable/css/jquery.dataTables.css}" />	
+		<link rel="stylesheet" type="text/css" th:href="@{/lib/advanced-datatable/css/jquery.dataTables.css}" />	
+		<link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+		<style>
+		  	table{
+		  		text-align : center;
+	  		}
+	 	</style>
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
@@ -18,16 +24,11 @@
       	
 		<div class="col-md-12 mt">
             <div class="content-panel" style="padding: 30px; padding-bottom : 50px">
-				<!-- <form>
-					 <div class="input-group input-daterange col-lg-3" >
-   						<input type="text" class="form-control" name="startDate" >
-  					 	<div class="input-group-addon">to</div>
-					    <input type="text" class="form-control" name="endDate">
-					</div>
-					  <div><button>검색</button></div>				
 				
-				</form> -->
-				              
+				<div style="text-align : right; margin-bottom: 20px;">
+					<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#commissionModal" data-whatever="@mdo" id="modalBtn">정책변경/추가</a>
+				</div>
+				
               <table id="historyTable" class="table table-hover dataTable">
                 <thead>
                   <tr>
@@ -38,13 +39,14 @@
                  	<th>적용일</th>
                     <th>마지막사용일</th>
                     <th>등록자</th>
-                    <th>수정일</th>
+                    <th>등록일</th>
+                    <th>삭제</th>
                   </tr>
                 </thead>
                 <tbody>
 					<tr th:each="h, index:${commissionHistory}">
 	                  	<td th:text="${index.count}"></td>
-	                  	<td th:text="${h.sCommissionType}"></td>
+	                  	<td th:text="${h.sCommissionType}" class="commissionType" style="text-align:left"></td>
 	                  	<td th:text="${h.sCommissionRate}"></td>
 	                  		
 	                  	<td th:if="${h.sCommissionUse=='Y'}"th:text="사용"></td>
@@ -54,11 +56,59 @@
 	                    <td th:text="${h.sCommissionLast}"></td>
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sCommissionDate}"></td>
+	                    <td th:if="${h.sCommissionLast == null and h.sCommissionUse=='N'}"><a th:href="@{/policy/removeCommission(idx=${h.sCommissionIdx})}" class="btn btn-default btn-xs">삭제</a></td>
+	                    <td th:if="${h.sCommissionUse=='Y' or h.sCommissionLast!= null}">-</td>
 	                 </tr>
                 </tbody>
               </table>
             </div>
           </div>
+          
+          <!-- //////////////////모달창 시작/////////////////////////// -->
+          	<div class="modal fade" id="commissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title" id="exampleModalLabel">거래 수수료 정책 추가하기</h4>
+					</div>
+				<div class="modal-body">
+					<form th:method="post" th:action="@{/policy/addNewCommission}" id="commissionFromModal">
+						<div class="form-group">
+							<label class="control-label">기준금액선택</label>
+							<select class="form-control" id="commissionSelect">
+								<option value="0">::선택::원하는 금액이 없으면 직접입력</option>
+								<th:block th:each="c:${commissionHistory}">
+									<option  th:value="${c.sCommissionType}" th:text="${c.sCommissionType}"></option>
+								</th:block>
+							</select>
+						</div>
+					
+						<div class="form-group">
+							<label for="sCommssionTypeModal" class="control-label">기준거래금액(미만)</label>
+							<input type="text" class="form-control" id="sCommssionTypeModal" name="sCommissionType">
+						</div>
+						<div class="form-group">
+							<label for="sCommissionRateModal" class="control-label">수수료율(%)</label>
+							<input type="text" class="form-control" id = "sCommissionRateModal" name="sCommissionRate">
+						</div>
+						
+						<div class="form-group date-picker-z-index" >
+							<label for="sReservation" class="control-label">정책적용일</label>
+							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sCommissionReservation" name="sReservation">
+						</div>
+						
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
+								<button type="button" class="btn btn-primary" id="sCommissionBtnModal" >추가</button>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+          
+          <!-- //////////////////모달창 끝//////////////////////////// -->
 
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -67,33 +117,95 @@
 			var policy = $('#policy');
 			policy.addClass('active');
 			policy.parent().find('.sub').css('display','block');
-			policy.parent().find('.sub').children().eq(0).addClass('active');
+			policy.parent().find('.sub').children().eq(2).addClass('active');
 		</script>
 		
-		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-		
+		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
+		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 		<script>
-			$(function(){
-				$('#historyTable').DataTable();
+		
+			 function comma(str) {
+	       		 str = String(str);
+	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	  		  }
+		
+			//콤마 제거 함수
+	    	 function rm_comma(num){
+	    	 	  var number = num + "";
+	    	 	  return number.replace(/,/g,"");
+	    	 }
 			
-				$("div .input-daterange").each(function(){
-				    var $inputs = $(this).find('input');
-				    $inputs.datepicker({ dateFormat: 'yy-mm-dd' });
-				    if ($inputs.length >= 2) {
-				        var $from = $inputs.eq(0);
-				        var $to   = $inputs.eq(1);
-				        $from.on('changeDate', function (e) {
-				            var d = new Date(e.date.valueOf());
-				            $to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
-				        });
-				        $to.on('changeDate', function (e) {
-				            var d = new Date(e.date.valueOf());
-				            $from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
-				        });
-				    }
-				});
+			$(function(){
+					$('#historyTable').DataTable();
+					
+					$('.commissionType').each(function(){
+						var i = $('.commissionType').index(this);
+						$('.commissionType').eq(i).text(comma($('.commissionType').eq(i).text()));
+					})
+					
+					$('#commissionSelect option').each(function(i){
+						if(i != 0)$(this).text(comma($(this).val())) 						
+					})
+					
+					
+					$('#sCommssionTypeModal').keyup(function(){
+		 	 			this.value = this.value.replace(/[^0-9]/g,'');
+						this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+		 	 		})
+					
+			}); 
+	
+		 	$('#commissionSelect').change(function(){
+		 		var commission = $(this).val();
+		 		var sCommssionTypeModal = $('#sCommssionTypeModal');
+		 		console.log(commission);
+		 	
+		 		
+		 		
+		 		if(commission!='0'){
+		 			sCommssionTypeModal.val('');
+			 		sCommssionTypeModal.val(commission);
+			 		sCommssionTypeModal.attr('readonly',true);
+		 			
+		 		}else{
+		 			sCommssionTypeModal.val('');
+		 	 		sCommssionTypeModal.attr('readonly',false);
+		 	 		
+		 		}
+		 		sCommssionTypeModal.val(comma(sCommssionTypeModal.val()))
+		 	})
+		 	
+		 	
+		 	$('#sCommissionBtnModal').click(function(){
+				var commssionTypeModal = $('#sCommssionTypeModal');
+				var commissionRate= $('#sCommissionRateModal');
+				var sReservationModal = $('#sCommissionReservation')
+				
+				if(commssionTypeModal.val()==''){
+					alert('기준금액을 입력해주세요.');
+					commssionTypeModal.focus();
+					return false;
+				}
+				
+				if(commissionRate.val()==''){
+					alert('수수료율을 입력해주세요.');
+					commissionRate.focus();
+					return false;
+				}
+				
+				if(sReservationModal.val()==''){
+         			alert('적용일을 입력해주세요.');
+         			return false;
+         		}
+				commssionTypeModal.val(rm_comma(commssionTypeModal.val()));
+				$('#commissionFromModal').submit();
 			});
+		 	
+			
+		
+			
+			
 			
 		</script>
 	</th:block>

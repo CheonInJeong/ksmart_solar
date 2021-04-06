@@ -35,6 +35,7 @@ public interface PolicyMapper {
 	//거래대금 수수료울 삭제
 	public int removeCommission(int idx);
 	public int removeDeposit(int idx);
+	public int removeTrade(int idx);
 	
 	
 	//예치금상태없데이트(스케쥴러)

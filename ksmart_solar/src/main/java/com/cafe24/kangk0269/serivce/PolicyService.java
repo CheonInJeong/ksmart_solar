@@ -180,8 +180,12 @@ public class PolicyService {
 	public void removeCommission(int idx) {
 		policyMapper.removeCommission(idx);
 	}
+	
 	public void removeDeposit(int idx) {
 		policyMapper.removeDeposit(idx);
+	}
+	public void removeTrade(int idx) {
+		policyMapper.removeTrade(idx);
 	}
 	
 	

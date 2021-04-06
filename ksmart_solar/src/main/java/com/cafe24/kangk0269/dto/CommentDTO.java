@@ -1,54 +1,37 @@
 package com.cafe24.kangk0269.dto;
 
 public class CommentDTO {
-	private int cmtIdx;
-	private int cmtBoardIdx;
+	
+	private int	cmtIdx;
+	private int bIdx;
+	private String cmtClass;
 	private String mId;
-	private String cmtSolt;
+	private String targetId;
 	private String cmtReply;
 	private String cmtSecret;
 	private String cmtComment;
 	private String cmtRegDate;
 	private String cmtUpdateDate;
-	private String cmtDeleteCheck;
+	private String cmtDeleteYn;
+	private String cmtGroupCode;
 	
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("CommentDTO [cmtIdx=");
-		builder.append(cmtIdx);
-		builder.append(", cmtBoardIdx=");
-		builder.append(cmtBoardIdx);
-		builder.append(", mId=");
-		builder.append(mId);
-		builder.append(", cmtSolt=");
-		builder.append(cmtSolt);
-		builder.append(", cmtReply=");
-		builder.append(cmtReply);
-		builder.append(", cmtSecret=");
-		builder.append(cmtSecret);
-		builder.append(", cmtComment=");
-		builder.append(cmtComment);
-		builder.append(", cmtRegDate=");
-		builder.append(cmtRegDate);
-		builder.append(", cmtUpdateDate=");
-		builder.append(cmtUpdateDate);
-		builder.append(", cmtDeleteCheck=");
-		builder.append(cmtDeleteCheck);
-		builder.append("]");
-		return builder.toString();
-	}
 	public int getCmtIdx() {
 		return cmtIdx;
 	}
 	public void setCmtIdx(int cmtIdx) {
 		this.cmtIdx = cmtIdx;
 	}
-	public int getCmtBoardIdx() {
-		return cmtBoardIdx;
+	public int getbIdx() {
+		return bIdx;
 	}
-	public void setCmtBoardIdx(int cmtBoardIdx) {
-		this.cmtBoardIdx = cmtBoardIdx;
+	public void setbIdx(int bIdx) {
+		this.bIdx = bIdx;
+	}
+	public String getCmtClass() {
+		return cmtClass;
+	}
+	public void setCmtClass(String cmtClass) {
+		this.cmtClass = cmtClass;
 	}
 	public String getmId() {
 		return mId;
@@ -56,11 +39,11 @@ public class CommentDTO {
 	public void setmId(String mId) {
 		this.mId = mId;
 	}
-	public String getCmtSolt() {
-		return cmtSolt;
+	public String getTargetId() {
+		return targetId;
 	}
-	public void setCmtSolt(String cmtSolt) {
-		this.cmtSolt = cmtSolt;
+	public void setTargetId(String targetId) {
+		this.targetId = targetId;
 	}
 	public String getCmtReply() {
 		return cmtReply;
@@ -92,12 +75,47 @@ public class CommentDTO {
 	public void setCmtUpdateDate(String cmtUpdateDate) {
 		this.cmtUpdateDate = cmtUpdateDate;
 	}
-	public String getCmtDeleteCheck() {
-		return cmtDeleteCheck;
+	public String getCmtDeleteYn() {
+		return cmtDeleteYn;
 	}
-	public void setCmtDeleteCheck(String cmtDeleteCheck) {
-		this.cmtDeleteCheck = cmtDeleteCheck;
+	public void setCmtDeleteYn(String cmtDeleteYn) {
+		this.cmtDeleteYn = cmtDeleteYn;
+	}
+	public String getCmtGroupCode() {
+		return cmtGroupCode;
+	}
+	public void setCmtGroupCode(String cmtGroupCode) {
+		this.cmtGroupCode = cmtGroupCode;
+	}
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("CommentDTO [cmtIdx=");
+		builder.append(cmtIdx);
+		builder.append(", bIdx=");
+		builder.append(bIdx);
+		builder.append(", cmtClass=");
+		builder.append(cmtClass);
+		builder.append(", mId=");
+		builder.append(mId);
+		builder.append(", targetId=");
+		builder.append(targetId);
+		builder.append(", cmtReply=");
+		builder.append(cmtReply);
+		builder.append(", cmtSecret=");
+		builder.append(cmtSecret);
+		builder.append(", cmtComment=");
+		builder.append(cmtComment);
+		builder.append(", cmtRegDate=");
+		builder.append(cmtRegDate);
+		builder.append(", cmtUpdateDate=");
+		builder.append(cmtUpdateDate);
+		builder.append(", cmtDeleteYn=");
+		builder.append(cmtDeleteYn);
+		builder.append(", cmtGroupCode=");
+		builder.append(cmtGroupCode);
+		builder.append("]");
+		return builder.toString();
 	}
 	
-
 }

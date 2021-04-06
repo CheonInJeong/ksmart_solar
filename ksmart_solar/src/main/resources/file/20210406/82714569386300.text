@@ -1,0 +1,50 @@
+package com.cafe24.kangk0269.dao;
+
+public class Criteria {
+
+	private int page; //보여줄 페이지
+	private int perPageNum; //페이지 당 보여 줄 페이지 수
+	
+	 // limit 구문에서 시작 부분에 필요한 값을 반환(mybatis에서 사용)
+
+	public int getPageStart() {
+		return (this.page -1) * this.perPageNum;
+	}
+	public Criteria() {
+		this.page = 1;
+		this.perPageNum = 5;
+	}
+	public int getPage() {
+		return page;
+	}
+	public void setPage(int page) {
+		if(page<=0) {
+			this.page = 1;
+		}else {
+			this.page = page;
+		}
+	}
+	public int getPerPageNum() {
+		return perPageNum;
+	}
+	public void setPerPageNum(int perPageNum) {
+		if(perPageNum<=0 || perPageNum>100) {
+			this.perPageNum = 10;
+		}else {
+			this.perPageNum = perPageNum;
+		}
+	}
+	
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Criteria [page=");
+		builder.append(page);
+		builder.append(", perPageNum=");
+		builder.append(perPageNum);
+		builder.append("]");
+		return builder.toString();
+	}
+	
+	
+}
