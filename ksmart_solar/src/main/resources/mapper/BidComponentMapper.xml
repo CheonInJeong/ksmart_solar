@@ -83,6 +83,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="cpMakedate" 		column="cp_makedate" />	
 		<result property="cpUsedate" 		column="cp_usedate" />	
 		<result property="cpDate" 			column="cp_date" />	
+		<result property="cpPhoto" 			column="cp_photo" />	
 	</resultMap>
 	<select id="getBidComponent" resultMap="BidComponentDTOMap" parameterType="String">
 		SELECT 
@@ -152,7 +153,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			li.tr_type_name,
 			li.b_date,
 			com.b_cp_status,
-			com.m_id as sell_id		
+			com.m_id as sell_id,
+			com.cp_photo
 		FROM 
 			tb_bid_component AS com
 		INNER JOIN
@@ -171,7 +173,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			cp_maker, 
 			cp_makedate, 
 			cp_usedate, 
-			cp_date
+			cp_date,
+			cp_photo
 		FROM 
 			tb_component
 		WHERE 
