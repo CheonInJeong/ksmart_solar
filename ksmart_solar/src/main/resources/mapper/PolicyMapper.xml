@@ -193,8 +193,6 @@
 				
   		  </insert>
   		
-  		
-  		
   		<select id="getCommissionHistory" resultMap = "standardResultMap">
   			SELECT 
 	  			s_commission_idx, 
@@ -207,7 +205,7 @@
 	  			m_id
 			FROM 
 				tb_standard_commission
-			ORDER BY s_commission_use desc
+			ORDER BY s_commission_use DESC, s_commission_type ASC,s_commission_date desc
 		
   		</select>
   		
@@ -224,7 +222,7 @@
   				m_id
 			FROM 
 				tb_standard_trade 
-			ORDER BY s_trade_use desc
+			ORDER BY s_trade_use DESC,s_trade_type ASC ,s_trade_date desc
 			
   		</select>
   		
@@ -240,10 +238,15 @@
   				m_id
 			FROM 
 				tb_standard_deposit
-			ORDER BY s_deposit_use desc
+			ORDER BY s_deposit_use DESC, s_deposit_type asc,s_deposit_date DESC
 				
   		</select>
   		
+  		
+  		<delete id="removeTrade" parameterType="int">
+  			DELETE FROM tb_standard_trade WHERE s_trade_idx=#{sTradeIdx}
+  			
+  		</delete>
   		<delete id="removeDeposit" parameterType="int">
   			DELETE FROM tb_standard_deposit WHERE s_deposit_idx=#{sDepositIdx}
   			
