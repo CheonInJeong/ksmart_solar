@@ -20,7 +20,12 @@
 			<a href="/plant/plantList"> 발전소 리스트 </a>
 		</div>
 		<div id="container-header-space"></div>
-		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px;">
+			<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px;">
+				<div>
+					<div class="col-sm-6 col-sm-offset-6 col-md-3 col-md-offset-9">
+						<input type="button" id="addPlant" class="btn btn-md addPlant col-xs-12" value="발전소 추가등록" style="background-color: #4ECDC4; color: #fff; font-weight: 500;">
+					</div><div style="height: 5vh;"></div>
+				</div>
 				<div th:if="${#lists.size(plantListById) > 0}" th:each="l : ${plantListById}">
 				  <div th:if="${l.bzPlCheck} eq 'Y'">
 				  <div class="col-sm-6 col-md-3">
@@ -49,12 +54,12 @@
 				조회된 내용이 없습니다.
 				</div>
 			</div>
-		</div>
 		<!-- 클릭한 발전소의 코드를 전송 -->
 		<form id="bzCodeForm" method="post" hidden="" action="/plant/plantDetail">
 			<input id="bzCode" name="bzCode" value="">
 		</form>
 	<th:block layout:fragment="customScript">
+		<script src="/js/plant.js"></script>
 		<script type="text/javascript">
 			
 		

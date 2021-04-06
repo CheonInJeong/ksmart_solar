@@ -24,9 +24,14 @@
 						<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
 					</div>
 					<div class="h2 col-md-6 col-xs-12">
-						<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
-						<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-6"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
+						<div class=" col-md-6">
+							<input type="button" id="" class="btn btn-md benefitAnalysis" value="수익 분석" style="background-color: #4ECDC4; color: #fff; font-weight: 500;">
+						</div>
+						<div class=" col-md-6">
+							<input type="button" id="" class="btn btn-md generationAnalysis"  value="발전량 분석" style="background-color: #4ECDC4; color: #fff; font-weight: 500;">
+						</div>
 					</div>
+					<div class="col-xs-12"></div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 						<div class="h3" style="font-weight: 600;">금일 발전량</div>
 						<p class="h3">[[${plantGenDay}]] <small>[kWh]</small></p>
