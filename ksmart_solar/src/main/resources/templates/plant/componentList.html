@@ -11,16 +11,32 @@
 		<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
-			<div class="content-panel">
-				<div style="width: 80%; margin: 0 10% 0 10%;">
-				<div class="panel panel-default">
-					<div class="panel-heading">발전소 1</div>
-					<div class="panel-body">
-						<button>부품 추가등록</button>
-						부품 리스트
-					</div>
-				</div>
-				</div>
+			<div th:if="${#lists.size(componentListById) > 0}" th:each="l : ${componentListById}">
+			  <div th:if="${l.bzPlCheck} eq 'Y'">
+			  <div class="col-sm-6 col-md-3">
+			    <div class="thumbnail">
+				  <a class=""><img alt="발전소 사진" th:src="${l.bzPlPhoto}" class="plantImg" th:data-bzCode="${l.bzPlCode}" style="width: 100%; min-height: 150px; margin: 0 auto;"></a>
+			      <div class="caption">
+			        <h3 style="font-weight: 600;">[[${l.}]]</h3>
+			        <div>
+			        	<div>
+			        		<strong>발전소용량</strong>
+			        		<p>[[${l.}]] [kW]</p>
+			        	</div>
+			        	<div>
+			        		<strong>발전소주소</strong>
+			        		<p>([[${l.}]]) [[${l.}]] [[${l.}]]</p>
+			        	</div>
+			        </div>
+			        <div>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			  </div>
+			</div>
+			<div th:unless="${#lists.size(plantListById) > 0}">
+			조회된 내용이 없습니다.
 			</div>
 		</div>
 		

@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 
 import com.cafe24.kangk0269.dao.PlantMapper;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 import com.cafe24.kangk0269.dto.PlantKpxDTO;
 
@@ -176,5 +177,15 @@ public class PlantService {
 		
 		return residualValue;
 	}
-
+	
+	
+	
+	public List<ComponentDTO> componentListById() {
+		
+		
+		return null;
+	}
+	
+	
+	
 }
