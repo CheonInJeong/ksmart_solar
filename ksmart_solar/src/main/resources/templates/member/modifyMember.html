@@ -24,7 +24,7 @@
 	
 	<th:block layout:fragment="Contents">
 	<div id="container-header-title"><strong>[[${member.mId}]] 회원정보수정</strong></div>
-	<div id="container-header-path">회원관리 > 회원리스트조회 > 회원정보 > [[${member.mId}]] 회원정보수정</div>
+	<div id="container-header-path">회원관리 > <a th:href=@{/member/memberList}>회원리스트조회</a> > <a th:href=@{/getMemberInfoById(mId=${member.mId})}>회원정보</a> > [[${member.mId}]] 회원정보수정</div>
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">

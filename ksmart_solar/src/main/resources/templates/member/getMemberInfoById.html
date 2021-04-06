@@ -24,7 +24,7 @@
 	
 	<th:block layout:fragment="Contents">
 	<div id="container-header-title"><strong>[[${member.mId}]] 회원정보</strong></div>
-	<div id="container-header-path">회원관리 > 회원리스트조회 > [[${member.mId}]] 회원정보</div>
+	<div id="container-header-path">회원관리 > <a th:href=@{/member/memberList}>회원리스트조회</a> > [[${member.mId}]] 회원정보</div>
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
@@ -127,9 +127,7 @@
                   <label class="col-lg-2 col-sm-2 control-label">보유 부품</label>
                   <div class="col-lg-10 col-sm-10">
                     <th:block th:each="l : ${componentList}">
-                  		<a href=@{#}>
 							<p class="form-control-static">[[${l.cpName}]]</p>
-                  		</a>
                     </th:block>
                   </div>
                 </div>
