@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>부품 등록</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+	<style>
+		.badge{
+			margin-left: 5px;
+		}
+	</style>
+	<div id="container-header-title"><strong>부품 등록</strong></div>
+		<div id="container-header-path" style="color: black;">
+			<a href="/" >메인화면 </a>>
+			<a href="/plant/componentList"> 내 발전소 관리 </a>>
+			<a href="/plant/componentList"> 부품 리스트 </a>>
+			<a href="/plant/componentList"> 부품 등록 </a>>
+		</div>
+	<div id="container-header-space"></div>
+	<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
+		<div class="content-panel">
+			<div id="inputForm">
+				<div style="text-align: right; font-size: 13px; color: #999;"><span class="badge">!</span>표시는 필수로 입력해주세요.</div>
+				<div class="form-group">
+					<label for="cpName" style="margin-top: 13px;">부품이름 </label><span class="badge">!</span>
+					<input type="text" class="form-control" id="cpName" placeholder="아이디를 입력하세요">
+				</div>
+				<div class="form-group">
+					<label for="bzLicense">부품 사진</label><span class="badge">!</span><br>
+					<input type="file" id="cpPhoto">
+				</div>
+				<div class="form-group">
+					<label for="cpPhoto" style="margin-top: 13px;">부품 정보 </label><span class="badge">!</span>
+					<input type="text" class="form-control" id="cpInfo" placeholder="아이디를 입력하세요">
+				</div>
+				<div class="form-group">
+					<label for="bzPlName" style="margin-top: 13px;">부품 제조사 </label><span class="badge">!</span>
+					<input type="text" class="form-control" id="cpMaker" placeholder="발전소명 입력하세요">
+				</div>
+				<label for="plDepBuyDate" style="margin-top: 25px;">부품 제조일 </label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="date" class="form-control" id="cpMakedate">
+				</div>
+				<div>
+				</div>
+				<label for="plDepStartDate" style="margin-top: 25px;">부품 사용시작일 </label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="date" class="form-control" id="cpUsedate">
+				</div>
+				<button class="btn btn-info btn-lg col-xs-12" type="button" onclick="addComponent()" style="background-color: #4ECDC4; color: #fff; font-weight: 500; margin-top: 40px;">신청하기</button>
+			</div>
+		</div>
+	</div>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript">
+			function addComponent(){
+				var cpName = $('#cpName').val();
+				var cpPhoto = $('#cpPhoto').val();
+				var cpInfo = $('#cpInfo').val();
+				var cpMaker = $('#cpMaker').val();
+				var cpMakedate = $('#cpMakedate').val();
+				var cpUsedate = $('#cpUsedate').val();
+				
+				//필수 입력 유효성 검사
+				if(cpName == null || cpName == "" || cpName == 'undefined'){
+					Swal.fire({title: '부품이름을 입력해주세요!',icon: 'info'});
+					return;
+				}else if(cpPhoto == null || cpPhoto == "" || cpPhoto == 'undefined'){
+					Swal.fire({title: '사진을 등록해주세요!',icon: 'info'});
+					return;
+				}else if(cpInfo == null || cpInfo == "" || cpInfo == 'undefined'){
+					Swal.fire({title: '부품정보를 입력해주세요!',icon: 'info'});
+					return;
+				}else if(cpMaker == null || cpMaker == "" || cpMaker == 'undefined'){
+					Swal.fire({title: '부품정보를 입력해주세요!',icon: 'info'});
+					return;
+				}else if(cpMakedate == null || cpMakedate == "" || cpMakedate == 'undefined'){
+					Swal.fire({title: '부품 제조일 입력해주세요!',icon: 'info'});
+					return;
+				}else if(cpUsedate == null || cpUsedate == "" || cpUsedate == 'undefined'){
+					Swal.fire({title: '부품 사용시작일 입력해주세요!',icon: 'info'});
+					return;
+				}
+				
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////파일 업로드 ImgBB///////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				var file = document.getElementById('cpPhoto');
+				var form = new FormData();
+				var fileURL = '';
+				form.append("image", file.files[0])
+				
+				var settings = {
+				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+				  "method": "POST",
+				  "timeout": 0,
+				  "processData": false,
+				  "mimeType": "multipart/form-data",
+				  "contentType": false,
+				  "data": form
+				};
+				
+				
+				$.ajax(settings).done(function (response) {
+				  console.log(response);
+				  var jx = JSON.parse(response);
+				  fileURL = jx.data.url;
+				  fileDeleteURL = jx.data.delete_url;
+				});
+				
+				
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				
+				setTimeout(function(){
+					console.log(fileURL + ' <<< fileURL');
+					$.ajax({
+				        url     : '/ajax/addComponent',
+				        type    : 'POST',
+				        data    : {cpName:cpName, cpPhoto:fileURL, cpInfo:cpInfo, cpMaker:cpMaker, cpMakedate:cpMakedate, cpUsedate:cpUsedate},
+				        success : function(data) {
+				        	console.log(data);
+				        	if(data == 1){
+				        		Swal.fire({
+									  title: '신청이 완료되었습니다.!',
+									  icon: 'success'
+									});
+				        		setTimeout(function(){
+				        			document.location.href = '/';
+				        		}, 3000);
+				        	}else{
+				        		Swal.fire({
+									  title: '신청에 실패했습니다!',
+									  text: '다시 시도해주세요.',
+									  icon: 'error'
+									});
+				        		setTimeout(function(){
+					        		document.location.href = '/';
+				        		}, 3000);
+				        	}
+				        },
+				        error : function(xhr,status,error) {
+				        	console.log("xhr: " + xhr);
+				        	console.log("status: " + status);
+				        	console.log("error: " + error);
+				        }
+				    })}, 2000);
+			}
+		</script>
+	</th:block>
+</html>

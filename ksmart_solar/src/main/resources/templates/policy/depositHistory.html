@@ -3,17 +3,20 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
 	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	  
 	<th:block layout:fragment="customTitle">
 				<title>예치금 정책 히스토리</title>
-				
 	</th:block>
-	
 	
 	
 	<th:block layout:fragment="customCss">
 	  <link rel="stylesheet" type="text/css" th:href="@{/lib/advanced-datatable/css/jquery.dataTables.css}" />	
-	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />	
-	
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	  <style>
+	  	table{
+	  		text-align : center;
+	  	}
+	  </style>
 	</th:block>
 	
 	
@@ -58,6 +61,7 @@
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sDepositDate}"></td>
 	                    <td th:if="${h.sDepositLast == null and h.sDepositUse=='N'}"><a th:href="@{/policy/removeDeposit(idx=${h.sDepositIdx})}" class="btn btn-default btn-xs">삭제</a></td>
+	                    <td th:if="${h.sDepositUse=='Y' or h.sDepositLast!= null}">-</td>
 	                 </tr>
                 </tbody>
               </table>
@@ -79,7 +83,7 @@
 							<select class="form-control" name="sDepositType" id="depositSelect">
 								<option value="0">::선택::</option>
 								<th:block th:each="d:${depositHistory}">
-									<option th:text="${d.sDepositType}" th:value="${d.sDepositType}"></option>
+									<option th:if="${d.sDepositUse=='Y'}"th:text="${d.sDepositType}" th:value="${d.sDepositType}"></option>
 								</th:block>
 							</select>
 						</div>
@@ -102,20 +106,6 @@
 			</div>
 		</div>
              
-             
-             
-       <!--   <div class="col-md-12 mt">
-				
-           <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
-             
-              <th:block layout:fragment="addDeposit">
-                  	<nav th:replace="policy/addDeposit :: addDeposit"></nav>
-              </th:block>
-              
-              
-            </div>
-          </div> -->
-
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
@@ -128,12 +118,11 @@
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
 		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
 		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
-	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
 		<script>
-		$(function(){
-			$('#historyTable').DataTable();
-		})
-		
+			$(function(){
+				$('#historyTable').DataTable();
+			});
+			
 		//예치금 변경
 			$('#sDepositBtnModal').click(function(){
 		         		var depositRate = $('#sDepositRateModal');

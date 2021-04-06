@@ -71,7 +71,6 @@ public class PolicyController {
 		//업로드 된 공고 서류 목록을 보여줌
 		model.addAttribute("fileList", policyService.getNoticeFileList());
 		model.addAttribute("bidFileList", policyService.getBidFileList());
-		policyService.updateTrade();
 		return "/policy/document";
 	}
 	
@@ -131,6 +130,14 @@ public class PolicyController {
 		return "/policy/depositHistory";
 	}
 	
+	
+	
+	@GetMapping("/policy/removeTrade")
+	public String removeTrade(@RequestParam(value="idx") int idx) {
+		policyService.removeTrade(idx);
+		return "redirect:/policy/tradeHistory";
+	}
+	
 	@GetMapping("/policy/removeDeposit")
 	public String removeDeposit(@RequestParam(value="idx") int idx) {
 		policyService.removeDeposit(idx);
@@ -139,16 +146,16 @@ public class PolicyController {
 	
 	
 	@GetMapping("/policy/removeCommission")
-	public String removeCommission(@RequestParam(value="sCommissionIdx") int idx) {
+	public String removeCommission(@RequestParam(value="idx") int idx) {
 		policyService.removeCommission(idx);
-		return "redirect:/policy/policyList";
+		return "redirect:/policy/commissionHistory";
 	}
 	
 	@PostMapping("/policy/addNewCommission")
 	public String addNewCommssion(StandardDTO standardDto, HttpSession session) {
 		standardDto.setmId((String)session.getAttribute("SID"));
 		policyService.addNewCommission(standardDto);
-		return "redirect:/policy/policyList";
+		return "redirect:/policy/commissionHistory";
 	}
 	
 	@PostMapping("/policy/addNewTrade")

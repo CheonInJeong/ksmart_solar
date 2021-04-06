@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.ComponentMapper">
+	<resultMap type="ComponentDTO" id="ComponentDTOMap">
+		<result property="cpCode" 			column="cp_code" />
+		<result property="mId" 				column="m_id" />
+		<result property="cpName" 			column="cp_name" />
+		<result property="cpPhoto" 			column="cp_photo" />
+		<result property="cpInfo" 			column="cp_info" />
+		<result property="cpMaker"			column="cp_maker" />		
+		<result property="cpMakedate" 		column="cp_makedate" />	
+		<result property="cpUsedate" 		column="cp_usedate" />	
+		<result property="cpDate" 			column="cp_date" />	
+	</resultMap>
+	<select id="getComponentListById" resultMap="ComponentDTOMap" parameterType="String">
+			SELECT
+				cp_code
+				,m_id
+				,cp_name
+				,cp_photo
+				,cp_info
+				,cp_maker
+				,cp_makedate
+				,cp_usedate
+				,cp_date
+			FROM
+				tb_component
+			WHERE
+				m_id = #{SID};
+	</select>
+</mapper> 

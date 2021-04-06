@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>발전소 추가등록</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+	<style>
+		.badge{
+			margin-left: 5px;
+		}
+	</style>
+	<div id="container-header-title"><strong>발전소 추가등록</strong></div>
+	<div id="container-header-path" style="color: black;">
+			<a href="/" >메인화면 </a>>
+			<a href="/plant/plantList" > 내 발전소 관리 </a>>
+			<a href="/plant/addPlant"> 발전소 추가등록 </a>
+		</div>
+	<div id="container-header-space"></div>
+	<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
+		<div class="content-panel">
+			<div id="inputForm">
+				<div style="text-align: right; font-size: 13px; color: #999;"><span class="badge">!</span>표시는 필수로 입력해주세요.</div>
+				<div class="form-group">
+					<label for="bzCompanyName" style="margin-top: 13px;">사업자명 </label><span class="badge">!</span>
+					<input type="text" class="form-control" id="bzCompanyName" placeholder="아이디를 입력하세요">
+				</div>
+				<div class="form-group">
+					<label for="bzCeoName" style="margin-top: 13px;">대표자명 </label><span class="badge">!</span>
+					<input type="text" class="form-control" id="bzCeoName" placeholder="아이디를 입력하세요">
+				</div>
+				<div class="form-group">
+					<label for="postcode">사업장 주소 </label><span class="badge">!</span><br>
+					<input type="text" id="postcode" name="bzZipcode" class="form-control" placeholder="우편번호" readonly="readonly" style="width: 70%; display: inline-block;">
+					<input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기" style="width: 25%; display: inline-block; float: right;">
+				</div>
+				<div class="form-group">
+				  <input type="text" id="roadAddress" name="bzAddr" class="form-control" placeholder="도로명주소">
+				  <input type="hidden" id="jibunAddress" class="form-control" placeholder="">
+				</div>
+				<div class="form-group">
+				  <input type="text" id="detailAddress" name="bzDetailAddr" class="form-control" placeholder="상세주소">
+				</div>	
+				<div class="form-group">
+					<label for="bzLicense">사업자 등록증</label><span class="badge">!</span><br>
+					<input type="file" id="bzLicense">
+				</div>
+				<div class="form-group">
+					<label for="bzPlName" style="margin-top: 13px;">발전소명 </label><span class="badge">!</span>
+					<input type="text" class="form-control" id="bzPlName" placeholder="발전소명 입력하세요">
+				</div>
+				<div class="form-group" style="margin-top: 30px;">
+					<label for="bzPlPhoto">발전소 사진</label>
+					<input type="file" id="bzPlPhoto">
+				</div>
+				<div class="form-group">
+					<label for="bzPlDetailAddr" style="margin-top: 25px;">발전소 주소 </label>
+					<input type="text" class="form-control" id="bzPlDetailAddr" placeholder="발전소 주소 입력하세요">
+					<p class="help-block" style="font-size: 10px;">사업장 주소와 다르면 입력해주세요.</p>
+				</div>
+				<label for="bzPlPower" style="margin-top: 25px;">발전소 용량 </label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="number" class="form-control" id="bzPlPower" placeholder="발전소 용량을 입력하세요" aria-describedby="addon1">
+  					<span class="input-group-addon" id="addon1">kW</span>
+				</div>
+				<label for="bzPlArea" style="margin-top: 25px;">발전소 면적</label>
+				<div class="input-group">
+					<input type="number" class="form-control" id="bzPlArea" placeholder="발전소 면적 입력하세요" aria-describedby="addon2">
+					<span class="input-group-addon" id="addon2">㎡</span>
+				</div>
+				<label for="bzPlInvPower" style="margin-top: 25px;">인버터 단위 용량</label><br>
+				<div class="input-group">
+					<input type="number" class="form-control" id="bzPlInvPower" placeholder="인버터 단위 용량 입력하세요" aria-describedby="addon3">
+					<span class="input-group-addon" id="addon3">kW</span>
+				</div>
+				<label for="bzPlInvCount" style="margin-top: 25px;">인버터 총 수량</label><br>
+				<div class="input-group">
+					<input type="number" class="form-control" id="bzPlInvCount" placeholder="인버터 총 수량 입력하세요" aria-describedby="addon4">
+					<span class="input-group-addon" id="addon4">EA</span>
+				</div>
+				<div class="form-group">
+					<label for="bzPlInvMaker" style="margin-top: 25px;">인버터 제조사</label><br>
+					<input type="text" class="form-control" id="bzPlInvMaker" placeholder="아이디를 입력하세요">
+				</div>
+				<label for="bzPlRec" style="margin-top: 15px;">REC 정액 계약 </label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="number" class="form-control" id="bzPlRec" placeholder="REC 계약 금액을 입력하세요" aria-describedby="addon5">
+					<span class="input-group-addon" id="addon5">원/REC</span>
+				</div>
+				<div class="form-group">
+					<label for="bzPlHardware" style="margin-top: 25px;">발전소 모니터링 시스템 </label><span class="badge">!</span>
+					<div class="input-group">
+						<label class="col-xs-6"><input type="radio" name="bzPlHardware" value="Y"> 있음 </label>
+						<label class="col-xs-6"><input type="radio" name="bzPlHardware" value="N"> 없음 </label>
+					</div><!-- /input-group -->
+				</div>
+				<label for="plDepPrice" style="margin-top: 15px;">발전소 매입금액</label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="number" class="form-control" id="plDepPrice" placeholder="발전소 매입금액을 입력하세요" aria-describedby="addon6">
+					<span class="input-group-addon" id="addon6">원</span>
+				</div>
+				<label for="plDepMaintenance" style="margin-top: 15px;">발전소 월간 유지비</label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="number" class="form-control" id="plDepMaintenance" placeholder="발전소 월간 유지비용을 입력하세요" aria-describedby="addon7">
+					<span class="input-group-addon" id="addon7">원</span>
+				</div>
+				<label for="plDepBuyDate" style="margin-top: 25px;">발전소 매입일</label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="date" class="form-control" id="plDepBuyDate">
+				</div>
+				<label for="plDepStartDate" style="margin-top: 25px;">발전 시작일</label><span class="badge">!</span>
+				<div class="input-group">
+					<input type="date" class="form-control" id="plDepStartDate">
+				</div>
+				  
+				<button class="btn btn-info btn-lg col-xs-12" type="button" id="solarEntrepreneurBtn" onclick="solarEntrepreneur()" style="margin-top: 40px;">신청하기</button>
+			</div>
+		</div>
+	</div>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript">
+			function recycleEntrepreneur(){
+				var bzCompanyName = $('#bzCompanyName').val();
+				var bzCeoName = $('#bzCeoName').val();
+				var bzZipcode = $('#postcode').val();
+				var bzAddr = $('#roadAddress').val();
+				var bzDetailAddr = $('#detailAddress').val();
+				var bzLicense = $('#bzLicense').val();
+				
+				//필수 입력 유효성 검사
+				if(bzCompanyName == null || bzCompanyName == "" || bzCompanyName == 'undefined'){
+					Swal.fire({
+						  title: '사업자명 입력해주세요!',
+						  icon: 'info'
+						})
+					bzCompanyName.focus();
+					return;
+				}else if(bzCeoName == null || bzCeoName == "" || bzCeoName == 'undefined'){
+					Swal.fire({
+						  title: '대표자명 입력해주세요!',
+						  icon: 'info'
+						})
+					bzCeoName.focus();
+					return;
+				}else if(bzZipcode == null || bzZipcode == "" || bzZipcode == 'undefined'){
+					Swal.fire({
+						  title: '주소를 입력해주세요!',
+						  icon: 'info'
+						})
+					bzDetailAddr.focus();
+					return;
+				}else if(bzDetailAddr == null || bzDetailAddr == "" || bzDetailAddr == 'undefined'){
+					Swal.fire({
+						  title: '상세주소를 입력해주세요!',
+						  icon: 'info'
+						})
+					bzDetailAddr.focus();
+					return;
+				}
+				
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////파일 업로드 ImgBB///////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				var file = document.getElementById('bzLicense');
+				var form = new FormData();
+				var fileURL = '';
+				form.append("image", file.files[0])
+				
+				var settings = {
+				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+				  "method": "POST",
+				  "timeout": 0,
+				  "processData": false,
+				  "mimeType": "multipart/form-data",
+				  "contentType": false,
+				  "data": form
+				};
+				
+				
+				$.ajax(settings).done(function (response) {
+				  console.log(response);
+				  var jx = JSON.parse(response);
+				  fileURL = jx.data.url;
+				  fileDeleteURL = jx.data.delete_url;
+				});
+				
+				console.log(fileURL + ' <<< fileURL');
+				
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				///////////////////////////////////////////////////////////////////////
+				
+				setTimeout(function(){
+					$.ajax({
+				        url     : '/ajax/recycleEntrepreneur',
+				        type    : 'POST',
+				        data    : {bzCompanyName:bzCompanyName, bzCeoName:bzCeoName, bzZipcode:bzZipcode, bzAddr:bzAddr, bzDetailAddr:bzDetailAddr, bzLicense:fileURL},
+				        success : function(data) {
+				        	console.log(data);
+				        	if(data == 1){
+				        		Swal.fire({
+									  title: '신청이 완료되었습니다.!',
+									  icon: 'success'
+									});
+				        		setTimeout(function(){
+				        			document.location.href = '/';
+				        		}, 3000);
+				        	}else{
+				        		Swal.fire({
+									  title: '신청에 실패했습니다!',
+									  text: '다시 시도해주세요.',
+									  icon: 'error'
+									});
+				        		setTimeout(function(){
+					        		document.location.href = '/';
+				        		}, 3000);
+				        	}
+				        },
+				        error : function(xhr,status,error) {
+				        	console.log("xhr: " + xhr);
+				        	console.log("status: " + status);
+				        	console.log("error: " + error);
+				        }
+				    })}, 2000);
+			}
+			
+			
+			function solarEntrepreneur(){
+				var bzCompanyName = $('#bzCompanyName').val();
+				var bzCeoName = $('#bzCeoName').val();
+				var bzZipcode = $('#postcode').val();
+				var bzAddr = $('#roadAddress').val();
+				var bzDetailAddr = $('#detailAddress').val();
+				var bzLicense = $('#bzLicense').val();
+				var bzPlName = $('#bzPlName').val();
+				var bzPlPhoto = $('#bzPlPhoto').val();
+				var bzPlZipcode = bzZipcode;
+				var bzPlAddr = bzAddr;
+				var bzPlDetailAddr = $('#bzPlDetailAddr').val();
+				var bzPlPower = $('#bzPlPower').val();
+				var bzPlArea = $('#bzPlArea').val();
+				var bzPlInvPower = $('#bzPlInvPower').val();
+				var bzPlInvCount = $('#bzPlInvCount').val();
+				var bzPlInvMaker = $('#bzPlInvMaker').val();
+				var bzPlRec = $('#bzPlRec').val();
+				var bzPlHardware = $('input[name="bzPlHardware"]:checked').val();
+				var plDepPrice = $('#plDepPrice').val();
+				var plDepMaintenance = $('#plDepMaintenance').val();
+				var plDepBuyDate = $('#plDepBuyDate').val();
+				var plDepStartDate = $('#plDepStartDate').val();
+				
+				console.log(bzCompanyName + " <<< bzCompanyName");
+				console.log(bzCeoName + " <<< bzCeoName");
+				console.log(bzZipcode + " <<< bzZipcode");
+				console.log(bzAddr + " <<< bzAddr");
+				console.log(bzDetailAddr + " <<< bzDetailAddr");
+				console.log(bzLicense + " <<< bzLicense");
+				console.log(bzPlName + " <<< bzPlName");
+				console.log(bzPlPhoto + " <<< bzPlPhoto");
+				console.log(bzPlDetailAddr + " <<< bzPlDetailAddr");
+				console.log(bzPlPower + " <<< bzPlPower");
+				console.log(bzPlArea + " <<< bzPlArea");
+				console.log(bzPlInvPower + " <<< bzPlInvPower");
+				console.log(bzPlInvCount + " <<< bzPlInvCount");
+				console.log(bzPlInvMaker + " <<< bzPlInvMaker");
+				console.log(bzPlRec + " <<< bzPlRec");
+				console.log(bzPlHardware + " <<< bzPlHardware");
+				console.log(plDepPrice + " <<< plDepPrice");
+				console.log(plDepMaintenance + " <<< plDepMaintenance");
+				console.log(plDepBuyDate + " <<< plDepBuyDate");
+				console.log(plDepStartDate + " <<< plDepStartDate");
+				
+				//필수 입력 유효성 검사
+				if(bzCompanyName == null || bzCompanyName == "" || bzCompanyName == 'undefined'){
+					Swal.fire({
+						  title: '사업자명 입력해주세요!',
+						  icon: 'info'
+						})
+					return;
+				}else if(bzCeoName == null || bzCeoName == "" || bzCeoName == 'undefined'){
+					Swal.fire({
+						  title: '대표자명 입력해주세요!',
+						  icon: 'info'
+						})
+					return;
+				}else if(bzZipcode == null || bzZipcode == "" || bzZipcode == 'undefined'){
+					Swal.fire({
+						  title: '주소를 입력해주세요!',
+						  icon: 'info'
+						})
+					return;
+				}else if(bzDetailAddr == null || bzDetailAddr == "" || bzDetailAddr == 'undefined'){
+					Swal.fire({
+						  title: '상세주소를 입력해주세요!',
+						  icon: 'info'
+						})
+					return;
+				}else if(bzPlDetailAddr == null || bzPlDetailAddr == "" || bzPlDetailAddr == 'undefined'){
+					bzPlDetailAddr = bzDetailAddr;
+				}
+				
+				var file = document.getElementById('bzLicense');
+				var form = new FormData();
+				var fileURL = '';
+				form.append("image", file.files[0])
+				var file2 = document.getElementById('bzPlPhoto');
+				var form2 = new FormData();
+				var fileURL2 = '';
+				form2.append("image", file2.files[0])
+				
+				var settings = {
+				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+				  "method": "POST",
+				  "timeout": 0,
+				  "processData": false,
+				  "mimeType": "multipart/form-data",
+				  "contentType": false,
+				  "data": form
+				};
+				$.ajax(settings).done(function (response) {
+				  console.log(response);
+				  var jx = JSON.parse(response);
+				  fileURL = jx.data.url;
+			      console.log(fileURL + ' <<< fileURL');
+					var settings = {
+					  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+					  "method": "POST",
+					  "timeout": 0,
+					  "processData": false,
+					  "mimeType": "multipart/form-data",
+					  "contentType": false,
+					  "data": form2
+					};
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+						var jx = JSON.parse(response);
+						fileURL2 = jx.data.url;
+						console.log(fileURL + ' <<< fileURL2222');
+						console.log(fileURL2 + ' <<< fileURL2222');
+						$.ajax({
+					        url     : '/ajax/solarEntrepreneur',
+					        type    : 'POST',
+					        data    : {
+					        	 bzCompanyName : bzCompanyName
+					        	,bzCeoName : bzCeoName
+					        	,bzZipcode : bzZipcode
+					        	,bzAddr : bzAddr
+					        	,bzDetailAddr:bzDetailAddr
+					        	,bzLicense:fileURL
+					        	,bzPlName:bzPlName
+					        	,bzPlPhoto:fileURL2
+					        	,bzPlZipcode:bzPlZipcode
+					        	,bzPlAddr:bzPlAddr
+					        	,bzPlDetailAddr:bzPlDetailAddr
+					        	,bzPlPower:bzPlPower
+					        	,bzPlArea:bzPlArea
+					        	,bzPlInvPower:bzPlInvPower
+					        	,bzPlInvCount:bzPlInvCount
+					        	,bzPlInvMaker:bzPlInvMaker
+					        	,bzPlRec:bzPlRec
+					        	,bzPlHardware:bzPlHardware
+					        	,plDepPrice:plDepPrice
+					        	,plDepMaintenance:plDepMaintenance
+					        	,plDepBuyDate:plDepBuyDate
+					        	,plDepStartDate:plDepStartDate
+					        },
+					        success : function(data) {
+					        	console.log(data);
+					        	if(data == 1){
+					        		Swal.fire({
+										  title: '신청이 완료되었습니다.!',
+										  icon: 'success'
+										});
+					        		setTimeout(function(){
+					        			//document.location.href = '/';
+					        		}, 3000);
+					        	}else{
+					        		Swal.fire({
+										  title: '신청에 실패했습니다!',
+										  text: '다시 시도해주세요.',
+										  icon: 'error'
+										});
+					        		setTimeout(function(){
+						        		//document.location.href = '/';
+					        		}, 3000);
+					        	}
+					        },
+					        error : function(xhr,status,error) {
+					        	console.log("xhr: " + xhr);
+					        	console.log("status: " + status);
+					        	console.log("error: " + error);
+					        }
+					    });
+					});
+				});
+			}
+		
+			$('#solarEntrepreneurBtn').click(function(){
+				$('#recycleEntrepreneurForm').fadeIn( 'slow' );
+				$('#recycleEntrepreneurSubmit').hide();
+				$('#solarEntrepreneurForm').fadeIn( 'slow' );
+			});
+			$('#recycleEntrepreneurBtn').click(function(){
+				$('#recycleEntrepreneurForm').fadeIn( 'slow' );
+				$('#recycleEntrepreneurSubmit').fadeIn( 'slow' );
+				$('#solarEntrepreneurForm').hide();
+			});
+			
+						
+			
+			
+			//우편번호 api
+			function execDaumPostcode() {
+			    new daum.Postcode({
+			        oncomplete: function(data) {
+			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+			            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+			            var roadAddr = data.roadAddress; // 도로명 주소 변수
+			            var extraRoadAddr = ''; // 참고 항목 변수
+
+			            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
+			            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+			            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
+			                extraRoadAddr += data.bname;
+			            }
+			            // 건물명이 있고, 공동주택일 경우 추가한다.
+			            if(data.buildingName !== '' && data.apartment === 'Y'){
+			               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
+			            }
+			            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
+			            if(extraRoadAddr !== ''){
+			                extraRoadAddr = ' (' + extraRoadAddr + ')';
+			            }
+
+			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
+			            document.getElementById('postcode').value = data.zonecode;
+			            document.getElementById("roadAddress").value = roadAddr;
+			            document.getElementById("jibunAddress").value = data.jibunAddress;
+			        }
+			    }).open();
+			}
+			
+		</script>
+	</th:block>
+</html>

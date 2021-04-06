@@ -10,6 +10,7 @@
 		<result property="bzPlZipcode" 		column="bz_pl_zipcode"/>
 		<result property="bzPlAddr" 		column="bz_pl_addr"/>
 		<result property="bzPlDetailAddr" 	column="bz_pl_detail_addr"/>
+		<result property="bzPlAddrCode" 	column="bz_pl_addr_code"/>
 		<result property="bzPlPhoto" 		column="bz_pl_photo"/>
 		<result property="bzPlPower" 		column="bz_pl_power"/>
 		<result property="bzPlHardware" 	column="bz_pl_hardware"/>
@@ -178,6 +179,7 @@
 			, bz_pl_zipcode
 			, bz_pl_addr
 			, bz_pl_detail_addr
+			, bz_pl_addr_code
 			, bz_pl_photo
 			, bz_pl_power
 			, bz_pl_hardware
@@ -221,6 +223,7 @@
 			, bz_pl_zipcode
 			, bz_pl_addr
 			, bz_pl_detail_addr
+			, bz_pl_addr_code
 			, bz_pl_photo
 			, bz_pl_power
 			, bz_pl_hardware

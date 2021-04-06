@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  	<mapper namespace="com.cafe24.kangk0269.dao.BoardSellerMapper">
+  	
+  	
+  		<resultMap type = "BoardSellerDTO" id = "boardSellerResultMap">
+  		  		<result property="bIdx" column="b_idx"/>
+  		  	  	<result property="bSubject" column="b_subject"/>
+  		  	  	<result property="bContents" column="b_contents"/>
+  		  	  	<result property="mIdBuyer" column="m_id_buyer"/>
+  				<result property="mIdSeller" column="m_id_seller"/>
+  		  		<result property="announcedCode" column="announced_code"/>
+  		  		<result property="bView" column="b_view"/>
+  		  		<result property="bPhoto" column="b_photo"/>
+  		  		<result property="bRegDate" column="b_reg_date"/>
+  		</resultMap>
+  		
+  		<resultMap type = "CommentDTO" id = "commentResultMap">
+  		  		<result property="cmt_idx" column="cmt_idx"/>
+  		  	  	<result property="bIdx" column="b_idx"/>
+  		  	  	<result property="cmtClass" column="cmtClass"/>
+  		  	  	<result property="mId" column="m_id"/>
+  		  	  	<result property="targetId" column="target_id"/>
+  		  	  	<result property="cmtReply" column="cmt_reply"/>
+  				<result property="cmtSecret" column="cmt_secret"/>
+  		  		<result property="cmtComment" column="cmt_comment"/>
+  		  		<result property="cmtRegDate" column="cmt_reg_date"/>
+  		  		<result property="cmtUpdateDate" column="cmt_update_date"/>
+  		  		<result property="cmtDeleteYn" column="cmt_delete_yn"/>
+  		  		<result property="cmtGroupCode" column="cmt_group_code"/>
+  		</resultMap>
+  		
+		  		  
+  	</mapper>

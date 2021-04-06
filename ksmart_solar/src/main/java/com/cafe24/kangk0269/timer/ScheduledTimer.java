@@ -26,7 +26,6 @@ public class ScheduledTimer {
 	@Autowired
 	private PolicyService policyService;
 	
-	//매일 오전 8시에 실행 되는 api
 	@Scheduled(cron = "0  01  8  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		RadiationApi raApi = new RadiationApi();
@@ -40,8 +39,12 @@ public class ScheduledTimer {
 		pk = crawlingApi.crawLingKpxData();
 		System.out.println(pk);
 		plantService.crawLingKpxData(pk);
-		
 	}
+	
+	
+	
+	
+	
 	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
 	@Scheduled(cron = "0  00  0  *  *  *") 
 	public void updateAcStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
@@ -50,8 +53,8 @@ public class ScheduledTimer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
+	
 	//예약한 시간에 예치금 정책 적용 상태 바꾸는 메서드
 	@Scheduled(cron = "30  00  0  *  *  *") 
 	public void updateDepositStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
@@ -60,7 +63,6 @@ public class ScheduledTimer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	
@@ -72,18 +74,21 @@ public class ScheduledTimer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
 	}
 	
 	//예약한 시간에 수수료 정책 적용 상태 바꾸는 메서드
-		@Scheduled(cron = "30  01  0  *  *  *") 
-		public void updateCommissionStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
-			try {
-				policyService.updateCommission();
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			
+	@Scheduled(cron = "30  01  0  *  *  *") 
+	public void updateCommissionStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
+		try {
+			policyService.updateCommission();
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
+	}
 	
+	
+	
+	
+		
+		
 }

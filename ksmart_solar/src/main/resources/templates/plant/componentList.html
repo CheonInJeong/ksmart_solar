@@ -4,29 +4,138 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>발전소 리스트</title>
+				<title>부품 리스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>발전소 리스트</strong></div>
-		<div id="container-header-path">메인화면 > 내 발전소 관리 > 발전소 리스트</div>
+		<div id="container-header-title"><strong>부품 리스트</strong></div>
+		<div id="container-header-path" style="color: black;">
+			<a href="/" >메인화면 </a>>
+			<a href="/plant/componentList"> 내 발전소 관리 </a>>
+			<a href="/plant/componentList"> 부품 리스트 </a>
+		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
-			<div class="content-panel">
-				<div style="width: 80%; margin: 0 10% 0 10%;">
-				<div class="panel panel-default">
-					<div class="panel-heading">발전소 1</div>
-					<div class="panel-body">
-						발전소 정보
-					</div>
-				</div>
-				</div>
+			<div>
+				<div class="col-sm-6 col-sm-offset-6 col-md-3 col-md-offset-9">
+					<input type="button" id="addComponent" class="btn btn-md col-xs-12" value="부품 등록하기" style="background-color: #4ECDC4; color: #fff; font-weight: 500;">
+				</div><div style="height: 5vh;"></div>
+			</div>
+			<div th:if="${#lists.size(componentListById) > 0}" th:each="l : ${componentListById}">
+			  <div class="col-sm-6 col-md-3">
+			    <div class="thumbnail">
+				  <a class=""><img alt="부품 사진" th:src="${l.cpPhoto}" class="componentImg" th:data-cpCode="${l.cpCode}" style="width: 100%; min-height: 150px; margin: 0 auto;"></a>
+			      <div class="caption">
+			        <h3 style="font-weight: 600;">[[${l.cpName}]]</h3>
+			        <div>
+			        <div style="margin: 0 0 20px 0;">
+			        	<button type="button" th:data-cpName="${l.cpName}" th:data-cpCode="${l.cpCode}" class="btn btn-info btn-xs componentModify">수정</button>
+						<button type="button" th:data-cpName="${l.cpName}" th:data-cpCode="${l.cpCode}" class="btn btn-danger btn-xs componentDelete">삭제</button>
+			        </div>
+			        	<div>
+			        		<strong>부품 정보</strong>
+			        		<p>[[${l.cpInfo}]]</p>
+			        	</div>
+			        	<div>
+			        		<strong>부품 제조사</strong>
+			        		<p>[[${l.cpMaker}]]</p>
+			        	</div>
+			        	<div>
+			        		<strong>부품 제조일</strong>
+			        		<p>[[${l.cpMakedate}]]</p>
+			        	</div>
+			        	<div>
+			        		<strong>부품 사용시작일</strong>
+			        		<p>[[${l.cpUsedate}]]</p>
+			        	</div>
+			        </div>
+			        <div>
+			        </div>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div th:unless="${#lists.size(componentListById) > 0}">
+				조회된 내용이 없습니다.
 			</div>
 		</div>
 		
 	</th:block>
+	
 	<th:block layout:fragment="customScript">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
+		$('.componentDelete').click(function(){
+			var cpName = $(this).attr('data-cpName');
+			var cpCode = $(this).attr('data-cpCode');
+			console.log(cpName);
+			console.log(cpCode);
+			Swal.fire({
+				  title: cpName +' 정보를 삭제 하시겠습니까?',
+				  showDenyButton: true,
+				  confirmButtonText: `Yes`,
+				  denyButtonText: `No`,
+				  customClass: {
+				    cancelButton: 'order-1 right-gap',
+				    confirmButton: 'order-2',
+				    denyButton: 'order-3',
+				  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+					  Swal.fire({
+						  title: '정말 삭제 하시겠습니까?',
+						  showDenyButton: true,
+						  confirmButtonText: `Yes`,
+						  denyButtonText: `No`,
+						  customClass: {
+						    cancelButton: 'order-1 right-gap',
+						    confirmButton: 'order-2',
+						    denyButton: 'order-3',
+						  }
+						}).then((result) => {
+						  if (result.isConfirmed) {
+							//cpCode 발전소 코드로 삭제 처리 (ajax로 처리)
+							
+						    Swal.fire('삭제처리 되었습니다!', '', 'success')
+						  } else if (result.isDenied) {
+						    Swal.fire('취소되었습니다.', '', 'info')
+						  }
+						})
+				  } else if (result.isDenied) {
+				    Swal.fire('취소되었습니다.', '', 'info')
+				  }
+				})
+		});
+		
+		
+		$('.componentModify').click(function(){
+			var cpName = $(this).attr('data-cpName');
+			var cpCode = $(this).attr('data-cpCode');
+			console.log(cpName);
+			console.log(cpCode);
+			Swal.fire({
+				  title: cpName +' 정보를 수정 하시겠습니까?',
+				  showDenyButton: true,
+				  confirmButtonText: `Yes`,
+				  denyButtonText: `No`,
+				  customClass: {
+				    cancelButton: 'order-1 right-gap',
+				    confirmButton: 'order-2',
+				    denyButton: 'order-3',
+				  }
+				}).then((result) => {
+				  if (result.isConfirmed) {
+				    Swal.fire('수정화면으로 이동합니다.', '', 'info');
+				  } else if (result.isDenied) {
+				    Swal.fire('취소되었습니다.', '', 'info');
+				  }
+				});
+		});
+		
+		
+		$('#addComponent').click(function(){
+			document.location.href = '/plant/componentList/addComponent';
 			
+		});
 		</script>
 	</th:block>
 	

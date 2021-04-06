@@ -24,7 +24,10 @@
 	
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>공지사항</strong></div>
-     	<div id="container-header-path">고객센터 > 공지사항</div>
+     	<div id="container-header-path">
+	     	<a href="/" style="text-decoration: none;"> 메인화면 </a>> 고객센터 >
+	     	<a href="/help/notice" style="text-decoration: none;"> 공지사항 </a>> 공지사항 상세
+     	</div>
      	<div id="container-header-space"></div>	
 		
 		<div class="row mt">
@@ -52,8 +55,8 @@
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
-                  	<a class="btn btn-info" th:if="${session.SID == 'id001'}" th:href="@{/help/modifyNotice(noticeIdx=${noticeDTO.noticeIdx})}">수정</a>
-                  	<a class="btn btn-danger" th:if="${session.SID == 'id001'}" th:href="@{/help/removeNotice(noticeIdx=${noticeDTO.noticeIdx})}">삭제</a>
+                  	<a class="btn btn-info" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/modifyNotice(noticeIdx=${noticeDTO.noticeIdx})}">수정</a>
+                  	<a class="btn btn-danger" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/removeNotice(noticeIdx=${noticeDTO.noticeIdx})}">삭제</a>
                   </div>
                 </div>
               </form>

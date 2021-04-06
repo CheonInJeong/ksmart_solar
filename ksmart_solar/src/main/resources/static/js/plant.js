@@ -52,3 +52,6 @@ $('.generationPredict').click(function(){
 	document.location.href = '/plant/plantDetail/generationPredict';
 	
 });
+$('#addPlant').click(function(){
+	document.location.href = '/plant/addPlant';
+});
