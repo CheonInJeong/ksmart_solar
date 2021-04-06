@@ -189,6 +189,37 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
+  		  
+  		  <select id="getBidPlantAcById" parameterType="String" resultMap="bidPlantResultMap">
+  		  		SELECT 
+  		  			b_pl_title, bz_pl_code,b_pl_contents,b_pl_price,b_pl_status, ac_status_code
+				FROM 
+					tb_bid_plant WHERE m_id =#{mId} AND ac_status_code =9  AND b_pl_re_count = 0
+	
+	
+  		  
+  		  
+  		  </select>
+  		  
+  		  
+  		  <update id="updateComponentAcStatus">
+  		  	UPDATE 
+  		  		tb_bid_component
+			SET
+				b_cp_status='공고마감',
+				ac_status_code= 5
+			WHERE 
+				ac_status_code = 4
+  		  	AND 
+				b_cp_date_decision1 = CURDATE();
+  		  </update>
+  		  
+  		  
+  		  <select id="getComponentAcStatus" resultMap="bidComponentResultMap">
+  		  	SELECT b_cp_date_decision1 FROM tb_bid_component;
+  		  </select>
+  		  
+  		  
   		  <update id="modifyRank" parameterType="map">
 				UPDATE 
 					tb_bid_list

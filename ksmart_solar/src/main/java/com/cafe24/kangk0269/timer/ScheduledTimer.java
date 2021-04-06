@@ -42,17 +42,17 @@ public class ScheduledTimer {
 	}
 	
 	
+	//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
+	@Scheduled(cron = "30 11 23 * * *")
+	public void updateComponentAcStatus() throws Exception {
+		sellService.updateComponentAcStatus();
+	}
 	
-	
-	
-	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
+	//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
 	@Scheduled(cron = "0  00  0  *  *  *") 
-	public void updateAcStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
-		try {
+	public void updateAcStatus() throws Exception {
 			sellService.updateAcStatus();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	
 	}
 	
 	//예약한 시간에 예치금 정책 적용 상태 바꾸는 메서드
