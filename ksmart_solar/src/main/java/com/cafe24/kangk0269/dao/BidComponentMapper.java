@@ -15,4 +15,5 @@ public interface BidComponentMapper {
 	public BidComponentDTO getBidComponentByInfo(String announceCode);
 	public List<BidComponentDTO> getBidComponentMyBid(String sId);
 	public ComponentDTO getComponent(String CpCode);
+	public List<String> getComponentSatusList(int status);
 }

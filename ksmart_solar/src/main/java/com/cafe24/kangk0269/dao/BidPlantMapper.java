@@ -19,4 +19,5 @@ public interface BidPlantMapper {
 	public List<BidPlantDTO> getBidPlantMyBid(String sId);
 	//해당공고의 발전소 정보 가져오기
 	public BusinessPlantDTO getPlant(String announceCode);
+	public List<String> getPlantSatusList(int status);
 }

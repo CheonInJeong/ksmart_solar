@@ -153,8 +153,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			li.tr_type_name,
 			li.b_date,
 			com.b_cp_status,
-			com.m_id as sell_id,
-			com.cp_photo
+			com.m_id as sell_id
 		FROM 
 			tb_bid_component AS com
 		INNER JOIN
@@ -179,5 +178,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tb_component
 		WHERE 
 			cp_code=#{CpCode}
+	</select>
+	<select id="getComponentSatusList" parameterType="int" resultType="String">
+		SELECT
+			b_cp_code
+		FROM
+			tb_bid_component
+		WHERE
+			CAST(b_cp_date_bidding2 AS DATE) = CURDATE()
+			AND ac_status_code = #{status}
 	</select>
 </mapper>

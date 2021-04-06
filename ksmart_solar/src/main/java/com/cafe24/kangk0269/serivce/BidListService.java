@@ -14,7 +14,9 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dao.BidListMapper;
+import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -25,12 +27,20 @@ public class BidListService {
 	private final BidListMapper bidListMapper;
 	private final FileUtils fileUtils;
 	private final FileMapper fileMapper;
+	private final BidComponentMapper bidComponentMapper;
+	private final BidPlantMapper bidPlantMapper;
 	
 	@Autowired
-	public BidListService(BidListMapper bidListMapper,FileUtils fileUtils,FileMapper fileMapper) {
+	public BidListService(BidListMapper bidListMapper
+						,FileUtils fileUtils
+						,FileMapper fileMapper
+						,BidComponentMapper bidComponentMapper
+						,BidPlantMapper bidPlantMapper) {
 		this.bidListMapper = bidListMapper; 
 		this.fileUtils = fileUtils; 
 		this.fileMapper = fileMapper; 
+		this.bidComponentMapper = bidComponentMapper; 
+		this.bidPlantMapper = bidPlantMapper; 
 	}
 	
 	public double getDepositRate() {
@@ -135,6 +145,13 @@ public class BidListService {
 		refundList.put("RefundRequestList", RefundRequestList);
 		
 		return refundList;
+	}
+	public void updateBidListsatus() {
+		List<String> componentList = bidComponentMapper.getComponentSatusList(5);
+		List<String> plantList = bidPlantMapper.getPlantSatusList(5);
+		System.out.println(componentList);
+		System.out.println(plantList);
+		System.out.println("실행");
 	}
 
 }

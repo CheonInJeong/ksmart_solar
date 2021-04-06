@@ -258,4 +258,21 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			</if>
 		</trim>
 	</select>
+	<update id="updateBidStatus" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code=2,
+			tr_type_name='입찰실패',
+			b_date_up = NOW()
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			<if test="Code!=null">
+				announced_code in
+				<foreach item="item" index="index" collection="list"
+			      open="(" separator="," close=")">
+					 #{item}
+			  	</foreach>
+			</if>
+			AND tr_type_code = 1
+		</trim>
+	</update>
 </mapper>

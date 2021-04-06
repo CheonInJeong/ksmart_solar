@@ -171,7 +171,7 @@
         	 th:if="${bidListDTO != null and tradePaymentInDTO!=null and bidListDTO.trTypeCode>=11 and bidListDTO.trTypeCode<=14}"></div>
 		<div class="row" style="margin: 5px 0px;">
 			<div class="form-inline" style="text-align: center;">
-				<th:block th:if="${level!='관리자' and level!='일반회원'
+				<th:block th:if="${level!='관리자' and level!='일반회원' and session.SID!=null
 								and ((bidComponentdto!=null and id!=bidComponentdto.mId) 
 								or (bidPlantdto!=null and id!=bidPlantdto.mId))}">
 					<div class="form-group" th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)

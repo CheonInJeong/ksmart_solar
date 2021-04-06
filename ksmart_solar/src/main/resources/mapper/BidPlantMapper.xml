@@ -224,4 +224,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE
 			pl.b_pl_code = #{announceCode}
 	</select>
+	<select id="getPlantSatusList" parameterType="int" resultType="String">
+		SELECT
+			b_pl_code
+		FROM
+			tb_bid_plant
+		WHERE
+			CAST(b_pl_date_bidding2 AS DATE) = CURDATE()
+			AND ac_status_code = #{status};
+	</select>
 </mapper>
