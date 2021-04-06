@@ -2,17 +2,23 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
-	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
 	<th:block layout:fragment="customTitle">
 				<title>예치금 정책 히스토리</title>
 	</th:block>
+	
+	<th:block layout:fragment="customCss">
+	  <link rel="stylesheet" type="text/css" th:href="@{/lib/advanced-datatable/css/jquery.dataTables.css}" />	
+	</th:block>
+	
 	<th:block layout:fragment="Contents">
+	
 		<div id="container-header-title"><strong>거래수수료히스토리</strong></div>
      	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a> >거래수수료히스토리</div>
       	<div id="container-header-space"></div>		
+      	
 		<div class="col-md-12 mt">
-            <div class="content-panel" style="padding: 30px;">
-				<form>
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px">
+				<!-- <form>
 					 <div class="input-group input-daterange col-lg-3" >
    						<input type="text" class="form-control" name="startDate" >
   					 	<div class="input-group-addon">to</div>
@@ -20,29 +26,34 @@
 					</div>
 					  <div><button>검색</button></div>				
 				
-				</form>
+				</form> -->
 				              
-              <table class="table table-hover">
+              <table id="historyTable" class="table table-hover dataTable">
                 <thead>
                   <tr>
                     <th>#</th>
                     <th>기준금액</th>
                     <th>수수료율(%)</th>
+                    <th>사용여부</th>
+                 	<th>적용일</th>
+                    <th>마지막사용일</th>
                     <th>등록자</th>
-                    <th>시작일</th>
-                    <th>마지막일</th>
+                    <th>수정일</th>
                   </tr>
                 </thead>
-    
-                
                 <tbody>
 					<tr th:each="h, index:${commissionHistory}">
 	                  	<td th:text="${index.count}"></td>
 	                  	<td th:text="${h.sCommissionType}"></td>
 	                  	<td th:text="${h.sCommissionRate}"></td>
+	                  		
+	                  	<td th:if="${h.sCommissionUse=='Y'}"th:text="사용"></td>
+	                  	<td th:if="${h.sCommissionUse=='N'}"th:text="미사용"></td>
+	                  	
+	                  	<td th:text="${h.sReservation}"></td>
+	                    <td th:text="${h.sCommissionLast}"></td>
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sCommissionDate}"></td>
-	                    <td th:text="${h.sCommissionLast}"></td>
 	                 </tr>
                 </tbody>
               </table>
@@ -51,6 +62,7 @@
 
 	</th:block>
 	<th:block layout:fragment="customScript">
+		
 		<script type="text/javascript">
 			var policy = $('#policy');
 			policy.addClass('active');
@@ -58,27 +70,31 @@
 			policy.parent().find('.sub').children().eq(0).addClass('active');
 		</script>
 		
+		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
-	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
 		
 		<script>
-			$("div .input-daterange").each(function(){
-			    var $inputs = $(this).find('input');
-			    $inputs.datepicker({ dateFormat: 'yy-mm-dd' });
-			    if ($inputs.length >= 2) {
-			        var $from = $inputs.eq(0);
-			        var $to   = $inputs.eq(1);
-			        $from.on('changeDate', function (e) {
-			            var d = new Date(e.date.valueOf());
-			            $to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
-			        });
-			        $to.on('changeDate', function (e) {
-			            var d = new Date(e.date.valueOf());
-			            $from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
-			        });
-			    }
-			})
+			$(function(){
+				$('#historyTable').DataTable();
+			
+				$("div .input-daterange").each(function(){
+				    var $inputs = $(this).find('input');
+				    $inputs.datepicker({ dateFormat: 'yy-mm-dd' });
+				    if ($inputs.length >= 2) {
+				        var $from = $inputs.eq(0);
+				        var $to   = $inputs.eq(1);
+				        $from.on('changeDate', function (e) {
+				            var d = new Date(e.date.valueOf());
+				            $to.datepicker('setStartDate', d); // 종료일은 시작일보다 빠를 수 없다.
+				        });
+				        $to.on('changeDate', function (e) {
+				            var d = new Date(e.date.valueOf());
+				            $from.datepicker('setEndDate', d); // 시작일은 종료일보다 늦을 수 없다.
+				        });
+				    }
+				});
+			});
+			
 		</script>
 	</th:block>
 </html>

@@ -6,21 +6,7 @@
 	<th:block layout:fragment="customTitle">
 				<title>정책리스트</title>
 	</th:block>
-	
-	<th:block layout:fragment="customCss">
-	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />	
-	</th:block>
-	
-	
-	
-	
 	<th:block layout:fragment="Contents">
-			
-		<style>
-			.date-picker-z-index{
-			z-index: 9999999;}
-		
-		</style>
 		<div id="container-header-title"><strong>정책리스트</strong></div>
      	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a></div>
       	<div id="container-header-space"></div>
@@ -39,6 +25,7 @@
                     <th>예치금율(%)</th>
                     <th>등록자</th>
                     <th>적용일</th>
+                    <th>수정</th>
                   </tr>
                 </thead>
     
@@ -51,12 +38,13 @@
 	                    <td class="depositRate" th:text ="${d.sDepositRate}"></td>
 	                    <td th:text ="${d.mId}"></td>
 	                    <td th:text ="${d.sDepositDate}"></td>
+	                    <td><button class="modifyDeposit"  data-attr = "0">수정</button></td>
 	                 </tr>
                  	 <tr>
                  	 	<td colspan="4" id="modifyDepositMsg"></td>
 	                  	<td colspan="2">
 	                  	 <div class=" add-task-row">
-							<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#depositModal" data-whatever="@mdo">정책변경</a>
+						<!-- 	<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#depositModal" data-whatever="@mdo">정책추가</a> -->
 				  		  </div>
 				  		</td>
                 	  </tr>
@@ -65,34 +53,24 @@
             </div>
           </div>
           
-          <!--///////////////////////////////////예치금추가모달창 //////////////////////////////////////////// -->
+          <!--///////////////////////////////////정책추가모달창 //////////////////////////////////////////// -->
 		<div class="modal fade" id="depositModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="exampleModalLabel">예치금 정책 변경하기</h4>
+						<h4 class="modal-title" id="exampleModalLabel">예치금 정책 추가하기</h4>
 					</div>
 				<div class="modal-body">
 					<form th:method="post" th:action="@{/policy/addNewDeposit}" id="depositFromModal">
 						<div class="form-group">
 							<label for="sDepositTypeModal" class="control-label">예치금종류</label>
-							<select class="form-control" name="sDepositType" id="depositSelect">
-								<option value="0">::선택::</option>
-								<th:block th:each="d:${deposit}">
-									<option th:text="${d.sDepositType}" th:value="${d.sDepositType}"></option>
-								</th:block>
-							</select>
+							<input type="text" class="form-control" id="sDepositTypeModal" name="sDepositType">
 						</div>
 						<div class="form-group">
 							<label for="sDepositRateModal" class="control-label">수수료율</label>
 							<input type="text" class="form-control" id = "sDepositRateModal" name="sDepositRate">
 						</div>
-						<div class="form-group date-picker-z-index" >
-							<label for="sReservation" class="control-label">정책적용일</label>
-							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sReservationModal" name="sReservation">
-						</div>
-						
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 								<button type="button" class="btn btn-primary" id="sDepositBtnModal" >추가</button>
@@ -102,7 +80,7 @@
 				</div>
 			</div>
 		</div>
-         <!--///////////////////////////////////예치금모달창끝 //////////////////////////////////////////// -->
+         <!--///////////////////////////////////모달창 //////////////////////////////////////////// -->
          
           
            <div class="col-md-12 mt">
@@ -137,7 +115,7 @@
                   	<td colspan="4" id="modifyCommissionMsg"></td>
                   	<td colspan="3">
                   	 <div class="add-task-row">
-						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" id="sCommissionBtn" data-target="#commissionModal" data-whatever="@mdo">정책추가</a>
+						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#commissionModal" data-whatever="@mdo">정책추가</a>
 			  		  </div>
 			  		</td>
                   </tr>
@@ -164,12 +142,6 @@
 							<label for="sCommissionRateModal" class="control-label">수수료율(%)</label>
 							<input type="text" class="form-control" id = "sCommissionRateModal" name="sCommissionRate">
 						</div>
-						
-						<div class="form-group date-picker-z-index" >
-							<label for="sReservation" class="control-label">정책적용일</label>
-							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sCommissionReservation" name="sReservation">
-						</div>
-						
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 								<button type="button" class="btn btn-primary" id="sCommissionBtnModal" >추가</button>
@@ -195,6 +167,7 @@
                     <th>기간</th>
                     <th>등록자</th>
                     <th>적용일</th>
+                    <th>수정</th>
                   </tr>
                 </thead>
                 <tbody id="tradeBody">
@@ -205,12 +178,13 @@
                     <td class="tradePeriod" th:text ="${t.sTradePeriod}"></td>
                     <td th:text = "${t.mId}"></td>
                     <td th:text = "${t.sTradeDate}"></td>
+                    <td><button class = "modifyTrade" data-attr = "0">수정</button></td>
                   </tr>
                   <tr>
                   	<td colspan="4" id="modifyTradeMsg"></td>
                   	<td colspan="2">
                   	 <div class="add-task-row">
-						<a class="btn btn-default btn-sm pull-right" data-toggle="modal" id="" data-target="#tradenModal" data-whatever="@mdo">정책변경</a>
+						<!-- <a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#tradenModal" data-whatever="@mdo">정책추가</a> -->
 			  		  </div>
 			  		</td>
                   </tr>
@@ -220,37 +194,28 @@
           </div>
           
           
- <!--///////////////////////////////////거래기간모달창 //////////////////////////////////////////// -->
+ <!--///////////////////////////////////모달창 //////////////////////////////////////////// -->
 		<div class="modal fade" id="tradenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 			<div class="modal-dialog">
 				<div class="modal-content">
 					<div class="modal-header">
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<h4 class="modal-title" id="exampleModalLabel">거래 기간 정책 변경하기</h4>
+						<h4 class="modal-title" id="exampleModalLabel">거래 기간 정책 추가하기</h4>
 					</div>
 				<div class="modal-body">
-					<form th:method="post" th:action="@{/policy/addNewTrade}" id="tradeFromModal">
+					<form th:method="post" th:action="@{/policy/addNewTrade}" id="depositFromModal">
 						<div class="form-group">
 							<label for="sTradeTypeModal" class="control-label">거래종류</label>
-							<select class="form-control" name="sTradeType" id="tradeSelect">
-								<option value="0">::선택::</option>
-								<th:block th:each="t:${trade}">
-									<option th:text="${t.sTradeType}" th:value="${t.sTradeType}"></option>
-								</th:block>
-							</select>
+							<input type="text" class="form-control" id="sTradeTypeModal" name="sTradeType">
 						</div>
 						<div class="form-group">
 							<label for="sTradePeriodModa" class="control-label">기간</label>
-							<input type="text" class="form-control" id = "sTradePeriodModal" name="sTradePeriod">
-						</div>
-						<div class="form-group date-picker-z-index" >
-							<label for="sReservation" class="control-label">정책적용일</label>
-							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sTradeReservationModal" name="sReservation">
+							<input type="text" class="form-control" id = "sTradePeriodModa" name="sTradePeriod">
 						</div>
 						
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
-								<button type="button" class="btn btn-primary" id="sTradeBtnModal" >추가</button>
+								<button type="submit" class="btn btn-primary" id="sTradeBtnModal" >추가</button>
 							</div>
 						</form>
 					</div>
@@ -264,10 +229,6 @@
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
-		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
-	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
-	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
-	
 		<script type="text/javascript">
 			var policy = $('#policy');
 			policy.addClass('active');
@@ -291,58 +252,47 @@
 					console.log(commissionType.eq(i).text());
 					commissionType.eq(i).text(comma(commissionType.eq(i).text()));
 				})
-				
-				
+		
 			})
-			
-	
-			
-			//거래대금 수수료 추가
+			//존재하는 기준 금액인지 확인
 			$('#sCommissionBtnModal').click(function(){
-				var commssionTypeModal = $('#sCommssionTypeModal');
+				var commssionType = $('#sCommssionTypeModal');
 				var commissionRate= $('#sCommissionRateModal');
-				var sReservationModal = $('#sCommissionReservation')
-				var isCommissionPrice = false;
-				
-				if(commssionTypeModal.val()==''){
+				if(commssionType.val()==''){
 					alert('기준금액을 입력해주세요.');
-					commssionTypeModal.focus();
-					return false;
+					commssionType.focus();
+					return;
 				}
 				
 				if(commissionRate.val()==''){
 					alert('수수료율을 입력해주세요.');
 					commissionRate.focus();
-					return false;
+					return;
 				}
 				
-				if(sReservationModal.val()==''){
-         			alert('적용일을 입력해주세요.');
-         			return false;
-         		}
-
 				$.ajax({
 					url : '/ajax/commissionCheck',
          			type : 'POST',
-         			data : {commissionPrice : commssionTypeModal.val()},
+         			data : {commssionPrice : commssionType.val()},
          			success : function(data){
-		         				if(data){
-				         			alert('이미 존재하는 기준 금액입니다.');
-				         			return false;
-				         		}else{
-				         			$('#commissionFromModal').submit();
-				         		}
-		         			}
-						});
-		
-			});
+         				if(data){
+		         			$('#commissionFromModal').submit();
+		         					
+		         		}else{
+		         			alert('이미 존재하는 기준금액입니다.');
+		         		}
+         			}
+				})
+			})
 			
-			//예치금 변경
+			
 			$('#sDepositBtnModal').click(function(){
+		         		var depositType = $('#sDepositTypeModal');
 		         		var depositRate = $('#sDepositRateModal');
-		      			var sReservationModal = $('#sReservationModal')
-		         		if($('#depositSelect option:selected').val()=='0'){
-		         			alert('예치금 종류를 선택해주세요.');
+		         
+		         		if(depositType.val()==''){
+		         			alert('예치금 종류를 입력해주세요.');
+		         			depositType.focus();
 		         			return;
 		         		}
 		         		if(depositRate.val()==''){
@@ -350,41 +300,70 @@
 		         			depositRate.focus();
 		         			return;
 		         		}
-		         		
-		         		if(sReservationModal.val()==''){
-		         			alert('적용일을 입력해주세요.');
-		         			depositRate.focus();
-		         			return;
-		         		}
 		        		
-		         		$('#depositFromModal').submit();
+		         		$.ajax({
+		         			url : '/ajax/depositCheck',
+		         			type : 'POST',
+		         			data : {depositName : depositType.val()},
+		         			success : function(data){
+		         				console.log(data);
+		         				if(data){
+		         					$('#depositFromModal').submit();
+		         					
+		         				}else{
+		         					alert('이미 존재하는 예치금 종류입니다.');
+		         				}
+		         			}
+		         			
+		         			
+		         		}) 
+		         		
+		         		
+		         		
+		         		
+		         		
 		       })
-		       
-			//거래기간변경
-		   	$('#sTradeBtnModal').click(function(){
-		         		var tradePeriod = $('#sTradePeriodModal');
-		      			var reservation = $('#sTradeReservationModal');
-		      			
-		         		if($('#tradeSelect option:selected').val()=='0'){
-		         			alert('거래기간 종류를 선택해주세요.');
-		         			return;
-		         		}
-		         		if(tradePeriod.val()==''){
-		         			alert('기준 기간을 입력해주세요.');
-		         			tradePeriod.focus();
-		         			return;
-		         		}
-		         		
-		         		if(reservation.val()==''){
-		         			alert('적용일을 입력해주세요.');
-		         			return;
-		         		}
-		        		
-		         		$('#tradeFromModal').submit();
-		       })    
-		       
-		       
-
+				
+			
+			
+			//예치금 수정
+			$('.modifyDeposit').click(function(){
+				var i = $('.modifyDeposit').index(this);
+				console.log(i);
+				
+				var depositRate = $('.depositRate');
+				
+				if($('.modifyDeposit').eq(i).attr('data-attr')==0){
+					$('.modifyDeposit').eq(i).attr('data-attr','1');
+					$('.modifyDeposit').eq(i).text('수정완료');
+					//html()을 사용해서, input 박스로 바꿔주고 value 값은 text()를 통해서 가져옴
+					depositRate.eq(i).html('<input type="text" value="'+depositRate.eq(i).text()+'" class="depositRate">');
+					$('#modifyDepositMsg').text('수정한 정책은 수정완료 버튼 클릭 시 바로 적용됩니다.');
+				}else{		
+					//수정가능한 상태 data-attr = 1 이면 실행
+					//
+					$('.modifyDeposit').eq(i).attr('data-attr','0');
+					$('.modifyDeposit').eq(i).text('수정');
+					$('#modifyDepositMsg').text('');
+					var rate = $('#depositBody tr input').eq(0).val();
+					var depositIdx = $('.depositIdx').eq(i).text();
+					var type = $('.depositType').eq(i).text();
+					console.log("나와라");
+					console.log(depositIdx)
+					depositRate.eq(i).html(rate);
+					
+			       //ajax 비동기 통신
+					
+					 $.ajax({
+						url : '/ajax/modifyDeposit',
+						type : 'POST',
+						data : {idx : depositIdx, rate:rate , type :type },
+						success : function(data){
+							console.log(data);
+						}
+					}) 
+				}	
+			})
 			
 			//수수료수정
 			
@@ -401,7 +380,7 @@
 					//html()을 사용해서, input 박스로 바꿔주고 value 값은 text()를 통해서 가져옴
 					commissionRate.eq(i).html('<input type="text" value="'+commissionRate.eq(i).text()+'" class="commissionRate">');
 					commissionType.eq(i).html('<input type="text" value="'+commissionType.eq(i).text()+'" class="commissionType">');
-	
+					$('#modifyCommssionMsg').text('수정한 정책은 수정완료 버튼 클릭 시 바로 적용됩니다.');
 				}else{		
 					//수정가능한 상태 data-attr = 1 이면 실행
 					//
@@ -433,6 +412,48 @@
 				}	
 			})
 			
+			
+			//거래기간수정
+			$('.modifyTrade').click(function(){
+				var i = $('.modifyTrade').index(this);
+				console.log(i);
+				
+				var tradePeriod = $('.tradePeriod');
+				
+				if($('.modifyTrade').eq(i).attr('data-attr')==0){
+					$('.modifyTrade').eq(i).attr('data-attr','1');
+					$('.modifyTrade').eq(i).text('수정완료');
+					//html()을 사용해서, input 박스로 바꿔주고 value 값은 text()를 통해서 가져옴
+					tradePeriod.eq(i).html('<input type="text" value="'+tradePeriod.eq(i).text()+'" class="tradePeriod">');
+					$('#modifyTradeMsg').text('수정한 정책은 수정완료 버튼 클릭 시 바로 적용됩니다.');
+				}else{		
+					//수정가능한 상태 data-attr = 1 이면 실행
+					//
+					$('.modifyTrade').eq(i).attr('data-attr','0');
+					$('.modifyTrade').eq(i).text('수정');
+					$('#modifyTradeMsg').text('');
+					var period = $('#tradeBody tr input').eq(0).val();
+					var tradeIdx = $('.tradeIdx').eq(i).text();
+					var type = $('.tradeType').eq(i).text();
+					
+					console.log("나와라");
+					console.log(tradeIdx)
+					console.log(period+"<--기간");
+					console.log(type);
+					tradePeriod.eq(i).html(period);
+					
+			       //ajax 비동기 통신
+					
+				 $.ajax({
+						url : '/ajax/modifyTrade',
+						type : 'POST',
+						data : {idx : tradeIdx, type : type , period : period},
+						success : function(data){
+							console.log(data);
+						}
+					})   
+				}	
+			})
 		
 		</script>
 	</th:block>

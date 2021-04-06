@@ -64,7 +64,7 @@
                   <tr>
                   	<td colspan ="10" style="text-align:center;">
                   		<th:block layout:fragment="paging">
-                  			<nav th:replace="sell/common :: pagination"></nav>
+                  			<nav th:replace="fragments/pagination :: pagination"></nav>
                   		</th:block>
                   	</td>
                   </tr>
@@ -128,7 +128,7 @@
                    <tr>
                    	<td colspan ="10" style="text-align:center;">
 	                 	<th:block layout:fragment="paging">
-                  			<nav th:replace="sell/common :: pagination"></nav>
+                  			<nav th:replace="fragments/pagination2 :: pagination"></nav>
                   		</th:block>
                   	</td>
                   </tr>
@@ -238,6 +238,10 @@
 			/*<![CDATA[*/
 
 			function movePage(uri, queryString) {
+				location.href = uri + queryString;
+			}
+			
+			function movePage2(uri, queryString) {
 				location.href = uri + queryString;
 			}
 

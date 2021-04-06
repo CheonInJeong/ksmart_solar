@@ -8,7 +8,7 @@ public class BidListDTO {
 	private String mId;
 	private long bPrice;
 	private double sDepositRate;
-	private int bDeposit;	
+	private long bDeposit;	
 	private String bDepositCheck;
 	private String bMoCode;	
 	private String bDepositDate;
@@ -28,6 +28,15 @@ public class BidListDTO {
 	private String mPaymentName;
 
 	private BusinessDTO businessDTO;
+	private TradeDepositOutDTO tradeDepositOutDTO;
+
+	public TradeDepositOutDTO getTradeDepositOutDTO() {
+		return tradeDepositOutDTO;
+	}
+
+	public void setTradeDepositOutDTO(TradeDepositOutDTO tradeDepositOutDTO) {
+		this.tradeDepositOutDTO = tradeDepositOutDTO;
+	}
 
 	public String getbCode() {
 		return bCode;
@@ -85,11 +94,11 @@ public class BidListDTO {
 		this.sDepositRate = sDepositRate;
 	}
 
-	public int getbDeposit() {
+	public long getbDeposit() {
 		return bDeposit;
 	}
 
-	public void setbDeposit(int bDeposit) {
+	public void setbDeposit(long bDeposit) {
 		this.bDeposit = bDeposit;
 	}
 
@@ -292,11 +301,10 @@ public class BidListDTO {
 		builder.append(mPaymentName);
 		builder.append(", businessDTO=");
 		builder.append(businessDTO);
+		builder.append(", tradeDepositOutDTO=");
+		builder.append(tradeDepositOutDTO);
 		builder.append("]");
 		return builder.toString();
 	}
 
-	
-	
-	
 }

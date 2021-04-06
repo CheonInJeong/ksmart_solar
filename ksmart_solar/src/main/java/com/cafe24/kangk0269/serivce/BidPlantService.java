@@ -22,6 +22,10 @@ public class BidPlantService {
 		this.bidPlantMapper = bidPlantMapper; 
 	}
 	
+	public List<BidPlantDTO> getBidPlantById(String mId){
+		return bidPlantMapper.getBidPlantById(mId);
+	}
+	
 	public List<BidPlantDTO> getBidPlant(String status) {
 		List<BidPlantDTO> bidPlantList = bidPlantMapper.getBidPlant(status);
 		if(bidPlantList!=null) {

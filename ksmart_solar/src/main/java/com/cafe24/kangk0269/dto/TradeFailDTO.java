@@ -11,6 +11,16 @@ public class TradeFailDTO {
 	private String trFailDate;
 	// 관련 공고코드
 	private String announcedCode;
+	// 관련 공고제목
+	private String announcedTitle;
+	// 관련 공고품목유형
+	private String bType;
+	// 납부 은행
+	private String bankName;
+	// 납부 계좌
+	private String accountNumber;
+	// 납부자명
+	private String paymentName;
 	
 	// 취소수수료 총액
 	private int failTotal;
@@ -21,6 +31,36 @@ public class TradeFailDTO {
 	// 일자(년월)
 	private String ymDate;
 	
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	public String getPaymentName() {
+		return paymentName;
+	}
+	public void setPaymentName(String paymentName) {
+		this.paymentName = paymentName;
+	}
+	public String getAnnouncedTitle() {
+		return announcedTitle;
+	}
+	public void setAnnouncedTitle(String announcedTitle) {
+		this.announcedTitle = announcedTitle;
+	}
+	public String getbType() {
+		return bType;
+	}
+	public void setbType(String bType) {
+		this.bType = bType;
+	}
 	public int getFailTotal() {
 		return failTotal;
 	}
@@ -120,6 +160,16 @@ public class TradeFailDTO {
 		builder.append(trFailDate);
 		builder.append(", announcedCode=");
 		builder.append(announcedCode);
+		builder.append(", announcedTitle=");
+		builder.append(announcedTitle);
+		builder.append(", bType=");
+		builder.append(bType);
+		builder.append(", bankName=");
+		builder.append(bankName);
+		builder.append(", accountNumber=");
+		builder.append(accountNumber);
+		builder.append(", paymentName=");
+		builder.append(paymentName);
 		builder.append(", failTotal=");
 		builder.append(failTotal);
 		builder.append(", sucTotal=");
@@ -131,6 +181,6 @@ public class TradeFailDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 
 }
