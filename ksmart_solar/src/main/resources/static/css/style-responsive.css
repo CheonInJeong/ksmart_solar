@@ -80,7 +80,9 @@
 }
 
 @media (max-width: 768px) {
-
+	.mdinput{
+		width: 50% !important;
+	}
     .header {
         position: absolute;
     }
@@ -314,7 +316,9 @@
 
 
 @media (max-width: 480px) {
-
+	.xsinput{
+		width: 100% !important;
+	}
     .notify-row, .search, .dont-show , .inbox-head .sr-input, .inbox-head .sr-btn{
         display: none;
     }
@@ -419,6 +423,7 @@
 }
 
 @media (max-width:320px) {
+
     .login-social-link a {
         padding: 15px 17px !important;
     }

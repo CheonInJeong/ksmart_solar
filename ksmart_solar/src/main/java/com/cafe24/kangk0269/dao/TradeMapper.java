@@ -31,4 +31,7 @@ public interface TradeMapper {
 	public TradePaymentInDTO getTradePaymentIn(String bCode);
 	//대금신청 정보 갱신
 	public int modifyTradePaymentIn(TradePaymentInDTO paymentInDTO);
+	//예치금 환불 등록
+	public int addRefundRequest(TradeDepositOutDTO tradeDepositOutDTO);
+	public TradeDepositOutDTO getRefundInfo(String bCode);
 }

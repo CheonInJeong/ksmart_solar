@@ -4,10 +4,82 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
+				<title>문의내역</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		이곳에 내용을 쓰세요	
+		<div id="container-header-title"><strong>문의내역</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">매인화면</a>>
+			<a href="#" style="text-decoration: none;">구매관리</a>>
+			<a href="/buy/applyRefund" style="text-decoration: none;">문의내역</a>
+		</div>
+		<div id="container-header-space"></div>
+		<div class="row mt">
+          <div class="col-md-12">
+            <div class="content-panel" style="padding: 30px;">
+              <h4><i class="fa fa-angle-right"></i>문의내역</h4><hr>
+               <div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/sell/myHistory}">
+	            	<select name="searchKey">
+	            		<option value="bPlCode">제목</option>
+	            		<option value="bzPlName">작성자</option>
+	            		<option value="bzPlTitle">구분</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+               </div>
+              <table class="table table-striped table-advance table-hover">
+                <thead>
+                  <tr>
+                    <th><i class="fa fa-bullhorn"></i>공고코드</th>
+                    <th>구분</th>
+                    <th><i class="fa fa-bookmark"></i>문의제목</th>
+					<th class="hidden-phone"><i class="fa fa-question-circle"></i>문의자</th>
+                    <th><i class=" fa fa-edit"></i>문의시간</th>
+                    <th><i class=" fa fa-edit"></i>조회수</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+	                   <td>b_pl_code</td>
+	                   <td>발전소</td>
+	                   <td>질문합니다.</td>
+	                   <td>id005</td>
+	                   <td>2021-03-24</td>
+	                   <td>0</td>
+                 </tr>
+                 
+                </tbody>
+                <tfoot>
+                	 <tr>
+                  	<td colspan ="10" style="text-align:center;">
+                  		<nav>
+							  <ul class="pagination">
+							    <li>
+							      <a href="#" aria-label="Previous">
+							        <span aria-hidden="true">&laquo;</span>
+							      </a>
+							    </li>
+							    <li><a href="#">1</a></li>
+							    <li><a href="#">2</a></li>
+							    <li><a href="#">3</a></li>
+							    <li><a href="#">4</a></li>
+							    <li><a href="#">5</a></li>
+							    <li>
+							      <a href="#" aria-label="Next">
+							        <span aria-hidden="true">&raquo;</span>
+							      </a>
+							    </li>
+							  </ul>
+						</nav>
+                  	</td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        </div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">

@@ -71,5 +71,11 @@ public class AccountService {
 		return memberAccountDTOList;
 		
 	}
+	//인덱스로 계좌조회
+	public MemberAccountDTO getAccountListByIdx(String mAccountIdx){
+		MemberAccountDTO memberAccountDTOList = bankAccountMapper.getAccountListByIdx(mAccountIdx);
+		return memberAccountDTOList;
+		
+	}
 	
 }
