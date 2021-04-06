@@ -8,7 +8,10 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>관심목록</strong></div>
-		<div id="container-header-path">MY PAGE > 관심목록</div>
+		<div id="container-header-path">
+	   		<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > 
+	   		<a href="/mypage/wishlist" style="text-decoration: none;"> 내 관심목록 </a>
+		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-md-12 container">
@@ -29,8 +32,12 @@
                 	<th:block th:if="${picPlkDTOList != null}" th:each="l:${picPlkDTOList}">
 	                	<tr>
 		                    <td data-title="공고 코드" th:text="${l.pCode}"></td>
-		                    <td data-title="공고 제목">
-			                	<a th:href=@{/help/getPick(pIdx=${l.pIdx})}>[[${l.bidPlantDTO.bPlTitle}]]</a>
+		                    <td>
+		                    	<form th:action="@{/notice/announcement}" method="post">
+			                		<a class="announceTitle">[[${l.bidPlantDTO.bPlTitle}]]</a>
+			                		<input type="hidden" name="announceCode" th:value="${l.pCode}">
+			                      	<input type="hidden" name="announceType" value="발전소">
+		                    	</form>
 		                    </td>
 		                    <td data-title="입찰 시작가" th:text="${l.bidPlantDTO.bPlPrice}"></td>
 		                    <td data-title="입찰 마감일" th:text="${l.bidPlantDTO.bPlDateBidding2}"></td>
@@ -39,17 +46,15 @@
 							</td>
 	                	</tr>
                 	</th:block>
-                	<th:block th:if="${picPlkDTOList == null || picPlkDTOList.size() == 0}">
-		                  <tr>
-		                    <td colspan="5" style="text-align: center;">찜한 부품 공고가 없습니다.</td>		                 
-		                  </tr>
-                	</th:block>
-                	
                 	<th:block th:if="${pickCpDTOList != null}" th:each="l:${pickCpDTOList}">
 	                	<tr>
 		                    <td data-title="공고 코드" th:text="${l.pCode}"></td>
-		                    <td data-title="공고 제목">
-			                	<a th:href=@{/help/getPick(pIdx=${l.pIdx})}>[[${l.bidComponentDTO.bCpTitle}]]</a>
+		                    <td>
+		                    	<form th:action="@{/notice/announcement}" method="post">
+			                		<a class="announceTitle">[[${l.bidComponentDTO.bCpTitle}]]</a>
+			                		<input type="hidden" name="announceCode" th:value="${l.pCode}">
+			                      	<input type="hidden" name="announceType" value="부품">
+		                    	</form>
 		                    </td>
 		                    <td data-title="입찰 시작가" th:text="${l.bidComponentDTO.bCpPrice}"></td>
 		                    <td data-title="입찰 마감일" th:text="${l.bidComponentDTO.bCpDateBidding2}"></td>
@@ -58,9 +63,9 @@
 							</td>
 	                	</tr>
                 	</th:block>
-                	<th:block th:if="${${pickCpDTOList == null || ${pickCpDTOList.size() == 0}">
+                	<th:block th:if="${picPlkDTOList == null && picPlkDTOList.size() == 0 && pickCpDTOList == null && pickCpDTOList.size() == 0}">
 		                  <tr>
-		                    <td colspan="5" style="text-align: center;">찜한 부품 공고가 없습니다.</td>		                 
+		                    <td colspan="5" style="text-align: center;">찜한 공고가 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
@@ -79,6 +84,14 @@
 			mypage.addClass('active');
 			mypage.parent().find('.sub').css('display','block');
 			mypage.parent().find('.sub').children().eq(2).addClass('active');
+			
+			//상세조회
+			$('.announceTitle').click(function(){
+				$(this).parent().submit();
+			});
+			
 		</script>
 	</th:block>
+	
+	
 </html>

@@ -24,7 +24,10 @@
 	
 	<th:block layout:fragment="Contents">
 		<div id="container-header-title"><strong>계좌등록</strong></div>
-     	<div id="container-header-path">마이페이지 > 내 계좌관리 > 계좌등록</div>
+     	<div id="container-header-path">
+	   		<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > 
+	   		<a href="/mypage/myAccount" style="text-decoration: none;"> 내 계좌관리 </a>> 계좌등록
+	   	</div>
      	<div id="container-header-space"></div>	
 		
 		<div class="row mt">
@@ -64,7 +67,7 @@
                 </div>
                 <div class="form-group" text-align="center">
                   <div class="col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-info">계좌등록</button>
+                    <button type="submit" class="btn btn-info">등록</button>
                   </div>
                 </div>
               </form>

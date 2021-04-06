@@ -33,7 +33,10 @@
 	<div id="container-header-title">
 		<strong>회원탈퇴 신청</strong>
 	</div>
-	<div id="container-header-path">마이페이지 > 내 정보관리 > 회원탈퇴</div>
+	<div id="container-header-path">
+		<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > 
+		<a href="/mypage/myInfo" style="text-decoration: none;"> 내 정보관리 </a>> 회원탈퇴
+	</div>
 	<div id="container-header-space"></div>
 
 	<div class="row mt">
@@ -41,8 +44,7 @@
 			 <div class="content-panel" style="padding: 30px;">
 				<form class="form-horizontal style-form">
 					<div class="form-group text-center">
-						<textarea type="text" class="form-control" rows="5"
-							readonly="readonly"> 
+						<textarea  class="form-control" rows="5" readonly="readonly"> 
 						[회원 탈퇴 시 유의 사항] 
 						탈퇴 신청 후 7일 이내에 재로그인 시 탈퇴신청이 해제됩니다. 
 						하지만 그 7일 이후 부터는 회원 관련 내용이 삭제되어 복구가 불가하오니 유의하시기 바랍니다.
@@ -73,8 +75,10 @@
 							<button type="submit" class="btn btn-warning" >탈퇴신청</button>
 						</div>
 					</div>
+				</form>
 			</div>
-			</form>
+		</div>	
+	</div>	
 </th:block>
 
 <th:block layout:fragment="customScript">

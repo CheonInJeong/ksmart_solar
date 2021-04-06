@@ -4,6 +4,7 @@ public class ComponentDTO {
 	private String cpCode;
 	private String mId;
 	private String cpName;	
+	private String cpPhoto;	
 	private String cpInfo;	
 	private String cpMaker;	
 	private String cpMakedate;	
@@ -87,6 +88,12 @@ public class ComponentDTO {
 		builder.append(bidComponentDTO);
 		builder.append("]");
 		return builder.toString();
+	}
+	public String getCpPhoto() {
+		return cpPhoto;
+	}
+	public void setCpPhoto(String cpPhoto) {
+		this.cpPhoto = cpPhoto;
 	}
 	
 	
