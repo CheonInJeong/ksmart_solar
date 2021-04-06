@@ -10,8 +10,10 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
+import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
@@ -21,6 +23,9 @@ import com.cafe24.kangk0269.dto.FileDTO;
 @Component
 public class FileUtils {
 
+	@Value(value = "${file.upload}")
+	String filePath;
+	
 	public List<FileDTO> parseFileInfo(String relatedTableCode, 
 									   int fileSortIdx,
 									   String fileSortName,
@@ -35,9 +40,11 @@ public class FileUtils {
 		DateTimeFormatter format = DateTimeFormatter.ofPattern("yyyyMMdd");
 		//오늘의 날짜 확인
 		ZonedDateTime current = ZonedDateTime.now();
-		//파일 경로 지정
-		String path ="C:/upload/"+current.format(format);
-		
+		//파일 폴더 일자별 지정
+		filePath += current.format(format);
+		//파일 업로드 프로젝트 내 설정
+		String path = ResourceUtils.getFile(filePath).getAbsolutePath();
+
 		File file = new File(path);
 		//경로 및 파일이 존재하지 않으면
 		if(file.exists()==false) {
