@@ -113,10 +113,6 @@ public class PlantService {
 		List<BusinessPlantDTO> plantList = plantMapper.getPlantListByCode(bzCode);
 		model.addAttribute("plantName", plantList.get(0).getBzPlName());
 		
-		
-		
-		
-		
 		return benefitGraph;
 	}
 
@@ -179,16 +175,78 @@ public class PlantService {
 		model.addAttribute("basedPrice", formatter.format((priceBased/1000)*1000));
 		model.addAttribute("basedPrice2", (priceBased/1000)*1000);
 		model.addAttribute("residualPrice", formatter.format((residualValue/1000)*1000));
-		
 		return residualValue;
 	}
 	
-	
-	
-	public List<ComponentDTO> componentListById() {
+
+	public void getGenerationAnalysisData(Model model, String bzCode) {
+		
+		//지역코드, 발전소 용량 조회, 이름
+		//bzPlName , bzPlName, plantGenDay, power   ([[${l.bzPlZipcode}]]) [[${l.bzPlAddr}]] [[${l.bzPlDetailAddr}]]
+		PlantDepreciationDTO pdc = plantMapper.getPlantDepreciationByBzCode(bzCode);
+		BusinessPlantDTO bp = plantMapper.getPlantInfoBybzPlCode(bzCode);
+		
+		int addrCode = bp.getBzPlAddrCode();
+		String addrCodeName = "서울";
 		
 		
-		return null;
+		switch(addrCode) {
+			case 1: addrCodeName = "서울";
+				break;
+			case 2: addrCodeName = "부산";
+				break;
+			case 3: addrCodeName = "대구";
+				break;
+			case 4: addrCodeName = "인천";
+				break;
+			case 5: addrCodeName = "광주";
+				break;
+			case 6: addrCodeName = "대전";
+				break;
+			case 7: addrCodeName = "부산";
+				break;
+			case 8: addrCodeName = "청주";
+				break;
+			case 9: addrCodeName = "수원";
+				break;
+			case 10: addrCodeName = "원주";
+				break;
+			case 11: addrCodeName = "충주";
+				break;
+			case 12: addrCodeName = "서산";
+				break;
+			case 13: addrCodeName = "전주";
+				break;
+			case 14: addrCodeName = "목포";
+				break;
+			case 15: addrCodeName = "포항";
+				break;
+			case 16: addrCodeName = "대구";
+				break;
+			case 17: addrCodeName = "제주";
+				break;
+		}
+		
+		//bzPlCode
+		//bzPlZipcode  bzPlAddr  bzPlDetailAddr
+		//plantGenDay
+		
+		model.addAttribute("bzPlCode", bp.getBzPlName());
+		model.addAttribute("bzPlZipcode", bp.getBzPlName());
+		model.addAttribute("bzPlAddr", bp.getBzPlName());
+		model.addAttribute("bzPlDetailAddr", bp.getBzPlName());
+		model.addAttribute("bzPlName", bp.getBzPlName());
+		model.addAttribute("bzPlPower", bp.getBzPlPower());
+		
+		int plantGenDay = 1000;
+		model.addAttribute("plantGenDay", plantGenDay);
+		
+		
+		System.out.println(addrCode);
+		System.out.println(addrCodeName);
+		
+		System.out.println(pdc);
+		System.out.println(bp);
 	}
 	
 	

@@ -10,6 +10,7 @@ public class BusinessPlantDTO {
 	private String bzPlZipcode;	
 	private String bzPlAddr;	
 	private String bzPlDetailAddr;	
+	private int bzPlAddrCode;
 	private String bzPlPhoto;
 	private int bzPlPower;
 	private String bzPlHardware;	
@@ -124,46 +125,7 @@ public class BusinessPlantDTO {
 	public void setPlantDepDataDTO(PlantDepDataDTO plantDepDataDTO) {
 		this.plantDepDataDTO = plantDepDataDTO;
 	}
-	@Override
-	public String toString() {
-		StringBuilder builder = new StringBuilder();
-		builder.append("BusinessPlantDTO [bzPlCode=");
-		builder.append(bzPlCode);
-		builder.append(", mId=");
-		builder.append(mId);
-		builder.append(", bzPlCheck=");
-		builder.append(bzPlCheck);
-		builder.append(", bzPlName=");
-		builder.append(bzPlName);
-		builder.append(", bzPlZipcode=");
-		builder.append(bzPlZipcode);
-		builder.append(", bzPlAddr=");
-		builder.append(bzPlAddr);
-		builder.append(", bzPlDetailAddr=");
-		builder.append(bzPlDetailAddr);
-		builder.append(", bzPlPhoto=");
-		builder.append(bzPlPhoto);
-		builder.append(", bzPlPower=");
-		builder.append(bzPlPower);
-		builder.append(", bzPlHardware=");
-		builder.append(bzPlHardware);
-		builder.append(", bzPlArea=");
-		builder.append(bzPlArea);
-		builder.append(", bzPlInvPower=");
-		builder.append(bzPlInvPower);
-		builder.append(", bzPlInvCount=");
-		builder.append(bzPlInvCount);
-		builder.append(", bzPlInvMaker=");
-		builder.append(bzPlInvMaker);
-		builder.append(", bzPlRec=");
-		builder.append(bzPlRec);
-		builder.append(", plantDepreciationDTO=");
-		builder.append(plantDepreciationDTO);
-		builder.append(", plantDepDataDTO=");
-		builder.append(plantDepDataDTO);
-		builder.append("]");
-		return builder.toString();
-	}
+
 	public String getBzCode() {
 		return bzCode;
 	}
@@ -181,6 +143,22 @@ public class BusinessPlantDTO {
 	}
 	public void setBzPlModDate(String bzPlModDate) {
 		this.bzPlModDate = bzPlModDate;
+	}
+	public int getBzPlAddrCode() {
+		return bzPlAddrCode;
+	}
+	public void setBzPlAddrCode(int bzPlAddrCode) {
+		this.bzPlAddrCode = bzPlAddrCode;
+	}
+	@Override
+	public String toString() {
+		return "BusinessPlantDTO [bzPlCode=" + bzPlCode + ", bzCode=" + bzCode + ", mId=" + mId + ", bzPlCheck="
+				+ bzPlCheck + ", bzPlName=" + bzPlName + ", bzPlZipcode=" + bzPlZipcode + ", bzPlAddr=" + bzPlAddr
+				+ ", bzPlDetailAddr=" + bzPlDetailAddr + ", bzPlAddrCode=" + bzPlAddrCode + ", bzPlPhoto=" + bzPlPhoto
+				+ ", bzPlPower=" + bzPlPower + ", bzPlHardware=" + bzPlHardware + ", bzPlArea=" + bzPlArea
+				+ ", bzPlInvPower=" + bzPlInvPower + ", bzPlInvCount=" + bzPlInvCount + ", bzPlInvMaker=" + bzPlInvMaker
+				+ ", bzPlRec=" + bzPlRec + ", bzPlRegDate=" + bzPlRegDate + ", bzPlModDate=" + bzPlModDate
+				+ ", plantDepreciationDTO=" + plantDepreciationDTO + ", plantDepDataDTO=" + plantDepDataDTO + "]";
 	}
 	
 	

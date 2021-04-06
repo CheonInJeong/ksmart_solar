@@ -32,12 +32,6 @@ public class PlantController {
 	@Autowired
 	private BusinessService businessService;
 	
-	@GetMapping("/plant/componentList")
-	public String ComponentList() {
-		
-		return "/plant/componentList";
-	}
-	
 	@GetMapping("/plant/authorization")
 	public String Authorization() {
 		
@@ -80,8 +74,12 @@ public class PlantController {
 	@GetMapping("/plant/plantDetail/generationAnalysis")
 	public String generationAnalysis(HttpSession session, Model model) {
 		String bzCode = (String)session.getAttribute("SBZCODE");
+		System.out.println(bzCode);
+		
 		if(bzCode != null) {
-			plantService.getPlantDetail(model, bzCode);
+			plantService.getGenerationAnalysisData(model, bzCode);
+			
+			
 			return "/plant/generationAnalysis";
 		}
 		return "main";
