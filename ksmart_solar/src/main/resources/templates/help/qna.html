@@ -26,16 +26,19 @@
 
 <th:block layout:fragment="Contents">
 	<div id="container-header-title">
-		<strong>문의하기</strong>
+		<strong>문의사항</strong>
 	</div>
-	<div id="container-header-path">고객센터 > 문의하기</div>
+	<div id="container-header-path">
+		<a href="/" style="text-decoration: none;"> 메인화면 </a>> 고객센터 >
+	   	<a href="/help/qna" style="text-decoration: none;"> 문의사항 </a>
+	</div>
 	<div id="container-header-space"></div>
 	<div class="row mt">
 		<div class="col-lg-12">
 			 <div class="content-panel" style="padding: 30px;">
 				<a class="btn btn-info" th:href=@{/help/addQna}>문의등록</a>
 				<h4>
-					<i class="fa fa-angle-right"></i> 문의하기
+					<i class="fa fa-angle-right"></i> 문의사항
 				</h4>
 			
 					<div th:include="help/searchQna :: searchFragment"></div>
