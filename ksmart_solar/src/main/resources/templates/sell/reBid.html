@@ -12,7 +12,7 @@
       	<div id="container-header-space"></div>
       	
       	<!--////////////////////////////////////////////////  -->
-		<table style="display:none">
+		<table>
 			<tr th:each = p:${plant}>
 				<td th:text=${p.acStatusCode} class="failure"></td>
 			</tr>
@@ -59,11 +59,11 @@
 				var i = $('.failure').index(this);
 				
 				if($('.failure').eq(i).text()!=''){
-					window.open('/sell/failureBid','재공고안내','width=600, height=600,left=100, top = 100, scrollbar=no')
+					window.open('/sell/qna','재공고안내','width=600, height=600,left=100, top = 100, scrollbar=no')
 				}
 			})
 		})
-
+		
 		</script>
 	</th:block>
 </html>

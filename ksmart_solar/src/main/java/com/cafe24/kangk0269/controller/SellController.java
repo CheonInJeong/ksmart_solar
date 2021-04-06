@@ -216,7 +216,6 @@ public class SellController {
 		return "redirect:/sell/myHistory";
 	}
 	
-	
 	//부품 선택 시 해당 부품의 정보를 가져옴
 	@RequestMapping(value="/ajax/componentInformation",method = RequestMethod.POST)
 	public @ResponseBody ComponentDTO componentInformation(@RequestParam(value="cpCode") String cpCode)  throws Exception{
@@ -249,9 +248,17 @@ public class SellController {
 		return "sell/componentSell";
 	}
 
+	@GetMapping("/sell/failureBid")
+	public String failureBidList(Model model, HttpSession session) {
+		model.addAttribute("plant", sellService.getBidPlantAcById((String)session.getAttribute("SID")));
+		return "sell/failureBid";
+	}
+	
+	
 	@GetMapping("/sell/apply")
-	public String Apply() {
+	public String Apply(Model model,HttpSession session) {
 		
+		model.addAttribute("plant", sellService.getBidPlantAcById((String)session.getAttribute("SID")));
 		return "sell/apply";
 	}
 	
@@ -276,11 +283,6 @@ public class SellController {
 		model.addAttribute("bidComponentList", bidComponentList);
 		
 		return "sell/myHistory";
-	}
-	@GetMapping("/sell/mySell")
-	public String MySell() {
-		
-		return "sell/mySell";
 	}
 
 	

@@ -19,6 +19,11 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	////test중///////
+	//거래실패한 리스트 가져옴
+	public List<BidPlantDTO> getBidPlantAcById(String id);
+	
+	
 	//update rank
 	public int modifyRank(@Param(value="bRank") int rank, @Param(value="bCode") String code) throws Exception;
 	
@@ -27,8 +32,11 @@ public interface SellMapper {
 	
 	//공고 상태 변경
 	public int updateAcStatus() throws Exception;
+	public int updateComponentAcStatus() throws Exception;
+	
 	//공고상태 및  낙찰자 결정 시간 가져오기
 	public List<BidPlantDTO> getAcStatus() throws Exception;
+	public List<BidComponentDTO> getComponentAcStatus() throws Exception;
 	
 	
 	//서류 적합성 판단 수정
