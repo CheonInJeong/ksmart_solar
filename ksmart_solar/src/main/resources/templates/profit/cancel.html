@@ -41,9 +41,7 @@
 						<tr th:each="l, status : ${cancelCmList}">
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="수수료납부회원">
-								<a data-toggle="popover" data-placement="right" title="납부정보" data-content="" data-html="true">
 									[[${l.mId}]]
-								</a>
 							</td>
 							<td data-title="취소 수수료금액" th:text="${l.bCancel}"></td>
 							<td data-title="관련공고">
@@ -100,9 +98,6 @@
 				$(this).parent().submit();
 			});
 			
-			$( function () {
-			    $( '[data-toggle="popover"]' ).popover()
-			  } );
 		</script>
 	</th:block>
 </html>
