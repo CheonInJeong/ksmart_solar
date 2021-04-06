@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>환불 신청 정보</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>예치금 환불 신청</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">메인화면 </a>>
+			<a href="#" style="text-decoration: none;"> 구매관리 </a>>
+			<a href="/buy/applyRefund" style="text-decoration: none;"> 예치금 환불 </a>>
+			<a href="#" style="text-decoration: none;"> 환불 신청 정보</a>
+		</div>
+		<div id="container-header-space"></div>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel">
+              <div class="form">
+	              <h4><i class="fa fa-angle-right"></i>환불 신청 정보</h4>
+	              <hr>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2">공고 제목</label>
+                    <div class="col-lg-10">
+                       <div th:text="${bTitle}"></div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+	                    <label class="control-label col-lg-2">품목</label>
+	                    <div class="col-lg-10">
+	                       <div th:text="${bType}"></div>
+	                    </div>
+	              </div>
+                  <div class="form-group">
+                    <label class="control-label col-lg-2">신청 금액</label>
+                    <div class="col-lg-10">
+	              		<div>
+                    		<span class="price">[[${tradeDepositOutDTO.trDepDeposit}]]</span>원
+                    	</div>
+                    </div>
+                  </div>
+				<div class="form-group ">
+					<label class="control-label col-lg-2">은행</label>
+					<div class="col-lg-10">
+						<input class="xsinput mdinput" type="text" style="width: 40%;" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountBankName}">
+					</div>
+				</div>
+				<div class="form-group ">
+					<label class="control-label col-lg-2">계좌번호</label>
+					<div class="col-lg-10">
+						<input class="xsinput mdinput" type="text" style="width: 40%;" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountNumber}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2">예금주명</label>
+					<div class="col-lg-10" >
+						<input class="xsinput mdinput" style="width: 40%;" type="text" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountName}">
+					</div>
+				</div>
+				<div class="form-group">
+					<label class="control-label col-lg-2">신청 시간</label>
+					<div class="col-lg-10">
+						[[${tradeDepositOutDTO.trDepDate}]]
+					</div>
+				</div>
+              </div>
+            </div>
+          </div>
+        </div>
+		<div class="row" style="margin: 5px 0px;">
+			<div class="form-inline" style="text-align: center;">
+				<button id="bidResultCancelBtn" class="btn btn-danger" type="button" style="width: 80px;">뒤로가기</button>
+			</div>
+		</div>
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript">
+			var buy = $('#buy');
+			buy.addClass('active');
+			buy.parent().find('.sub').css('display','block');
+			buy.parent().find('.sub').children().eq(1).addClass('active');
+			var bank = $('#bank');
+			var bidResultCancelBtn = $('#bidResultCancelBtn');
+			$(function(){
+				var price = $('.price');
+				price.each(function(){
+					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				})
+			})
+			var link = document.referrer;
+			bidResultCancelBtn.click(function(){
+				location.href = link;
+			});
+		</script>
+	</th:block>
+</html>

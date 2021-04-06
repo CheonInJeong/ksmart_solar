@@ -50,5 +50,12 @@ public class TradeService {
 	public int modifyTradePaymentIn(TradePaymentInDTO paymentInDTO) {
 		return tradeMapper.modifyTradePaymentIn(paymentInDTO);
 	}
+	//예치금 환불등록
+	public int addRefundRequest(TradeDepositOutDTO tradeDepositOutDTO) {
+		return tradeMapper.addRefundRequest(tradeDepositOutDTO);
+	}
+	public TradeDepositOutDTO getRefundInfo(String bCode) {
+		return tradeMapper.getRefundInfo(bCode);
+	}
 	
 }

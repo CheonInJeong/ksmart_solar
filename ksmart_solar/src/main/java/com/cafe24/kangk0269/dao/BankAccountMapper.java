@@ -27,6 +27,8 @@ public interface BankAccountMapper {
 	
 	//개인 계좌조회
 	public List<MemberAccountDTO> getAccountListByManager(List<String> Id);
+	//인덱스로 계좌조회
+	public MemberAccountDTO getAccountListByIdx(String mAccountIdx);
 }
 
 

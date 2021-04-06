@@ -24,29 +24,37 @@
                   <tr>
                     <th class="col-md-1">번호</th>
                     <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
+                    <th class="col-md-1"><i class="fa fa-bullhorn"></i>품목</th>
                     <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
-       	            <th class="col-md-2"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
+       	            <th class="col-md-3"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:if="${refundList.size()>0 and refundList.RefundPossibleList.size()>0}" th:each="l,index:${refundList.RefundPossibleList}">
-		                  <tr>
-		                    <td>[[${index.count}]]</td>
-		                    <td>
-		                    	<form th:action="@{/buy/refundRequest}" method="post">
-			                      	<a class="announceTitle">[[${l.bTitle}]]</a>
-			                      	<input type="hidden" name="bCode" th:value="${l.bCode}">
-			                      	<input type="hidden" name="bDeposit" th:value="${l.bDeposit}">
-		                   		</form>
-		                    </td>
-		                    <td class="price">[[${l.bDeposit}]]</td>
-		                    <td>[[${l.bDate}]]</td>
-		                    
-		                  </tr>
+                	<th:block th:if="${refundList!=null}">
+	                	<th:block th:if="${refundList.size()>0 and refundList.RefundPossibleList.size()>0}" th:each="l,index:${refundList.RefundPossibleList}">
+			                  <tr>
+			                    <td>[[${index.count}]]</td>
+			                    <td>
+			                    	<form th:action="@{/buy/refundRequest}" method="post">
+				                      	<a class="announceTitle">[[${l.bTitle}]]</a>
+				                      	<input th:if="${l.bTypeCode=='1'}" type="hidden" name="bType" th:value="${'발전소'}">
+			                    		<input th:if="${l.bTypeCode=='2'}" type="hidden" name="bType" th:value="${'부품'}">
+				                      	<input type="hidden" name="bTitle" th:value="${l.bTitle}">
+				                      	<input type="hidden" name="bCode" th:value="${l.bCode}">
+				                      	<input type="hidden" name="bDeposit" th:value="${l.bDeposit}">
+			                   		</form>
+			                    </td>
+			                    <td th:if="${l.bTypeCode=='1'}">발전소</td>
+			                    <td th:if="${l.bTypeCode=='2'}">부품</td>
+			                    <td class="price">[[${l.bDeposit}]]</td>
+			                    <td>[[${l.bDate}]]</td>
+			                    
+			                  </tr>
+	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${refundList.size()==0 or refundList.RefundPossibleList.size()==0}">
+                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundPossibleList.size()==0}">
 		                  <tr>
-		                    <td colspan="4" style="text-align: center;">환불 가능한 목록이 없습니다.</td>		                 
+		                    <td colspan="5" style="text-align: center;">환불 가능한 목록이 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
@@ -64,25 +72,36 @@
                   <tr>
                     <th class="col-md-1">번호</th>
                     <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
+                    <th class="col-md-1"><i class="fa fa-bullhorn"></i>품목</th>
                     <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
-       	            <th class="col-md-2"><i class="fa fa-bookmark"></i>환불완료 날짜 </th>
+       	            <th class="col-md-3"><i class="fa fa-bookmark"></i>환불완료 날짜 </th>
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:if="${refundList.size>0 and refundList.RefundCompleteList.size()>0}" th:each="l,index:${refundList.RefundCompleteList}">
-		                  <tr>
-		                    <td>[[${index.count}]]</td>
-		                    <td><form th:action="@{/buy/refundRequest}" method="post">
-			                      	<a class="announceTitle">[[${l.bTitle}]]</a>
-		                   		</form></td>
-		                    <td class="price">[[${l.bDeposit}]]</td>
-		                    <td>[[${l.tradeDepositOutDTO.trDepWdDate}]]</td>
-		                    
-		                  </tr>
+                	<th:block th:if="${refundList!=null}">
+	                	<th:block th:if="${refundList.size>0 and refundList.RefundCompleteList.size()>0}" th:each="l,index:${refundList.RefundCompleteList}">
+			                  <tr>
+			                    <td>[[${index.count}]]</td>
+			                    <td>
+			                    	<form th:action="@{/buy/refundResult}" method="post">
+			                    		<input th:if="${l.bTypeCode=='1'}" type="hidden" name="bType" th:value="${'발전소'}">
+			                    		<input th:if="${l.bTypeCode=='2'}" type="hidden" name="bType" th:value="${'부품'}">
+			                    		<input type="hidden" name="bTitle" th:value="${l.bTitle}">
+			                    		<input type="hidden" name="bCode" th:value="${l.bCode}">
+				                      	<a class="announceTitle">[[${l.bTitle}]]</a>
+			                   		</form>
+			                   	</td>
+			                   	<td th:if="${l.bTypeCode=='1'}">발전소</td>
+			                    <td th:if="${l.bTypeCode=='2'}">부품</td>
+			                    <td class="price">[[${l.bDeposit}]]</td>
+			                    <td>[[${l.tradeDepositOutDTO.trDepWdDate}]]</td>
+			                    
+			                  </tr>
+	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${refundList.size()==0 or refundList.RefundCompleteList.size()==0}">
+                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundCompleteList.size()==0}">
 		                  <tr>
-		                    <td colspan="4" style="text-align: center;">환불 완료한 목록이 없습니다.</td>		                 
+		                    <td colspan="5" style="text-align: center;">환불 완료한 목록이 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
@@ -101,25 +120,35 @@
                   <tr>
                     <th class="col-md-1">번호</th>
                     <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
+                    <th class="col-md-1"><i class="fa fa-bullhorn"></i>품목</th>
                     <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
-       	            <th class="col-md-2"><i class="fa fa-bookmark"></i>환불신청 날짜 </th>
+       	            <th class="col-md-3"><i class="fa fa-bookmark"></i>환불신청 날짜 </th>
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block th:if="${refundList.size>0 and refundList.RefundRequestList.size()>0}" th:each="l,index:${refundList.RefundRequestList}">
-		                  <tr>
-		                    <td>[[${index.count}]]</td>
-		                    <td><form th:action="@{/buy/refundRequest}" method="post">
-			                      	<a class="announceTitle">[[${l.bTitle}]]</a>
-		                   		</form></td>
-		                    <td class="price">[[${l.bDeposit}]]</td>
-		                    <td>[[${l.tradeDepositOutDTO.trDepDate}]]</td>
-		                    
-		                  </tr>
+                	<th:block th:if="${refundList!=null}">
+	                	<th:block th:if="${refundList.size>0 and refundList.RefundRequestList.size()>0}" th:each="l,index:${refundList.RefundRequestList}">
+			                  <tr>
+			                    <td>[[${index.count}]]</td>
+			                    <td>
+			                    	<form th:action="@{/buy/refundInfo}" method="post">
+			                    		<input th:if="${l.bTypeCode=='1'}" type="hidden" name="bType" th:value="${'발전소'}">
+			                    		<input th:if="${l.bTypeCode=='2'}" type="hidden" name="bType" th:value="${'부품'}">
+			                    		<input type="hidden" name="bTitle" th:value="${l.bTitle}">
+			                    		<input type="hidden" name="bCode" th:value="${l.bCode}">
+				                    	<a class="announceTitle">[[${l.bTitle}]]</a>
+			                   		</form>
+			                   	</td>
+			                   	<td th:if="${l.bTypeCode=='1'}">발전소</td>
+			                    <td th:if="${l.bTypeCode=='2'}">부품</td>
+			                    <td class="price">[[${l.bDeposit}]]</td>
+			                    <td>[[${l.tradeDepositOutDTO.trDepDate}]]</td>
+			                  </tr>
+	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${refundList.size()==0 or refundList.RefundRequestList.size()==0}">
+                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundRequestList.size()==0}">
 		                  <tr>
-		                    <td colspan="6" style="text-align: center;">환불 신청한 목록이 없습니다.</td>		                 
+		                    <td colspan="5" style="text-align: center;">환불 신청한 목록이 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>

@@ -87,6 +87,19 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE
 			 m_id= #{login_id};
 	</select>
+	<select id="getAccountListByIdx" parameterType="String" resultMap="MemberAccountDTOMap">
+		SELECT
+			  m_account_idx	
+			, m_account_number
+			, m_account_name
+			, m_account_bank
+			, m_account_reg_date
+			, m_account_check
+		FROM
+			tb_member_account
+		WHERE
+			m_account_idx = #{mAccountIdx};
+	</select>
 	
 	<select id="getAccountListByManager" parameterType="String" resultMap="MemberAccountDTOMap">
 		SELECT

@@ -53,6 +53,15 @@
 		                  </tr>
                 	</th:block>
                 </tbody>
+                <tfoot>
+                  <tr>
+                  	<td colspan ="10" style="text-align:center;">
+                  		<th:block layout:fragment="paging">
+                  			<nav th:replace="fragments/pagination :: pagination"></nav>
+                  		</th:block>
+                  	</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>

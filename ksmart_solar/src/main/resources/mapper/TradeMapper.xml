@@ -284,4 +284,45 @@
 		WHERE 
 			b_code=#{bCode}
 	</update>
+	<insert id="addRefundRequest" parameterType="TradeDepositOutDTO">
+		INSERT INTO tb_trade_deposit_out
+			(tr_dep_code, 
+			 b_code, 
+			 m_id, 
+			 b_deposit, 
+			 tr_dep_deposit, 
+			 m_account_bank_name, 
+			 m_account_number, 
+			 m_account_name, 
+			 tr_dep_date)
+		VALUES 
+			(sf_tr_dep_code(), 
+			 #{bCode}, 
+			 #{mId}, 
+			 #{bDeposit}, 
+			 #{bDeposit}, 
+			 #{mAccountBankName}, 
+			 #{mAccountNumber}, 
+			 #{mAccountName}, 
+			 NOW())
+	</insert>
+	<select id="getRefundInfo" parameterType="String" resultMap="depositoutResultMap">
+		SELECT 
+			tr_dep_code, 
+			b_code, 
+			m_id, 
+			b_deposit, 
+			tr_dep_deposit, 
+			m_account_bank_name, 
+			m_account_number, 
+			tr_dep_account_check, 
+			m_account_name, 
+			tr_dep_date, 
+			tr_dep_check, 
+			tr_dep_wd_date, 
+			b_mo_code
+		FROM tb_trade_deposit_out
+		WHERE
+			b_code=#{bCode}
+	</select>
 </mapper>
