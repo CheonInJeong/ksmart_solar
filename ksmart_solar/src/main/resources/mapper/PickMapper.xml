@@ -28,7 +28,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<!-- 관심목록 등록  -->
 	<insert id="addWishlist" parameterType="String">
 		INSERT INTO tb_pick
-			(b_gen_regoods_code
+			( p_code
 			, m_id
 			, p_reg_date)
 		VALUES
