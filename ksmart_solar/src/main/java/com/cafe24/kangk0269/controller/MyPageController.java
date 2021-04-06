@@ -44,13 +44,15 @@ public class MyPageController {
 	
 	//관심목록 등록
 	@PostMapping("/mypage/addWishlist")
-	public String addWishlist(HttpSession session,
-			@RequestParam(name = "announcedCode", required = false ) String announcedCode) {
+	public void addWishlist(HttpServletResponse response, HttpSession session,
+			@RequestParam(name = "announcedCode", required = false ) String announcedCode) throws IOException {
+		String log_id = (String)session.getAttribute("SID");
+		if(log_id == null) {
+			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
+		}
 		System.out.println("addWishlist 실행");
-		String login_id = (String)session.getAttribute("SID");
-		pickService.addWishlist(announcedCode, login_id);
-		return "/mypage/wishlist";
-		
+		pickService.addWishlist(announcedCode, log_id);
+		ScriptUtils.alertAndBackPage(response, "등록되었습니다");
 		
 	}
 	
@@ -62,6 +64,7 @@ public class MyPageController {
 		return "redirect:/mypage/wishlist";
 	}
 	
+	
 	//관심목록 조회
 	@GetMapping("/mypage/wishlist")
 	public String Wishlist(HttpServletResponse response, Model model, HttpSession session) throws IOException {
@@ -71,8 +74,8 @@ public class MyPageController {
 		}
 		List<PickDTO> picPlkDTOList = pickService.getPlWishList(log_id);
 		List<PickDTO> pickCpDTOList = pickService.getCpWishList(log_id);
-		System.out.println("pickDTOList-->" + picPlkDTOList);
-		model.addAttribute("pickDTOList", pickCpDTOList);
+		model.addAttribute("picPlkDTOList", picPlkDTOList);
+		model.addAttribute("pickCpDTOList", pickCpDTOList);
 		return "/mypage/wishlist";
 	}
 	
@@ -125,8 +128,8 @@ public class MyPageController {
 	
 	//개인 프로필 수정화면
 	@GetMapping("/mypage/ModifyMyInfo")
-	public String modifyMyInfo(Model model, HttpSession session) {
-		/* getMyInfoById(null, model,session); */
+	public String modifyMyInfo(HttpServletResponse response, Model model, HttpSession session) throws IOException {
+		getMyInfoById(response, model,session); 
 		return "/mypage/ModifyMyInfo";
 	}
 	

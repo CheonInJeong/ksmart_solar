@@ -3,8 +3,6 @@ package com.cafe24.kangk0269.common;
 
 
 public class DepreciationCalculate {
-	
-	
 	//발전소 감가 관련 메서드
 	public int calculPlDepPriceBased(int plDepPrice, int plDepServicelife) {
 		
@@ -26,10 +24,5 @@ public class DepreciationCalculate {
 		
 		return PlDepPriceBased;
 	}
-	
-	
-	//bz_pl_code를 입력하면 수익분석 그래프 데이터를 리턴하는 메서드
-	
-	
 	
 }
