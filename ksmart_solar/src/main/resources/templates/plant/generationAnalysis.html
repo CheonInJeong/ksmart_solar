@@ -18,11 +18,11 @@
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh;">
 		<div class="content-panel col-xs-12">
-			<div th:if="${#lists.size(plantListByCode) > 0}" th:each="l : ${plantListByCode}" style="margin:20px 5% 20px 5%; width:90%;">
+			<div th:if="${bzPlName ne null and bzPlName ne ''}" style="margin:20px 5% 20px 5%; width:90%;">
 				<div class="h1 col-md-6">
-					<span style="font-weight:900; margin-right: 10px;">[[${l.bzPlName}]]</span>
+					<span style="font-weight:900; margin-right: 10px;">[[${bzPlName}]]</span>
 					<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
-					<button type="button" id="plantDelete" th:data-plName="${l.bzPlName}" th:data-plCode="${l.bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
+					<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
 				</div>
 				<div class="h2 col-md-6 col-xs-12">
 					<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
@@ -30,19 +30,19 @@
 				</div>
 				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 					<div class="h3" style="font-weight: 600;">금일 발전량</div>
-					<p class="h3">[[${plantGenDay}]] <small>[kWh]</small></p>
+					<p class="h3">[[${bzPlName}]] <small>[kWh]</small></p>
 				</div>
 				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 					<div class="h3" style="font-weight: 600;">금일 예상 수익</div>
 					<p class="h3">[[${plantGenDay}]] <small>[원]</small></p>
 				</div>
 				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;" id="plantPower" th:data-power="${power}">발전소 용량</div>
-					<p class="h3">[[${power}]] <small>[kW]</small></p>
+					<div class="h3" style="font-weight: 600;" id="plantPower" th:data-power="${bzPlPower}">발전소 용량</div>
+					<p class="h3">[[${bzPlPower}]] <small>[kW]</small></p>
 				</div>
 				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
 					<div class="h3" style="font-weight: 600;">발전소 주소</div>
-					<p id="plAddr" th:data-plAddr="${l.bzPlAddr}">([[${l.bzPlZipcode}]]) [[${l.bzPlAddr}]] [[${l.bzPlDetailAddr}]]</p>
+					<p id="plAddr" th:data-plAddr="${bzPlAddr}">([[${bzPlZipcode}]]) [[${bzPlAddr}]] [[${bzPlDetailAddr}]]</p>
 	            </div>
 		        <div class="col-xs-12" style="height: 5vh;"></div>
 		        <div class="row">
@@ -57,7 +57,8 @@
 		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
 		<script type="text/javascript">
 			var plantPowerInput = $('#plantPower').attr('data-power');
-			var plantPower = plantPowerInput.replace(",", "");
+			var plantPower = plantPowerInput;
+			//.replace(",", "");
 			var plantPowerArray = [];
 			for(var i=0; i<24; i++){
 				plantPowerArray.push(plantPower);

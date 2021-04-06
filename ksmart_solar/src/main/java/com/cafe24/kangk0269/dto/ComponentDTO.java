@@ -74,6 +74,8 @@ public class ComponentDTO {
 		builder.append(mId);
 		builder.append(", cpName=");
 		builder.append(cpName);
+		builder.append(", cpPhoto=");
+		builder.append(cpPhoto);
 		builder.append(", cpInfo=");
 		builder.append(cpInfo);
 		builder.append(", cpMaker=");
