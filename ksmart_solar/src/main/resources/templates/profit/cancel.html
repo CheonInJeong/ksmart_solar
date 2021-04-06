@@ -31,19 +31,28 @@
 	                  <thead class="cf">
 						<tr>
 							<th>번호</th>
-							<th>거래공고</th>
 							<th>수수료납부회원</th>
 							<th>취소 수수료금액</th>
+							<th>관련공고</th>
 							<th>수수료 수취일</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="l, status : ${cancelCmList}">
 							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="취소수수료코드" th:text="${l.trFailCode}" style="display: none;"></td>
-							<td data-title="거래공고" th:text="${l.announcedCode}"></td>
-							<td data-title="수수료납부회원" th:text="${l.mId}"></td>
+							<td data-title="수수료납부회원">
+								<a data-toggle="popover" data-placement="right" title="납부정보" data-content="" data-html="true">
+									[[${l.mId}]]
+								</a>
+							</td>
 							<td data-title="취소 수수료금액" th:text="${l.bCancel}"></td>
+							<td data-title="관련공고">
+								<form th:action="@{/notice/announcement}" method="post">
+									<a class="announceTitle">[[${l.announcedTitle}]]</a>
+			                      	<input type="hidden" name="announceCode" th:value="${l.announcedCode}">
+			                      	<input type="hidden" name="announceType" th:value="${l.bType}">
+								</form>
+							</td>
 							<td data-title="수수료 수취일" th:text="${l.trFailDate}"></td>
 						</tr>
 					</tbody>
@@ -86,6 +95,14 @@
 			profit.addClass('active');
 			profit.parent().find('.sub').css('display','block');
 			profit.parent().find('.sub').children().eq(0).addClass('active');
+			
+			$('.announceTitle').click(function(){
+				$(this).parent().submit();
+			});
+			
+			$( function () {
+			    $( '[data-toggle="popover"]' ).popover()
+			  } );
 		</script>
 	</th:block>
 </html>

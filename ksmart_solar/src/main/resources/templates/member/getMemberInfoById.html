@@ -107,27 +107,30 @@
                   <label class="col-lg-2 col-sm-2 control-label">등록 사업장</label>
                   <div class="col-lg-10 col-sm-10">
                   	<th:block th:each="l : ${businessList}">
-                  		<a data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-						  <p th:if="${l.bzCheck = 'Y'}" class="form-control-static">[[${l.bzCompanyName}]]</p>
-						</a>
-						<div class="collapse" id="collapseExample">
-						  <div class="well">
-						    ...
-						  </div>
-						</div>
+                  		<a th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})}>
+							<p th:if="${l.bzCheck = 'Y'}" class="form-control-static">[[${l.bzCompanyName}]]</p>
+                  		</a>
                     </th:block>
                   </div>
                 </div>
                 <div class="form-group" th:if="${member.mLevel} == 2">
-                  <label class="col-lg-2 col-sm-2 control-label">보유 발전소</label>
+                  <label class="col-lg-2 col-sm-2 control-label">운영 발전소</label>
                   <div class="col-lg-10 col-sm-10">
-                  	<p class="form-control-static"></p>
+                  	<th:block th:each="l : ${operPlantList}">
+                  		<a th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})}>
+							<p class="form-control-static">[[${l.bzPlName}]]</p>
+                  		</a>
+                    </th:block>
                   </div>
                 </div>
                 <div class="form-group" th:if="${member.mLevel} == 2">
                   <label class="col-lg-2 col-sm-2 control-label">보유 부품</label>
                   <div class="col-lg-10 col-sm-10">
-                    <p class="form-control-static"></p>
+                    <th:block th:each="l : ${componentList}">
+                  		<a href=@{#}>
+							<p class="form-control-static">[[${l.cpName}]]</p>
+                  		</a>
+                    </th:block>
                   </div>
                 </div>
                 <div class="form-group">
@@ -142,7 +145,10 @@
                 <div class="form-group" th:if="${member.mLevel} == 2">
                   <label class="col-lg-2 col-sm-2 control-label">등록 공고</label>
                   <div class="col-lg-10 col-sm-10">
-                  	<p class="form-control-static"></p>
+                  	<th:block th:each="l : ${plantList}">
+						<p th:if="${l.bPlReCount == 0}" class="form-control-static">[[${l.bPlTitle}]]</p>
+						<p th:if="${l.bPlReCount > 0}" class="form-control-static">[[${l.bPlTitle}]](재공고)</p>
+                    </th:block>
                   </div>
                 </div>
                 <div class="form-group" th:if="${member.mLevel} == 3">
@@ -188,23 +194,6 @@
 		
 	</th:block>
 	<th:block layout:fragment="customScript">
-		  <script src="lib/jquery/jquery.min.js"></script>
-		  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-		  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-		  <script src="lib/jquery.scrollTo.min.js"></script>
-		  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-		  <!--common script for all pages-->
-		  <script src="lib/common-scripts.js"></script>
-		  <!--script for this page-->
-		  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/date.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		  <script src="lib/advanced-form-components.js"></script>
 	
 		<script type="text/javascript">
 			var member = $('#member');

@@ -30,6 +30,22 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="mAccountBankName" 		column="m_account_bank_name" />
 		<result property="mAccountNumber" 			column="m_account_number" />
 		<result property="mPaymentName" 			column="m_payment_name" />
+		<collection property="tradeDepositOutDTO" 	resultMap="TradeDepositOutDTOMap" />
+	</resultMap>
+	<resultMap type="TradeDepositOutDTO" id="TradeDepositOutDTOMap">
+		<id 	property="trDepCode" 				column="tr_dep_code"/>
+		<result property="bCode" 					column="b_code" />
+		<result property="mId" 						column="m_id" />
+		<result property="bDeposit"					column="b_deposit" />
+		<result property="trDepDeposit" 			column="tr_dep_deposit" />
+		<result property="mAccountBankName" 		column="m_account_bank_name" />
+		<result property="mAccountNumber" 			column="m_account_number" />
+		<result property="trDepAccountCheck" 		column="tr_dep_account_check" />
+		<result property="mAccountName" 			column="m_account_name" />
+		<result property="trDepDate" 				column="tr_dep_date" />
+		<result property="trDepCheck" 				column="tr_dep_check" />
+		<result property="trDepWdDate" 				column="tr_dep_wd_date" />
+		<result property="bMoCode" 					column="b_mo_code" />
 	</resultMap>
 	<resultMap type = "FileDTO" id = "fileResultMap">
 	  		<result property="relatedTableCode"		column="related_table_code"/>
@@ -142,9 +158,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="bidCancel" parameterType="String">
 		UPDATE tb_bid_list
 		SET
+		<if test="status.toString()=='입찰'.toString()">
 			tr_type_code=4,
 			tr_type_name='입찰취소',
 			b_deposit_available='Y'
+		</if>
+		<if test="status.toString()=='계약'.toString()">
+			tr_type_code=8,
+			tr_type_name='계약취소'
+		</if>
 		WHERE 
 			b_code = #{bCode}
 	</update>
@@ -189,5 +211,51 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			f.file_sort_idx = '2'
 		AND 
 			f.related_table_code='입찰서류'
+	</select>
+	<update id="modifyBidList" parameterType="BidListDTO">
+		UPDATE tb_bid_list
+		SET
+			b_price=#{bPrice},
+			s_dep_rate=#{sDepositRate},
+			b_deposit=#{bDeposit},
+			m_account_bank_name=#{mAccountBankName},
+			m_account_number=#{mAccountNumber},
+			m_payment_name=#{mPaymentName}
+		WHERE 
+			b_code=#{bCode}
+	</update>
+	<update id="tradeCancel" parameterType="String">
+		UPDATE tb_trade_priority
+		SET
+			tr_type_code=8,
+			tr_type_name='계약취소'
+		WHERE 
+			b_code = #{bCode}
+	</update>
+	<!-- 환불가능 목록 -->
+	<select id="getApplyRefundList" parameterType="String" resultMap="BidListDTOMap">
+		SELECT
+			bl.*,
+			td.*
+		FROM
+			tb_bid_list AS bl
+		LEFT JOIN
+			tb_trade_deposit_out AS td
+		ON td.b_code=bl.b_code
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			bl.b_deposit_available='Y'
+			AND bl.m_id=#{id}
+			<if test="status!=null and id!=null and status.toString()=='가능'.toString()">
+				AND bl.b_deposit_refund='N'
+				AND td.tr_dep_code IS null
+			</if>
+			<if test="status!=null and id!=null and status.toString()=='완료'.toString()">
+				AND bl.b_deposit_refund='Y'
+			</if>
+			<if test="status!=null and id!=null and status.toString()=='신청'.toString()">
+				AND td.tr_dep_code IS not null
+				AND bl.b_deposit_refund='N'
+			</if>
+		</trim>
 	</select>
 </mapper>

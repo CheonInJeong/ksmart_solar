@@ -23,7 +23,7 @@ public interface BidListMapper {
 	//입찰신청한 입찰코드
 	public String getBidCode(String announceCode, String id);
 	//입찰 취소
-	public int bidCancel(String bCode);
+	public int bidCancel(String bCode,String status);
 	//입찰 취소시 발전소 공고 리스트의 입찰자 목록 -1
 	public int bidPlantMemberMinus(String plCode); 
 	//입찰 취소시 부품 공고 리스트의 입찰자 목록 -1
@@ -31,6 +31,13 @@ public interface BidListMapper {
 	//재공고시 이전공고에서 계약을 취소했는지 대금을 미납했는지 여부 판단
 	public int reBidCount(String groupCode, String id); 
 	//입찰신청시 필요한 서류
-	public List<FileDTO> getBidFileList(); 
+	public List<FileDTO> getBidFileList();
+	//입찰 수정
+	public int modifyBidList(BidListDTO bidListDTO);
+	//계약 취소
+	public int tradeCancel(String bCode);
+	//환불 가능한 목록 조회
+	public List<BidListDTO> getApplyRefundList(String id,String status);
+	
 
 }

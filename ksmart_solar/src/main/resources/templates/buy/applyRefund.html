@@ -4,20 +4,21 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>예치금 환불 신청</title>
+				<title>예치금 환불</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>예치금 환불 신청</strong></div>
+		<div id="container-header-title"><strong>예치금 환불</strong></div>
 		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
 			<a href="#" style="text-decoration: none;">구매관리 </a>>
-			<a href="/buy/applyRefund" style="text-decoration: none;"> 예치금 환불 신청 </a>
+			<a href="/buy/applyRefund" style="text-decoration: none;"> 예치금 환불 </a>
 		</div>
 		<div id="container-header-space"></div>
-			<div class="row mt">
+		<div class="row mt">
           <div class="col-md-12 container">
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i>예치금 환불가능한 부품공고</h4>
+                <h4><i class="fa fa-angle-right"></i>예치금 환불가능 목록</h4>
                 <hr>
                 <thead>
                   <tr>
@@ -28,24 +29,62 @@
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block>
+                	<th:block th:if="${refundList.size()>0 and refundList.RefundPossibleList.size()>0}" th:each="l,index:${refundList.RefundPossibleList}">
 		                  <tr>
-		                    <td>1</td>
+		                    <td>[[${index.count}]]</td>
 		                    <td>
 		                    	<form th:action="@{/buy/refundRequest}" method="post">
-			                      	<a class="announceTitle">짱좋은 부품 팝니다</a>
+			                      	<a class="announceTitle">[[${l.bTitle}]]</a>
+			                      	<input type="hidden" name="bCode" th:value="${l.bCode}">
+			                      	<input type="hidden" name="bDeposit" th:value="${l.bDeposit}">
 		                   		</form>
 		                    </td>
-		                    <td>5,500,000</td>
-		                    <td>2021-03-10 0:00:00</td>
+		                    <td class="price">[[${l.bDeposit}]]</td>
+		                    <td>[[${l.bDate}]]</td>
 		                    
 		                  </tr>
                 	</th:block>
-                	<!-- <th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
+                	<th:block th:if="${refundList.size()==0 or refundList.RefundPossibleList.size()==0}">
 		                  <tr>
-		                    <td colspan="6" style="text-align: center;">입찰 신청한 부품 공고가 없습니다.</td>		                 
+		                    <td colspan="4" style="text-align: center;">환불 가능한 목록이 없습니다.</td>		                 
 		                  </tr>
-                	</th:block> -->
+                	</th:block>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+		<div class="row mt">
+          <div class="col-md-12 container">
+            <div class="content-panel">
+              <table class="table table-striped table-advance table-hover">
+                <h4><i class="fa fa-angle-right"></i> 예치금 환불완료 목록</h4>
+                <hr>
+                <thead>
+                  <tr>
+                    <th class="col-md-1">번호</th>
+                    <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
+                    <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
+       	            <th class="col-md-2"><i class="fa fa-bookmark"></i>환불완료 날짜 </th>
+                  </tr>
+                </thead>
+                <tbody>
+                	<th:block th:if="${refundList.size>0 and refundList.RefundCompleteList.size()>0}" th:each="l,index:${refundList.RefundCompleteList}">
+		                  <tr>
+		                    <td>[[${index.count}]]</td>
+		                    <td><form th:action="@{/buy/refundRequest}" method="post">
+			                      	<a class="announceTitle">[[${l.bTitle}]]</a>
+		                   		</form></td>
+		                    <td class="price">[[${l.bDeposit}]]</td>
+		                    <td>[[${l.tradeDepositOutDTO.trDepWdDate}]]</td>
+		                    
+		                  </tr>
+                	</th:block>
+                	<th:block th:if="${refundList.size()==0 or refundList.RefundCompleteList.size()==0}">
+		                  <tr>
+		                    <td colspan="4" style="text-align: center;">환불 완료한 목록이 없습니다.</td>		                 
+		                  </tr>
+                	</th:block>
                 </tbody>
               </table>
             </div>
@@ -56,34 +95,33 @@
           <div class="col-md-12 container">
             <div class="content-panel">
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i> 예치금 환불가능한 발전소공고</h4>
+                <h4><i class="fa fa-angle-right"></i> 예치금 환불신청 목록</h4>
                 <hr>
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
                     <th class="col-md-5"><i class="fa fa-bullhorn"></i>공고 제목</th>
                     <th class="col-md-2"><i class="fa fa-bullhorn"></i>예치금</th>
-       	            <th class="col-md-2"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
-                  </div>
+       	            <th class="col-md-2"><i class="fa fa-bookmark"></i>환불신청 날짜 </th>
                   </tr>
                 </thead>
                 <tbody>
-                	<th:block>
+                	<th:block th:if="${refundList.size>0 and refundList.RefundRequestList.size()>0}" th:each="l,index:${refundList.RefundRequestList}">
 		                  <tr>
-		                    <td>1</td>
+		                    <td>[[${index.count}]]</td>
 		                    <td><form th:action="@{/buy/refundRequest}" method="post">
-			                      	<a class="announceTitle">짱좋은 발전소 팝니다</a>
+			                      	<a class="announceTitle">[[${l.bTitle}]]</a>
 		                   		</form></td>
-		                    <td>5,500,000</td>
-		                    <td>2021-03-10 0:00:00</td>
+		                    <td class="price">[[${l.bDeposit}]]</td>
+		                    <td>[[${l.tradeDepositOutDTO.trDepDate}]]</td>
 		                    
 		                  </tr>
                 	</th:block>
-                	<!-- <th:block th:if="${bidPlantList==null || bidPlantList.size()==0}">
+                	<th:block th:if="${refundList.size()==0 or refundList.RefundRequestList.size()==0}">
 		                  <tr>
-		                    <td colspan="6" style="text-align: center;">입찰 신청한 발전소 공고가 없습니다.</td>		                 
+		                    <td colspan="6" style="text-align: center;">환불 신청한 목록이 없습니다.</td>		                 
 		                  </tr>
-                	</th:block> -->
+                	</th:block>
                 </tbody>
               </table>
             </div>
@@ -91,6 +129,7 @@
         </div>
 	</th:block>
 	<th:block layout:fragment="customScript">
+		
 		
 		<script type="text/javascript">
 			var buy = $('#buy');
@@ -101,6 +140,14 @@
 			$('.announceTitle').click(function(){
 				$(this).parent().submit();
 			});
+			
+			$(function(){
+				var price = $('.price');
+				price.each(function(){
+					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				})
+			})
+			
 		</script>
 	</th:block>
 </html>
