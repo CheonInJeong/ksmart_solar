@@ -16,6 +16,7 @@
   		  		<result property="bView" column="b_view"/>
   		  		<result property="bPhoto" column="b_photo"/>
   		  		<result property="bRegDate" column="b_reg_date"/>
+  		  		<result property="bAnswer" column="b_answer"/>
   		</resultMap>
   		
   		<resultMap type = "CommentDTO" id = "commentResultMap">
@@ -32,6 +33,38 @@
   		  		<result property="cmtDeleteYn" column="cmt_delete_yn"/>
   		  		<result property="cmtGroupCode" column="cmt_group_code"/>
   		</resultMap>
+  		<select id ="getQnaDetailForSeller"  resultMap = "boardSellerResultMap" parameterType="int">
+  			SELECT 
+	  			b_idx, 
+	  			b_subject,
+	  			b_contents, 
+	  			m_id_buyer, 
+	  			m_id_seller, 
+	  			announced_code, 
+	  			b_view, 
+	  			b_photo, 
+	  			b_reg_date
+			FROM tb_board_seller WHERE b_idx=#{bIdx}
   		
-		  		  
+  		</select>
+		  	
+		<select id="getQnaListForSeller" resultMap = "boardSellerResultMap" parameterType="String">
+		
+			SELECT 
+				b_idx, 
+				b_subject, 
+				b_contents, 
+				m_id_buyer, 
+				m_id_seller, 
+				announced_code, 
+				b_view, 
+				b_photo, 
+				b_reg_date,
+				b_answer
+			FROM 
+				tb_board_seller 
+			WHERE 
+				announced_code = #{announcedCode}
+		
+		</select>	  
   	</mapper>

@@ -51,7 +51,7 @@
                   	<td class="groupCode" th:text=${list.bPlGroupcode} style="display:none"></td>
                   	<td class="historyBPlCode" th:text=${list.bPlCode}></td>
        				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
-                    <td><a th:href="@{/sell/getBidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
+                    <td><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
                     <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
