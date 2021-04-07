@@ -26,6 +26,7 @@ import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.serivce.BoardSellerService;
 import com.cafe24.kangk0269.serivce.PlantService;
 import com.cafe24.kangk0269.serivce.SellService;
 
@@ -38,10 +39,20 @@ public class SellController {
 	@Autowired
 	private final PlantService plantService;
 	
-	public SellController(SellService sellService,PlantService plantService) {
+	@Autowired
+	private final BoardSellerService boardSellerService;
+	
+	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService) {
 		this.sellService = sellService;
 		this.plantService = plantService;
+		this.boardSellerService = boardSellerService;
 		
+	}
+	
+	@GetMapping(value="/sell/qnaDetail")
+	public String qnaDetail(@RequestParam(value="idx") int idx,Model model) {
+		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
+		return "sell/qnaDetail";
 	}
 	
 
@@ -83,15 +94,18 @@ public class SellController {
 											@RequestParam(value="announcedCode") String code) throws Exception {
 		
 		boolean rankCheck = false;
-		System.out.println(rank+"<----------int");
-		System.out.println(code);
+		System.out.println(rank+"<-------입력받은 순위");
+		System.out.println(code+"<-----공고코드");
 
 		  List<BidListDTO> rankList = sellService.rankCheck(code); 
 		  for(int i=0;i<rankList.size();i++) {
-			  System.out.println(rankList.get(i).getbRank());
-			  if(rank == rankList.get(i).getbRank()) { rankCheck = true; }
+			  System.out.println(rankList.get(i).getbRank()+"<----존재하는 순위");
+			  System.out.println(rankCheck+"<--------true or false");
+			  System.out.println(rank+"<----rank");
+			  if(rankList.get(i).getbRank()==rank)  rankCheck = true; 
 
 		  }
+		  System.out.println(rankCheck);
 		  
 		return rankCheck;
 	}
@@ -206,11 +220,12 @@ public class SellController {
 	}
 	
 	//발전소 공고 내용 조회
-	@GetMapping("/sell/getBidPlantDetail")
+	@GetMapping("/sell/bidPlantDetail")
 	public String getBidPlantDetail(@RequestParam(value="bPlCode") String code,Model model)  throws Exception{
 		
 		model.addAttribute("bidPlantDetail", sellService.getBidPlantDetail(code));
 		model.addAttribute("file", sellService.getsellerFileList(code));
+		model.addAttribute("qna",boardSellerService.getQnaListForSeller(code));
 		return "sell/bidPlantDetail";
 	}
 	

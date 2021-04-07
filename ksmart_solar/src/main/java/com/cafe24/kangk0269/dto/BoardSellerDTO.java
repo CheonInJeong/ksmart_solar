@@ -11,10 +11,11 @@ public class BoardSellerDTO {
 	 private String bView ; 
 	 private String bPhoto ; 
 	 private String bRegDate;
-	public int getB_idx() {
+	 private String bAnswer;
+	public int getbIdx() {
 		return bIdx;
 	}
-	public void setB_idx(int b_idx) {
+	public void setbIdx(int bIdx) {
 		this.bIdx = bIdx;
 	}
 	public String getbSubject() {
@@ -65,6 +66,12 @@ public class BoardSellerDTO {
 	public void setbRegDate(String bRegDate) {
 		this.bRegDate = bRegDate;
 	}
+	public String getbAnswer() {
+		return bAnswer;
+	}
+	public void setbAnswer(String bAnswer) {
+		this.bAnswer = bAnswer;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -86,11 +93,12 @@ public class BoardSellerDTO {
 		builder.append(bPhoto);
 		builder.append(", bRegDate=");
 		builder.append(bRegDate);
+		builder.append(", bAnswer=");
+		builder.append(bAnswer);
 		builder.append("]");
 		return builder.toString();
 	}
-	
 	 
-	 
+ 
 	 
 }

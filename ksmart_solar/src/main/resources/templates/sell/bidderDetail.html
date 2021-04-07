@@ -108,6 +108,9 @@
 				var documentYn =$('.documentYn');
 				var checkedValue;
 				var plantAc = $('#plantAc');
+				
+				console.log(documentYn);
+				console.log(plantAc.text())
 			
 					if($('#documentYnBtn').attr('data-attr')=='0'){
 						
@@ -145,13 +148,13 @@
 				//우선순위 시작
 				$('#priorityBtn').click(function(){
 					var bRank = $('#bRank');
-					console.log(bRank.text());
+					console.log(bRank.text()+"<---------");
+					console.log($('.documentYn').text());
 					if($('.documentYn').text()=='Y'){
 						if($('#priorityBtn').attr('data-attr')=='0'){
 							bRank.html('<input type="text" id="rank" name="bRank" value="'+bRank.text()+'">');
 							$('#priorityBtn').attr('data-attr',1);
 							$('#priorityBtn').text('수정완료');
-							console.log($('#rank').val())
 		
 							$('#priorityBtn').parent().append('<button class="btn btn-default" id="cancel">취소</button>')
 							
