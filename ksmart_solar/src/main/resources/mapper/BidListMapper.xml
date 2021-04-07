@@ -62,6 +62,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tb_standard_deposit
 		WHERE 
 			s_deposit_use ='Y'
+		AND
+			s_deposit_type='입찰예치금'
 		LIMIT 1;
 	</select>
 	<insert id="addbidList" parameterType="BidListDTO">
