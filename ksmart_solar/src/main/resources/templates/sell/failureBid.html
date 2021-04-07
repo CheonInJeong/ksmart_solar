@@ -1,66 +1,90 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.tyhmeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+<html xmlns:th="http://www.tyhmeleaf.org">
+<head>
+		 <!-- Bootstrap core CSS -->
+<link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
-	<th:block layout:fragment="customTitle">
-				<title>테스트</title>
-	</th:block>
-	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>공고신청</strong></div>
-     	<div id="container-header-path">판매관리 > 공고신청</div>
-      	<div id="container-header-space"></div>
-      	
-      	
-     
-      <span>	실패한 공고 목록이 있습니다.  	</span>
-      <span>	재공고를 신청하시려면, 		</span>
-      <span>	아래의 목록에서 신청을 눌러주세요.</span>
-     
-      	<!--////////////////////////////////////////////////  -->
-		<table class="table table-hover">
-			<thead>
-				<tr>
-					<td>공고코드</td>
-					<td>발전소이름</td>
-					<td>공고제목</td>
-					<td>공고상태</td>
-					<td>신청</td>
-				</tr>
-			</thead>
-			<tbody>
-				<tr th:each = p:${plant}>
-					<td th:text=${p.bPlCode}></td>
-					<td th:text=${p.bzPlCode}></td>
-					<td th:text=${p.bPlTitle}></td>
-					<td th:text=${p.bPlStatus}></td>
-					<td><a th:href="@{#}">신청</a></td>
-				</tr>
-			</tbody>
-		</table>
-      	<!--////////////////////////////////////////////////  -->
+  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
+  <link rel="stylesheet" type="text/css" th:href="@{/css/zabuto_calendar.css}">
+  <link rel="stylesheet" type="text/css" th:href="@{/lib/gritter/css/jquery.gritter.css}" />
+<script th:src="@{/lib/jquery/jquery-3.5.1.min.js}"></script>
 
+  
+	<style>
+		body{
+		background-color :#eaeaea; }
+	</style>
 
-	</th:block>
-	<th:block layout:fragment="customScript">
-		<script type="text/javascript">
-			var sell = $('#sell');
-			sell.addClass('active');
-			sell.parent().find('.sub').css('display','block');
-			sell.parent().find('.sub').children().eq(0).addClass('active');
-		</script>
-		
-		<script>
-		$(document).ready(function(){
-			$('.failure').each(function(){
-				var i = $('.failure').index(this);
+</head>
+
+	 <div class="row" id="section1">
+	       <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px; backgroud-color:white;">
+			      <p>	실패한 공고 목록이 있습니다.  	</p>
+			      <p>	재공고를 신청하시려면,아래의 목록에서 신청을 눌러주세요. </p>
+			  	<input type="hidden" th:value="${session.SID}" id="session">
+
+					<table class="table">
+						<thead>
+							<tr>
+								<td>공고코드</td>
+								<td>발전소이름</td>
+								<td>공고제목</td>
+								<td>공고상태</td>
+								<td>신청</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each = p:${plant}>
+								<td th:text=${p.bPlCode}></td>
+								<td th:text=${p.businessPlantDTO.bzPlName}></td>
+								<td th:text=${p.bPlTitle}></td>
+								<td th:text=${p.bPlStatus}></td>
+								<td><a class="apply">신청</a></td>
+								<td style="display:none" th:text="${p.bPlGroupcode}" id="groupCode"></td>
+								<td style="display:none" th:text="${p.bzPlCode}" id="code"></td>
+							
+							</tr>
+						</tbody>
+					</table>
+		<input type="checkbox" id="cancelCheck">하루동안 열지 않기<a id="closeBtn">닫기</a>
+	</div>
+</div>
+</div>
+	<script>
+	
+	//팝업세션
+	 function setCookie(cname, cvalue, exdays) {
+	        var d = new Date();
+	        d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+	        var expires = "expires="+d.toUTCString();
+	        document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+	      }
+
+	 
+	 $(document).ready(function(){
+		 	$('.apply').click(function(){
+		 		var i = $('.applay').index(this);
+		 		
+		 		window.open('/sell/addNewPlantSell?mId='+$('#session').val()+'&groupCode='+$('#groupCode').eq(i).text()+'&bzPlcode='+$('#code').text());
+		 		window.close();
+		 	})
+			$('#closeBtn').click(function(){
 				
-				if($('.failure').eq(i).text()!=''){
-					window.open('/sell/qna','재공고안내','width=600, height=600,left=100, top = 100, scrollbar=no')
-				}
-			})
+				if($('#cancelCheck').is(':checked')){
+					console.log("체크");
+					setCookie('openPopup','Y',1);
+				}else{
+					console.log("체크X")
+				} 
+				window.close();
+			
+		
+	 })
+	
 		})
 		
-		</script>
-	</th:block>
+		
+	</script>
+
 </html>

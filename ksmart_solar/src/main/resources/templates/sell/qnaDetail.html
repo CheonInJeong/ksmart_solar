@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+				<title>판매관리>문의글</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>내공고목록</strong></div>
+     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> ><!--  <a th:href="@{/sell/plantBidderList}">입찰자목록</a> > --> 문의글</div>
+      	<div id="container-header-space"></div>		
+		
+		 <div class="row" >
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+	              <h4><i class="fa fa-angle-right"></i>문의글</h4>
+	              <hr>
+	              <table class="table" id="qnaTable">
+	               
+	               	<tbody>
+	               		<tr>
+	               			<td>글제목</td>         			
+	               			<td colspan="6" th:text="${qna.bSubject}"></td>
+	               			
+	               		</tr>
+	               		<tr>
+	               			<td>작성자</td>
+	               			<td th:text="${qna.mIdBuyer}"></td>
+	               			<td>작성시간<td>
+	               			<td th:text="${qna.bRegDate}"><td>
+	               			<td>조회수</td>
+	               			<td th:text="${qna.bView}"></td>
+	               		</tr>
+	               		<tr>
+	               			<td colspan="7" th:text="${qna.bContents}"></td>
+	               		<tr>
+	               		<tfoot>
+	               	
+	               	
+	                </tbody>
+	              </table>
+	               	<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
+	            </div>
+	          </div>
+          </div>
+        
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(1).addClass('active');
+		</script>
+		
+	</th:block>
+</html>

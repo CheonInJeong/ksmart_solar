@@ -24,6 +24,7 @@
   		  		<result property="bPlStatus" column="b_pl_status"/>
   		  		<result property="acStatusCode" column = "ac_status_code"/>
   		  		<result property="bPlNumberOfBidder" column="b_pl_number_of_bidder"/>
+  		  		<result property="bRecently" column="b_recently"/>
   		  		<association property="businessPlantDTO" javaType="BusinessPlantDTO">
   		  			<id property="bzPlName" column="bz_pl_Name"/>
   		  			<result property="bzPlName" column="bz_pl_name"/>
@@ -190,12 +191,155 @@
   		  </resultMap>
   		  
   		  
-  		  <select id="getBidPlantAcById" parameterType="String" resultMap="bidPlantResultMap">
+  		  <select id="getPlantAcStatusByCode" parameterType="String" resultMap = "bidPlantResultMap">
+  		  	SELECT ac_status_code FROM tb_bid_plant WHERE b_pl_code = #{bPlCode}
+  		  
+  		  </select>
+  		  
+  		  <update id="updateBPlantRecentlyNy" parameterType="String">
+  		  	UPDATE tb_bid_plant SET b_recently = 'Y' WHERE b_pl_groupcode = #{bPlGroupcode}
+  		  </update>
+  		  <update id="updateBPlantRecentlyYn" parameterType="String">
+  		  	UPDATE tb_bid_plant SET b_recently = 'N' WHERE b_pl_groupcode = #{bPlGroupcode}
+  		  
+  		  </update>
+  		  
+  		  <insert id ="addPlantRebidApply" parameterType="BidPlantDTO">
+  		  		INSERT 
+  		  		INTO 
+  		  			tb_bid_plant
+					(b_pl_code, 
+					 bz_pl_code,
+					 m_id, 
+					 b_pl_title, 
+					 b_pl_contents, 
+					 b_pl_price, 
+					 pl_dep_data_residual,
+					 b_recently, 
+					 pl_dep_price, 
+					 pl_dep_start_date, 
+					 b_pl_status, 
+					 ac_status_code,  
+					 b_pl_date_request, 
+					 b_pl_date_bidding1, 
+					 b_pl_date_bidding2, 
+					 b_pl_date_decision1, 
+					 b_pl_date_decision2, 
+					 b_pl_groupcode)
+				VALUES 
+					(sf_b_pl_code(), 
+				 	 #{bzPlCode}, 
+					 #{mId},
+					  #{bPlTitle},
+					 #{bPlContents}, 
+					 ${bPlPrice}, 
+					 ${plDepDataResidual}, 
+					 'Y', 
+					 ${plDepPrice}, 
+					 #{plDepStartDate}, 
+					 '공고신청', 
+					 1, 
+					 curdate(),
+					 #{bPlDateBidding1}, 
+					 sf_bidding_date(#{bPlDateBidding1}),
+					 sf_bidding_date(#{bPlDateBidding1}),
+					 sf_decide_bidder_date(#{bPlDateBidding1}), 
+					 #{bPlGroupcode})
+  		  </insert>
+  		  
+  		  
+  		  <select id="getPlantInfoForReBid" resultMap = "bidPlantResultMap">
   		  		SELECT 
-  		  			b_pl_title, bz_pl_code,b_pl_contents,b_pl_price,b_pl_status, ac_status_code
+					b.b_pl_code, 
+					b.bz_pl_code, 
+					b.m_id, 
+					b.b_pl_title,
+					b.b_pl_contents,
+					b.pl_dep_price, 
+					b.b_pl_price, 
+					b.b_pl_status, 
+					b.ac_status_code,  
+					b.b_pl_groupcode, 
+					p.bz_pl_name
+					(SELECT MAX(b_pl_re_count) FROM tb_bid_plant WHERE bz_pl_code = #{bzPlCode})
+				
+				FROM
+						tb_bid_plant  AS b
+					INNER join
+					 	tb_business_plant AS p
+					 	ON p.bz_pl_code = b.bz_pl_code
+					WHERE 
+						b.ac_status_code = 9
+					AND 
+						b.bz_pl_code = #{bzPlCode}
+					
+
+
+  		  </select>
+  		  
+  		  <select id="getBidPlantAcById" resultMap="bidPlantResultMap">
+  		  			SELECT 
+  	
+  					b.b_pl_code, 
+					b.bz_pl_code, 
+					b.m_id, 
+					b.b_pl_title,
+					b.b_pl_contents, 
+					b.b_pl_price, 
+					b.b_pl_status, 
+					b.ac_status_code,  
+					b.b_pl_groupcode,
+					p.bz_pl_name
+  			
 				FROM 
-					tb_bid_plant WHERE m_id =#{mId} AND ac_status_code =9  AND b_pl_re_count = 0
-	
+						tb_business_plant AS p
+				inner JOIN 
+					tb_bid_plant AS b 
+					
+				ON p.bz_pl_code = b.bz_pl_code
+				where
+					b.m_id = #{mId}
+				AND 
+					b.ac_status_code =9
+				AND 
+					b.b_recently = 'Y'	
+				<!-- and b_pl_groupcode = (SELECT MAX(b_pl_re_count) FROM tb_bid_plant) -->
+  		  	
+  		  
+  		  </select>
+  		  
+  		  
+  		  <select id="getBidPlantAcByIdCode" parameterType="map" resultMap="bidPlantResultMap">
+  		  		SELECT 
+  					 p.b_pl_code
+  					,p.b_pl_title
+  					,p.bz_pl_code
+  					,p.b_pl_contents
+  					,p.b_pl_price
+  					,p.b_pl_status
+  					,p.pl_dep_price
+  					,p.pl_dep_start_date
+  					,p.ac_status_code
+  					,b.bz_pl_name
+  					,p.b_pl_groupcode
+  					,p.pl_dep_data_residual
+				FROM 
+					tb_bid_plant as p
+					
+				INNER JOIN 
+					
+					tb_business_plant AS b
+					
+				ON 
+					p.bz_pl_code = b.bz_pl_code
+				WHERE 
+					p.m_id =#{mId}
+				AND 
+					p.ac_status_code =9
+				AND 
+					p.bz_pl_code = #{bzPlCode}
+				And p.b_recently = 'Y'
+				
 	
   		  
   		  
@@ -324,6 +468,8 @@
   		  		tb_bid_plant 
   		  	WHERE 
   		  		bz_pl_code = #{bzPlCode}
+  		  	and
+  		  		b_recently = 'Y'
   		 </select>
   		
   		  
@@ -748,7 +894,8 @@
 					b.pl_dep_price,
 					b.pl_dep_start_date,
 					b.b_pl_date_bidding1,
-					bz.bz_pl_name 
+					bz.bz_pl_name
+					
 				FROM 
 					tb_bid_plant as b 
 				inner JOIN 
@@ -784,7 +931,8 @@
 					b.b_pl_date_bidding1,
 					b.b_pl_date_bidding2,
 					b.b_pl_status,
-					b.b_pl_number_of_bidder
+					b.b_pl_number_of_bidder,
+					b.b_pl_groupcode
 				FROM 
 					tb_bid_plant AS b
 				left JOIN 

@@ -18,6 +18,7 @@
             	 <th:block th:each="p:${plant}">
 					<p>　　발전소 :  [[${p.businessPlantDTO.bzPlName}]]</p>
 	               	<p>　　공고제목 : [[${p.bPlTitle}]] </p>
+	               	<span style="display : none" id="bPlCode">[[${p.bPlCode}]]</span>
         		 </th:block> 
               <hr>
              
@@ -38,12 +39,12 @@
                 </thead>
                 <tbody>
                   <tr th:if="${#lists.size(bidder)}>0" th:each="b:${bidder}">
-                  	<td th:text="${b.bCode}"></td>
+                  	<td th:text="${b.bCode}" id="bCode"></td>
                   	<td th:text="${b.mId}"></td>
                   	<td th:text="${b.bPrice}" class="bidPrice"></td>
                   	<td th:text=${b.bCheck}></td>
                   	<td th:text=${b.bRank}></td>
-                  	<td><a th:href="@{/sell/bidderDetail(code=${b.bCode})}" class="btn btn-default">상세보기</a></td>
+                  	<td><a id="detailBtn" class="btn btn-default">상세보기</a></td>
                   </tr>
                   <tr th:unless="${#lists.size(bidder)}>0">
                   	<td colspan="8" style="text-align:center;">아직 입찰자가 없습니다.</td>
@@ -81,6 +82,11 @@
 					bidPrice.eq(i).text(comma(bidPrice.eq(i).text()));
 				})
 		
+			})
+			
+			$('#detailBtn').click(function(){
+				var i = $('#detailBtn').index(this);
+				location.href='/sell/bidderDetail?bCode='+$('#bCode').eq(i).text()+'&bPlCode='+$('#bPlCode').text();
 			})
 			
 		</script>
