@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cafe24.kangk0269.common.ScriptUtils;
 import com.cafe24.kangk0269.dto.BoardQnaDTO;
 import com.cafe24.kangk0269.dto.NoticeDTO;
 import com.cafe24.kangk0269.serivce.BoardQnaService;
