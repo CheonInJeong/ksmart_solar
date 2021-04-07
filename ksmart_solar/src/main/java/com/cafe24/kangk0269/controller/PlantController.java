@@ -61,7 +61,7 @@ public class PlantController {
 	@GetMapping("/plant/plantDetail/benefitAnalysis")
 	public String benefitAnalysis(HttpSession session, Model model) throws ParseException {
 		String bzCode = (String)session.getAttribute("SBZCODE");
-		plantService.noResidualValue(bzCode, model);
+		plantService.residualValue(bzCode, model);
 		if(bzCode != null) {
 			plantService.getBenefitAnalysis(model, bzCode);
 			return "/plant/benefitAnalysis";

@@ -19,8 +19,8 @@
 		<div class="content-panel">
 			<div id="inputForm">
 				<div>
-					<input type="button" id="solarEntrepreneurBtn" class="btn btn-info btn-lg col-xs-5" value="태양광 사업자 신청" style="margin-bottom: 10px;">
-					<input type="button" id="recycleEntrepreneurBtn" class="btn btn-success btn-lg col-xs-5 col-xs-offset-2"  value="재활용 사업자 신청" style="margin-bottom: 10px;">
+					<input type="button" id="solarEntrepreneurBtn" class="standardBtn btn btn-lg col-xs-5" value="태양광 사업자 신청" style="margin-bottom: 10px;">
+					<input type="button" id="recycleEntrepreneurBtn" class="standardBtn btn btn-lg col-xs-5 col-xs-offset-2"  value="재활용 사업자 신청" style="margin-bottom: 10px;">
 				</div>	
 				<form id="recycleEntrepreneurForm" method="post" hidden="">
 					<div style="text-align: right; font-size: 13px; color: #999;"><span class="badge">!</span>표시는 필수로 입력해주세요.</div>
@@ -48,7 +48,7 @@
 						<label for="bzLicense">사업자 등록증</label><span class="badge">!</span><br>
 						<input type="file" id="bzLicense">
 					</div>
-					<button class="btn btn-success btn-lg col-xs-12" type="button" id="recycleEntrepreneurSubmit" onclick="recycleEntrepreneur()" style="margin-top: 40px;">신청하기</button>
+					<button class="standardBtn btn btn-lg col-xs-12" type="button" id="recycleEntrepreneurSubmit" onclick="recycleEntrepreneur()" style="margin-top: 40px;">신청하기</button>
 				</form>
 				
 				<form id="solarEntrepreneurForm" method="post" hidden="">
@@ -120,7 +120,7 @@
 						<input type="date" class="form-control" id="plDepStartDate">
 					</div>
 					  
-					<button class="btn btn-info btn-lg col-xs-12" type="button" id="solarEntrepreneurBtn" onclick="solarEntrepreneur()" style="margin-top: 40px;">신청하기</button>
+					<button class="standardBtn btn btn-lg col-xs-12" type="button" id="solarEntrepreneurBtn" onclick="solarEntrepreneur()" style="margin-top: 40px;">신청하기</button>
 				</form>
 			</div>
 		</div>
