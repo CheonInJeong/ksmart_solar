@@ -29,4 +29,20 @@
 			WHERE
 				m_id = #{SID};
 	</select>
+	<select id="addComponent" resultMap="ComponentDTOMap" parameterType="String">
+			SELECT
+				cp_code
+				,m_id
+				,cp_name
+				,cp_photo
+				,cp_info
+				,cp_maker
+				,cp_makedate
+				,cp_usedate
+				,cp_date
+			FROM
+				tb_component
+			WHERE
+				m_id = #{SID};
+	</select>
 </mapper> 

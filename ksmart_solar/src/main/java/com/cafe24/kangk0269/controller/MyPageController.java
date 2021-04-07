@@ -1,7 +1,9 @@
 package com.cafe24.kangk0269.controller;
 
 import java.io.IOException;
+import java.util.Base64;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -14,8 +16,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.commons.CommonsMultipartFile;
 
+import com.cafe24.kangk0269.common.ScriptUtils;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.PickDTO;
@@ -115,7 +122,25 @@ public class MyPageController {
 	public String modifyPw() {
 		return "/mypage/modifyPw";
 	}
-	
+
+	/*
+	 * //프로필 등록
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value="/springpath",
+	 * method=RequestMethod.POST,produces="application/json;charset=UTF-8" ) public
+	 * Map<String, String> compactionImage(@RequestParam("ori") CommonsMultipartFile
+	 * file) throws IOException { Map<String, String> result;
+	 * if(file.getContentType().equals("image/jpeg") ||
+	 * file.getContentType().equals("image/jpg")) {
+	 * 
+	 * result=compactService.getCompactedJPGImage(file); } else {
+	 * 
+	 * result=compactService.getCompactedPNGImage(file); } result.put("resultBytes",
+	 * Base64.getEncoder().encodeToString(Files.readAllBytes(compressed_file.toPath(
+	 * )))); return result; }
+	 */	
 	//개인 프로필 수정처리
 	@PostMapping("/mypage/ModifyMyInfo")
 	public String modifyMyInfo(MemberDTO memberDTO) {

@@ -45,6 +45,12 @@ public class SellService {
 		this.fileMapper = fileMapper;
 	}
 	
+	
+	public List<BidPlantDTO> getBidPlantAcById(String id){
+		return sellMapper.getBidPlantAcById(id);
+	}
+	
+	
 	//update rank
 	
 	public void modifyRank(int rank,String code) throws Exception {
@@ -95,7 +101,28 @@ public class SellService {
 	}
 		
 	
-	//공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
+	//부품공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
+	public void updateComponentAcStatus() throws Exception{
+		System.out.println("updateComponentAcStatus실행");
+		List<BidComponentDTO> acList = sellMapper.getComponentAcStatus();
+		
+		for(int i =0; i<acList.size(); i++) {
+			String decisionDate = acList.get(i).getbCpDateDecision1();
+			
+			if(decisionDate!=null) {
+				decisionDate = decisionDate.substring(0,10);
+				Date date = new Date();
+				SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+				String today = format.format(date);
+				if(decisionDate.equals(today)) {
+					sellMapper.updateComponentAcStatus();
+				}
+			}
+		}
+	}
+	
+	
+	//발전소공고상태(공고진행중 > 거래진행중)으로 바꾸는 메서드 실행
 	public void updateAcStatus() throws Exception{
 		System.out.println("updateAcStatus 실행");
 		List<BidPlantDTO> acList = sellMapper.getAcStatus();
