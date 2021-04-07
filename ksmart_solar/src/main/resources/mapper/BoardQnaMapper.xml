@@ -160,5 +160,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_qna_temp
 		FROM 
 			tb_board_qna
+			ORDER BY b_qna_reg_date DESC;
 	</select>
 </mapper>

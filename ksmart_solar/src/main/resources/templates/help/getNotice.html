@@ -40,15 +40,15 @@
 		          <span>등록일 [[${noticeDTO.notRegDate}]]</span>
           	  </div>		
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">공지제목</label>
-                  <div class="col-lg-10">
+                  <label class="col-md-1 control-label"><strong>공지제목</strong></label>
+                  <div class="col-md-11">
                   	<p class="form-control-static">[[${noticeDTO.notSubject}]]</p>
                   </div>
                 </div>
                 <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">공지내용</label>
-                  <div class="col-lg-10">
-                 	 <p class="form-control-static">[[${noticeDTO.notContents}]]</p>
+                  <label class="col-md-1 control-label"><strong>공지내용</strong></label>
+                  <div class="col-md-11">
+                 	 <div class="form-control-static" style="white-space:pre;">[[${noticeDTO.notContents}]]</div>
                   </div>
                 </div>
                 
@@ -56,7 +56,7 @@
                   <div class="col-lg-offset-2 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
                   	<a class="btn btn-info" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/modifyNotice(noticeIdx=${noticeDTO.noticeIdx})}">수정</a>
-                  	<a class="btn btn-danger" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/removeNotice(noticeIdx=${noticeDTO.noticeIdx})}">삭제</a>
+                  	<a id="removeBtn" class="btn btn-danger" th:if="${session.SLEVEL == '관리자'}">삭제</a>
                   </div>
                 </div>
               </form>
@@ -83,11 +83,22 @@
 		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
 		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
 		  <script src="lib/advanced-form-components.js"></script>
+		  
 		  	<script type="text/javascript">
+		  	//메뉴 탭
 			var help = $('#help');
 			help.addClass('active');
 			help.parent().find('.sub').css('display','block');
 			help.parent().find('.sub').children().eq(0).addClass('active');
+			
+			/* //삭제 확인
+			$(function(){
+				$('#removeBtn').click(function(){
+					if(confirm("정말 삭제하시겠습니까?")){
+						self.location.href = "/help/removeNotice?noticeIdx=${noticeDTO.noticeIdx}" 
+					}
+				});
+			}); */
 			</script>
 	</th:block>		  
 </html>
