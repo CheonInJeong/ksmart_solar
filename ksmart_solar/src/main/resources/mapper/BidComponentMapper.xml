@@ -217,4 +217,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				 #{item}
 		  	</foreach>
 	</select>
+	<select id="getComponentBidList" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_bid_list AS bl
+		JOIN
+			tb_bid_component AS cp
+		ON bl.announced_code = cp.b_cp_code
+		WHERE
+			announced_code = #{announcedCode}
+			AND b_rank IS NOT null
+	</select>
 </mapper>

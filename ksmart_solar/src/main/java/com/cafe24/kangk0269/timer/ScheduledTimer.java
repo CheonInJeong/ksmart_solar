@@ -59,7 +59,6 @@ public class ScheduledTimer {
 	
 	}
 	
-
 	
 	//입찰상태(입찰성공 > 입찰종료,계약중,계약대기  입찰대기>입찰실패)으로 바꾸는 메서드 실행
 	@Scheduled(cron = "15  00  0  *  *  *") 
@@ -75,12 +74,17 @@ public class ScheduledTimer {
 			e.printStackTrace();
 		}
 	}
-	/*
-	 * //테스트
-	 * 
-	 * @Scheduled(cron = "0/5  *  *  *  *  *") public void updateBidListStatustest()
-	 * throws IOException, ParseException, ClassNotFoundException, SQLException {
-	 * try { } catch (Exception e) { e.printStackTrace(); } }
+	
+	  //테스트
+	  /*
+	  @Scheduled(cron = "0/5  *  *  *  *  *") 
+	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
+		  try { 
+			  bidListService.updateBidMemberStatus();
+		  } catch (Exception e) { 
+			  e.printStackTrace(); 
+		  } 
+	  }
 	 */
 	
 	//예약한 시간에 예치금 정책 적용 상태 바꾸는 메서드

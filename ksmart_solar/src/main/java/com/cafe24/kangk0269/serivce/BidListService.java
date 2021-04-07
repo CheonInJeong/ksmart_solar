@@ -236,5 +236,15 @@ public class BidListService {
 		}
 		
 	}
+	//낙찰자 선정기간내에 낙찰자를 선정하지 못한 경우 공고를 취소로
+	//낙찰자를 선정한공고는 거래진행중으로 상태 변경
+	public void updateBidMemberStatus() {
+		List<String> componentList = bidComponentMapper.getComponentSatusList(6,"거래진행중");
+		System.out.println(componentList+"<-부품공고");
+		for(int i=0; i<componentList.size();i++) {
+			int result = bidComponentMapper.getComponentBidList(componentList.get(i));
+			System.out.println(result+"<-낙찰자마감날에 순위를 정했는지");
+		}
+	}
 
 }
