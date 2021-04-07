@@ -28,13 +28,12 @@
 	              <section id="no-more-tables">
 	              	<hr>
 	              	<div class="pull-right">
-	              		<a class="btn btn-info" role="button" onclick="insertBtn()">입출금 입력</a>
+	              		<a class="btn btn-info" role="button" onclick="insertBtn()">입출금 확인</a>
 	              	</div>
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
 							<th>번호</th>
-							<th style="display: none;">입출금코드</th>
 							<th>거래회원</th>
 							<th>입출금구분</th>
 							<th>금액</th>
@@ -46,7 +45,6 @@
 					<tbody>
 						<tr th:each="l, status : ${bidMoneyList}">
 							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="입출금코드" th:text="${l.bMoCode}" style="display: none;"></td>
 							<td data-title="거래회원" th:text="${l.mId}"></td>
 							<td data-title="입출금구분" th:text="${l.bMoType}"></td>
 							<td data-title="금액" th:text="${l.bMoAmount}"></td>
@@ -92,7 +90,7 @@
 		<script type="text/javascript">
 			function insertBtn(){
 				window.open(
-					'/bidMoneyInsert',
+					'/bidMoneyCheck',
 					'입출금 입력',
 					'width=500, height=500, left=100, top=100, scrollbar=yes'
 				);

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+	<th:block layout:fragment="customTitle">
+		<title>입출금 입력</title>
+	</th:block>
+<body>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 미확인 입출금</h4>
+	              <section id="no-more-tables">
+					<table class="table table-condensed cf">
+						<thead class="cf">
+							<tr>
+								<th>번호</th>
+								<th>관련코드</th>
+								<th>관련공고코드</th>
+								<th>관련공고</th>
+								<th>거래회원</th>
+								<th>금액</th>
+								<th>입출금구분</th>
+								<th>입출금확인</th>
+								<th>입출금시간</th>
+								<th>거래회원계좌</th>
+								<th>예금주명</th>
+								<th>입출금코드</th>
+								<th>입출금입력</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block  th:each="l, status : ${moneyCheckList}">
+							<tr th:if="${l.moCode == null}">
+								<td>[[${status.count}]]</td>
+								<td>[[${l.Code}]]</td>
+								<td>[[${l.nCode}]]</td>
+								<td>[[${l.nTitle}]]</td>
+								<td>[[${l.Id}]]</td>
+								<td>[[${l.money}]]</td>
+								<td>[[${l.iOut}]]</td>
+								<td>[[${l.inoutCheck}]]</td>
+								<td>[[${l.inoutDate}]]</td>
+								<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
+								<td>[[${l.accountName}]]</td>
+								<td>[[${l.moCode}]]</td>
+								<td><a class="btn btn-info" th:href=@{/bidMoneyInsert(Code=${l.Code})}>입력</a> </td>
+							</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</section>
+			  </div>
+		 	</div>
+		 </div>
+                
+         <div class="row mt">
+          <div class="col-lg-12">
+            <div class="content-panel">
+				<h4><i class="fa fa-angle-right"></i> 확인완료 입출금</h4>
+	              <section id="no-more-tables">
+					<table class="table table-condensed cf">
+						<thead class="cf">
+							<tr>
+								<th>번호</th>
+								<th>관련코드</th>
+								<th>관련공고코드</th>
+								<th>관련공고</th>
+								<th>거래회원</th>
+								<th>금액</th>
+								<th>입출금구분</th>
+								<th>입출금확인</th>
+								<th>입출금시간</th>
+								<th>거래회원계좌</th>
+								<th>예금주명</th>
+								<th>입출금코드</th>
+								<th>입출금입력</th>
+							</tr>
+						</thead>
+						<tbody>
+							<th:block  th:each="l, status : ${moneyCheckList}">
+							<tr th:unless="${l.moCode == null}">
+								<td>[[${status.count}]]</td>
+								<td>[[${l.Code}]]</td>
+								<td>[[${l.nCode}]]</td>
+								<td>[[${l.nTitle}]]</td>
+								<td>[[${l.Id}]]</td>
+								<td>[[${l.money}]]</td>
+								<td>[[${l.iOut}]]</td>
+								<td>[[${l.inoutCheck}]]</td>
+								<td>[[${l.inoutDate}]]</td>
+								<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
+								<td>[[${l.accountName}]]</td>
+								<td>[[${l.moCode}]]</td>
+								<td>입력완료</td>
+							</tr>
+							</th:block>
+						</tbody>
+					</table>
+				</section>
+			  </div>
+			 </div>
+		 </div>
+        
+	
+	
+</body>	
+</body>
+</html>
