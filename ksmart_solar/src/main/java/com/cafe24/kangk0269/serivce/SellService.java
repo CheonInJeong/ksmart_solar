@@ -45,9 +45,35 @@ public class SellService {
 		this.fileMapper = fileMapper;
 	}
 	
+	//발전소 공고 코드로 공고상태값 가져오기
 	
-	public List<BidPlantDTO> getBidPlantAcById(String id){
+	public BidPlantDTO getPlantAcStatusByCode(String bPlCode) {
+		return sellMapper.getPlantAcStatusByCode(bPlCode);
+	}
+	
+	
+	//발전소 재공고 신청
+	
+	public void addPlantRebidApply(BidPlantDTO bidPlantDTO,MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception {
+		sellMapper.updateBPlantRecentlyYn(bidPlantDTO.getbPlGroupcode());
+		sellMapper.addPlantRebidApply(bidPlantDTO);
+		
+		BidPlantDTO bidCode =sellMapper.getBidPlantCode(bidPlantDTO.getBzPlCode());
+		System.out.println(bidCode.getbPlCode()+"<-------bidCode.getbPlCode()");
+		List<FileDTO> filelist = fileUtils.parseFileInfo(bidCode.getbPlCode(),1,"공고서류", multipartHttpServletRequest,request);
+		if (CollectionUtils.isEmpty(filelist) == false) {
+			fileMapper.addFile(filelist);
+		}
+	}
+	
+	//팝업창 띄우기 위해서 
+	public List<BidPlantDTO> getBidPlantAcById(String id) {
 		return sellMapper.getBidPlantAcById(id);
+	}
+	
+	
+	public BidPlantDTO getBidPlantAcByIdCode(String id, String code){
+		return sellMapper.getBidPlantAcByIdCode(id, code);
 	}
 	
 	
@@ -81,6 +107,7 @@ public class SellService {
 	//부품공고 삭제
 	public void removeComponentSell(String code)  throws Exception {
 		sellMapper.removeComponentSell(code);
+		
 	}
 	
 	//부품공고 등록
@@ -276,9 +303,10 @@ public class SellService {
 		return sellMapper.getBidPlantDetail(code);
 	}
 	
-	public void removePlantApply(String code)  throws Exception{
+	public void removePlantApply(String code,String groupCode)  throws Exception{
 		sellMapper.removePlantApply(code);
 		fileMapper.removeApplyFile(code);
+		sellMapper.updateBPlantRecentlyNy(groupCode);
 	}
 	
 	public List<BidPlantDTO> getBidPlantbyCode(String code) throws Exception{
