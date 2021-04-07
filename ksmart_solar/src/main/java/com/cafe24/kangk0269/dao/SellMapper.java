@@ -5,7 +5,6 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.cafe24.kangk0269.common.Criteria;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -18,10 +17,22 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface SellMapper {
+	//발전소 공고 코드로 공고 상태 얻기
+	public BidPlantDTO getPlantAcStatusByCode(String bPlCode);
+	//b_recently 'Y' -> 'N'으로
+	public int updateBPlantRecentlyYn(String groupcode);
+	//b_recently 'N' -> 'Y'으로
+	public int updateBPlantRecentlyNy(String groupcode);
 	
-	////test중///////
-	//거래실패한 리스트 가져옴
-	public List<BidPlantDTO> getBidPlantAcById(String id);
+	
+	//발전소 재공고신청
+	public int addPlantRebidApply(BidPlantDTO bidPlantDTO);
+	
+	
+	public List<BidPlantDTO> getBidPlantAcById (String id);
+	
+	public BidPlantDTO getBidPlantAcByIdCode(@Param(value="mId") String id
+											  ,@Param(value="bzPlCode") String bzPlCode);
 	
 	
 	//update rank
@@ -60,8 +71,6 @@ public interface SellMapper {
 	//발전소 공고 코드 가져오기(파일등록을 위한)
 	public BidPlantDTO getBidPlantCode(String code) throws Exception ;
 
-	
-	
 	//입찰자 정보 얻기
 	public BidListDTO getBuyerInfoByCode(String code) throws Exception;
 	
