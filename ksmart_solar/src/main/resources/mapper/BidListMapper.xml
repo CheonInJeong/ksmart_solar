@@ -258,4 +258,81 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			</if>
 		</trim>
 	</select>
+	<update id="updateBidStatus" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = #{updateStatus},
+			tr_type_name = #{updateStatusName},
+			b_date_up = NOW()
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			<if test="BList!=null">
+				announced_code in
+				<foreach item="item" index="index" collection="BList"
+			      open="(" separator="," close=")">
+					 #{item}
+			  	</foreach>
+			</if>
+			AND tr_type_code = #{status}
+		</trim>
+	</update>
+	<!-- 입찰 성공 -> 입찰 종료 -->
+	<update id="updateBidEnd" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = 5,
+			tr_type_name = '입찰종료',
+			b_date_up = NOW(),
+			b_deposit_available='Y'
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			<if test="BList!=null">
+				announced_code in
+				<foreach item="item" index="index" collection="BList"
+			      open="(" separator="," close=")">
+					 #{item}
+			  	</foreach>
+			</if>
+			AND tr_type_code = #{status}
+			AND b_rank is null
+		</trim>
+	</update>
+	<!-- 입찰 성공 -> 계약중 -->
+	<update id="updateBidTrade" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = 6,
+			tr_type_name = '계약중',
+			b_date_up = NOW()
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			<if test="BList!=null">
+				announced_code in
+				<foreach item="item" index="index" collection="BList"
+			      open="(" separator="," close=")">
+					 #{item}
+			  	</foreach>
+			</if>
+			AND tr_type_code = #{status}
+			AND b_rank =1
+			and b_check ='Y'
+		</trim>
+	</update>
+	<!-- 입찰 성공 -> 계약대기 -->
+	<update id="updateBidTradeWait" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = 7,
+			tr_type_name = '계약대기',
+			b_date_up = NOW()
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			<if test="BList!=null">
+				announced_code in
+				<foreach item="item" index="index" collection="BList"
+			      open="(" separator="," close=")">
+					 #{item}
+			  	</foreach>
+			</if>
+			AND tr_type_code = #{status}
+			AND b_rank >1
+			and b_check ='Y'
+		</trim>
+	</update>
 </mapper>

@@ -1,6 +1,7 @@
 package com.cafe24.kangk0269.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -34,4 +35,6 @@ public interface TradeMapper {
 	//예치금 환불 등록
 	public int addRefundRequest(TradeDepositOutDTO tradeDepositOutDTO);
 	public TradeDepositOutDTO getRefundInfo(String bCode);
+	//공고가 계약중으로 바뀔때 1순위 낙찰자를 입력
+	public int addTradePriority(Map<String,Object> List);
 }

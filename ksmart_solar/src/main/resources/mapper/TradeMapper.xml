@@ -325,4 +325,57 @@
 		WHERE
 			b_code=#{bCode}
 	</select>
+	<insert id="addTradePriority" parameterType="map">
+			INSERT INTO tb_trade_priority
+				(tr_pr_code, 
+				b_code,
+				b_type_code, 
+				announced_code,
+				announced_title, 
+				b_groupcode, 
+				m_id_seller, 
+				m_id_buyer, 
+				tr_pr_rank, 
+				tr_pr_price, 
+				s_deposit_rate, 
+				b_deposit, 
+				tr_pr_conclusion_date1, 
+				tr_pr_conclusion_date2,
+				tr_pr_date_up)
+			VALUES
+			<if test="BidPlantTradeList!=null">
+				(sf_tr_pr_code(), 
+				#{BidPlantTradeList.bidListDTO.bCode}, 
+				#{BidPlantTradeList.bidListDTO.bTypeCode}, 
+				#{BidPlantTradeList.bidListDTO.announcedCode}, 
+				#{BidPlantTradeList.bidListDTO.bTitle}, 
+				#{BidPlantTradeList.bPlGroupcode}, 
+				#{BidPlantTradeList.mId}, 
+				#{BidPlantTradeList.bidListDTO.mId}, 
+				#{BidPlantTradeList.bidListDTO.bRank}, 
+				#{BidPlantTradeList.bidListDTO.bPrice}, 
+				#{BidPlantTradeList.bidListDTO.sDepositRate}, 
+				#{BidPlantTradeList.bidListDTO.bDeposit}, 
+				NOW(), 
+				ADDDATE(NOW(), INTERVAL ${tradePerioddate} DAY),
+				NOW())
+			</if> 
+			<if test="BidComTradeList!=null">
+				(sf_tr_pr_code(), 
+				#{BidComTradeList.bidListDTO.bCode}, 
+				#{BidComTradeList.bidListDTO.bTypeCode}, 
+				#{BidComTradeList.bidListDTO.announcedCode}, 
+				#{BidComTradeList.bidListDTO.bTitle}, 
+				#{BidComTradeList.bCpGroupcode}, 
+				#{BidComTradeList.mId}, 
+				#{BidComTradeList.bidListDTO.mId}, 
+				#{BidComTradeList.bidListDTO.bRank}, 
+				#{BidComTradeList.bidListDTO.bPrice}, 
+				#{BidComTradeList.bidListDTO.sDepositRate}, 
+				#{BidComTradeList.bidListDTO.bDeposit}, 
+				NOW(), 
+				ADDDATE(NOW(), INTERVAL ${tradePerioddate} DAY),
+				NOW())
+			</if> 
+	</insert>
 </mapper>

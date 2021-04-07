@@ -1,6 +1,5 @@
 package com.cafe24.kangk0269.serivce;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,9 +13,15 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dao.BidListMapper;
+import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dao.FileMapper;
+import com.cafe24.kangk0269.dao.PolicyMapper;
+import com.cafe24.kangk0269.dao.TradeMapper;
+import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
+import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 
 @Service
@@ -25,12 +30,26 @@ public class BidListService {
 	private final BidListMapper bidListMapper;
 	private final FileUtils fileUtils;
 	private final FileMapper fileMapper;
+	private final BidComponentMapper bidComponentMapper;
+	private final BidPlantMapper bidPlantMapper;
+	private final PolicyMapper policyMapper;
+	private final TradeMapper tradeMapper;
 	
 	@Autowired
-	public BidListService(BidListMapper bidListMapper,FileUtils fileUtils,FileMapper fileMapper) {
+	public BidListService(BidListMapper bidListMapper
+						,FileUtils fileUtils
+						,FileMapper fileMapper
+						,BidComponentMapper bidComponentMapper
+						,BidPlantMapper bidPlantMapper
+						,PolicyMapper policyMapper
+						,TradeMapper tradeMapper) {
 		this.bidListMapper = bidListMapper; 
 		this.fileUtils = fileUtils; 
 		this.fileMapper = fileMapper; 
+		this.bidComponentMapper = bidComponentMapper; 
+		this.bidPlantMapper = bidPlantMapper; 
+		this.policyMapper = policyMapper; 
+		this.tradeMapper = tradeMapper; 
 	}
 	
 	public double getDepositRate() {
@@ -135,6 +154,87 @@ public class BidListService {
 		refundList.put("RefundRequestList", RefundRequestList);
 		
 		return refundList;
+	}
+	//입찰 대기를 입찰실패로
+	public void updateBidListsatus() {
+		System.out.println("실행");
+		List<String> componentList = bidComponentMapper.getComponentSatusList(5,"공고마감");
+		List<String> plantList = bidPlantMapper.getPlantSatusList(5,"공고마감");
+		Map<String,Object> List = null;
+		if(componentList!=null && componentList.size()>0) {
+			System.out.println("componentList null 아님");
+			List = new HashMap<String,Object>();
+			List.put("BList", componentList);
+			List.put("status", 1);
+			List.put("updateStatus", 2);
+			List.put("updateStatusName", "입찰실패");
+			int result = bidListMapper.updateBidStatus(List);
+			System.out.println(result);
+		}
+		if(plantList!=null && plantList.size()>0) {
+			System.out.println("plantList null 아님");
+			List = new HashMap<String,Object>();
+			List.put("BList", plantList);
+			List.put("status", 1);
+			List.put("updateStatus", 2);
+			List.put("updateStatusName", "입찰실패");
+			int result = bidListMapper.updateBidStatus(List);
+			System.out.println(result);
+		}
+		System.out.println(componentList);
+		System.out.println(plantList);
+	}
+	//입찰성공을 입찰종료,계약중,계약대기
+	public void updateBidListsatus3() {
+		List<String> componentList = bidComponentMapper.getComponentSatusList(6,"거래진행중");
+		List<String> plantList = bidPlantMapper.getPlantSatusList(6,"거래진행중");
+		Map<String,Object> List = null;
+		if(componentList!=null && componentList.size()>0) {
+			System.out.println("componentList null 아님");
+			List = new HashMap<String,Object>();
+			List.put("BList", componentList);
+			List.put("status", 3);
+			bidListMapper.updateBidEnd(List);
+			bidListMapper.updateBidTrade(List);
+			bidListMapper.updateBidTradeWait(List);
+		}
+		if(plantList!=null && plantList.size()>0) {
+			System.out.println("plantList null 아님");
+			List = new HashMap<String,Object>();
+			List.put("BList", plantList);
+			List.put("status", 3);
+			bidListMapper.updateBidEnd(List);
+			bidListMapper.updateBidTrade(List);
+			bidListMapper.updateBidTradeWait(List);
+		}
+		System.out.println(componentList);
+		System.out.println(plantList);
+	}
+	//계약중인 사람 등록
+	public void addTradePriority() {
+		//당일 거래진행중으로 바뀐 공고
+		List<String> componentList = bidComponentMapper.getComponentSatusList(6,"거래진행중");
+		List<String> plantList = bidPlantMapper.getPlantSatusList(6,"거래진행중");
+		int tradePerioddate = policyMapper.getTradePeriod();
+		Map<String,Object> List = new HashMap<String,Object>();
+		List.put("tradePerioddate", tradePerioddate);
+		if(componentList!=null && componentList.size()>0) {
+			List<BidComponentDTO> BidComTradeList = bidComponentMapper.getBidComTradeList(componentList);
+			for(int i=0; i<BidComTradeList.size(); i++) {
+				List.put("BidComTradeList", BidComTradeList.get(i));				
+				tradeMapper.addTradePriority(List);
+			}
+			System.out.println(BidComTradeList);
+		}
+		if(plantList!=null && plantList.size()>0) {
+			List<BidPlantDTO> BidPlantTradeList = bidPlantMapper.getBidPlantTradeList(plantList);
+			for(int i=0; i<BidPlantTradeList.size(); i++) {
+				List.put("BidPlantTradeList", BidPlantTradeList.get(i));				
+				tradeMapper.addTradePriority(List);
+			}
+			System.out.println(BidPlantTradeList);
+		}
+		
 	}
 
 }
