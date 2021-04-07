@@ -1,10 +1,11 @@
-package com.cafe24.kangk0269.controller;
+package com.cafe24.kangk0269.common;
 
 import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletResponse;
 
+//alert창 표시를 위한 메서드
 public class ScriptUtils {
 	  public static void init(HttpServletResponse response) {
 	        response.setContentType("text/html; charset=euc-kr");

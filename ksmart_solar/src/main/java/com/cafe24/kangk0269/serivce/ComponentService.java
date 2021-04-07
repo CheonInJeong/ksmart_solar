@@ -32,6 +32,7 @@ public class ComponentService {
 	public void addComponent(Model model, HttpSession session) {
 		String SID = (String) session.getAttribute("SID");
 		
+		componentMapper.addComponent(SID);
 		//부품등록 작성
 		
 	}

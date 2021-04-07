@@ -1,117 +1,215 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="@{layout/default}">
 
-	<th:block layout:fragment="customTitle">
-				<title>개인 프로필수정</title>
-	</th:block>
-	
-	<th:block layout:fragment="customCss">
-	
-	</th:block>
-	
-	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>프로필수정</strong></div>
-     	<div id="container-header-path">
-     		<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > 
-     		<a href="/mypage/myInfo" style="text-decoration: none;"> 내 정보관리 </a>> 프로필 수정
-     	</div>
-     	<div id="container-header-space"></div>	
+<th:block layout:fragment="customTitle">
+	<title>개인 프로필수정</title>
+</th:block>
+
+<th:block layout:fragment="customCss">
+
+</th:block>
+
+<th:block layout:fragment="Contents">
+	<div id="container-header-title">
+		<strong>프로필수정</strong>
+	</div>
+	<div id="container-header-path">
+		<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > <a
+			href="/mypage/myInfo" style="text-decoration: none;"> 내 정보관리 </a>>
+		프로필 수정
+	</div>
+	<div id="container-header-space"></div>
+
+	<div class="row mt">
+		<div class="col-lg-12">
+			<div class="content-panel" style="padding: 30px;">
+				<h4 class="mb">
+					<i class="fa fa-angle-right"></i>프로필수정
+				</h4>
+
+				<form th:action="@{/mypage/ModifyMyInfo}" method="post" class="form-horizontal style-form">
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">프로필 사진</label>
+						<div class="col-sm-10">
+							<div class="col-md-9">
+								<div class="fileupload fileupload-new" data-provides="fileupload">
+									<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+										 <img th:if="${memberDTO.mPhoto} == null" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
+										 <img th:if="${memberDTO.mPhoto} != null" src="${memberDTO.mPhoto}" alt="" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">아이디</label>
+						<div class="col-lg-10">
+							<input type="text" name="mId" th:value="${memberDTO.mId}"
+								class="form-control" readonly="readonly">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">이름</label>
+						<div class="col-lg-10">
+							<input type="text" name="mName" th:value="${memberDTO.mName}"
+								class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">연락처</label>
+						<div class="col-lg-10">
+							<input type="text" name="mPhone" th:value="${memberDTO.mPhone}"
+								class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">이메일</label>
+						<div class="col-lg-10">
+							<input type="text" name="mEmail" th:value="${memberDTO.mEmail}"
+								class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">우편번호</label>
+						<div class="col-lg-10">
+							<input type="text" name="mZipcode"
+								th:value="${memberDTO.mZipcode}" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
+						<div class="col-lg-10">
+							<input type="text" name="mAddr" th:value="${memberDTO.mAddr}"
+								class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">상세주소</label>
+						<div class="col-lg-10">
+							<input type="text" name="mDetailAddr"
+								th:value="${memberDTO.mDetailAddr}" class="form-control">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button id="modifyBtn" type="submit" class="btn btn-info">수정</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+<th:block layout:fragment="customScript">
+
+	<script type="text/javascript">
+		//메뉴 버튼
+		var mypage = $('#mypage');
+		mypage.addClass('active');
+		mypage.parent().find('.sub').css('display', 'block');
+		mypage.parent().find('.sub').children().eq(0).addClass('active');
+
 		
-		<div class="row mt">
-          <div class="col-lg-12">
-             <div class="content-panel" style="padding: 30px;">
-              <h4 class="mb"><i class="fa fa-angle-right"></i>프로필수정</h4>
-              <form th:action="@{/mypage/ModifyMyInfo}" method="post" class="form-horizontal style-form" >
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">프로필 사진</label>
-                  <div class="col-sm-10">
-	                  <div class="col-md-9">
-	                    <div class="fileupload fileupload-new" data-provides="fileupload">
-	                      <div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-	                      	<input type="file"  name="mPhoto" class="form-control">
-	                        <img th:if="${memberDTO.mPhoto} == null" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
-	                        <img th:if="${memberDTO.mPhoto} != null" src="${memberDTO.mPhoto}" alt="" />
-	                      </div>
-	                    </div>
-	                  </div>
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">아이디</label>
-                  <div class="col-lg-10">
-                  	<input type="text"  name="mId" th:value="${memberDTO.mId}" class="form-control" readonly="readonly">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">이름</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mName" th:value="${memberDTO.mName}" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">연락처</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mPhone" th:value="${memberDTO.mPhone}" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">이메일</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mEmail" th:value="${memberDTO.mEmail}" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">우편번호</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mAddr" th:value="${memberDTO.mAddr}" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label class="col-sm-2 col-sm-2 control-label">상세주소</label>
-                  <div class="col-lg-10">
-                  	<input type="text" name="mDetailAddr" th:value="${memberDTO.mDetailAddr}" class="form-control">
-                  </div>
-                </div>
-                <div class="form-group" text-align="center">
-                  <div class="col-lg-offset-2 col-lg-10">
-                    <button id="modifyBtn" type="submit" class="btn btn-info">수정</a>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
-        </div>
-	</th:block>
-	
-	<th:block layout:fragment="customScript">
-	
-		<script type="text/javascript">
-			//메뉴 버튼
-			var mypage = $('#mypage');
-			mypage.addClass('active');
-			mypage.parent().find('.sub').css('display','block');
-			mypage.parent().find('.sub').children().eq(0).addClass('active');
-			
-			
-			/* 
-			//유효성 검사
-			var mPw = $('[name="mPw"]');
-			
-			$('#modifyBtn').click(function(){
-				if(mPw.val()==''){
-					alert('현재 비밀번호를 입력해주세요.');
-					mPw.focus();
-					return false;
-				}
-			 */
-		</script>
-	</th:block>
+		//이미지 썸네일
+		function readURL(input) {
+			if (input.files && input.files[0]) {
+				var reader = new FileReader();
+				reader.readAsDataURL(input.files[0]);
+
+				reader.onload = function(e) {
+
+					var tempImage = new Image();
+					tempImage.src = reader.result;
+					console.log(tempImage);
+					tempImage.onload = function() {
+						var canvas = document.createElement('canvas');
+						var canvasContext = canvas.getContext("2d");
+
+						var img = new Image();
+						img.src = e.target.result;
+
+						canvas.width = img.width * 0.5;
+						canvas.height = img.height * 0.5;
+
+						canvasContext.drawImage(this, 0, 0, canvas.width,
+								canvas.height);
+
+						var dataURI = canvas.toDataURL("image/png");
+
+						document.querySelector("#thumbnail").src = dataURI;
+
+					}
+				};
+
+			}
+		}
+
+		
+		//이미지 spring과 파일 주고받기
+		function compression() {
+			// initializing
+			$('#img').attr('src', './resources/default.png').width('50%')
+					.height('50%');
+
+			var file = document.querySelector('#InputImage');
+
+			var fileList = file.files;
+			var reader = new FileReader();
+
+			if (fileList && fileList[0]) {
+				reader.readAsDataURL(fileList[0]);
+				reader.onload = function(e) {
+					var img = new Image();
+					img.src = e.target.result;
+
+					var formData = new FormData();
+					formData.append('RequestParam', fileList[0]);
+
+					$.ajax({
+						url : '/springpath',
+						type : 'POST',
+						data : formData,
+						processData : false,
+						contentType : false,
+						dataType : 'json',//xml, json,  file을 받을 수 없음 
+						enctype : 'multipart/form-data',//매 우 중 요 
+						success : function(html) {
+							console.log('success');
+						},
+						error : function(error) {
+
+						}
+					}).done(
+							function(data) {//server에서 데이터 반환된 뒤 실행되는 함수 
+								$('#resultImg').attr(
+										'src',
+										'data:image/png;base64,'
+												+ data.resultBytes) //반환된 이미지(바이트스트림) 삽입
+								.width($('#width').val()).height(
+										$('#height').val());
+							});
+
+				};
+
+			}
+		}
+
+		
+		
+		/* 
+		//유효성 검사
+		var mPw = $('[name="mPw"]');
+		
+		$('#modifyBtn').click(function(){
+			if(mPw.val()==''){
+				alert('현재 비밀번호를 입력해주세요.');
+				mPw.focus();
+				return false;
+			}
+		 */
+	</script>
+</th:block>
 </html>

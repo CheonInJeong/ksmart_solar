@@ -3528,6 +3528,12 @@ ul.chat-available-user li a:hover {
 	height: 200px;
 }
 
+.standardBtn{
+	background-color: #4ECDC4;
+	color: #fff;
+	font-weight: 600;	
+}
+
 @media screen and (max-width: 1000px) {
 	#container-header-title{
 		width: 100%;

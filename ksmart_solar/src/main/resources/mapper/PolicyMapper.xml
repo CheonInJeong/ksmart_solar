@@ -391,6 +391,13 @@
 			ORDER BY 
 				s_commission_type asc
   		</select>
-  	
+  		<select id="getTradePeriod" resultType="int">
+  			SELECT 
+  				s_trade_period
+			FROM tb_standard_trade
+			WHERE 
+				s_trade_type = '계약기간'
+				AND s_trade_use = 'Y'
+  		</select>
 		  		  
   	</mapper>
