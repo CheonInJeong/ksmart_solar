@@ -3,7 +3,9 @@ package com.cafe24.kangk0269.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
+import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 
@@ -19,5 +21,9 @@ public interface BidPlantMapper {
 	public List<BidPlantDTO> getBidPlantMyBid(String sId);
 	//해당공고의 발전소 정보 가져오기
 	public BusinessPlantDTO getPlant(String announceCode);
-	public List<String> getPlantSatusList(int status);
+	//해당공고의 상태에 따른 목록조회
+	public List<String> getPlantSatusList(@Param(value="status")int status,@Param(value="bStatus")String bStatus);
+	//거래진행중인 공고들의 계약중인 사람중 1순위
+	public List<BidPlantDTO> getBidPlantTradeList(List<String> plantList);
+
 }

@@ -57,6 +57,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bTypeCode" 			column="b_type_code" />
 		<result property="mId"					column="buy_id" />
 		<result property="bPrice" 				column="b_price" />
+		<result property="bTitle" 				column="b_title" />
 		<result property="sDepositRate" 		column="s_dep_rate" />
 		<result property="bDeposit" 			column="b_deposit" />
 		<result property="bDepositCheck" 		column="b_deposit_check" />
@@ -179,13 +180,41 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE 
 			cp_code=#{CpCode}
 	</select>
-	<select id="getComponentSatusList" parameterType="int" resultType="String">
+	<select id="getComponentSatusList" parameterType="map" resultType="String">
 		SELECT
 			b_cp_code
 		FROM
 			tb_bid_component
 		WHERE
+		<if test="bStatus!=null and bStatus.toString()=='공고마감'.toString()">
 			CAST(b_cp_date_bidding2 AS DATE) = CURDATE()
+		</if>
+		<if test="bStatus!=null and bStatus.toString()=='거래진행중'.toString()">
+			CAST(b_cp_date_decision2 AS DATE) = CURDATE()
+		</if>
 			AND ac_status_code = #{status}
+	</select>
+	<!-- 낙찰자 선택 마감날 1순위로 선정된 사람 -->
+	<select id="getBidComTradeList" parameterType="String" resultMap="BidComponentDTOMap">
+		SELECT
+			cp.m_id AS sell_id,
+			cp.*,
+			bl.m_id AS buy_id,
+			bl.*
+		FROM
+			tb_bid_component AS cp
+		JOIN
+			tb_bid_list AS bl
+		ON cp.b_cp_code = bl.announced_code
+		WHERE
+			bl.tr_type_code = 6
+		AND
+			bl.b_rank = 1
+		AND
+			bl.announced_code in
+			<foreach item="item" index="index" collection="list"
+		      open="(" separator="," close=")">
+				 #{item}
+		  	</foreach>
 	</select>
 </mapper>
