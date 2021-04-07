@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.kangk0269.dao.BidMoneyMapper;
 import com.cafe24.kangk0269.dto.BidMoneyDTO;
+import com.cafe24.kangk0269.dto.MoneyCheckDTO;
 
 @Service
 @Transactional
@@ -18,6 +19,16 @@ public class BidMoneyService {
 	@Autowired
 	public BidMoneyService(BidMoneyMapper bidMoneyMapper) {
 		this.bidMoneyMapper = bidMoneyMapper;
+	}
+	
+	// 확인 입출금 개별(미완료)
+	public MoneyCheckDTO getMoneyCheck(String Code) {
+		return bidMoneyMapper.getMoneyCheck(Code);
+	}
+	
+	// 확인 입출금 목록(미완료, 완료)
+	public List<MoneyCheckDTO> getMoneyCheckList(){
+		return bidMoneyMapper.getMoneyCheckList();
 	}
 	
 	public List<BidMoneyDTO> getBidMoneyList(){
