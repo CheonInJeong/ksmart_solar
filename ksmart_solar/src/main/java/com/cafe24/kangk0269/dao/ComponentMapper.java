@@ -10,4 +10,8 @@ import com.cafe24.kangk0269.dto.ComponentDTO;
 public interface ComponentMapper {
 
 	public List<ComponentDTO> getComponentListById(String SID);
+	
+	public List<ComponentDTO> addComponent(String SID);
+	
+	
 }
