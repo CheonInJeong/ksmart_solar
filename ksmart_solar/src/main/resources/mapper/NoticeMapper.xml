@@ -38,7 +38,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			  not_idx
 			, not_subject
 			, not_contents
-			, m_id, not_reg_date
+			, m_id
+			, not_reg_date
 			, not_views
 			, not_temp
 		FROM 

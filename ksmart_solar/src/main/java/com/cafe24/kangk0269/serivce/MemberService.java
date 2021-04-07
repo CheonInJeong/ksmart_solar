@@ -73,6 +73,12 @@ public class MemberService {
 		return result;
 	}
 	
+	//개인 비멀번호수정
+	public int modifyPw(String login_id, String newPw) {
+		return memberMapper.modifyPw(login_id, newPw);
+		
+	}
+	
 	//개인 회원정보수정
 	public int modifyMyInfo(MemberDTO memberDTO) {
 		int result = memberMapper.modifyMyInfo(memberDTO);

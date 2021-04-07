@@ -229,5 +229,4 @@ public class PolicyService {
 		return policyMapper.getCommissionPolicy();
 	}
 	
-	
 }
