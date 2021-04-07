@@ -120,8 +120,17 @@
 			m_id = #{mId}
 	</update>
 	
+	<!-- 개인 비밀번호수정 -->
+	<update id="modifyPw" parameterType="string">
+		UPDATE tb_member
+		SET
+			m_pw = #{newPw}
+		WHERE 
+			m_id = #{login_id}
+	</update>
+	
 	<!-- 개인 회원정보수정  -->
-	<update id="modifyMyInfo" parameterType="MemberDTO">
+	<update id="modifyMyInfo" parameterType="String">
 		UPDATE tb_member
 		SET
 			m_name = #{mName},
