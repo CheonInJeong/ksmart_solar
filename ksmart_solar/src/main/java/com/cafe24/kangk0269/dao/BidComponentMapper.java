@@ -3,6 +3,7 @@ package com.cafe24.kangk0269.dao;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
@@ -15,4 +16,8 @@ public interface BidComponentMapper {
 	public BidComponentDTO getBidComponentByInfo(String announceCode);
 	public List<BidComponentDTO> getBidComponentMyBid(String sId);
 	public ComponentDTO getComponent(String CpCode);
+	//해당공고의 상태에 따른 목록조회
+	public List<String> getComponentSatusList(@Param(value="status")int status,@Param(value="bStatus")String bStatus);
+	//
+	public List<BidComponentDTO> getBidComTradeList(List<String> componentList);
 }
