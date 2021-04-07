@@ -19,6 +19,7 @@ import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 import com.cafe24.kangk0269.dto.PlantKpxDTO;
+import com.cafe24.kangk0269.dto.PlantRadiationDTO;
 
 @Service
 @Transactional
@@ -190,31 +191,31 @@ public class PlantService {
 		String startDateString = pdc.getPlDepStartDate();
 		int priceBased = pdc.getPlDepPriceBased(); 
 		if(startDateString != null) { 
-			Date date = new
-					Date(); SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
-					String nowTime = transFormat.format(date); Date nowDate =
-							transFormat.parse(nowTime); 
-					Date startDate = transFormat.parse(startDateString); 
-					long diffTime = nowDate.getTime() -	startDate.getTime(); 
-					TimeUnit time = TimeUnit.DAYS; 
-					long diffrence =	time.convert(diffTime, TimeUnit.MILLISECONDS);
-					System.out.println("The difference in days is : "+diffrence);
-					System.out.println("The difference in Month is : "+diffrence/30); 
-					diffenceMonth = (int) (diffrence/30);
-					
-					double sumRate = 0; 
-					if((diffenceMonth/12) > 0) { 
-						for(int i=0; i<diffenceMonth/12; i++) { 
-							sumRate += rateArray[i]*12; 
-						} 
-					}
-					sumRate += (rateArray[(diffenceMonth/12)])*((diffenceMonth%12));
-					residualValue = (int) (priceBased - (priceBased * sumRate)); 
-					printRate = Math.round((sumRate * 1000));
-					System.out.println("///////////////////////////////////////");
-					System.out.println("///////////////////////////////////////");
-					System.out.println("감가율 : " + printRate/10 + "%");
-					System.out.println("경과시간 : " + (diffenceMonth/12) + "년 " + diffenceMonth%12 + "개월" );
+			Date date = new Date(); 
+			SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+			String nowTime = transFormat.format(date); 
+			Date nowDate = transFormat.parse(nowTime); 
+			Date startDate = transFormat.parse(startDateString); 
+			long diffTime = nowDate.getTime() -	startDate.getTime(); 
+			TimeUnit time = TimeUnit.DAYS;
+			long diffrence =	time.convert(diffTime, TimeUnit.MILLISECONDS);
+			System.out.println("The difference in days is : "+diffrence);
+			System.out.println("The difference in Month is : "+diffrence/30); 
+			diffenceMonth = (int) (diffrence/30);
+			
+			double sumRate = 0; 
+			if((diffenceMonth/12) > 0) { 
+				for(int i=0; i<diffenceMonth/12; i++) { 
+					sumRate += rateArray[i]*12; 
+				} 
+			}
+			sumRate += (rateArray[(diffenceMonth/12)])*((diffenceMonth%12));
+			residualValue = (int) (priceBased - (priceBased * sumRate)); 
+			printRate = Math.round((sumRate * 1000));
+			System.out.println("///////////////////////////////////////");
+			System.out.println("///////////////////////////////////////");
+			System.out.println("감가율 : " + printRate/10 + "%");
+			System.out.println("경과시간 : " + (diffenceMonth/12) + "년 " + diffenceMonth%12 + "개월" );
 		}
 		System.out.println("기준금액 : " + priceBased + "원");
 		System.out.println("잔존가치 : " + residualValue + "원");
@@ -224,17 +225,10 @@ public class PlantService {
 	}
 	
 
-	public void getGenerationAnalysisData(Model model, String bzCode) {
-		
-		//지역코드, 발전소 용량 조회, 이름
-		//bzPlName , bzPlName, plantGenDay, power   ([[${l.bzPlZipcode}]]) [[${l.bzPlAddr}]] [[${l.bzPlDetailAddr}]]
-		PlantDepreciationDTO pdc = plantMapper.getPlantDepreciationByBzCode(bzCode);
+	public void getGenerationAnalysisData(Model model, String bzCode) throws ParseException {
 		BusinessPlantDTO bp = plantMapper.getPlantInfoBybzPlCode(bzCode);
-		
 		int addrCode = bp.getBzPlAddrCode();
 		String addrCodeName = "서울";
-		
-		
 		switch(addrCode) {
 			case 1: addrCodeName = "서울";
 				break;
@@ -271,29 +265,68 @@ public class PlantService {
 			case 17: addrCodeName = "제주";
 				break;
 		}
+		Date date = new Date(); 
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String nowTime = transFormat.format(date); 
+		Date nowDate = transFormat.parse(nowTime);
+		long yesterdayTime = (nowDate.getTime() - (24*60*60*1000));
+		String yesterday = transFormat.format(yesterdayTime); 
+		String startTime = yesterday + " 00";
+		String endTime   = yesterday + " 23";
+		String startMonth = nowTime.substring(0,8) + "01";
+		int bzPlPower = bp.getBzPlPower();
+		DecimalFormat formatter = new DecimalFormat("###,###");
+		List<PlantRadiationDTO> pr = plantMapper.getRadiationData(addrCodeName, startTime, endTime);
+		String sumMonthData = plantMapper.getRadiationSumMonthData(addrCodeName, startMonth, nowTime);
+		int dayGen = 0;
+		int monthGen = (int) Math.round((Double.parseDouble(sumMonthData) *10000/36) * ((double)bzPlPower/1000));
+		int[] radData = new int[24];
+		String radDataString = "[";
+		for(int i=0; i<pr.size(); i++) {
+			String Icsr = pr.get(i).getPlRadIcsr();
+			if("".equals(Icsr)) {
+				radData[i] = 0;
+			}else {
+				radData[i] = (int) Math.round(Double.parseDouble(pr.get(i).getPlRadIcsr())*10000/36);
+			}
+			
+			if(i == 0) {
+				radDataString += radData[i];
+			}else {
+				radDataString += ", "+radData[i];
+			}
+			dayGen += radData[i] * ((double)bzPlPower/1000);
+		}
+		radDataString += "]";
+		PlantKpxDTO pk = new PlantKpxDTO();
+		pk = plantMapper.getKpxTodayData();
+		double smp = Double.parseDouble(pk.getPlKpxSmpShoreAvg().replace(",", ""));
+		double rec = Double.parseDouble(pk.getPlKpxRecAvg().replace(",", ""));
 		
-		//bzPlCode
-		//bzPlZipcode  bzPlAddr  bzPlDetailAddr
-		//plantGenDay
+		//smp 수익 + rec 수익
+		//smp 수익 = 발전량 * smp 가격
+		//rec 수익 = 발전량 * (rec가격 /1000) * 가중치
+		//수익 계산공식: 예상수익 = (발전량 * smp가격) + (발전량 * (rec가격/1000) * 가중치)
+		System.out.println("일간 발전량 :" + formatter.format(dayGen));
+		System.out.println("일간 예상수익 :" + formatter.format((dayGen*smp) + (rec/1000 * dayGen)));
+		System.out.println("월간 발전량 :" + formatter.format(monthGen));
+		System.out.println("월간 예상수익 :" + formatter.format((monthGen*smp) + (rec/1000 * monthGen)));
+		System.out.println("기준일 :" + yesterday.substring(0,4) + "년 " + yesterday.substring(5,7) + "월 " + yesterday.substring(8,10) + "일" );
+		System.out.println("기준월 :" + nowTime.substring(0,4) + "년 " + nowTime.substring(5,7) + "월");
 		
-		model.addAttribute("bzPlCode", bp.getBzPlName());
-		model.addAttribute("bzPlZipcode", bp.getBzPlName());
-		model.addAttribute("bzPlAddr", bp.getBzPlName());
-		model.addAttribute("bzPlDetailAddr", bp.getBzPlName());
-		model.addAttribute("bzPlName", bp.getBzPlName());
-		model.addAttribute("bzPlPower", bp.getBzPlPower());
+		model.addAttribute("bzPlName", 		bp.getBzPlName());
+		model.addAttribute("bzPlPower",	 	bzPlPower);
+		model.addAttribute("dayGen", 		formatter.format(dayGen));
+		model.addAttribute("datBenefit",	formatter.format((dayGen*smp) + (rec/1000 * dayGen)));
+		model.addAttribute("monthGen", 		formatter.format(monthGen));
+		model.addAttribute("monthBenefit",	formatter.format((monthGen*smp) + (rec/1000 * monthGen)));
+		model.addAttribute("basedDate",		yesterday.substring(0,4) + "년 " + yesterday.substring(5,7) + "월 " + yesterday.substring(8,10) + "일" );
+		model.addAttribute("basedMonth",	nowTime.substring(0,4) + "년 " + nowTime.substring(5,7) + "월");
+		model.addAttribute("radData",		radDataString);
 		
-		int plantGenDay = 1000;
-		model.addAttribute("plantGenDay", plantGenDay);
 		
-		
-		System.out.println(addrCode);
-		System.out.println(addrCodeName);
-		
-		System.out.println(pdc);
-		System.out.println(bp);
 	}
-	
+		
 	
 	
 }

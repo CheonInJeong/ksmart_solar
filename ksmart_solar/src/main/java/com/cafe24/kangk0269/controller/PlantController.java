@@ -72,7 +72,7 @@ public class PlantController {
 	
 	//발전량 분석
 	@GetMapping("/plant/plantDetail/generationAnalysis")
-	public String generationAnalysis(HttpSession session, Model model) {
+	public String generationAnalysis(HttpSession session, Model model) throws ParseException {
 		String bzCode = (String)session.getAttribute("SBZCODE");
 		System.out.println(bzCode);
 		
