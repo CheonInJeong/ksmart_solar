@@ -20,4 +20,5 @@ public interface BidComponentMapper {
 	public List<String> getComponentSatusList(@Param(value="status")int status,@Param(value="bStatus")String bStatus);
 	//
 	public List<BidComponentDTO> getBidComTradeList(List<String> componentList);
+	public int getComponentBidList(String announcedCode);
 }
