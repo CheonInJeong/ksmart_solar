@@ -16,6 +16,7 @@ public class BidMoneyDTO {
 	private int bMoAmount;	
 	private String bMoDetail;	
 	private String mIdManager;
+	private int total;
 	private int bMoTotalmoney;
 	private String bMoDate;
 	
