@@ -10,6 +10,9 @@ import com.cafe24.kangk0269.dto.PickDTO;
 public interface PickMapper {
 	
 	
+	//관심목록 중복확인
+	public int pickCheck(String announcedCode, String log_id);
+	
 	//관심목록 등록
 	public int addWishlist(String announcedCode, String login_id);
 	
