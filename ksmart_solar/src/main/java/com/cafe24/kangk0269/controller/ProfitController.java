@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.cafe24.kangk0269.dto.BidMoneyDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MoneyCheckDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
@@ -48,23 +49,39 @@ public class ProfitController {
 	}
 	
 	@PostMapping("/bidMoneyInsertSend")
-	public String bidMoneyInsertSend(@RequestParam(name="mId", required=false) String mId
-									,@RequestParam(name="bMoDetail", required=false) String bMoDetail
-									,@RequestParam(name="bMoAmount", required=false) String bMoAmount
-									,@RequestParam(name="bMoType", required=false) String bMoType) {
-		System.out.println("거래회원 : " + mId);
-		System.out.println("거래유형 : " + bMoType);
-		System.out.println("상세내역 : " + bMoDetail);
-		System.out.println("금액 : " + bMoAmount);
+	public String bidMoneyInsertSend(@RequestParam(name="Code", required=false) String Code
+									,@RequestParam(name="Id", required=false) String Id
+									,@RequestParam(name="money", required=false) long money
+									,@RequestParam(name="iOut", required=false) String iOut
+									,@RequestParam(name="inoutDate", required=false) String inoutDate) {
+		System.out.println("관련코드 : " + Code);
+		System.out.println("거래회원 : " + Id);
+		System.out.println("금액 : " + money);
+		System.out.println("입출금구분 : " + iOut);
+		System.out.println("입출금시간 : " + inoutDate);
 		
-		return "/profit/bidMoneyInsert";
+		return "/profit/balance";
 	}
 	
 	@GetMapping("/bidMoneyInsert")
-	public String bidMoneyInsert(Model model) {
-		List<MemberDTO> memberList = memberService.getAllMember();
-		model.addAttribute("memberList", memberList);
+	public String bidMoneyInsert(Model model, @RequestParam(name="Code", required=false) String Code) {
+		System.out.println("입력할 코드 : " + Code);
+		MoneyCheckDTO check = bidMoneyService.getMoneyCheck(Code);
+		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
+		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
+		model.addAttribute("check", check);
+		model.addAttribute("bidMoneyList", bidMoneyList);
+		model.addAttribute("moneyCheckList", moneyCheckList);
 		return "/profit/bidMoneyInsert";
+	}
+	
+	@GetMapping("/bidMoneyCheck")
+	public String bidMoneyCheck(Model model) {
+		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
+		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
+		model.addAttribute("bidMoneyList", bidMoneyList);
+		model.addAttribute("moneyCheckList", moneyCheckList);
+		return "/profit/bidMoneyCheck";
 	}
 	
 	@GetMapping("/profit/balance")

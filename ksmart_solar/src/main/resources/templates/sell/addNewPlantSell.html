@@ -21,48 +21,43 @@
 	</th:block>
 	<th:block layout:fragment="Contents">
 	
-	<div id="container-header-title"><strong>공고신청</strong></div>
-     	<div id="container-header-path">판매관리 > 공고신청</div>
+	<div id="container-header-title"><strong>재공고신청</strong></div>
+     	<div id="container-header-path">판매관리 > 재공고신청</div>
       	<div id="container-header-space"></div>
       	
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="form-panel">
               <div class="form">
-                <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/sell/plantSell}" enctype="multipart/form-data">
+              
+              <div>
+                <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/sell/addNewPlantSell}" enctype="multipart/form-data">
+                	<input type="hidden" name="bPlGroupcode" th:value="${plant.bPlGroupcode}">
+                	<input type="hidden" name="bzPlCode" th:value="${plant.bzPlCode}">
+                	<input type="hidden" name="mId" th:value="${session.SID}">
+                	<input type="hidden" name="plDepPrice" th:value="${plant.plDepPrice}">
+                	<input type="hidden" name="plDepStartDate" th:value="${plant.plDepStartDate}">
 	                  <div class="form-group">
-	                    <label for="username" class="control-label col-lg-2">발전소  커밋</label>
+	                    <label for="username" class="control-label col-lg-2">발전소</label>
 	                    <div class="col-lg-10">
-	                      <select class="form-control" id="plantSellSelect">
-	                      	<option value="0">발전소를 선택해주세요.</option>
-	                        <th:block th:if="${#lists.size(plantList)}>0" th:each="plantList : ${plantList}">
-							 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
-							  </th:block> 
-								  <th:block th:unless="${#lists.size(plantList)}>0">
-							 	<option>현재 판매 할 수 있는 발전소가 없습니다.</option>
-							 </th:block> 
-							</select>
+	                      <input class=" form-control" id="bzPlName" type="text" th:value="${plant.businessPlantDTO.bzPlName}" readonly>
 	                    </div>
 	                  </div>
 	                  
-	                  	<input type="hidden" name="mId" th:value="${session.SID}">
-	                 	<input type="hidden"  name="plDepPrice" id="plDepPrice">
-	                 	<input type="hidden"  name="plDepStartDate" id="plDepStartDate">
-	                 	<input type="hidden"  name="bzPlCode" id="bzPlCode">
 	                  <div class="form-group">
 	                    <label for="bPlTitle" class="control-label col-lg-2">제목</label>
 	                    <div class="col-lg-10">
-	                      <input class=" form-control" id="bPlTitle" name="bPlTitle" type="text">
+	                      <input class=" form-control" id="bPlTitle" name="bPlTitle" type="text" th:value="${plant.bPlTitle}">
 	                    </div>
 	                  </div>
 	                  <div class="form-group ">
 	                    <label for="plDepDataResidual" class="control-label col-lg-2">잔존가치</label>
 	                    <div class="col-lg-10">
-	                      <input class=" form-control" id="plDepDataResidual" name="plDepDataResidual" type="text" readonly>
+	                      <input class=" form-control" id="plDepDataResidual" name="plDepDataResidual" type="text" th:value="${residual}" readonly>
 	                    </div>
 	                  </div>
 	                  <div class="form-group ">
-	                    <label for="b_cp_price" class="control-label col-lg-2">입찰시작가</label>
+	                    <label for="b_cp_price" class="control-label col-lg-2"><span style="display:block">입찰시작가</span><span id="originalPrice">이전가 : [[${plant.bPlPrice}]] </span></label>
 	                    <div class="col-lg-10">
 	                      <input class=" form-control" id="bPlPrice" name="bPlPrice" type="text">
 	                    </div>
@@ -73,18 +68,11 @@
 	                    	<input type="file" id="files" class="default" name="files" multiple="multiple">
 	                  	</div>
 	                </div>
-	          <!--       <div class="form-group">
-	                 	<label for="files" class="control-label col-lg-2">물건명세서</label>
-	                  	<div class="col-lg-10">
-	                    	<input type="file" id="files" class="default" name="files" multiple="multiple">
-	                  	</div>
-	                </div> -->
-	                
-	                
+	         
 	                  <div class="form-group ">
 	                    <label for="bPlContents" class="control-label col-lg-2">상세설명</label>
 	                    <div class="col-lg-10">
-	                      <textarea id = "bPlContents"class="form-control" name="bPlContents"></textarea>
+	                      <textarea id = "bPlContents"class="form-control" name="bPlContents" th:text="${plant.bPlContents}"></textarea>
 	                    </div>
 	                  </div>
 	                 <div class="form-group">
@@ -101,11 +89,12 @@
 	                    </div>
 	                  </div>
                 </form>
+                
+               </div> 
               </div>
             </div>
           </div>
         </div>
-        
         
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -116,89 +105,43 @@
 			sell.parent().find('.sub').children().eq(0).addClass('active');
 		</script>
 		
-		<script type="text/javascript">
-	 	
-  			var bPlPrice = document.getElementById('bPlPrice');
-  			var plDepDataResidual = document.getElementById('plDepDataResidual');
-  			bPlPrice.onkeyup = function(){
-			//정규표현식 숫자만 입력하게,
-            this.value = this.value.replace(/[^0-9]/g,'');
-            //1000단위 콤마
-			this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			}
-  			
- 		</script>
- 		
-
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
 	  	<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}">
 	  	 $('.default-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 7 });
 	  	</script>
 	 	<script th:src="@{/lib/advanced-form-components.js}"></script>
+		
+		<script type="text/javascript">
+			//발전소 잔존 가치에 콤마 찍는 함수
+		 	 function comma(str) {
+	      		 str = String(str);
+	      		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	 		  }
+		 	//콤마 없애는 함수
+		 	function rm_comma(num){
+		 	   var number = num + "";
+		 	   return number.replace(/,/g,"");
+		 	}
+			
+		
+	 		$(document).ready(function(){
+	 			var bPlPrice = document.getElementById('bPlPrice');
+	  			bPlPrice.onkeyup = function(){
+				//정규표현식 숫자만 입력하게,
+	            this.value = this.value.replace(/[^0-9]/g,'');
+	            //1000단위 콤마
+				this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+				}
+	  			
+	  			$('#plDepDataResidual').val(comma($('#plDepDataResidual').val()))
+	  			$('#originalPrice').text(comma($('#originalPrice').text()))
+	  			
+	 		})
+  			
+ 	
 
-	 	<script>
-	 	//발전소 잔존 가치에 콤마 찍는 함수
-	 	 function comma(str) {
-       		 str = String(str);
-       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
-  		  }
-	 	//콤마 없애는 함수
-	 	function rm_comma(num){
-	 	   var number = num + "";
-	 	   return number.replace(/,/g,"");
-	 	}
 
-	 	$('#plantSellSelect').change(function(){
-	 		var plantCode = $('select option:selected').val();
-	 		var plDepDataResidual;
-	 		var plDepPrice;
-	 		var plDepStartDate;
-	 		
-	 		$('#plDepDataResidual').val('');
-			$('#plDepPrice').val('');
-			$('#plDepStartDate').val('');
-			$('#bzPlCode').val('');
-	 		
-	 		
-	 		//ajax 시작
-	 		$.ajax({
-		        url     : '/ajax/plantInformation',
-		        type    : 'POST',
-		        data    : {plantCode : plantCode},
-		       
-		        success : function(data) {
-		        	console.log(data);
-		        	if(data){
-						plDepDataResidual = data.residualValue;
-						plDepPrice = data.plantDepreciationDTO.plDepPrice;
-						plDepStartDate = data.plantDepreciationDTO.plDepStartDate;
-						bzPlCode = data.plantDepreciationDTO.bzPlCode;
-						//숫자에 콤마 찍는 함수 호출
-						plDepDataResidual = comma(plDepDataResidual);
-						
-		        		console.log(plDepDataResidual);
-						console.log(plDepPrice);
-						console.log(plDepStartDate);
-						console.log(bzPlCode);
-						
-						
-						$('#plDepDataResidual').val(plDepDataResidual);
-						$('#plDepPrice').val(plDepPrice);
-						$('#plDepStartDate').val(plDepStartDate);
-						$('#bzPlCode').val(bzPlCode);
-		        	}else{
-		        		
-		        	}
-		        },
-		        error : function(xhr,status,error) {
-		        	console.log("xhr: " + xhr);
-		        	console.log("status: " + status);
-		        	console.log("error: " + error);
-		        }
-		    });
-		   //ajax 끝 
-	 	 })
-	 	 
+
 	 	 
 	 	 $('#btnPlantSell').click(function(){
 	 	
@@ -238,17 +181,13 @@
 	 	 
 	 	 $('#cancelBtnPlantSell').click(function(){
 	 		 console.log('취소버튼');
-	 		$("#plantSellSelect").val("0").prop("selected", true);
 	 		$('#bPlTitle').val('');
 	 		$('#bPlPrice').val('');
 	 		$('#files').val('');
 	 		$('#componentDetail').val('');
 	 		$('#bPlDateBidding1').val('');
-	 		$('#plDepDataResidual').val('');
 	 		
 	 	 })
-	 	 
-	 
 	 	 
 	 	</script>
 

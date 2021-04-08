@@ -145,14 +145,44 @@
                  			 </div>
                  		</td>
 	                  </tr>
-	                  
-	                 
 	                </tbody>
 	              </table>
-	              
 	            </div>
 	          </div>
           </div>
+          
+              <div class="row" id="section4">
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+	              <h4><i class="fa fa-angle-right"></i>문의글</h4>
+	              <hr>
+	              <table class="table" id="qnaTable">
+	               	<thead>
+	               		<tr>
+	               			<th>제목</th>
+	               			<th>조회수</th>
+	               			<th>작성자</th>
+	               			<th>작성일</th>
+	               			<th>답변여부</th>
+	               		</tr>
+	               	</thead>
+	               	<tbody>
+	               		<tr th:if="${#lists.size(qna)}>0" th:each="q:${qna}">
+	               			<td class="subject"><a th:href="@{/sell/qnaDetail(idx=${q.bIdx})}">[[${q.bSubject}]]</a></td>         			
+	               			<td th:text="${q.bView}"></td>
+	               			<td th:text="${q.mIdBuyer}"></td>
+	               			<td th:text="${q.bRegDate}"></td>
+	               			<td th:if="${q.bAnswer=='Y'}">답변</td>
+	               			<td th:if="${q.bAnswer=='N'}">미답변</td>
+	               		</tr>
+	               		<tr th:unless="${#lists.size(qna)}>0">문의내역이 없습니다.</tr>
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+          </div>
+          
+          
         </th:block>
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -183,7 +213,12 @@
 		 		$('body').attr('data-spy','scroll');
 		 		$('body').attr('data-target','.nabvar');
 		 		$('body').attr('data-offset','50')
-		 	})	 		
+		 	
+				
+		 	})	 
+		 	
+		 	
+		 			
 		</script>
 		
 		<script>
