@@ -26,7 +26,7 @@ public class ScheduledTimer {
 	@Autowired
 	private PolicyService policyService;
 	
-	@Scheduled(cron = "0  01  8  *  *  *") 
+	@Scheduled(cron = "0  10  8  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		RadiationApi raApi = new RadiationApi();
 		raApi.weatherApiAction();
@@ -49,7 +49,7 @@ public class ScheduledTimer {
 	}
 	
 	//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
-	@Scheduled(cron = "0  00  0  *  *  *") 
+	@Scheduled(cron = "0  00  0  *  *  *")
 	public void updateAcStatus() throws Exception {
 			sellService.updateAcStatus();
 	

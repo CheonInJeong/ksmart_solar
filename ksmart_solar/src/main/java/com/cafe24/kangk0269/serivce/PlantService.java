@@ -3,6 +3,7 @@ package com.cafe24.kangk0269.serivce;
 import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -112,7 +113,7 @@ public class PlantService {
 		int[] benefitGraph = new int[240];
 		
 		List<BusinessPlantDTO> plantList = plantMapper.getPlantListByCode(bzCode);
-		model.addAttribute("plantName", plantList.get(0).getBzPlName());
+		model.addAttribute("bzPlName", plantList.get(0).getBzPlName());
 		
 		return benefitGraph;
 	}
@@ -224,7 +225,7 @@ public class PlantService {
 		return residualValue;
 	}
 	
-
+	//오늘 발전데이터 가져오기
 	public void getGenerationAnalysisData(Model model, String bzCode) throws ParseException {
 		BusinessPlantDTO bp = plantMapper.getPlantInfoBybzPlCode(bzCode);
 		int addrCode = bp.getBzPlAddrCode();
@@ -281,7 +282,6 @@ public class PlantService {
 		int dayGen = 0;
 		int monthGen = (int) Math.round((Double.parseDouble(sumMonthData) *10000/36) * ((double)bzPlPower/1000));
 		int[] radData = new int[24];
-		String radDataString = "[";
 		for(int i=0; i<pr.size(); i++) {
 			String Icsr = pr.get(i).getPlRadIcsr();
 			if("".equals(Icsr)) {
@@ -289,15 +289,9 @@ public class PlantService {
 			}else {
 				radData[i] = (int) Math.round(Double.parseDouble(pr.get(i).getPlRadIcsr())*10000/36);
 			}
-			
-			if(i == 0) {
-				radDataString += radData[i];
-			}else {
-				radDataString += ", "+radData[i];
-			}
 			dayGen += radData[i] * ((double)bzPlPower/1000);
+			System.out.println(dayGen);
 		}
-		radDataString += "]";
 		PlantKpxDTO pk = new PlantKpxDTO();
 		pk = plantMapper.getKpxTodayData();
 		double smp = Double.parseDouble(pk.getPlKpxSmpShoreAvg().replace(",", ""));
@@ -315,18 +309,87 @@ public class PlantService {
 		System.out.println("기준월 :" + nowTime.substring(0,4) + "년 " + nowTime.substring(5,7) + "월");
 		
 		model.addAttribute("bzPlName", 		bp.getBzPlName());
+		model.addAttribute("bzPlCode", 		bp.getBzPlCode());
 		model.addAttribute("bzPlPower",	 	bzPlPower);
+		model.addAttribute("rec",		 	formatter.format(rec));
+		model.addAttribute("smp",	 		smp);
 		model.addAttribute("dayGen", 		formatter.format(dayGen));
 		model.addAttribute("datBenefit",	formatter.format((dayGen*smp) + (rec/1000 * dayGen)));
 		model.addAttribute("monthGen", 		formatter.format(monthGen));
 		model.addAttribute("monthBenefit",	formatter.format((monthGen*smp) + (rec/1000 * monthGen)));
 		model.addAttribute("basedDate",		yesterday.substring(0,4) + "년 " + yesterday.substring(5,7) + "월 " + yesterday.substring(8,10) + "일" );
 		model.addAttribute("basedMonth",	nowTime.substring(0,4) + "년 " + nowTime.substring(5,7) + "월");
-		model.addAttribute("radData",		radDataString);
-		
-		
 	}
+	
+	public int[] getAjaxGenerationAnalysisData(String bzPlCode, String requestDate) throws ParseException {
+		//처음 실행할때는 오늘날짜로 입력해서 실행
+		BusinessPlantDTO bp = plantMapper.getPlantInfoBybzPlCode(bzPlCode);
+		int addrCode = bp.getBzPlAddrCode();
+		String addrCodeName = "서울";
+		switch(addrCode) {
+			case 1: addrCodeName = "서울";
+				break;
+			case 2: addrCodeName = "부산";
+				break;
+			case 3: addrCodeName = "대구";
+				break;
+			case 4: addrCodeName = "인천";
+				break;
+			case 5: addrCodeName = "광주";
+				break;
+			case 6: addrCodeName = "대전";
+				break;
+			case 7: addrCodeName = "부산";
+				break;
+			case 8: addrCodeName = "청주";
+				break;
+			case 9: addrCodeName = "수원";
+				break;
+			case 10: addrCodeName = "원주";
+				break;
+			case 11: addrCodeName = "충주";
+				break;
+			case 12: addrCodeName = "서산";
+				break;
+			case 13: addrCodeName = "전주";
+				break;
+			case 14: addrCodeName = "목포";
+				break;
+			case 15: addrCodeName = "포항";
+				break;
+			case 16: addrCodeName = "대구";
+				break;
+			case 17: addrCodeName = "제주";
+				break;
+		}
+		Date date = new Date(); 
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String nowTime = transFormat.format(date); 
+		Date nowDate = transFormat.parse(nowTime);
+		long yesterdayTime = (nowDate.getTime() - (24*60*60*1000));
+		String yesterday = transFormat.format(yesterdayTime); 
+		String startTime = yesterday + " 00";
+		String endTime   = yesterday + " 23";
 		
+		/* 
+		 * 검색기능 추가시 고려해야함
+		String startTime = requestDate + " 00";
+		String endTime   = requestDate + " 23";
+		 * */
+		List<PlantRadiationDTO> pr = plantMapper.getRadiationData(addrCodeName, startTime, endTime);
+		int[] radData = new int[24];
+		for(int i=0; i<pr.size(); i++) {
+			String Icsr = pr.get(i).getPlRadIcsr();
+			if("".equals(Icsr)) {
+				radData[i] = 0;
+			}else {
+				radData[i] = (int) Math.round(Double.parseDouble(pr.get(i).getPlRadIcsr())*10000/36);
+			}
+		}
+		return radData;
+	}
+	
+	
 	
 	
 }

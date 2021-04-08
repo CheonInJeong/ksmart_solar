@@ -17,49 +17,55 @@
 		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh;">
-		<div class="content-panel col-xs-12">
-			<div th:if="${plantName ne null}" style="margin:20px 5% 20px 5%; width:90%;">
-				<div class="h1 col-md-6">
-					<span style="font-weight:900; margin-right: 10px;">[[${plantName}]]</span>
-					<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
-					<button type="button" id="plantDelete" class="btn btn-danger btn-xs">삭제</button>
+			<div class="content-panel col-xs-12">
+				<div th:if="${bzPlName ne null}" style="margin:20px 5% 20px 5%; width:90%;">
+					<div>
+						<div class="h1 col-md-6">
+							<span style="font-weight:900; margin-right: 10px;">[[${bzPlName}]]</span>
+							<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
+							<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
+						</div>
+						<div class="h2 col-md-6 col-xs-12" style="margin: 20px 0 15px 0; padding: 0;">
+							<div class="col-xs-6">
+								<input type="button" id="" class="standardBtn btn btn-md benefitAnalysis" value="수익 분석" style="width: 90%;">
+							</div>
+							<div class="col-xs-6">
+								<input type="button" id="" class="standardBtn btn btn-md generationAnalysis" value="발전량 분석" style="width: 90%;">
+							</div>
+						</div>
+					</div><br>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+						<div class="h3" style="font-weight: 600;" id="dataDiv" th:data-basedPrice="${basedPrice2}" th:data-startDate="${startDate}">기준금액</div>
+						<p class="h3">[[${basedPrice}]] <small>[원]</small></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">잔존가치</div>
+						<p class="h3">[[${residualPrice}]] <small>[원]</small></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">감가율</div>
+						<p class="h3">[[${residualRate}]] <small>[%]</small></p>
+					</div>
+					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+						<div class="h3" style="font-weight: 600;">경과기간</div>
+						<p class="h3">[[${pastYear}]]<small>년</small> [[${pastMonth}]]<small>개월</small></p>
+		            </div>
+				<div class="col-xs-12" style="height: 5vh;"></div>
+		        <div class="row">
+		        	<div><span style="float: right; color: #888;"><small>* 수익, 비용(유지비+감가), 손익(수익 - 비용)</small></span></div>
+					<canvas id="myChart" style="width: 100%;"></canvas>
 				</div>
-				<div class="h2 col-md-6 col-xs-12">
-					<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
-					<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-6"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;" id="dataDiv" th:data-basedPrice="${basedPrice2}" th:data-startDate="${startDate}">기준금액</div>
-					<p class="h3">[[${basedPrice}]] <small>[원]</small></p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;">잔존가치</div>
-					<p class="h3">[[${residualPrice}]] <small>[원]</small></p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;">감가율</div>
-					<p class="h3">[[${residualRate}]] <small>[%]</small></p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;">경과기간</div>
-					<p class="h3">[[${pastYear}]]<small>년</small> [[${pastMonth}]]<small>개월</small></p>
-	            </div>
-			<div class="col-xs-12" style="height: 5vh;"></div>
-	        <div class="row">
-	        	<div><span style="float: right; color: #888;"><small>* 수익, 비용(유지비+감가), 손익(수익 - 비용)</small></span></div>
-				<canvas id="myChart" style="width: 100%;"></canvas>
+		        </div>
 			</div>
-	        </div>
-		</div>
 		</div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="/js/plant.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="text/javascript">
 				var basedPrice = $('#dataDiv').attr('data-basedPrice');
 				var startDate = $('#dataDiv').attr('data-startDate');
-				
+				///////////////감가 그래프 계산////////////////
 				var labelsArray = []
 				var residualPriceArray = [basedPrice];
 				var residualRateArray = [0.007936508,0.007539683,0.007142857,0.006746032,0.006349206,0.005952381,0.005555556,0.00515873,0.004761905,0.004365079,0.003968254,0.003571429,0.003174603,0.002777778,0.002380952,0.001984127,0.001587302,0.001190476,0.000793651,0.000396825];
@@ -69,16 +75,10 @@
 				var startYear = startDate.substring(0,4);
 				var startMonth = startDate.substring(4,6);
 				var basedRatePrice = basedPrice;
-				
-				
 				if(todayMonth.length == 1){ 
 					todayMonth = "0" + todayMonth; 
 				} 
 				var nowDate = todayYear + '/' + todayMonth;
-				
-				var aaa = 0;
-				var sumRate = 0;
-				
 				for(var i=0; i<20; i++){
 					for(var j=0; j<12; j++){
 						basedPrice = basedPrice - (basedRatePrice * residualRateArray[i]);
@@ -88,7 +88,6 @@
 					}
 				}
 				for(var i=0; i<240; i++){
-					
 					if(startMonth < 12){
 						if(startMonth < 10 && i != 0){ 
 							startMonth = "0" + startMonth; 
@@ -101,11 +100,12 @@
 						startYear++;
 					}
 				}
+				///////////////감가 그래프 계산////////////////
 				
 				
-				console.log(residualPriceArray);
 				
-				var ctx1 = document.getElementById('myChart').getContext('2d');
+				
+			/* 	var ctx1 = document.getElementById('myChart').getContext('2d');
 				var chartData1 = [0,0,0,4,5,6,7,8,10,20,30,50,80,100,90,80,70,40,20,10,0,0,0,0];
 				var mixedChart = new Chart(ctx1, {
 				    type: 'bar',
@@ -117,97 +117,79 @@
 				        labels: labelsArray
 				    },
 				    options: {}
-				});
+				}); */
 				
-				/*
-				//multi axis line  
-				//https://www.chartjs.org/docs/latest/samples/line/multi-axis.html
-				const config = {
-				  type: 'line',
-				  data: data,
-				  options: {
-				    responsive: true,
-				    interaction: {
-				      mode: 'index',
-				      intersect: false,
-				    },
-				    stacked: false,
-				    plugins: {
-				      title: {
-				        display: true,
-				        text: 'Chart.js Line Chart - Multi Axis'
-				      }
-				    },
-				    scales: {
-				      y: {
-				        type: 'linear',
-				        display: true,
-				        position: 'left',
-				      },
-				      y1: {
-				        type: 'linear',
-				        display: true,
-				        position: 'right',
+				var chartData1 = [];	//수익
+				var chartData2 = [];	//비용
+				var chartData3 = [];	//손익
 				
-				        // grid line settings
-				        grid: {
-				          drawOnChartArea: false, // only want the grid lines for one axis to show up
-				        },
-				      },
-				    }
-				  },
-				};
+				chartDraw();
 				
-				//setup
-				const DATA_COUNT = 7;
-				const NUMBER_CFG = {count: DATA_COUNT, min: -100, max: 100};
-
-				const labels = Utils.months({count: 7});
-				const data = {
-				  labels: labels,
-				  datasets: [
-				    {
-				      label: 'Dataset 1',
-				      data: Utils.numbers(NUMBER_CFG),
-				      borderColor: Utils.CHART_COLORS.red,
-				      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.red, 0.5),
-				      yAxisID: 'y',
-				    },
-				    {
-				      label: 'Dataset 2',
-				      data: Utils.numbers(NUMBER_CFG),
-				      borderColor: Utils.CHART_COLORS.blue,
-				      backgroundColor: Utils.transparentize(Utils.CHART_COLORS.blue, 0.5),
-				      yAxisID: 'y1',
-				    }
-				  ]
-				};
+				function chartDraw(){
+					var ctx = document.getElementById('myChart').getContext('2d');
+					var myChart = new Chart(ctx, {
+					    type: 'bar',
+					    data: {
+					        datasets: [
+					        	{
+					        		label: '예상 수익', 
+					        		data: chartData1, 
+					        		backgroundColor: 'rgb(255, 99, 132)', 
+					        		borderColor: 'rgb(255, 99, 132)', 
+					        		oreder: 0, 
+					        		yAxisID: 'left'}
+					        	,{
+					        		label: '예상 비용', 
+					        		data: chartData1, 
+					        		backgroundColor: 'rgb(255, 99, 132)', 
+					        		borderColor: 'rgb(255, 99, 132)', 
+					        		oreder: 0, 
+					        		yAxisID: 'left'}
+				        		,{
+				        			label: '예상 잔존가치', 
+				        			data: residualPriceArray,
+				        			type: 'line',
+				        			backgroundColor: '#DF7401', 
+				        			borderColor: '#DF7401',
+				        			order: 1, 
+				        			yAxisID: 'right'
+				        		}
+					        	,{
+					        		label: '예상 손익', 
+					        		data: chartData1, 
+					        		type: 'line',
+					        		backgroundColor: '#465FC5', 
+					        		borderColor: '#465FC5',
+					        		fill: false, 
+					        		order: 2, 
+					        		yAxisID: 'left'
+					        	}
+					        ],
+					        labels: labelsArray
+					    },
+					    options: {
+					    	responsive: true,
+					        interaction: {
+					          mode: 'index',
+					          intersect: false,
+					        },
+					        stacked: false,
+					        plugins: {
+					        },
+					        scales: {
+					          'left': {
+					            type: 'linear',
+					            position: 'left'
+					          },
+					          'right': {
+					            type: 'linear',
+					            position: 'right'
+					          }
+				            }
+				        }
+					});
+				}
 				
-				
-				//action
-				const actions = [
-				  {
-				    name: 'Randomize',
-				    handler(chart) {
-				      chart.data.datasets.forEach(dataset => {
-				        dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
-				      });
-				      chart.update();
-				    }
-				  },
-				];
-				const actions = [
-				  {
-				    name: 'Randomize',
-				    handler(chart) {
-				      chart.data.datasets.forEach(dataset => {
-				        dataset.data = Utils.numbers({count: chart.data.labels.length, min: -100, max: 100});
-				      });
-				      chart.update();
-				    }
-				  },
-				];
-				*/
 		</script>
 	</th:block>
 	

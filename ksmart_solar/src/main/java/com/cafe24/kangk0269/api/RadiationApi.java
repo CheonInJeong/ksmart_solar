@@ -95,9 +95,15 @@ public class RadiationApi {
 				queryString += (obj.get("tm")).toString();
 				queryString += "', '";
 				queryString += (obj.get("stnNm")).toString();
-				queryString += "', '";
-				queryString += (obj.get("icsr")).toString();
-				queryString += "', '";
+				queryString += "', ";
+				String icsr = "";
+				if("".equals((obj.get("icsr")).toString())) {
+					icsr = "0";
+				}else {
+					icsr = (obj.get("icsr")).toString();
+				}
+				queryString += icsr;
+				queryString += ", '";
 				queryString += (obj.get("ss")).toString();
 				queryString += "', '";
 				queryString += (obj.get("ssQcflg")).toString();
