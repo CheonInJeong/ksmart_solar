@@ -48,12 +48,13 @@ public class PlantController {
 	@PostMapping("/plant/plantDetail")
 	public String plantDetail(Model model 
 							  ,@RequestParam(name="bzCode", required=false) String bzCode
-							  ,HttpSession session) {
+							  ,HttpSession session) throws ParseException {
 		if(bzCode == null) {
 			bzCode = (String) session.getAttribute("SBZCODE");
 		}
 		session.setAttribute("SBZCODE", bzCode);
 		plantService.getPlantDetail(model, bzCode);
+		plantService.getGenerationAnalysisData(model, bzCode);
 		return "/plant/plantDetail";
 	}
 	  
@@ -72,7 +73,7 @@ public class PlantController {
 	
 	//발전량 분석
 	@GetMapping("/plant/plantDetail/generationAnalysis")
-	public String generationAnalysis(HttpSession session, Model model) {
+	public String generationAnalysis(HttpSession session, Model model) throws ParseException {
 		String bzCode = (String)session.getAttribute("SBZCODE");
 		System.out.println(bzCode);
 		
@@ -201,5 +202,16 @@ public class PlantController {
 	  
 	  return businessService.addSolarEntrepreneur(bs, bp, pd); 
 	  }
+	  
+	  
+	  //getAjaxGenerationAnalysisData
+	  @RequestMapping(value="/ajax/generationAnalysisData", method = RequestMethod.POST)
+	  public @ResponseBody int[] getAjaxGenerationAnalysisData(
+									  @RequestParam(value="requestDate", required = false) String requestDate
+									  ,@RequestParam(value="bzPlCode", required = false) 	String bzPlCode
+									  ,HttpSession session) throws ParseException { 
+	  return plantService.getAjaxGenerationAnalysisData(bzPlCode, requestDate);
+	  }
+	  
 	  
 }

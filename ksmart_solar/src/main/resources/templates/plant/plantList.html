@@ -7,6 +7,41 @@
 		<title>발전소 리스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<style>
+			.thumbnail-wrappper1 { 
+				width: 100%; 
+			} 
+			.thumbnail1 { 
+				position: relative; 
+				padding-top: 100%; 
+				/* 1:1 ratio */ 
+				overflow: hidden; 
+			} 
+			.thumbnail1 .centered { 
+				position: absolute; 
+				top: 0; 
+				left: 0; 
+				right: 0; 
+				bottom: 0; 
+				-webkit-transform: translate(50%,50%); 
+				-ms-transform: translate(50%,50%); 
+				transform: translate(50%,50%); 
+			} 
+			.thumbnail1 .centered img { 
+				position: absolute; 
+				top: 0; 
+				left: 0; 
+				max-width: 100%; 
+				height: auto; 
+				-webkit-transform: translate(-50%,-50%); 
+				-ms-transform: translate(-50%,-50%); 
+				transform: translate(-50%,-50%); 
+			}
+			img.landscape { width: auto; height: 100%; }
+			.plantImg { 
+				width: auto; height: 100%; 
+				}
+		</style>
 		<div hidden="">
 			스크립트에서 사용하기 위한 세션 변수 세팅
 			<div id="sessionID" th:data-session-id="${session.SID}"></div>
@@ -30,7 +65,9 @@
 				  <div th:if="${l.bzPlCheck} eq 'Y'">
 				  <div class="col-sm-6 col-md-3">
 				    <div class="thumbnail">
-					  <a class=""><img alt="발전소 사진" th:src="${l.bzPlPhoto}" class="plantImg" th:data-bzCode="${l.bzPlCode}" style="width: 100%; min-height: 150px; margin: 0 auto;"></a>
+				    <div class="thumbnail-wrapper1"> <div class="thumbnail1"> <div class="centered">
+					  <a style="cursor: pointer;"><img alt="발전소 사진" th:src="${l.bzPlPhoto}" class="plantImg" th:data-bzCode="${l.bzPlCode}"></a>
+				    </div></div></div>
 				      <div class="caption">
 				        <h3 style="font-weight: 600;">[[${l.bzPlName}]]</h3>
 				        <div>

@@ -17,68 +17,159 @@
 		</div>
 		<div id="container-header-space"></div>
 		<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 15px; min-height: 80vh;">
-		<div class="content-panel col-xs-12">
-			<div th:if="${bzPlName ne null and bzPlName ne ''}" style="margin:20px 5% 20px 5%; width:90%;">
-				<div class="h1 col-md-6">
-					<span style="font-weight:900; margin-right: 10px;">[[${bzPlName}]]</span>
-					<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
-					<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
-				</div>
-				<div class="h2 col-md-6 col-xs-12">
-					<input type="button" id="" class="btn btn-primary btn-md benefitAnalysis col-xs-6" value="수익 분석" style="width: 29%; margin-bottom: 10px; margin-left: 20%;">
-					<input type="button" id="" class="btn btn-primary btn-md generationAnalysis col-xs-6"  value="발전량 분석" style="width: 29%; margin-bottom: 10px; margin-left: 5%;">
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;">금일 발전량</div>
-					<p class="h3">[[${bzPlName}]] <small>[kWh]</small></p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;">금일 예상 수익</div>
-					<p class="h3">[[${plantGenDay}]] <small>[원]</small></p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;" id="plantPower" th:data-power="${bzPlPower}">발전소 용량</div>
-					<p class="h3">[[${bzPlPower}]] <small>[kW]</small></p>
-				</div>
-				<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-					<div class="h3" style="font-weight: 600;">발전소 주소</div>
-					<p id="plAddr" th:data-plAddr="${bzPlAddr}">([[${bzPlZipcode}]]) [[${bzPlAddr}]] [[${bzPlDetailAddr}]]</p>
-	            </div>
-		        <div class="col-xs-12" style="height: 5vh;"></div>
-		        <div class="row">
-					<canvas id="myChart1"></canvas>
-				</div>
-	        </div>
+			<div class="content-panel col-xs-12">
+				<div th:if="${bzPlName ne null and bzPlName ne ''}" style="margin:20px 5% 20px 5%; width:90%;">
+					<div>
+						<div class="h1 col-md-6">
+							<span style="font-weight:900; margin-right: 10px;">[[${bzPlName}]]</span>
+							<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
+							<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
+						</div>
+						<div class="h2 col-md-6 col-xs-12" style="margin: 20px 0 15px 0; padding: 0;">
+							<div class="col-xs-6">
+								<input type="button" id="" class="standardBtn btn btn-md benefitAnalysis" value="수익 분석" style="width: 90%;">
+							</div>
+							<div class="col-xs-6">
+								<input type="button" id="" class="standardBtn btn btn-md generationAnalysis" value="발전량 분석" style="width: 90%;">
+							</div>
+						</div>
+					</div><br>
+					<div>
+						<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+							<small style="margin-top: 60px;">기준일 : [[${basedDate}]]</small>
+							<div class="h3" style="font-weight: 600; margin-top: 10px;">일간 발전량</div>
+							<p class="h3">[[${dayGen}]] <small>[kWh]</small></p>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+							<small style="margin-top: 60px; color: #fff;">.</small>
+							<div class="h3" style="font-weight: 600; margin-top: 10px;">일간 예상 수익</div>
+							<p class="h3">[[${datBenefit}]] <small>[원]</small></p>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+							<small>기준월 : [[${basedMonth}]]</small>
+							<div class="h3" style="font-weight: 600; margin-top: 10px;">월간 발전량</div>
+							<p class="h3">[[${monthGen}]] <small>[kWh]</small></p>
+						</div>
+						<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
+							<small style="margin-top: 60px; color: #fff;">.</small>
+							<div class="h3" style="font-weight: 600; margin-top: 10px;">월간 예상 수익</div>
+							<p class="h3">[[${monthBenefit}]] <small>[원]</small></p>
+						</div>
+					</div>
+			        <div class="col-xs-12" style="height: 5vh;"></div>
+			        <div class="row">
+						<div>
+						  <canvas id="myChart"></canvas>
+						</div>
+					</div>
+		        </div>
+			</div>
 		</div>
-		</div>
+		<div hidden="" id="thymeleafData" th:data-bzPlPower="${bzPlPower}" th:data-bzPlCode="${bzPlCode}"></div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="/js/plant.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="text/javascript">
-			var plantPowerInput = $('#plantPower').attr('data-power');
+			var plantPowerInput = $('#thymeleafData').attr('data-bzPlPower');
+			var bzPlCode = $('#plantDelete').attr('data-plCode');
+			console.log(bzPlCode);
 			var plantPower = plantPowerInput;
-			//.replace(",", "");
+			var requestDate = '';
 			var plantPowerArray = [];
+			var genData = [];
 			for(var i=0; i<24; i++){
 				plantPowerArray.push(plantPower);
 			}
-			console.log(plantPowerArray);
+			var chartData1 = [];
+			var chartData2 = [];
+			$.ajax({
+		        url     : '/ajax/generationAnalysisData',
+		        type    : 'POST',
+		        data    : {requestDate:requestDate, bzPlCode : bzPlCode},
+		        success : function(data) {
+					var sumGeneration = 0;
+		        	for(var i=0; i<data.length; i++){
+		        		sumGeneration += Math.floor(data[i]*(plantPowerInput/1000));
+		        		console.log(sumGeneration);
+		        		chartData1.push(Math.round(data[i]*(plantPowerInput/1000)*10)/10);
+		        		chartData2.push(sumGeneration);
+		        	}
+		        	chartDraw();
+		        },
+		        error : function(xhr,status,error) {
+	        		Swal.fire({
+						  title: '데이터 로딩에 실패했습니다!',
+						  icon: 'error'
+						})
+		        	console.log("xhr: " + xhr);
+		        	console.log("status: " + status);
+		        	console.log("error: " + error);
+		        }
+		    });
 			
-			var ctx1 = document.getElementById('myChart1').getContext('2d');
-			
-			//발전소 용량(line), 누적발전량(bar), 발전량(line, dot)
-			
-			var chartData1 = [0,0,0,4,5,6,7,8,10,20,30,50,80,100,90,80,70,40,20,10,0,0,0,0];
-			var mixedChart = new Chart(ctx1, {
-			    type: 'bar',
-			    data: {
-			        datasets: [{label: 'Bar Dataset', data: chartData1, backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)',order: 1}
-			        		  ,{label: '발전용량[kW]', data: plantPowerArray, type: 'line',backgroundColor: '#465FC5', borderColor: '#465FC5',fill: false, order: 2}],
-			        labels: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
-			    },
-			    options: {}
-			});
+			console.log(chartData1);
+			console.log(chartData2);
+			function chartDraw(){
+				var ctx = document.getElementById('myChart').getContext('2d');
+				var myChart = new Chart(ctx, {
+				    type: 'bar',
+				    data: {
+				        datasets: [
+				        	{
+				        		label: '시간별 발전량[kWh]', 
+				        		data: chartData1, 
+				        		backgroundColor: 'rgb(255, 99, 132)', 
+				        		borderColor: 'rgb(255, 99, 132)', 
+				        		oreder: 0, 
+				        		yAxisID: 'left'}
+			        		,{
+			        			label: '금일 누적 발전량[kWh]', 
+			        			data: chartData2, 
+			        			backgroundColor: '#DF7401', 
+			        			borderColor: '#DF7401',
+			        			order: 1, 
+			        			yAxisID: 'right'
+			        		}
+				        	,{
+				        		label: '발전소 용량[kW]', 
+				        		data: plantPowerArray, 
+				        		type: 'line',
+				        		backgroundColor: '#465FC5', 
+				        		borderColor: '#465FC5',
+				        		fill: false, 
+				        		order: 2, 
+				        		yAxisID: 'left'
+				        	}
+				        ],
+				        labels: ['0','1','2','3','4','5','6','7','8','9','10','11','12','13','14','15','16','17','18','19','20','21','22','23']
+				    },
+				    options: {
+				    	responsive: true,
+				        interaction: {
+				          mode: 'index',
+				          intersect: false,
+				        },
+				        stacked: false,
+				        plugins: {
+				        },
+				        scales: {
+				          'left': {
+				            type: 'linear',
+				            position: 'left'
+				          },
+				          'right': {
+				            type: 'linear',
+				            position: 'right'
+				          }
+			            }
+			        }
+				});
+			}
+			console.log(myChart);
+			function chartReload(){
+				
+			}
 		</script>
 	</th:block>
 	
