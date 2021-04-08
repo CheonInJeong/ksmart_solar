@@ -175,7 +175,7 @@
 	               			<td th:if="${q.bAnswer=='Y'}">답변</td>
 	               			<td th:if="${q.bAnswer=='N'}">미답변</td>
 	               		</tr>
-	               		<tr th:unless="${#lists.size(qna)}>0">문의내역이 없습니다.</tr>
+	               		<tr th:unless="${#lists.size(qna)}>0"><td colspan="5" style="text-align:center">문의내역이 없습니다</td></tr>
 	                </tbody>
 	              </table>
 	            </div>

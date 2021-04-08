@@ -380,6 +380,9 @@
 					tb_bid_list 
 				WHERE 
 					announced_code = #{bCode}
+				and
+					b_rank in (1,2)
+	
   		  </select>
   		  
   		  <update id="modifyComponentSell" parameterType="BidComponentDTO">

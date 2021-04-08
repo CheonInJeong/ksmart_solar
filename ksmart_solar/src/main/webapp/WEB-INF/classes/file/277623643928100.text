@@ -1,0 +1,21 @@
+댓글 셀프조인
+
+SELECT 
+	c1.cmt_idx AS '댓글번호',
+	c1.b_idx AS '게시글 번호',
+	c1.m_id AS '댓글 작성자',
+	c1.target_id AS '게시글 작성자',
+	c1.cmt_comment AS '댓글내용',
+	c1.cmt_reg_date AS '댓글등록일',
+	c1.cmt_group_code AS '그룹코드'
+FROM
+	tb_comment c1, tb_comment c2
+
+WHERE 
+	c1.cmt_group_code = c2.cmt_idx
+	
+AND 
+	c1.cmt_delete_yn='N'
+ORDER BY c1.cmt_comment asc
+
+

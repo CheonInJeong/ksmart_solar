@@ -49,13 +49,52 @@ public class SellController {
 		
 	}
 	
+	//대댓글등록
+	
+	@RequestMapping(value="/ajax/addReCmt", method = RequestMethod.POST)
+	public @ResponseBody String addReCmt(@RequestParam(value="boardIdx") int bIdx,
+										 @RequestParam(value="comment") String comment,
+										 @RequestParam(value="boardId") String boardId,
+										 @RequestParam(value="cmtIdx") int cmtIdx,
+										 HttpSession session) {
+		System.out.println(cmtIdx+"<-----댓글인덱스");
+		boardSellerService.addReCmt(bIdx, comment, boardId, (String)session.getAttribute("SID"), cmtIdx);
+		return "성공";
+	}
+	
+	
+	//댓글등록
+	@RequestMapping(value="/ajax/addCmt", method= RequestMethod.POST)
+	public @ResponseBody String addCmt(@RequestParam(value="boardIdx") int bIdx,
+										@RequestParam(value="comment") String comment,
+										@RequestParam(value="boardId") String boardId,
+										HttpSession session){
+		System.out.println((String)session.getAttribute("SID"));
+		System.out.println(bIdx+"<----게시글 번호");
+		boardSellerService.addCmt(bIdx, comment, boardId, (String)session.getAttribute("SID"));
+		
+		return "성공";
+	}
+	
+	
+	
+	//댓글삭제
+	@GetMapping(value="/sell/removeCmt")
+	public String removeCmt(@RequestParam(value="idx") int idx,
+							@RequestParam(value="bIdx") int bIdx) {
+		boardSellerService.removeCmt(idx);
+		return "redirect:/sell/qnaDetail?idx="+bIdx;
+	}
+	
+	//게시글 상세 보기
 	@GetMapping(value="/sell/qnaDetail")
 	public String qnaDetail(@RequestParam(value="idx") int idx,Model model) {
 		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
+		model.addAttribute("comments",boardSellerService.getCommentList(idx));
 		return "sell/qnaDetail";
 	}
 	
-
+	//재공고등록
 	@PostMapping(value="/sell/addNewPlantSell")
 	public String addNewPlantBid(BidPlantDTO bidPlantDTO,MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception {
 		sellService.addPlantRebidApply(bidPlantDTO,multipartHttpServletRequest,request);
@@ -102,10 +141,13 @@ public class SellController {
 			  System.out.println(rankList.get(i).getbRank()+"<----존재하는 순위");
 			  System.out.println(rankCheck+"<--------true or false");
 			  System.out.println(rank+"<----rank");
-			  if(rankList.get(i).getbRank()==rank)  rankCheck = true; 
-
+			  System.out.println(rankList.get(i).getbRank()==rank);
+			  if(rankList.get(i).getbRank()==rank) {
+				  System.out.println("체크하는지");
+				  rankCheck = true; 
+			  }
+			  System.out.println(rankCheck+"<------체크");
 		  }
-		  System.out.println(rankCheck);
 		  
 		return rankCheck;
 	}
