@@ -11,39 +11,78 @@
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> ><!--  <a th:href="@{/sell/plantBidderList}">입찰자목록</a> > --> 문의글</div>
       	<div id="container-header-space"></div>		
 		
-		 <div class="row" >
-	          <div class="col-md-12">
-	            <div class="content-panel" style="padding: 30px;">
-	              <h4><i class="fa fa-angle-right"></i>문의글</h4>
-	              <hr>
-	              <table class="table" id="qnaTable">
-	               
-	               	<tbody>
-	               		<tr>
-	               			<td>글제목</td>         			
-	               			<td colspan="6" th:text="${qna.bSubject}"></td>
-	               			
-	               		</tr>
-	               		<tr>
-	               			<td>작성자</td>
-	               			<td th:text="${qna.mIdBuyer}"></td>
-	               			<td>작성시간<td>
-	               			<td th:text="${qna.bRegDate}"><td>
-	               			<td>조회수</td>
-	               			<td th:text="${qna.bView}"></td>
-	               		</tr>
-	               		<tr>
-	               			<td colspan="7" th:text="${qna.bContents}"></td>
-	               		<tr>
-	               		<tfoot>
-	               	
-	               	
-	                </tbody>
-	              </table>
-	               	<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
-	            </div>
-	          </div>
-          </div>
+		<div class="row" >
+			<div class="col-md-12">
+				<div class="content-panel" style="padding: 30px;">
+				<h4><i class="fa fa-angle-right"></i>문의글</h4>
+				<hr>
+				
+				<div id="bIdx" style="display:none">[[${qna.bIdx}]]</div>
+				<div id="bId" style="display:none">[[${qna.mIdBuyer}]]</div>
+				<table class="table" id="qnaTable">
+					              
+					<tbody>
+						<tr>
+							<td>글제목</td>         			
+							<td colspan="6" th:text="${qna.bSubject}"></td>               			
+						</tr>
+						<tr>
+							<td>작성자</td>
+							<td th:text="${qna.mIdBuyer}"></td>
+							<td>작성시간<td>
+							<td th:text="${qna.bRegDate}"><td>
+							<td>조회수</td>
+							<td th:text="${qna.bView}"></td>
+						</tr>
+						<tr>
+							<td colspan="7" th:text="${qna.bContents}"></td>
+						<tr>
+	
+						               	
+						               	
+					</tbody>
+				</table>
+				<a class="btn btn-default" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
+				<hr>
+				<h4><i class="fa fa-angle-right"></i>댓글</h4>
+				<table class="table" id="commentTable">
+					<tbody>
+						<th:block th:if="${#lists.size(comments)}>0" th:each="c:${comments}">
+							<tr>
+								<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
+								<td th:text="${c.mId}"></td>
+								<td th:text="${c.cmtComment}" style="padding:20px;"></td>
+								<td th:text="${c.cmtRegDate}"></td>
+								<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
+								<td th:if="${c.mId==session.SID}"><button class="btn btn-default btn-sm">수정</button>
+								<a th:href="@{/sell/removeCmt(idx=${c.cmtIdx},bIdx=${c.bIdx})}" class="btn btn-default  btn-sm">삭제</a></td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<div class="form=group">
+										<textarea  class="form-control replyContents" placeholder="댓글을 작성해주세요."></textarea>
+									</div>
+								</td>
+								<td><button type="button" class="btn  btn-sm  btn-default regReplyCmt">등록</button></td>
+							</tr>
+						</th:block>
+							<tr th:unless="${#lists.size(comments)}>0"><td colspan="5">등록된 댓글이 없습니다.</td></tr>
+					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="3">
+								<div class="form-group">
+									<textarea id="inputContents" class="form-control" placeholder="댓글을 작성해주세요."></textarea>
+								</div>
+							</td>
+							<td><button type="button" class="btn  btn-sm  btn-default" id="regCmt">등록</button></td>
+						</tr>
+					</tfoot>				
+				</table>
+								
+				</div>
+			</div>
+		</div>
         
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -53,6 +92,75 @@
 			sell.parent().find('.sub').css('display','block');
 			sell.parent().find('.sub').children().eq(1).addClass('active');
 		</script>
+		
+		<script th:inline="javascript">
+			$('#regCmt').click(function(){
+				//댓글등록
+				$.ajax({
+					url : '/ajax/addCmt',
+					type : 'post',
+					data : {boardIdx : $('#bIdx').text() , comment : $('#inputContents').val(), boardId : $('#bId').text()},
+					success : function(data){
+						location.reload();
+					}
+					
+				})
+			})
+			
+			$(document).ready(function(){
+				//모든 행 숨기기
+				$('#commentTable tr').hide();
+				//replyBtn 클래스를 가진 td의 tr 보이기
+				$('#commentTable').find('.replyBtn').parent().show();
+				//tfoot의 tr 보이기
+				$('#commentTable tfoot tr').show();
+				
+				$(document).ready(function(){
+					//모든 행 숨기기
+					$('#commentTable tr').hide();
+					//replyBtn 클래스를 가진 td의 tr 보이기
+					$('#commentTable').find('.replyBtn').parent().show();
+					//tfoot의 tr 보이기
+					$('#commentTable tfoot tr').show();
+					
+					//replyBtn 클래스를 가진 td의 tr을 클릭시
+					$('#commentTable .replyBtn').parent().click(function(){
+						$('#commentTable tr').hide();
+						$('#commentTable').find('.replyBtn').parent().show();
+						
+						//모든 tr들 담기
+						var tr = $('#commentTable tr');
+						//tr들의 인덱스 가져오기
+						var index = $('#commentTable tr').index(this);
+					
+						for(var i = index ; i<index+2; i++){
+							$(tr[i]).show();
+						}
+					});
+					
+				});
+				//대댓글등록
+				$('.replyBtn').click(function(){
+					var i = $('.replyBtn').index($(this));
+					console.log(i);
+					console.log($('.cmtIdx').eq(i).text()+"<-----댓글 인덱스");
+					
+					$('.regReplyCmt').eq(i).click(function(){
+						//대댓글등록시작
+						$.ajax({
+							url : '/ajax/addReCmt',
+							type : 'post',
+							data : {cmtIdx : $('.cmtIdx').eq(i).text(), boardIdx : $('#bIdx').text(), boardId : $('#bId').text(),comment : $('.replyContents').eq(i).val()},
+							success : function(data){
+								location.reload();
+							}
+						});
+					});
+				});
+			
+		});	
+		</script>
+		
 		
 	</th:block>
 </html>
