@@ -52,17 +52,17 @@ public class ScheduledTimer {
 
 	@Scheduled(cron = "0  00  0  *  *  *") 
 	public void updateAcStatus() throws Exception {
+		//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
+		sellService.updateComponentAcStatus();
+		//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
+		sellService.updateAcStatus();
+		//입찰상태(입찰성공 > 입찰종료,계약중,계약대기  입찰대기>입찰실패)으로 바꾸는 메서드 실행
 	}
 	
 	
 	@Scheduled(cron = "15  00  0  *  *  *") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
-			//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
-			sellService.updateComponentAcStatus();
-			//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
-			sellService.updateAcStatus();
-			//입찰상태(입찰성공 > 입찰종료,계약중,계약대기  입찰대기>입찰실패)으로 바꾸는 메서드 실행
 			//입찰대기>입찰실패
 			bidListService.updateBidListsatus();
 			//입찰성공 > 입찰종료,계약중,계약대기
