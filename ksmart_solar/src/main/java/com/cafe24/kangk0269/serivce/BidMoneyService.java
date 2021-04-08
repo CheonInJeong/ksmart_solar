@@ -21,6 +21,11 @@ public class BidMoneyService {
 		this.bidMoneyMapper = bidMoneyMapper;
 	}
 	
+	// 확인후 입출금내역 입력
+	public int addBidMoney(MoneyCheckDTO moneycheck) {
+		return bidMoneyMapper.addBidMoney(moneycheck);
+	}
+	
 	// 확인 입출금 개별(미완료)
 	public MoneyCheckDTO getMoneyCheck(String Code) {
 		return bidMoneyMapper.getMoneyCheck(Code);

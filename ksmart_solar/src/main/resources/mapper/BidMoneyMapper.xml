@@ -18,7 +18,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 	
 	<!-- 입출금 내역 입력 -->
-	<insert id="addBidMoney" parameterType="String">
+	<insert id="addBidMoney" parameterType="MoneyCheckDTO">
 		INSERT INTO tb_bid_money(
 		b_mo_code
 		, related_code
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		  ELSE '입찰예치금입금'
 		  end
 		, 'id001'
-		, if(#{iOut}='입금',,)
+		, sf_new_b_mo_totalmoney(#{money},#{iOut})
 		, #{inoutDate}
 		)
 	</insert>
@@ -169,7 +169,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
 		WHERE result.Code = #{Code}
-		ORDER BY inoutDate;
+		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	
 	<!-- 확인 입출금 목록(미완료, 완료) -->
@@ -285,7 +285,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
-		ORDER BY inoutDate;
+		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	
 	<!-- 전체 입출금 내역 조회 -->
@@ -299,10 +299,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_mo_amount
 			, b_mo_detail
 			, m_id_manager
+			, if(b_mo_type='입금',(@total := @total + b_mo_amount),(@total := @total - b_mo_amount)) AS total
 			, b_mo_totalmoney
 			, b_mo_date
 		FROM 
 			tb_bid_money
+			JOIN 
+			(SELECT @total := 0) AS r
 		ORDER BY b_mo_date;
 	</select>
 </mapper>

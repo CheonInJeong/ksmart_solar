@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.ws.Response;
@@ -52,14 +53,19 @@ public class MyPageController {
 		this.pickService = pickService;
 	}
 
-	// 관심목록 등록
+	// 관심목록 등록 + 중복 등록 방지 메서드
 	@PostMapping("/mypage/addWishlist")
 	public void addWishlist(HttpServletResponse response, HttpSession session,
 			@RequestParam(name = "announcedCode", required = false) String announcedCode) throws IOException {
 		String log_id = (String) session.getAttribute("SID");
-		System.out.println("addWishlist 실행");
-		pickService.addWishlist(announcedCode, log_id);
-		ScriptUtils.alertAndBackPage(response, "등록되었습니다");
+		if(pickService.pickCheck(announcedCode, log_id) != 0) {
+			ScriptUtils.alertAndBackPage(response, "이미 등록된 공고입니다");
+		}else {
+			
+			ScriptUtils.alertAndBackPage(response, "등록되었습니다");
+			pickService.addWishlist(announcedCode, log_id);
+		}
+		
 
 	}
 

@@ -52,9 +52,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyNotice" parameterType="NoticeDTO">
 		UPDATE tb_notice
 		SET
-			not_subject=#{notSubject},
-			not_contents=#{notContents},
-			not_reg_date=NOW()
+			not_subject = #{notSubject},
+			not_contents = #{notContents},
+			not_reg_date = NOW()
 		WHERE 
 			not_idx = #{noticeIdx}
 	
@@ -66,7 +66,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			  not_idx
 			, not_subject
 			, not_contents
-			, m_id, not_reg_date
+			, m_id
+			, not_reg_date
 			, not_views
 			, not_temp
 		FROM 
@@ -99,7 +100,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			  not_idx
 			, not_subject
 			, not_contents
-			, m_id, not_reg_date
+			, m_id
+			, not_reg_date
 			, not_views
 			, not_temp
 		FROM tb_notice
