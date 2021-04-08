@@ -218,7 +218,8 @@
 				 			<button type="submit" class="btn btn-default">계약 취소</button>
 						</div>
 					</form>
-	        	<!--찜하기  -->
+					
+	        		<!--찜하기  -->
 	        		<th:block th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
 														or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
 			        	<form class="form-group" action="/mypage/addWishlist" method="post">
