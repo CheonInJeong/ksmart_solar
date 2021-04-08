@@ -47,9 +47,9 @@
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="거래회원" th:text="${l.mId}"></td>
 							<td data-title="입출금구분" th:text="${l.bMoType}"></td>
-							<td data-title="금액" th:text="${l.bMoAmount}"></td>
+							<td data-title="금액" th:text="${#numbers.formatInteger(l.bMoAmount,3,'COMMA')}"></td>
 							<td data-title="비고" th:text="${l.bMoDetail}"></td>
-							<td data-title="관리자 총액" th:text="${l.bMoTotalmoney}"></td>
+							<td data-title="관리자 총액" th:text="${#numbers.formatInteger(l.total,3,'COMMA')}"></td>
 							<td data-title="입출금 시간" th:text="${l.bMoDate}"></td>
 						</tr>
 					</tbody>

@@ -11,7 +11,7 @@ import com.cafe24.kangk0269.dto.MoneyCheckDTO;
 public interface BidMoneyMapper {
 
 	// 확인후 입출금내역 입력
-	public int addBidMoney(String Code,String Id,long money,String iOut,String inoutDate);
+	public int addBidMoney(MoneyCheckDTO moneycheck);
 	
 	// 확인 입출금 개별(미완료)
 	public MoneyCheckDTO getMoneyCheck(String Code);
