@@ -24,6 +24,17 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		</association>
 	</resultMap>
 	
+	<!-- 중복등록 확인  -->
+	<select id="pickCheck" parameterType="string" resultType="int">
+		SELECT
+		 	COUNT(1)
+		FROM 
+			tb_pick
+		WHERE 
+			p_code = #{announcedCode}
+		AND
+			m_id = #{log_id}
+	</select>
 	
 	<!-- 관심목록 등록  -->
 	<insert id="addWishlist" parameterType="String">
