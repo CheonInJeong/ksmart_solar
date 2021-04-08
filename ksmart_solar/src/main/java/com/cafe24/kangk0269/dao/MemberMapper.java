@@ -22,11 +22,15 @@ public interface MemberMapper {
 	// 로그인 기록 조회
 	public List<Map<String,Object>> getLoginHistory();
 	
+	//개인 비밀번호수정
+	public int modifyPw(String login_id, String newPw);
+	
 	// 개인 회원정보수정
 	public int modifyMyInfo(MemberDTO member);
 	
 	//개인 회원조회
 	public MemberDTO getMyInfoById(String login_id);
+	
 	
 	
 	// 전체회원정보 수정

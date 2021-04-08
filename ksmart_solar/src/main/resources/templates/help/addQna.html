@@ -85,7 +85,7 @@
 							</div>
 						</div>
 						<div style="text-align: center">
-							<button type="submit" class="btn btn-success">등록</button>
+							<button id="qnaBtn" type="submit" class="btn btn-success">등록</button>
 						</div>
 				</form>
 			</div>
@@ -94,36 +94,10 @@
 </th:block>
 
 <th:block layout:fragment="customScript">
-	<script src="lib/jquery/jquery.min.js"></script>
-	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-	<script class="include" type="text/javascript"
-		src="lib/jquery.dcjqaccordion.2.7.js"></script>
-	<script src="lib/jquery.scrollTo.min.js"></script>
-	<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-	<!--common script for all pages-->
-	<script src="lib/common-scripts.js"></script>
-	<!--script for this page-->
-	<script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-daterangepicker/date.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-daterangepicker/moment.min.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-	<script src="lib/advanced-form-components.js"></script>
-	
+
 	<script type="text/javascript">
-	 /* 
 		//비밀글 암호 오픈,클로즈
-		$('input[name=bQnaOpen]').on('click', function() {
+		$('input[name=bQnaOpen]').on('change', function() {
 			var bQnaOpenValue = $('input[name=bQnaOpen]:checked').val();
 			
 			if (bQnaOpenValue == 'Y') {
@@ -134,8 +108,36 @@
 			return false;
 			}
 		});
-	  */
 	
+	  
+	  /* 
+	  	//유효성 검사
+	  	$('#qnaBtn').click(function(){
+	 			var bQnaSubject = $('[name="bQnaSubject"]');
+	 			var bQnaContents =$('[name="bQnaContents"]');
+	 			var bQnaOpen =$('[name="bQnaOpen"]:checked');
+	 			if(bQnaSubject.val()==''){
+	 				alert('문의 제목을 입력해주세요.');
+	 				bQnaSubject.focus();
+	 				return;
+	 			}
+	 			if(bQnaContents.val()==''){
+	 				alert('문의 내용을 입력해주세요.');
+	 				cpMaker.focus();
+	 				return false;
+	 			}
+	 			if(bQnaOpen.val()==''){
+	 				alert('공개 ㅇ 입력해주세요.');
+	 				cpMakedate.focus();
+	 				return false;
+	 			}
+	 			if(cpUsedate.val()==''){
+	 				alert('부품 사용 시작일을 입력해주세요.');
+	 				cpUsedate.focus();
+	 				return false;
+	 			}
+	   */
+	   
 		//메뉴탭
 		var help = $('#help');
 		help.addClass('active');

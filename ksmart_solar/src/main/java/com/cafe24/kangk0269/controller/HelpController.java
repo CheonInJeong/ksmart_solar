@@ -138,7 +138,8 @@ public class HelpController {
 		
 		noticeService.addNoticeViews(noticeIdx);
 		
-		modifyNoticeByIdx(model, noticeIdx);
+		NoticeDTO noticeDTO = noticeService.getNotice(noticeIdx);
+		model.addAttribute("noticeDTO", noticeDTO);
 		return "/help/getNotice";
 		
 	}

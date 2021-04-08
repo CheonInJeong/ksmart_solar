@@ -48,9 +48,10 @@
                 </thead>
                 <tbody>
                   <tr th:each="list:${bidPlantList}">
+                  	<td class="groupCode" th:text=${list.bPlGroupcode} style="display:none"></td>
                   	<td class="historyBPlCode" th:text=${list.bPlCode}></td>
        				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
-                    <td><a th:href="@{/sell/getBidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
+                    <td><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
                     <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
@@ -202,7 +203,7 @@
 					alert('현재는 공고를 삭제 할 수 없습니다.');
 					return;
 				}
-				location.href='/sell/removePlantSell?bPlCode='+$('.historyBPlCode').eq(i).text();
+				location.href='/sell/removePlantSell?bPlCode='+$('.historyBPlCode').eq(i).text()+'&groupCode='+$('.groupCode').eq(i).text();
 			})
 			
 			

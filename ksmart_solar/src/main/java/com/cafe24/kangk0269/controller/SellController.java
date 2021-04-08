@@ -26,6 +26,8 @@ import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.serivce.BoardSellerService;
+import com.cafe24.kangk0269.serivce.PlantService;
 import com.cafe24.kangk0269.serivce.SellService;
 
 @Controller
@@ -34,10 +36,49 @@ public class SellController {
 	@Autowired
 	private final SellService sellService;
 	
-	public SellController(SellService sellService) {
+	@Autowired
+	private final PlantService plantService;
+	
+	@Autowired
+	private final BoardSellerService boardSellerService;
+	
+	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService) {
 		this.sellService = sellService;
+		this.plantService = plantService;
+		this.boardSellerService = boardSellerService;
 		
 	}
+	
+	@GetMapping(value="/sell/qnaDetail")
+	public String qnaDetail(@RequestParam(value="idx") int idx,Model model) {
+		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
+		return "sell/qnaDetail";
+	}
+	
+
+	@PostMapping(value="/sell/addNewPlantSell")
+	public String addNewPlantBid(BidPlantDTO bidPlantDTO,MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception {
+		sellService.addPlantRebidApply(bidPlantDTO,multipartHttpServletRequest,request);
+		
+		return "redirect:/sell/myHistory";
+	}
+	
+	
+	@GetMapping(value="/sell/addNewPlantSell") 
+	public String addNewPlantBid(@RequestParam(value="mId") String mId
+								,@RequestParam(value="groupCode") String groupCode
+								,@RequestParam(value="bzPlcode") String code
+								, Model model)  throws Exception {
+		System.out.println(mId+"<-----재공고신청 아이디");
+		System.out.println(groupCode+"<-----그룹코드");
+		System.out.println(code+"<-----발전소코드");
+		
+		
+		model.addAttribute("plant", sellService.getBidPlantAcByIdCode(mId,code));
+		model.addAttribute("residual",plantService.residualValue(code));
+		return "sell/addNewPlantSell";
+	}
+	
 	
 	
 	@RequestMapping(value="/ajax/modifyRank", method= RequestMethod.POST)
@@ -53,15 +94,18 @@ public class SellController {
 											@RequestParam(value="announcedCode") String code) throws Exception {
 		
 		boolean rankCheck = false;
-		System.out.println(rank+"<----------int");
-		System.out.println(code);
+		System.out.println(rank+"<-------입력받은 순위");
+		System.out.println(code+"<-----공고코드");
 
 		  List<BidListDTO> rankList = sellService.rankCheck(code); 
 		  for(int i=0;i<rankList.size();i++) {
-			  System.out.println(rankList.get(i).getbRank());
-			  if(rank == rankList.get(i).getbRank()) { rankCheck = true; }
+			  System.out.println(rankList.get(i).getbRank()+"<----존재하는 순위");
+			  System.out.println(rankCheck+"<--------true or false");
+			  System.out.println(rank+"<----rank");
+			  if(rankList.get(i).getbRank()==rank)  rankCheck = true; 
 
 		  }
+		  System.out.println(rankCheck);
 		  
 		return rankCheck;
 	}
@@ -82,10 +126,12 @@ public class SellController {
 	}
 	//입찰자 정보 보기 (회원정보+입찰내용)
 	@GetMapping("/sell/bidderDetail")
-	public String bidderDetail(@RequestParam(value="code") String code,
+	public String bidderDetail(@RequestParam(value="bCode") String bCode,
+								@RequestParam(value="bPlCode") String bPlCode,
 							   Model model) throws Exception {
-		model.addAttribute("member", sellService.getBuyerInfoByCode(code));
-		model.addAttribute("file",sellService.getBidderFileList(code));
+		model.addAttribute("member", sellService.getBuyerInfoByCode(bCode));
+		model.addAttribute("file",sellService.getBidderFileList(bCode));
+		model.addAttribute("status",sellService.getPlantAcStatusByCode(bPlCode));
 		return "sell/bidderDetail";
 	}
 	
@@ -161,6 +207,8 @@ public class SellController {
 	public String getBidderList(@RequestParam(value="bPlCode") String code,Model model)  throws Exception{
 		model.addAttribute("bidder", sellService.getBidderList(code));
 		model.addAttribute("plant", sellService.getBidPlantbyCode(code));
+		
+		
 		return "sell/plantBidderList";
 	}
 	
@@ -172,19 +220,21 @@ public class SellController {
 	}
 	
 	//발전소 공고 내용 조회
-	@GetMapping("/sell/getBidPlantDetail")
+	@GetMapping("/sell/bidPlantDetail")
 	public String getBidPlantDetail(@RequestParam(value="bPlCode") String code,Model model)  throws Exception{
 		
 		model.addAttribute("bidPlantDetail", sellService.getBidPlantDetail(code));
 		model.addAttribute("file", sellService.getsellerFileList(code));
+		model.addAttribute("qna",boardSellerService.getQnaListForSeller(code));
 		return "sell/bidPlantDetail";
 	}
 	
 	//발전소 공고 삭제
 	@GetMapping("/sell/removePlantSell")
-	public String removePlantSell(@RequestParam (value="bPlCode") String code)  throws Exception {
+	public String removePlantSell(@RequestParam (value="bPlCode") String code,
+								  @RequestParam (value="groupCode") String groupCode)  throws Exception {
 		System.out.println(code+"<---삭제할 공고의 코드");
-		sellService.removePlantApply(code);
+		sellService.removePlantApply(code,groupCode);
 		return "redirect:/sell/myHistory";
 	}
 	//발전소 공고 수정 처리
@@ -226,6 +276,9 @@ public class SellController {
 	@RequestMapping(value="/ajax/plantInformation",method = RequestMethod.POST)
 	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode)  throws Exception{
 		BusinessPlantDTO bzPlantDto =sellService.getPlantInformation(plantCode);
+		int residualValue= plantService.residualValue(bzPlantDto.getBzPlCode());
+		bzPlantDto.setResidualValue(residualValue);
+			
 		return bzPlantDto;
 	}
 	
@@ -250,7 +303,9 @@ public class SellController {
 
 	@GetMapping("/sell/failureBid")
 	public String failureBidList(Model model, HttpSession session) {
-		model.addAttribute("plant", sellService.getBidPlantAcById((String)session.getAttribute("SID")));
+		String sessionId= (String)session.getAttribute("SID");
+		System.out.println("대체 어디가 문제냐 어?????????????????????짜증나");
+		model.addAttribute("plant", sellService.getBidPlantAcById(sessionId));
 		return "sell/failureBid";
 	}
 	

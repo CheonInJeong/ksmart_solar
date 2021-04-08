@@ -4,6 +4,7 @@ package com.cafe24.kangk0269.dao;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -38,6 +39,14 @@ public interface BidListMapper {
 	public int tradeCancel(String bCode);
 	//환불 가능한 목록 조회
 	public List<BidListDTO> getApplyRefundList(String id,String status);
+	//입찰상태 변경
+	public int updateBidStatus(Map<String,Object> List);
+	//입찰 성공 -> 입찰 종료
+	public int updateBidEnd(Map<String,Object> List);
+	// 입찰 성공 -> 계약중
+	public int updateBidTrade(Map<String,Object> List);
+	//입찰 성공 -> 계약대기
+	public int updateBidTradeWait(Map<String,Object> List);
 	
 
 }

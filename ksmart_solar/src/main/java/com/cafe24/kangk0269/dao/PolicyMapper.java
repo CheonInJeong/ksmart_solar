@@ -82,4 +82,6 @@ public interface PolicyMapper {
 	public List<StandardDTO> getDepositPolicy();
 	public List<StandardDTO> getTradePolicy();
 	public List<StandardDTO> getCommissionPolicy();
+	//계약기간 가져오기
+	public int getTradePeriod();
 }
