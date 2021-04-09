@@ -9,24 +9,24 @@
 <body>
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">
 				<h4><i class="fa fa-angle-right"></i> 미확인 입출금</h4>
 	              <section id="no-more-tables">
 					<table class="table table-condensed cf">
 						<thead class="cf">
 							<tr>
 								<th>번호</th>
-								<th>관련코드</th>
-								<th>관련공고코드</th>
-								<th>관련공고</th>
+								<th>목적</th>
 								<th>거래회원</th>
+								<th>관련공고</th>
+								<th>시작일자</th>
+								<th>마감일자</th>
 								<th>금액</th>
 								<th>입출금구분</th>
 								<th>입출금확인</th>
 								<th>입출금시간</th>
 								<th>거래회원계좌</th>
 								<th>예금주명</th>
-								<th>입출금코드</th>
 								<th>입출금입력</th>
 							</tr>
 						</thead>
@@ -34,17 +34,28 @@
 							<th:block  th:each="l, status : ${moneyCheckList}">
 							<tr th:if="${l.moCode == null}">
 								<td>[[${status.count}]]</td>
-								<td>[[${l.Code}]]</td>
-								<td>[[${l.nCode}]]</td>
-								<td>[[${l.nTitle}]]</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'b'}">
+									예치금입금(입찰성공)
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payin'}">
+									대금입금
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payout'}">
+									대금출금
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'deout'}">
+									예치금환불
+								</td>
 								<td>[[${l.Id}]]</td>
-								<td>[[${l.money}]]</td>
+								<td>[[${l.nTitle}]]</td>
+								<td>[[${l.startDate}]]</td>
+								<td>[[${l.endDate}]]</td>
+								<td>[[${#numbers.formatInteger(l.money,3,'COMMA')}]]</td>
 								<td>[[${l.iOut}]]</td>
 								<td>[[${l.inoutCheck}]]</td>
 								<td>[[${l.inoutDate}]]</td>
 								<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
 								<td>[[${l.accountName}]]</td>
-								<td>[[${l.moCode}]]</td>
 								<td><a class="btn btn-info" th:href=@{/bidMoneyInsert(Code=${l.Code})}>입력</a> </td>
 							</tr>
 							</th:block>
@@ -57,43 +68,46 @@
                 
          <div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">
 				<h4><i class="fa fa-angle-right"></i> 확인완료 입출금</h4>
 	              <section id="no-more-tables">
 					<table class="table table-condensed cf">
 						<thead class="cf">
 							<tr>
 								<th>번호</th>
-								<th>관련코드</th>
-								<th>관련공고코드</th>
-								<th>관련공고</th>
+								<th>목적</th>
 								<th>거래회원</th>
+								<th>관련공고</th>
 								<th>금액</th>
 								<th>입출금구분</th>
-								<th>입출금확인</th>
 								<th>입출금시간</th>
 								<th>거래회원계좌</th>
 								<th>예금주명</th>
-								<th>입출금코드</th>
-								<th>입출금입력</th>
 							</tr>
 						</thead>
 						<tbody>
 							<th:block  th:each="l, status : ${moneyCheckList}">
 							<tr th:unless="${l.moCode == null}">
 								<td>[[${status.count}]]</td>
-								<td>[[${l.Code}]]</td>
-								<td>[[${l.nCode}]]</td>
-								<td>[[${l.nTitle}]]</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'b'}">
+									예치금입금(입찰성공)
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payin'}">
+									대금입금
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payout'}">
+									대금출금
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'deout'}">
+									예치금환불
+								</td>
 								<td>[[${l.Id}]]</td>
-								<td>[[${l.money}]]</td>
+								<td>[[${l.nTitle}]]</td>
+								<td>[[${#numbers.formatInteger(l.money,3,'COMMA')}]]</td>
 								<td>[[${l.iOut}]]</td>
-								<td>[[${l.inoutCheck}]]</td>
 								<td>[[${l.inoutDate}]]</td>
 								<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
 								<td>[[${l.accountName}]]</td>
-								<td>[[${l.moCode}]]</td>
-								<td>입력완료</td>
 							</tr>
 							</th:block>
 						</tbody>
@@ -105,6 +119,5 @@
         
 	
 	
-</body>	
 </body>
 </html>
