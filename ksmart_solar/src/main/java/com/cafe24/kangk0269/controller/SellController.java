@@ -49,6 +49,17 @@ public class SellController {
 		
 	}
 	
+	//댓글 수정
+	@RequestMapping(value="/ajax/modifyCmt" , method = RequestMethod.POST)
+	public @ResponseBody String modifyCmt(@RequestParam(value="cmtIdx") int cmtIdx,
+										  @RequestParam(value="comment") String comment) {
+		System.out.println("컨트롤러 왜 안들어와?");
+		System.out.println(cmtIdx+"<----cmtIdx");
+		System.out.println(comment+"<-----comment");
+		boardSellerService.modifyCmt(cmtIdx, comment);
+		return comment ;
+	}
+	
 	//대댓글등록
 	
 	@RequestMapping(value="/ajax/addReCmt", method = RequestMethod.POST)
@@ -56,9 +67,10 @@ public class SellController {
 										 @RequestParam(value="comment") String comment,
 										 @RequestParam(value="boardId") String boardId,
 										 @RequestParam(value="cmtIdx") int cmtIdx,
+										 @RequestParam(value="targetId") String targetId,
 										 HttpSession session) {
 		System.out.println(cmtIdx+"<-----댓글인덱스");
-		boardSellerService.addReCmt(bIdx, comment, boardId, (String)session.getAttribute("SID"), cmtIdx);
+		boardSellerService.addReCmt(bIdx, comment, targetId, (String)session.getAttribute("SID"), cmtIdx);
 		return "성공";
 	}
 	

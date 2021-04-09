@@ -34,6 +34,21 @@
   		  		<result property="cmtGroupCode" column="cmt_group_code"/>
   		</resultMap>
   		
+  		<update id="modifyCmt" parameterType="map">
+  			UPDATE 
+  				tb_comment
+			SET
+				cmt_comment=#{cmtComment},
+				cmt_update_date=NOW()
+			WHERE cmt_idx=#{cmtIdx}
+  		
+  		</update>
+  		
+  		<!-- 댓글의 그룹코드 가져오기 by 천인정 -->
+  		<select id="getCmtGroupCode" parameterType="int" resultType="int">
+  			SELECT ifnull(cmt_group_code,(select cmt_idx from tb_comment where cmt_idx=#{cmtIdx})) FROM tb_comment where cmt_idx = #{cmtIdx}
+  		</select>
+  		
   		<!--댓글 계층의 최댓값 가져오기 by천인정  -->
   		<select id="getCmtClass" parameterType="int" resultType="int">
   			SELECT max(cmt_class) FROM tb_comment WHERE cmt_idx = #{cmtIdx}
@@ -65,7 +80,7 @@
 					'N',
 					#{cmtComment}, 
 					NOW(), 
-					#{cmtIdx}, 
+					#{cmtGroupCode}, 
 					#{cmtOrder}
 					)
   		

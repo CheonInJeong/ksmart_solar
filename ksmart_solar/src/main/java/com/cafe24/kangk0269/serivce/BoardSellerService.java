@@ -23,12 +23,18 @@ public class BoardSellerService {
 		this.boardSellerMapper = boardSellerMapper;
 	}
 	
+	//댓글 수정 by 천인정
+	public void modifyCmt(int cmtIdx,String comment) {
+		boardSellerMapper.modifyCmt(cmtIdx, comment);
+	}
+	
 	//대댓글 등록 by 천인정
 	public void addReCmt(int bIdx, String comment,String targetId, String mId,int cmtIdx) {
 		int cmtClass = boardSellerMapper.getCmtClass(cmtIdx)+1;
 		int cmtOrder = boardSellerMapper.getCmtOrder(cmtIdx)+1;
-		
+		int cmtGroupCode = boardSellerMapper.getCmtGroupCode(cmtIdx);
 	
+		System.out.println(cmtGroupCode+"<---cmtGroupCode");
 		CommentDTO commentDto = new CommentDTO();
 		commentDto.setbIdx(bIdx);
 		commentDto.setCmtClass(cmtClass);
@@ -37,6 +43,7 @@ public class BoardSellerService {
 		commentDto.setTargetId(targetId);
 		commentDto.setmId(mId);
 		commentDto.setCmtIdx(cmtIdx);
+		commentDto.setCmtGroupCode(cmtGroupCode);
 		boardSellerMapper.addReCmt(commentDto);
 		
 	}
@@ -69,11 +76,7 @@ public class BoardSellerService {
 				commentChildList.add(commentDTO);
 			}
 		}
-		
-		System.out.println(commentParentList+"<----부모댓글");
-		System.out.println(commentParentList.size()+"<-----부모댓글의 수");
 
-		System.out.println(commentChildList+"<-----자식댓글");
 		for(CommentDTO CommentParentDTO : commentParentList) {
 			//부모 댓글 넣기(댓글)
 			commentAllList.add(CommentParentDTO);

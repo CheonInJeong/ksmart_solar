@@ -11,9 +11,9 @@
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> ><!--  <a th:href="@{/sell/plantBidderList}">입찰자목록</a> > --> 문의글</div>
       	<div id="container-header-space"></div>		
 		
-		<div class="row" >
+		<div class="row">
 			<div class="col-md-12">
-				<div class="content-panel" style="padding: 30px;">
+				<div class="content-panel" style="padding : 30px 30px 100px 30px;">
 				<h4><i class="fa fa-angle-right"></i>문의글</h4>
 				<hr>
 				
@@ -50,12 +50,15 @@
 						<th:block th:if="${#lists.size(comments)}>0" th:each="c:${comments}">
 							<tr>
 								<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
-								<td th:text="${c.mId}"></td>
-								<td th:text="${c.cmtComment}" style="padding:20px;"></td>
+								<td th:if="${c.cmtClass==0}" th:text="${c.mId}"></td>
+								<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px"></td>
+								<td th:if="${c.cmtClass==0}" th:text="${c.cmtComment}" style="padding:20px;" class="cmtComment"></td>
+								<td th:if="${c.cmtClass>0}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px;" class="cmtComment"></td>
 								<td th:text="${c.cmtRegDate}"></td>
 								<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
-								<td th:if="${c.mId==session.SID}"><button class="btn btn-default btn-sm">수정</button>
-								<a th:href="@{/sell/removeCmt(idx=${c.cmtIdx},bIdx=${c.bIdx})}" class="btn btn-default  btn-sm">삭제</a></td>
+								<td th:if="${c.mId==session.SID}">
+									<a class="btn btn-default btn-sm modifyBtn" data-attr="0">수정</a>
+									<a th:href="@{/sell/removeCmt(idx=${c.cmtIdx},bIdx=${c.bIdx})}" class="btn btn-default btn-sm">삭제</a></td>
 							</tr>
 							<tr>
 								<td colspan="3">
@@ -70,19 +73,41 @@
 					</tbody>
 					<tfoot>
 						<tr>
-							<td colspan="3">
-								<div class="form-group">
-									<textarea id="inputContents" class="form-control" placeholder="댓글을 작성해주세요."></textarea>
-								</div>
-							</td>
-							<td><button type="button" class="btn  btn-sm  btn-default" id="regCmt">등록</button></td>
-						</tr>
-					</tfoot>				
+		                   	<td colspan ="6" style="text-align:center;">
+			                 	<nav th:fragment="pagination" th:if="${commentDTO != null and commentDTO.pagination.totalRecordCount > 0}" th:object="${commentDTO.pagination}" th:with="info=${commentDTO.pagination}" aria-label="Page navigation" class="text-center">
+									<ul class="pagination">
+										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(1)} ]])">
+											<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+										</li>
+										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.firstPage - 1)} ]])">
+											<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+										</li>
+										<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == commentDTO.currentPageNo} ? 'active'">
+											<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(pageNo)} ]])"></a>
+										</li>
+										<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.lastPage + 1)} ]])">
+											<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+										</li>
+										<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.totalPageCount)} ]])">
+											<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+										</li>
+									</ul>
+								</nav>
+		                  	</td>
+	                  </tr>
+					</tfoot>
 				</table>
-								
+				<div class="form-group">
+					<div class="col-lg-10">
+						<textarea id="inputContents" class="form-control " placeholder="댓글을 작성해주세요."></textarea>
+					</div>
+					<div class="col-lg-2">
+						<button type="button" class="btn  btn-sm  btn-default " id="regCmt">등록</button>		
+					</div>
 				</div>
 			</div>
 		</div>
+	</div>
         
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -94,71 +119,117 @@
 		</script>
 		
 		<script th:inline="javascript">
-			$('#regCmt').click(function(){
-				//댓글등록
-				$.ajax({
-					url : '/ajax/addCmt',
-					type : 'post',
-					data : {boardIdx : $('#bIdx').text() , comment : $('#inputContents').val(), boardId : $('#bId').text()},
-					success : function(data){
-						location.reload();
-					}
-					
-				})
+		$('#regCmt').click(function(){
+			//댓글등록
+			$.ajax({
+				url : '/ajax/addCmt',
+				type : 'post',
+				data : {boardIdx : $('#bIdx').text() , comment : $('#inputContents').val(), boardId : $('#bId').text()},
+				success : function(data){
+					location.reload();
+				}
+				
 			})
+		})
+		
+		$(document).ready(function(){
+			
+			function movePage(uri, queryString) {
+				location.href = uri + queryString;
+			}
+			
+			var cmt = /*[[${comments}]]*/
+			//모든 행 숨기기
+			$('#commentTable tr').hide();
+			//replyBtn 클래스를 가진 td의 tr 보이기
+			$('#commentTable').find('.replyBtn').parent().show();
 			
 			$(document).ready(function(){
 				//모든 행 숨기기
 				$('#commentTable tr').hide();
 				//replyBtn 클래스를 가진 td의 tr 보이기
 				$('#commentTable').find('.replyBtn').parent().show();
-				//tfoot의 tr 보이기
-				$('#commentTable tfoot tr').show();
-				
-				$(document).ready(function(){
-					//모든 행 숨기기
-					$('#commentTable tr').hide();
-					//replyBtn 클래스를 가진 td의 tr 보이기
-					$('#commentTable').find('.replyBtn').parent().show();
-					//tfoot의 tr 보이기
-					$('#commentTable tfoot tr').show();
 					
-					//replyBtn 클래스를 가진 td의 tr을 클릭시
-					$('#commentTable .replyBtn').parent().click(function(){
+					
+					$('.replyBtn').click(function(){
+						var i = $('.replyBtn').index($(this));
+						console.log(i)
 						$('#commentTable tr').hide();
 						$('#commentTable').find('.replyBtn').parent().show();
 						
 						//모든 tr들 담기
 						var tr = $('#commentTable tr');
 						//tr들의 인덱스 가져오기
-						var index = $('#commentTable tr').index(this);
-					
-						for(var i = index ; i<index+2; i++){
-							$(tr[i]).show();
+						var index = $('#commentTable tr').index($('.replyBtn').eq(i).parent());
+						
+						
+						for(var j = index ; j<index+2; j++){
+							$(tr[j]).show();
 						}
-					});
-					
-				});
-				//대댓글등록
-				$('.replyBtn').click(function(){
-					var i = $('.replyBtn').index($(this));
-					console.log(i);
-					console.log($('.cmtIdx').eq(i).text()+"<-----댓글 인덱스");
-					
-					$('.regReplyCmt').eq(i).click(function(){
-						//대댓글등록시작
-						$.ajax({
-							url : '/ajax/addReCmt',
-							type : 'post',
-							data : {cmtIdx : $('.cmtIdx').eq(i).text(), boardIdx : $('#bIdx').text(), boardId : $('#bId').text(),comment : $('.replyContents').eq(i).val()},
-							success : function(data){
-								location.reload();
-							}
+						
+						$('.regReplyCmt').eq(i).click(function(){
+							//대댓글등록시작
+							$.ajax({
+								url : '/ajax/addReCmt',
+								type : 'post',
+								data : {cmtIdx : $('.cmtIdx').eq(i).text(), 
+										boardIdx : $('#bIdx').text(), 
+										boardId : $('#bId').text(),
+										comment : $('.replyContents').eq(i).val(),
+										targetId : cmt[i].mId
+										},
+								success : function(data){
+									location.reload();
+								}
+							});
 						});
 					});
+						
+					//대댓글수정
+					$('.modifyBtn').click(function(){
+						
+						
+						var i = $('.modifyBtn').index($(this));
+					
+						var comment = $('.cmtComment').eq(i).text();
+						if($(this).attr('data-attr')=='0'){
+							$('.cmtComment').eq(i).html('<input type="text" value="'+cmt[i].cmtComment+'" id="cmtComment">');
+							$(this).text('수정완료');
+							$(this).attr('data-attr',1);
+						}else{
+							console.log($('#cmtComment').val());
+							$.ajax({
+								url : '/ajax/modifyCmt',
+								type : 'post',
+								data : {cmtIdx : $('.cmtIdx').eq(i).text(), comment : $('#cmtComment').val()},
+								success : function(data){
+									console.log(data);
+									$('.modifyBtn').attr('data-attr',0);
+									$('.modifyBtn').text('수정');
+									
+									location.reload();
+									
+								}
+							})
+						}
+						
+					
+						
+						
+					});	
+					
+					
 				});
+				
 			
-		});	
+			
+			
+			
+	});	
+	
+	
+			
+			
 		</script>
 		
 		

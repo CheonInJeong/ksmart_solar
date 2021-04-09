@@ -14,7 +14,12 @@ import com.cafe24.kangk0269.dto.FileDTO;
 @Mapper
 public interface BoardSellerMapper {
 	
+	//댓글 수정 by 천인정
+	public int modifyCmt(@Param(value="cmtIdx") int cmtIdx,
+						 @Param(value="cmtComment") String comment);
 	
+	//댓글의 크룹 코드 가져오기 by천인정
+	public int getCmtGroupCode(int cmtIdx);
 	
 	//댓글 계층 가져오기 by 천인정
 	public int	getCmtClass(int cmtIdx);
