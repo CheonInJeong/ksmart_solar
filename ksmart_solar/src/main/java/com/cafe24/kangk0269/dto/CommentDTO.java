@@ -1,6 +1,6 @@
 package com.cafe24.kangk0269.dto;
 
-public class CommentDTO {
+public class CommentDTO extends CommonDTO{
 	
 	private int	cmtIdx;
 	private int bIdx;

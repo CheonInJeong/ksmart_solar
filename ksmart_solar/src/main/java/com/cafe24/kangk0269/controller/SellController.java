@@ -23,6 +23,7 @@ import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.CommentDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
@@ -49,6 +50,17 @@ public class SellController {
 		
 	}
 	
+	//댓글 수정
+	@RequestMapping(value="/ajax/modifyCmt" , method = RequestMethod.POST)
+	public @ResponseBody String modifyCmt(@RequestParam(value="cmtIdx") int cmtIdx,
+										  @RequestParam(value="comment") String comment) {
+		System.out.println("컨트롤러 왜 안들어와?");
+		System.out.println(cmtIdx+"<----cmtIdx");
+		System.out.println(comment+"<-----comment");
+		boardSellerService.modifyCmt(cmtIdx, comment);
+		return comment ;
+	}
+	
 	//대댓글등록
 	
 	@RequestMapping(value="/ajax/addReCmt", method = RequestMethod.POST)
@@ -56,9 +68,10 @@ public class SellController {
 										 @RequestParam(value="comment") String comment,
 										 @RequestParam(value="boardId") String boardId,
 										 @RequestParam(value="cmtIdx") int cmtIdx,
+										 @RequestParam(value="targetId") String targetId,
 										 HttpSession session) {
 		System.out.println(cmtIdx+"<-----댓글인덱스");
-		boardSellerService.addReCmt(bIdx, comment, boardId, (String)session.getAttribute("SID"), cmtIdx);
+		boardSellerService.addReCmt(bIdx, comment, targetId, (String)session.getAttribute("SID"), cmtIdx);
 		return "성공";
 	}
 	
@@ -88,9 +101,16 @@ public class SellController {
 	
 	//게시글 상세 보기
 	@GetMapping(value="/sell/qnaDetail")
-	public String qnaDetail(@RequestParam(value="idx") int idx,Model model) {
+	public String qnaDetail(@RequestParam(value="idx") int idx,
+							Model model,
+							@ModelAttribute("commentDTO") CommentDTO commentDTO) {
 		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
-		model.addAttribute("comments",boardSellerService.getCommentList(idx));
+		model.addAttribute("comments",boardSellerService.getCommentList(idx,commentDTO));
+		
+		System.out.println(commentDTO.getPagination()+"<0--컨트롤러 coomentDTO");
+		if(commentDTO==null) {
+			System.out.println( "null 인지");
+		}
 		return "sell/qnaDetail";
 	}
 	
@@ -346,7 +366,6 @@ public class SellController {
 	@GetMapping("/sell/failureBid")
 	public String failureBidList(Model model, HttpSession session) {
 		String sessionId= (String)session.getAttribute("SID");
-		System.out.println("대체 어디가 문제냐 어?????????????????????짜증나");
 		model.addAttribute("plant", sellService.getBidPlantAcById(sessionId));
 		return "sell/failureBid";
 	}
@@ -364,21 +383,42 @@ public class SellController {
 	@GetMapping("/sell/myHistory")
 	public String MyHistory(Model model,
 							HttpSession session,
-							String searchKey, 
-							String searchValue,
-							String searchKeyCp,
-							String searchValueCp,
+							@RequestParam(value="searchKey", required = false) String searchKey, 
+							@RequestParam(value="searchValue", required = false) String searchValue,
+							@RequestParam(value="searchKeyCp", required = false) String searchKeyCp,
+							@RequestParam(value="searchValueCp", required = false) String searchValueCp,
 							@ModelAttribute("bidPlantDTO") BidPlantDTO bidPlantDTO,
 							@ModelAttribute("bidComponentDTO") BidComponentDTO bidComponentDTO)  throws Exception{
 		
+		
+		if(searchKey != null && searchKey.equals("null")) {
+			searchKey = null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		if(searchKeyCp != null && searchKeyCp.equals("null")) {
+			searchKeyCp = null;
+		}
+		if(searchValueCp != null && searchValueCp.equals("null")) {
+			searchValueCp = null;
+		}
+		
+		List<BidPlantDTO> bidPlantList =null;
+		List<BidComponentDTO> bidComponentList =null;
 		String sessionId = (String)session.getAttribute("SID");
 		
-		List<BidPlantDTO> bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue,bidPlantDTO);
-		List<BidComponentDTO> bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp,bidComponentDTO);
+		if(sessionId!=null) {
+		 bidPlantList  = sellService.getBidPlantbyId(sessionId,searchKey,searchValue,bidPlantDTO);
+		 bidComponentList = sellService.getBidComponentById(sessionId,searchKeyCp,searchValueCp,bidComponentDTO);
+		}
 		
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidComponentList", bidComponentList);
-		
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("searchKeyCp", searchKeyCp);
+		model.addAttribute("searchValueCp", searchValueCp);
 		return "sell/myHistory";
 	}
 
@@ -416,7 +456,9 @@ public class SellController {
 		return "sell/paymentList";
 	}
 	@GetMapping("/sell/qna")
-	public String Qna() {
+	public String Qna(Model model, HttpSession session) {
+		model.addAttribute("qnaList", boardSellerService.getQnaListById((String)session.getAttribute("SID")));
+		
 		return "sell/qna";
 	}
 }

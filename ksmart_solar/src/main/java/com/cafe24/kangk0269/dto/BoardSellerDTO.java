@@ -1,6 +1,6 @@
 package com.cafe24.kangk0269.dto;
 
-public class BoardSellerDTO {
+public class BoardSellerDTO  {
 	
 	 private int bIdx ; 
 	 private String bSubject ; 
@@ -12,6 +12,15 @@ public class BoardSellerDTO {
 	 private String bPhoto ; 
 	 private String bRegDate;
 	 private String bAnswer;
+	 private int bBidType;
+	 
+	 
+	public int getbBidType() {
+		return bBidType;
+	}
+	public void setbBidType(int bBidType) {
+		this.bBidType = bBidType;
+	}
 	public int getbIdx() {
 		return bIdx;
 	}
@@ -95,9 +104,13 @@ public class BoardSellerDTO {
 		builder.append(bRegDate);
 		builder.append(", bAnswer=");
 		builder.append(bAnswer);
+		builder.append(", bBidType=");
+		builder.append(bBidType);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
 	 
  
 	 

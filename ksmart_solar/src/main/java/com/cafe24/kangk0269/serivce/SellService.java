@@ -245,7 +245,7 @@ public class SellService {
 		
 		List<BidComponentDTO> bidComponentList = null;
 		
-		int bidComponentCount = sellMapper.getBidComponentCount(mId, bidComponentDTO);
+		int bidComponentCount = sellMapper.getBidComponentCount(mId,searchKeyCp,searchValueCp, bidComponentDTO);
 		
 		Pagination pagination = new Pagination(bidComponentDTO);
 		
@@ -361,7 +361,7 @@ public class SellService {
 			
 		}
 		List<BidPlantDTO> bidPlantList = null;
-		int bidPlantCount = sellMapper.getBidPlantCount(mId, bidPlantDTO);
+		int bidPlantCount = sellMapper.getBidPlantCount(mId,searchKey,searchValue, bidPlantDTO);
 		Pagination pagination = new Pagination(bidPlantDTO);
 		pagination.setTotalRecordCount(bidPlantCount);
 		bidPlantDTO.setPagination(pagination);
