@@ -17,7 +17,7 @@
 			<a href="/" >메인화면 </a>>
 			<a href="/plant/componentList"> 내 발전소 관리 </a>>
 			<a href="/plant/componentList"> 부품 리스트 </a>>
-			<a href="/plant/componentList"> 부품 등록 </a>
+			<a href="/plant/componentList"> 부품 수정 </a>
 		</div>
 	<div id="container-header-space"></div>
 	<div class="row mt col-xs-12" style="padding-bottom: 30px; margin:0 auto; color: #111; font-size: 17px; min-height: 80vh">
@@ -26,51 +26,50 @@
 				<div style="text-align: right; font-size: 13px; color: #999;"><span class="badge">!</span>표시는 필수로 입력해주세요.</div>
 				<div class="form-group">
 					<label for="cpName" style="margin-top: 13px;">부품이름 </label><span class="badge">!</span>
-					<input type="text" class="form-control" id="cpName" placeholder="아이디를 입력하세요">
+					<input type="text" class="form-control" id="cpName" placeholder="부품이름 입력하세요" th:value="${cpName}">
 				</div>
 				<div class="form-group">
 					<label for="bzLicense">부품 사진</label><span class="badge">!</span><br>
-					<input type="file" id="cpPhoto">
+					<input type="file" id="cpPhoto" th:value="${cpPhoto}" th:src="${cpPhoto}">
 				</div>
 				<div class="form-group">
 					<label for="cpPhoto" style="margin-top: 13px;">부품 정보 </label><span class="badge">!</span>
-					<input type="text" class="form-control" id="cpInfo" placeholder="아이디를 입력하세요">
+					<input type="text" class="form-control" id="cpInfo" placeholder="부품정보를 입력하세요" th:value="${cpInfo}">
 				</div>
 				<div class="form-group">
 					<label for="bzPlName" style="margin-top: 13px;">부품 제조사 </label><span class="badge">!</span>
-					<input type="text" class="form-control" id="cpMaker" placeholder="발전소명 입력하세요">
+					<input type="text" class="form-control" id="cpMaker" placeholder="부품제조사를 입력하세요" th:value="${cpMaker}">
 				</div>
 				<label for="plDepBuyDate" style="margin-top: 25px;">부품 제조일 </label><span class="badge">!</span>
 				<div class="input-group">
-					<input type="date" class="form-control" id="cpMakedate">
+					<input type="date" class="form-control" id="cpMakedate" th:value="${cpMakedate}">
 				</div>
 				<div>
 				</div>
 				<label for="plDepStartDate" style="margin-top: 25px;">부품 사용시작일 </label><span class="badge">!</span>
 				<div class="input-group">
-					<input type="date" class="form-control" id="cpUsedate">
+					<input type="date" class="form-control" id="cpUsedate" th:value="${cpUsedate}">
 				</div>
-				<button class="standardBtn btn btn-lg col-xs-12" type="button" onclick="addComponent()" style="margin-top: 40px;">신청하기</button>
+				<button class="standardBtn btn btn-lg col-xs-12" type="button" onclick="modifyComponent()" style="margin-top: 40px;">신청하기</button>
 			</div>
 		</div>
 	</div>
+	<div hidden="" id="thymeleafData" th:data-cpCode="${cpCode}"></div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
-			function addComponent(){
+			function modifyComponent(){
 				var cpName = $('#cpName').val();
 				var cpPhoto = $('#cpPhoto').val();
 				var cpInfo = $('#cpInfo').val();
 				var cpMaker = $('#cpMaker').val();
 				var cpMakedate = $('#cpMakedate').val();
 				var cpUsedate = $('#cpUsedate').val();
+				var cpCode = $('#thymeleafData').attr('data-cpCode');
 				
 				if(cpName == null || cpName == "" || cpName == 'undefined'){
 					Swal.fire({title: '부품이름을 입력해주세요!',icon: 'info'});
-					return;
-				}else if(cpPhoto == null || cpPhoto == "" || cpPhoto == 'undefined'){
-					Swal.fire({title: '사진을 등록해주세요!',icon: 'info'});
 					return;
 				}else if(cpInfo == null || cpInfo == "" || cpInfo == 'undefined'){
 					Swal.fire({title: '부품정보를 입력해주세요!',icon: 'info'});
@@ -108,9 +107,9 @@
 					fileURL = jx.data.url;	
 					fileDeleteURL = jx.data.delete_url;
 					$.ajax({
-				        url     : '/ajax/addComponent',
+				        url     : '/ajax/componentModify',
 				        type    : 'POST',
-				        data    : {cpName :cpName, cpPhoto :fileURL, cpInfo :cpInfo, cpMaker :cpMaker, cpMakedate :cpMakedate, cpUsedate: cpUsedate},
+				        data    : {cpName :cpName, cpPhoto :fileURL, cpInfo :cpInfo, cpMaker :cpMaker, cpMakedate :cpMakedate, cpUsedate: cpUsedate, cpCode:cpCode},
 				        success : function(data) {
 				        	console.log(data);
 				        	if(data == 1){
@@ -119,8 +118,8 @@
 									  icon: 'success'
 									});
 				        		setTimeout(function(){
-				        			document.location.href = '/';
-				        		}, 3000);
+				        			document.location.href = '/plant/componentList';
+				        		}, 2000);
 				        	}else{
 				        		Swal.fire({
 									  title: '신청에 실패했습니다!',
@@ -128,8 +127,8 @@
 									  icon: 'error'
 									});
 				        		setTimeout(function(){
-					        		document.location.href = '/';
-				        		}, 3000);
+					        		document.location.href = '/plant/componentList';
+				        		}, 2000);
 				        	}
 				        },
 				        error : function(xhr,status,error) {

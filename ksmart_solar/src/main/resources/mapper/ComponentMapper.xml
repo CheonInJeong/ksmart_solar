@@ -9,10 +9,28 @@
 		<result property="cpPhoto" 			column="cp_photo" />
 		<result property="cpInfo" 			column="cp_info" />
 		<result property="cpMaker"			column="cp_maker" />		
+		<result property="cpDeleteCheck"	column="cp_delete_check" />		
 		<result property="cpMakedate" 		column="cp_makedate" />	
 		<result property="cpUsedate" 		column="cp_usedate" />	
 		<result property="cpDate" 			column="cp_date" />	
 	</resultMap>
+	<select id="getComponentListByCode" resultMap="ComponentDTOMap" parameterType="String">
+			SELECT
+				cp_code
+				,m_id
+				,cp_name
+				,cp_photo
+				,cp_info
+				,cp_maker
+				,cp_delete_check
+				,cp_makedate
+				,cp_usedate
+				,cp_date
+			FROM
+				tb_component
+			WHERE
+				cp_code = #{cpCode};
+	</select>
 	<select id="getComponentListById" resultMap="ComponentDTOMap" parameterType="String">
 			SELECT
 				cp_code
@@ -21,6 +39,7 @@
 				,cp_photo
 				,cp_info
 				,cp_maker
+				,cp_delete_check
 				,cp_makedate
 				,cp_usedate
 				,cp_date
@@ -29,20 +48,49 @@
 			WHERE
 				m_id = #{SID};
 	</select>
-	<select id="addComponent" resultMap="ComponentDTOMap" parameterType="String">
-			SELECT
-				cp_code
-				,m_id
-				,cp_name
-				,cp_photo
-				,cp_info
-				,cp_maker
-				,cp_makedate
-				,cp_usedate
-				,cp_date
-			FROM
-				tb_component
-			WHERE
-				m_id = #{SID};
-	</select>
+	<update id="componentModify" parameterType="ComponentDTO">
+		UPDATE 
+			tb_component
+		SET
+			cp_name = #{cpName}
+			,cp_photo = #{cpPhoto}
+			,cp_info = #{cpInfo}
+			,cp_maker = #{cpMaker}
+			,cp_makedate = #{cpMakedate}
+			,cp_usedate = #{cpUsedate}
+		WHERE 
+			cp_code = #{cpCode};
+	</update>
+	<update id="deleteComponent" parameterType="String">
+		UPDATE 
+			tb_component
+		SET
+			cp_delete_check = 'Y'
+		WHERE 
+			cp_code = #{cpCode};
+	</update>
+	<insert id="addComponent" parameterType="ComponentDTO">
+		INSERT INTO tb_component
+			(cp_code
+			,m_id
+			,cp_name
+			,cp_photo
+			,cp_info
+			,cp_maker
+			,cp_delete_check
+			,cp_makedate
+			,cp_usedate
+			,cp_date)
+		VALUES
+			(sf_cp_code()
+			,#{mId}
+			,#{cpName}
+			,#{cpPhoto}
+			,#{cpInfo}
+			,#{cpMaker}
+			,'N'
+			,#{cpMakedate}
+			,#{cpUsedate}
+			,NOW());
+	</insert>
 </mapper> 

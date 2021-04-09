@@ -112,19 +112,6 @@ public class PlantController {
 		return "/plant/addPlant";
 	}
 	
-	@GetMapping("/plant/addComponent")
-	public String addComponent(Model model,HttpSession session) {
-		String SLEVEL = (String) session.getAttribute("SLEVEL");
-		String SID = (String) session.getAttribute("SID");
-		if("태양광사업자".equals(SLEVEL) || "관리자".equals(SLEVEL)) {
-			List<BusinessPlantDTO> plantListById = plantService.getPlantListById(SID);
-			model.addAttribute("plantListById", plantListById);
-			return "/plant/plantList";
-		}
-		return "/plant/addComponent";
-	}
-	
-	
 	  //사업자 등록(태양광사업자, 석인)
 	  @RequestMapping(value="/ajax/addPlant", method = RequestMethod.POST)
 	  public @ResponseBody int addsolarEntrepreneur(

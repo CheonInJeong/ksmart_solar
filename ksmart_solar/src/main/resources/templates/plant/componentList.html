@@ -21,7 +21,7 @@
 				</div><div style="height: 5vh;"></div>
 			</div>
 			<div th:if="${#lists.size(componentListById) > 0}" th:each="l : ${componentListById}">
-			  <div class="col-sm-6 col-md-3">
+			  <div th:if="${l.cpDeleteCheck eq 'N'}" class="col-sm-6 col-md-3">
 			    <div class="thumbnail">
 			    	<div class="thumbnail-wrapper1"> <div class="thumbnail1"> <div class="centered">
 					  <a style="cursor: pointer;"><img alt="부품 사진" th:src="${l.cpPhoto}" class="componentImg" th:data-cpCode="${l.cpCode}"></a>
@@ -60,7 +60,9 @@
 				조회된 내용이 없습니다.
 			</div>
 		</div>
-		
+		<form id="cpCodeForm" method="post" hidden="" action="/plant/modifyComponent">
+			<input id="cpCode" name="cpCode" value="">
+		</form>
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
@@ -96,8 +98,37 @@
 						}).then((result) => {
 						  if (result.isConfirmed) {
 							//cpCode 발전소 코드로 삭제 처리 (ajax로 처리)
-							
-						    Swal.fire('삭제처리 되었습니다!', '', 'success')
+							$.ajax({
+						        url     : '/ajax/deleteComponent',
+						        type    : 'POST',
+						        data    : {cpCode : cpCode},
+						        success : function(data) {
+						        	console.log(data);
+						        	if(data == 1){
+						        		Swal.fire({
+											  title: '삭제처리가 완료되었습니다.!',
+											  icon: 'success'
+											});
+						        		setTimeout(function(){
+						        			document.location.href = '/plant/componentList';
+						        		}, 2000);
+						        	}else{
+						        		Swal.fire({
+											  title: '삭제처리가 실패했습니다!',
+											  text: '다시 시도해주세요.',
+											  icon: 'error'
+											});
+						        		setTimeout(function(){
+							        		document.location.href = '/plant/componentList';
+						        		}, 2000);
+						        	}
+						        },
+						        error : function(xhr,status,error) {
+						        	console.log("xhr: " + xhr);
+						        	console.log("status: " + status);
+						        	console.log("error: " + error);
+						        }
+						    });
 						  } else if (result.isDenied) {
 						    Swal.fire('취소되었습니다.', '', 'info')
 						  }
@@ -107,8 +138,6 @@
 				  }
 				})
 		});
-		
-		
 		$('.componentModify').click(function(){
 			var cpName = $(this).attr('data-cpName');
 			var cpCode = $(this).attr('data-cpCode');
@@ -127,16 +156,17 @@
 				}).then((result) => {
 				  if (result.isConfirmed) {
 				    Swal.fire('수정화면으로 이동합니다.', '', 'info');
+					$('#cpCode').val(cpCode);
+					setTimeout(() => {
+						$('#cpCodeForm').submit();
+					},2000);
 				  } else if (result.isDenied) {
 				    Swal.fire('취소되었습니다.', '', 'info');
 				  }
 				});
 		});
-		
-		
 		$('#addComponent').click(function(){
 			document.location.href = '/plant/componentList/addComponent';
-			
 		});
 		</script>
 	</th:block>

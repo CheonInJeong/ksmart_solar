@@ -100,25 +100,6 @@
 						startYear++;
 					}
 				}
-				///////////////감가 그래프 계산////////////////
-				
-				
-				
-				
-			/* 	var ctx1 = document.getElementById('myChart').getContext('2d');
-				var chartData1 = [0,0,0,4,5,6,7,8,10,20,30,50,80,100,90,80,70,40,20,10,0,0,0,0];
-				var mixedChart = new Chart(ctx1, {
-				    type: 'bar',
-				    data: {
-				        datasets: [{label: '손익', data: chartData1, backgroundColor: 'rgb(255, 99, 132)', borderColor: 'rgb(255, 99, 132)',order: 1}
-						          ,{label: '수익', data: [], type: 'line', borderColor: '#666',order: 2}
-						          ,{label: '비용', data: [], type: 'line', borderColor: 'rgb(255, 99, 132)',order: 3}
-						          ,{label: '잔존가치', data: residualPriceArray, type: 'line',backgroundColor: '#465FC5', borderColor: '#465FC5', fill: false, order: 4}],
-				        labels: labelsArray
-				    },
-				    options: {}
-				}); */
-				
 				var chartData1 = [];	//수익
 				var chartData2 = [];	//비용
 				var chartData3 = [];	//손익
@@ -143,7 +124,7 @@
 					        		data: chartData1, 
 					        		backgroundColor: 'rgb(255, 99, 132)', 
 					        		borderColor: 'rgb(255, 99, 132)', 
-					        		oreder: 0, 
+					        		oreder: 1, 
 					        		yAxisID: 'left'}
 				        		,{
 				        			label: '예상 잔존가치', 
@@ -151,7 +132,7 @@
 				        			type: 'line',
 				        			backgroundColor: '#DF7401', 
 				        			borderColor: '#DF7401',
-				        			order: 1, 
+				        			order: 2, 
 				        			yAxisID: 'right'
 				        		}
 					        	,{
@@ -161,7 +142,7 @@
 					        		backgroundColor: '#465FC5', 
 					        		borderColor: '#465FC5',
 					        		fill: false, 
-					        		order: 2, 
+					        		order: 3, 
 					        		yAxisID: 'left'
 					        	}
 					        ],
