@@ -101,6 +101,8 @@ public interface SellMapper {
 	
 	//판매자 발전소 목록의 수
 	public int getBidComponentCount(@Param(value="mId") String mId
+									,@Param(value="searchKeyCp") String searchKeyCp
+									,@Param(value="searchValueCp") String searchValueCp
 									,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO) throws Exception;
 	
 	//해당 아이디의 부품공고 리스트를 가져옴
@@ -123,6 +125,8 @@ public interface SellMapper {
 	
 	//판매자 발전소 목록의 수
 	public int getBidPlantCount(@Param(value="mId") String mId
+								,@Param(value="searchKey") String searchKey
+								,@Param(value="searchValue") String searchValue
 								,@Param(value="bidPlantDTO") BidPlantDTO bidPlantDTO) throws Exception;
 	//판매자의 발전소 공고 목록을 가져오는 메서드 
 	public List<BidPlantDTO> getBidPlantbyId(@Param(value="mId") String mId

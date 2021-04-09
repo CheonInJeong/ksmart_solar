@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	
-	<nav th:fragment="pagination" th:if="${bidComponentDTO != null and bidComponentDTO.pagination.totalRecordCount > 0}" th:object="${bidComponentDTO.pagination}" th:with="info=${bidComponentDTO.pagination}" aria-label="Page navigation" class="text-center">
+	<nav th:fragment="pagination" th:if="${bidComponentDTO != null and bidComponentDTO.pagination?.totalRecordCount > 0}" th:object="${bidComponentDTO.pagination}" th:with="info=${bidComponentDTO.pagination}" aria-label="Page navigation" class="text-center">
 		<ul class="pagination">
 			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${bidComponentDTO.makeQueryString(1)} ]])">
 				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>

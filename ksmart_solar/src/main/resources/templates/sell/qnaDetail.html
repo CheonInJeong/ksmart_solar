@@ -20,11 +20,10 @@
 				<div id="bIdx" style="display:none">[[${qna.bIdx}]]</div>
 				<div id="bId" style="display:none">[[${qna.mIdBuyer}]]</div>
 				<table class="table" id="qnaTable">
-					              
 					<tbody>
 						<tr>
 							<td>글제목</td>         			
-							<td colspan="6" th:text="${qna.bSubject}"></td>               			
+							<td style="text-align:left" colspan="5" th:text="${qna.bSubject}"></td>               			
 						</tr>
 						<tr>
 							<td>작성자</td>
@@ -35,25 +34,31 @@
 							<td th:text="${qna.bView}"></td>
 						</tr>
 						<tr>
-							<td colspan="7" th:text="${qna.bContents}"></td>
+							<td style="text-align:left;padding-left:60px;" colspan="6" th:text="${qna.bContents}"></td>
 						<tr>
 	
 						               	
 						               	
 					</tbody>
 				</table>
-				<a class="btn btn-default" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
+				
+				<div style="margin :10px;">
+					<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
+				</div>
+				
 				<hr>
 				<h4><i class="fa fa-angle-right"></i>댓글</h4>
 				<table class="table" id="commentTable">
 					<tbody>
-						<th:block th:if="${#lists.size(comments)}>0" th:each="c:${comments}">
+					
+					
+						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
 								<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
 								<td th:if="${c.cmtClass==0}" th:text="${c.mId}"></td>
 								<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px"></td>
-								<td th:if="${c.cmtClass==0}" th:text="${c.cmtComment}" style="padding:20px;" class="cmtComment"></td>
-								<td th:if="${c.cmtClass>0}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px;" class="cmtComment"></td>
+								<td th:if="${c.cmtClass==0}" th:text="${c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+								<td th:if="${c.cmtClass>0}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
 								<td th:text="${c.cmtRegDate}"></td>
 								<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
 								<td th:if="${c.mId==session.SID}">
@@ -69,34 +74,16 @@
 								<td><button type="button" class="btn  btn-sm  btn-default regReplyCmt">등록</button></td>
 							</tr>
 						</th:block>
-							<tr th:unless="${#lists.size(comments)}>0"><td colspan="5">등록된 댓글이 없습니다.</td></tr>
+						<th:block th:unless="${comments!=null and comments.size()>0}">
+							<tr id="noComment"><td colspan="5">등록된 댓글이 없습니다.</td></tr>
+						</th:block>
 					</tbody>
-					<tfoot>
-						<tr>
-		                   	<td colspan ="6" style="text-align:center;">
-			                 	<nav th:fragment="pagination" th:if="${commentDTO != null and commentDTO.pagination.totalRecordCount > 0}" th:object="${commentDTO.pagination}" th:with="info=${commentDTO.pagination}" aria-label="Page navigation" class="text-center">
-									<ul class="pagination">
-										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(1)} ]])">
-											<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
-										</li>
-										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.firstPage - 1)} ]])">
-											<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
-										</li>
-										<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == commentDTO.currentPageNo} ? 'active'">
-											<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(pageNo)} ]])"></a>
-										</li>
-										<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.lastPage + 1)} ]])">
-											<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
-										</li>
-										<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.totalPageCount)} ]])">
-											<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
-										</li>
-									</ul>
-								</nav>
-		                  	</td>
-	                  </tr>
-					</tfoot>
 				</table>
+				<div>
+					<th:block layout:fragment="paging">
+                  			<nav th:replace="fragments/commentPagination :: pagination"></nav>
+                  	</th:block>
+				</div>
 				<div class="form-group">
 					<div class="col-lg-10">
 						<textarea id="inputContents" class="form-control " placeholder="댓글을 작성해주세요."></textarea>
@@ -143,13 +130,13 @@
 			$('#commentTable tr').hide();
 			//replyBtn 클래스를 가진 td의 tr 보이기
 			$('#commentTable').find('.replyBtn').parent().show();
-			
+			$('#noComment').show();
 			$(document).ready(function(){
 				//모든 행 숨기기
 				$('#commentTable tr').hide();
 				//replyBtn 클래스를 가진 td의 tr 보이기
 				$('#commentTable').find('.replyBtn').parent().show();
-					
+				$('#noComment').show();	
 					
 					$('.replyBtn').click(function(){
 						var i = $('.replyBtn').index($(this));
@@ -212,19 +199,11 @@
 								}
 							})
 						}
-						
-					
-						
-						
+	
 					});	
-					
 					
 				});
 				
-			
-			
-			
-			
 	});	
 	
 	

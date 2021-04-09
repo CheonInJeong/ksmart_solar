@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	
+	<nav th:fragment="pagination" th:if="${commentDTO != null and commentDTO.pagination?.totalRecordCount > 0}" th:object="${commentDTO.pagination}" th:with="info=${commentDTO.pagination}" aria-label="Page navigation" class="text-center">
+		<ul class="pagination">
+			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(1)} ]])">
+				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+			</li>
+			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.firstPage - 1)} ]])">
+				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+			</li>
+			<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == commentDTO.currentPageNo} ? 'active'">
+				<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(pageNo)} ]])"></a>
+			</li>
+			<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.lastPage + 1)} ]])">
+				<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+			</li>
+			<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.totalPageCount)} ]])">
+				<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+			</li>
+		</ul>
+	</nav>
+
+</html>
