@@ -49,6 +49,16 @@
 		<result property="plDepUsed" 		column="pl_dep_used"/>
 		<result property="plDepServicelife" column="pl_dep_servicelife"/>
 	</resultMap>
+	<resultMap type="PlantRadiationDTO" id="plantRadiationResultMap">
+		<result property="plRadIdx" 		column="pl_rad_idx"/>
+		<result property="plRadDate" 		column="pl_rad_date"/>
+		<result property="plRadLocation" 	column="pl_rad_location"/>
+		<result property="plRadIcsr" 		column="pl_rad_icsr"/>
+		<result property="plRadSs" 			column="pl_rad_ss"/>
+		<result property="plRadSsflg" 		column="pl_rad_ssflg"/>
+		<result property="plRadTa" 			column="pl_rad_ta"/>
+		<result property="plRadTaflg" 		column="pl_rad_taflg"/>
+	</resultMap>
 	<!-- 운영발전소리스트(아이디) -->
 	<select id="getOperPlantListById" resultMap="plantResultMap">
 		SELECT 
@@ -80,6 +90,33 @@
 			b.b_pl_code IS NULL AND 
 			a.bz_pl_check = 'Y' AND 
 			a.m_id = #{mId}
+	</select>
+	<select id="getRadiationSumMonthData" resultType="String" parameterType="String">
+		SELECT
+			SUM(pl_rad_icsr)
+		FROM
+			tb_plant_radiation
+		WHERE
+			pl_rad_location = #{addrCodeName}
+			AND
+			pl_rad_date BETWEEN #{startTime} AND #{endTime};
+	</select>
+	<select id="getRadiationData" resultMap="plantRadiationResultMap" parameterType="String">
+		SELECT
+			pl_rad_idx
+			,pl_rad_date
+			,pl_rad_location
+			,pl_rad_icsr
+			,pl_rad_ss
+			,pl_rad_ssflg
+			,pl_rad_ta
+			,pl_rad_taflg
+		FROM
+			tb_plant_radiation
+		WHERE
+			pl_rad_location = #{addrCodeName}
+			AND
+			pl_rad_date BETWEEN #{startTime} AND #{endTime};
 	</select>
 	<select id="getPlantDepreciationByBzCode" resultMap="plantDepreciationResultMap" parameterType="String">
 		SELECT

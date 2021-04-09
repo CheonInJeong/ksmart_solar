@@ -8,6 +8,8 @@ public class MoneyCheckDTO {
 	private String Id;
 	private long money;
 	private String iOut;
+	private String startDate;
+	private String endDate;
 	private String inoutCheck;
 	private String inoutDate;
 	private String bankName;
@@ -49,6 +51,18 @@ public class MoneyCheckDTO {
 	}
 	public void setiOut(String iOut) {
 		this.iOut = iOut;
+	}
+	public String getStartDate() {
+		return startDate;
+	}
+	public void setStartDate(String startDate) {
+		this.startDate = startDate;
+	}
+	public String getEndDate() {
+		return endDate;
+	}
+	public void setEndDate(String endDate) {
+		this.endDate = endDate;
 	}
 	public String getInoutCheck() {
 		return inoutCheck;
@@ -101,6 +115,10 @@ public class MoneyCheckDTO {
 		builder.append(money);
 		builder.append(", iOut=");
 		builder.append(iOut);
+		builder.append(", startDate=");
+		builder.append(startDate);
+		builder.append(", endDate=");
+		builder.append(endDate);
 		builder.append(", inoutCheck=");
 		builder.append(inoutCheck);
 		builder.append(", inoutDate=");
@@ -116,6 +134,6 @@ public class MoneyCheckDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	
 }

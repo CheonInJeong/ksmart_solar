@@ -43,7 +43,8 @@ public class FileUtils {
 		//파일 폴더 일자별 지정
 		filePath += current.format(format);
 		//파일 업로드 프로젝트 내 설정
-		String path = ResourceUtils.getFile(filePath).getAbsolutePath();
+		//String path = ResourceUtils.getFile(filePath).getAbsolutePath();
+		String path  = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/file");
 		
 		System.out.println(path+"<----fileutils path");
 
@@ -95,7 +96,7 @@ public class FileUtils {
 					fileDto.setRelatedTableCode(relatedTableCode);
 					fileDto.setFileSize(multipartFile.getSize());
 					fileDto.setOriginalFileName(multipartFile.getOriginalFilename());
-					fileDto.setStoredFilePath(path+"/"+newFileName);
+					fileDto.setStoredFilePath("/WEB-INF/classes/file"+"/"+newFileName);
 					fileDto.setCreatorId(sessionID);
 					fileDto.setUpdatorId(sessionID);
 					fileDto.setFileSortName(fileSortName);

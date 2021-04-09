@@ -9,6 +9,7 @@ import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 import com.cafe24.kangk0269.dto.PlantKpxDTO;
+import com.cafe24.kangk0269.dto.PlantRadiationDTO;
 
 @Mapper
 public interface PlantMapper {
@@ -42,4 +43,8 @@ public interface PlantMapper {
 	public PlantDepreciationDTO getPlantDepreciationByBzCode(String bzPlCode);
 
 	public List<ComponentDTO> getComponentListById(String SID);
+
+	public List<PlantRadiationDTO> getRadiationData(String addrCodeName, String startTime, String endTime);
+	
+	public String getRadiationSumMonthData(String addrCodeName, String startTime, String endTime);
 }

@@ -49,16 +49,14 @@ public class ProfitController {
 	}
 	
 	@PostMapping("/bidMoneyInsertSend")
-	public String bidMoneyInsertSend(@RequestParam(name="Code", required=false) String Code
-									,@RequestParam(name="Id", required=false) String Id
-									,@RequestParam(name="money", required=false) long money
-									,@RequestParam(name="iOut", required=false) String iOut
-									,@RequestParam(name="inoutDate", required=false) String inoutDate) {
-		System.out.println("관련코드 : " + Code);
-		System.out.println("거래회원 : " + Id);
-		System.out.println("금액 : " + money);
-		System.out.println("입출금구분 : " + iOut);
-		System.out.println("입출금시간 : " + inoutDate);
+	public String bidMoneyInsertSend(MoneyCheckDTO moneycheck) {
+		System.out.println("입출금 내역 입력 필요요소 :" + moneycheck);
+		System.out.println(moneycheck.getCode().substring(0,1));
+		if(moneycheck.getCode().substring(0,1).equals('b')) {
+			
+		}else {
+			//bidMoneyService.addBidMoney(moneycheck);
+		}
 		
 		return "/profit/balance";
 	}
@@ -78,6 +76,7 @@ public class ProfitController {
 	@GetMapping("/bidMoneyCheck")
 	public String bidMoneyCheck(Model model) {
 		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
+		System.out.println(moneyCheckList);
 		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
 		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("moneyCheckList", moneyCheckList);

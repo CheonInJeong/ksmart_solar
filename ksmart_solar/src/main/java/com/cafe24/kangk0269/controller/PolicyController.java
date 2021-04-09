@@ -39,19 +39,19 @@ public class PolicyController {
 	//파일 다운로드
 	@GetMapping("/policy/downloadFile")
 	public void downloadBoardFile(@RequestParam(value="idx") int idx,
-								  HttpServletResponse response) throws Exception{
-		System.out.println("boadService메서드 실행 ");
+								  HttpServletResponse response,
+								  HttpServletRequest request) throws Exception{
 		FileDTO fileDto = policyService.getFileInfo(idx);
-		System.out.println("boadService메서드 실행 완료");
 		
 		if(ObjectUtils.isEmpty(fileDto)==false) {
 			String fileName = fileDto.getOriginalFileName();
 			System.out.println(fileName);
 			String filePath = fileDto.getStoredFilePath();
 			System.out.println(filePath);
+			String fileBasePath=request.getSession().getServletContext().getRealPath("/");
 			
 			//실제 저장되어 있는 파일을 읽어 온 후 byte 형식으로 변환
-			byte[] files = FileUtils.readFileToByteArray(new File(fileDto.getStoredFilePath()));
+			byte[] files = FileUtils.readFileToByteArray(new File(fileBasePath + fileDto.getStoredFilePath()));
 			response.setContentType("application/octet-stream");
 			response.setContentLength(files.length);
 			response.setHeader("Content-Disposition", "attachment; fileName=\""+URLEncoder.encode(fileName,"UTF-8")+"\";");

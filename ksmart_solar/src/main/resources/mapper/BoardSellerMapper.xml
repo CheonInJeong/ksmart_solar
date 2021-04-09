@@ -17,15 +17,16 @@
   		  		<result property="bPhoto" column="b_photo"/>
   		  		<result property="bRegDate" column="b_reg_date"/>
   		  		<result property="bAnswer" column="b_answer"/>
+  		  		<result property="bBidType" column="b_bid_type"/>
   		</resultMap>
   		
   		<resultMap type = "CommentDTO" id = "commentResultMap">
-  		  		<result property="cmt_idx" column="cmt_idx"/>
+  		  		<result property="cmtIdx" column="cmt_idx"/>
   		  	  	<result property="bIdx" column="b_idx"/>
-  		  	  	<result property="cmtClass" column="cmtClass"/>
+  		  	  	<result property="cmtClass" column="cmt_class"/>
   		  	  	<result property="mId" column="m_id"/>
   		  	  	<result property="targetId" column="target_id"/>
-  		  	  	<result property="cmtReply" column="cmt_reply"/>
+  		  	  	<result property="cmtOrder" column="cmt_order"/>
   				<result property="cmtSecret" column="cmt_secret"/>
   		  		<result property="cmtComment" column="cmt_comment"/>
   		  		<result property="cmtRegDate" column="cmt_reg_date"/>
@@ -33,6 +34,154 @@
   		  		<result property="cmtDeleteYn" column="cmt_delete_yn"/>
   		  		<result property="cmtGroupCode" column="cmt_group_code"/>
   		</resultMap>
+  		
+  		<!-- 게시글 조회수 +1 by 천인정 -->
+		<update id="updateView" parameterType="int">
+			UPDATE 
+				tb_board_seller
+			SET
+				b_view = b_view+1
+			WHERE 
+				b_idx = #{bIdx}
+		</update>
+  		
+  		
+  		<!--아이디로 문의글 가져오기 by 천인정 -->
+  		<select id="getQnaListById" parameterType="String" resultMap = "boardSellerResultMap">
+  			SELECT 
+  				b_idx, 
+  				b_subject,
+  				b_contents,
+  				m_id_buyer, 
+  				m_id_seller, 
+  				announced_code, 
+  				b_view,
+  				b_bid_type,
+  				b_reg_date
+			FROM 
+				tb_board_seller 
+			WHERE 
+				m_id_seller = #{mIdSeller}
+  		</select>
+  		
+  		
+  		<update id="modifyCmt" parameterType="map">
+  			UPDATE 
+  				tb_comment
+			SET
+				cmt_comment=#{cmtComment},
+				cmt_update_date=NOW()
+			WHERE cmt_idx=#{cmtIdx}
+  		
+  		</update>
+  		
+  		<!-- 댓글의 그룹코드 가져오기 by 천인정 -->
+  		<select id="getCmtGroupCode" parameterType="int" resultType="int">
+  			SELECT ifnull(cmt_group_code,(select cmt_idx from tb_comment where cmt_idx=#{cmtIdx})) FROM tb_comment where cmt_idx = #{cmtIdx}
+  		</select>
+  		
+  		<!--댓글 계층의 최댓값 가져오기 by천인정  -->
+  		<select id="getCmtClass" parameterType="int" resultType="int">
+  			SELECT max(cmt_class) FROM tb_comment WHERE cmt_idx = #{cmtIdx}
+  		</select>
+  		
+  		<!--댓글순서의 최댓값 가져오기 by 천인정  -->
+  		<select id="getCmtOrder" parameterType="int" resultType="int">
+  		SELECT ifnull(MAX(cmt_order),0) FROM tb_comment WHERE cmt_group_code = #{cmtIdx}
+  		
+  		</select>
+  		<insert id="addReCmt" parameterType="CommentDTO" >
+  			INSERT 
+  			INTO 
+  				tb_comment(
+  					b_idx, 
+					cmt_class, 
+					m_id, 
+					target_id, 
+					cmt_secret, 
+					cmt_comment, 
+					cmt_reg_date, 
+					cmt_group_code,
+					cmt_order)
+			VALUES (
+					#{bIdx}, 
+					#{cmtClass},
+					#{mId},
+					#{targetId},
+					'N',
+					#{cmtComment}, 
+					NOW(), 
+					#{cmtGroupCode}, 
+					#{cmtOrder}
+					)
+  		
+  		</insert>
+  		
+  		
+  		<insert id="addCmt" parameterType="map">
+  			INSERT 
+  			INTO 
+  				tb_comment
+				(b_idx,  m_id, target_id, cmt_secret, cmt_comment, cmt_reg_date, cmt_order)
+			VALUES
+				 (#{bIdx}, #{mId}, #{targetId}, 'N', #{cmtComment},NOW(),  0)
+  		
+  		
+  		</insert>
+  		
+  		
+  		
+  		<update id="removeCmt" parameterType="int">
+  			UPDATE tb_comment
+				SET
+					cmt_delete_yn='Y'
+				WHERE cmt_idx = #{cmtIdx}
+  		
+  		</update>
+  		
+  		<!-- 해당 게시글의 댓글 총 수 가져오기 by 천인정  -->
+  		<select id="getCmtCount" resultType="int" parameterType="map">
+  			SELECT 
+	  			count(1)
+			FROM 
+				tb_comment
+			WHERE 
+				b_idx=#{bIdx}
+			AND 
+				cmt_delete_yn = 'N' 
+
+  		
+  		</select>
+  		
+  		
+  		<!-- 해당 게시글의 댓글 가져오기 by 천인정 -->
+  		<select id="getCommentList" resultMap="commentResultMap" parameterType = "map">
+  			SELECT 
+  				cmt_idx, 
+  				b_idx, 
+  				cmt_class, 
+  				m_id, 
+  				target_id, 
+  				cmt_secret, 
+  				cmt_comment, 
+  				cmt_reg_date,  
+  				cmt_group_code, 
+  				cmt_order
+			FROM 
+				tb_comment
+			WHERE 
+				b_idx=#{bIdx}
+			AND 
+				cmt_delete_yn = 'N' 
+			order by
+				cmt_reg_date asc
+			LIMIT
+				#{commentDTO.pagination.firstRecordIndex},#{commentDTO.recordsPerPage}
+		
+  			
+  		
+  		</select>
+  		<!-- 발전소 문의글 상세내용 가져오기 by 천인정 -->
   		<select id ="getQnaDetailForSeller"  resultMap = "boardSellerResultMap" parameterType="int">
   			SELECT 
 	  			b_idx, 
@@ -47,7 +196,7 @@
 			FROM tb_board_seller WHERE b_idx=#{bIdx}
   		
   		</select>
-		  	
+		 <!-- 발전소 코드로 문의글 리스트 가져오기 by 천인정 -->
 		<select id="getQnaListForSeller" resultMap = "boardSellerResultMap" parameterType="String">
 		
 			SELECT 

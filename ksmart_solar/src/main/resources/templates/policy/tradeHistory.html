@@ -2,7 +2,6 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
-	  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
 	  
 	<th:block layout:fragment="customTitle">
 				<title>거래 정책 히스토리</title>
@@ -27,7 +26,7 @@
 				<div style="text-align : right; margin-bottom: 20px;">
 					<a class="btn btn-default btn-sm pull-right" data-toggle="modal" data-target="#tradeModal" data-whatever="@mdo">정책변경</a>
 				</div>          
-              <table class="table table-hover" id="historyTable" style="text-align:center; margin: auto;">
+              <table class="table table-hover" id="historyTable">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -53,7 +52,7 @@
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sTradeDate}"></td>
 	                    <td th:if="${h.sTradeLast == null and h.sTradeUse=='N'}"><a th:href="@{/policy/removeTrade(idx=${h.sTradeIdx})}" class="btn btn-default btn-xs">삭제</a></td>
-	                    <td th:if="${h.sTradeUse=='Y'}">-</td>
+	                    <td th:if="${h.sTradeUse=='Y' or h.sTradeLast!=null}">-</td>
 	                 </tr>
                 </tbody>
               </table>
@@ -118,33 +117,30 @@
 		<script>
 		$(function(){
 			$('#historyTable').DataTable();
+		
+			//거래기간변경
+		   	$('#sTradeBtnModal').click(function(){
+		         		var tradePeriod = $('#sTradePeriodModal');
+		      			var reservation = $('#sTradeReservationModal');
+		      			
+		         		if($('#tradeSelect option:selected').val()=='0'){
+		         			alert('거래기간 종류를 선택해주세요.');
+		         			return;
+		         		}
+		         		if(tradePeriod.val()==''){
+		         			alert('기준 기간을 입력해주세요.');
+		         			tradePeriod.focus();
+		         			return;
+		         		}
+		         		
+		         		if(reservation.val()==''){
+		         			alert('적용일을 입력해주세요.');
+		         			return;
+		         		}
+		        		
+		         		$('#tradeFromModal').submit();
+		       });    
 		});
-		
-		
-		
-		//거래기간변경
-	   	$('#sTradeBtnModal').click(function(){
-	         		var tradePeriod = $('#sTradePeriodModal');
-	      			var reservation = $('#sTradeReservationModal');
-	      			
-	         		if($('#tradeSelect option:selected').val()=='0'){
-	         			alert('거래기간 종류를 선택해주세요.');
-	         			return;
-	         		}
-	         		if(tradePeriod.val()==''){
-	         			alert('기준 기간을 입력해주세요.');
-	         			tradePeriod.focus();
-	         			return;
-	         		}
-	         		
-	         		if(reservation.val()==''){
-	         			alert('적용일을 입력해주세요.');
-	         			return;
-	         		}
-	        		
-	         		$('#tradeFromModal').submit();
-	       })    
-		
 		</script>
 		
 	</th:block>

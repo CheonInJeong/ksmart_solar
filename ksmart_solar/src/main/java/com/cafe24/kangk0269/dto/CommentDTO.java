@@ -1,20 +1,19 @@
 package com.cafe24.kangk0269.dto;
 
-public class CommentDTO {
+public class CommentDTO extends CommonDTO{
 	
 	private int	cmtIdx;
 	private int bIdx;
-	private String cmtClass;
+	private int cmtClass;
 	private String mId;
 	private String targetId;
-	private String cmtReply;
 	private String cmtSecret;
 	private String cmtComment;
 	private String cmtRegDate;
 	private String cmtUpdateDate;
 	private String cmtDeleteYn;
-	private String cmtGroupCode;
-	
+	private int cmtGroupCode;
+	private int cmtOrder;
 	public int getCmtIdx() {
 		return cmtIdx;
 	}
@@ -27,10 +26,10 @@ public class CommentDTO {
 	public void setbIdx(int bIdx) {
 		this.bIdx = bIdx;
 	}
-	public String getCmtClass() {
+	public int getCmtClass() {
 		return cmtClass;
 	}
-	public void setCmtClass(String cmtClass) {
+	public void setCmtClass(int cmtClass) {
 		this.cmtClass = cmtClass;
 	}
 	public String getmId() {
@@ -44,12 +43,6 @@ public class CommentDTO {
 	}
 	public void setTargetId(String targetId) {
 		this.targetId = targetId;
-	}
-	public String getCmtReply() {
-		return cmtReply;
-	}
-	public void setCmtReply(String cmtReply) {
-		this.cmtReply = cmtReply;
 	}
 	public String getCmtSecret() {
 		return cmtSecret;
@@ -81,11 +74,17 @@ public class CommentDTO {
 	public void setCmtDeleteYn(String cmtDeleteYn) {
 		this.cmtDeleteYn = cmtDeleteYn;
 	}
-	public String getCmtGroupCode() {
+	public int getCmtGroupCode() {
 		return cmtGroupCode;
 	}
-	public void setCmtGroupCode(String cmtGroupCode) {
+	public void setCmtGroupCode(int cmtGroupCode) {
 		this.cmtGroupCode = cmtGroupCode;
+	}
+	public int getcmtOrder() {
+		return cmtOrder;
+	}
+	public void setcmtOrder(int cmtOrder) {
+		this.cmtOrder = cmtOrder;
 	}
 	@Override
 	public String toString() {
@@ -100,8 +99,6 @@ public class CommentDTO {
 		builder.append(mId);
 		builder.append(", targetId=");
 		builder.append(targetId);
-		builder.append(", cmtReply=");
-		builder.append(cmtReply);
 		builder.append(", cmtSecret=");
 		builder.append(cmtSecret);
 		builder.append(", cmtComment=");
@@ -114,8 +111,13 @@ public class CommentDTO {
 		builder.append(cmtDeleteYn);
 		builder.append(", cmtGroupCode=");
 		builder.append(cmtGroupCode);
+		builder.append(", cmtOrder=");
+		builder.append(cmtOrder);
 		builder.append("]");
 		return builder.toString();
 	}
+	
+	
+	
 	
 }
