@@ -17,6 +17,7 @@
   		  		<result property="bPhoto" column="b_photo"/>
   		  		<result property="bRegDate" column="b_reg_date"/>
   		  		<result property="bAnswer" column="b_answer"/>
+  		  		<result property="bBidType" column="b_bid_type"/>
   		</resultMap>
   		
   		<resultMap type = "CommentDTO" id = "commentResultMap">
@@ -33,6 +34,51 @@
   		  		<result property="cmtDeleteYn" column="cmt_delete_yn"/>
   		  		<result property="cmtGroupCode" column="cmt_group_code"/>
   		</resultMap>
+  		
+  		<!-- 게시글 조회수 +1 by 천인정 -->
+		<update id="updateView" parameterType="int">
+			UPDATE 
+				tb_board_seller
+			SET
+				b_view = b_view+1
+			WHERE 
+				b_idx = #{bIdx}
+		</update>
+  		
+  		
+  		<!--아이디로 문의글 가져오기 by 천인정 -->
+  		<select id="getQnaListById" parameterType="String" resultMap = "boardSellerResultMap">
+  			SELECT 
+  				b_idx, 
+  				b_subject,
+  				b_contents,
+  				m_id_buyer, 
+  				m_id_seller, 
+  				announced_code, 
+  				b_view,
+  				b_bid_type,
+  				b_reg_date
+			FROM 
+				tb_board_seller 
+			WHERE 
+				m_id_seller = #{mIdSeller}
+  		</select>
+  		
+  		
+  		<update id="modifyCmt" parameterType="map">
+  			UPDATE 
+  				tb_comment
+			SET
+				cmt_comment=#{cmtComment},
+				cmt_update_date=NOW()
+			WHERE cmt_idx=#{cmtIdx}
+  		
+  		</update>
+  		
+  		<!-- 댓글의 그룹코드 가져오기 by 천인정 -->
+  		<select id="getCmtGroupCode" parameterType="int" resultType="int">
+  			SELECT ifnull(cmt_group_code,(select cmt_idx from tb_comment where cmt_idx=#{cmtIdx})) FROM tb_comment where cmt_idx = #{cmtIdx}
+  		</select>
   		
   		<!--댓글 계층의 최댓값 가져오기 by천인정  -->
   		<select id="getCmtClass" parameterType="int" resultType="int">
@@ -65,7 +111,7 @@
 					'N',
 					#{cmtComment}, 
 					NOW(), 
-					#{cmtIdx}, 
+					#{cmtGroupCode}, 
 					#{cmtOrder}
 					)
   		
@@ -92,8 +138,24 @@
 				WHERE cmt_idx = #{cmtIdx}
   		
   		</update>
+  		
+  		<!-- 해당 게시글의 댓글 총 수 가져오기 by 천인정  -->
+  		<select id="getCmtCount" resultType="int" parameterType="map">
+  			SELECT 
+	  			count(1)
+			FROM 
+				tb_comment
+			WHERE 
+				b_idx=#{bIdx}
+			AND 
+				cmt_delete_yn = 'N' 
+
+  		
+  		</select>
+  		
+  		
   		<!-- 해당 게시글의 댓글 가져오기 by 천인정 -->
-  		<select id="getCommentList" resultMap="commentResultMap" parameterType = "int">
+  		<select id="getCommentList" resultMap="commentResultMap" parameterType = "map">
   			SELECT 
   				cmt_idx, 
   				b_idx, 
@@ -112,7 +174,9 @@
 			AND 
 				cmt_delete_yn = 'N' 
 			order by
-				cmt_reg_date asc;
+				cmt_reg_date asc
+			LIMIT
+				#{commentDTO.pagination.firstRecordIndex},#{commentDTO.recordsPerPage}
 		
   			
   		
