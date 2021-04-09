@@ -126,7 +126,11 @@ public class MyPageController {
 			return "redirect:/mypage/myInfo";
 	}
 
-	
+	// 개인 비밀번호 수정화면
+	@GetMapping("/mypage/modifyPw")
+	public String modifyPw() {
+		return "/mypage/modifyPw";
+	}
 	
 	// 개인 프로필 수정처리
 	@PostMapping("/mypage/ModifyMyInfo")
@@ -134,7 +138,8 @@ public class MyPageController {
 		System.out.println("====================================");
 		System.out.println("수정한 회원정보 내용->>" + memberDTO);
 		System.out.println("====================================");
-		int result = memberService.modifyMyInfo(memberDTO);
+		
+		memberService.modifyMyInfo(memberDTO);
 		ScriptUtils.alertAndMovePage(response, "프로필이 수정되었습니다" , "/mypage/myInfo");
 		return "redirect:/mypage/myInfo";
 	}

@@ -3,116 +3,88 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="@{layout/default}">
 
-<th:block layout:fragment="customTitle">
-	<title>회원 탈퇴신청</title>
-</th:block>
-
-<th:block layout:fragment="customCss">
-	<!-- Bootstrap core CSS -->
-	<link th:href="@{/lib/bootstrap/css/bootstrap.min.css}"
-		rel="stylesheet">
-	<!--external css-->
-	<link th:href="@{/lib/font-awesome/css/font-awesome.css}"
-		rel="stylesheet" />
-	<link rel="stylesheet" type="text/css"
-		th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
-	<link rel="stylesheet" type="text/css"
-		th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
-	<link rel="stylesheet" type="text/css"
-		th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
-	<link rel="stylesheet" type="text/css"
-		th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
-	<link rel="stylesheet" type="text/css"
-		th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
-	<!-- Custom styles for this template -->
-	<link th:href="@{/css/style.css}" rel="stylesheet">
-	<link th:href="@{/css/style-responsive.css}" rel="stylesheet">
-</th:block>
-
-<th:block layout:fragment="Contents">
-	<div id="container-header-title">
-		<strong>회원탈퇴 신청</strong>
-	</div>
-	<div id="container-header-path">
-		<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > 
-		<a href="/mypage/myInfo" style="text-decoration: none;"> 내 정보관리 </a>> 회원탈퇴
-	</div>
-	<div id="container-header-space"></div>
-
-	<div class="row mt">
-		<div class="col-lg-12">
-			 <div class="content-panel" style="padding: 30px;">
-				<form class="form-horizontal style-form">
-					<div class="form-group text-center">
-						<textarea  class="form-control" rows="5" readonly="readonly"> 
-						[회원 탈퇴 시 유의 사항] 
-						탈퇴 신청 후 7일 이내에 재로그인 시 탈퇴신청이 해제됩니다. 
-						하지만 그 7일 이후 부터는 회원 관련 내용이 삭제되어 복구가 불가하오니 유의하시기 바랍니다.
-					</textarea>
-						<div class="checkbox">
-							<label> <input type="checkbox"> 위 내용을 확인하였으며,
-								동의합니다
-							</label>
-						</div>
-					</div>
-					<div class="form-horizontal">
-						<input type="text" name="mId" th:value="session.SID"
-							hidden="hidden">
-						<div class="form-group">
-							<label class="col-sm-2 control-label">탈퇴 사유</label>
-							<div class="col-sm-10">
-								<input type="text" name="mPw" class="form-control">
+	<th:block layout:fragment="customTitle">
+		<title>회원 탈퇴신청</title>
+	</th:block>
+	
+	<th:block layout:fragment="customCss">
+	</th:block>
+	
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title">
+			<strong>회원탈퇴 신청</strong>
+		</div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;"> 메인화면 </a>> MY PAGE > <a
+				href="/mypage/myInfo" style="text-decoration: none;"> 내 정보관리 </a>>
+			회원탈퇴
+		</div>
+		<div id="container-header-space"></div>
+	
+		<div class="row mt">
+			<div class="col-lg-12">
+				<div class="content-panel" style="padding: 30px;">
+					<form class="form-horizontal style-form">
+						<div class="form-group text-center">
+							<textarea class="form-control" rows="5" readonly="readonly"> 
+							[회원 탈퇴 시 유의 사항] 
+							탈퇴 신청 후 7일 이내에 재로그인 시 탈퇴신청이 해제됩니다. 
+							하지만 그 7일 이후 부터는 회원 관련 내용이 삭제되어 복구가 불가하오니 유의하시기 바랍니다.
+						</textarea>
+							<div class="checkbox">
+								<label> <input type="checkbox" name="check"> 위 내용을 확인하였으며,
+									동의합니다
+								</label>
 							</div>
 						</div>
-
-						<div class="form-group">
-							<label class="col-sm-2 control-label">로그인 비밀번호</label>
-							<div class="col-sm-10">
-								<input type="text" name="mPw" class="form-control">
+						<div class="form-horizontal">
+							<input type="text" name="mId" th:value="session.SID"
+								hidden="hidden">
+							<div class="form-group">
+								<label class="col-sm-2 control-label">탈퇴 사유</label>
+								<div class="col-sm-10">
+									<input type="text" name="reason" class="form-control">
+								</div>
+							</div>
+	
+							<div class="form-group">
+								<label class="col-sm-2 control-label">현재 비밀번호</label>
+								<div class="col-sm-10">
+									<input type="text" name="mPw" class="form-control">
+								</div>
+							</div>
+							<div class="m-t-md text-center">
+								<button id="Btn" type="submit" class="btn btn-warning">탈퇴신청</button>
 							</div>
 						</div>
-						<div class="m-t-md text-center">
-							<button type="submit" class="btn btn-warning" >탈퇴신청</button>
-						</div>
-					</div>
-				</form>
+					</form>
+				</div>
 			</div>
-		</div>	
-	</div>	
-</th:block>
-
-<th:block layout:fragment="customScript">
-	<script src="lib/jquery/jquery.min.js"></script>
-	<script src="lib/bootstrap/js/bootstrap.min.js"></script>
-	<script class="include" type="text/javascript"
-		src="lib/jquery.dcjqaccordion.2.7.js"></script>
-	<script src="lib/jquery.scrollTo.min.js"></script>
-	<script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-	<!--common script for all pages-->
-	<script src="lib/common-scripts.js"></script>
-	<!--script for this page-->
-	<script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-daterangepicker/date.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-daterangepicker/moment.min.js"></script>
-	<script type="text/javascript"
-		src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-	<script src="lib/advanced-form-components.js"></script>
-
-	<script type="text/javascript">
-		var mypage = $('#mypage');
-		mypage.addClass('active');
-		mypage.parent().find('.sub').css('display', 'block');
-		mypage.parent().find('.sub').children().eq(0).addClass('active');
-	</script>
-</th:block>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+	
+		<script type="text/javascript">
+			//메뉴탭
+			var mypage = $('#mypage');
+			mypage.addClass('active');
+			mypage.parent().find('.sub').css('display', 'block');
+			mypage.parent().find('.sub').children().eq(0).addClass('active');
+			
+			//유효성검사
+			 $('#Btn').click(function(){
+			 	if($('[name="check"]:checked').length==0){
+					alert('확인버튼을 체크해주세요.');
+					return false;
+				}if($('[name="reason"]').val()==''){
+					alert('탈퇴사유를 입력해주세요.')
+					$('[name="reason"]').focus();
+					return false;
+				}if($('[name="mPw"]').val()==''){
+					alert('현재 비밀번호를 입력해주세요.')
+					$('[name="mPw"]').focus();
+					return false;
+		</script>
+	</th:block>
 </html>

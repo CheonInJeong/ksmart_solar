@@ -34,6 +34,7 @@
 						<label class="col-sm-2 col-sm-2 control-label">프로필 사진</label>
 						<div class="col-sm-10">
 							<div class="col-md-9">
+								<input type="file" id="files" class="default" name="files" multiple="multiple">
 								<div class="fileupload fileupload-new" data-provides="fileupload">
 									<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 										 <img th:if="${memberDTO.mPhoto} == null" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
@@ -74,22 +75,19 @@
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">우편번호</label>
 						<div class="col-lg-10">
-							<input type="text" name="mZipcode"
-								th:value="${memberDTO.mZipcode}" class="form-control">
+							<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
 						<div class="col-lg-10">
-							<input type="text" name="mAddr" th:value="${memberDTO.mAddr}"
-								class="form-control">
+							<input type="text" name="mAddr" th:value="${memberDTO.mAddr}" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">상세주소</label>
 						<div class="col-lg-10">
-							<input type="text" name="mDetailAddr"
-								th:value="${memberDTO.mDetailAddr}" class="form-control">
+							<input type="text" name="mDetailAddr" th:value="${memberDTO.mDetailAddr}" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
@@ -106,110 +104,40 @@
 <th:block layout:fragment="customScript">
 
 	<script type="text/javascript">
-		//메뉴 버튼
+		//메뉴탭
 		var mypage = $('#mypage');
 		mypage.addClass('active');
 		mypage.parent().find('.sub').css('display', 'block');
 		mypage.parent().find('.sub').children().eq(0).addClass('active');
 
-		
-		//이미지 썸네일
-		function readURL(input) {
-			if (input.files && input.files[0]) {
-				var reader = new FileReader();
-				reader.readAsDataURL(input.files[0]);
-
-				reader.onload = function(e) {
-
-					var tempImage = new Image();
-					tempImage.src = reader.result;
-					console.log(tempImage);
-					tempImage.onload = function() {
-						var canvas = document.createElement('canvas');
-						var canvasContext = canvas.getContext("2d");
-
-						var img = new Image();
-						img.src = e.target.result;
-
-						canvas.width = img.width * 0.5;
-						canvas.height = img.height * 0.5;
-
-						canvasContext.drawImage(this, 0, 0, canvas.width,
-								canvas.height);
-
-						var dataURI = canvas.toDataURL("image/png");
-
-						document.querySelector("#thumbnail").src = dataURI;
-
-					}
-				};
-
-			}
-		}
-
-		
-		//이미지 spring과 파일 주고받기
-		function compression() {
-			// initializing
-			$('#img').attr('src', './resources/default.png').width('50%')
-					.height('50%');
-
-			var file = document.querySelector('#InputImage');
-
-			var fileList = file.files;
-			var reader = new FileReader();
-
-			if (fileList && fileList[0]) {
-				reader.readAsDataURL(fileList[0]);
-				reader.onload = function(e) {
-					var img = new Image();
-					img.src = e.target.result;
-
-					var formData = new FormData();
-					formData.append('RequestParam', fileList[0]);
-
-					$.ajax({
-						url : '/springpath',
-						type : 'POST',
-						data : formData,
-						processData : false,
-						contentType : false,
-						dataType : 'json',//xml, json,  file을 받을 수 없음 
-						enctype : 'multipart/form-data',//매 우 중 요 
-						success : function(html) {
-							console.log('success');
-						},
-						error : function(error) {
-
-						}
-					}).done(
-							function(data) {//server에서 데이터 반환된 뒤 실행되는 함수 
-								$('#resultImg').attr(
-										'src',
-										'data:image/png;base64,'
-												+ data.resultBytes) //반환된 이미지(바이트스트림) 삽입
-								.width($('#width').val()).height(
-										$('#height').val());
-							});
-
-				};
-
-			}
-		}
-
-		
-		
-		/* 
-		//유효성 검사
-		var mPw = $('[name="mPw"]');
-		
-		$('#modifyBtn').click(function(){
-			if(mPw.val()==''){
-				alert('현재 비밀번호를 입력해주세요.');
-				mPw.focus();
+		//유효성검사
+		 $('#modifyBtn').click(function(){
+		 	if($('[name="mName"]').val()==''){
+				alert('이름을 입력해주세요.');
+				$('[name="mName"]').focus();
+				return false;
+			}if($('[name="mPhone"]').val()==''){
+				alert('연락처를 입력해주세요.')
+				$('[name="mPhone"]').focus();
+				return false;
+			}if($('[name="mEmail"]').val()==''){
+				alert('이메일을 입력해주세요.')
+				$('[name="mEmail"]').focus();
+				return false;
+			}if($('[name="mZipcode"]').val()==''){
+				alert('우편번호를 입력해주세요.')
+				$('[name="mZipcode"]').focus();
+				return false;
+			}if($('[name="mAddr"]').val()==''){
+				alert('주소를 입력해주세요.')
+				$('[name="mAddr"]').focus();
+				return false;
+			}if($('[name="mDetailAddr"]').val()==''){
+				alert('상세주소를 입력해주세요.')
+				$('[name="mDetailAddr"]').focus();
 				return false;
 			}
-		 */
+		 })			
 	</script>
 </th:block>
 </html>

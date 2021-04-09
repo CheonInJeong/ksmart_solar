@@ -8,18 +8,7 @@
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
-		<!-- Bootstrap core CSS -->
-		  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-		  <!--external css-->
-		  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
-		  <!-- Custom styles for this template -->
-		  <link th:href="@{/css/style.css}" rel="stylesheet">
-		  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
@@ -53,7 +42,7 @@
                 </div>
                 
                 <div class="form-group">
-                  <div class="col-lg-offset-2 col-lg-10">
+                  <div class="col-lg-offset-1 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/notice}">목록</a>	
                   	<a class="btn btn-info" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/modifyNotice(noticeIdx=${noticeDTO.noticeIdx})}">수정</a>
                   	<a id="removeBtn" class="btn btn-danger" th:if="${session.SLEVEL == '관리자'}">삭제</a>
@@ -66,30 +55,44 @@
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
-		  <script src="lib/jquery/jquery.min.js"></script>
-		  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-		  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-		  <script src="lib/jquery.scrollTo.min.js"></script>
-		  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-		  <!--common script for all pages-->
-		  <script src="lib/common-scripts.js"></script>
-		  <!--script for this page-->
-		  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/date.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		  <script src="lib/advanced-form-components.js"></script>
-		  
+	
+		  	<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
+		  	<script th:src="@{/lib/advanced-form-components.js}"></script>
+		  	
 		  	<script type="text/javascript">
 		  	//메뉴 탭
 			var help = $('#help');
 			help.addClass('active');
 			help.parent().find('.sub').css('display','block');
 			help.parent().find('.sub').children().eq(0).addClass('active');
+			
+			
+			//유효성 검사
+			 $('#btnPlantSell').click(function(){
+	 	
+	 		 
+	 		 	//유효성검사
+			 	if($('select option:selected').val()==0){
+					alert('발전소를 선택해주세요.');
+					return;
+				}if($('#bPlTitle').val()==''){
+					alert('공고 제목을 입력해주세요.')
+					$('#bPlTitle').focus();
+					return;
+				}if($('#bPlPrice').val()==''){
+					alert('희망 가격을 입력해주세요.')
+					$('#bPlPrice').focus();
+					return;
+				}if($('#files').val()==''){
+					alert('파일을 첨부해주세요.');
+					return;
+				}if($('#bPlContents').val().length==0){
+					alert('상세정보를 입력해주세요.');
+					return;
+				}if($('#bPlDateBidding1').val()==''){
+					alert('희망 공고 시작 날짜를 입력해주세요.');
+					return;
+				}
 			
 			/* //삭제 확인
 			$(function(){
