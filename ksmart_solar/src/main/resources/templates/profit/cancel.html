@@ -43,7 +43,7 @@
 							<td data-title="수수료납부회원">
 									[[${l.mId}]]
 							</td>
-							<td data-title="취소 수수료금액" th:text="${l.bCancel}"></td>
+							<td data-title="취소 수수료금액" th:text="${#numbers.formatInteger(l.bCancel,3,'COMMA')}"></td>
 							<td data-title="관련공고">
 								<form th:action="@{/notice/announcement}" method="post">
 									<a class="announceTitle">[[${l.announcedTitle}]]</a>

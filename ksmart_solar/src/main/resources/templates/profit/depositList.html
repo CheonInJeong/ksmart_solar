@@ -47,7 +47,7 @@
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="예치금출금신청 코드" th:text="${l.trDepCode}" style="display: none;"></td>
 							<td data-title="출금신청회원" th:text="${l.mId}"></td>
-							<td data-title="신청금액(=출금금액)" th:text="${l.trDepDeposit}"></td>
+							<td data-title="신청금액(=출금금액)" th:text="${#numbers.formatInteger(l.trDepDeposit,3,'COMMA')}"></td>
 							<td data-title="구매자계좌">([[${l.mAccountBankName}]]) [[${l.mAccountNumber}]]</td>
 							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
 							<td data-title="관련공고">
