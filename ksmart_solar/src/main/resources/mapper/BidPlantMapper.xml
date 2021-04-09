@@ -194,7 +194,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_pl_code = #{announceCode}
 	</select>
 	
-	<select id="getBidPlantMyBid" resultMap="BidPlantDTOMap" parameterType="String">
+	<select id="getBidPlantMyBid" resultMap="BidPlantDTOMap" parameterType="map">
 		SELECT
 			li.b_code,
 			pl.b_pl_title,
@@ -208,8 +208,36 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		INNER JOIN
 			tb_bid_list AS li
 		ON li.announced_code = pl.b_pl_code
-		WHERE 
-			li.m_id = #{sId}
+		<trim prefix="WHERE" prefixOverrides="AND / OR ">
+			<if test="mId!=null">
+				li.m_id = #{mId}
+			</if>
+			<if test="searchValuePl!=null">
+				and ${searchKeyPl} LIKE CONCAT ('%',#{searchValuePl},'%')
+			</if>
+		</trim>
+		ORDER BY li.b_date DESC
+		<if test="BidPlantDTO!=null">
+			LIMIT
+				#{BidPlantDTO.pagination.firstRecordIndex},#{BidPlantDTO.recordsPerPage}	
+		</if>
+	</select>
+	<select id="getBidPlantCount" resultType="int" parameterType="map">
+		SELECT
+			count(1)
+		FROM 
+			tb_bid_plant AS pl
+		INNER JOIN
+			tb_bid_list AS li
+		ON li.announced_code = pl.b_pl_code
+		<trim prefix="WHERE" prefixOverrides="AND / OR ">
+			<if test="mId!=null">
+				li.m_id = #{mId}
+			</if>
+			<if test="searchValuePl!=null">
+				and ${searchKeyPl} LIKE CONCAT ('%',#{searchValuePl},'%')
+			</if>
+		</trim>
 		ORDER BY li.b_date DESC		
 	</select>
 	

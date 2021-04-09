@@ -17,9 +17,21 @@
 		<div class="row mt">
           <div class="col-md-12 container">
             <div class="content-panel">
-              <table class="table table-striped table-advance table-hover">
                 <h4><i class="fa fa-angle-right"></i>입찰한 부품 공고</h4>
                 <hr>
+            	<div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/buy/myHistory}">
+	            	<select name="searchKeyCp">
+	            		<option value="bTitle">공고명</option>
+	            		<option value="bCpStatus">공고 진행</option>
+	            		<option value="trTypeName">나의 진행</option>
+	            		<option value="mId">판매자</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValueCp">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+               </div>
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
@@ -50,12 +62,21 @@
 		                  </tr>
 		                  </th:block>
                 	</th:block>
-                	<th:block th:if="${bidComponentList==null || bidComponentList.size()==0}">
+                	<th:block th:if="${bidComponentList==null or bidComponentList.size()==0}">
 		                  <tr>
 		                    <td colspan="6" style="text-align: center;">입찰 신청한 부품 공고가 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
+                <tfoot>
+                   <tr>
+                   	<td colspan ="6" style="text-align:center;">
+	                 	<th:block layout:fragment="paging">
+                  			<nav th:replace="fragments/pagination2 :: pagination"></nav>
+                  		</th:block>
+                  	</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
@@ -64,9 +85,21 @@
 		<div class="row mt">
           <div class="col-md-12 container">
             <div class="content-panel">
-              <table class="table table-striped table-advance table-hover">
                 <h4><i class="fa fa-angle-right"></i>입찰한 발전소 공고</h4>
                 <hr>
+	            <div style="text-align : right; margin-bottom: 10px;">
+		              <form th:action="@{/buy/myHistory}">
+		            	<select name="searchKeyPl">
+		            		<option value="bTitle">공고명</option>
+		            		<option value="bCpStatus">공고 진행</option>
+		            		<option value="trTypeName">나의 진행</option>
+		            		<option value="mId">판매자</option>
+		            	</select>
+		            	<input type="text" placeholder="검색어" name="searchValuePl">
+		            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+		               </form>
+	             </div>
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
@@ -97,17 +130,27 @@
 		                  </tr>
 	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${bidPlantList==null || bidPlantList.size()==0}">
+                	<th:block th:if="${bidPlantList==null or bidPlantList.size()==0}">
 		                  <tr>
 		                    <td colspan="6" style="text-align: center;">입찰 신청한 발전소 공고가 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
+                <tfoot>
+                  <tr>
+                  	<td colspan ="6" style="text-align:center;">
+                  		<th:block layout:fragment="paging">
+                  			<nav th:replace="fragments/pagination :: pagination"></nav>
+                  		</th:block>
+                  	</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
         </div>
 	</th:block>
+	<!-- + '&'+'searchKeyCp='+ /*[[ ${searchKeyCp} ]]*/+ '&'+'searchValueCp='+ /*[[ ${searchValueCp} ]]*/ -->
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
 			var buy = $('#buy');
@@ -118,6 +161,23 @@
 			$('.announceTitle').click(function(){
 				$(this).parent().submit();
 			});
+		</script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var searchKeyCp = /*[[ ${searchKeyCp} ]]*/;
+			var searchValueCp = /*[[ ${searchValueCp} ]]*/;
+			var searchKeyPl = /*[[ ${searchKeyPl} ]]*/;
+			var searchValuePl = /*[[ ${searchValuePl} ]]*/;
+			console.log(searchKeyCp)
+			function movePage(uri, queryString) {
+				location.href = uri + queryString + '&searchKeyCp='+ searchKeyCp+ '&searchValueCp=' + searchValueCp + '&searchKeyPl='+ searchKeyPl+ '&searchValuePl=' + searchValuePl;
+			}
+			
+			function movePage2(uri, queryString) {
+				location.href = uri + queryString + '&searchKeyCp='+ searchKeyCp+ '&searchValueCp=' + searchValueCp + '&searchKeyPl='+ searchKeyPl+ '&searchValuePl=' + searchValuePl;
+			}
+
+			/*]]>*/
 		</script>
 	</th:block>
 </html>

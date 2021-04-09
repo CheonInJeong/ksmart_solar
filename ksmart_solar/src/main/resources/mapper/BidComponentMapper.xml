@@ -147,7 +147,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE b_cp_code =#{announceCode}
 		ORDER BY b_cp_date_bidding1 DESC
 	</select>
-	<select id="getBidComponentMyBid" resultMap="BidComponentDTOMap" parameterType="String">
+	<select id="getBidComponentMyBid" resultMap="BidComponentDTOMap" parameterType="map">
 		SELECT 
 			com.b_cp_title,
 			com.b_cp_code,
@@ -160,9 +160,37 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		INNER JOIN
 			tb_bid_list AS li
 		ON li.announced_code = com.b_cp_code
-		WHERE
-			li.m_id = #{sId}
-		ORDER BY li.b_date DESC		
+		<trim prefix="WHERE" prefixOverrides="AND / OR ">
+			<if test="mId!=null">
+				li.m_id = #{mId}
+			</if>
+			<if test="searchValueCp!=null">
+				and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
+			</if>
+		</trim>
+		ORDER BY li.b_date DESC
+		<if test="bidComponentDTO!=null">
+		LIMIT
+			#{bidComponentDTO.pagination.firstRecordIndex},#{bidComponentDTO.recordsPerPage}
+		</if>
+	</select>
+	<select id="getBidComponentCount" resultType="int" parameterType="String">
+		SELECT 
+			count(1)
+		FROM 
+			tb_bid_component AS com
+		INNER JOIN
+			tb_bid_list AS li
+		ON li.announced_code = com.b_cp_code
+		<trim prefix="WHERE" prefixOverrides="AND / OR ">
+			<if test="mId!=null">
+				li.m_id = #{mId}
+			</if>
+			<if test="searchValueCp!=null">
+				and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
+			</if>
+		</trim>
+		ORDER BY li.b_date DESC	
 	</select>
 	<select id="getComponent" parameterType="String" resultMap="ComponentDTOMap">
 		SELECT 
