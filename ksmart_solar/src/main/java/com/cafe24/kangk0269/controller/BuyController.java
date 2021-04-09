@@ -9,9 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
@@ -48,14 +50,63 @@ public class BuyController {
 	}
 	//내가 입찰한 공고
 	@GetMapping("/buy/myHistory")
-	public String MyHistory(HttpSession session, Model model) {
+	public String MyHistory(HttpSession session,
+							Model model,
+							@RequestParam(value = "searchKeyPl", required = false) String searchKeyPl, 
+							@RequestParam(value = "searchValuePl", required = false) String searchValuePl,
+							@RequestParam(value = "searchKeyCp", required = false) String searchKeyCp,
+							@RequestParam(value = "searchValueCp", required = false) String searchValueCp,
+							
+							@RequestParam(value = "currentPageNoCp", required = false) String currentPageNoCp,
+							@RequestParam(value = "recordsPerPageCp", required = false) String recordsPerPageCp,
+							@RequestParam(value = "pageSizeCp", required = false) String pageSizeCp,
+							@RequestParam(value = "currentPageNoPl", required = false) String currentPageNoPl,
+							@RequestParam(value = "recordsPerPagePl", required = false) String recordsPerPagePl,
+							@RequestParam(value = "pageSizePl", required = false) String pageSizePl,
+							@RequestParam(value = "state", required = false) String state,
+							
+							@ModelAttribute("bidPlantDTO") BidPlantDTO bidPlantDTO,
+							@ModelAttribute("bidComponentDTO") BidComponentDTO bidComponentDTO) {
+		System.out.println(bidComponentDTO.getCurrentPageNo()+"-------------------------------부품 현재페이지");
+		System.out.println(bidPlantDTO.getCurrentPageNo()+"-------------------------------발전소 현재페이지");
+		if(state!=null && bidComponentDTO.getState()==Integer.parseInt(state)) {
+			System.out.println("부품");
+			if(currentPageNoCp!=null) bidComponentDTO.setCurrentPageNo(Integer.parseInt(currentPageNoCp));
+			if(recordsPerPageCp!=null) bidComponentDTO.setRecordsPerPage(Integer.parseInt(recordsPerPageCp));
+			if(pageSizeCp!=null) bidComponentDTO.setPageSize(Integer.parseInt(pageSizeCp));
+		}
+		if(state!=null && bidPlantDTO.getState()==Integer.parseInt(state)) {
+			System.out.println("발전소");
+			if(currentPageNoPl!=null) bidPlantDTO.setCurrentPageNo(Integer.parseInt(currentPageNoPl));
+			if(recordsPerPagePl!=null) bidPlantDTO.setRecordsPerPage(Integer.parseInt(recordsPerPagePl));
+			if(pageSizePl!=null) bidPlantDTO.setPageSize(Integer.parseInt(pageSizePl));
+		}
+		
+		
 		System.out.println(session.getAttribute("SID"));
 		String sId = (String) session.getAttribute("SID");
 		List<BidComponentDTO> bidComponentList = null;
 		List<BidPlantDTO> bidPlantList = null;
+		System.out.println(bidComponentDTO.getPagination());
+		if(searchKeyCp!=null && searchKeyCp.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKeyCp = null;
+		}
+		if(searchValueCp!=null && searchValueCp.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValueCp = null;
+		}
+		if(searchKeyPl!=null && searchKeyPl.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKeyPl = null;
+		}
+		if(searchValuePl!=null && searchValuePl.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValuePl = null;
+		}
 		if(sId != null) {
-			bidComponentList = bidComponentService.getBidComponentMyBid(sId);
-			bidPlantList = bidPlantService.getBidPlantMyBid(sId);
+			bidComponentList = bidComponentService.getBidComponentMyBid(sId,searchKeyCp,searchValueCp,bidComponentDTO);
+			bidPlantList = bidPlantService.getBidPlantMyBid(sId,searchKeyPl,searchValuePl,bidPlantDTO);
 			if(bidComponentList!=null && bidComponentList.size()>1) {
 				for(int i=0; i<bidComponentList.size();i++) {
 					if(i!=0) {
@@ -71,9 +122,13 @@ public class BuyController {
 				}
 			}
 		}
+		model.addAttribute("searchKeyCp", searchKeyCp);
+		model.addAttribute("searchValueCp", searchValueCp);
+		model.addAttribute("searchKeyPl", searchKeyPl);
+		model.addAttribute("searchValuePl", searchValuePl);
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidComponentList", bidComponentList);
-		return "/buy/myHistory";
+		return "buy/myHistory";
 	}
 	//예치금 환불 리스트
 	@GetMapping("/buy/applyRefund")
@@ -85,13 +140,13 @@ public class BuyController {
 			refundList = bidListService.getApplyRefundList(id);
 		}
 		model.addAttribute("refundList", refundList);
-		return "/buy/applyRefund";
+		return "buy/applyRefund";
 	}
 	
 	@GetMapping("/buy/qna")
 	public String Qna() {
 		
-		return "/buy/qna";
+		return "buy/qna";
 	}
 	//예치금 출금 신청
 	@PostMapping("/buy/refundRequest")

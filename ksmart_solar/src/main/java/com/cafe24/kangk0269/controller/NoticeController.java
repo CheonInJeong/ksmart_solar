@@ -80,7 +80,7 @@ public class NoticeController {
 			System.out.println(bidPlantList);
 			model.addAttribute("bidPlantList", bidPlantList);
 		}
-		return "/notice/history";
+		return "notice/history";
 	}
 	//공고 상세 정보 페이지
 	@PostMapping("/notice/announcement")
@@ -143,7 +143,7 @@ public class NoticeController {
 			System.out.println(tradePaymentInDTO+"===============================================tradePaymentInDTO");
 		}
 		List<FileDTO> fileDTO = bidListService.getBidFileList();
-		return "/notice/announcement";
+		return "notice/announcement";
 	}
 	//대금납부 신청 페이지
 	@PostMapping("/notice/paymentInRequest")

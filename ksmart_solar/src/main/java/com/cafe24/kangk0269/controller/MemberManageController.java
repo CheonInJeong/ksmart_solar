@@ -67,9 +67,9 @@ public class MemberManageController {
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
 		List<BusinessDTO> businessList = businessService.getBusinessInfoById(mId);
-		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(mId);
+		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(mId,null,null,null);
 		List<BidPlantDTO> plantList = bidPlantService.getBidPlantById(mId);
-		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(mId);
+		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(mId,null,null,null);
 		List<BusinessPlantDTO> operPlantList = plantService.getOperPlantListById(mId);
 		List<ComponentDTO> componentList = sellService.getComponent(mId);
 		model.addAttribute("member", member);
