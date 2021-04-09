@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -35,7 +36,7 @@ public class BuyController {
 	private final BidListService bidListService;
 	private final AccountService accountService;
 	private final TradeService tradeService;
-	
+	SavePaging savePaging = null;
 	@Autowired
 	public BuyController(BidComponentService bidComponentService,
 							BidPlantService bidPlantService
@@ -52,42 +53,45 @@ public class BuyController {
 	@GetMapping("/buy/myHistory")
 	public String MyHistory(HttpSession session,
 							Model model,
-							@RequestParam(value = "searchKeyPl", required = false) String searchKeyPl, 
-							@RequestParam(value = "searchValuePl", required = false) String searchValuePl,
-							@RequestParam(value = "searchKeyCp", required = false) String searchKeyCp,
-							@RequestParam(value = "searchValueCp", required = false) String searchValueCp,
+							@RequestParam(value = "searchKeyPl", required = false) 			String searchKeyPl, 
+							@RequestParam(value = "searchValuePl", required = false) 		String searchValuePl,
+							@RequestParam(value = "searchKeyCp", required = false) 			String searchKeyCp,
+							@RequestParam(value = "searchValueCp", required = false) 		String searchValueCp,
 							
-							@RequestParam(value = "currentPageNoCp", required = false) String currentPageNoCp,
-							@RequestParam(value = "recordsPerPageCp", required = false) String recordsPerPageCp,
-							@RequestParam(value = "pageSizeCp", required = false) String pageSizeCp,
-							@RequestParam(value = "currentPageNoPl", required = false) String currentPageNoPl,
-							@RequestParam(value = "recordsPerPagePl", required = false) String recordsPerPagePl,
-							@RequestParam(value = "pageSizePl", required = false) String pageSizePl,
-							@RequestParam(value = "state", required = false) String state,
-							
-							@ModelAttribute("bidPlantDTO") BidPlantDTO bidPlantDTO,
-							@ModelAttribute("bidComponentDTO") BidComponentDTO bidComponentDTO) {
+							@RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+							@RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+							@RequestParam(value = "pageSize", required = false) 			String pageSize,
+							@RequestParam(value = "state", required = false) 				String state
+							) {
+		System.out.println("입찰한 공고 시작");
+		System.out.println(savePaging==null);
+		System.out.println(state+"----------------------------------------state");
+		BidPlantDTO bidPlantDTO = new BidPlantDTO();
+		BidComponentDTO bidComponentDTO = new BidComponentDTO();
+		bidPlantDTO.setState(1);
+		bidComponentDTO.setState(2);
+		if(savePaging==null || state==null) {
+			//화면의 제일 처름 페이지 설정
+			System.out.println("세이브페이징 만들어짐");
+			savePaging = new SavePaging(2,session);
+			savePaging.setPaging(1, 1, 5, 5);
+			savePaging.setPaging(2, 1, 5, 5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			//페이지가 넘어갈때 넘어간 페이지 저장
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		//페이지 저장 가져오기
+		savePaging.getPaging(bidComponentDTO);
+		savePaging.getPaging(bidPlantDTO);
+		
 		System.out.println(bidComponentDTO.getCurrentPageNo()+"-------------------------------부품 현재페이지");
 		System.out.println(bidPlantDTO.getCurrentPageNo()+"-------------------------------발전소 현재페이지");
-		if(state!=null && bidComponentDTO.getState()==Integer.parseInt(state)) {
-			System.out.println("부품");
-			if(currentPageNoCp!=null) bidComponentDTO.setCurrentPageNo(Integer.parseInt(currentPageNoCp));
-			if(recordsPerPageCp!=null) bidComponentDTO.setRecordsPerPage(Integer.parseInt(recordsPerPageCp));
-			if(pageSizeCp!=null) bidComponentDTO.setPageSize(Integer.parseInt(pageSizeCp));
-		}
-		if(state!=null && bidPlantDTO.getState()==Integer.parseInt(state)) {
-			System.out.println("발전소");
-			if(currentPageNoPl!=null) bidPlantDTO.setCurrentPageNo(Integer.parseInt(currentPageNoPl));
-			if(recordsPerPagePl!=null) bidPlantDTO.setRecordsPerPage(Integer.parseInt(recordsPerPagePl));
-			if(pageSizePl!=null) bidPlantDTO.setPageSize(Integer.parseInt(pageSizePl));
-		}
-		
 		
 		System.out.println(session.getAttribute("SID"));
 		String sId = (String) session.getAttribute("SID");
 		List<BidComponentDTO> bidComponentList = null;
 		List<BidPlantDTO> bidPlantList = null;
-		System.out.println(bidComponentDTO.getPagination());
 		if(searchKeyCp!=null && searchKeyCp.equals("null")) {
 			System.out.println("문자열 unll");
 			searchKeyCp = null;
@@ -104,6 +108,7 @@ public class BuyController {
 			System.out.println("문자열 unll");
 			searchValuePl = null;
 		}
+		
 		if(sId != null) {
 			bidComponentList = bidComponentService.getBidComponentMyBid(sId,searchKeyCp,searchValueCp,bidComponentDTO);
 			bidPlantList = bidPlantService.getBidPlantMyBid(sId,searchKeyPl,searchValuePl,bidPlantDTO);
@@ -127,12 +132,23 @@ public class BuyController {
 		model.addAttribute("searchKeyPl", searchKeyPl);
 		model.addAttribute("searchValuePl", searchValuePl);
 		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("bidPlantDTO", bidPlantDTO);
+		model.addAttribute("bidComponentDTO", bidComponentDTO);
 		model.addAttribute("bidComponentList", bidComponentList);
 		return "buy/myHistory";
 	}
 	//예치금 환불 리스트
 	@GetMapping("/buy/applyRefund")
 	public String ApplyRefund(HttpSession session, Model model) {
+		System.out.println(savePaging==null);
+		if(savePaging==null) {
+			//화면의 제일 처름 페이지 설정
+			System.out.println("세이브페이징 만들어짐");
+			savePaging = new SavePaging(3,session);
+			savePaging.setPaging(1, 1, 5, 5);
+			savePaging.setPaging(2, 1, 5, 5);
+			savePaging.setPaging(3, 1, 5, 5);
+		}
 		System.out.println(session.getAttribute("SID"));
 		String id = (String) session.getAttribute("SID");
 		Map<String, List<BidListDTO>> refundList =null;

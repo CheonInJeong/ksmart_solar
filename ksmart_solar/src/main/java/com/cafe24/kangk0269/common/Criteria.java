@@ -7,9 +7,6 @@ import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 
 public class Criteria {
-	private String currentPageNoName;
-	private String recordsPerPageName;
-	private String pageSizeName;
 	private int state;
 	/** 현재 페이지 번호 */
 	private int currentPageNo;
@@ -44,21 +41,9 @@ public class Criteria {
 		this.pageSize = pageSize;
 	}
 
-	public String getCurrentPageNoName() {
-		return currentPageNoName;
+	public void setState(int state) {
+		this.state = state;
 	}
-
-
-
-	public String getRecordsPerPageName() {
-		return recordsPerPageName;
-	}
-
-
-	public String getPageSizeName() {
-		return pageSizeName;
-	}
-
 
 	public int getState() {
 		return state;
@@ -78,22 +63,6 @@ public class Criteria {
 	}
 
 	public Criteria() {
-		System.out.println(this instanceof BidComponentDTO);
-		System.out.println("<=========================부품");
-		if(this instanceof BidComponentDTO) {
-			this.state=2;
-			this.currentPageNoName = "currentPageNoCp";
-			this.recordsPerPageName = "recordsPerPageCp";
-			this.pageSizeName = "pageSizeCp";
-		}
-		System.out.println(this instanceof BidPlantDTO);
-		System.out.println("<=========================발전소");
-		if(this instanceof BidPlantDTO) {
-			this.currentPageNoName = "currentPageNoPl";
-			this.recordsPerPageName = "recordsPerPagePl";
-			this.pageSizeName = "pageSizePl";
-			state=1;
-		}
 		this.currentPageNo = 1;
 		this.recordsPerPage = 5;
 		this.pageSize = 5;
@@ -106,9 +75,9 @@ public class Criteria {
 	public String makeQueryString(int pageNo) {
 		
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
-				.queryParam(currentPageNoName, pageNo)
-				.queryParam(recordsPerPageName, recordsPerPage)
-				.queryParam(pageSizeName, pageSize)
+				.queryParam("currentPageNo", pageNo)
+				.queryParam("recordsPerPage", recordsPerPage)
+				.queryParam("pageSize", pageSize)
 				.queryParam("state", state)
 				.build()
 				.encode();
