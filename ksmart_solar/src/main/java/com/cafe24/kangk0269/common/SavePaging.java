@@ -15,6 +15,7 @@ public class SavePaging {
 
 	/** 화면 하단에 출력할 페이지 사이즈 */
 	private int pageSize;
+	/** 몇개의 리스트를 페이징할 것인지 정하는 생성자 메서드 */
 	public SavePaging(int pagingNumber,HttpSession session) {
 		this.session = session;
 		for(int i = 1; i<=pagingNumber;i++) {
@@ -46,3 +47,4 @@ public class SavePaging {
 		criteria.setRecordsPerPage((int)Paging.get("recordsPerPage"));
 	}
 }
+
