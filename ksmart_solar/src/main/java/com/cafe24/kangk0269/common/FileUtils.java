@@ -43,10 +43,12 @@ public class FileUtils {
 		//파일 폴더 일자별 지정
 		filePath += current.format(format);
 		//파일 업로드 프로젝트 내 설정
-		//String path = ResourceUtils.getFile(filePath).getAbsolutePath();
+		
+
 		String path  = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/file");
 		
 		System.out.println(path+"<----fileutils path");
+	
 
 		File file = new File(path);
 		//경로 및 파일이 존재하지 않으면

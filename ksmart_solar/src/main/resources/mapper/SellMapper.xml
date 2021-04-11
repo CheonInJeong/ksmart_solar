@@ -190,14 +190,16 @@
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
   		  
-  		  
+  		  <select id="getRecentlybPlCodeByGroupcode" resultType="String" parameterType="String">
+  		  	select b_pl_code FROM tb_bid_plant WHERE b_pl_groupcode = #{bPlGroupcode} ORDER BY b_pl_date_decision2 DESC LIMIT 1
+  		  </select>
   		  <select id="getPlantAcStatusByCode" parameterType="String" resultMap = "bidPlantResultMap">
   		  	SELECT ac_status_code FROM tb_bid_plant WHERE b_pl_code = #{bPlCode}
   		  
   		  </select>
   		  
   		  <update id="updateBPlantRecentlyNy" parameterType="String">
-  		  	UPDATE tb_bid_plant SET b_recently = 'Y' WHERE b_pl_groupcode = #{bPlGroupcode}
+  		  	UPDATE tb_bid_plant SET b_recently = 'Y' WHERE b_pl_code = #{bPlCode}
   		  </update>
   		  <update id="updateBPlantRecentlyYn" parameterType="String">
   		  	UPDATE tb_bid_plant SET b_recently = 'N' WHERE b_pl_groupcode = #{bPlGroupcode}
@@ -341,6 +343,8 @@
 				AND 
 					p.bz_pl_code = #{bzPlCode}
 				And p.b_recently = 'Y'
+				ORDER BY
+				p.b_pl_date_decision2 DESC LIMIT 1
 				
 	
   		  
