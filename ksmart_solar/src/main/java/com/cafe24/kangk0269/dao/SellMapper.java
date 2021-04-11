@@ -17,10 +17,14 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface SellMapper {
+	
+	//공고그룹 코드로 최신 공고 코드 얻기
+	public String getRecentlybPlCodeByGroupcode(String groupCode);
+	
 	//발전소 공고 코드로 공고 상태 얻기
 	public BidPlantDTO getPlantAcStatusByCode(String bPlCode);
 	//b_recently 'Y' -> 'N'으로
-	public int updateBPlantRecentlyYn(String groupcode);
+	public int updateBPlantRecentlyYn(String bPlCode);
 	//b_recently 'N' -> 'Y'으로
 	public int updateBPlantRecentlyNy(String groupcode);
 	

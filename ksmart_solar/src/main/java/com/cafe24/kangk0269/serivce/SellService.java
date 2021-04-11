@@ -306,7 +306,10 @@ public class SellService {
 	public void removePlantApply(String code,String groupCode)  throws Exception{
 		sellMapper.removePlantApply(code);
 		fileMapper.removeApplyFile(code);
-		sellMapper.updateBPlantRecentlyNy(groupCode);
+		
+		String bPlCode = sellMapper.getRecentlybPlCodeByGroupcode(groupCode);
+		sellMapper.updateBPlantRecentlyNy(bPlCode);
+		
 	}
 	
 	public List<BidPlantDTO> getBidPlantbyCode(String code) throws Exception{

@@ -54,16 +54,20 @@
 			sell.parent().find('.sub').children().eq(0).addClass('active');
 		</script>
 		
-		<script>
+		<script th:inline="javascript">
+		
+		
 		$(document).ready(function(){
-			$('.failure').each(function(){
-				var i = $('.failure').index(this);
-				if($('.failure').eq(i).text()!=''){
-					if(getCookie('openPopup') !='Y'){
-						window.open('/sell/failureBid','재공고안내','width=600, height=600,left=100, top = 100, scrollbar=no')
+			var plant = /*[[${plant}]]*/
+			console.log(plant)
+			console.log(plant.length)
+			
+			if(plant.length!=0){
+				if(getCookie('openPopup') !='Y'){
+						window.open('/sell/failureBid','재공고안내','width=800, height=300,left=100, top = 100, scrollbar=no')
 						
 					}
-				}
+			}
 				
 				function getCookie(cname) {
 			           var name = cname + "=";
@@ -83,7 +87,7 @@
 				
 				
 			})
-		})
+		
 
 		</script>
 	</th:block>
