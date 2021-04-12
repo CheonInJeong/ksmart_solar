@@ -140,25 +140,19 @@
 			
 			var bCpPrice = document.getElementById('bCpPrice');
 			
-			/* bCpPrice.onkeyup = function(){
-      			this.value = this.value.replace(/[^0-9]/g,'');
-				this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-			}
-			
-			 */
+	
 			 function comma(str) {
 	       		 str = String(str);
 	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 	  		  
-	      
-		 	
-		 	$('document').ready(function(){
-		 		$('#bCpPrice').val(comma($('#bCpPrice').val()));
-		 	
-		 	})
 		 	}
 			
-			
+				$(document).ready(function(){
+			 		$('#bCpPrice').val(comma($('#bCpPrice').val()));
+			 	
+			 	})
+			 
+			 
 			$('#componentSellBtn').click(function(){
 				 var selected = $('select option:selected').val();
 				 var bCpTitle = $('#bCpTitle');

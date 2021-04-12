@@ -1,6 +1,6 @@
 package com.cafe24.kangk0269.dto;
 
-public class BoardSellerDTO  {
+public class BoardSellerDTO extends CommonDTO{
 	
 	 private int bIdx ; 
 	 private String bSubject ; 

@@ -12,11 +12,11 @@
             <div class="content-panel" style="padding: 30px;">
               <h4><i class="fa fa-angle-right"></i>문의내역</h4><hr>
                <div style="text-align : right; margin-bottom: 10px;">
-	              <form th:action="@{/sell/myHistory}">
+	              <form th:action="@{/sell/qna}">
 	            	<select name="searchKey">
-	            		<option value="bPlCode">제목</option>
-	            		<option value="bzPlName">작성자</option>
-	            		<option value="bzPlTitle">구분</option>
+	            		<option value="bSubject">제목</option>
+	            		<option value="mIdBuyer">작성자</option>
+	            		<option value="bBidType">구분</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValue">
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
@@ -53,25 +53,9 @@
                 <tfoot>
                 	 <tr>
                   	<td colspan ="10" style="text-align:center;">
-                  		<nav>
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-							</nav>
+                  		<th:block layout:fragment="paging">
+                  			<nav th:replace="fragments/boardSellerPagination :: pagination"></nav>
+                  		</th:block>
                   	</td>
                   </tr>
                 </tfoot>
@@ -86,6 +70,16 @@
 			sell.addClass('active');
 			sell.parent().find('.sub').css('display','block');
 			sell.parent().find('.sub').children().eq(3).addClass('active');
+		</script>
+		
+		<script>
+			
+		
+				function movePage(uri, queryString) {
+					location.href = uri + queryString;
+				}
+			
+		
 		</script>
 	</th:block>
 </html>

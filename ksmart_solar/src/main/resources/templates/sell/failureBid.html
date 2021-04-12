@@ -19,13 +19,16 @@
 
 	 <div class="row" id="section1">
 	       <div class="col-md-12 panel panel-default">
-	            <div class="panel-body" style="padding: 30px; text-align : center;">
-			      <p>	실패한 공고 목록이 있습니다.  	</p>
-			      <p>	재공고를 신청하시려면,아래의 목록에서 신청을 눌러주세요. </p>
+	            <div class="panel-body" style="padding: 30px;; text-align : center;">
+	            	<div style="background-color : #4ECDC4; color : white;">
+			            	
+					      <p>	실패한 공고 목록이 있습니다.  	</p>
+					      <p>	재공고를 신청하시려면,아래의 목록에서 신청을 눌러주세요. </p>
+			      	</div>
 			      <hr>
 			  	<input type="hidden" th:value="${session.SID}" id="session">
-
-					<table class="table">
+					<p>[발전소]</p>
+					<table class="table table-hover">
 						<thead>
 							<tr>
 								<td>공고코드</td>
@@ -36,25 +39,51 @@
 							</tr>
 						</thead>
 						<tbody>
-							<tr th:each = p:${plant}>
+							<tr th:if="${#lists.size(plant)}>0" th:each = "p:${plant}">
 								<td th:text=${p.bPlCode}></td>
 								<td th:text=${p.businessPlantDTO.bzPlName}></td>
 								<td th:text=${p.bPlTitle}></td>
 								<td th:text=${p.bPlStatus}></td>
-								<td><a class="apply">신청</a></td>
-								<td style="display:none" th:text="${p.bPlGroupcode}" id="groupCode"></td>
-								<td style="display:none" th:text="${p.bzPlCode}" id="code"></td>
-							
+								<td><a class="applyPlant">신청</a></td>
+							</tr>
+							<tr th:unless="${#lists.size(plant)}>0">
+								<td colspan="5">재공고 신청 할 발전소가 없습니다.</td>
 							</tr>
 						</tbody>
 					</table>
+					<p>[[부품]]</p>
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>공고코드</td>
+								<td>부품이름</td>
+								<td>공고제목</td>
+								<td>공고상태</td>
+								<td>신청</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.size(component)}>0" th:each="c:${component}">
+								<td th:text = "${c.bCpCode}"></td>
+								<td th:text = "${c.componentDTO.cpName}"></td>
+								<td th:text = "${c.bCpTitle}"></td>
+								<td th:text = "${c.bCpStatus}"></td>
+								<td class="applyCp">신청</td>
+							
+							</tr>
+							<tr th:unless="${#lists.size(component)}>0">
+								<td colspan="5">재공고 신청 할 발전소가 없습니다.</td>
+							</tr>
+						</tbody>
+					</table>
+					
 					<div style="float: right;">
 						<input type="checkbox" id="cancelCheck">하루동안 열지 않기  <a id="closeBtn">닫기</a>
 					</div>
 	</div>
 </div>
 </div>
-	<script>
+	<script th:inline="javascript">
 	
 	//팝업세션
 	 function setCookie(cname, cvalue, exdays) {
@@ -66,12 +95,27 @@
 
 	 
 	 $(document).ready(function(){
-		 	$('.apply').click(function(){
-		 		var i = $('.applay').index(this);
-		 		
-		 		window.open('/sell/addNewPlantSell?mId='+$('#session').val()+'&groupCode='+$('#groupCode').eq(i).text()+'&bzPlcode='+$('#code').text());
+		 /*<![CDATA[*/
+			var plant = /*[[${plant}]]*/
+			var component=/*[[${component}]]*/
+			console.log(plant);
+		 	console.log(component[0].cpCode)
+		 	$('.applyPlant').click(function(){
+		 		var i = $('.applyPlant').index(this);
+		 		console.log(i);
+		 		console.log(plant[i].mId);
+		 		console.log(plant[i].bzPlCode)
+		 		window.open('/sell/addNewPlantSell?mId='+plant[i].mId+'&bzPlcode='+plant[i].bzPlCode);
 		 		window.close();
 		 	})
+		 	
+		 	$('.applyCp').click(function(){
+		 		var i = $('.applyCp').index(this);
+		 		window.open('/sell/addNewComponentSell?mId='+component[i].mId+'&cpCode='+component[i].cpCode);
+		 		window.close();
+		 	})
+		 	
+		 	
 			$('#closeBtn').click(function(){
 				
 				if($('#cancelCheck').is(':checked')){
@@ -83,7 +127,9 @@
 				window.close();
 		
 	 })
-	
+	 
+	 
+		/*]]>*/
 		})
 		
 		
