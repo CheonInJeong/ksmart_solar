@@ -17,10 +17,14 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface SellMapper {
+	
+	//공고그룹 코드로 최신 공고 코드 얻기
+	public String getRecentlybPlCodeByGroupcode(String groupCode);
+	
 	//발전소 공고 코드로 공고 상태 얻기
 	public BidPlantDTO getPlantAcStatusByCode(String bPlCode);
 	//b_recently 'Y' -> 'N'으로
-	public int updateBPlantRecentlyYn(String groupcode);
+	public int updateBPlantRecentlyYn(String bPlCode);
 	//b_recently 'N' -> 'Y'으로
 	public int updateBPlantRecentlyNy(String groupcode);
 	
@@ -101,6 +105,8 @@ public interface SellMapper {
 	
 	//판매자 발전소 목록의 수
 	public int getBidComponentCount(@Param(value="mId") String mId
+									,@Param(value="searchKeyCp") String searchKeyCp
+									,@Param(value="searchValueCp") String searchValueCp
 									,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO) throws Exception;
 	
 	//해당 아이디의 부품공고 리스트를 가져옴
@@ -123,6 +129,8 @@ public interface SellMapper {
 	
 	//판매자 발전소 목록의 수
 	public int getBidPlantCount(@Param(value="mId") String mId
+								,@Param(value="searchKey") String searchKey
+								,@Param(value="searchValue") String searchValue
 								,@Param(value="bidPlantDTO") BidPlantDTO bidPlantDTO) throws Exception;
 	//판매자의 발전소 공고 목록을 가져오는 메서드 
 	public List<BidPlantDTO> getBidPlantbyId(@Param(value="mId") String mId

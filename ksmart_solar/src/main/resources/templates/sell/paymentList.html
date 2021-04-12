@@ -33,7 +33,7 @@
                 <tbody>
                   <tr th:if = "${#lists.size(available)}>0"th:each="a:${available}">
 	                   <td th:text="${a.announcedCode}"></td>
-	                   <td th:text="${a.announcedTitle}"></td>
+	                   <td style="text-align:left" th:text="${a.announcedTitle}"></td>
 	                   <td th:text="${a.mIdBuyer}"></td>
 	                   <td th:text="${a.trPrPrice}" class="trPrPrice"></td>
 	                   <td th:text="${a.comissionRate}" ></td>
@@ -70,7 +70,7 @@
                 <tbody>
                   <tr th:if = "${#lists.size(apply)}>0" th:each="ap:${apply}">
 	                   <td th:text="${ap.announcedCode}"></td>
-	                   <td th:text="${ap.announcedTitle}"></td>
+	                   <td style="text-align:left" th:text="${ap.announcedTitle}"></td>
 	                   <td th:text="${ap.mIdBuyer}"></td>
 	                   <td th:text="${ap.trPrPrice}" class="trPrPrice"></td>
 	                   <td th:text="${ap.comissionRate}" ></td>
@@ -106,7 +106,7 @@
                 <tbody>
                   <tr th:if = "${#lists.size(finish)}>0" th:each="f:${finish}">
 	                   <td th:text="${f.announcedCode}"></td>
-	                   <td th:text="${f.announcedTitle}"></td>
+	                   <td style="text-align:left" th:text="${f.announcedTitle}"></td>
 	                   <td th:text="${f.mIdBuyer}"></td>
 	                   <td th:text="${f.trPrPrice}" class="trPrPrice"></td>
 	                   <td th:text="${f.comissionRate}" ></td>

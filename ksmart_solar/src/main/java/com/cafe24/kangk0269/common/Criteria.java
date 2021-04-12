@@ -3,8 +3,11 @@ package com.cafe24.kangk0269.common;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidPlantDTO;
+
 public class Criteria {
-	
+	private int state;
 	/** 현재 페이지 번호 */
 	private int currentPageNo;
 
@@ -14,7 +17,6 @@ public class Criteria {
 	/** 화면 하단에 출력할 페이지 사이즈 */
 	private int pageSize;
 
-	
 	public int getCurrentPageNo() {
 		return currentPageNo;
 	}
@@ -39,8 +41,13 @@ public class Criteria {
 		this.pageSize = pageSize;
 	}
 
-	
-	
+	public void setState(int state) {
+		this.state = state;
+	}
+
+	public int getState() {
+		return state;
+	}
 
 	@Override
 	public String toString() {
@@ -66,11 +73,12 @@ public class Criteria {
 	}
 	
 	public String makeQueryString(int pageNo) {
-
+		
 		UriComponents uriComponents = UriComponentsBuilder.newInstance()
 				.queryParam("currentPageNo", pageNo)
 				.queryParam("recordsPerPage", recordsPerPage)
 				.queryParam("pageSize", pageSize)
+				.queryParam("state", state)
 				.build()
 				.encode();
 

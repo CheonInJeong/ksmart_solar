@@ -14,11 +14,19 @@ public interface BidComponentMapper {
 	public List<BidComponentDTO> getBidComponent(String status);
 	//해당 공고 리스트 조회
 	public BidComponentDTO getBidComponentByInfo(String announceCode);
-	public List<BidComponentDTO> getBidComponentMyBid(String sId);
+	public List<BidComponentDTO> getBidComponentMyBid(@Param(value="mId") String mId
+													 ,@Param(value="searchKeyCp") String searchKeyCp
+													 ,@Param(value="searchValueCp") String searchValueCp
+													 ,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO);
 	public ComponentDTO getComponent(String CpCode);
 	//해당공고의 상태에 따른 목록조회
 	public List<String> getComponentSatusList(@Param(value="status")int status,@Param(value="bStatus")String bStatus);
 	//
 	public List<BidComponentDTO> getBidComTradeList(List<String> componentList);
 	public int getComponentBidList(String announcedCode);
-}
+	//본인이 입찰한 부품의 공고 횟수
+	public int getBidComponentCount(@Param(value="mId") String mId
+									 ,@Param(value="searchKeyCp") String searchKeyCp
+									 ,@Param(value="searchValueCp") String searchValueCp
+									 ,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO);
+	}
