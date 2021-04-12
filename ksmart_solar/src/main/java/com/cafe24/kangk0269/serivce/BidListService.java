@@ -13,6 +13,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.common.Pagination;
 import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dao.BidListMapper;
 import com.cafe24.kangk0269.dao.BidPlantMapper;
@@ -141,19 +142,46 @@ public class BidListService {
 		return bidListMapper.tradeCancel(bCode);
 	}
 	//환불 가능한 목록
-	public Map<String, List<BidListDTO>> getApplyRefundList(String id) {
-		List<BidListDTO> RefundPossibleList = bidListMapper.getApplyRefundList(id,"가능");
-		List<BidListDTO> RefundCompleteList = bidListMapper.getApplyRefundList(id,"완료");
-		List<BidListDTO> RefundRequestList = bidListMapper.getApplyRefundList(id,"신청");
-		System.out.println(RefundPossibleList+"--------------------------------------RefundPossibleList");
-		System.out.println(RefundCompleteList+"--------------------------------------RefundCompleteList");
-		System.out.println(RefundRequestList+"--------------------------------------RefundRequestList");
-		Map<String, List<BidListDTO>> refundList = new HashMap<String, List<BidListDTO>>();
-		refundList.put("RefundPossibleList", RefundPossibleList);
-		refundList.put("RefundCompleteList", RefundCompleteList);
-		refundList.put("RefundRequestList", RefundRequestList);
+	public List<BidListDTO> getApplyRefundList(String id, String status, String searchKey, String searchValue, BidListDTO bidListDTO ) {
+		System.out.println("환불리스트 서비스");
+		if(searchKey!=null && searchKey.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKey = null;
+		}
+		if(searchValue!=null && searchValue.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValue = null;
+		}
+		if(searchKey!=null) {
+			if("bTitle".equals(searchKey)) {
+				searchKey="bl.b_title";
+			}else if("bTypeCode".equals(searchKey)) {
+				searchKey="bl.b_type_code";
+			}else {
+				searchKey=null;
+			}
+		}
+		List<BidListDTO> RefundList = null;
 		
-		return refundList;
+		int RefundListCount = bidListMapper.getApplyRefundListCount(id, status, searchKey, searchValue, bidListDTO);
+		System.out.println(RefundListCount);
+		Pagination pagination = new Pagination(bidListDTO);
+		
+		pagination.setTotalRecordCount(RefundListCount);
+		
+		bidListDTO.setPagination(pagination);
+		
+		
+		if(RefundListCount>0) {
+			RefundList = bidListMapper.getApplyRefundList(id,status,searchKey,searchValue,bidListDTO);
+		}
+		int page = (bidListDTO.getCurrentPageNo()-1)*5;
+		if(RefundList!=null) {
+			for(int i =0 ; i<RefundList.size(); i++) {
+				RefundList.get(i).setNum(++page);
+			}
+		}
+		return RefundList;
 	}
 	//입찰 대기를 입찰실패로
 	public void updateBidListsatus() {

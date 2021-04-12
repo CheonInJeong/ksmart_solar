@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -38,7 +39,17 @@ public interface BidListMapper {
 	//계약 취소
 	public int tradeCancel(String bCode);
 	//환불 가능한 목록 조회
-	public List<BidListDTO> getApplyRefundList(String id,String status);
+	public List<BidListDTO> getApplyRefundList(@Param(value="id") String id,
+												@Param(value="status")String status,
+												@Param(value="searchKey")String searchKey,
+												@Param(value="searchValue")String searchValue, 
+												@Param(value="bidListDTO")BidListDTO bidListDTO);
+	//환불 가능한 목록 조회 갯수
+	public int getApplyRefundListCount(@Param(value="id") String id,
+													@Param(value="status")String status,
+													@Param(value="searchKey")String searchKey,
+													@Param(value="searchValue")String searchValue, 
+													@Param(value="bidListDTO")BidListDTO bidListDTO);
 	//입찰상태 변경
 	public int updateBidStatus(Map<String,Object> List);
 	//입찰 성공 -> 입찰 종료

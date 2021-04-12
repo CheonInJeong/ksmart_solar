@@ -22,12 +22,15 @@
             	<div style="text-align : right; margin-bottom: 10px;">
 	              <form th:action="@{/buy/myHistory}">
 	            	<select name="searchKeyCp">
+	            		<option >카테고리</option>
 	            		<option value="bTitle">공고명</option>
 	            		<option value="bCpStatus">공고 진행</option>
 	            		<option value="trTypeName">나의 진행</option>
 	            		<option value="mId">판매자</option>
 	            	</select>
-	            	<input type="text" placeholder="검색어" name="searchValueCp">
+	            	<input type="text" placeholder="검색어" name="searchValueCp" th:value="${searchValueCp}">
+	            	<input type="hidden" name="searchKeyPl" th:value="${searchKeyPl}">
+		            <input type="hidden" name="searchValuePl" th:value="${searchValuePl}">
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
                </div>
@@ -40,14 +43,13 @@
                     <th class="col-md-2" style="width: 100px;"><i class="fa fa-question-circle"></i>나의 진행</th>
    	                <th class="col-md-1"><i class="fa fa-bookmark"></i>공고 진행</th>
        	            <th class="col-md-2"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
-                  </div>
                   </tr>
                 </thead>
                 <tbody>
                 	<th:block th:if="${bidComponentList!=null or bidComponentList.size()>0}" th:each="l:${bidComponentList}">
                 		<th:block th:if="${bidComponentList!=null or bidComponentList.size()>0}" th:each="j:${l.bidListDTOList}">
 		                  <tr>
-		                    <td th:text="${l.num=l.num+1}"></td>
+		                    <td th:text="${j.num}"></td>
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
@@ -90,12 +92,15 @@
 	            <div style="text-align : right; margin-bottom: 10px;">
 		              <form th:action="@{/buy/myHistory}">
 		            	<select name="searchKeyPl">
+		            		<option >카테고리</option>
 		            		<option value="bTitle">공고명</option>
 		            		<option value="bCpStatus">공고 진행</option>
 		            		<option value="trTypeName">나의 진행</option>
 		            		<option value="mId">판매자</option>
 		            	</select>
-		            	<input type="text" placeholder="검색어" name="searchValuePl">
+		            	<input type="text" placeholder="검색어" name="searchValuePl" th:value="${searchValuePl}">
+		            	<input type="hidden" name="searchKeyCp" th:value="${searchKeyCp}">
+		            	<input type="hidden" name="searchValueCp" th:value="${searchValueCp}">
 		            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 		               </form>
 	             </div>
@@ -108,14 +113,13 @@
                     <th class="col-md-2" style="width: 100px;"><i class="fa fa-question-circle"></i>나의 진행</th>
    	                <th class="col-md-1"><i class="fa fa-bookmark"></i>공고 진행</th>
        	            <th class="col-md-2"><i class="fa fa-bookmark"></i>입찰신청 날짜 </th>
-                  </div>
                   </tr>
                 </thead>
                 <tbody>
                 	<th:block th:if="${bidPlantList!=null or bidPlantList.size()>0}" th:each="l:${bidPlantList}">
 	                	<th:block th:if="${bidPlantList!=null or bidPlantList.size()>0}" th:each="j:${l.bidListDTOList}">
 		                  <tr>
-		                    <td th:text="${l.num=l.num+1}"></td>
+		                    <td th:text="${j.num}"></td>
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
@@ -168,6 +172,18 @@
 			var searchValueCp = /*[[ ${searchValueCp} ]]*/;
 			var searchKeyPl = /*[[ ${searchKeyPl} ]]*/;
 			var searchValuePl = /*[[ ${searchValuePl} ]]*/;
+			var selectCp = $('select[name="searchKeyCp"]');
+			var selectPl = $('select[name="searchKeyPl"]');
+			selectCp.children().each(function(){
+				if($(this).val()==searchKeyCp){
+					$(this).prop('selected',true);
+				}
+			})
+			selectPl.children().each(function(){
+				if($(this).val()==searchKeyPl){
+					$(this).prop('selected',true);
+				}
+			})
 			console.log(searchKeyCp)
 			function movePage(uri, queryString) {
 				location.href = uri + queryString + '&searchKeyCp='+ searchKeyCp+ '&searchValueCp=' + searchValueCp + '&searchKeyPl='+ searchKeyPl+ '&searchValuePl=' + searchValuePl;

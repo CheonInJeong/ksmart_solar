@@ -235,7 +235,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_code = #{bCode}
 	</update>
 	<!-- 환불가능 목록 -->
-	<select id="getApplyRefundList" parameterType="String" resultMap="BidListDTOMap">
+	<select id="getApplyRefundList" parameterType="map" resultMap="BidListDTOMap">
 		SELECT
 			bl.*,
 			td.*
@@ -246,7 +246,48 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		ON td.b_code=bl.b_code
 		<trim prefix="where" prefixOverrides="AND |OR ">
 			bl.b_deposit_available='Y'
-			AND bl.m_id=#{id}
+			<if test="id!=null">
+				AND bl.m_id=#{id}
+			</if>
+			<if test="searchValue!=null and searchKey!=null">
+				and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+			</if>
+			<if test="status!=null and id!=null and status.toString()=='가능'.toString()">
+				AND bl.b_deposit_refund='N'
+				AND td.tr_dep_code IS null
+				order by bl.b_date desc
+			</if>
+			<if test="status!=null and id!=null and status.toString()=='완료'.toString()">
+				AND bl.b_deposit_refund='Y'
+				order by td.tr_dep_wd_date desc
+			</if>
+			<if test="status!=null and id!=null and status.toString()=='신청'.toString()">
+				AND td.tr_dep_code IS not null
+				AND bl.b_deposit_refund='N'
+				order by td.tr_dep_date desc
+			</if>
+		</trim>
+		<if test="bidListDTO!=null">
+			LIMIT
+				#{bidListDTO.pagination.firstRecordIndex},#{bidListDTO.recordsPerPage}	
+		</if>
+	</select>
+	<select id="getApplyRefundListCount" parameterType="map" resultType="int">
+		SELECT
+			count(1)
+		FROM
+			tb_bid_list AS bl
+		LEFT JOIN
+			tb_trade_deposit_out AS td
+		ON td.b_code=bl.b_code
+		<trim prefix="where" prefixOverrides="AND |OR ">
+			bl.b_deposit_available='Y'
+			<if test="id!=null">
+				AND bl.m_id=#{id}
+			</if>
+			<if test="searchValue!=null and searchKey!=null">
+				and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+			</if>
 			<if test="status!=null and id!=null and status.toString()=='가능'.toString()">
 				AND bl.b_deposit_refund='N'
 				AND td.tr_dep_code IS null

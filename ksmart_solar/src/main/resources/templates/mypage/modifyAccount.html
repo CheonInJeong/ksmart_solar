@@ -8,18 +8,6 @@
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
-		<!-- Bootstrap core CSS -->
-		  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-		  <!--external css-->
-		  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
-		  <!-- Custom styles for this template -->
-		  <link th:href="@{/css/style.css}" rel="stylesheet">
-		  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
@@ -70,7 +58,7 @@
                 </div>
                 <div class="form-group" text-align="center">
                   <div class="col-lg-offset-2 col-lg-10">
-                    <button type="submit" class="btn btn-info">계좌수정</button>
+                    <button id="accountBtn" type="submit" class="btn btn-info">계좌수정</button>
                   </div>
                 </div>
               </form>
@@ -80,29 +68,34 @@
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
-		  <script src="lib/jquery/jquery.min.js"></script>
-		  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-		  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-		  <script src="lib/jquery.scrollTo.min.js"></script>
-		  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-		  <!--common script for all pages-->
-		  <script src="lib/common-scripts.js"></script>
-		  <!--script for this page-->
-		  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/date.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		  <script src="lib/advanced-form-components.js"></script>
 	
 		<script type="text/javascript">
+			//메뉴탭
 			var mypage = $('#mypage');
 			mypage.addClass('active');
 			mypage.parent().find('.sub').css('display','block');
 			mypage.parent().find('.sub').children().eq(0).addClass('active');
+			
+			//유효성검사
+			 $('#accountBtn').click(function(){
+			 	if($('[name="mAccountNumber"]').val()==''){
+					alert('계좌번호를 입력해주세요.');
+					$('[name="mAccountNumber"]').focus();
+					return false;
+				}if($('[name="mAccountName"]').val()==''){
+					alert('예금주명을 입력해주세요.')
+					$('[name="mAccountName"]').focus();
+					return false;
+				}if($('[name="mAccountBank"]').val()==''){
+					alert('은행명을 입력해주세요.')
+					$('[name="mAccountBank"]').focus();
+					return false;
+				}if($('[name="mAccountCheck"]:checked').length==0){
+					alert('사용여부를 체크해주세요.');
+					return false;
+				}
+			 })	
+
 		</script>
 	</th:block>
 </html>

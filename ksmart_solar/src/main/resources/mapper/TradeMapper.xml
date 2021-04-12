@@ -193,6 +193,37 @@
 		ORDER BY tr_fail_date
 	</select>
 	
+	<!-- 거래대금 출금신청 상세조회 -->
+	<select id="getPaymentOut" resultMap="paymentoutResultMap" parameterType="String">
+		SELECT 
+			tr_payout_code
+			, a.tr_pr_code
+			, m_id
+			, b.announced_code	AS announcedCode
+			, b.announced_title	AS announcedTitle
+			, if(b.b_type_code=1,'발전소','부품') AS bType
+			, tr_payout_price
+			, s_commission_rate
+			, c_trade_cm
+			, tr_payout_price_real
+			, tr_payout_bank
+			, tr_payout_account
+			, tr_payout_account_check
+			, tr_payout_account_name
+			, tr_payout_date
+			, a.tr_payout_check
+			, tr_payout_wd_date
+			, b_mo_code
+		FROM 
+			tb_trade_payment_out AS a
+			LEFT JOIN 
+			tb_trade_priority AS b
+			ON 
+			a.tr_pr_code = b.tr_pr_code
+		WHERE tr_payout_code = #{Code}
+	</select>
+		
+	<!-- 거래대금출금신청목록 -->
 	<select id="getPaymentOutList" resultMap="paymentoutResultMap">
 		SELECT 
 			tr_payout_code
@@ -221,6 +252,61 @@
 			a.tr_pr_code = b.tr_pr_code
 	</select>
 	
+	<!-- 예치금 출금(예치금 출금신청 테이블 변경) -->
+	<update id="depositWithdraw1" parameterType="String">
+		UPDATE tb_trade_deposit_out
+		SET
+			tr_dep_check='Y',
+			tr_dep_wd_date=NOW()
+		WHERE tr_dep_code=#{Code}
+	</update>
+	
+	<!-- 예치금 출금(입찰자 테이블 변경) -->
+	<update id="depositWithdraw2" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available='N',
+			b_deposit_refund='Y'
+		WHERE b_code=#{bCode}
+	</update>
+	
+	<!-- 예치금 출금 계좌확인 -->
+	<update id="depositAccountCheck" parameterType="String">
+		UPDATE tb_trade_deposit_out
+		SET
+			tr_dep_account_check='Y'
+		WHERE tr_dep_code=#{Code}
+	</update>
+	
+	<!-- 예치금 출금신청 상세조회 -->
+	<select id="getDepositOut" resultMap="depositoutResultMap" parameterType="String">
+		SELECT 
+			tr_dep_code
+			, a.b_code
+			, a.m_id
+			, b.announced_code					AS announcedCode
+			, b.b_title							AS bTitle
+			, if(b.b_type_code=1,'발전소','부품')	AS bTypeCode
+			, a.b_deposit
+			, tr_dep_deposit
+			, a.m_account_bank_name
+			, a.m_account_number
+			, tr_dep_account_check
+			, m_account_name
+			, tr_dep_date
+			, tr_dep_check
+			, tr_dep_wd_date
+			, a.b_mo_code
+		FROM 
+			tb_trade_deposit_out AS a
+			LEFT JOIN
+			tb_bid_list AS b
+			ON 
+			a.b_code = b.b_code
+		WHERE tr_dep_code=#{Code}
+	</select>
+	
+	<!-- 예치금출금신청목록 -->
 	<select id="getDepositOutList" resultMap="depositoutResultMap">
 		SELECT 
 			tr_dep_code

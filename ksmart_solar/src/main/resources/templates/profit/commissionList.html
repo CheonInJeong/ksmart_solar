@@ -46,7 +46,9 @@
 					<tbody>
 						<tr th:each="l, status : ${paymentOutList}">
 							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="거래완료 출금 코드" th:text="${l.trPayoutCode}" style="display: none;"></td>
+							<td data-title="거래완료 출금 코드" style="display: none;">
+								<input type="hidden" id="Code" th:value="${l.trPayoutCode}">
+							</td>
 							<td data-title="출금신청회원" th:text="${l.mId}"></td>
 							<td data-title="신청금액">[[${#numbers.formatInteger(l.trPayoutPrice,3,'COMMA')}]] (-[[${#numbers.formatInteger(l.cTradeCm,3,'COMMA')}]])</td>
 							<td data-title="출금금액" th:text="${#numbers.formatInteger(l.trPayoutPriceReal,3,'COMMA')}"></td>
@@ -63,7 +65,7 @@
 							<td data-title="출금시간" th:text="${l.trPayoutWdDate}"></td>
 							<td data-title="출금">
 								<span th:if="${l.trPayoutCheck == 'Y'}">출금완료</span>
-								<a th:if="${l.trPayoutCheck != 'Y'}" class="btn btn-info" th:href=@{/}>출금</a>
+								<a th:if="${l.trPayoutCheck != 'Y'}" class="btn standardBtn" th:href="@{/profit/withDraw(Code=${l.trPayoutCode})}">출금</a>
 							</td>
 						</tr>
 					</tbody>
@@ -83,6 +85,7 @@
 	  <!--common script for all pages-->
 	  <script src="lib/common-scripts.js"></script>
 		<script type="text/javascript">
+		
 			var profit = $('#profit');
 			profit.addClass('active');
 			profit.parent().find('.sub').css('display','block');
