@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="cpDate" 			column="cp_date" />	
 		<result property="cpPhoto" 			column="cp_photo" />	
 	</resultMap>
-	<select id="getBidComponent" resultMap="BidComponentDTOMap" parameterType="String">
+	<select id="getBidComponent" resultMap="BidComponentDTOMap" parameterType="map">
 		SELECT 
 			b_cp_code, 
 			cp_code, 
@@ -115,6 +115,30 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			</if>
 			<if test="status != null and status.toString() == '진행'.toString() ">		
 				ac_status_code = 4						
+			</if>
+			<if test="searchValueCp!=null and searchKeyCp!=null">
+				and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
+			</if>
+		</trim>	
+		ORDER BY b_cp_date_bidding1 DESC
+		<if test="bidComponentDTO!=null">
+			LIMIT
+				#{bidComponentDTO.pagination.firstRecordIndex},#{bidComponentDTO.recordsPerPage}
+		</if>
+	</select>
+	<select id="getBidComponentListCount" resultType="int" parameterType="map">
+		SELECT 
+			COUNT(1)		
+		FROM tb_bid_component
+		<trim prefix="where">
+			<if test="status != null and status.toString() == '종료'.toString() ">		
+				ac_status_code > 4						
+			</if>
+			<if test="status != null and status.toString() == '진행'.toString() ">		
+				ac_status_code = 4						
+			</if>
+			<if test="searchValueCp!=null and searchKeyCp!=null">
+				and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
 			</if>
 		</trim>	
 		ORDER BY b_cp_date_bidding1 DESC
@@ -164,14 +188,14 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="mId!=null">
 				li.m_id = #{mId}
 			</if>
-			<if test="searchValueCp!=null">
+			<if test="searchValueCp!=null and searchKeyCp!=null">
 				and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
 			</if>
 		</trim>
 		ORDER BY li.b_date DESC
 		<if test="bidComponentDTO!=null">
-		LIMIT
-			#{bidComponentDTO.pagination.firstRecordIndex},#{bidComponentDTO.recordsPerPage}
+			LIMIT
+				#{bidComponentDTO.pagination.firstRecordIndex},#{bidComponentDTO.recordsPerPage}
 		</if>
 	</select>
 	<select id="getBidComponentCount" resultType="int" parameterType="String">
@@ -186,7 +210,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="mId!=null">
 				li.m_id = #{mId}
 			</if>
-			<if test="searchValueCp!=null">
+			<if test="searchValueCp!=null and searchKeyCp!=null">
 				and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
 			</if>
 		</trim>

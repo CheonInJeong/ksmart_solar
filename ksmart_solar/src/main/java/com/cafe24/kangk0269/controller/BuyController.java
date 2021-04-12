@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -92,45 +93,22 @@ public class BuyController {
 		String sId = (String) session.getAttribute("SID");
 		List<BidComponentDTO> bidComponentList = null;
 		List<BidPlantDTO> bidPlantList = null;
-		if(searchKeyCp!=null && searchKeyCp.equals("null")) {
-			System.out.println("문자열 unll");
-			searchKeyCp = null;
-		}
-		if(searchValueCp!=null && searchValueCp.equals("null")) {
-			System.out.println("문자열 unll");
-			searchValueCp = null;
-		}
-		if(searchKeyPl!=null && searchKeyPl.equals("null")) {
-			System.out.println("문자열 unll");
-			searchKeyPl = null;
-		}
-		if(searchValuePl!=null && searchValuePl.equals("null")) {
-			System.out.println("문자열 unll");
-			searchValuePl = null;
-		}
-		
 		if(sId != null) {
 			bidComponentList = bidComponentService.getBidComponentMyBid(sId,searchKeyCp,searchValueCp,bidComponentDTO);
 			bidPlantList = bidPlantService.getBidPlantMyBid(sId,searchKeyPl,searchValuePl,bidPlantDTO);
-			if(bidComponentList!=null && bidComponentList.size()>1) {
-				for(int i=0; i<bidComponentList.size();i++) {
-					if(i!=0) {
-						bidComponentList.get(i).setNum(bidComponentList.get(i-1).getBidListDTOList().size()+bidComponentList.get(i-1).getNum());
-					}
-				}
-			}
-			if(bidPlantList!=null && bidPlantList.size()>1) {
-				for(int i=0; i<bidPlantList.size();i++) {
-					if(i!=0) {
-						bidPlantList.get(i).setNum(bidPlantList.get(i-1).getBidListDTOList().size()+bidPlantList.get(i-1).getNum());
-					}
-				}
-			}
 		}
-		model.addAttribute("searchKeyCp", searchKeyCp);
-		model.addAttribute("searchValueCp", searchValueCp);
-		model.addAttribute("searchKeyPl", searchKeyPl);
-		model.addAttribute("searchValuePl", searchValuePl);
+		if(searchKeyCp!=null && !searchKeyCp.equals("null")) {
+			model.addAttribute("searchKeyCp", searchKeyCp);
+		}
+		if(searchValueCp!=null && !searchValueCp.equals("null")) {
+			model.addAttribute("searchValueCp", searchValueCp);
+		}
+		if(searchKeyPl!=null && !searchKeyPl.equals("null")) {
+			model.addAttribute("searchKeyPl", searchKeyPl);
+		}
+		if(searchValuePl!=null && !searchValuePl.equals("null")) {
+			model.addAttribute("searchValuePl", searchValuePl);
+		}
 		model.addAttribute("bidPlantList", bidPlantList);
 		model.addAttribute("bidPlantDTO", bidPlantDTO);
 		model.addAttribute("bidComponentDTO", bidComponentDTO);
@@ -139,9 +117,33 @@ public class BuyController {
 	}
 	//예치금 환불 리스트
 	@GetMapping("/buy/applyRefund")
-	public String ApplyRefund(HttpSession session, Model model) {
-		System.out.println(savePaging==null);
-		if(savePaging==null) {
+	public String ApplyRefund(HttpSession session,
+							  Model model,
+							  @RequestParam(value = "searchKeyPb", required = false) 		String searchKeyPb, 
+							  @RequestParam(value = "searchValuePb", required = false) 		String searchValuePb,
+							  @RequestParam(value = "searchKeyCp", required = false) 		String searchKeyCp,
+							  @RequestParam(value = "searchValueCp", required = false) 		String searchValueCp,
+							  @RequestParam(value = "searchKeyRq", required = false) 		String searchKeyRq,
+							  @RequestParam(value = "searchValueRq", required = false) 		String searchValueRq,
+								
+							  @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+							  @RequestParam(value = "recordsPerPage", required = false) 	String recordsPerPage,
+							  @RequestParam(value = "pageSize", required = false) 			String pageSize,
+							  @RequestParam(value = "state", required = false) 				String state
+							  ) {
+		System.out.println(searchKeyPb+"---------------------------searchKeyPb");
+		System.out.println(searchValuePb+"---------------------------searchValuePb");
+		System.out.println(searchKeyCp+"---------------------------searchKeyCp");
+		System.out.println(searchValueCp+"---------------------------searchValueCp");
+		System.out.println(searchKeyRq+"---------------------------searchKeyRq");
+		System.out.println(searchValueRq+"---------------------------searchValueRq");
+		BidListDTO RefundPossible = new BidListDTO();
+		BidListDTO RefundComplete = new BidListDTO();
+		BidListDTO RefundRequest = new BidListDTO();
+		RefundPossible.setState(1);
+		RefundComplete.setState(2);
+		RefundRequest.setState(3);
+		if(savePaging==null || state==null) {
 			//화면의 제일 처름 페이지 설정
 			System.out.println("세이브페이징 만들어짐");
 			savePaging = new SavePaging(3,session);
@@ -149,13 +151,50 @@ public class BuyController {
 			savePaging.setPaging(2, 1, 5, 5);
 			savePaging.setPaging(3, 1, 5, 5);
 		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			//페이지가 넘어갈때 넘어간 페이지 저장
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		//페이지 저장 가져오기
+		savePaging.getPaging(RefundPossible);
+		savePaging.getPaging(RefundComplete);
+		savePaging.getPaging(RefundRequest);
+		
 		System.out.println(session.getAttribute("SID"));
 		String id = (String) session.getAttribute("SID");
 		Map<String, List<BidListDTO>> refundList =null;
 		if(id != null) {
-			refundList = bidListService.getApplyRefundList(id);
+			System.out.println("환불리스트조회하기");
+			List<BidListDTO> RefundRequestList = bidListService.getApplyRefundList(id,"신청",searchKeyRq,searchValueRq,RefundRequest);
+			List<BidListDTO> RefundCompleteList = bidListService.getApplyRefundList(id,"완료",searchKeyCp,searchValueCp,RefundComplete);
+			List<BidListDTO> RefundPossibleList = bidListService.getApplyRefundList(id,"가능",searchKeyPb,searchValuePb,RefundPossible);
+			refundList = new HashMap<String, List<BidListDTO>>();
+			refundList.put("RefundRequestList", RefundRequestList);
+			refundList.put("RefundCompleteList", RefundCompleteList);
+			refundList.put("RefundPossibleList", RefundPossibleList);
 		}
 		model.addAttribute("refundList", refundList);
+		model.addAttribute("RefundPossible", RefundPossible);
+		model.addAttribute("RefundComplete", RefundComplete);
+		model.addAttribute("RefundRequest", RefundRequest);
+		if(searchKeyPb!=null && !searchKeyPb.equals("null")) {
+			model.addAttribute("searchKeyPb", searchKeyPb);
+		}
+		if(searchValuePb!=null && !searchValuePb.equals("null")) {
+			model.addAttribute("searchValuePb", searchValuePb);
+		}
+		if(searchKeyCp!=null && !searchKeyCp.equals("null")) {
+			model.addAttribute("searchKeyCp", searchKeyCp);
+		}
+		if(searchValueCp!=null && !searchValueCp.equals("null")) {
+			model.addAttribute("searchValueCp", searchValueCp);
+		}
+		if(searchKeyRq!=null && !searchKeyRq.equals("null")) {
+			model.addAttribute("searchKeyRq", searchKeyRq);
+		}
+		if(searchValueRq!=null && !searchValueRq.equals("null")) {
+			model.addAttribute("searchValueRq", searchValueRq);
+		}
 		return "buy/applyRefund";
 	}
 	

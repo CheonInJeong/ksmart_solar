@@ -42,6 +42,14 @@ public class BidPlantService {
 		return bidPlantDTO;
 	}
 	public List<BidPlantDTO> getBidPlantMyBid(String sId,String searchKeyPl,String searchValuePl,BidPlantDTO bidPlantDTO) {
+		if(searchKeyPl!=null && searchKeyPl.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKeyPl = null;
+		}
+		if(searchValuePl!=null && searchValuePl.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValuePl = null;
+		}
 		if(searchKeyPl!=null) {
 			if("bTitle".equals(searchKeyPl)) {
 				searchKeyPl="li.b_title";
@@ -51,6 +59,8 @@ public class BidPlantService {
 				searchKeyPl="li.tr_type_name";
 			}else if("mId".equals(searchKeyPl)) {
 				searchKeyPl="pl.m_id";
+			}else {
+				searchKeyPl=null;
 			}
 		}
 		System.out.println(searchKeyPl+"---------------------------searchKeyCp");
@@ -68,7 +78,15 @@ public class BidPlantService {
 		if(bidPlantCount>0) {
 			bidPlantListdto = bidPlantMapper.getBidPlantMyBid(sId,searchKeyPl,searchValuePl,bidPlantDTO);
 		}
-		
+		int num = (bidPlantDTO.getCurrentPageNo()-1)*5;
+		if(bidPlantListdto!=null && bidPlantListdto.size()>0) {
+			for(int i=0; i<bidPlantListdto.size();i++) {
+				for(int j=0; j<bidPlantListdto.get(i).getBidListDTOList().size(); j++) {
+					System.out.println(num);
+					bidPlantListdto.get(i).getBidListDTOList().get(j).setNum(++num);
+				}
+			}
+		}
 		return bidPlantListdto;
 	}
 	public BusinessPlantDTO getPlant(String announceCode) {

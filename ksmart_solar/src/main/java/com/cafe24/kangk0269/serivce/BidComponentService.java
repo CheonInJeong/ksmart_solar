@@ -31,11 +31,45 @@ public class BidComponentService {
 		System.out.println("=========================================================");
 	}
 	
-	public List<BidComponentDTO> getBidComponent(String status) {		
-		List<BidComponentDTO> bidComponentList = bidComponentMapper.getBidComponent(status);
+	public List<BidComponentDTO> getBidComponent(String status,String searchKeyCp,String searchValueCp,BidComponentDTO bidComponentDTO) {		
+		if(searchKeyCp!=null && searchKeyCp.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKeyCp = null;
+		}
+		if(searchValueCp!=null && searchValueCp.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValueCp = null;
+		}
+		if(searchKeyCp!=null) {
+			if("bCpTitle".equals(searchKeyCp)) {
+				searchKeyCp="b_cp_title";
+			}else if("mId".equals(searchKeyCp)) {
+				searchKeyCp="m_id";
+			}
+			else {
+				searchKeyCp=null;
+			}
+		}
+		
+		System.out.println(searchKeyCp+"---------------------------searchKeyCp");
+		System.out.println(searchValueCp+"---------------------------searchValueCp");
+		List<BidComponentDTO> bidComponentList = null;
+		
+		int bidComponentCount = bidComponentMapper.getBidComponentListCount(status,searchKeyCp,searchValueCp);
+		System.out.println(bidComponentCount);
+		Pagination pagination = new Pagination(bidComponentDTO);
+		
+		pagination.setTotalRecordCount(bidComponentCount);
+		
+		bidComponentDTO.setPagination(pagination);
+		
+		if(bidComponentCount>0) {
+			bidComponentList = bidComponentMapper.getBidComponent(status,searchKeyCp,searchValueCp,bidComponentDTO);
+		}
+		int num = (bidComponentDTO.getCurrentPageNo()-1)*5;
 		if(bidComponentList!=null) {
 			for(int i=0; i<bidComponentList.size();i++) {
-				bidComponentList.get(i).setNum(i+1);
+				bidComponentList.get(i).setNum(++num);
 			}
 		}
 		System.out.println(bidComponentList);
@@ -47,6 +81,14 @@ public class BidComponentService {
 		return bidComponentDTO;
 	}
 	public List<BidComponentDTO> getBidComponentMyBid(String mId,String searchKeyCp,String searchValueCp,BidComponentDTO bidComponentDTO) {
+		if(searchKeyCp!=null && searchKeyCp.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKeyCp = null;
+		}
+		if(searchValueCp!=null && searchValueCp.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValueCp = null;
+		}
 		if(searchKeyCp!=null) {
 			if("bTitle".equals(searchKeyCp)) {
 				searchKeyCp="li.b_title";
@@ -57,7 +99,11 @@ public class BidComponentService {
 			}else if("mId".equals(searchKeyCp)) {
 				searchKeyCp="com.m_id";
 			}
+			else {
+				searchKeyCp=null;
+			}
 		}
+		
 		System.out.println(searchKeyCp+"---------------------------searchKeyCp");
 		System.out.println(searchValueCp+"---------------------------searchValueCp");
 		List<BidComponentDTO> bidComponentList = null;
@@ -73,6 +119,15 @@ public class BidComponentService {
 		
 		if(bidComponentCount>0) {
 			bidComponentList = bidComponentMapper.getBidComponentMyBid(mId,searchKeyCp,searchValueCp,bidComponentDTO);
+		}
+		int num = (bidComponentDTO.getCurrentPageNo()-1)*5;
+		if(bidComponentList!=null && bidComponentList.size()>0) {
+			for(int i=0; i<bidComponentList.size();i++) {
+				for(int j=0; j<bidComponentList.get(i).getBidListDTOList().size(); j++) {
+					System.out.println(num);
+					bidComponentList.get(i).getBidListDTOList().get(j).setNum(++num);
+				}
+			}
 		}
 		return bidComponentList;
 	}
