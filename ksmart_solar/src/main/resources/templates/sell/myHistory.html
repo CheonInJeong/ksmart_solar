@@ -47,11 +47,11 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="list:${bidPlantList}">
+                  <tr th:if="${bidPlantList!=null and bidPlantList.size()>0}" th:each="list:${bidPlantList}">
                   	<td class="groupCode" th:text=${list.bPlGroupcode} style="display:none"></td>
                   	<td class="historyBPlCode" th:text=${list.bPlCode}></td>
        				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
-                    <td><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
+                    <td style="text-align:left"><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
                     <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
@@ -59,6 +59,11 @@
                     <td class="historyStatus" th:text="${list.bPlStatus}"></td>
                     <td><button class="HistoryModifyBtn">수정</button></td>
                     <td><button class="HisotryDeleteBtn">삭제</button></td>
+                  </tr>
+                  <tr th:unless="${bidPlantList!=null and bidPlantList.size()>0}">
+                  	<td colspan="9" style="text-align : center">
+                  	등록 된 공고가 없습니다.
+                  	</td>
                   </tr>
                   </tbody>
                   <tfoot>
@@ -112,10 +117,10 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:each="cp:${bidComponentList}">
+                  <tr th:if="${bidComponentList!=null and bidComponentList.size()>0}" th:each="cp:${bidComponentList}">
                   	<td class="bCpCode"th:text=${cp.bCpCode}></td>
             		<td th:text="${cp.componentDTO.cpName}"></td>
-                    <td><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
+                    <td style="text-align:left"><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
                     <td th:text="${cp.bCpPrice}" class="bCpPrice"></td>
                     <td th:text="${cp.bCpDateBidding1}"></td>
                     <td th:text="${cp.bCpDateBidding2}"></td>
@@ -124,6 +129,11 @@
                     <td><button class="cpModifyBtn">수정</button></td>
                     <td><button class="cpDeleteBtn">삭제</button></td>
                   </tr>
+				<tr th:unless="${bidComponentList!=null and bidComponentList.size()>0}">
+					<td colspan="9" style="text-align : center">
+					등록 된 공고가 없습니다.
+					</td>
+				</tr>
                   </tbody>
                   <tfoot>
                    <tr>
@@ -235,18 +245,21 @@
 			
 		
 		</script>
-				<script th:inline="javascript">
-			/*<![CDATA[*/
-
+		<script th:inline="javascript">
+			var searchKey = '&searchKey='+/*[[${searchKey}]]*/;
+			var searchValue= '&searchValue='+/*[[${searchValue}]]*/
+			var searchKeyCp = '&searchKeyCp='+/*[[${searchKeyCp}]]*/;
+			var searchValueCp= '&searchValueCp='+/*[[${searchValueCp}]]*/
+			
 			function movePage(uri, queryString) {
-				location.href = uri + queryString;
+				location.href = uri + queryString+searchKey+searchValue+searchKeyCp+searchValueCp;
 			}
 			
 			function movePage2(uri, queryString) {
-				location.href = uri + queryString;
+				location.href = uri + queryString+searchKey+searchValue+searchKeyCp+searchValueCp;
 			}
 
-			/*]]>*/
+
 		</script>
 	
 	</th:block>

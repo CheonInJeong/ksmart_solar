@@ -41,7 +41,7 @@
 						<tr th:each="l, status : ${successCmList}">
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="수수료납부회원" th:text=${l.mId}></td>
-							<td data-title="거래 수수료금액" th:text=${l.cTradeCm}></td>
+							<td data-title="거래 수수료금액" th:text=${#numbers.formatInteger(l.cTradeCm,3,'COMMA')}></td>
 							<td data-title="관련공고">
 								<form th:action="@{/notice/announcement}" method="post">
 									<a class="announceTitle">[[${l.announcedTitle}]]</a>

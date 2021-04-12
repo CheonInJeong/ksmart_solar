@@ -41,9 +41,9 @@
 						<tr th:each="l, status : ${calculateList}">
 							<td data-title="번호">[[${status.count}]]</td>
 							<td data-title="월" th:text="${l.ymDate}"></td>
-							<td data-title="거래수수료 총액" th:text="${l.sucTotal}"></td>
-							<td data-title="취소수수료 총액" th:text="${l.failTotal}"></td>
-							<td data-title="정산금액" th:text="${l.cmTotal}"></td>
+							<td data-title="거래수수료 총액" th:text="${#numbers.formatInteger(l.sucTotal,3,'COMMA')}"></td>
+							<td data-title="취소수수료 총액" th:text="${#numbers.formatInteger(l.failTotal,3,'COMMA')}"></td>
+							<td data-title="정산금액" th:text="${#numbers.formatInteger(l.cmTotal,3,'COMMA')}"></td>
 						</tr>
 					</tbody>
 				</table>

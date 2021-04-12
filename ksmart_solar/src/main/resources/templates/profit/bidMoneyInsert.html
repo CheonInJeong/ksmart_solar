@@ -7,29 +7,31 @@
 		<title>입출금 입력</title>
 	</th:block>
 <body>
+      	<div class="pull-right" style="margin-right: 30px;">
+      		<a class="btn btn-info" th:href=@{/bidMoneyCheck}>돌아가기</a>
+      	</div>
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">
 				<h4><i class="fa fa-angle-right"></i> 미확인 입출금</h4>
 	              <section id="no-more-tables">
-	              	<div class="pull-right">
-	              		<a class="btn btn-info" th:href=@{/bidMoneyCheck}>돌아가기</a>
-	              	</div>
 					<table class="table table-condensed cf">
 						<thead class="cf">
 							<tr>
 								<th>번호</th>
-								<th>관련코드</th>
-								<th>관련공고코드</th>
-								<th>관련공고</th>
+								<th>목적</th>
 								<th>거래회원</th>
+								<th style="display: none;">관련코드</th>
+								<th style="display: none;">관련공고코드</th>
+								<th>관련공고</th>
+								<th>시작일자</th>
+								<th>마감일자</th>
 								<th>금액</th>
 								<th>입출금구분</th>
 								<th>입출금확인</th>
 								<th>입출금시간</th>
 								<th>거래회원계좌</th>
 								<th>예금주명</th>
-								<th>입출금코드</th>
 								<th>입출금입력</th>
 							</tr>
 						</thead>
@@ -37,16 +39,30 @@
 							<th:block  th:each="l, status : ${moneyCheckList}">
 							<tr th:if="${l.moCode == null}">
 								<td>[[${status.count}]]</td>
-								<td>
-									[[${l.Code}]]
-									<input type="hidden" id="Code" th:value="${check.Code}">
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'b'}">
+									예치금입금(입찰성공)
 								</td>
-								<td>[[${l.nCode}]]</td>
-								<td>[[${l.nTitle}]]</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payin'}">
+									대금입금
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payout'}">
+									대금출금
+								</td>
+								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'deout'}">
+									예치금환불
+								</td>
 								<td>
 									[[${l.Id}]]
 									<input type="hidden" id="Id" th:value="${check.Id}">
 								</td>
+								<td style="display: none;">
+									[[${l.Code}]]
+									<input type="hidden" id="Code" th:value="${check.Code}">
+								</td>
+								<td style="display: none;">[[${l.nCode}]]</td>
+								<td>[[${l.nTitle}]]</td>
+								<td>[[${l.startDate}]]</td>
+								<td>[[${l.endDate}]]</td>
 								<td>
 									[[${l.money}]]
 									<input type="hidden" id="money" th:value="${check.money}">
@@ -64,8 +80,9 @@
 								</td>
 								<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
 								<td>[[${l.accountName}]]</td>
-								<td>[[${l.moCode}]]</td>
-								<td><button class="btn btn-success" type="button" onclick="checkFinish()">확인</button> </td>
+								<td>
+									<button class="btn btn-success" type="button" onclick="checkFinish()">확인</button> 
+								</td>
 							</tr>
 							</th:block>
 						</tbody>
