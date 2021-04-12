@@ -129,7 +129,7 @@
 			m_id = #{login_id}
 	</update>
 	
-	<!-- 개인 회원정보수정  -->
+	<!-- 개인 프로필 수정처리  -->
 	<update id="modifyMyInfo" parameterType="String">
 		UPDATE tb_member
 		SET

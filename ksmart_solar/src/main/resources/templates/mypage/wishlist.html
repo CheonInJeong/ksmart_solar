@@ -43,15 +43,15 @@
 		                    <td data-title="공고 코드" th:text="${l.pCode}"></td>
 		                    <td>
 		                    	<form th:action="@{/notice/announcement}" method="post">
-			                		<a class="announceTitle">[[${l.bidPlantDTO.bPlTitle}]]</a>
+			                		<a class="announceTitle" style="cursor: pointer" th:text="${l.bidPlantDTO.bPlTitle}"></a>
 			                		<input type="hidden" name="announceCode" th:value="${l.pCode}">
 			                      	<input type="hidden" name="announceType" value="발전소">
 		                    	</form>
 		                    </td>
-		                    <td data-title="입찰 시작가" th:text="${l.bidPlantDTO.bPlPrice}"></td>
+		                    <td class="price" data-title="입찰 시작가" th:text="${l.bidPlantDTO.bPlPrice}"></td>
 		                    <td data-title="입찰 마감일" th:text="${l.bidPlantDTO.bPlDateBidding2}"></td>
 							<td data-title="삭제">
-								<a th:href="@{/mypage/removeWishlist(pIdx=${l.pIdx})}">삭제</a>
+								<a class="btn btn-danger btn-xs" th:href="@{/mypage/removeWishlist(pIdx=${l.pIdx})}">삭제</a>
 							</td>
 	                	</tr>
                 	</th:block>
@@ -98,6 +98,14 @@
 			$('.announceTitle').click(function(){
 				$(this).parent().submit();
 			});
+			
+			//콤마
+				$(function(){
+				var price = $('.price');
+				price.each(function(){
+					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				})
+			})
 			
 		</script>
 	</th:block>

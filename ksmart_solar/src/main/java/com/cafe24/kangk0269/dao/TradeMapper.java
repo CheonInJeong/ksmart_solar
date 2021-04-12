@@ -21,10 +21,22 @@ public interface TradeMapper {
 	
 	// 취소수수료목록
 	public List<TradeFailDTO> getFailCommission();
-	
+
+	// 거래대금 출금
+	public int paymentWithdraw(String Code);
+	// 거래대금 출금신청 상세조회
+	public TradePaymentOutDTO getPaymentOut(String Code);
 	// 거래대금출금신청목록
 	public List<TradePaymentOutDTO> getPaymentOutList();
 	
+	// 예치금 출금 계좌확인
+	public int depositAccountCheck(String Code);
+	// 예치금 출금(예치금 출금신청 테이블 변경)
+	public int depositWithdraw1(String Code);
+	// 예치금 출금(입찰자 테이블 변경)
+	public int depositWithdraw2(String bCode);
+	// 예치금 출금신청 상세조회
+	public TradeDepositOutDTO getDepositOut(String Code);
 	// 예치금출금신청목록
 	public List<TradeDepositOutDTO> getDepositOutList();
 	

@@ -99,6 +99,62 @@ public class ProfitController {
 		return "/profit/calculate";
 	}
 	
+	@PostMapping("/withDraw")
+	public String WithDraw(@RequestParam(name="Code", required=false) String Code) {
+		System.out.println("출금완료 출금신청코드 : " + Code);
+		String codeName = null;
+		String bCode = null;
+		codeName = Code.substring(0, Code.indexOf('_'));
+		TradeDepositOutDTO depositout = tradeService.getDepositOut(Code);
+		bCode = depositout.getbCode();
+		if(codeName != null && bCode != null) {
+			if(codeName.equals("deout")) {
+				// 예치금 출금 신청 테이블 : 출금여부 = Y
+				tradeService.depositWithdraw1(Code);
+				// 입찰자 테이블 : 예치금 환불 가능여부 = N, 환불완료여부 = Y
+				tradeService.depositWithdraw2(bCode);
+			}else if(codeName.equals("payout")) {
+				
+			}
+		}
+		return "redirect:/profit/depositList";
+	}
+	
+	@PostMapping("/accountCheck")
+	public String accountCheck(@RequestParam(name="Code", required=false) String Code) {
+		System.out.println("계좌확인 출금신청코드 : " + Code);
+		String codeName = null;
+		codeName = Code.substring(0, Code.indexOf('_'));
+		if(codeName != null) {
+			if(codeName.equals("deout")) {
+				tradeService.depositAccountCheck(Code);
+			}else if(codeName.equals("payout")) {
+				
+			}
+		}
+		
+		return "redirect:/profit/withDraw?Code=" + Code;
+	}
+	
+	@GetMapping("/profit/withDraw")
+	public String withDraw(Model model, @RequestParam(name="Code", required=false) String Code) {
+		System.out.println("출금신청코드 : " + Code);
+		String codeName = null;
+		codeName = Code.substring(0, Code.indexOf('_'));
+		if(codeName != null) {
+			if(codeName.equals("deout")) {
+				TradeDepositOutDTO depositout = tradeService.getDepositOut(Code);
+				System.out.println(depositout);
+				model.addAttribute("depositout", depositout);
+			}else if(codeName.equals("payout")) {
+				TradePaymentOutDTO paymentout = tradeService.getPaymentOut(Code);
+				System.out.println(paymentout);
+				model.addAttribute("paymentout", paymentout);
+			}
+		}
+		return "/profit/withDraw";
+	}
+	
 	@GetMapping("/profit/depositList")
 	public String DepositList(Model model) {
 		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList();
