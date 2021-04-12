@@ -17,9 +17,24 @@
 		<div class="row mt">
           <div class="col-md-12 container">
             <div class="content-panel">
+	            <h4><i class="fa fa-angle-right"></i>예치금 환불가능 목록</h4>
+	            <hr>
+	            <div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/buy/applyRefund}">
+	            	<select name="searchKeyPb">
+	            		<option>카테고리</option>
+	            		<option value="bTitle">공고명</option>
+	            		<option value="bTypeCode">품목</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValuePb" th:value="${searchValuePb}">
+	            	<input type="hidden" name="searchKeyCp" th:value="${searchKeyCp}">
+		            <input type="hidden" name="searchValueCp" th:value="${searchValueCp}">
+		            <input type="hidden" name="searchKeyRq" th:value="${searchKeyRq}">
+		            <input type="hidden" name="searchValueRq" th:value="${searchValueRq}">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+               </div>
               <table class="table table-striped table-advance table-hover">
-                <h4><i class="fa fa-angle-right"></i>예치금 환불가능 목록</h4>
-                <hr>
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
@@ -31,9 +46,9 @@
                 </thead>
                 <tbody>
                 	<th:block th:if="${refundList!=null}">
-	                	<th:block th:if="${refundList.size()>0 and refundList.RefundPossibleList.size()>0}" th:each="l,index:${refundList.RefundPossibleList}">
+	                	<th:block th:if="${refundList.size()>0 and refundList.RefundPossibleList.size()>0}" th:each="l:${refundList.RefundPossibleList}">
 			                  <tr>
-			                    <td>[[${index.count}]]</td>
+			                    <td>[[${l.num}]]</td>
 			                    <td>
 			                    	<form th:action="@{/buy/refundRequest}" method="post">
 				                      	<a class="announceTitle">[[${l.bTitle}]]</a>
@@ -48,26 +63,66 @@
 			                    <td th:if="${l.bTypeCode=='2'}">부품</td>
 			                    <td class="price">[[${l.bDeposit}]]</td>
 			                    <td>[[${l.bDate}]]</td>
-			                    
 			                  </tr>
 	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundPossibleList.size()==0}">
+                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundPossibleList==null or refundList.RefundPossibleList.size()==0}">
 		                  <tr>
 		                    <td colspan="5" style="text-align: center;">환불 가능한 목록이 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
+                <tfoot>
+                   <tr>
+                   	<td colspan ="6" style="text-align:center;">
+	                	<nav th:if="${RefundPossible != null and RefundPossible.pagination?.totalRecordCount > 0}" th:object="${RefundPossible.pagination}" th:with="info=${RefundPossible.pagination}" aria-label="Page navigation" class="text-center">
+							<ul class="pagination">
+								<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundPossible.makeQueryString(1)} ]])">
+									<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+								</li>
+								<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundPossible.makeQueryString(info.firstPage - 1)} ]])">
+									<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+								</li>
+								<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == RefundPossible.currentPageNo} ? 'active'">
+									<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundPossible.makeQueryString(pageNo)} ]])"></a>
+								</li>
+								<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundPossible.makeQueryString(info.lastPage + 1)} ]])">
+									<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+								</li>
+								<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundPossible.makeQueryString(info.totalPageCount)} ]])">
+									<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+								</li>
+							</ul>
+						</nav>
+                  	</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
         </div>
+        
 		<div class="row mt">
           <div class="col-md-12 container">
             <div class="content-panel">
-              <table class="table table-striped table-advance table-hover">
                 <h4><i class="fa fa-angle-right"></i> 예치금 환불완료 목록</h4>
                 <hr>
+                <div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/buy/applyRefund}">
+	            	<select name="searchKeyCp">
+	            		<option>카테고리</option>
+	            		<option value="bTitle">공고명</option>
+	            		<option value="bTypeCode">품목</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValueCp" th:value="${searchValueCp}">
+	            	<input type="hidden" name="searchKeyPb" th:value="${searchKeyPb}">
+		            <input type="hidden" name="searchValuePb" th:value="${searchValuePb}">
+		            <input type="hidden" name="searchKeyRq" th:value="${searchKeyRq}">
+		            <input type="hidden" name="searchValueRq" th:value="${searchValueRq}">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+               </div>
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
@@ -79,9 +134,9 @@
                 </thead>
                 <tbody>
                 	<th:block th:if="${refundList!=null}">
-	                	<th:block th:if="${refundList.size>0 and refundList.RefundCompleteList.size()>0}" th:each="l,index:${refundList.RefundCompleteList}">
+	                	<th:block th:if="${refundList.size>0 and refundList.RefundCompleteList.size()>0}" th:each="l:${refundList.RefundCompleteList}">
 			                  <tr>
-			                    <td>[[${index.count}]]</td>
+			                    <td>[[${l.num}]]</td>
 			                    <td>
 			                    	<form th:action="@{/buy/refundResult}" method="post">
 			                    		<input th:if="${l.bTypeCode=='1'}" type="hidden" name="bType" th:value="${'발전소'}">
@@ -99,12 +154,37 @@
 			                  </tr>
 	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundCompleteList.size()==0}">
+                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundCompleteList==null or refundList.RefundCompleteList.size()==0}">
 		                  <tr>
 		                    <td colspan="5" style="text-align: center;">환불 완료한 목록이 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
+                 <tfoot>
+                   <tr>
+                   	<td colspan ="6" style="text-align:center;">
+	                	<nav th:if="${RefundComplete != null and RefundComplete.pagination?.totalRecordCount > 0}" th:object="${RefundComplete.pagination}" th:with="info=${RefundComplete.pagination}" aria-label="Page navigation" class="text-center">
+							<ul class="pagination">
+								<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundComplete.makeQueryString(1)} ]])">
+									<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+								</li>
+								<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundComplete.makeQueryString(info.firstPage - 1)} ]])">
+									<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+								</li>
+								<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == RefundComplete.currentPageNo} ? 'active'">
+									<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundComplete.makeQueryString(pageNo)} ]])"></a>
+								</li>
+								<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundComplete.makeQueryString(info.lastPage + 1)} ]])">
+									<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+								</li>
+								<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundComplete.makeQueryString(info.totalPageCount)} ]])">
+									<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+								</li>
+							</ul>
+						</nav>
+                  	</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
@@ -113,9 +193,24 @@
 		<div class="row mt">
           <div class="col-md-12 container">
             <div class="content-panel">
-              <table class="table table-striped table-advance table-hover">
                 <h4><i class="fa fa-angle-right"></i> 예치금 환불신청 목록</h4>
                 <hr>
+                <div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/buy/applyRefund}">
+	            	<select name="searchKeyRq">
+	            		<option>카테고리</option>
+	            		<option value="bTitle">공고명</option>
+	            		<option value="bTypeCode">품목</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValueRq" th:value="${searchValueRq}">
+	            	<input type="hidden" name="searchKeyCp" th:value="${searchKeyCp}">
+		            <input type="hidden" name="searchValueCp" th:value="${searchValueCp}">
+		            <input type="hidden" name="searchKeyPb" th:value="${searchKeyPb}">
+		            <input type="hidden" name="searchValuePb" th:value="${searchValuePb}">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+               </div>
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th class="col-md-1">번호</th>
@@ -127,9 +222,9 @@
                 </thead>
                 <tbody>
                 	<th:block th:if="${refundList!=null}">
-	                	<th:block th:if="${refundList.size>0 and refundList.RefundRequestList.size()>0}" th:each="l,index:${refundList.RefundRequestList}">
+	                	<th:block th:if="${refundList.size>0 and refundList.RefundRequestList.size()>0}" th:each="l:${refundList.RefundRequestList}">
 			                  <tr>
-			                    <td>[[${index.count}]]</td>
+			                    <td>[[${l.num}]]</td>
 			                    <td>
 			                    	<form th:action="@{/buy/refundInfo}" method="post">
 			                    		<input th:if="${l.bTypeCode=='1'}" type="hidden" name="bType" th:value="${'발전소'}">
@@ -146,12 +241,37 @@
 			                  </tr>
 	                	</th:block>
                 	</th:block>
-                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundRequestList.size()==0}">
+                	<th:block th:if="${refundList==null or refundList.size()==0 or refundList.RefundRequestList==null or refundList.RefundRequestList.size()==0}">
 		                  <tr>
 		                    <td colspan="5" style="text-align: center;">환불 신청한 목록이 없습니다.</td>		                 
 		                  </tr>
                 	</th:block>
                 </tbody>
+                 <tfoot>
+                   <tr>
+                   	<td colspan ="6" style="text-align:center;">
+	                	<nav th:if="${RefundRequest != null and RefundRequest.pagination?.totalRecordCount > 0}" th:object="${RefundRequest.pagination}" th:with="info=${RefundRequest.pagination}" aria-label="Page navigation" class="text-center">
+							<ul class="pagination">
+								<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundRequest.makeQueryString(1)} ]])">
+									<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+								</li>
+								<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundRequest.makeQueryString(info.firstPage - 1)} ]])">
+									<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+								</li>
+								<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == RefundRequest.currentPageNo} ? 'active'">
+									<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundRequest.makeQueryString(pageNo)} ]])"></a>
+								</li>
+								<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundRequest.makeQueryString(info.lastPage + 1)} ]])">
+									<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+								</li>
+								<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${RefundRequest.makeQueryString(info.totalPageCount)} ]])">
+									<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+								</li>
+							</ul>
+						</nav>
+                  	</td>
+                  </tr>
+                </tfoot>
               </table>
             </div>
           </div>
@@ -177,6 +297,39 @@
 				})
 			})
 			
+		</script>
+		
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+			var searchKeyPb = '&searchKeyPb='		+	/*[[ ${searchKeyPb} ]]*/;
+			var searchValuePb = '&searchValuePb='	+	/*[[ ${searchValuePb} ]]*/;
+			var searchKeyCp = '&searchKeyCp='		+	/*[[ ${searchKeyCp} ]]*/;
+			var searchValueCp = '&searchValueCp='	+	/*[[ ${searchValueCp} ]]*/;
+			var searchKeyRq = '&searchKeyRq='		+	/*[[ ${searchKeyRq} ]]*/;
+			var searchValueRq = '&searchValueRq='	+	/*[[ ${searchValueRq} ]]*/;
+			var selectPb = $('select[name="searchKeyPb"]');
+			var selectCp = $('select[name="searchKeyCp"]');
+			var selectRq = $('select[name="searchKeyRq"]');
+			selectPb.children().each(function(){
+				if($(this).val()==/*[[ ${searchKeyPb} ]]*/){
+					$(this).prop('selected',true);
+				}
+			})
+			selectCp.children().each(function(){
+				if($(this).val()==/*[[ ${searchKeyCp} ]]*/){
+					$(this).prop('selected',true);
+				}
+			})
+			selectRq.children().each(function(){
+				if($(this).val()==/*[[ ${searchKeyRq} ]]*/){
+					$(this).prop('selected',true);
+				}
+			})
+			function movePage(uri, queryString) {
+				location.href = uri + queryString + searchKeyPb + searchValuePb + searchKeyCp + searchValueCp + searchKeyRq + searchValueRq;
+			}
+			
+			/*]]>*/
 		</script>
 	</th:block>
 </html>

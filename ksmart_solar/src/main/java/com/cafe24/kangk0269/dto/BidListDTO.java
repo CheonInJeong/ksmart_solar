@@ -1,6 +1,7 @@
 package com.cafe24.kangk0269.dto;
 
-public class BidListDTO {
+public class BidListDTO extends CommonDTO {
+	private int num;
 	private String bCode;
 	private String announcedCode;
 	private String bTypeCode;	
@@ -29,6 +30,14 @@ public class BidListDTO {
 
 	private BusinessDTO businessDTO;
 	private TradeDepositOutDTO tradeDepositOutDTO;
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
+	}
 
 	public TradeDepositOutDTO getTradeDepositOutDTO() {
 		return tradeDepositOutDTO;
@@ -249,7 +258,9 @@ public class BidListDTO {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("BidListDTO [bCode=");
+		builder.append("BidListDTO [num=");
+		builder.append(num);
+		builder.append(", bCode=");
 		builder.append(bCode);
 		builder.append(", announcedCode=");
 		builder.append(announcedCode);

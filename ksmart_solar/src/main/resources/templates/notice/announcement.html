@@ -56,26 +56,31 @@
 	                <tbody>
 	                  <tr>
 	                    <td>공고코드</td>
-	                    <td colspan="3" ></td>
+	                    <td th:text="${bidComponentdto.bCpCode}"></td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>재공고 여부</td>
-	                    <td colspan="3" >
+	                    <td >
 	                    	<div th:if="${bidComponentdto.bCpReCount==0}">신규</div>
 		              		<div th:if="${bidComponentdto.bCpReCount>0}">재공고</div>
 	                    </td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고제목</td>
-	                    <td colspan="3" th:text="${bidComponentdto.bCpTitle}"></td>
+	                    <td th:text="${bidComponentdto.bCpTitle}"></td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고내용</td>
-	                    <td colspan="3" th:text="${bidComponentdto.bCpContents}"></td>
+	                    <td th:text="${bidComponentdto.bCpContents}"></td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>입찰 시작가</td>
-	                  	<td colspan="3" class="price" th:text="${bidComponentdto.bCpPrice+'원'}"></td>
+	                  	<td class="price" th:text="${bidComponentdto.bCpPrice+'원'}"></td>
+	                  	<td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>공고시작일</td>
@@ -91,7 +96,8 @@
 	                  </tr>
 	                  <tr>
 	                  	<td>진행상태</td>
-	                  	<td colspan="3" th:text=${bidComponentdto.bCpStatus}></td>
+	                  	<td th:text=${bidComponentdto.bCpStatus}></td>
+	                  	<td colspan="2"></td>
 	                  </tr>
 	                </tbody>
 	              </table>
@@ -117,26 +123,31 @@
 	                <tbody>
 	                  <tr>
 	                    <td>공고코드</td>
-	                    <td colspan="3" th:text="${bidPlantdto.bPlCode}"></td>
+	                    <td th:text="${bidPlantdto.bPlCode}"></td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>재공고 여부</td>
-	                    <td colspan="3" >
+	                    <td>
 	                    	<div th:if="${bidPlantdto.bPlReCount==0}">신규</div>
 		              		<div th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
 	                    </td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고제목</td>
-	                    <td colspan="3" th:text="${bidPlantdto.bPlTitle}"></td>
+	                    <td th:text="${bidPlantdto.bPlTitle}"></td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고내용</td>
-	                    <td colspan="3" th:text="${bidPlantdto.bPlContents}"></td>
+	                    <td th:text="${bidPlantdto.bPlContents}"></td>
+	                    <td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>입찰 시작가</td>
-	                  	<td colspan="3" class="price" th:text="${bidPlantdto.bPlPrice+'원'}"></td>
+	                  	<td class="price" th:text="${bidPlantdto.bPlPrice+'원'}"></td>
+	                  	<td colspan="2"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>공고시작일</td>
@@ -152,7 +163,8 @@
 	                  </tr>
 	                  <tr>
 	                  	<td>진행상태</td>
-	                  	<td colspan="3" th:text=${bidPlantdto.bPlStatus}></td>
+	                  	<td th:text=${bidPlantdto.bPlStatus}></td>
+	                  	<td colspan="2"></td>
 	                  </tr>
 	                </tbody>
 	              </table>

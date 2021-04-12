@@ -2,57 +2,6 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <div th:fragment="bidResultFragment">
-<!-- 	<div class="chat-room mt" >
-		<aside class="mid-side container">
-            <div class="chat-room-head">
-              <h3>입찰 정보</h3>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">입찰금액</div>
-              <div class="second-part price" th:text="${bidListDTO.bPrice}"></div>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">예치금</div>
-              <div class="second-part price" th:text="${bidListDTO.bDeposit}"></div>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">입금 은행</div>
-              <div class="second-part" th:text="${bidListDTO.mAccountBankName}"></div>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">관리자계좌번호</div>
-              <div class="second-part" th:text="${bidListDTO.mAccountNumber}"></div>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">입금자 성명</div>
-              <div class="second-part" th:text="${bidListDTO.mPaymentName}"></div>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">입금 여부</div>
-              <div class="second-part" th:text="${bidListDTO.bDepositCheck}"></div>
-            </div>
-            <div class="group-rom" th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=3 and bidListDTO.trTypeCode<=14)}">
-              <div class="first-part odd">예치금 환불 가능 여부</div>
-              <div class="second-part" th:if="${bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='N' }">가능</div>
-              <div class="second-part" th:if="${bidListDTO.bDepositAvailable=='N' and 
-              									(bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='Y')}">불가능</div>
-            </div>
-            <div class="group-rom" th:if="${bidListDTO.trTypeCode>5 and bidListDTO.trTypeCode<15}">
-              <div class="first-part odd">순위</div>
-              <div class="second-part" th:text="${bidListDTO.bRank+'순위'}"></div>
-            </div>
-            <div class="group-rom">
-              <div class="first-part odd">내 진행 상태</div>
-              <div class="second-part" th:text="${bidListDTO.trTypeName}"></div>
-            </div>
-			<div class="group-rom">
-				<div class="first-part odd">파일 첨부</div>
-				<div class="second-part">
-					<input type="file" id="files" class="default" name="files" multiple="multiple">
-				</div>
-			</div>
-         </aside>
-	</div> -->
 	<div class="row">
 	  <div class="col-md-12">
 	    <div class="content-panel">
@@ -80,17 +29,20 @@
 	          </tr>
 	         <tr th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=3 and bidListDTO.trTypeCode<=14)}">
               <td>예치금 환불 가능 여부</td>
-              <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='N' }">가능</td>
-              <td colspan="3" th:if="${bidListDTO.bDepositAvailable=='N' or 
+              <td th:if="${bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='N' }">가능</td>
+              <td th:if="${bidListDTO.bDepositAvailable=='N' or 
               									(bidListDTO.bDepositAvailable=='Y' and bidListDTO.bDepositRefund=='Y')}">불가능</td>
+              <td colspan="2"></td>
             </tr>
             <tr th:if="${bidListDTO.trTypeCode>5 and bidListDTO.trTypeCode<15}">
               <td>순위</td>
-              <td colspan="3" th:text="${bidListDTO.bRank+'순위'}"></td>
+              <td th:text="${bidListDTO.bRank+'순위'}"></td>
+              <td colspan="2"></td>
             </tr>
 	          <tr>
 	          	 <td>내 진행 상태</td>
-	             <td colspan="3" th:text="${bidListDTO.trTypeName}"></td>
+	             <td th:text="${bidListDTO.trTypeName}"></td>
+	             <td colspan="2"></td>
 	          </tr>
 	          <tr>
           		<td>첨부 파일</td>
@@ -98,8 +50,9 @@
                   	<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
                 </th:block>
                 <th:block th:if="${fileList.size()==0}" >
-                  	<td colspan="3">등록 된 파일이 없습니다.</td>
+                  	<td>등록 된 파일이 없습니다.</td>
                 </th:block>
+                <td colspan="2"></td>
 	          </tr>
 	        </tbody>
 	      </table>
