@@ -65,8 +65,6 @@ public class MyPageController {
 			ScriptUtils.alertAndBackPage(response, "등록되었습니다");
 			pickService.addWishlist(announcedCode, log_id);
 		}
-		
-
 	}
 
 	// 관심목록 삭제
@@ -178,29 +176,18 @@ public class MyPageController {
 
 	}
 
-	// 계좌 수정처리
-	@PostMapping("/mypage/modifyAccount")
-	public String modifyAccount(MemberAccountDTO memberAccountDTO) {
-		System.out.println("====================================");
-		System.out.println("수정한 계좌 내용->>" + memberAccountDTO);
-		System.out.println("====================================");
-		int result = accountService.modifyAccount(memberAccountDTO);
-		return "redirect:/mypage/myAccount";
-	}
-
-	// 계좌 수정화면
-	@GetMapping("/mypage/modifyAccount")
-	public String modifyAccount(Model model, @RequestParam(name = "mAccountIdx", required = false) int mAccountIdx) {
-		System.out.println("==================================");
-		System.out.println("입력받은 계좌 인덱스->>" + mAccountIdx);
-		System.out.println("==================================");
-		MemberAccountDTO memberAccountDTO = accountService.modifyAccountByIdx(mAccountIdx);
-
-		System.out.println("선택계좌정보조회->>" + memberAccountDTO);
+	
+	//계좌 사용여부 변경처리
+	@RequestMapping(value="/modifyAccountUse", method = RequestMethod.POST)
+	public @ResponseBody boolean modifyAccountUse(Model model
+												, @RequestParam(name = "mAccountCheck", required = false) String mAccountCheck
+												, @RequestParam(name = "mAccountIdx", required = false) int mAccountIdx) {
+		MemberAccountDTO memberAccountDTO = accountService.modifyAccountUse(mAccountCheck, mAccountIdx);
 		model.addAttribute("memberAccountDTO", memberAccountDTO);
-		return "/mypage/modifyAccount";
+		return false;
+		
 	}
-
+	
 	// 계좌등록 처리
 	@PostMapping("/mypage/addAccount")
 	public String addAccount(MemberAccountDTO memberAccountDTO) {

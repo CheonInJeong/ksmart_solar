@@ -15,6 +15,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 
 
+	<!--  -->
+
 	<!-- 계좌 삭제처리  -->
 	<delete id="removeAccount" parameterType="int">
 		DELETE FROM tb_member_account
@@ -22,35 +24,20 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			m_account_idx = #{mAccountIdx};
 	</delete>
 
-	<!-- 계좌 수정처리  -->
-	<update id="modifyAccount" parameterType="MemberAccountDTO">
+
+	<!-- 계좌 사용여부 변경처리 -->
+	<update id="modifyAccountUse" parameterType="map">
 		UPDATE tb_member_account
 		SET
-			m_account_number=#{mAccountNumber},
-			m_account_name=#{mAccountName},
-			m_account_bank=#{mAccountBank},
-			m_account_reg_date=NOW(),
-			m_account_check=#{mAccountCheck}
-		WHERE
-			m_account_idx = #{mAccountIdx};
+		<if test="mAccountCheck == 'Y'">
+			m_account_check = 'N'
+		</if>
+		<if test="mAccountCheck == 'N'">
+			m_account_check = 'Y'
+		</if>
+			WHERE m_account_idx = #{mAccountIdx} 
 	</update>
 	
-	<!-- 개인계좌 수정화면 -->
-	<select id="modifyAccountByIdx" parameterType="int" resultMap="MemberAccountDTOMap">
-		SELECT 
-			  m_account_idx
-			, m_id
-			, m_account_number
-			, m_account_name
-			, m_account_bank
-			, m_account_check
-			, m_account_reg_date
-		FROM 
-			tb_member_account
-		WHERE
-			m_account_idx = #{mAccountIdx};
-		
-	</select>
 
 	<!-- 개인 계좌등록 -->
 	<insert id="addAccout" parameterType="MemberAccountDTO">
@@ -85,6 +72,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE
 			 m_id= #{login_id};
 	</select>
+	
+	
 	<select id="getAccountListByIdx" parameterType="String" resultMap="MemberAccountDTOMap">
 		SELECT
 			  m_account_idx	

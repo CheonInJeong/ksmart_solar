@@ -37,19 +37,10 @@ public class AccountService {
 		return result;
 	}
 	
-	//계좌 수정처리
-	public int modifyAccount(MemberAccountDTO memberAccountDTO) {
-		int result = bankAccountMapper.modifyAccount(memberAccountDTO);
-		return result;
+	//계좌 사용여부 변경처리
+	public MemberAccountDTO modifyAccountUse(String mAccountCheck, int mAccountIdx) {
+		return bankAccountMapper.modifyAccountUse(mAccountCheck, mAccountIdx);
 	}
-	
-	
-	//개인 계좌수정화면
-	public MemberAccountDTO modifyAccountByIdx(int mAccountIdx) {
-		return bankAccountMapper.modifyAccountByIdx(mAccountIdx);
-		
-	}
-	
 	
 	//개인 계좌등록
 	public int addAccout(MemberAccountDTO memberAccountDTO) {
