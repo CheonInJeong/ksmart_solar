@@ -137,17 +137,18 @@ public class BoardSellerService {
 				}
 				
 				System.out.println(commentDto.getPagination().getFirstRecordIndex()+"<----댓글");
-				int start = commentDto.getPagination().getFirstRecordIndex();
-				int end = 10;
-				int listSize = commentAllList.size();
 				
+				int start = commentDto.getPagination().getFirstRecordIndex();
+				int listSize = commentAllList.size();
 				if(start > 0) {
-					commentAllList.subList(0, (start*10)-1).clear();
-					commentAllList.subList((start*10)+10, listSize).clear();
+					commentAllList.subList(0, start).clear();
+					
+					if(start > (listSize-10)) commentAllList.subList(start, listSize).clear();
 					
 				}else {
-					if(end > listSize) commentAllList.subList(end, listSize).clear();
+					commentAllList.subList(10, listSize).clear();
 				}
+				
 				return commentAllList;
 		}
 		
