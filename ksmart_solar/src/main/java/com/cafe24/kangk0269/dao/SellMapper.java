@@ -18,6 +18,9 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	
+	
+	
 	//공고그룹 코드로 최신 공고 코드 얻기
 	public String getRecentlybPlCodeByGroupcode(String groupCode);
 	
@@ -25,19 +28,29 @@ public interface SellMapper {
 	public BidPlantDTO getPlantAcStatusByCode(String bPlCode);
 	//b_recently 'Y' -> 'N'으로
 	public int updateBPlantRecentlyYn(String bPlCode);
+	public int updateBComponentRecentlyYn(String cpCode);
+	
 	//b_recently 'N' -> 'Y'으로
 	public int updateBPlantRecentlyNy(String groupcode);
+	public int updateBComponentRecentlNy(String groupcode);
 	
 	
 	//발전소 재공고신청
 	public int addPlantRebidApply(BidPlantDTO bidPlantDTO);
+	//부품 재공고 신청
+	public int addComponentRebidApply(BidComponentDTO bidComponentDTO);
 	
 	
+	//발전소 공고 상태 얻기
 	public List<BidPlantDTO> getBidPlantAcById (String id);
 	
+	
+	public List<BidComponentDTO> getBidComponentAcById (String id);
+	//발전소 재공고 신청화면
 	public BidPlantDTO getBidPlantAcByIdCode(@Param(value="mId") String id
 											  ,@Param(value="bzPlCode") String bzPlCode);
-	
+	//부품 재공고 신청화면
+	public BidComponentDTO getBidComponentAcByIdCode(String mId, String cpCode);
 	
 	//update rank
 	public int modifyRank(@Param(value="bRank") int rank, @Param(value="bCode") String code) throws Exception;
@@ -59,7 +72,7 @@ public interface SellMapper {
 								 ,@Param(value="bCheck") String check)  throws Exception;
 	
 	//부품 공고 코드 가져오기(파일등록을 위한)
-	public BidComponentDTO getBidComponentCode(String code)  throws Exception;
+	public String getBidComponentCode(String code)  throws Exception;
 	//부품 공고 
 	public BidComponentDTO getBidComponentByCode(String code) throws Exception;
 	//부품 공고 수정처리

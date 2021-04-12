@@ -19,9 +19,11 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.cafe24.kangk0269.common.Criteria;
+import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.CommentDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
@@ -43,6 +45,8 @@ public class SellController {
 	@Autowired
 	private final BoardSellerService boardSellerService;
 	
+	SavePaging savePaging = null;
+	
 	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService) {
 		this.sellService = sellService;
 		this.plantService = plantService;
@@ -54,9 +58,6 @@ public class SellController {
 	@RequestMapping(value="/ajax/modifyCmt" , method = RequestMethod.POST)
 	public @ResponseBody String modifyCmt(@RequestParam(value="cmtIdx") int cmtIdx,
 										  @RequestParam(value="comment") String comment) {
-		System.out.println("컨트롤러 왜 안들어와?");
-		System.out.println(cmtIdx+"<----cmtIdx");
-		System.out.println(comment+"<-----comment");
 		boardSellerService.modifyCmt(cmtIdx, comment);
 		return comment ;
 	}
@@ -70,7 +71,6 @@ public class SellController {
 										 @RequestParam(value="cmtIdx") int cmtIdx,
 										 @RequestParam(value="targetId") String targetId,
 										 HttpSession session) {
-		System.out.println(cmtIdx+"<-----댓글인덱스");
 		boardSellerService.addReCmt(bIdx, comment, targetId, (String)session.getAttribute("SID"), cmtIdx);
 		return "성공";
 	}
@@ -83,7 +83,6 @@ public class SellController {
 										@RequestParam(value="boardId") String boardId,
 										HttpSession session){
 		System.out.println((String)session.getAttribute("SID"));
-		System.out.println(bIdx+"<----게시글 번호");
 		boardSellerService.addCmt(bIdx, comment, boardId, (String)session.getAttribute("SID"));
 		
 		return "성공";
@@ -103,18 +102,33 @@ public class SellController {
 	@GetMapping(value="/sell/qnaDetail")
 	public String qnaDetail(@RequestParam(value="idx") int idx,
 							Model model,
-							@ModelAttribute("commentDTO") CommentDTO commentDTO) {
+							HttpSession session,
+							@RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+							@RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+							@RequestParam(value = "pageSize", required = false) 			String pageSize,
+							@RequestParam(value = "state", required = false) String state) {
+		
+		CommentDTO commentDTO = new CommentDTO();
+		commentDTO.setState(1);
+		if(savePaging==null||state==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,10,5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		savePaging.getPaging(commentDTO);
+		
 		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
 		model.addAttribute("comments",boardSellerService.getCommentList(idx,commentDTO));
+		model.addAttribute("commentDTO",commentDTO);
 		
-		System.out.println(commentDTO.getPagination()+"<0--컨트롤러 coomentDTO");
-		if(commentDTO==null) {
-			System.out.println( "null 인지");
-		}
+		
+		
 		return "sell/qnaDetail";
 	}
 	
-	//재공고등록
+	//발전소재공고 처리
 	@PostMapping(value="/sell/addNewPlantSell")
 	public String addNewPlantBid(BidPlantDTO bidPlantDTO,MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request) throws Exception {
 		sellService.addPlantRebidApply(bidPlantDTO,multipartHttpServletRequest,request);
@@ -122,14 +136,19 @@ public class SellController {
 		return "redirect:/sell/myHistory";
 	}
 	
+	//부품 재공고 처리
+	@PostMapping(value="/sell/addNewComponentSell")
+	public String addNewComponentSell(BidComponentDTO bidComponentDTO,MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request ) throws Exception{
+		sellService.addComponentRebidApply(bidComponentDTO, multipartHttpServletRequest, request);
+		return "redirect:/sell/myHistory";
+	}
 	
+	//발전소재공고화면
 	@GetMapping(value="/sell/addNewPlantSell") 
 	public String addNewPlantBid(@RequestParam(value="mId") String mId
-								,@RequestParam(value="groupCode") String groupCode
 								,@RequestParam(value="bzPlcode") String code
 								, Model model)  throws Exception {
 		System.out.println(mId+"<-----재공고신청 아이디");
-		System.out.println(groupCode+"<-----그룹코드");
 		System.out.println(code+"<-----발전소코드");
 		
 		
@@ -138,8 +157,19 @@ public class SellController {
 		return "sell/addNewPlantSell";
 	}
 	
+	//부품 재공고 화면
+	@GetMapping(value="/sell/addNewComponentSell")
+	public String addNewComponentSell(@RequestParam(value="mId") String id,
+									  @RequestParam(value="cpCode") String code,
+									  Model model) {
+		
+		model.addAttribute("component", sellService.getBidComponentAcByIdCode(id, code));
+		
+		return "sell/addNewComponentSell";
+	}
 	
 	
+	//순위 수정
 	@RequestMapping(value="/ajax/modifyRank", method= RequestMethod.POST)
 	public @ResponseBody int modifyRank(@RequestParam(value="bRank") int rank
 										,@RequestParam(value="bCode") String code) throws Exception {
@@ -147,30 +177,24 @@ public class SellController {
 		
 		return rank;
 	}
-
+	//순위 중복체크
 	@RequestMapping(value="/ajax/rankCheck", method= RequestMethod.POST)
 	public @ResponseBody boolean rankCheck(@RequestParam(value="rank") int rank,
 											@RequestParam(value="announcedCode") String code) throws Exception {
 		
 		boolean rankCheck = false;
-		System.out.println(rank+"<-------입력받은 순위");
-		System.out.println(code+"<-----공고코드");
 
 		  List<BidListDTO> rankList = sellService.rankCheck(code); 
 		  for(int i=0;i<rankList.size();i++) {
-			  System.out.println(rankList.get(i).getbRank()+"<----존재하는 순위");
-			  System.out.println(rankCheck+"<--------true or false");
-			  System.out.println(rank+"<----rank");
-			  System.out.println(rankList.get(i).getbRank()==rank);
+			 
 			  if(rankList.get(i).getbRank()==rank) {
-				  System.out.println("체크하는지");
 				  rankCheck = true; 
 			  }
-			  System.out.println(rankCheck+"<------체크");
 		  }
 		  
 		return rankCheck;
 	}
+	
 	@GetMapping("/sell/componentBidderList")
 	public String componentBidderList(@RequestParam(value="bCpCode") String code,Model model) throws Exception {
 		model.addAttribute("bidder", sellService.getBidderList(code));
@@ -233,6 +257,8 @@ public class SellController {
 	public String regComponentSell(BidComponentDTO bidComponentDTO,
 								  MultipartHttpServletRequest multipartHttpServletRequest ,
 								  HttpServletRequest request) throws Exception {
+		
+		System.out.println(bidComponentDTO.getCpCode()+"<---잘들어와야지");
 		sellService.addComponentApply(bidComponentDTO, multipartHttpServletRequest,request);
 		return "redirect:/sell/myHistory";
 	}
@@ -338,7 +364,7 @@ public class SellController {
 	@RequestMapping(value="/ajax/plantInformation",method = RequestMethod.POST)
 	public @ResponseBody BusinessPlantDTO plantUnformation(@RequestParam(value="plantCode") String plantCode)  throws Exception{
 		BusinessPlantDTO bzPlantDto =sellService.getPlantInformation(plantCode);
-		int residualValue= plantService.residualValue(bzPlantDto.getBzPlCode());
+		int residualValue= plantService.residualValue(plantCode);
 		bzPlantDto.setResidualValue(residualValue);
 			
 		return bzPlantDto;
@@ -367,14 +393,16 @@ public class SellController {
 	public String failureBidList(Model model, HttpSession session) {
 		String sessionId= (String)session.getAttribute("SID");
 		model.addAttribute("plant", sellService.getBidPlantAcById(sessionId));
+		model.addAttribute("component", sellService.getBidComponentAcById(sessionId));
 		return "sell/failureBid";
 	}
 	
 	
 	@GetMapping("/sell/apply")
 	public String Apply(Model model,HttpSession session) {
-		
-		model.addAttribute("plant", sellService.getBidPlantAcById((String)session.getAttribute("SID")));
+		String sessionId = (String)session.getAttribute("SID");
+		model.addAttribute("plant", sellService.getBidPlantAcById(sessionId));
+		model.addAttribute("component", sellService.getBidComponentAcById(sessionId));
 		return "sell/apply";
 	}
 	
@@ -387,9 +415,30 @@ public class SellController {
 							@RequestParam(value="searchValue", required = false) String searchValue,
 							@RequestParam(value="searchKeyCp", required = false) String searchKeyCp,
 							@RequestParam(value="searchValueCp", required = false) String searchValueCp,
-							@ModelAttribute("bidPlantDTO") BidPlantDTO bidPlantDTO,
-							@ModelAttribute("bidComponentDTO") BidComponentDTO bidComponentDTO)  throws Exception{
+							@RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+							@RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+							@RequestParam(value = "pageSize", required = false) 			String pageSize,
+							@RequestParam(value = "state", required = false) 				String state
+																											)  throws Exception{
 		
+		BidPlantDTO bidPlantDTO = new BidPlantDTO();
+		BidComponentDTO bidComponentDTO = new BidComponentDTO();
+		bidPlantDTO.setState(1);
+		bidComponentDTO.setState(2);
+		if(savePaging==null || state==null) {
+			//화면의 제일 처름 페이지 설정
+			System.out.println("세이브페이징 만들어짐");
+			savePaging = new SavePaging(2,session);
+			savePaging.setPaging(1, 1, 5, 5);//첫번째 리스트, 맨처음페이징번호,한번에 몇개 보여줄지, 버튼몇개
+			savePaging.setPaging(2, 1, 5, 5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			//페이지가 넘어갈때 넘어간 페이지 저장
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		//페이지 저장 가져오기
+		savePaging.getPaging(bidComponentDTO);
+		savePaging.getPaging(bidPlantDTO);
 		
 		if(searchKey != null && searchKey.equals("null")) {
 			searchKey = null;
@@ -419,6 +468,8 @@ public class SellController {
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("searchKeyCp", searchKeyCp);
 		model.addAttribute("searchValueCp", searchValueCp);
+		model.addAttribute("bidComponentDTO", bidComponentDTO);
+		model.addAttribute("bidPlantDTO", bidPlantDTO);
 		return "sell/myHistory";
 	}
 
@@ -456,8 +507,40 @@ public class SellController {
 		return "sell/paymentList";
 	}
 	@GetMapping("/sell/qna")
-	public String Qna(Model model, HttpSession session) {
-		model.addAttribute("qnaList", boardSellerService.getQnaListById((String)session.getAttribute("SID")));
+	public String Qna(Model model, 
+					  HttpSession session,
+					  @RequestParam(value="searchValue", required=false) String searchValue,
+					  @RequestParam(value="searchKey", required=false) String searchKey,
+					  @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+					  @RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+					  @RequestParam(value = "pageSize", required = false) 			String pageSize,
+					  @RequestParam(value = "state", required = false) String state) {
+		
+		BoardSellerDTO boardSellerDTO = new BoardSellerDTO(); 
+		boardSellerDTO.setState(1);
+		if(savePaging==null||state==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,10,5);
+		}
+		
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		
+		savePaging.getPaging(boardSellerDTO);
+		
+		if(searchKey!=null && searchKey.equals("null")) {
+			searchKey =null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		
+		
+		model.addAttribute("qnaList",boardSellerService.getQnaListById((String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
+		model.addAttribute("boardSellerDTO",boardSellerDTO);
+		model.addAttribute("searchKey",searchKey);
+		model.addAttribute("searchValue",searchValue);
 		
 		return "sell/qna";
 	}

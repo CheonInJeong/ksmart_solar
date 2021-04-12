@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+	  
+	<th:block layout:fragment="customCss">
+	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
+	</th:block>
+	
+	<th:block layout:fragment="customTitle">
+				<title>부품 판매 공고 신청</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>부품판매공고신청</strong></div>
+     	<div id="container-header-path">판매관리 > 부품판매공고신청</div>
+      	<div id="container-header-space"></div>
+		<div class="row mt">
+          <div class="col-lg-12">
+            <h4><i class="fa fa-angle-right"></i>부품 판매 공고 신청</h4>
+            <div class="form-panel">
+              <div class="form">
+                <form class="cmxform form-horizontal style-form" id="componentSellForm" method="post" th:action="@{/sell/addNewComponentSell}" enctype="multipart/form-data">
+                   	<th:block th:each="c:${component}">
+	                  <input type="hidden" id="sessionId" name="mId" th:value="${session.SID}">
+	           		  <input type="hidden"  name="bCpGroupcode" th:value="${c.bCpGroupcode}">
+	           		  <input type="hidden"  name="cpCode" th:value="${c.cpCode}">
+	                  
+						<div class="form-group ">
+							<label for="cpName" class="control-label col-lg-2">부품이름</label>
+							<div class="col-lg-10">
+								<input class=" form-control" id="cpName" name="cpName" type="text" th:value="${c.componentDTO.cpName}" readonly>
+							</div>
+						</div>
+						<div class="form-group ">
+							<label for="cpMaker" class="control-label col-lg-2">부품제조사</label>
+							<div class="col-lg-10">
+								<input class=" form-control" id="cpMaker" name="cpMaker" th:value="${c.componentDTO.cpMaker}" type="text" readonly>
+							</div>
+						</div>
+						<div class="form-group ">
+							<label for="cpMakedate" class="control-label col-lg-2">부품제조일</label>
+							<div class="col-lg-10">
+								<input class=" form-control" id="cpMakedate" name="cpMakedate" type="text" th:value="${c.componentDTO.cpMakedate}" readonly>
+							</div>
+						</div>
+						
+						<div class="form-group ">
+							<label for="cpInfo" class="control-label col-lg-2">부품정보</label>
+							<div class="col-lg-10">
+								<textarea class="form-control" id="cpInfo" name="cpInfo" th:text="${c.componentDTO.cpInfo}" readonly></textarea>
+							</div>
+						</div>
+						<div class="form-group ">
+							<label for="cpUsedate" class="control-label col-lg-2">부품사용시작날짜</label>
+							<div class="col-lg-10">
+								<input class=" form-control" id="cpUsedate" name="cpUsedate" type="text" th:value="${c.componentDTO.cpUsedate}" readonly>
+							</div>
+						</div>
+	              		
+	                  <div class="form-group ">
+	                    <label for="bCpTitle" class="control-label col-lg-2">공고제목</label>
+	                    <div class="col-lg-10">
+	                      <input class=" form-control" id="bCpTitle" name="bCpTitle" th:value ="${c.bCpTitle}" type="text">
+	                    </div>
+	                  </div>
+	                  
+	                  <div class="form-group ">
+	                    <label for="bCpPrice" class="control-label col-lg-2">
+	                    	<span style="display:block">입찰시작가</span>
+	                    	<span id="originalPrice">이전가 : [[${c.bCpPrice}]] </span>
+	                    
+	                    </label>
+	                    <div class="col-lg-10">
+	                      <input class=" form-control" id="bCpPrice" name="bCpPrice" type="text">
+	                    </div>
+	                  </div>
+	                  
+	                 <div class="form-group">
+	                 	<label for="files" class="control-label col-lg-2">공고신청파일</label>
+	                  	<div class="col-lg-10">
+	                    	<input type="file" id="files" class="default" name="files" multiple="multiple">
+	                  	</div>
+	                </div>
+	                  <div class="form-group ">
+	                    <label for="bCpContents" class="control-label col-lg-2">상세설명</label>
+	                    <div class="col-lg-10">
+	                      <textarea id = "bCpContents"class="form-control" name="bCpContents"  th:text ="${c.bCpContents}"></textarea>
+	                    </div>
+	                  </div>
+	                 <div class="form-group">
+	                  <label class="control-label col-lg-2">공고시작일</label>
+	                  <div class="col-lg-10">
+	                    <input class="form-control form-control-inline input-medium default-date-picker" size="16" type="text" id="bCpDateBidding1" name="bCpDateBidding1">
+	                    <span class="help-block"></span>
+	                  </div>
+	                </div>                  
+	                  <div class="form-group">
+	                    <div class="col-lg-offset-2 col-lg-10">
+	                      <button class="btn btn-theme" type="button" id="componentSellBtn">신청</button>
+	                      <a th:href="@{/sell/myHistory}" class="btn btn-theme04" type="button">Cancel</a>
+	                    </div>
+	                  </div>
+                  </th:block>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        
+	</th:block>
+	<th:block layout:fragment="customScript">
+		<script type="text/javascript">
+			var sell = $('#sell');
+			sell.addClass('active');
+			sell.parent().find('.sub').css('display','block');
+			sell.parent().find('.sub').children().eq(0).addClass('active');
+		</script>
+		
+		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
+		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
+		<script>
+			
+		
+		 	//콤마 없애는 함수
+	    	 function rm_comma(num){
+	    	 	  var number = num + "";
+	    	 	  return number.replace(/,/g,"");
+	    	 }
+			
+			var bCpPrice = document.getElementById('bCpPrice');
+			
+			bCpPrice.onkeyup = function(){
+      			this.value = this.value.replace(/[^0-9]/g,'');
+				this.value = this.value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+			}
+			
+			
+			 function comma(str) {
+	       		 str = String(str);
+	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			 }
+			 
+		 	$(document).ready(function(){
+		 		$('#bCpPrice').val(comma($('#bCpPrice').val()));
+		 		$('#originalPrice').text(comma($('#originalPrice').text()))
+		 	})
+		 	
+		
+			
+			$('#componentSellBtn').click(function(){
+				 var selected = $('select option:selected').val();
+				 var bCpTitle = $('#bCpTitle');
+				 var bCpPrice = $('#bCpPrice');
+				 var bCpContents = $('#bCpContents');
+				 var files = $('#files');
+				 var bCpDateBidding1 = $('#bCpDateBidding1');
+				 
+				if( selected==0 ||selected==2){
+					alert('부품을 선택해주세요.');
+					return;
+				}
+				 
+				 if(bCpTitle.val()==''){
+					 alert('공고제목을 입력해주세요.');
+					 bCpTitle.focus();
+					 return;
+				 }
+				 if(bCpPrice.val()==''){
+					 alert('희망가격을 입력해주세요.');
+					 bCpPrice.focus();
+					 return;
+				 }
+				 if(bCpContents.val()==''){
+					 alert('공고내용을 입력해주세요.');
+					 bCpContents.focus();
+					 return;
+				 }
+				 if(files.val()==''){
+					 alert('공고신청파일을 업로드 해주세요.');
+					 return;
+				 }
+				 if(bCpDateBidding1.val()==''){
+					 alert('공고시작날짜를 입력해주세요.');
+					 return;
+				 } 
+				 	rm_comma($('#bCpPrice').val());
+					$('#bCpPrice').val(rm_comma($('#bCpPrice').val()));
+					$('#componentSellForm').submit();
+			})
+			
+			
+		</script>
+				
+	</th:block>
+</body>
+
+</html>
+					

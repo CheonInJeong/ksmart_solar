@@ -25,8 +25,37 @@ public class BoardSellerService {
 	}
 	
 	//아이디로 문의글 가져오기 by 천인정
-	public List<BoardSellerDTO> getQnaListById(String id){
-		return boardSellerMapper.getQnaListById(id);
+	public List<BoardSellerDTO> getQnaListById(String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+	
+		if(searchKey!=null) {
+			if("bSubject".equals(searchKey)) {
+				searchKey = "b_subject";
+			}else if("mIdBuyer".equals(searchKey)){
+				searchKey ="m_id_buyer";
+			}else if("bBidType".equals(searchKey)){
+				searchKey ="b_bid_type";
+			}
+		}
+		if(searchValue!=null) {
+			if("발전소".equals(searchValue)) {
+				searchValue="1";
+				
+			}else if("부품".equals(searchValue)) {
+				searchValue="2";
+			}
+		}
+		
+		List<BoardSellerDTO> boardSellerList = null;
+		int boardSellerCount = boardSellerMapper.getQnaListCount(id, searchKey, searchValue, boardSellerDTO);
+		Pagination pagination = new Pagination(boardSellerDTO);
+		pagination.setTotalRecordCount(boardSellerCount);
+		boardSellerDTO.setPagination(pagination);
+		
+		if(boardSellerCount>0) {
+			boardSellerList = boardSellerMapper.getQnaListById(id, searchKey, searchValue, boardSellerDTO);
+		}
+		
+		return boardSellerList;
 	}
 	
 	//댓글 수정 by 천인정
@@ -64,15 +93,18 @@ public class BoardSellerService {
 	public void removeCmt(int idx) {
 		boardSellerMapper.removeCmt(idx);
 	}
+	
 	//해당 게시글의 댓글 가져오기 by 천인정
 	public List<CommentDTO> getCommentList(int idx,CommentDTO commentDto){
+
 		
 		List<CommentDTO> commentDtoList = null;
-		int cmtCount = boardSellerMapper.getCmtCount(idx, commentDto);
+		
+		int cmtCount = boardSellerMapper.getCmtCount(idx,commentDto);
 		Pagination pagination = new Pagination(commentDto);
 		pagination.setTotalRecordCount(cmtCount);
-		System.out.println(cmtCount+"<-------뭐야");
 		commentDto.setPagination(pagination);
+		
 		
 		if(cmtCount>0) {
 			 commentDtoList =  boardSellerMapper.getCommentList(idx,commentDto);
@@ -104,6 +136,18 @@ public class BoardSellerService {
 					}
 				}
 				
+				System.out.println(commentDto.getPagination().getFirstRecordIndex()+"<----댓글");
+				int start = commentDto.getPagination().getFirstRecordIndex();
+				int end = 10;
+				int listSize = commentAllList.size();
+				
+				if(start > 0) {
+					commentAllList.subList(0, (start*10)-1).clear();
+					commentAllList.subList((start*10)+10, listSize).clear();
+					
+				}else {
+					if(end > listSize) commentAllList.subList(end, listSize).clear();
+				}
 				return commentAllList;
 		}
 		

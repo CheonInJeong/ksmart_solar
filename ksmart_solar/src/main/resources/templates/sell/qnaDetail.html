@@ -36,9 +36,6 @@
 						<tr>
 							<td style="text-align:left;padding-left:60px;" colspan="6" th:text="${qna.bContents}"></td>
 						<tr>
-	
-						               	
-						               	
 					</tbody>
 				</table>
 				
@@ -119,11 +116,12 @@
 			})
 		})
 		
-		$(document).ready(function(){
-			
-			function movePage(uri, queryString) {
-				location.href = uri + queryString;
+		var idx = $('#bIdx').text();
+		function movePage(uri, queryString) {
+				location.href = uri+ queryString+'&idx='+idx;
 			}
+		
+		$(document).ready(function(){
 			
 			var cmt = /*[[${comments}]]*/
 			//모든 행 숨기기
