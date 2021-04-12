@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+	<th:block layout:fragment="customTitle">
+		<title>출금처리</title>
+	</th:block>
+<body>
+	<div class="row mt">
+        <div class="col-lg-12">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">
+            	<th:block th:if="${#lists.size(depositout)} > 0">
+					<h4><i class="fa fa-angle-right"></i>[[${depositout.mId}]] 예치금 환불처리</h4>
+					<hr>
+					<form class="form-horizontal style-form" th:action="@{/accountCheck}" method="post">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>예금주</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+							 	 [[${depositout.mAccountName}]]
+							 	 <input type="hidden" name="Code" th:value="${depositout.trDepCode}">
+							  </p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>계좌번호</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+							 	([[${depositout.mAccountBankName}]]) [[${depositout.mAccountNumber}]]
+								<mark th:if="${depositout.trDepAccountCheck ne 'N'}" style="background-color: black;color: white;">계좌확인 완료</mark>
+								<button th:if="${depositout.trDepAccountCheck eq 'N'}" type="submit" class="btn standardBtn btn-xs">계좌확인</button>
+							  </p>
+							</div>
+						</div>
+					</form>
+					<form class="form-horizontal style-form" th:action="@{/withDraw}" method="post">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>출금금액</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+							 	<input type="hidden" name="Code" th:value="${depositout.trDepCode}">
+								[[${#numbers.formatInteger(depositout.trDepDeposit,3,'COMMA')}]]
+								<th:block th:if="${depositout.trDepAccountCheck ne 'N'}">
+									<button type="submit" class="btn standardBtn btn-xs">출금</button>
+								</th:block>
+							  </p>
+							</div>
+						</div>
+					</form>
+            	</th:block>
+            	<th:block th:unless="${#lists.size(depositout)} > 0">
+            		<h4><i class="fa fa-angle-right"></i>[[${paymentout.mId}]] 거래대금 출금처리</h4>
+					<hr>
+					<form class="form-horizontal style-form" th:action="@{/accountCheck}" method="post">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>예금주</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+							 	 [[${paymentout.trPayoutAccountName}]]
+							 	 <input type="hidden" name="Code" th:value="${paymentout.trPayoutCode}">
+							  </p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>계좌번호</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+							 	([[${paymentout.trPayoutBank}]]) [[${paymentout.trPayoutAccount}]]
+								<mark th:if="${paymentout.trPayoutAccountCheck ne 'N'}" style="background-color: black;color: white;">계좌확인 완료</mark>
+								<button th:if="${paymentout.trPayoutAccountCheck eq 'N'}" type="submit" class="btn standardBtn btn-xs">계좌확인</button>
+							  </p>
+							</div>
+						</div>
+					</form>
+					<form class="form-horizontal style-form" th:action="@{/withDraw}" method="post">
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>출금금액</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+							 	<input type="hidden" name="Code" th:value="${depositout.trDepCode}">
+								[[${#numbers.formatInteger(paymentout.trPayoutPriceReal,3,'COMMA')}]]
+								<th:block th:if="${paymentout.trPayoutAccountCheck ne 'N'}">
+									<button type="submit" class="btn standardBtn btn-xs">출금</button>
+								</th:block>
+							  </p>
+							</div>
+						</div>
+					</form>
+            	</th:block>
+				
+				
+			</div>
+		</div>
+	</div>
+	
+	
+</body>
+</html>
