@@ -110,39 +110,33 @@
 		});
 	
 	  
-	  /* 
-	  	//유효성 검사
-	  	$('#qnaBtn').click(function(){
-	 			var bQnaSubject = $('[name="bQnaSubject"]');
-	 			var bQnaContents =$('[name="bQnaContents"]');
-	 			var bQnaOpen =$('[name="bQnaOpen"]:checked');
-	 			if(bQnaSubject.val()==''){
-	 				alert('문의 제목을 입력해주세요.');
-	 				bQnaSubject.focus();
-	 				return;
-	 			}
-	 			if(bQnaContents.val()==''){
-	 				alert('문의 내용을 입력해주세요.');
-	 				cpMaker.focus();
-	 				return false;
-	 			}
-	 			if(bQnaOpen.val()==''){
-	 				alert('공개 ㅇ 입력해주세요.');
-	 				cpMakedate.focus();
-	 				return false;
-	 			}
-	 			if(cpUsedate.val()==''){
-	 				alert('부품 사용 시작일을 입력해주세요.');
-	 				cpUsedate.focus();
-	 				return false;
-	 			}
-	   */
-	   
 		//메뉴탭
 		var help = $('#help');
 		help.addClass('active');
 		help.parent().find('.sub').css('display', 'block');
 		help.parent().find('.sub').children().eq(1).addClass('active');
+		
+		
+		//유효성검사
+		 $('#qnaBtn').click(function(){
+		 	if($('[name="bQnaSubject"]').val()==''){
+				alert('문의제목을 입력해주세요.');
+				$('[name="bQnaSubject"]').focus();
+				return false;
+			}if($('[name="bQnaContents"]').val()==''){
+				alert('문의내용을 입력해주세요.')
+				$('[name="bQnaContents"]').focus();
+				return false;
+			}if($('[name="bQnaOpen"]:checked').length==0){
+				alert('비밀글여부를 선택해주세요.')
+				$('[name="mEmail"]').focus();
+				return false;
+			}if($('[name="bQnaPassword"]').val()==''){
+				alert('비밀글암호를 입력해주세요.')
+				$('[name="mZipcode"]').focus();
+				return false;
+			}
+		 })
 	</script>
 </th:block>
 </html>

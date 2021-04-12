@@ -19,32 +19,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
-	
-	<!-- 검색에러 왜? 
-	<select id="getQnaList" resultMap="BoardQnaDTOMap" parameterType="String">
-		SELECT 
-			  b_qna_idx
-			, b_qna_subject
-			, b_qna_contents
-			, m_id
-			, b_qna_reg_date
-			, b_qna_views
-			, b_qna_open
-			, b_qna_password
-			, b_qna_ref_code
-			, b_qna_re_lev
-			, b_qna_re_seq
-			, b_qna_temp
-		FROM 
-			tb_board_qna	
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="searchKey != null	and searchKey !=''.toString()">
-				${searchKey} LIKE CONCAT('%', #{searchValue} ,'%')
-			</if>
-		</trim> 
-	</select>
-		 
-		 -->
 	<!-- 문의 조회수 증가  -->	 
 	<update id="addQnaViews">
 		UPDATE 
@@ -144,7 +118,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</select>
 	
 	<!-- 문의 조회  -->
-	<select id="getQnaList" resultMap="BoardQnaDTOMap">
+	<select id="getQnaList" parameterType="string" resultMap="BoardQnaDTOMap">
 		SELECT 
 			  b_qna_idx
 			, b_qna_subject
@@ -160,6 +134,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_qna_temp
 		FROM 
 			tb_board_qna
-			ORDER BY b_qna_reg_date DESC;
+		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+			<if test="searchValue!=null and ''.toString()">
+				${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+			</if>
+		</trim>
+		ORDER BY b_qna_reg_date DESC
 	</select>
 </mapper>
