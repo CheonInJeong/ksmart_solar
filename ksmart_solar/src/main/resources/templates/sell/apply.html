@@ -11,16 +11,6 @@
      	<div id="container-header-path">판매관리 > 공고신청</div>
       	<div id="container-header-space"></div>
       	
-      	<!--////////////////////////////////////////////////  -->
-		<table style="display:none">
-			<tr th:each = p:${plant}>
-				<td th:text=${p.acStatusCode} class="failure"></td>
-				<td th:text=${p.bzPlCode} class="bzPlCode"></td>
-			</tr>
-		</table>
-      	<!--////////////////////////////////////////////////  -->
-
-
 
 	 <div class="form-horizontal form-inline " >
 	 	<div class="container-fluid">
@@ -29,7 +19,7 @@
 		    <div class="thumbnail col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2" >
 		      <div class="caption" style="text-align:center; min-height:400px" >
 		        <h3>발전소판매</h3>
-		        <p><a th:href="@{/sell/plantSell(mId=${session.SID})}" class="btn btn-default" role="button">바로가기</a></p>
+		        <p><a th:href="@{/sell/plantSell(mId=${session.SID})}" class="btn standardBtn" role="button">바로가기</a></p>
 		      </div>
 		    </div>
 		  </div>
@@ -37,7 +27,7 @@
 		    <div class="thumbnail col-md-10 col-md-offset-2 col-sm-10 col-sm-offset-2" >
 		      <div class="caption" style="text-align:center; min-height:400px">
 		        <h3>부품 판매</h3>
-		        <p><a th:href="@{/sell/componentSell(mId=${session.SID})} "class="btn btn-default">바로가기</a></p>
+		        <p><a th:href="@{/sell/componentSell(mId=${session.SID})} "class="btn standardBtn">바로가기</a></p>
 		      </div>
 		    </div>
 		  </div>
@@ -59,12 +49,13 @@
 		
 		$(document).ready(function(){
 			var plant = /*[[${plant}]]*/
+			var component = /*[[${component}]]*/
 			console.log(plant)
 			console.log(plant.length)
 			
-			if(plant.length!=0){
+			if(plant.length!=0||component.length!=0){
 				if(getCookie('openPopup') !='Y'){
-						window.open('/sell/failureBid','재공고안내','width=800, height=300,left=100, top = 100, scrollbar=no')
+						window.open('/sell/failureBid','재공고안내','width=800, height=600,left=100, top = 100, scrollbar=no')
 						
 					}
 			}

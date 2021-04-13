@@ -32,15 +32,6 @@ public class HelpController {
 	}
 	
 	
-	//문의 검색
-	@GetMapping("/help/QnaList")
-	public String getQnaList(@RequestParam(name = "searchKey", required = false) String searchKey,
-							 @RequestParam(name = "searchValue", required = false) String searchValue
-							 ,Model model) {
-		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue);
-		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
-		return "/help/qna";
-	}
 	 
 	/*
 	 * //답글 처리
@@ -115,11 +106,21 @@ public class HelpController {
 	
 	// 문의 조회
 	@GetMapping("/help/qna")
-	public String Qna(Model model) {
-		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList();
+	public String Qna(Model model
+						,@RequestParam(value="searchKey", required = false) String searchKey 
+						,@RequestParam(value="searchValue", required = false) String searchValue) {
+		if(searchKey != null && searchKey.equals("null")) {
+			searchKey = null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue );
 		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
 		return "/help/qna";
 	}
+	
 	
 	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	

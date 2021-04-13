@@ -12,9 +12,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
@@ -41,7 +43,8 @@ public class NoticeController {
 	private final BidPlantService bidPlantService;
 	private final BidListService bidListService;
 	private final TradeService tradeService;
-	
+	SavePaging savePaging = null;
+
 	@Autowired
 	public NoticeController(BidComponentService bidComponentService,
 							BidPlantService bidPlantService,
@@ -54,32 +57,120 @@ public class NoticeController {
 	}
 	//진행중인 공고 목록
 	@GetMapping("/notice/noticeList")
-	public String NoticeList(Model model) {
-		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("진행");
+	public String NoticeList(Model model,
+							 HttpSession session,
+							 @RequestParam(value = "searchKeyPl", required = false) 		String searchKeyPl, 
+							 @RequestParam(value = "searchValuePl", required = false) 		String searchValuePl,
+							 @RequestParam(value = "searchKeyCp", required = false) 		String searchKeyCp,
+							 @RequestParam(value = "searchValueCp", required = false) 		String searchValueCp,
+								
+							 @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+							 @RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+							 @RequestParam(value = "pageSize", required = false) 			String pageSize,
+							 @RequestParam(value = "state", required = false) 				String state
+							  ) {
+		System.out.println(savePaging==null);
+		System.out.println(state+"----------------------------------------state");
+		BidPlantDTO bidPlantDTO = new BidPlantDTO();
+		BidComponentDTO bidComponentDTO = new BidComponentDTO();
+		bidPlantDTO.setState(1);
+		bidComponentDTO.setState(2);
+		if(savePaging==null || state==null) {
+			//화면의 제일 처름 페이지 설정
+			System.out.println("세이브페이징 만들어짐");
+			savePaging = new SavePaging(2,session);
+			savePaging.setPaging(1, 1, 5, 5);
+			savePaging.setPaging(2, 1, 5, 5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			//페이지가 넘어갈때 넘어간 페이지 저장
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		//페이지 저장 가져오기
+		savePaging.getPaging(bidComponentDTO);
+		savePaging.getPaging(bidPlantDTO);
+		
+		System.out.println(bidComponentDTO.getCurrentPageNo()+"-------------------------------부품 현재페이지");
+		System.out.println(bidPlantDTO.getCurrentPageNo()+"-------------------------------발전소 현재페이지");
+																
+		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("진행",searchKeyCp,searchValueCp,bidComponentDTO);
 		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlant("진행");
-		if(bidComponentList!=null) {
-			System.out.println(bidComponentList);
-			model.addAttribute("bidComponentList", bidComponentList);
+		
+		if(searchKeyCp!=null && !searchKeyCp.equals("null")) {
+			model.addAttribute("searchKeyCp", searchKeyCp);
 		}
-		if(bidPlantList!=null) {			
-			System.out.println(bidPlantList);
-			model.addAttribute("bidPlantList", bidPlantList);
+		if(searchValueCp!=null && !searchValueCp.equals("null")) {
+			model.addAttribute("searchValueCp", searchValueCp);
 		}
+		if(searchKeyPl!=null && !searchKeyPl.equals("null")) {
+			model.addAttribute("searchKeyPl", searchKeyPl);
+		}
+		if(searchValuePl!=null && !searchValuePl.equals("null")) {
+			model.addAttribute("searchValuePl", searchValuePl);
+		}
+		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("bidPlantDTO", bidPlantDTO);
+		model.addAttribute("bidComponentDTO", bidComponentDTO);
+		model.addAttribute("bidComponentList", bidComponentList);
 		return "/notice/noticeList";
 	}
 	//마감한 공고 목록
 	@GetMapping("/notice/history")
-	public String History(Model model) {
-		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("종료");
+	public String History(Model model,
+						 HttpSession session,
+						 @RequestParam(value = "searchKeyPl", required = false) 		String searchKeyPl, 
+						 @RequestParam(value = "searchValuePl", required = false) 		String searchValuePl,
+						 @RequestParam(value = "searchKeyCp", required = false) 		String searchKeyCp,
+						 @RequestParam(value = "searchValueCp", required = false) 		String searchValueCp,
+							
+						 @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+						 @RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+						 @RequestParam(value = "pageSize", required = false) 			String pageSize,
+						 @RequestParam(value = "state", required = false) 				String state
+						 ) {
+		System.out.println(savePaging==null);
+		System.out.println(state+"----------------------------------------state");
+		BidPlantDTO bidPlantDTO = new BidPlantDTO();
+		BidComponentDTO bidComponentDTO = new BidComponentDTO();
+		bidPlantDTO.setState(1);
+		bidComponentDTO.setState(2);
+		if(savePaging==null || state==null) {
+			//화면의 제일 처름 페이지 설정
+			System.out.println("세이브페이징 만들어짐");
+			savePaging = new SavePaging(2,session);
+			savePaging.setPaging(1, 1, 5, 5);
+			savePaging.setPaging(2, 1, 5, 5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			//페이지가 넘어갈때 넘어간 페이지 저장
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		//페이지 저장 가져오기
+		savePaging.getPaging(bidComponentDTO);
+		savePaging.getPaging(bidPlantDTO);
+		
+		System.out.println(bidComponentDTO.getCurrentPageNo()+"-------------------------------부품 현재페이지");
+		System.out.println(bidPlantDTO.getCurrentPageNo()+"-------------------------------발전소 현재페이지");
+																
+		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("종료",searchKeyCp,searchValueCp,bidComponentDTO);
 		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlant("종료");
-		if(bidComponentList!=null) {
-			System.out.println(bidComponentList);
-			model.addAttribute("bidComponentList", bidComponentList);
+		
+		if(searchKeyCp!=null && !searchKeyCp.equals("null")) {
+			model.addAttribute("searchKeyCp", searchKeyCp);
 		}
-		if(bidPlantList!=null) {			
-			System.out.println(bidPlantList);
-			model.addAttribute("bidPlantList", bidPlantList);
+		if(searchValueCp!=null && !searchValueCp.equals("null")) {
+			model.addAttribute("searchValueCp", searchValueCp);
 		}
+		if(searchKeyPl!=null && !searchKeyPl.equals("null")) {
+			model.addAttribute("searchKeyPl", searchKeyPl);
+		}
+		if(searchValuePl!=null && !searchValuePl.equals("null")) {
+			model.addAttribute("searchValuePl", searchValuePl);
+		}
+		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("bidPlantDTO", bidPlantDTO);
+		model.addAttribute("bidComponentDTO", bidComponentDTO);
+		model.addAttribute("bidComponentList", bidComponentList);
 		return "notice/history";
 	}
 	//공고 상세 정보 페이지
@@ -142,7 +233,6 @@ public class NoticeController {
 			model.addAttribute("tradePaymentInDTO", tradePaymentInDTO);
 			System.out.println(tradePaymentInDTO+"===============================================tradePaymentInDTO");
 		}
-		List<FileDTO> fileDTO = bidListService.getBidFileList();
 		return "notice/announcement";
 	}
 	//대금납부 신청 페이지

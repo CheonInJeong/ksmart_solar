@@ -118,12 +118,14 @@
   		  		<result property = "bCpTitle" column = "b_cp_title"/>
   		  		<result property = "bCpContents" column = "b_cp_contents"/>
   		  		<result property = "bCpPrice" column = "b_cp_price"/>
+  		  		<result property = "bCpGroupcode" column = "b_cp_groupcode"/>
   		  		<result property = "bCpDateBidding1" column = "b_cp_date_bidding1"/>
   		  		<result property = "bCpDateBidding2" column = "b_cp_date_bidding2"/>
   		  		<result property = "bCpDateDecision1" column = "b_cp_date_decision1"/>
   		  		<result property = "bCpDateDecision2" column = "b_cp_date_decision2"/>
   		  		<result property = "bCpStatus" column = "b_cp_status"/>
   		  		<result property = "bCpBidderNumber" column = "b_cp_bidder_number"/>
+  		  		<result property = "bRecently" column = "b_recently"/>
   		  		
   		  		<association property ="componentDTO" javaType="ComponentDTO">
   		  			<id property = "cpCode" column="cp_code"/>
@@ -198,14 +200,69 @@
   		  
   		  </select>
   		  
+  		  
+  		  
   		  <update id="updateBPlantRecentlyNy" parameterType="String">
   		  	UPDATE tb_bid_plant SET b_recently = 'Y' WHERE b_pl_code = #{bPlCode}
   		  </update>
   		  <update id="updateBPlantRecentlyYn" parameterType="String">
   		  	UPDATE tb_bid_plant SET b_recently = 'N' WHERE b_pl_groupcode = #{bPlGroupcode}
-  		  
   		  </update>
-  		  
+		  <update id="updateBComponentRecentlyNy" parameterType="String">
+		  	UPDATE tb_bid_component
+			SET
+				b_recently='Y'
+			WHERE 
+				b_cp_code = #{bCpCode}
+		  </update>
+		  <update id="updateBComponentRecentlyYn" parameterType="String">
+		  	UPDATE tb_bid_component
+			SET
+				b_recently='N'
+			WHERE 
+				b_cp_groupcode = #{bCpGroupcode}
+		  </update>  		
+		    
+		 <insert id ="addComponentRebidApply" parameterType="BidPlantDTO">
+		 	INSERT INTO
+		 		tb_bid_component
+				(b_cp_code, 
+				 cp_code, 
+				 m_id, 
+				 b_cp_title, 
+				 b_cp_contents, 
+				 b_cp_price, 
+				 cp_usedate,
+				 b_cp_status, 
+				 ac_status_code, 
+				 b_cp_date, 
+				 b_cp_date_bidding1, 
+				 b_cp_date_bidding2, 
+				 b_cp_date_decision1, 
+				 b_cp_date_decision2, 
+				 b_cp_groupcode, 
+				 b_cp_re_count)
+			VALUES 
+				(sf_b_cp_code(), 
+				 #{cpCode}, 
+				 #{mId}, 
+				 #{bCpTitle}, 
+				 #{bCpContents}, 
+				 #{bCpPrice}, 
+				 #{cpUsedate},  
+				 '공고신청', 
+				  1, 
+				  now(),
+				 #{bCpDateBidding1}, 
+				 sf_bidding_date(#{bCpDateBidding1}),
+				 sf_bidding_date(#{bCpDateBidding1}),
+				 sf_decide_bidder_date(#{bCpDateBidding1}),
+				 #{bCpGroupcode}, 
+				 1)
+		 
+		 </insert>  
+		    
+		    
   		  <insert id ="addPlantRebidApply" parameterType="BidPlantDTO">
   		  		INSERT 
   		  		INTO 
@@ -313,6 +370,72 @@
   		  </select>
   		  
   		  
+  		  <select id="getBidComponentAcById" resultMap="bidComponentResultMap">
+  		  		 SELECT
+					b.b_cp_code,
+					b.cp_code,
+					b.m_id,
+					b.b_cp_title,
+					b.b_cp_contents,
+					b.b_cp_price,
+					b.cp_usedate,
+					b.ac_status_code,
+					b.b_cp_status,
+					b.b_cp_groupcode,
+					c.cp_name 
+				FROM 
+					tb_bid_component AS b 
+				inner JOIN 
+					tb_component AS c 
+				ON 
+					b.cp_code = c.cp_code 
+				WHERE  
+					b.b_recently = 'Y' 
+				AND  
+					b.m_id=#{mId}
+				AND 
+					b.ac_status_code = 9
+  		  </select>
+  		  
+  		  
+  		  <select id="getBidComponentAcByIdCode" parameterType="String" resultMap="bidComponentResultMap">
+  		  		 SELECT
+
+					b.b_cp_code,
+					b.cp_code,
+					b.m_id,
+					b.b_cp_title,
+					b.b_cp_contents,
+					b.b_cp_price,
+					b.ac_status_code,
+					b.b_cp_status,
+					b.b_cp_groupcode,
+					c.cp_name,
+					c.cp_maker,
+					c.cp_makedate,
+					c.cp_info,
+					c.cp_usedate
+				FROM 
+					tb_bid_component AS b 
+				inner JOIN 
+					tb_component AS c 
+				ON 
+					b.cp_code = c.cp_code 
+				WHERE  
+					b.b_recently = 'Y' 
+				AND  
+					b.m_id=#{mId}
+				AND 
+					b.ac_status_code = 9
+				and
+					b.cp_code = #{cpCode}	
+				ORDER BY 
+					b.b_cp_date_decision2 DESC LIMIT 1
+				
+				
+  		  
+  		  </select>
+  		  
   		  <select id="getBidPlantAcByIdCode" parameterType="map" resultMap="bidPlantResultMap">
   		  		SELECT 
   					 p.b_pl_code
@@ -346,9 +469,6 @@
 				ORDER BY
 				p.b_pl_date_decision2 DESC LIMIT 1
 				
-	
-  		  
-  		  
   		  </select>
   		  
   		  
@@ -466,8 +586,8 @@
   		  	SELECT b_pl_date_decision1 FROM tb_bid_plant;
   		  </select>
   		  
-  		  <select id="getBidComponentCode" resultMap="bidComponentResultMap" parameterType="String">
-  		  	SELECT b_cp_code FROM tb_bid_component WHERE cp_code = #{cpCode}
+  		  <select id="getBidComponentCode" resultType="String" parameterType="String">
+  		  	SELECT b_cp_code FROM tb_bid_component WHERE cp_code = #{cpCode} ORDER BY b_cp_date_decision2 DESC LIMIT 1
   		  </select>
   		  
   		  <select id="getBidPlantCode" parameterType="String" resultMap="bidPlantResultMap">
@@ -1011,21 +1131,13 @@
   		  
   		  <select id="getPlantInformation" resultMap="BusinessPlantResultMap" parameterType="String">
   		  		SELECT
-					p.bz_pl_code,
-					p.pl_dep_data_residual,
 					d.pl_dep_start_date,
-					d.pl_dep_price
-	
+					d.pl_dep_price,
+					d.bz_pl_code
 				FROM 
-					tb_plant_dep_data AS p
-				inner JOIN
 					tb_plant_depreciation AS d
-				ON 
-					p.bz_pl_code = d.bz_pl_code
 				WHERE 
-					p.pl_dep_data_month = d.pl_dep_servicelife 
-				AND 
-					p.bz_pl_code = #{bzPlCode}
+					d.bz_pl_code = #{bzPlCode}
   		  
   		  </select>
   		  

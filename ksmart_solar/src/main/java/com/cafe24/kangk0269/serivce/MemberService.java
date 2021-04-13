@@ -79,7 +79,7 @@ public class MemberService {
 		
 	}
 	
-	//개인 회원정보수정
+	//개인 프로필 수정처리
 	public int modifyMyInfo(MemberDTO memberDTO) {
 		int result = memberMapper.modifyMyInfo(memberDTO);
 		return result;

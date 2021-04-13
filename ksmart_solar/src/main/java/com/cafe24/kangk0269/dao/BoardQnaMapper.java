@@ -9,9 +9,6 @@ import com.cafe24.kangk0269.dto.BoardQnaDTO;
 @Mapper
 public interface BoardQnaMapper {
 
-	//문의 검색
-	public List<BoardQnaDTO> getQnaList(String searchKey, String searchValue);
-	
 	//문의 조회수 증가
 	public int addQnaViews(int bQnaIdx);
 	
@@ -31,5 +28,5 @@ public interface BoardQnaMapper {
 	public BoardQnaDTO getQna(int bQnaIdx);
 	
 	//문의 조회
-	public List<BoardQnaDTO> getQnaList();
+	public List<BoardQnaDTO> getQnaList(String searchKey, String searchValue);
 }

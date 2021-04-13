@@ -11,7 +11,13 @@ import com.cafe24.kangk0269.dto.ComponentDTO;
 @Mapper
 public interface BidComponentMapper {
 	//공고 리스트 조회(진핸중과 마감 구분)
-	public List<BidComponentDTO> getBidComponent(String status);
+	public List<BidComponentDTO> getBidComponent(@Param(value="status") String status
+												 ,@Param(value="searchKeyCp") String searchKeyCp
+												 ,@Param(value="searchValueCp") String searchValueCp
+												 ,@Param(value="bidComponentDTO") BidComponentDTO bidComponentDTO);
+	public int getBidComponentListCount(@Param(value="status") String status
+										,@Param(value="searchKeyCp") String searchKeyCp
+										,@Param(value="searchValueCp") String searchValueCp);
 	//해당 공고 리스트 조회
 	public BidComponentDTO getBidComponentByInfo(String announceCode);
 	public List<BidComponentDTO> getBidComponentMyBid(@Param(value="mId") String mId

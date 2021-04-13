@@ -31,6 +31,15 @@ public class BidComponentDTO extends CommonDTO {
 	private BidListDTO bidListDTO;
 	private List<BidListDTO> bidListDTOList;
 	private ComponentDTO componentDTO;
+	
+	private String bRecently;
+	
+	public String getbRecently() {
+		return bRecently;
+	}
+	public void setbRecently(String bRecently) {
+		this.bRecently = bRecently;
+	}
 	public String getbCpCode() {
 		return bCpCode;
 	}
@@ -258,8 +267,12 @@ public class BidComponentDTO extends CommonDTO {
 		builder.append(bidListDTOList);
 		builder.append(", componentDTO=");
 		builder.append(componentDTO);
+		builder.append(", bRecently=");
+		builder.append(bRecently);
 		builder.append("]");
 		return builder.toString();
 	}
-		
+	
+	
+	
 }

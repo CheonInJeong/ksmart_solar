@@ -212,7 +212,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="mId!=null">
 				li.m_id = #{mId}
 			</if>
-			<if test="searchValuePl!=null">
+			<if test="searchValuePl!=null and searchKeyPl!=null">
 				and ${searchKeyPl} LIKE CONCAT ('%',#{searchValuePl},'%')
 			</if>
 		</trim>
@@ -234,7 +234,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="mId!=null">
 				li.m_id = #{mId}
 			</if>
-			<if test="searchValuePl!=null">
+			<if test="searchValuePl!=null and searchKeyPl!=null">
 				and ${searchKeyPl} LIKE CONCAT ('%',#{searchValuePl},'%')
 			</if>
 		</trim>

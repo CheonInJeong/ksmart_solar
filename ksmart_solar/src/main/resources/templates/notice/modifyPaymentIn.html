@@ -82,62 +82,7 @@
 			</div>
 		</div>
 		
-	<!-- 
-   		<form id="paymentInForm" method="post" th:action="@{/notice/addpaymentInRequest}">
-   			<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
-			<div class="chat-room mt">
-	          <aside class="mid-side container">
-	            <div class="chat-room-head">
-	              <h3>대금 신청 수정</h3>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" th:text="${bidListDTO.bTitle}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰금액</div>
-	              <div class="second-part" id="bPrice" th:text="${tradePaymentInDTO.bPrice}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">예치금</div>
-	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bDeposit}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">납부해야할 금액</div>
-	              <div class="second-part" id="trPayinPrice" th:text="${tradePaymentInDTO.trPayinPrice}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금 은행</div>
-	              <div class="second-part" >
-	              	<select id="bank">
-	              		<option>:::::은행선택:::::</option>
-	              	</select>
-	              	<input type="hidden" id="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
-	              	<input type="hidden" name="mAccountBankName" th:value="${tradePaymentInDTO.mAccountBankName}">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">관리자계좌번호</div>
-	              <div class="second-part" id="accountNumber" th:text="${tradePaymentInDTO.mAccountNumber}"></div>
-	              <input type="hidden" name="mAccountNumber" th:value="${tradePaymentInDTO.mAccountNumber}">
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금자 성명</div>
-	              <div class="second-part" >
-	              	<input name="mPaymentName" type="text" th:value="${tradePaymentInDTO.mPaymentName}">
-	              </div>
-	            </div>
-	          </aside>
-	        </div>
-	        <div class="row" style="margin: 5px 0px;">
-				<div class="form-inline" style="text-align: center;">
-	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">수정</button>
-				</div>
-			</div>
-       	</form> -->
+	
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>

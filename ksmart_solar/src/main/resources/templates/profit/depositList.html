@@ -44,11 +44,15 @@
 					</thead>
 					<tbody>
 						<tr th:each="l, status : ${depositOutList}">
-							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="예치금출금신청 코드" th:text="${l.trDepCode}" style="display: none;"></td>
+							<td data-title="번호" th:text="${status.count}">
+							</td>
+							<td data-title="예치금출금신청 코드" style="display: none;">
+							</td>
 							<td data-title="출금신청회원" th:text="${l.mId}"></td>
 							<td data-title="신청금액(=출금금액)" th:text="${#numbers.formatInteger(l.trDepDeposit,3,'COMMA')}"></td>
-							<td data-title="구매자계좌">([[${l.mAccountBankName}]]) [[${l.mAccountNumber}]]</td>
+							<td data-title="구매자계좌">
+								([[${l.mAccountBankName}]]) [[${l.mAccountNumber}]]
+							</td>
 							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
 							<td data-title="관련공고">
 								<form th:action="@{/notice/announcement}" method="post">
@@ -61,7 +65,7 @@
 							<td data-title="출금시간" th:text="${l.trDepWdDate}"></td>
 							<td data-title="출금">
 								<span th:if="${l.trDepCheck == 'Y'}">출금완료</span>
-								<a th:if="${l.trDepCheck != 'Y'}" class="btn btn-info" th:href=@{/}>출금</a>
+								<a th:if="${l.trDepCheck != 'Y'}" class="btn standardBtn" th:href="@{/profit/withDraw(Code=${l.trDepCode})}">출금</a>
 							</td>
 						</tr>
 					</tbody>
