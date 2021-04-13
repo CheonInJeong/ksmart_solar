@@ -2,20 +2,11 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="@{layout/default}">
+	  
 	<th:block layout:fragment="customCss">
-		<!-- Bootstrap core CSS -->
-	  <link href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	  <!--external css-->
-	  <link href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
 	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
-	  <link rel="stylesheet" type="text/css" href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
-	  <!-- Custom styles for this template -->
-	  <link href="@{/css/style.css}" rel="stylesheet">
-	  <link href="@{/css/style-responsive.css}" rel="stylesheet">
 	</th:block>
+	
 	<th:block layout:fragment="customTitle">
 				<title>부품 판매 공고 신청</title>
 	</th:block>
@@ -31,16 +22,6 @@
                 <form class="cmxform form-horizontal style-form" id="componentSellForm" method="post" th:action="@{/sell/componentSell}" enctype="multipart/form-data">
                   <input type="hidden" id="sessionId" name="mId" th:value="${session.SID}">
                   
-              
-				<!-- 	<div class="radio">
-						<label>
-                  			<input type="radio" name="optionsRadios" id="oldComponent" value="option1" checked="">기존부품
-                		 </label>
-                		 <label>
-                  			<input type="radio" name="optionsRadios" id="newComponent" value="option1" >새로운부품
-                		 </label>
-              		</div> -->
-              		
               		<div class="form-group" id="selectInvisible">
 	                   <label for="username" class="control-label col-lg-2">부품선택</label>
 	                    <div class="col-lg-10">
@@ -180,7 +161,7 @@
 	  		  
 	      
 		 	
-		 	$('document').ready(function(){
+		 	$(document).ready(function(){
 		 		$('#bCpPrice').val(comma($('#bCpPrice').val()));
 		 	
 		 	})
@@ -202,9 +183,14 @@
 			
 			})
 			
-			
 			$('#componentSelect').change(function(){
 				
+				$('#cpName').val('');
+				$('#cpTitle').val('');
+				$('#cpMaker').val('');
+				$('#cpMakedate').val('');
+				$('#cpUsedate').val('');
+				$('#cpInfo').text('');
 				
 				var cpCode = $('select option:selected').val();
 				if(cpCode=='1'){
@@ -233,7 +219,6 @@
 								$('#cpUsedate').val(cpUsedate);
 								$('#cpInfo').text(cpInfo);
 							}
-							
 							
 						},
 						error : function(xhr,status,error) {

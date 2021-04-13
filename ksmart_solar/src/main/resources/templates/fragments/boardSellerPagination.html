@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	
+	<nav th:fragment="pagination" th:if="${boardSellerDTO != null and boardSellerDTO.pagination?.totalRecordCount > 0}" th:object="${boardSellerDTO.pagination}" th:with="info=${boardSellerDTO.pagination}" aria-label="Page navigation" class="text-center">
+		<ul class="pagination">
+			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${boardSellerDTO.makeQueryString(1)} ]])">
+				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+			</li>
+			<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${boardSellerDTO.makeQueryString(info.firstPage - 1)} ]])">
+				<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+			</li>
+			<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == boardSellerDTO.currentPageNo} ? 'active'">
+				<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${boardSellerDTO.makeQueryString(pageNo)} ]])"></a>
+			</li>
+			<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${boardSellerDTO.makeQueryString(info.lastPage + 1)} ]])">
+				<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+			</li>
+			<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${boardSellerDTO.makeQueryString(info.totalPageCount)} ]])">
+				<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+			</li>
+		</ul>
+	</nav>
+
+</html>

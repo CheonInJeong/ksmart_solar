@@ -35,6 +35,13 @@
   		  		<result property="cmtGroupCode" column="cmt_group_code"/>
   		</resultMap>
   		
+  		
+  		
+  		<!-- 문의글 갯수 가져오기 by천인정 -->
+  		<select id="getQnaListCount" parameterType="map" resultType="int">
+  			SELECT COUNT(1)	FROM tb_board_seller WHERE m_id_seller =#{mIdSeller}
+  		</select>
+  		
   		<!-- 게시글 조회수 +1 by 천인정 -->
 		<update id="updateView" parameterType="int">
 			UPDATE 
@@ -47,7 +54,7 @@
   		
   		
   		<!--아이디로 문의글 가져오기 by 천인정 -->
-  		<select id="getQnaListById" parameterType="String" resultMap = "boardSellerResultMap">
+  		<select id="getQnaListById" parameterType="map" resultMap = "boardSellerResultMap">
   			SELECT 
   				b_idx, 
   				b_subject,
@@ -60,8 +67,19 @@
   				b_reg_date
 			FROM 
 				tb_board_seller 
-			WHERE 
-				m_id_seller = #{mIdSeller}
+			<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="mIdSeller!=null and ''.toString()">
+						m_id_seller = #{mIdSeller}
+					
+					</if>
+					<if test="searchValue!=null and ''.toString()">
+						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+					</if>
+				
+				</trim>
+			LIMIT
+					#{boardSellerDTO.pagination.firstRecordIndex},#{boardSellerDTO.recordsPerPage}
+			
   		</select>
   		
   		
@@ -90,6 +108,7 @@
   		SELECT ifnull(MAX(cmt_order),0) FROM tb_comment WHERE cmt_group_code = #{cmtIdx}
   		
   		</select>
+  		<!-- 대댓글작성 by 천인정-->
   		<insert id="addReCmt" parameterType="CommentDTO" >
   			INSERT 
   			INTO 
@@ -117,7 +136,7 @@
   		
   		</insert>
   		
-  		
+  		<!-- 댓글 등록 by 천인정 -->
   		<insert id="addCmt" parameterType="map">
   			INSERT 
   			INTO 
@@ -126,11 +145,9 @@
 			VALUES
 				 (#{bIdx}, #{mId}, #{targetId}, 'N', #{cmtComment},NOW(),  0)
   		
-  		
   		</insert>
   		
-  		
-  		
+	  	<!-- 댓글 삭제 by 천인정 -->
   		<update id="removeCmt" parameterType="int">
   			UPDATE tb_comment
 				SET
@@ -175,8 +192,8 @@
 				cmt_delete_yn = 'N' 
 			order by
 				cmt_reg_date asc
-			LIMIT
-				#{commentDTO.pagination.firstRecordIndex},#{commentDTO.recordsPerPage}
+			<!-- LIMIT
+				#{commentDTO.pagination.firstRecordIndex},#{commentDTO.recordsPerPage} -->
 		
   			
   		

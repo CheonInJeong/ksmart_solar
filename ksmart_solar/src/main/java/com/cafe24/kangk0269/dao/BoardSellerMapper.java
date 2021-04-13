@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.CommentDTO;
@@ -19,7 +20,17 @@ public interface BoardSellerMapper {
 	public int updateView(int bIdx);
 	
 	//아이디로 문의글 가져오기  by 천인정
-	public List<BoardSellerDTO> getQnaListById(String id);
+	public List<BoardSellerDTO> getQnaListById(@Param(value="mIdSeller") String mIdSeller
+											  ,@Param(value="searchKey") String searchKey
+											  ,@Param(value="searchValue") String searchValue
+											  ,@Param(value="boardSellerDTO") BoardSellerDTO boardSellerDTO);
+	
+	//문의글 갯수 가져오기 by천인정
+	public int getQnaListCount(@Param(value="mIdSeller") String mIdSeller
+							  ,@Param(value="searchKey") String searchKey
+							  ,@Param(value="searchValue") String searchValue
+							  ,@Param(value="boardSellerDTO") BoardSellerDTO boardSellerDTO);
+	
 	
 	//댓글 수정 by 천인정
 	public int modifyCmt(@Param(value="cmtIdx") int cmtIdx,
