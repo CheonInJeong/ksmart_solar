@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import com.cafe24.kangk0269.dao.PlantMapper;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
@@ -387,6 +388,15 @@ public class PlantService {
 			}
 		}
 		return radData;
+	}
+
+	public int plantDelete(String plCode) {
+		return plantMapper.plantDelete(plCode);
+	}
+
+	public int plantModify(BusinessPlantDTO bp) {
+		System.out.println(bp);
+		return plantMapper.plantModify(bp);
 	}
 	
 	

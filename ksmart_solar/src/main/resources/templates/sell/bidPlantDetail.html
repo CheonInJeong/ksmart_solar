@@ -22,7 +22,6 @@
 			
 		</style>
 		
-
 		<div id="container-header-title"><strong>공고조회</strong></div>
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> > 공고조회</div>
       	<div id="container-header-space"></div>
@@ -43,7 +42,7 @@
 	            <div class="content-panel" style="padding: 30px;">
 	              <h4><i class="fa fa-angle-right"></i>발전소</h4>
 	              <hr>
-	              <table class="table">
+	              <table class="table" style="text-align : left">
 	                <tbody>
 	                	<tr>
 	                		<td>발전소사진</td>
@@ -93,7 +92,7 @@
 	            <div class="content-panel" style="padding: 30px;">
 	              <h4><i class="fa fa-angle-right"></i>공고정보</h4>
 	              <hr>
-	              <table class="table">
+	              <table class="table" style="text-align : left">
 	                <tbody>
 	                  <tr>
 	                    <td>공고코드</td>
@@ -132,10 +131,10 @@
 	                   <tr>
 	                  	<td>공고서류</td>
 	                  	<th:block  th:if="${#lists.size(file)}>0" th:each="f:${file}">
-	                  	<td colspan="2"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+	                  		<td colspan="3"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
 	                  	</th:block>
 	                  	<th:block th:unless="${#lists.size(file)}>0" >
-	                  	<td>등록 된 파일이 없습니다.</td>
+	                  		<td colspan="3">등록 된 파일이 없습니다.</td>
 	                  	</th:block>
 	                  </tr>
 	                  <tr>
@@ -151,7 +150,52 @@
 	          </div>
           </div>
           
-              <div class="row" id="section4">
+           <div class="row" id="section3">
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+	              <h4><i class="fa fa-angle-right"></i>거래정보</h4>
+	              <hr>
+	              <th:block th:if="${#lists.size(trade)}>0" th:each="t:${trade}">
+	              	
+		              <table class="table" style="text-align:left">
+		               	<tbody>
+		               		<tr>
+		               			<td colspan="4" style="text-align:center;"><strong> [[${t.trPrRank}]]순위 </strong></td>
+		               		</tr>
+		               		<tr>
+		               			<td>입찰자</td>
+		               			<td th:text="${t.mIdBuyer}"></td>
+		               			<td>거래순위</td>
+		               			<td th:text="${t.trPrRank}"></td>
+		               		</tr>
+		               		<tr>
+		               			<td>입찰금액</td>
+		               			<td th:text="${t.trPrPrice}"></td>
+		               			<td>거래상태</td>
+		               			<td th:text="${t.trTypeName}"></td>
+		               		</tr>
+		               		<tr>
+		               			<td>계약체결기간</td>
+		               			<td th:if="${t.trPrConclusionDate1 !=null and t.trPrConclusionDate2 !=null}" colspan="2" th:text="${t.trPrConclusionDate1+' ~ '+t.trPrConclusionDate1}"></td>
+		               			<td th:if="${t.trPrConclusionDate1 ==null and t.trPrConclusionDate2 ==null}" colspan="2">-</td>
+		               			<td></td>
+		               		</tr>
+		               	 </tbody>
+	              	</table>
+	              </th:block>
+	              
+		          <th:block th:unless="${#lists.size(trade)}>0">
+		               <table>
+			               <tr><td colspan="4" style="text-align:center">진행중인 거래가 없습니다.</td></tr>
+		               </table>
+		          </th:block>
+	          
+	            </div>
+	          </div>
+          </div>
+          
+          
+            <div class="row" id="section4">
 	          <div class="col-md-12">
 	            <div class="content-panel" style="padding: 30px;">
 	              <h4><i class="fa fa-angle-right"></i>문의글</h4>

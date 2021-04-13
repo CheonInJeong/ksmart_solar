@@ -126,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tb_bid_plant
 			WHERE b_pl_confirm_status = 'Y' and m_id = #{mId}
 	</select>
-	<select id="getBidPlant" resultMap="BidPlantDTOMap" parameterType="String">
+	<select id="getBidPlant" resultMap="BidPlantDTOMap" parameterType="map">
 		SELECT
 			b_pl_code,
 			bz_pl_code, 
@@ -159,6 +159,31 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			</if>
 			<if test="status != null and status.toString() == '진행'.toString() ">		
 				ac_status_code = 4						
+			</if>
+			<if test="searchValuePl!=null and searchKeyPl!=null">
+				and ${searchKeyPl} LIKE CONCAT ('%',#{searchValuePl},'%')
+			</if>
+		</trim>	
+		ORDER BY b_pl_date_bidding1 DESC
+		<if test="bidPlantDTO!=null">
+			LIMIT
+				#{bidPlantDTO.pagination.firstRecordIndex},#{bidPlantDTO.recordsPerPage}
+		</if>
+	</select>
+	<select id="getBidPlantListCount" resultType="int" parameterType="map">
+		SELECT
+			COUNT(1)
+		FROM 
+			tb_bid_plant
+		<trim prefix="where">
+			<if test="status != null and status.toString() == '종료'.toString() ">		
+				ac_status_code > 4						
+			</if>
+			<if test="status != null and status.toString() == '진행'.toString() ">		
+				ac_status_code = 4						
+			</if>
+			<if test="searchValuePl!=null and searchKeyPl!=null">
+				and ${searchKeyPl} LIKE CONCAT ('%',#{searchValuePl},'%')
 			</if>
 		</trim>	
 		ORDER BY b_pl_date_bidding1 DESC

@@ -6,6 +6,7 @@
 		<result property="bzPlCode" 		column="bz_pl_code"/>
 		<result property="mId" 				column="m_id"/>
 		<result property="bzPlCheck" 		column="bz_pl_check"/>
+		<result property="bzPlDelete" 		column="bz_pl_delete"/>
 		<result property="bzPlName" 		column="bz_pl_name"/>
 		<result property="bzPlZipcode" 		column="bz_pl_zipcode"/>
 		<result property="bzPlAddr" 		column="bz_pl_addr"/>
@@ -212,6 +213,7 @@
 			bz_pl_code
 			, m_id
 			, bz_pl_check
+			, bz_pl_delete
 			, bz_pl_name
 			, bz_pl_zipcode
 			, bz_pl_addr
@@ -236,6 +238,7 @@
 			bz_pl_code
 			, m_id
 			, bz_pl_check
+			, bz_pl_delete
 			, bz_pl_name
 			, bz_pl_zipcode
 			, bz_pl_addr
@@ -256,6 +259,7 @@
 			bz_pl_code
 			, m_id
 			, bz_pl_check
+			, bz_pl_delete
 			, bz_pl_name
 			, bz_pl_zipcode
 			, bz_pl_addr
@@ -279,6 +283,7 @@
 			bz_pl_code
 			, m_id
 			, bz_pl_check
+			, bz_pl_delete
 			, bz_pl_name
 			, bz_pl_zipcode
 			, bz_pl_addr
@@ -296,6 +301,27 @@
 		WHERE
 			bz_pl_code = #{bzCode};
 	</select>
-	
-	
+	<update id="plantDelete" parameterType="String">
+		UPDATE 
+			tb_business_plant
+		SET
+			bz_pl_delete = 'Y'
+		WHERE 
+			bz_pl_code = #{plCode};
+	</update>
+	<update id="plantModify" parameterType="BusinessPlantDTO">
+		UPDATE 
+			tb_business_plant
+		SET
+			, bz_pl_name = #{bzPlName}
+			, bz_pl_detail_addr = #{bzPlDetailAddr}
+			, bz_pl_photo = #{bzPlPhoto}
+			, bz_pl_power = #{bzPlPower}
+			, bz_pl_area = #{bzPlArea}
+			, bz_pl_inv_power = #{bzPlInvPower}
+			, bz_pl_inv_count = #{bzPlInvCount}
+			, bz_pl_inv_maker = #{bzPlInvMaker}
+		WHERE 
+			bz_pl_code = #{bzPlCode};
+	</update>
 </mapper> 

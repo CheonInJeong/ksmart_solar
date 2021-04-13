@@ -18,8 +18,11 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	//거래대금출금신청 은행 변경
+	public int updateBankInfo(String accountBank,String accountNumber, String code);
 	
-	
+	//계약체결정보 얻기
+	public List<TradePriorityDTO> getTradeInfo(String bPlCode);
 	
 	//공고그룹 코드로 최신 공고 코드 얻기
 	public String getRecentlybPlCodeByGroupcode(String groupCode);
@@ -108,13 +111,41 @@ public interface SellMapper {
 	
 	
 	//출금신청 가능한 리스트 가져오기
-	public List<TradePriorityDTO> getPaymentAvailable(String mId) throws Exception;
+	public List<TradePriorityDTO> getPaymentAvailable(@Param(value="mId") String mId
+												     ,@Param(value="searchKey") String searchKey
+													 ,@Param(value="searchValue") String searchValue
+													 ,@Param(value="TradePriorityDTO") TradePriorityDTO tradePriorityDTO) throws Exception;
 	
 	//출금신청한 파일
-	public List<TradePriorityDTO> getPaymentApplyList(String mId) throws Exception;
+	public List<TradePriorityDTO> getPaymentApplyList(@Param(value="mId") String mId
+												     ,@Param(value="searchKeyApply") String searchKeyApply
+													 ,@Param(value="searchValueApply") String searchValueApply
+													 ,@Param(value="TradePriorityDTO") TradePriorityDTO tradePriorityDTO) throws Exception;
 	
 	//출금완료 리스트
-	public  List<TradePriorityDTO> getPaymentOutList(String mId) throws Exception;
+	public  List<TradePriorityDTO> getPaymentOutList(@Param(value="mId") String mId
+												     ,@Param(value="searchKeyFinish") String searchKeyFinish
+													 ,@Param(value="searchValueFinish") String searchValueFinish
+													 ,@Param(value="TradePriorityDTO") TradePriorityDTO tradePriorityDTO) throws Exception;
+	
+	//출금신청 가능한 리스트 갯수 가져오기
+	public int getPaymentAvailableCount(@Param(value="mId") String mId
+												     ,@Param(value="searchKey") String searchKey
+													 ,@Param(value="searchValue") String searchValue
+													 ,@Param(value="TradePriorityDTO") TradePriorityDTO tradePriorityDTO) throws Exception;
+	
+	//출금신청한 갯수 파일
+	public int getPaymentApplyListCount(@Param(value="mId") String mId
+										,@Param(value="searchKeyApply") String searchKeyApply
+										,@Param(value="searchValueApply") String searchValueApply
+										,@Param(value="TradePriorityDTO") TradePriorityDTO tradePriorityDTO) throws Exception;
+	
+	//출금완료 갯수리스트
+	public int getPaymentOutListCount(@Param(value="mId") String mId
+									 ,@Param(value="searchKeyFinish") String searchKeyFinish
+									 ,@Param(value="searchValueFinish") String searchValueFinish
+									 ,@Param(value="TradePriorityDTO") TradePriorityDTO tradePriorityDTO) throws Exception;
+
 	
 	//판매자 발전소 목록의 수
 	public int getBidComponentCount(@Param(value="mId") String mId
