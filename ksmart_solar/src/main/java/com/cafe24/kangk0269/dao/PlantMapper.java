@@ -47,4 +47,8 @@ public interface PlantMapper {
 	public List<PlantRadiationDTO> getRadiationData(String addrCodeName, String startTime, String endTime);
 	
 	public String getRadiationSumMonthData(String addrCodeName, String startTime, String endTime);
+
+	public int plantDelete(String plCode);
+
+	public int plantModify(BusinessPlantDTO bp);
 }

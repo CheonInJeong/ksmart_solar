@@ -47,6 +47,9 @@ public class ComponentController {
 									  ,HttpSession session) throws ParseException { 
 		  ComponentDTO cp = new ComponentDTO();
 		  String mId = (String) session.getAttribute("SID");
+		  
+		  System.out.println(mId);
+		  
 		  cp.setmId(mId);
 		  cp.setCpName(cpName);
 		  cp.setCpPhoto(cpPhoto);

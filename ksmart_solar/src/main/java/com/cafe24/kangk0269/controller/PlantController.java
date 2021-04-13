@@ -19,6 +19,7 @@ import com.cafe24.kangk0269.api.CrawlingApi;
 import com.cafe24.kangk0269.common.DepreciationCalculate;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 import com.cafe24.kangk0269.serivce.BusinessService;
 import com.cafe24.kangk0269.serivce.PlantService;
@@ -63,6 +64,7 @@ public class PlantController {
 	public String benefitAnalysis(HttpSession session, Model model) throws ParseException {
 		String bzCode = (String)session.getAttribute("SBZCODE");
 		plantService.residualValue(bzCode, model);
+		model.addAttribute("plCode", bzCode);
 		if(bzCode != null) {
 			plantService.getBenefitAnalysis(model, bzCode);
 			return "/plant/benefitAnalysis";
@@ -76,11 +78,9 @@ public class PlantController {
 	public String generationAnalysis(HttpSession session, Model model) throws ParseException {
 		String bzCode = (String)session.getAttribute("SBZCODE");
 		System.out.println(bzCode);
-		
+		model.addAttribute("plCode", bzCode);
 		if(bzCode != null) {
 			plantService.getGenerationAnalysisData(model, bzCode);
-			
-			
 			return "/plant/generationAnalysis";
 		}
 		return "main";
@@ -148,9 +148,6 @@ public class PlantController {
 	  
 	  if(mId == null || bzCompanyName == null || bzCeoName == null) { return 0; }
 	  
-	  
-	  
-	  
 	  bs.setBzCode(""); 
 	  bs.setmId(mId); 
 	  bs.setBzCompanyName(bzCompanyName);
@@ -199,6 +196,51 @@ public class PlantController {
 									  ,HttpSession session) throws ParseException { 
 	  return plantService.getAjaxGenerationAnalysisData(bzPlCode, requestDate);
 	  }
+	  
+	  
+	  @RequestMapping(value="/ajax/plantDelete", method = RequestMethod.POST)
+	  public @ResponseBody int deleteComponent(
+			  @RequestParam(value="plCode", required = false)String plCode) throws ParseException { 
+		  return plantService.plantDelete(plCode);
+	  }
+	  
+	  @RequestMapping(value="/ajax/plantModify", method = RequestMethod.POST)
+	  public @ResponseBody int plantModify(
+			  @RequestParam(value="bzPlCode", required = false) 		String bzPlCode
+			  ,@RequestParam(value="bzPlName", required = false) 		String bzPlName
+			  ,@RequestParam(value="bzPlPhoto", required = false) 		String bzPlPhoto
+			  ,@RequestParam(value="bzPlDetailAddr", required = false) 	String bzPlDetailAddr
+			  ,@RequestParam(value="bzPlPower", required = false) 		int bzPlPower
+			  ,@RequestParam(value="bzPlArea", required = false) 		int bzPlArea
+			  ,@RequestParam(value="bzPlInvPower", required = false) 	int bzPlInvPower
+			  ,@RequestParam(value="bzPlInvCount", required = false) 	int bzPlInvCount
+			  ,@RequestParam(value="bzPlInvMaker", required = false) 	String bzPlInvMaker
+			  ,@RequestParam(value="bzPlRec", required = false) 		int bzPlRec
+			  ,HttpSession session
+			 ) throws ParseException { 
+		  BusinessPlantDTO bp = new BusinessPlantDTO();
+		  bp.setBzPlCode(bzPlCode);
+		  bp.setBzPlName(bzPlName);
+		  bp.setBzPlPhoto(bzPlPhoto);
+		  bp.setBzPlDetailAddr(bzPlDetailAddr);
+		  bp.setBzPlPower(bzPlPower);
+		  bp.setBzPlArea(bzPlArea);
+		  bp.setBzPlInvPower(bzPlInvPower);
+		  bp.setBzPlInvCount(bzPlInvCount);
+		  bp.setBzPlInvMaker(bzPlInvMaker);
+		  bp.setBzPlRec(bzPlRec);
+		  return plantService.plantModify(bp);
+	  }
+	  
+
+	@PostMapping("/plant/plantModify")
+	public String plantDetail(Model model 
+							  ,@RequestParam(name="plCode", required=false) String plCode) throws ParseException {
+		BusinessPlantDTO bp = plantService.getPlantInfoBybzPlCode(plCode);
+		model.addAttribute("plCode", plCode);
+		model.addAttribute("bp", bp);
+		return "/plant/plantModify";
+	}
 	  
 	  
 }

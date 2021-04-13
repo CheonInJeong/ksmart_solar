@@ -22,8 +22,8 @@
 					<div>
 						<div class="h1 col-md-6">
 							<span style="font-weight:900; margin-right: 10px;">[[${bzPlName}]]</span>
-							<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
-							<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
+							<button type="button" id="plantModify" th:data-plName="${bzPlName}" th:data-plCode="${plCode}" class="btn btn-info btn-xs">수정</button>
+							<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${plCode}" class="btn btn-danger btn-xs">삭제</button>
 						</div>
 						<div class="h2 col-md-6 col-xs-12" style="margin: 20px 0 15px 0; padding: 0;">
 							<div class="col-xs-6">
@@ -52,7 +52,11 @@
 		            </div>
 				<div class="col-xs-12" style="height: 5vh;"></div>
 		        <div class="row">
-		        	<div><span style="float: right; color: #888;"><small>* 수익, 비용(유지비+감가), 손익(수익 - 비용)</small></span></div>
+		        <span style="float: right; color: #888;">
+			        <small>수익 = 발전소 용량 x 월별 평균발전량 x 패널 수명 효율</small><br>
+			        <small>비용 = 고정유지비 + 발전소 감가 + 예상유지비(인버터교체비용등 )</small><br>
+			        <small>손익 = 수익 - 비용</small>
+		        </span>
 					<canvas id="myChart" style="width: 100%;"></canvas>
 				</div>
 		        </div>
@@ -61,6 +65,7 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="/js/plant.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="text/javascript">
 				var basedPrice = $('#dataDiv').attr('data-basedPrice');
@@ -101,11 +106,18 @@
 					}
 				}
 				
-				//수익 계산공식, 비용 계산공식 화면에 표시
+				
+				//모듈 제조사 연도별 효율
+				var efficiencyRate = [100.0, 99.2, 98.4, 97.6, 96.8, 96.1, 95.3, 94.5, 93.8, 93.0, 91.5, 90.8, 90.1, 89.4, 88.7, 87.9, 87.2, 86.5, 85.9, 85.1]
+				//월별 발전시간(쏠라커넥트)
+				var generationTime = [2.82, 3.52, 4.35, 4.72, 4.86, 4.45, 3.33, 3.77, 3.38, 3.71, 2.96, 2.57]
+				
+				
 				
 				var chartData1 = [];	//수익 >> 현재 수익 * 월별 예상 발전량 * 연도별로 줄어드는 % (연간 1.5% 감소)
 				var chartData2 = [];	//비용 >> 입력한 비용에 %를 곱하고 10년단위로 인버터 비용 추가
 				var chartData3 = [];	//손익 >> 수익 - 비용
+				//수익 계산공식, 비용 계산공식 화면에 표시
 				
 				chartDraw();
 				
