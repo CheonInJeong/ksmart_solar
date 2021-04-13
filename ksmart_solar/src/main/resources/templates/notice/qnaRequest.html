@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
+
+	<th:block layout:fragment="customTitle">
+		<title>문의 등록</title>
+	</th:block>
+	<th:block layout:fragment="customCss">
+		<link href="/lib/fancybox/jquery.fancybox.css" rel="stylesheet" />
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>문의 등록</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#"  style="text-decoration: none;"> 공고정보 </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 문의등록 </a>
+			<input type="hidden" id="url" th:value="${url}">
+		</div>
+     	<div id="container-header-space"></div>	
+		<div class="row mt">
+          <div class="col-lg-12">
+             <div class="content-panel" style="padding: 30px;">
+              <h4 class="mb"><i class="fa fa-angle-right"></i>문의 등록</h4>
+              <form th:action="@{/help/addqnaRequest}" method="post" class="form-horizontal style-form">
+                <input type="hidden" name="announcedCode" th:value="${announcedCode}">
+                <input type="hidden" name="url" th:value="${url}">
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">문의 제목</label>
+                  <div class="col-lg-10">
+                  	<input type="text" name="bSubject" class="form-control">
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">문의 내용</label>
+                  <div class="col-lg-10">
+                  	<textarea name="bContents" rows="30" class="form-control"></textarea>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="col-sm-2 col-sm-2 control-label">사진</label>
+                  <div class="col-lg-10">
+					<input type="file" id="bPhoto" accept="image/gif,image/jpeg,image/png,image/jpg">
+					<input type="hidden" name="bPhoto">
+                  </div>
+                </div>
+                <div class="form-group">
+               		<label class="col-sm-2 col-sm-2 control-label"></label>
+					<div class="col-lg-10">
+						<div class="fileupload-new thumbnail" style="width: 250px; height: 300px;">
+							<div class="photo">
+								<a class="fancybox" href="" id="imgA">
+									<img class="img-responsive" src="" alt="" id="img">
+								</a>
+							</div>
+							<div class="overlay"></div>
+						</div>
+					</div>
+                </div>
+                <div style="text-align: center">
+                	<button id="qnaRequestBtn" type="submit" class="btn standardBtn">등록</button>
+                  	<a class="btn btn-info" th:href="${url}">돌아가기</a>	
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+	
+		
+	  	<script type="text/javascript">
+		  	var url = $('#url');
+			link2 = url.val();
+			console.log(link2);
+			var firstUrl = $('#firstUrl');
+			var secondUrl = $('#secondUrl');
+			var thirdUrl = $('#thirdUrl');
+			var a = $('a');
+			a.each(function(){
+				if($(this).attr('href')==link2){
+					$(this).parent().parent().parent().children().eq(0).addClass('active');
+					$(this).parent().parent().css('display','block');
+					$(this).parent().addClass('active');
+					firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+					secondUrl.text($(this).parent().text());
+					secondUrl.attr('href',$(this).prop('href'));
+				}
+			});
+			
+			var file = document.getElementById('bPhoto');
+			var img = $('#img');
+			var imgA = $('#imgA');
+			var qnaRequestBtn = $('#qnaRequestBtn');
+			
+			file.addEventListener('change',function(){
+				var fileType = file.value.substring(file.value.lastIndexOf('.')+1,file.value.length);
+				if(file.files[0]!=null){
+					if(!(fileType=='gif' || fileType=='png' || fileType=='jpeg' || fileType=='jpg')){
+						return false;
+					}
+					if (typeof (FileReader) != "undefined") {
+						var reader = new FileReader();
+						reader.onload = function (e) {
+							img.prop('src',e.target.result);
+							imgA.prop('href',e.target.result);
+						}
+						reader.readAsDataURL(this.files[0]);
+					}
+				}
+			});
+			
+			qnaRequestBtn.click(function(){
+				var fileType = file.value.substring(file.value.lastIndexOf('.')+1,file.value.length);
+				var form = new FormData();
+				var fileURL = '';
+				form.append("image", file.files[0])
+				if(file.files[0]!=null){
+					if(!(fileType=='gif' || fileType=='png' || fileType=='jpeg' || fileType=='jpg')){
+						return false;
+					}
+					var settings = {
+					  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+					  "method": "POST",
+					  "timeout": 0,
+					  "processData": false,
+					  "mimeType": "multipart/form-data",
+					  async:false,
+					  "contentType": false,
+					  "data": form
+					};
+					$.ajax(settings).done(function (response) {
+						console.log(response);
+						var jx = JSON.parse(response);
+						fileURL = jx.data.url;
+						console.log(fileURL + ' <<< fileURL');
+						$('[name="bPhoto"]').val(fileURL);
+					});
+				}
+				$('#noticeBtn').click(function(){
+				 	if($('[name="bSubject"]').val()==''){
+				 		Swal.fire({
+							  title: '등록실패!',
+							  text: '제목을 입력해주세요.',
+							  icon: 'info'
+							});
+				 		$('[name="bSubject"]').focus();
+						return false;
+					}if($('[name="bContents"]').val()==''){
+						Swal.fire({
+							  title: '등록실패!',
+							  text: '내용을 입력해주세요.',
+							  icon: 'info'
+							});
+						$('[name="bContents"]').focus();
+						return false;
+					}
+				 })
+			})
+		</script>
+	
+		<script src="/lib/fancybox/jquery.fancybox.js"></script>
+		<script class="include" type="text/javascript" src="/lib/jquery.dcjqaccordion.2.7.js"></script>
+		<!--common script for all pages-->
+		<script type="text/javascript">
+		    $(function() {
+		      //    fancybox
+		      jQuery(".fancybox").fancybox();
+		    });
+		</script>
+
+			
+			
+			
+	</th:block>		  
+</html>

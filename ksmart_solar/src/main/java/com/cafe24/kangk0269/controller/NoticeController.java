@@ -370,4 +370,25 @@ public class NoticeController {
 		bidListService.tradeCancel(bCode);
 		return "redirect:/notice/noticeList";
 	}
+	@PostMapping("/notice/qnaRequest")
+	public String qnaRequest(String announcedCode,
+							 String url,
+							 Model model) {
+		model.addAttribute("announcedCode", announcedCode);
+		model.addAttribute("url", url);
+		return "/notice/qnaRequest";
+	}
+	@PostMapping("/help/addqnaRequest")
+	public String addqnaRequest(String bSubject,
+								String bContents,
+								String bPhoto,
+								String announcedCode,
+								String url) {
+		System.out.println(bSubject);
+		System.out.println(bContents);
+		System.out.println(bPhoto);
+		System.out.println(announcedCode);
+		System.out.println(url);
+		return "redirect:"+url;
+	}
 }
