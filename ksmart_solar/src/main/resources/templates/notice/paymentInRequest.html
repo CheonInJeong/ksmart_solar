@@ -18,64 +18,9 @@
 		</div>
 		<div id="container-header-space"></div>
 		
-   		<!-- <form id="paymentInForm" method="post" th:action="@{/notice/addpaymentInRequest}">
-   			<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
-			<div class="chat-room mt">
-	          <aside class="mid-side container">
-	            <div class="chat-room-head">
-	              <h3>대금 신청</h3>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">공고 제목</div>
-	              <div class="second-part" th:text="${bidListDTO.bTitle}"></div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입찰금액</div>
-	              <div class="second-part" id="bPrice" th:text="${tradePaymentInDTO.bPrice}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">예치금</div>
-	              <div class="second-part" id="bDeposit" th:text="${tradePaymentInDTO.bDeposit}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">납부 금액</div>
-	              <div class="second-part" id="trPayinPrice" th:text="${tradePaymentInDTO.trPayinPrice}+'원'">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">관리자 계좌 은행</div>
-	              <div class="second-part" >
-	              	<select id="bank">
-	              		<option>:::::은행선택:::::</option>
-	              	</select>
-	              	<input type="hidden" name="mAccountBankName">
-	              </div>
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">관리자 계좌 번호</div>
-	              <div class="second-part" id="accountNumber"></div>
-	              <input type="hidden" name="mAccountNumber">
-	            </div>
-	            <div class="group-rom">
-	              <div class="first-part odd">입금자 성명</div>
-	              <div class="second-part" >
-	              	<input name="mPaymentName" type="text" >
-	              </div>
-	            </div>
-	          </aside>
-	        </div>
-	        <div class="row" style="margin: 5px 0px;">
-				<div class="form-inline" style="text-align: center;">
-	            	<button id="bidResultBtn" class="btn btn-default" type="button" style="width: 80px;">신청</button>
-				</div>
-			</div>
-       	</form> -->
-       	
        	<div class="row mt">
           <div class="col-lg-12">
-            <div class="form-panel">
+            <div class="form-panel" style="padding: 30px;">
               <div class="form">
                 <form class="cmxform form-horizontal style-form" id="paymentInForm" method="post" th:action="@{/notice/addpaymentInRequest}">
                 	<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">

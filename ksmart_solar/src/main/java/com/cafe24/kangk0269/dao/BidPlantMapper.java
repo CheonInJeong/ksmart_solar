@@ -14,7 +14,13 @@ public interface BidPlantMapper {
 	public List<BidPlantDTO> getBidPlantById(String mId); 
 	
 	//공고 리스트 조회(진핸중과 마감 구분)
-	public List<BidPlantDTO> getBidPlant(String status);
+	public List<BidPlantDTO> getBidPlant(@Param(value="status") String status
+										 ,@Param(value="searchKeyPl") String searchKeyPl
+										 ,@Param(value="searchValuePl") String searchValuePl
+										 ,@Param(value="bidPlantDTO") BidPlantDTO bidPlantDTO);
+	public int getBidPlantListCount(@Param(value="status") String status
+									,@Param(value="searchKeyPl") String searchKeyPl
+									,@Param(value="searchValuePl") String searchValuePl);
 	//해당 공고 리스트 조회
 	public BidPlantDTO getBidPlantByInfo(String announceCode);
 	public List<BidPlantDTO> getBidPlantMyBid(@Param(value="mId") String mId
