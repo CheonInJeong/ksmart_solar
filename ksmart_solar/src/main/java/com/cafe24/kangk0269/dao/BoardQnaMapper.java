@@ -9,6 +9,9 @@ import com.cafe24.kangk0269.dto.BoardQnaDTO;
 @Mapper
 public interface BoardQnaMapper {
 
+	//임시저장 불러오기
+	public List<BoardQnaDTO> loadQna(String log_id);
+	
 	//문의 조회수 증가
 	public int addQnaViews(int bQnaIdx);
 	

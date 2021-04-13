@@ -43,22 +43,23 @@
 					<tbody>
 						<th:block th:if="${memberAccountDTOList != null}" th:each="l : ${memberAccountDTOList}">
 							<tr>
-								<td data-title="계좌번호" th:text="${l.mAccountNumber}"></td>
+								<td data-title="계좌번호" th:text="${l.mAccountNumber}">
+								</td>
 								<td data-title="은행명" th:text="${l.mAccountBank}"></td>
 								<td data-title="예금주명" th:text="${l.mAccountName}"></td>
 								<td data-title="계좌 등록일" th:text="${l.mAccountRegDate}"></td>
-								<td data-title="사용여부" class="useCheck" th:text="${l.mAccountCheck}"></td>
+								<td data-title="사용여부" id="mAccountCheck">[[${l.mAccountCheck}]]</td>
 								<td data-title="사용 여부변경">
 									<button id="useBtn" type="button" class="btn btn-default btn-xs">
 									  <span class="glyphicon glyphicon-random" aria-hidden="true"></span>
 									</button>
+									<input type="hidden" id="mAccountIdx" th:value=${l.mAccountIdx}>
 								</td>
 								<td data-title="삭제">
 									<a class="btn btn-danger btn-xs" th:href="@{/mypage/removeAccount(mAccountIdx=${l.mAccountIdx})}">삭제</a>
 								</td>
 							</tr>
 						</th:block>
-						
 						<th:block th:if="${memberAccountDTOList == null || memberAccountDTOList.size() == 0}">
 		                  <tr>
 		                    <td colspan="7" style="text-align: center;">등록된 계좌가 없습니다.</td>		                 
@@ -67,7 +68,7 @@
 					</tbody>
 				</table>
 				<div class="form-group" style="text-align: center;">
-					<a th:href="@{/mypage/addAccount}" class="btn btn-theme">계좌추가</a>
+					<a th:href="@{/mypage/addAccount}" class="btn btn-theme">계좌등록</a>
 				</div>
 				</section>
 				</div>
@@ -83,10 +84,30 @@
 			mypage.parent().find('.sub').children().eq(1).addClass('active');
 			
 			
-		/* 	//사용여부 변경
+		 	//사용여부 변경
 			$(document).on('click','#useBtn',function(){
-				${'.useCheck'}.text{'qwe'};		
-			}); */
+				var useBtn = $(this);
+				var tr = useBtn.parent().parent();
+				var td = tr.children();
+				var mAccountCheckObj = td.eq(4);
+				var mAccountCheck = td.eq(4).text();
+				var mAccountIdx = $('#mAccountIdx').val();
+				console.log(mAccountIdx);
+				
+			     $.ajax({
+			        type : "POST",
+			        url : "/modifyAccountUse",
+			        dataType : "text",
+			        data : {"mAccountCheck": mAccountCheck, "mAccountIdx": mAccountIdx},
+			        error : function(error) {
+			            alert('에러발생');
+			        },
+			        success : function(data) {
+			            alert('정상 변경');
+			            mAccountCheckObj.text(data);			            	
+			        }
+			    }); 
+			}); 
 		</script>
 	</th:block>
 </html>
