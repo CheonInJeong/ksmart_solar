@@ -23,7 +23,7 @@
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">
 				<h4><i class="fa fa-angle-right"></i> 월말정산</h4>
 	              <section id="no-more-tables">
 	              	<hr>
@@ -34,16 +34,20 @@
 							<th>월</th>
 							<th>거래수수료 총액</th>
 							<th>취소수수료 총액</th>
-							<th>정산금액</th>
+							<th>수수료 총액</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="l, status : ${calculateList}">
 							<td data-title="번호">[[${status.count}]]</td>
-							<td data-title="월" th:text="${l.ymDate}"></td>
+							<td data-title="월">
+								<a th:href="@{/calculateMonth(lastDate=${l.last}, ymDate=${l.ymDate})}">
+									[[${l.ymDate}]]
+								</a>
+							</td>
 							<td data-title="거래수수료 총액" th:text="${#numbers.formatInteger(l.sucTotal,3,'COMMA')}"></td>
 							<td data-title="취소수수료 총액" th:text="${#numbers.formatInteger(l.failTotal,3,'COMMA')}"></td>
-							<td data-title="정산금액" th:text="${#numbers.formatInteger(l.cmTotal,3,'COMMA')}"></td>
+							<td data-title="수수료 총액" th:text="${#numbers.formatInteger(l.cmTotal,3,'COMMA')}"></td>
 						</tr>
 					</tbody>
 				</table>

@@ -4,7 +4,7 @@
 	  layout:decorate="@{layout/default}">
 
 	<th:block layout:fragment="customTitle">
-				<title>대금수수료관리</title>
+				<title>월말정산</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -18,38 +18,55 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
-			<div id="container-header-title"><strong>대금수수료관리</strong></div>
-	<div id="container-header-path">수익관리 > 대금수수료관리</div>
+	<div id="container-header-title"><strong>월말정산</strong></div>
+	<div id="container-header-path">수익관리 > <a th:href=@{/profit/calculate}>월말정산</a> > [[${ymDate}]] 수수료 내역</div>
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
             <div class="content-panel" style="padding : 30px; margin: 30px;">
-				<h4><i class="fa fa-angle-right"></i> 대금수수료관리</h4>
+				<h4><i class="fa fa-angle-right"></i> [[${ymDate}]] 수수료 내역</h4>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
 							<th>번호</th>
-							<th>수수료납부회원</th>
-							<th>거래 수수료금액</th>
-							<th>관련공고</th>
+							<th>납부회원</th>
+							<th>취소 수수료 금액</th>
+							<th>거래 수수료 금액</th>
+							<th>수수료 종류</th>
 							<th>수수료 수취일</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l, status : ${successCmList}">
-							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="수수료납부회원" th:text=${l.mId}></td>
-							<td data-title="거래 수수료금액" th:text=${#numbers.formatInteger(l.cTradeCm,3,'COMMA')}></td>
-							<td data-title="관련공고" style="cursor: pointer;">
-								<form th:action="@{/notice/announcement}" method="post">
-									<a class="announceTitle">[[${l.announcedTitle}]]</a>
-			                      	<input type="hidden" name="announceCode" th:value="${l.announcedCode}">
-			                      	<input type="hidden" name="announceType" th:value="${l.bType}">
-								</form>
+						<tr th:each="l, status : ${calculateMonthList}">
+							<td data-title="번호">[[${status.count}]]</td>
+							<td data-title="납부회원">
+									[[${l.id}]]
 							</td>
-							<td data-title="수수료 수취일" th:text=${l.bMoDate}></td>
+							<td data-title="취소 수수료 금액">
+								<th:block th:if="${l.type == '취소'}">
+									[[${#numbers.formatInteger(l.money,3,'COMMA')}]]
+								</th:block>
+							</td>
+							<td data-title="거래 수수료 금액">
+								<th:block th:if="${l.type == '대금'}">
+									[[${#numbers.formatInteger(l.money,3,'COMMA')}]]
+								</th:block>
+							</td>
+							<td data-title="수수료 종류" th:text="${l.type}"></td>
+							<td data-title="수수료 수취일" th:text="${l.inputDate}"></td>
+						</tr>
+						<tr>
+							<td colspan="2"><strong>수수료별 합계</strong></td>
+							<td>
+								[[${#numbers.formatInteger(#aggregates.sum(calculateMonthList.?[type == '취소'].![money]),3,'COMMA')}]]
+							</td>
+							<td>
+								[[${#numbers.formatInteger(#aggregates.sum(calculateMonthList.?[type == '대금'].![money]),3,'COMMA')}]]
+							</td>
+							<td><strong>총 수수료</strong></td>
+							<td>[[${#numbers.formatInteger(#aggregates.sum(calculateMonthList.![money]),3,'COMMA')}]]</td>
 						</tr>
 					</tbody>
 				</table>
@@ -90,11 +107,7 @@
 			var profit = $('#profit');
 			profit.addClass('active');
 			profit.parent().find('.sub').css('display','block');
-			profit.parent().find('.sub').children().eq(1).addClass('active');
-			
-			$('.announceTitle').click(function(){
-				$(this).parent().submit();
-			});
+			profit.parent().find('.sub').children().eq(3).addClass('active');
 		</script>
 	</th:block>
 </html>

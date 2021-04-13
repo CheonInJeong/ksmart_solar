@@ -23,7 +23,7 @@
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">
 				<h4><i class="fa fa-angle-right"></i> 거래대금출금신청목록</h4>
 	              <section id="no-more-tables">
 	              	<hr>
@@ -54,7 +54,7 @@
 							<td data-title="출금금액" th:text="${#numbers.formatInteger(l.trPayoutPriceReal,3,'COMMA')}"></td>
 							<td data-title="판매자계좌">([[${l.trPayoutBank}]]) [[${l.trPayoutAccount}]]</td>
 							<td data-title="예금주명" th:text="${l.trPayoutAccountName}"></td>
-							<td data-title="관련공고">
+							<td data-title="관련공고" style="cursor: pointer;">
 								<form th:action="@{/notice/announcement}" method="post">
 									<a class="announceTitle">[[${l.announcedTitle}]]</a>
 			                      	<input type="hidden" name="announceCode" th:value="${l.announcedCode}">

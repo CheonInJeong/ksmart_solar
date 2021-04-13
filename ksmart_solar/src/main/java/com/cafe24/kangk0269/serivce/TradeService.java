@@ -26,6 +26,10 @@ public class TradeService {
 	public List<TradeFailDTO> getCalculateList(){
 		return tradeMapper.getCalculateList();
 	}
+	// 월별 수수료 상세정보
+	public List<TradeFailDTO> getCalculateMonth(String lastDate) {
+		return tradeMapper.getCalculateMonth(lastDate);
+	}
 	
 	public List<TradePaymentOutDTO> getSuccessCommission(){
 		return tradeMapper.getSuccessCommission();

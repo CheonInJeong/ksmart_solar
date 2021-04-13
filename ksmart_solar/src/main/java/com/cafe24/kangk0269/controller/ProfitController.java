@@ -91,6 +91,19 @@ public class ProfitController {
 		return "/profit/balance";
 	}
 	
+	@GetMapping("/calculateMonth")
+	public String CalculateMonth(Model model
+								, @RequestParam(name="lastDate", required=false) String lastDate
+								, @RequestParam(name="ymDate", required=false) String ymDate) {
+		System.out.println("월 마지막 날짜 : " + lastDate);
+		System.out.println("연월 : " + ymDate);
+		List<TradeFailDTO> calculateMonthList = tradeService.getCalculateMonth(lastDate);
+		System.out.println("월별 수수료 상세정보 : " + calculateMonthList);
+		model.addAttribute("ymDate", ymDate);
+		model.addAttribute("calculateMonthList", calculateMonthList);
+		return "/profit/calculateMonth";
+	}
+	
 	@GetMapping("/profit/calculate")
 	public String Calculate(Model model) {
 		List<TradeFailDTO> calculateList = tradeService.getCalculateList();

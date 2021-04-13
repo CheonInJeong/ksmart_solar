@@ -30,67 +30,17 @@ public class TradeFailDTO {
 	private int cmTotal;
 	// 일자(년월)
 	private String ymDate;
+	// 달의 마지막날
+	private String last;
 	
-	public String getBankName() {
-		return bankName;
-	}
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
-	}
-	public String getAccountNumber() {
-		return accountNumber;
-	}
-	public void setAccountNumber(String accountNumber) {
-		this.accountNumber = accountNumber;
-	}
-	public String getPaymentName() {
-		return paymentName;
-	}
-	public void setPaymentName(String paymentName) {
-		this.paymentName = paymentName;
-	}
-	public String getAnnouncedTitle() {
-		return announcedTitle;
-	}
-	public void setAnnouncedTitle(String announcedTitle) {
-		this.announcedTitle = announcedTitle;
-	}
-	public String getbType() {
-		return bType;
-	}
-	public void setbType(String bType) {
-		this.bType = bType;
-	}
-	public int getFailTotal() {
-		return failTotal;
-	}
-	public void setFailTotal(int failTotal) {
-		this.failTotal = failTotal;
-	}
-	public int getSucTotal() {
-		return sucTotal;
-	}
-	public void setSucTotal(int sucTotal) {
-		this.sucTotal = sucTotal;
-	}
-	public int getCmTotal() {
-		return cmTotal;
-	}
-	public void setCmTotal(int cmTotal) {
-		this.cmTotal = cmTotal;
-	}
-	public String getYmDate() {
-		return ymDate;
-	}
-	public void setYmDate(String ymDate) {
-		this.ymDate = ymDate;
-	}
-	public String getAnnouncedCode() {
-		return announcedCode;
-	}
-	public void setAnnouncedCode(String announcedCode) {
-		this.announcedCode = announcedCode;
-	}
+	// 거래회원
+	private String id;
+	// 수수료 금액
+	private long money;
+	// 수수료 수취일
+	private String inputDate;
+	// 수수료 종류
+	private String type;
 	public String getTrFailCode() {
 		return trFailCode;
 	}
@@ -139,6 +89,96 @@ public class TradeFailDTO {
 	public void setTrFailDate(String trFailDate) {
 		this.trFailDate = trFailDate;
 	}
+	public String getAnnouncedCode() {
+		return announcedCode;
+	}
+	public void setAnnouncedCode(String announcedCode) {
+		this.announcedCode = announcedCode;
+	}
+	public String getAnnouncedTitle() {
+		return announcedTitle;
+	}
+	public void setAnnouncedTitle(String announcedTitle) {
+		this.announcedTitle = announcedTitle;
+	}
+	public String getbType() {
+		return bType;
+	}
+	public void setbType(String bType) {
+		this.bType = bType;
+	}
+	public String getBankName() {
+		return bankName;
+	}
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
+	}
+	public String getAccountNumber() {
+		return accountNumber;
+	}
+	public void setAccountNumber(String accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+	public String getPaymentName() {
+		return paymentName;
+	}
+	public void setPaymentName(String paymentName) {
+		this.paymentName = paymentName;
+	}
+	public int getFailTotal() {
+		return failTotal;
+	}
+	public void setFailTotal(int failTotal) {
+		this.failTotal = failTotal;
+	}
+	public int getSucTotal() {
+		return sucTotal;
+	}
+	public void setSucTotal(int sucTotal) {
+		this.sucTotal = sucTotal;
+	}
+	public int getCmTotal() {
+		return cmTotal;
+	}
+	public void setCmTotal(int cmTotal) {
+		this.cmTotal = cmTotal;
+	}
+	public String getYmDate() {
+		return ymDate;
+	}
+	public void setYmDate(String ymDate) {
+		this.ymDate = ymDate;
+	}
+	public String getLast() {
+		return last;
+	}
+	public void setLast(String last) {
+		this.last = last;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public long getMoney() {
+		return money;
+	}
+	public void setMoney(long money) {
+		this.money = money;
+	}
+	public String getInputDate() {
+		return inputDate;
+	}
+	public void setInputDate(String inputDate) {
+		this.inputDate = inputDate;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -178,6 +218,16 @@ public class TradeFailDTO {
 		builder.append(cmTotal);
 		builder.append(", ymDate=");
 		builder.append(ymDate);
+		builder.append(", last=");
+		builder.append(last);
+		builder.append(", id=");
+		builder.append(id);
+		builder.append(", money=");
+		builder.append(money);
+		builder.append(", inputDate=");
+		builder.append(inputDate);
+		builder.append(", type=");
+		builder.append(type);
 		builder.append("]");
 		return builder.toString();
 	}
