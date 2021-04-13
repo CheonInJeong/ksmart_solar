@@ -55,6 +55,25 @@ public class SellController {
 		
 	}
 	
+	//출금신청 목록 은행 수정
+	@RequestMapping(value="/ajax/updateBankInfo",method=RequestMethod.POST)
+	public @ResponseBody String updateBankInfo(@RequestParam(value="accountNumber") String accountNumber
+											  ,@RequestParam(value="trPayoutCode") String trPayoutCode
+											  ,@RequestParam(value="accountBank") String accountBank) {
+		System.out.println(accountNumber+"<----수정필요");
+		System.out.println(trPayoutCode+"<----수정필요");
+		System.out.println(accountBank+"<----수정필요");
+		sellService.updateBankInfo(accountBank, accountNumber, trPayoutCode);
+		
+		return "성공";
+	}
+	
+	//출금신청 목록 수정하기 위한 은행 정보 불러오기
+	@RequestMapping(value="/ajax/getBankInfo",method = RequestMethod.POST)
+	public @ResponseBody List<MemberAccountDTO> getBankInfo(HttpSession session) throws Exception {
+		return sellService.getMemberAccountById((String)session.getAttribute("SID"));
+	}
+	
 	//댓글 수정
 	@RequestMapping(value="/ajax/modifyCmt" , method = RequestMethod.POST)
 	public @ResponseBody String modifyCmt(@RequestParam(value="cmtIdx") int cmtIdx,
@@ -305,6 +324,9 @@ public class SellController {
 	@GetMapping("/sell/getBidComponentDetail")
 	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model)  throws Exception{
 		model.addAttribute("detail", sellService.getComponentDetail(code));
+		model.addAttribute("file", sellService.getsellerFileList(code));
+		model.addAttribute("trade",sellService.getTradeInfo(code));
+		model.addAttribute("qna",boardSellerService.getQnaListForSeller(code));
 		return "sell/bidComponentDetail";
 	}
 	

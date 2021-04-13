@@ -116,6 +116,10 @@
                     <th><i class=" fa fa-edit"></i>수수료율</th>
                     <th><i class=" fa fa-edit"></i>수수료</th>
                     <th><i class="fa fa-edit"></i>출금가능액</th>
+                    <th><i class="fa fa-edit"></i>은행</th>
+                    <th><i class="fa fa-edit"></i>계좌</th>
+                    <th><i class="fa fa-edit"></i>신청일</th>
+                    <th>수정</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -127,14 +131,18 @@
 	                   <td th:text="${ap.tradePaymentOutDTO.sCommissionRate}" ></td>
 	                   <td th:text="${ap.tradePaymentOutDTO.cTradeCm}" class="commission"></td>
 	                   <td th:text="${ap.tradePaymentOutDTO.trPayoutPriceReal}" class="availableOut"></td>
+	                   <td class="bank" th:text="${ap.tradePaymentOutDTO.trPayoutBank}"></td>
+	                   <td class="account" th:text="${ap.tradePaymentOutDTO.trPayoutAccount}"></td>
+	                   <td th:text="${ap.tradePaymentOutDTO.trPayoutDate}"></td>
+	                   <td><button type="button" class="btn btn-default btn-xs modifyBtn" data-attr="0">수정</button></td>
 	               </tr>
 	            	<tr th:unless = "${apply!=null and apply.size()>0}">
-	               		<td colspan ="7" style="text-align : center;">출금 신청한 내역이 없습니다. </td>
+	               		<td colspan ="10" style="text-align : center;">출금 신청한 내역이 없습니다. </td>
 	               </tr> 
                 </tbody>
                 <tfoot>
                 	<tr>
-                		<td colspan="8" style="text-align : center;">
+                		<td colspan="11" style="text-align : center;">
                 			<nav th:fragment="pagination" th:if="${searchApply != null and searchApply.pagination?.totalRecordCount > 0}" th:object="${searchApply.pagination}" th:with="info=${searchApply.pagination}" aria-label="Page navigation" class="text-center">
 								<ul class="pagination">
 									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${searchApply.makeQueryString(1)} ]])">
@@ -189,6 +197,8 @@
                     <th><i class=" fa fa-edit"></i>수수료율</th>
                     <th><i class=" fa fa-edit"></i>수수료</th>
                     <th><i class="fa fa-edit"></i>출금액</th>
+                    <th><i class="fa fa-edit"></i>출금은행</th>
+                    <th><i class="fa fa-edit"></i>출금계좌</th>
                     <th><i class="fa fa-edit"></i>출금날짜</th>
                   </tr>
                 </thead>
@@ -201,16 +211,18 @@
 	                   <td th:text="${f.tradePaymentOutDTO.sCommissionRate}" ></td>
 	                   <td th:text="${f.tradePaymentOutDTO.cTradeCm}" class="commission"></td>
 	                   <td th:text="${f.tradePaymentOutDTO.trPayoutPriceReal}" class="availableOut"></td>
-	                   <td th:text="${f.tradePaymentOutDTO.trPayoutDate}"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.trPayoutBank}"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.trPayoutAccount}"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.trPayoutWdDate}"></td>
 	
 	               </tr>
 	            	<tr th:unless = "${finish!=null and finish.size()>0}">
-	               		<td colspan ="10" style="text-align : center;">출금 완료 목록이 없습니다. </td>
+	               		<td colspan ="12" style="text-align : center;">출금 완료 목록이 없습니다. </td>
 	               </tr> 
                 </tbody>
                  <tfoot>
                 	<tr>
-                		<td colspan="8" style="text-align : center;">
+                		<td colspan="12" style="text-align : center;">
                 			<nav th:fragment="pagination" th:if="${searchFinish != null and searchFinish.pagination?.totalRecordCount > 0}" th:object="${searchFinish.pagination}" th:with="info=${searchFinish.pagination}" aria-label="Page navigation" class="text-center">
 								<ul class="pagination">
 									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage3([[ ${#request.requestURI} ]], [[ ${searchFinish.makeQueryString(1)} ]])">
@@ -266,11 +278,6 @@
 				location.href = uri + queryString+searchKey+searchValue+searchKeyApply+searchValueApply+searchKeyFinish+searchValueFinish;
 			}
 
-
-		</script>
-		
-		<script>
-
 		$('#searchBtn').click(function(){
 			var selected = $('select option:selected');
 			if(selected.val()==0){
@@ -305,42 +312,85 @@
 	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
 			  	}
 	
-			$('document').ready(function(){
+			$(document).ready(function(){
 				$('.trPrPrice').each(function(){
 					
 					var trPrPrice = $('.trPrPrice');
 					var i = trPrPrice.index(this);
-					console.log(i);
-					console.log(trPrPrice.eq(i).text());
 					trPrPrice.eq(i).text(comma(trPrPrice.eq(i).text()));
 				})
 		
 			})
 			
-			$('document').ready(function(){
+			$(document).ready(function(){
 				$('.commission').each(function(){
 					
 					var commission = $('.commission');
 					var i = commission.index(this);
-					console.log(i);
-					console.log(commission.eq(i).text());
 					commission.eq(i).text(comma(commission.eq(i).text()));
 				})
 		
 			})
-			$('document').ready(function(){
+			$(document).ready(function(){
 				$('.availableOut').each(function(){
 					
 					var availableOut = $('.availableOut');
 					var i = availableOut.index(this);
-					console.log(i);
-					console.log(availableOut.eq(i).text());
 					availableOut.eq(i).text(comma(availableOut.eq(i).text()));
 				})
 		
 			})
 		
-			
+			$('.modifyBtn').click(function(){
+				var i = $('.modifyBtn').index(this);
+				
+				if($('.modifyBtn').attr('data-attr')==0){
+					$('.modifyBtn').attr('data-attr','1');
+					$('.modifyBtn').text('완료');
+					$.ajax({
+						url : '/ajax/getBankInfo',
+						type : 'post',
+						success : function(data){
+							console.log(data);
+							console.log(data.length);
+							var selectHtml = '<select name="trPayoutBank" id="bankSelect">';
+							var accountInfo;
+							for(var j = 0 ; j<data.length; j++){
+								console.log(data[j].mAccountBank);
+								console.log(data[j].mAccountNumber);
+								selectHtml+= '<option data-account ="'+data[j].mAccountNumber +'"data-idx="'+data[j].mAccountIdx+'" value="'+data[j].mAccountBank+'">'+data[j].mAccountBank+'</option>';
+							}
+							selectHtml += '</select>';
+								
+							$('.bank').eq(i).html(selectHtml);
+							
+							$('select').change(function(){
+								var selected = $('#bankSelect option:selected').attr('data-account');
+								$('.account').eq(i).text(selected);
+							});
+						}
+					});
+				
+				}else{
+					var accountNumber =$('#bankSelect option:selected').attr('data-account');
+					var accountIdx = $('#bankSelect option:selected').attr('data-idx');
+					var accountBank = $('#bankSelect option:selected').val();
+					var apply = /*[[${apply}]]*/
+					console.log(accountNumber);
+					console.log(accountIdx);
+					console.log(accountBank);
+					$.ajax({
+						url:'/ajax/updateBankInfo',
+						type:'post',
+						data : {accountNumber : accountNumber , trPayoutCode : apply[i].tradePaymentOutDTO.trPayoutCode , accountBank : accountBank},
+						success : function(data){
+							console.log('성공')
+							location.reload();
+						}
+					})
+				}
+				
+			})
 			
 		</script>
 		

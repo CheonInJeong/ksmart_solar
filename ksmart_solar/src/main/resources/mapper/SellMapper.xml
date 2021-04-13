@@ -158,15 +158,15 @@
   		  			<result property ="trPayoutPriceReal" column="tr_payout_price_real"/>
   		  			<result property ="sCommissionRate" column="s_commission_rate"/>
   		  			<result property ="trPayoutDate" column="tr_payout_date"/>
+  		  			<result property ="trPayoutAccount" column="tr_payout_account"/>
+  		  			<result property ="trPayoutBank" column="tr_payout_bank"/>
+  		  			<result property ="trPayoutWdDate" column="tr_payout_wd_date"/>
+  		  			<result property ="trPayoutCode" column="tr_payout_code"/>
   		  		</association>
   		  		<association property ="tradePaymentInDTO" javaType="TradePaymentInDTO">
   		  			<id property="announcedCode" column="announced_code"/>
   		  			<result property ="bMoDate" column="b_mo_date"/>
   		  		</association>
-  		  		
-  		  			  			
-  		  		
-  		  		
   		  		
   		  </resultMap>
   		  
@@ -175,6 +175,7 @@
   		  	<result property="mAccountNumber" column ="m_account_number"/>
   		  	<result property="mAccountName" column ="m_account_Name"/>
   		  	<result property="mAccountBank" column ="m_account_bank"/>
+  		  	<result property="mAccountIdx" column ="m_account_idx"/>
   		  </resultMap>
   		  
   		  <resultMap type="TradePaymentOutDTO" id="tradePaymentOutResultMap">
@@ -201,6 +202,18 @@
   		  	<result property="bzDetailAddr" column ="bz_detail_addr"/>
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
+  		  
+  		  <update id="updateBankInfo" parameterType="String">
+  		  		UPDATE tb_trade_payment_out
+				SET
+					tr_payout_bank=#{accountBank},
+					tr_payout_account=#{accountNumber}
+				WHERE 
+					tr_payout_check ='N' AND tr_payout_code = #{code} 
+			  		  
+  		  
+  		  </update>
+  		  
   		  
   		  <select id="getTradeInfo" resultMap="tradePriorityResultMap" parameterType="String">
   		  	SELECT 
@@ -727,6 +740,7 @@
   		  <select id="getMemberAccountById" resultMap = "memberAccountResultMap" parameterType="String">
   		  		SELECT 
 	  		  		m_id, 
+	  		  		m_account_idx,
 	  		  		m_account_number, 
 	  		  		m_account_name, 
 	  		  		m_account_bank 
@@ -835,14 +849,18 @@
 						pout.c_trade_cm,
 						pout.tr_payout_price_real,
 						p.tr_payout_check,
-						pout.tr_payout_check
+						pout.tr_payout_check,
+						pout.tr_payout_account,
+						pout.tr_payout_bank,
+						pout.tr_payout_date,
+						pout.tr_payout_code
 					FROM 
 						tb_trade_priority as p 
 	
 					INNER JOIN
 						tb_trade_payment_out AS pout
 					on
-						p.m_id_seller = pout.m_id
+						p.tr_pr_code = pout.tr_pr_code
 					
 					<trim prefix="WHERE" prefixOverrides="AND / OR ">
 						<if test="mId!=null and ''.toString()">
@@ -870,7 +888,7 @@
 					INNER JOIN
 						tb_trade_payment_out AS pout
 					on
-						p.m_id_seller = pout.m_id
+						p.tr_pr_code = pout.tr_pr_code
 					
 						
 					<trim prefix="WHERE" prefixOverrides="AND / OR ">
@@ -902,14 +920,16 @@
 					pout.tr_payout_price_real,
 					p.tr_payout_check,
 					pout.tr_payout_check,
-					pout.tr_payout_date
+					pout.tr_payout_wd_date,
+					pout.tr_payout_account,
+					pout.tr_payout_bank
 				FROM 
 					tb_trade_priority as p 
 
 				INNER JOIN
 					tb_trade_payment_out AS pout
 				on
-					p.m_id_seller = pout.m_id
+					p.tr_pr_code = pout.tr_pr_code
 				<trim prefix="WHERE" prefixOverrides="AND / OR ">
 						<if test="mId!=null and ''.toString()">
 							p.m_id_seller=#{mId}
@@ -935,7 +955,7 @@
 				INNER JOIN
 					tb_trade_payment_out AS pout
 				on
-					p.m_id_seller = pout.m_id
+					p.tr_pr_code = pout.tr_pr_code
 					
 				<trim prefix="WHERE" prefixOverrides="AND / OR ">
 						<if test="mId!=null and ''.toString()">

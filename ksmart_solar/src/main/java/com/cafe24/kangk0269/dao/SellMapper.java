@@ -18,6 +18,9 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface SellMapper {
 	
+	//거래대금출금신청 은행 변경
+	public int updateBankInfo(String accountBank,String accountNumber, String code);
+	
 	//계약체결정보 얻기
 	public List<TradePriorityDTO> getTradeInfo(String bPlCode);
 	
