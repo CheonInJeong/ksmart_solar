@@ -20,183 +20,215 @@
 	<div id="container-header-title"><strong>회원리스트조회</strong></div>
 	<div id="container-header-path">회원관리 > 회원리스트조회</div>
 	<div id="container-header-space"></div>
-		<div class="row mt">
-          <div class="col-lg-12">
-            <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 활동회원리스트</h4>
-	              <section id="no-more-tables">
-	              	<hr>
-	                <table class="table table-condensed cf">
-	                  <thead class="cf">
-						<tr>
-							<th>번호</th>
-							<th>아이디</th>
-							<th>이름</th>
-							<th>권한</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>수정</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="l, status : ${memberList}">
-							<th:block th:if="${l.mRevokeCheck == 'N' and l.mRestCheck == 'N' and l.mRevokeDelayCheck == 'N'}">
-							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="아이디">
-								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
-							</td>
-							<td data-title="이름" th:text="${l.mName}"></td>
-							<td data-title="권한" th:text="${l.mLevelName}"></td>
-							<td data-title="연락처" th:text="${l.mPhone}"></td>
-							<td data-title="이메일" th:text="${l.mEmail}"></td>
-							<td data-title="수정">
-								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
-							</td>
-							</th:block>
-						</tr>
-					</tbody>
-				</table>
-				<div class="text-center">
-				  <ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
+	
+	<div class="row mt">
+        <div class="col-lg-12">
+		<div role="tabpanel">
+
+		  <!-- Nav tabs -->
+		  <ul class="nav nav-tabs" role="tablist">
+		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">활동회원리스트</a></li>
+		    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">휴면회원리스트</a></li>
+		    <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">탈퇴회원리스트</a></li>
+		  </ul>
+		
+		  <!-- Tab panes -->
+		  <div class="tab-content">
+		    <div role="tabpanel" class="tab-pane active" id="home">
+		            <div class="content-panel" style="padding : 30px;">
+						<h4><i class="fa fa-angle-right"></i> 활동회원리스트</h4>
+						<div style="text-align : right; margin-bottom: 10px;">
+			              <form th:action="@{/member/memberList}">
+			            	<select name="searchKeyM">
+			            		<option >카테고리</option>
+			            		<option value="mId">아이디</option>
+			            		<option value="mName">이름</option>
+			            		<option value="mLevel">권한</option>
+			            		<option value="mAddr">주소</option>
+			            		<option value="mSubDate">회원가입(월일)</option>
+			            	</select>
+			            	<input type="text" placeholder="검색어" name="searchValueM" th:value="${searchValueM}">
+			            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+			               </form>
+		            	</div>
+			              <section id="no-more-tables">
+			              	<hr>
+			                <table class="table table-condensed cf">
+			                  <thead class="cf">
+								<tr>
+									<th>번호</th>
+									<th>아이디</th>
+									<th>이름</th>
+									<th>권한</th>
+									<th>연락처</th>
+									<th>이메일</th>
+									<th>수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:if="${#lists.size(memberList) > 0}" th:each="l, status : ${memberList}">
+									<th:block th:if="${l.mRevokeCheck == 'N' and l.mRestCheck == 'N' and l.mRevokeDelayCheck == 'N'}">
+									<td data-title="번호" th:text="${status.count}"></td>
+									<td data-title="아이디">
+										<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+									</td>
+									<td data-title="이름" th:text="${l.mName}"></td>
+									<td data-title="권한" th:text="${l.mLevelName}"></td>
+									<td data-title="연락처" th:text="${l.mPhone}"></td>
+									<td data-title="이메일" th:text="${l.mEmail}"></td>
+									<td data-title="수정">
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+									</td>
+									</th:block>
+								</tr>
+								<tr th:unless="${#lists.size(memberList) > 0}">
+									<td colspan="7">조회된 내용이 없습니다.</td>
+								</tr>
+							</tbody>
+						</table>
+						<div class="text-center">
+						  <ul class="pagination">
+						    <li>
+						      <a href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li><a href="#">1</a></li>
+						    <li><a href="#">2</a></li>
+						    <li><a href="#">3</a></li>
+						    <li><a href="#">4</a></li>
+						    <li><a href="#">5</a></li>
+						    <li>
+						      <a href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</div>
+						</section>
+						</div>
 				</div>
-				</section>
-				</div>
+		    
+		    <div role="tabpanel" class="tab-pane" id="profile">
+		            <div class="content-panel" style="padding : 30px;">
+						<h4><i class="fa fa-angle-right"></i> 휴면회원리스트</h4>
+			              <section id="no-more-tables">
+			              	<hr>
+			                <table class="table table-condensed cf">
+			                  <thead class="cf">
+								<tr>
+									<th>번호</th>
+									<th>아이디</th>
+									<th>이름</th>
+									<th>권한</th>
+									<th>연락처</th>
+									<th>이메일</th>
+									<th>수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="l, status : ${memberList}">
+									<th:block th:if="${l.mRestCheck == 'Y'}">
+									<td data-title="번호" th:text="${status.count}"></td>
+									<td data-title="아이디">
+										<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+									</td>
+									<td data-title="이름" th:text="${l.mName}"></td>
+									<td data-title="권한" th:text="${l.mLevelName}"></td>
+									<td data-title="연락처" th:text="${l.mPhone}"></td>
+									<td data-title="이메일" th:text="${l.mEmail}"></td>
+									<td data-title="수정">
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+									</td>
+									</th:block>
+								</tr>
+							</tbody>
+						</table>
+						<div class="text-center">
+						  <ul class="pagination">
+						    <li>
+						      <a href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li><a href="#">1</a></li>
+						    <li><a href="#">2</a></li>
+						    <li><a href="#">3</a></li>
+						    <li><a href="#">4</a></li>
+						    <li><a href="#">5</a></li>
+						    <li>
+						      <a href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</div>
+						</section>
+						</div>
+		    </div>
+		    
+		    <div role="tabpanel" class="tab-pane" id="messages">
+		            <div class="content-panel" style="padding : 30px;">
+						<h4><i class="fa fa-angle-right"></i> 탈퇴회원리스트</h4>
+			              <section id="no-more-tables">
+			              	<hr>
+			                <table class="table table-condensed cf">
+			                  <thead class="cf">
+								<tr>
+									<th>번호</th>
+									<th>아이디</th>
+									<th>이름</th>
+									<th>권한</th>
+									<th>연락처</th>
+									<th>이메일</th>
+									<th>수정</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr th:each="l, status : ${memberList}">
+									<th:block th:if="${l.mRevokeCheck == 'Y'}">
+									<td data-title="번호" th:text="${status.count}"></td>
+									<td data-title="아이디">
+										<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+									</td>
+									<td data-title="이름" th:text="${l.mName}"></td>
+									<td data-title="권한" th:text="${l.mLevelName}"></td>
+									<td data-title="연락처" th:text="${l.mPhone}"></td>
+									<td data-title="이메일" th:text="${l.mEmail}"></td>
+									<td data-title="수정">
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+									</td>
+									</th:block>
+								</tr>
+							</tbody>
+						</table>
+						<div class="text-center">
+						  <ul class="pagination">
+						    <li>
+						      <a href="#" aria-label="Previous">
+						        <span aria-hidden="true">&laquo;</span>
+						      </a>
+						    </li>
+						    <li><a href="#">1</a></li>
+						    <li><a href="#">2</a></li>
+						    <li><a href="#">3</a></li>
+						    <li><a href="#">4</a></li>
+						    <li><a href="#">5</a></li>
+						    <li>
+						      <a href="#" aria-label="Next">
+						        <span aria-hidden="true">&raquo;</span>
+						      </a>
+						    </li>
+						  </ul>
+						</div>
+						</section>
+						</div>
+				    </div>
+				  </div>
+			  </div>
 			</div>
 		</div>
-		<div class="row mt">
-			<div class="col-lg-12">
-            <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 휴면회원리스트</h4>
-	              <section id="no-more-tables">
-	              	<hr>
-	                <table class="table table-condensed cf">
-	                  <thead class="cf">
-						<tr>
-							<th>번호</th>
-							<th>아이디</th>
-							<th>이름</th>
-							<th>권한</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>수정</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="l, status : ${memberList}">
-							<th:block th:if="${l.mRestCheck == 'Y'}">
-							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="아이디">
-								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
-							</td>
-							<td data-title="이름" th:text="${l.mName}"></td>
-							<td data-title="권한" th:text="${l.mLevelName}"></td>
-							<td data-title="연락처" th:text="${l.mPhone}"></td>
-							<td data-title="이메일" th:text="${l.mEmail}"></td>
-							<td data-title="수정">
-								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
-							</td>
-							</th:block>
-						</tr>
-					</tbody>
-				</table>
-				<div class="text-center">
-				  <ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
-				</div>
-				</section>
-				</div>
-			</div>
-		</div>
-		<div class="row mt">
-			<div class="col-lg-12">
-            <div class="content-panel">
-				<h4><i class="fa fa-angle-right"></i> 탈퇴회원리스트</h4>
-	              <section id="no-more-tables">
-	              	<hr>
-	                <table class="table table-condensed cf">
-	                  <thead class="cf">
-						<tr>
-							<th>번호</th>
-							<th>아이디</th>
-							<th>이름</th>
-							<th>권한</th>
-							<th>연락처</th>
-							<th>이메일</th>
-							<th>수정</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr th:each="l, status : ${memberList}">
-							<th:block th:if="${l.mRevokeCheck == 'Y'}">
-							<td data-title="번호" th:text="${status.count}"></td>
-							<td data-title="아이디">
-								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
-							</td>
-							<td data-title="이름" th:text="${l.mName}"></td>
-							<td data-title="권한" th:text="${l.mLevelName}"></td>
-							<td data-title="연락처" th:text="${l.mPhone}"></td>
-							<td data-title="이메일" th:text="${l.mEmail}"></td>
-							<td data-title="수정">
-								<a class="btn btn-info" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
-							</td>
-							</th:block>
-						</tr>
-					</tbody>
-				</table>
-				<div class="text-center">
-				  <ul class="pagination">
-				    <li>
-				      <a href="#" aria-label="Previous">
-				        <span aria-hidden="true">&laquo;</span>
-				      </a>
-				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
-				    <li>
-				      <a href="#" aria-label="Next">
-				        <span aria-hidden="true">&raquo;</span>
-				      </a>
-				    </li>
-				  </ul>
-				</div>
-				</section>
-				</div>
-			</div>
-		</div>
+		
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<!-- js placed at the end of the document so the pages load faster -->

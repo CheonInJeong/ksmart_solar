@@ -15,6 +15,8 @@ public interface TradeMapper {
 
 	// 월말정산리스트
 	public List<TradeFailDTO> getCalculateList();
+	// 월별 수수료 상세정보
+	public List<TradeFailDTO> getCalculateMonth(String lastDate);
 	
 	// 대금수수료목록
 	public List<TradePaymentOutDTO> getSuccessCommission();
@@ -22,6 +24,10 @@ public interface TradeMapper {
 	// 취소수수료목록
 	public List<TradeFailDTO> getFailCommission();
 
+	// 거래대금 출금 계좌확인
+	public int paymentoutAccountCheck(String Code);
+	// 거래대금 출금(거래대금 출금신청 테이블 변경)
+	public int paymentoutWithdraw(String Code);
 	// 거래대금 출금
 	public int paymentWithdraw(String Code);
 	// 거래대금 출금신청 상세조회

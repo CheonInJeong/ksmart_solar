@@ -169,21 +169,35 @@ public class MemberService {
 		return managerList;
 	}
 	
-	public List<MemberDTO> getAllMember(){
-		List<MemberDTO> memberList = memberMapper.getAllMember();
+	public List<MemberDTO> getAllMember(String searchKeyM, String searchValueM){
+		if(searchKeyM != null) {
+			if("mId".equals(searchKeyM)) {
+				searchKeyM = "m_id";
+			}else if("mName".equals(searchKeyM)) {
+				searchKeyM = "m_name";
+			}else if("mLevel".equals(searchKeyM)) {
+				searchKeyM = "m_level";
+			}else if("mAddr".equals(searchKeyM)) {
+				searchKeyM = "m_addr";
+			}else {
+				searchKeyM = "m_sub_date";
+			}
+		}
+		List<MemberDTO> memberList = memberMapper.getAllMember(searchKeyM, searchValueM);
+		
 		for(int i=0; i < memberList.size(); i++) {
 			int mLevel = memberList.get(i).getmLevel();
 			if(mLevel == 1) {
 				memberList.get(i).setmLevelName("관리자");
 			}
 			if(mLevel == 2) {
-				memberList.get(i).setmLevelName("태양광사업자");
+				memberList.get(i).setmLevelName("태양광");
 			}
 			if(mLevel == 3) {
-				memberList.get(i).setmLevelName("재활용사업자");
+				memberList.get(i).setmLevelName("재활용");
 			}
 			if(mLevel == 4) {
-				memberList.get(i).setmLevelName("일반회원");
+				memberList.get(i).setmLevelName("일반");
 			}
 		}
 		

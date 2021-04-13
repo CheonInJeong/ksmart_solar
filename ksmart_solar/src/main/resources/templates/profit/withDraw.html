@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="@{layout/default}">
 
-<head th:replace="fragments/head :: headFragment"></head>
 	<th:block layout:fragment="customTitle">
 		<title>출금처리</title>
 	</th:block>
-<body>
+	
+	<th:block layout:fragment="Contents">
+    <th:block th:if="${depositout != null and paymentout == null}">
+	<div id="container-header-title"><strong>[[${depositout.mId}]] 예치금 환불처리</strong></div>
+	<div id="container-header-path">수익관리 > <a th:href=@{/profit/depositList}>예치금출금신청목록</a> > [[${depositout.mId}]] 예치금 환불처리</div>
+	<div id="container-header-space"></div>
 	<div class="row mt">
         <div class="col-lg-12">
-            <div class="content-panel" style="padding : 30px; margin: 30px;">
-            	<th:block th:if="${#lists.size(depositout)} > 0">
+            <div class="content-panel" style="padding : 30px;">
 					<h4><i class="fa fa-angle-right"></i>[[${depositout.mId}]] 예치금 환불처리</h4>
 					<hr>
 					<form class="form-horizontal style-form" th:action="@{/accountCheck}" method="post">
@@ -48,8 +52,18 @@
 							</div>
 						</div>
 					</form>
-            	</th:block>
-            	<th:block th:unless="${#lists.size(depositout)} > 0">
+					<a class="btn standardBtn" th:href="@{/profit/depositList}">돌아가기</a>
+           	</div>
+		</div>
+	</div>
+    </th:block>
+    <th:block th:unless="${depositout != null and paymentout == null}">
+	<div id="container-header-title"><strong>[[${paymentout.mId}]] 거래대금 출금처리</strong></div>
+	<div id="container-header-path">수익관리 > <a th:href=@{/profit/commissionList}>거래대금출금신청목록</a> > [[${paymentout.mId}]] 거래대금 출금처리</div>
+	<div id="container-header-space"></div>
+     <div class="row mt">
+        <div class="col-lg-12">
+            <div class="content-panel" style="padding : 30px; margin: 30px;">       	
             		<h4><i class="fa fa-angle-right"></i>[[${paymentout.mId}]] 거래대금 출금처리</h4>
 					<hr>
 					<form class="form-horizontal style-form" th:action="@{/accountCheck}" method="post">
@@ -75,10 +89,26 @@
 					</form>
 					<form class="form-horizontal style-form" th:action="@{/withDraw}" method="post">
 						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>신청금액</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+								[[${#numbers.formatInteger(paymentout.trPayoutPrice,3,'COMMA')}]]
+							  </p>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>수수료</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+								[[${#numbers.formatInteger(paymentout.cTradeCm,3,'COMMA')}]] ([[${paymentout.sCommissionRate}]]%)
+							  </p>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 control-label"><strong>출금금액</strong></label>
 							<div class="col-sm-10">
 							  <p class="form-control-static">
-							 	<input type="hidden" name="Code" th:value="${depositout.trDepCode}">
+							 	<input type="hidden" name="Code" th:value="${paymentout.trPayoutCode}">
 								[[${#numbers.formatInteger(paymentout.trPayoutPriceReal,3,'COMMA')}]]
 								<th:block th:if="${paymentout.trPayoutAccountCheck ne 'N'}">
 									<button type="submit" class="btn standardBtn btn-xs">출금</button>
@@ -87,13 +117,13 @@
 							</div>
 						</div>
 					</form>
-            	</th:block>
-				
-				
+					<a class="btn standardBtn" th:href="@{/profit/commissionList}">돌아가기</a>
 			</div>
 		</div>
 	</div>
+   	</th:block>
+	</th:block>
 	
 	
-</body>
+	
 </html>
