@@ -11,9 +11,9 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 @Component
-public class CommonInterceptor  implements HandlerInterceptor{
+public class Commoninterceptor  implements HandlerInterceptor{
 	
-	private static final Logger log = LoggerFactory.getLogger(CommonInterceptor.class);
+	private static final Logger log = LoggerFactory.getLogger(Commoninterceptor.class);
 	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)

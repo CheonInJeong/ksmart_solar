@@ -230,6 +230,14 @@
 				 			<button type="submit" class="btn btn-default">계약 취소</button>
 						</div>
 					</form>
+					<form class="form-group" action="/notice/qnaRequest" method="post">
+						<input th:if="${bidComponentdto!=null}" type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">
+						<input th:if="${bidPlantdto!=null}" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+						<input type="hidden" name="url">
+						<div class="form-group">
+				 			<button type="submit" class="btn btn-default">문의하기</button>
+						</div>
+					</form>
 					
 	        		<!--찜하기  -->
 	        		<th:block th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
@@ -244,7 +252,6 @@
 	        	<a class="form-group" id="returnPage">
 		        	<button class="btn btn-default center-block" type="button" >돌아가기</button>
 	        	</a>
-		        
 			</div>
 		</div>
 		</div>
@@ -254,6 +261,11 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
 			var link = document.referrer;
+			console.log(link.indexOf("?"));
+			if(link.indexOf("?")>0){
+				link = link.substring(0,link.indexOf("?"));
+			}
+			console.log(link);
 			$('#returnPage').attr('href',link);
 			var linkArr = link.split('/');
 			var link2 = ('/'+linkArr[linkArr.length-2]+'/'+linkArr[linkArr.length-1])

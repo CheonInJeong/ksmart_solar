@@ -57,7 +57,6 @@ public class BuyController {
 							@RequestParam(value = "searchValuePl", required = false) 		String searchValuePl,
 							@RequestParam(value = "searchKeyCp", required = false) 			String searchKeyCp,
 							@RequestParam(value = "searchValueCp", required = false) 		String searchValueCp,
-							
 							@RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
 							@RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
 							@RequestParam(value = "pageSize", required = false) 			String pageSize,

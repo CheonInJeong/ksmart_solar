@@ -4,17 +4,17 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.cafe24.kangk0269.interceptor.CommonInterceptor;
+import com.cafe24.kangk0269.interceptor.Commoninterceptor;
 import com.cafe24.kangk0269.interceptor.LoginInterceptor;
 
 
 @Configuration
 public class WebConfig implements WebMvcConfigurer{
 	
-	private final CommonInterceptor commonInterceptor;
+	private final Commoninterceptor commonInterceptor;
 	private final LoginInterceptor loginInterceptor;
 	
-	public WebConfig(CommonInterceptor commonInterceptor, LoginInterceptor loginInterceptor) {
+	public WebConfig(Commoninterceptor commonInterceptor, LoginInterceptor loginInterceptor) {
 		this.commonInterceptor = commonInterceptor;
 		this.loginInterceptor = loginInterceptor;
 	}
