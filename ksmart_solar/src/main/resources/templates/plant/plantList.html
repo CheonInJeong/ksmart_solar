@@ -27,7 +27,7 @@
 					</div><div style="height: 5vh;"></div>
 				</div>
 				<div th:if="${#lists.size(plantListById) > 0}" th:each="l : ${plantListById}">
-				  <div th:if="${l.bzPlCheck} eq 'Y'">
+				  <div th:if="${l.bzPlCheck} eq 'Y' and ${l.bzPlDelete} eq 'N'">
 				  <div class="col-sm-6 col-md-3">
 				    <div class="thumbnail">
 				    <div class="thumbnail-wrapper1"> <div class="thumbnail1"> <div class="centered">
