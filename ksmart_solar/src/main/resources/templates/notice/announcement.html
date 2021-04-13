@@ -261,8 +261,10 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
 			var link = document.referrer;
-			console.log(link.substring(link.indexOf("?"),link.length));
-			link = link.substring(link.indexOf("?"),link.length);
+			console.log(link.indexOf("?"));
+			if(link.indexOf("?")>0){
+				link = link.substring(0,link.indexOf("?"));
+			}
 			console.log(link);
 			$('#returnPage').attr('href',link);
 			var linkArr = link.split('/');
