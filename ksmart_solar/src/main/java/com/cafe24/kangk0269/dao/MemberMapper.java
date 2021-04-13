@@ -37,7 +37,7 @@ public interface MemberMapper {
 	public int modifyMember(MemberDTO member);
 	
 	// 전체회원조회
-	public List<MemberDTO> getAllMember();
+	public List<MemberDTO> getAllMember(String searchKeyM, String searchValueM);
 	
 	// 회원가입
 	public int addMember(MemberDTO member);

@@ -98,8 +98,12 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/member/memberList")
-	public String MemberList(Model model) {
-		List<MemberDTO> memberList = memberService.getAllMember();
+	public String MemberList(Model model
+							, @RequestParam(name="searchKeyM", required=false) String searchKeyM
+							, @RequestParam(name="searchValueM", required=false) String searchValueM) {
+		System.out.println("카테고리 : " + searchKeyM);
+		System.out.println("검색내용 : " + searchValueM);
+		List<MemberDTO> memberList = memberService.getAllMember(searchKeyM, searchValueM);
 		System.out.println("전체회원조회 : " + memberList);
 		model.addAttribute("memberList", memberList);
 		return "/member/memberList";

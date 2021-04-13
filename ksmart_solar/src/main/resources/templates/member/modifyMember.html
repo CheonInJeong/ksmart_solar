@@ -54,13 +54,13 @@
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">이름</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mName" class="form-control" th:value="${member.mName}" placeholder="이름">
+                    <input type="text" name="mName" class="form-control" th:value="${member.mName}" readonly="readonly">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">비밀번호</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mPw" class="form-control" th:value="${member.mPw}" placeholder="비밀번호">
+                    <input type="text" name="mPw" class="form-control" th:value="${member.mPw}" readonly="readonly">
                   </div>
                 </div>
                 <div class="form-group">
@@ -78,44 +78,43 @@
                   <label class="col-sm-2 col-sm-2 control-label">우편번호</label>
                   <div class="col-sm-6 form-inline">
                     <input type="text" name="mZipcode" id="postcode" class="form-control col-md-8 col-xs-7" th:value="${member.mZipcode}" readonly="readonly">
-                    <span class="col-xs-1"></span>
-                    <input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mAddr" id="roadAddress" class="form-control" th:value="${member.mAddr}" placeholder="placeholder">
+                    <input type="text" name="mAddr" id="roadAddress" class="form-control" th:value="${member.mAddr}" readonly="readonly">
                     <input type="hidden" name="mAddr" id="jibunAddress" class="form-control">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">상세주소</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mDetailAddr" class="form-control" th:value="${member.mDetailAddr}" placeholder="상세주소">
+                    <input type="text" name="mDetailAddr" class="form-control" th:value="${member.mDetailAddr}" readonly="readonly">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">연락처</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mPhone" class="form-control" th:value="${member.mPhone}" placeholder="연락처">
+                    <input type="text" name="mPhone" class="form-control" th:value="${member.mPhone}" readonly="readonly">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">이메일</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mEmail" class="form-control" th:value="${member.mEmail}" placeholder="이메일">
+                    <input type="text" name="mEmail" class="form-control" th:value="${member.mEmail}" readonly="readonly">
                   </div>
                 </div>
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">이메일</label>
                   <div class="col-sm-6">
-                    <input type="text" name="mEmail" class="form-control" th:value="${member.mEmail}" placeholder="이메일">
+                    <input type="text" name="mEmail" class="form-control" th:value="${member.mEmail}" readonly="readonly">
                   </div>
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
-                  	<button class="btn btn-success" type="submit">수정완료</button>
+                  	<button class="btn standardBtn" type="submit">수정완료</button>
+                  	<a class="btn standardBtn" th:href=@{/member/memberList} role="button">목록이동</a>
                   </div>
                 </div>
               </form>
@@ -125,82 +124,7 @@
         </div>
 	</th:block>
 	<th:block layout:fragment="customScript">
-		  <!-- js placed at the end of the document so the pages load faster -->
-		  <script src="lib/jquery/jquery.min.js"></script>
-		  <script src="lib/bootstrap/js/bootstrap.min.js"></script>
-		  <script class="include" type="text/javascript" src="lib/jquery.dcjqaccordion.2.7.js"></script>
-		  <script src="lib/jquery.scrollTo.min.js"></script>
-		  <script src="lib/jquery.nicescroll.js" type="text/javascript"></script>
-		  <!--common script for all pages-->
-		  <script src="lib/common-scripts.js"></script>
-		  <!--script for this page-->
-		  <script src="lib/jquery-ui-1.9.2.custom.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-fileupload/bootstrap-fileupload.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datepicker/js/bootstrap-datepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/date.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/daterangepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-daterangepicker/moment.min.js"></script>
-		  <script type="text/javascript" src="lib/bootstrap-timepicker/js/bootstrap-timepicker.js"></script>
-		  <script src="lib/advanced-form-components.js"></script>
-		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
-		//우편번호 api
-		function execDaumPostcode() {
-		    new daum.Postcode({
-			        oncomplete: function(data) {
-			            // 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-	
-			            // 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-			            // 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-			            var roadAddr = data.roadAddress; // 도로명 주소 변수
-			            var extraRoadAddr = ''; // 참고 항목 변수
-	
-			            // 법정동명이 있을 경우 추가한다. (법정리는 제외)
-			            // 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-			            if(data.bname !== '' && /[동|로|가]$/g.test(data.bname)){
-			                extraRoadAddr += data.bname;
-			            }
-			            // 건물명이 있고, 공동주택일 경우 추가한다.
-			            if(data.buildingName !== '' && data.apartment === 'Y'){
-			               extraRoadAddr += (extraRoadAddr !== '' ? ', ' + data.buildingName : data.buildingName);
-			            }
-			            // 표시할 참고항목이 있을 경우, 괄호까지 추가한 최종 문자열을 만든다.
-			            if(extraRoadAddr !== ''){
-			                extraRoadAddr = ' (' + extraRoadAddr + ')';
-			            }
-	
-			            // 우편번호와 주소 정보를 해당 필드에 넣는다.
-			            document.getElementById('postcode').value = data.zonecode;
-			            document.getElementById("roadAddress").value = roadAddr;
-			            document.getElementById("jibunAddress").value = data.jibunAddress;
-			            
-			            // 참고항목 문자열이 있을 경우 해당 필드에 넣는다.
-			            if(roadAddr !== ''){
-			                document.getElementById("extraAddress").value = extraRoadAddr;
-			            } else {
-			                document.getElementById("extraAddress").value = '';
-			            }
-	
-			            var guideTextBox = document.getElementById("guide");
-			            // 사용자가 '선택 안함'을 클릭한 경우, 예상 주소라는 표시를 해준다.
-			            if(data.autoRoadAddress) {
-			                var expRoadAddr = data.autoRoadAddress + extraRoadAddr;
-			                guideTextBox.innerHTML = '(예상 도로명 주소 : ' + expRoadAddr + ')';
-			                guideTextBox.style.display = 'block';
-	
-			            } else if(data.autoJibunAddress) {
-			                var expJibunAddr = data.autoJibunAddress;
-			                guideTextBox.innerHTML = '(예상 지번 주소 : ' + expJibunAddr + ')';
-			                guideTextBox.style.display = 'block';
-			            } else {
-			                guideTextBox.innerHTML = '';
-			                guideTextBox.style.display = 'none';
-			            }
-			        }
-			    }).open();
-			}
 		
 			var member = $('#member');
 			member.addClass('active');

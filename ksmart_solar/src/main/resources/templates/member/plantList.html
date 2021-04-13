@@ -23,7 +23,7 @@
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 발전소인증신청목록</h4>
 	              <section id="no-more-tables">
 	              	<hr>
@@ -56,7 +56,7 @@
 							</td>
 							<td data-title="발전소주소" th:text="${l.bzPlAddr}"></td>
 							<td data-title="승인/반려" th:if="${l.bzPlCheck} == N">
-								<a class="btn btn-info" th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})} role="button">상세보기</a>
+								<a class="btn standardBtn" th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})} role="button">상세보기</a>
 							</td>
 							<td data-title="승인/반려" th:unless="${l.bzPlCheck} == N">
 								<span th:if="${l.bzPlCheck} == Y">승인완료</span>
