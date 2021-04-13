@@ -100,9 +100,12 @@
 						startYear++;
 					}
 				}
-				var chartData1 = [];	//수익
-				var chartData2 = [];	//비용
-				var chartData3 = [];	//손익
+				
+				//수익 계산공식, 비용 계산공식 화면에 표시
+				
+				var chartData1 = [];	//수익 >> 현재 수익 * 월별 예상 발전량 * 연도별로 줄어드는 % (연간 1.5% 감소)
+				var chartData2 = [];	//비용 >> 입력한 비용에 %를 곱하고 10년단위로 인버터 비용 추가
+				var chartData3 = [];	//손익 >> 수익 - 비용
 				
 				chartDraw();
 				

@@ -29,7 +29,7 @@ public class ScheduledTimer {
 	@Autowired
 	private BidListService bidListService;
 	
-	@Scheduled(cron = "0  10  8  *  *  *") 
+	@Scheduled(cron = "0  19  9  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		RadiationApi raApi = new RadiationApi();
 		raApi.weatherApiAction();
