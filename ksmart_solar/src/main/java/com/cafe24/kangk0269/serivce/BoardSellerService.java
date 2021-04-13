@@ -97,14 +97,12 @@ public class BoardSellerService {
 	//해당 게시글의 댓글 가져오기 by 천인정
 	public List<CommentDTO> getCommentList(int idx,CommentDTO commentDto){
 
-		
 		List<CommentDTO> commentDtoList = null;
 		
 		int cmtCount = boardSellerMapper.getCmtCount(idx,commentDto);
 		Pagination pagination = new Pagination(commentDto);
 		pagination.setTotalRecordCount(cmtCount);
 		commentDto.setPagination(pagination);
-		
 		
 		if(cmtCount>0) {
 			 commentDtoList =  boardSellerMapper.getCommentList(idx,commentDto);
@@ -136,22 +134,24 @@ public class BoardSellerService {
 					}
 				}
 				
-				System.out.println(commentDto.getPagination().getFirstRecordIndex()+"<----댓글");
-				int start = commentDto.getPagination().getFirstRecordIndex();
-				int end = 10;
-				int listSize = commentAllList.size();
-				
-				if(start > 0) {
-					commentAllList.subList(0, (start*10)-1).clear();
-					commentAllList.subList((start*10)+10, listSize).clear();
+				int startPage = commentDto.getPagination().getFirstRecordIndex();
+				System.out.println(startPage+"<------------------------------startPage");
+				System.out.println(startPage+"<------------------------------startPage");
+				System.out.println(startPage+"<------------------------------startPage");
+				System.out.println(startPage+"<------------------------------startPage");
+				System.out.println(startPage+"<------------------------------startPage");
+				int cmtAllListSize = commentAllList.size();
+				if(startPage > 0) {
+					//start 제외하고 예) subList(0,10)이면 0에서 9까지를 지움
+					commentAllList.subList(0, startPage).clear();
+					
+					if(startPage > (cmtAllListSize-10)) commentAllList.subList(startPage, cmtAllListSize).clear();
 					
 				}else {
-					if(end > listSize) commentAllList.subList(end, listSize).clear();
+					commentAllList.subList(10, cmtAllListSize).clear();
 				}
 				return commentAllList;
 		}
-		
-		
 		
 		return commentDtoList;
 	}

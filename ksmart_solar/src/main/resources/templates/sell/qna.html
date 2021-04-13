@@ -14,12 +14,13 @@
                <div style="text-align : right; margin-bottom: 10px;">
 	              <form th:action="@{/sell/qna}">
 	            	<select name="searchKey">
+	            		<option value="0">카테고리</option>
 	            		<option value="bSubject">제목</option>
 	            		<option value="mIdBuyer">작성자</option>
 	            		<option value="bBidType">구분</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValue">
-	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
 	               </form>
                </div>
               <table class="table table-striped table-advance table-hover">
@@ -73,8 +74,15 @@
 		</script>
 		
 		<script>
-			
-		
+				$('#searchBtn').click(function(){
+					var selected = $('select option:selected');
+					if(selected.val()==0){
+						alert('카테고리를 선택해주세요.');
+					}
+					console.log(selected.val());
+					
+				})
+				
 				function movePage(uri, queryString) {
 					location.href = uri + queryString;
 				}

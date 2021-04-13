@@ -23,18 +23,35 @@ public class ComponentService {
 	}
 	
 	public void getComponentListById(Model model, HttpSession session) {
-		
 		String SID = (String) session.getAttribute("SID");
 		List<ComponentDTO> cd = componentMapper.getComponentListById(SID);
 		model.addAttribute("componentListById", cd);
 	}
 
-	public void addComponent(Model model, HttpSession session) {
-		String SID = (String) session.getAttribute("SID");
-		
-		componentMapper.addComponent(SID);
-		//부품등록 작성
-		
+	public int addComponent(ComponentDTO cp) {
+		int result = componentMapper.addComponent(cp);
+		System.out.println(result + " <<< addComponent 'result'");
+		return result;
+	}
+
+	public void getComponentListByCode(Model model, String cpCode) {
+		ComponentDTO cp = componentMapper.getComponentListByCode(cpCode);
+		model.addAttribute("cpCode", cp.getCpCode());
+		model.addAttribute("mId", cp.getmId());
+		model.addAttribute("cpName", cp.getCpName());
+		model.addAttribute("cpPhoto", cp.getCpPhoto());
+		model.addAttribute("cpInfo", cp.getCpInfo());
+		model.addAttribute("cpMaker", cp.getCpMaker());
+		model.addAttribute("cpMakedate", cp.getCpMakedate());
+		model.addAttribute("cpUsedate", cp.getCpUsedate());
+	}
+
+	public int componentModify(ComponentDTO cp) {
+		return componentMapper.componentModify(cp);
+	}
+
+	public int deleteComponent(String cpCode) {
+		return componentMapper.deleteComponent(cpCode);
 	}
 
 	

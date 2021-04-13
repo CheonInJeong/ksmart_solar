@@ -6,6 +6,7 @@ public class BusinessPlantDTO {
 	private String bzCode;
 	private String mId;
 	private String bzPlCheck;
+	private String bzPlDelete;
 	private String bzPlName;	
 	private String bzPlZipcode;	
 	private String bzPlAddr;	
@@ -211,6 +212,12 @@ public class BusinessPlantDTO {
 		builder.append(residualValue);
 		builder.append("]");
 		return builder.toString();
+	}
+	public String getBzPlDelete() {
+		return bzPlDelete;
+	}
+	public void setBzPlDelete(String bzPlDelete) {
+		this.bzPlDelete = bzPlDelete;
 	}
 	
 	

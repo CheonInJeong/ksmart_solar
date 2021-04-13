@@ -1,6 +1,5 @@
 package com.cafe24.kangk0269.serivce;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.cafe24.kangk0269.common.Pagination;
-import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dao.BidPlantMapper;
-import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 
@@ -28,13 +25,50 @@ public class BidPlantService {
 		return bidPlantMapper.getBidPlantById(mId);
 	}
 	
-	public List<BidPlantDTO> getBidPlant(String status) {
-		List<BidPlantDTO> bidPlantList = bidPlantMapper.getBidPlant(status);
-		if(bidPlantList!=null) {
-			for(int i=0; i<bidPlantList.size();i++) {
-				bidPlantList.get(i).setNum(i+1);
+	public List<BidPlantDTO> getBidPlant(String status,String searchKeyPl,String searchValuePl,BidPlantDTO bidPlantDTO) {
+		if(searchKeyPl!=null && searchKeyPl.equals("null")) {
+			System.out.println("문자열 unll");
+			searchKeyPl = null;
+		}
+		if(searchValuePl!=null && searchValuePl.equals("null")) {
+			System.out.println("문자열 unll");
+			searchValuePl = null;
+		}
+		if(searchKeyPl!=null) {
+			if("bPlTitle".equals(searchKeyPl)) {
+				searchKeyPl="b_pl_title";
+			}else if("mId".equals(searchKeyPl)) {
+				searchKeyPl="m_id";
+			}
+			else {
+				searchKeyPl=null;
 			}
 		}
+		
+		System.out.println(searchKeyPl+"---------------------------searchKeyPl");
+		System.out.println(searchValuePl+"---------------------------searchValuePl");
+		System.out.println(status+"--------------------------------------status");
+		List<BidPlantDTO> bidPlantList = null;
+		
+		int bidPlantCount = bidPlantMapper.getBidPlantListCount(status, searchKeyPl, searchValuePl);
+		System.out.println(bidPlantCount);
+		Pagination pagination = new Pagination(bidPlantDTO);
+		
+		pagination.setTotalRecordCount(bidPlantCount);
+		
+		bidPlantDTO.setPagination(pagination);
+		
+		if(bidPlantCount>0) {
+			bidPlantList = bidPlantMapper.getBidPlant(status,searchKeyPl,searchValuePl,bidPlantDTO);
+		}
+		int num = (bidPlantDTO.getCurrentPageNo()-1)*5;
+		if(bidPlantList!=null) {
+			for(int i=0; i<bidPlantList.size();i++) {
+				bidPlantList.get(i).setNum(++num);
+			}
+		}
+		
+		
 		return bidPlantList;
 	}
 	public BidPlantDTO getBidPlantByInfo(String announceTitle) {
