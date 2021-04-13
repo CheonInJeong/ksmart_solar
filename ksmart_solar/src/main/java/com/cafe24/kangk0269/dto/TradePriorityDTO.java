@@ -1,6 +1,6 @@
 package com.cafe24.kangk0269.dto;
 
-public class TradePriorityDTO {
+public class TradePriorityDTO extends CommonDTO{
 	private String trPrCode;
 	private String bCode;
 	private String bTypeCode;
@@ -25,6 +25,20 @@ public class TradePriorityDTO {
 	private int availableOut;
 	
 	private TradePaymentInDTO tradePaymentInDTO;
+	private TradePaymentOutDTO tradePaymentOutDTO;
+	
+
+	public TradePaymentOutDTO getTradePaymentOutDTO() {
+		return tradePaymentOutDTO;
+	}
+
+	public void setTradePaymentOutDTO(TradePaymentOutDTO tradePaymentOutDTO) {
+		this.tradePaymentOutDTO = tradePaymentOutDTO;
+	}
+
+	public void setTrPrPrice(long trPrPrice) {
+		this.trPrPrice = trPrPrice;
+	}
 
 	public String getTrPrCode() {
 		return trPrCode;
@@ -204,16 +218,58 @@ public class TradePriorityDTO {
 
 	@Override
 	public String toString() {
-		return "TradePriorityDTO [trPrCode=" + trPrCode + ", bCode=" + bCode + ", bTypeCode=" + bTypeCode
-				+ ", announcedCode=" + announcedCode + ", announcedTitle=" + announcedTitle + ", bGroupcode="
-				+ bGroupcode + ", mIdSeller=" + mIdSeller + ", mIdBuyer=" + mIdBuyer + ", trPrRank=" + trPrRank
-				+ ", trPrPrice=" + trPrPrice + ", sDepositRate=" + sDepositRate + ", bDeposit=" + bDeposit
-				+ ", trPrConclusionDate1=" + trPrConclusionDate1 + ", trPrConclusionDate2=" + trPrConclusionDate2
-				+ ", trTypeCode=" + trTypeCode + ", trTypeName=" + trTypeName + ", trPrDateUp=" + trPrDateUp
-				+ ", trPayoutCheck=" + trPayoutCheck + ", comissionRate=" + comissionRate + ", commission=" + commission
-				+ ", availableOut=" + availableOut + ", tradePaymentInDTO=" + tradePaymentInDTO + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("TradePriorityDTO [trPrCode=");
+		builder.append(trPrCode);
+		builder.append(", bCode=");
+		builder.append(bCode);
+		builder.append(", bTypeCode=");
+		builder.append(bTypeCode);
+		builder.append(", announcedCode=");
+		builder.append(announcedCode);
+		builder.append(", announcedTitle=");
+		builder.append(announcedTitle);
+		builder.append(", bGroupcode=");
+		builder.append(bGroupcode);
+		builder.append(", mIdSeller=");
+		builder.append(mIdSeller);
+		builder.append(", mIdBuyer=");
+		builder.append(mIdBuyer);
+		builder.append(", trPrRank=");
+		builder.append(trPrRank);
+		builder.append(", trPrPrice=");
+		builder.append(trPrPrice);
+		builder.append(", sDepositRate=");
+		builder.append(sDepositRate);
+		builder.append(", bDeposit=");
+		builder.append(bDeposit);
+		builder.append(", trPrConclusionDate1=");
+		builder.append(trPrConclusionDate1);
+		builder.append(", trPrConclusionDate2=");
+		builder.append(trPrConclusionDate2);
+		builder.append(", trTypeCode=");
+		builder.append(trTypeCode);
+		builder.append(", trTypeName=");
+		builder.append(trTypeName);
+		builder.append(", trPrDateUp=");
+		builder.append(trPrDateUp);
+		builder.append(", trPayoutCheck=");
+		builder.append(trPayoutCheck);
+		builder.append(", comissionRate=");
+		builder.append(comissionRate);
+		builder.append(", commission=");
+		builder.append(commission);
+		builder.append(", availableOut=");
+		builder.append(availableOut);
+		builder.append(", tradePaymentInDTO=");
+		builder.append(tradePaymentInDTO);
+		builder.append(", tradePaymentOutDTO=");
+		builder.append(tradePaymentOutDTO);
+		builder.append("]");
+		return builder.toString();
 	}
-	
+
+
 }
 
 
