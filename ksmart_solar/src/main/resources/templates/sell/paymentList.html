@@ -15,7 +15,19 @@
       	 <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel" style="padding: 30px;">
-              <h4><i class="fa fa-angle-right"></i>출금 신청 가능 목록</h4><hr><table class="table table-striped table-advance table-hover">
+              <h4><i class="fa fa-angle-right"></i>출금 신청 가능 목록</h4><hr>
+	              <div style="text-align : right; margin-bottom: 10px;">	
+	             	 <form th:action="@{/sell/paymentList}">
+		            	<select name="searchKey">
+		            		<option value="0">카테고리</option>
+		            		<option value="announcedTitle">공고명</option>
+		            		<option value="mIdBuyer">구매자</option>
+		            	</select>
+		            	<input type="text" placeholder="검색어" name="searchValue">
+		            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
+		               </form>
+		            </div>
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th><i class="fa fa-bullhorn"></i>공고코드</th>
@@ -31,7 +43,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:if = "${#lists.size(available)}>0"th:each="a:${available}">
+                  <tr th:if = "${available!=null and available.size()>0}"th:each="a:${available}">
 	                   <td th:text="${a.announcedCode}"></td>
 	                   <td style="text-align:left" th:text="${a.announcedTitle}"></td>
 	                   <td th:text="${a.mIdBuyer}"></td>
@@ -43,10 +55,36 @@
 	                   <td th:text="${a.trPayoutCheck}"></td>
 	                   <td><a th:href="@{/sell/applyPayment(trPrCode=${a.trPrCode})}">출금신청</a></td>
 	               </tr>
-	            	<tr th:unless = "${#lists.size(available)}>0">
+	            	<tr th:unless = "${available!=null and available.size()>0}">
 	               		<td colspan ="10" style="text-align : center;">출금 신청 가능 내역이 없습니다.</td>
 	               </tr> 
                 </tbody>
+                 <tfoot>
+                	<tr>
+                		<td colspan="8" style="text-align : center;">
+                			<nav th:fragment="pagination" th:if="${search != null and search.pagination?.totalRecordCount > 0}" th:object="${search.pagination}" th:with="info=${search.pagination}" aria-label="Page navigation" class="text-center">
+								<ul class="pagination">
+									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${search.makeQueryString(1)} ]])">
+										<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+									</li>
+									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${search.makeQueryString(info.firstPage - 1)} ]])">
+										<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+									</li>
+									<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == search.currentPageNo} ? 'active'">
+										<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${search.makeQueryString(pageNo)} ]])"></a>
+									</li>
+									<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${search.makeQueryString(info.lastPage + 1)} ]])">
+										<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+									</li>
+									<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${search.makeQueryString(info.totalPageCount)} ]])">
+										<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+									</li>
+								</ul>
+							</nav>
+                		
+                		</td>
+                	</tr>
+                </tfoot>
               </table>
             </div>
           </div>
@@ -55,7 +93,20 @@
       	 <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel" style="padding: 30px;">
-              <h4><i class="fa fa-angle-right"></i>출금 신청 완료 목록</h4><hr><table class="table table-striped table-advance table-hover">
+              <h4><i class="fa fa-angle-right"></i>출금 신청 완료 목록</h4><hr>
+              <div style="text-align : right; margin-bottom: 10px;">	
+	             	 <form th:action="@{/sell/paymentList}">
+		            	<select name="searchKeyApply">
+		            		<option value="0">카테고리</option>
+		            		<option value="announcedTitle">공고명</option>
+		            		<option value="mIdBuyer">구매자</option>
+		            	</select>
+		            	<input type="text" placeholder="검색어" name="searchValueApply">
+		            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn1">
+		             </form>
+		       </div>	
+              
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th><i class="fa fa-bullhorn"></i>공고코드</th>
@@ -68,30 +119,67 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:if = "${#lists.size(apply)}>0" th:each="ap:${apply}">
+                  <tr th:if = "${apply!=null and apply.size()>0}"   th:each="ap:${apply}">
 	                   <td th:text="${ap.announcedCode}"></td>
 	                   <td style="text-align:left" th:text="${ap.announcedTitle}"></td>
 	                   <td th:text="${ap.mIdBuyer}"></td>
-	                   <td th:text="${ap.trPrPrice}" class="trPrPrice"></td>
-	                   <td th:text="${ap.comissionRate}" ></td>
-	                   <td th:text="${ap.commission}" class="commission"></td>
-	                   <td th:text="${ap.availableOut}" class="availableOut"></td>
-	
+	                   <td th:text="${ap.tradePaymentOutDTO.trPayoutPrice}" class="trPrPrice"></td>
+	                   <td th:text="${ap.tradePaymentOutDTO.sCommissionRate}" ></td>
+	                   <td th:text="${ap.tradePaymentOutDTO.cTradeCm}" class="commission"></td>
+	                   <td th:text="${ap.tradePaymentOutDTO.trPayoutPriceReal}" class="availableOut"></td>
 	               </tr>
-	            	<tr th:unless = "${#lists.size(apply)}>0">
+	            	<tr th:unless = "${apply!=null and apply.size()>0}">
 	               		<td colspan ="7" style="text-align : center;">출금 신청한 내역이 없습니다. </td>
 	               </tr> 
-	                 
                 </tbody>
+                <tfoot>
+                	<tr>
+                		<td colspan="8" style="text-align : center;">
+                			<nav th:fragment="pagination" th:if="${searchApply != null and searchApply.pagination?.totalRecordCount > 0}" th:object="${searchApply.pagination}" th:with="info=${searchApply.pagination}" aria-label="Page navigation" class="text-center">
+								<ul class="pagination">
+									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${searchApply.makeQueryString(1)} ]])">
+										<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+									</li>
+									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${searchApply.makeQueryString(info.firstPage - 1)} ]])">
+										<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+									</li>
+									<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == search.currentPageNo} ? 'active'">
+										<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${searchApply.makeQueryString(pageNo)} ]])"></a>
+									</li>
+									<li th:if="*{hasNextPage == true}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${searchApply.makeQueryString(info.lastPage + 1)} ]])">
+										<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+									</li>
+									<li th:if="*{hasNextPage == true}" th:onclick="movePage2([[ ${#request.requestURI} ]], [[ ${searchApply.makeQueryString(info.totalPageCount)} ]])">
+										<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+									</li>
+								</ul>
+							</nav>
+                		
+                		</td>
+                	</tr>
+                </tfoot>
               </table>
             </div>
           </div>
         </div>
       	
-      	 	<div class="row mt">
+      	<div class="row mt">
           <div class="col-md-12">
             <div class="content-panel" style="padding: 30px;">
-              <h4><i class="fa fa-angle-right"></i>출금  완료 목록</h4><hr><table class="table table-striped table-advance table-hover">
+              <h4><i class="fa fa-angle-right"></i>출금  완료 목록</h4><hr>
+              
+              <div style="text-align : right; margin-bottom: 10px;">	
+	             	 <form th:action="@{/sell/paymentList}">
+		            	<select name="searchKeyFinish">
+		            		<option value="0">카테고리</option>
+		            		<option value="announcedTitle">공고명</option>
+		            		<option value="mIdBuyer">구매자</option>
+		            	</select>
+		            	<input type="text" placeholder="검색어" name="searchValueFinish">
+		            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn2">
+		               </form>
+		            </div>
+              <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
                     <th><i class="fa fa-bullhorn"></i>공고코드</th>
@@ -101,32 +189,55 @@
                     <th><i class=" fa fa-edit"></i>수수료율</th>
                     <th><i class=" fa fa-edit"></i>수수료</th>
                     <th><i class="fa fa-edit"></i>출금액</th>
+                    <th><i class="fa fa-edit"></i>출금날짜</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:if = "${#lists.size(finish)}>0" th:each="f:${finish}">
+                  <tr th:if = "${finish!=null and finish.size()>0}" th:each="f:${finish}">
 	                   <td th:text="${f.announcedCode}"></td>
 	                   <td style="text-align:left" th:text="${f.announcedTitle}"></td>
 	                   <td th:text="${f.mIdBuyer}"></td>
-	                   <td th:text="${f.trPrPrice}" class="trPrPrice"></td>
-	                   <td th:text="${f.comissionRate}" ></td>
-	                   <td th:text="${f.commission}" class="commission"></td>
-	                   <td th:text="${f.availableOut}" class="availableOut"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.trPayoutPrice}" class="trPrPrice"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.sCommissionRate}" ></td>
+	                   <td th:text="${f.tradePaymentOutDTO.cTradeCm}" class="commission"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.trPayoutPriceReal}" class="availableOut"></td>
+	                   <td th:text="${f.tradePaymentOutDTO.trPayoutDate}"></td>
 	
 	               </tr>
-	            	<tr th:unless = "${#lists.size(finish)}>0">
+	            	<tr th:unless = "${finish!=null and finish.size()>0}">
 	               		<td colspan ="10" style="text-align : center;">출금 완료 목록이 없습니다. </td>
 	               </tr> 
-	                 
                 </tbody>
+                 <tfoot>
+                	<tr>
+                		<td colspan="8" style="text-align : center;">
+                			<nav th:fragment="pagination" th:if="${searchFinish != null and searchFinish.pagination?.totalRecordCount > 0}" th:object="${searchFinish.pagination}" th:with="info=${searchFinish.pagination}" aria-label="Page navigation" class="text-center">
+								<ul class="pagination">
+									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage3([[ ${#request.requestURI} ]], [[ ${searchFinish.makeQueryString(1)} ]])">
+										<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+									</li>
+									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage3([[ ${#request.requestURI} ]], [[ ${searchFinish.makeQueryString(info.firstPage - 1)} ]])">
+										<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+									</li>
+									<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == searchFinish.currentPageNo} ? 'active'">
+										<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage3([[ ${#request.requestURI} ]], [[ ${searchFinish.makeQueryString(pageNo)} ]])"></a>
+									</li>
+									<li th:if="*{hasNextPage == true}" th:onclick="movePage3([[ ${#request.requestURI} ]], [[ ${searchFinish.makeQueryString(info.lastPage + 1)} ]])">
+										<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+									</li>
+									<li th:if="*{hasNextPage == true}" th:onclick="movePage3([[ ${#request.requestURI} ]], [[ ${searchFinish.makeQueryString(info.totalPageCount)} ]])">
+										<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+									</li>
+								</ul>
+							</nav>
+                		
+                		</td>
+                	</tr>
+                </tfoot>
               </table>
             </div>
           </div>
         </div>
- 
-      	
-      	
-      	
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
@@ -136,7 +247,59 @@
 			sell.parent().find('.sub').children().eq(2).addClass('active');
 		</script>
 		
+		<script th:inline="javascript">
+			var searchKey = '&searchKey='+/*[[${searchKey}]]*/;
+			var searchValue= '&searchValue='+/*[[${searchValue}]]*/
+			var searchKeyApply = '&searchKeyApply='+/*[[${searchKeyApply}]]*/;
+			var searchValueApply= '&searchValueApply='+/*[[${searchValueApply}]]*/
+			var searchKeyFinish = '&searchKeyFinish='+/*[[${searchKeyFinish}]]*/;
+			var searchValueFinish= '&searchValueFinish='+/*[[${searchValueFinish}]]*/
+			
+			function movePage(uri, queryString) {
+				location.href = uri + queryString+searchKey+searchValue+searchKeyApply+searchValueApply+searchKeyFinish+searchValueFinish;
+			}
+			
+			function movePage2(uri, queryString) {
+				location.href = uri + queryString+searchKey+searchValue+searchKeyApply+searchValueApply+searchKeyFinish+searchValueFinish;
+			}
+			function movePage3(uri, queryString) {
+				location.href = uri + queryString+searchKey+searchValue+searchKeyApply+searchValueApply+searchKeyFinish+searchValueFinish;
+			}
+
+
+		</script>
+		
 		<script>
+
+		$('#searchBtn').click(function(){
+			var selected = $('select option:selected');
+			if(selected.val()==0){
+				alert('카테고리를 선택해주세요.');
+			}
+			console.log(selected.val());
+			
+		})
+		
+		$('#searchBtn1').click(function(){
+			var selected = $('select option:selected');
+			if(selected.val()==0){
+				alert('카테고리를 선택해주세요.');
+			}
+			console.log(selected.val());
+			
+		})
+		
+		$('#searchBtn2').click(function(){
+			var selected = $('select option:selected');
+			if(selected.val()==0){
+				alert('카테고리를 선택해주세요.');
+			}
+			console.log(selected.val());
+			
+		})
+		
+		
+		
 			function comma(str) {
 	  			 str = String(str);
 	  		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
@@ -177,6 +340,8 @@
 		
 			})
 		
+			
+			
 		</script>
 		
 	</th:block>

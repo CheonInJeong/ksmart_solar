@@ -45,6 +45,12 @@ public class SellService {
 		this.fileMapper = fileMapper;
 	}
 	
+	
+	//계약 정보 얻기
+	public List<TradePriorityDTO> getTradeInfo(String bPlCode){
+		return sellMapper.getTradeInfo(bPlCode);
+	}
+	
 	//발전소 공고 코드로 공고상태값 가져오기
 	
 	public BidPlantDTO getPlantAcStatusByCode(String bPlCode) {
@@ -239,17 +245,80 @@ public class SellService {
 	}
 	
 	//출금 가능 한 리스트
-	public List<TradePriorityDTO> getPaymentAvailable(String mId) throws Exception{
-		return sellMapper.getPaymentAvailable(mId);
+	public List<TradePriorityDTO> getPaymentAvailable(String mId, String searchKey, String searchValue,TradePriorityDTO tradePriorityDTO) throws Exception{
+		if(searchKey!=null) {
+			if("announcedTitle".equals(searchKey)) {
+				searchKey = "announced_title";
+			}else if("mIdBuyer".equals(searchKey)) {
+				searchKey = "m_id_buyer";
+			}
+			
+		}
+		List<TradePriorityDTO> availableList = null;
+		int availableCount = sellMapper.getPaymentAvailableCount(mId, searchKey, searchValue, tradePriorityDTO);
+		
+		Pagination pagination = new Pagination(tradePriorityDTO);
+		pagination.setTotalRecordCount(availableCount);
+		
+		
+		tradePriorityDTO.setPagination(pagination);
+		
+		if(availableCount>0) {
+			availableList = sellMapper.getPaymentAvailable(mId, searchKey, searchValue, tradePriorityDTO);
+		}
+		
+		return availableList;
 	}
 	
 	//출금 신청 한 리스트
-	public List<TradePriorityDTO> getPaymentApplyList(String mId) throws Exception{
-		return sellMapper.getPaymentApplyList(mId);
+	public List<TradePriorityDTO> getPaymentApplyList(String mId, String searchKeyApply, String searchValueApply,TradePriorityDTO tradePriorityDTO) throws Exception{
+		if(searchKeyApply!=null) {
+			if("announcedTitle".equals(searchKeyApply)) {
+				searchKeyApply = "announced_title";
+			}else if("mIdBuyer".equals(searchKeyApply)) {
+				searchKeyApply = "m_id_buyer";
+			}
+			
+		}
+		List<TradePriorityDTO> applyList = null;
+		int applyCount = sellMapper.getPaymentApplyListCount(mId, searchKeyApply, searchValueApply, tradePriorityDTO);
+		
+		Pagination pagination = new Pagination(tradePriorityDTO);
+		pagination.setTotalRecordCount(applyCount);
+		
+		
+		tradePriorityDTO.setPagination(pagination);
+		
+		if(applyCount>0) {
+			applyList = sellMapper.getPaymentApplyList(mId, searchKeyApply, searchValueApply, tradePriorityDTO);
+		}
+		
+		return applyList;
 	}
 	
-	public List<TradePriorityDTO> getPaymentOutList(String mId) throws Exception{
-		return sellMapper.getPaymentOutList(mId);
+	public List<TradePriorityDTO> getPaymentOutList(String mId, String searchKeyFinish, String searchValueFinish,TradePriorityDTO tradePriorityDTO) throws Exception{
+		if(searchKeyFinish!=null) {
+			if("announcedTitle".equals(searchKeyFinish)) {
+				searchKeyFinish = "announced_title";
+			}else if("mIdBuyer".equals(searchKeyFinish)) {
+				searchKeyFinish = "m_id_buyer";
+			}
+			
+		}
+		List<TradePriorityDTO> finishList = null;
+		int finishCount = sellMapper.getPaymentOutListCount(mId, searchKeyFinish, searchValueFinish, tradePriorityDTO);
+		
+		Pagination pagination = new Pagination(tradePriorityDTO);
+		pagination.setTotalRecordCount(finishCount);
+		
+		
+		tradePriorityDTO.setPagination(pagination);
+		
+		if(finishCount>0) {
+			finishList = sellMapper.getPaymentOutList(mId, searchKeyFinish, searchValueFinish, tradePriorityDTO);
+		}
+		
+		return finishList;
 	}
 	
 	//해당 아이디의 부품공고 리스트를 가져옴
