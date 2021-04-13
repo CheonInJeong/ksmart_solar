@@ -22,6 +22,10 @@ public interface TradeMapper {
 	// 취소수수료목록
 	public List<TradeFailDTO> getFailCommission();
 
+	// 거래대금 출금 계좌확인
+	public int paymentoutAccountCheck(String Code);
+	// 거래대금 출금(거래대금 출금신청 테이블 변경)
+	public int paymentoutWithdraw(String Code);
 	// 거래대금 출금
 	public int paymentWithdraw(String Code);
 	// 거래대금 출금신청 상세조회

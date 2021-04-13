@@ -193,6 +193,23 @@
 		ORDER BY tr_fail_date
 	</select>
 	
+	<!-- 거래대금 출금 계좌확인 -->
+	<update id="paymentoutAccountCheck" parameterType="String">
+		UPDATE tb_trade_payment_out
+		SET
+			tr_payout_account_check = 'Y'
+		WHERE tr_payout_code = #{Code}
+	</update>
+	
+	<!-- 거래대금 출금(거래대금 출금신청 테이블 변경) -->
+	<update id="paymentoutWithdraw" parameterType="String">
+		UPDATE tb_trade_payment_out
+		SET
+			tr_payout_check='Y',
+			tr_payout_wd_date=NOW()
+		WHERE tr_payout_code = #{Code}
+	</update>
+	
 	<!-- 거래대금 출금신청 상세조회 -->
 	<select id="getPaymentOut" resultMap="paymentoutResultMap" parameterType="String">
 		SELECT 
@@ -252,13 +269,21 @@
 			a.tr_pr_code = b.tr_pr_code
 	</select>
 	
+	<!-- 예치금 출금 계좌확인 -->
+	<update id="depositAccountCheck" parameterType="String">
+		UPDATE tb_trade_deposit_out
+		SET
+			tr_dep_account_check='Y'
+		WHERE tr_dep_code=#{Code}
+	</update>
+	
 	<!-- 예치금 출금(예치금 출금신청 테이블 변경) -->
 	<update id="depositWithdraw1" parameterType="String">
 		UPDATE tb_trade_deposit_out
 		SET
-			tr_dep_check='Y',
-			tr_dep_wd_date=NOW()
-		WHERE tr_dep_code=#{Code}
+			tr_dep_check = 'Y',
+			tr_dep_wd_date = NOW()
+		WHERE tr_dep_code = #{Code}
 	</update>
 	
 	<!-- 예치금 출금(입찰자 테이블 변경) -->
@@ -270,13 +295,6 @@
 		WHERE b_code=#{bCode}
 	</update>
 	
-	<!-- 예치금 출금 계좌확인 -->
-	<update id="depositAccountCheck" parameterType="String">
-		UPDATE tb_trade_deposit_out
-		SET
-			tr_dep_account_check='Y'
-		WHERE tr_dep_code=#{Code}
-	</update>
 	
 	<!-- 예치금 출금신청 상세조회 -->
 	<select id="getDepositOut" resultMap="depositoutResultMap" parameterType="String">

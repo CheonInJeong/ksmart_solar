@@ -34,6 +34,14 @@ public class TradeService {
 	public List<TradeFailDTO> getFailCommission(){
 		return tradeMapper.getFailCommission();
 	}
+	// 거래대금 출금 계좌확인
+	public int paymentoutAccountCheck(String Code) {
+		return tradeMapper.paymentoutAccountCheck(Code);
+	}
+	// 거래대금 출금(거래대금 출금신청 테이블 변경)
+	public int paymentoutWithdraw(String Code) {
+		return tradeMapper.paymentoutWithdraw(Code);
+	}
 	// 거래대금 출금신청 상세조회
 	public TradePaymentOutDTO getPaymentOut(String Code) {
 		return tradeMapper.getPaymentOut(Code);

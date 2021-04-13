@@ -103,21 +103,27 @@ public class ProfitController {
 	public String WithDraw(@RequestParam(name="Code", required=false) String Code) {
 		System.out.println("출금완료 출금신청코드 : " + Code);
 		String codeName = null;
-		String bCode = null;
+		String url = null;
 		codeName = Code.substring(0, Code.indexOf('_'));
-		TradeDepositOutDTO depositout = tradeService.getDepositOut(Code);
-		bCode = depositout.getbCode();
-		if(codeName != null && bCode != null) {
+		if(codeName != null) {
 			if(codeName.equals("deout")) {
-				// 예치금 출금 신청 테이블 : 출금여부 = Y
-				tradeService.depositWithdraw1(Code);
-				// 입찰자 테이블 : 예치금 환불 가능여부 = N, 환불완료여부 = Y
-				tradeService.depositWithdraw2(bCode);
+				String bCode = null;
+				TradeDepositOutDTO depositout = tradeService.getDepositOut(Code);
+				bCode = depositout.getbCode();
+				if(bCode != null) {
+					// 예치금 출금 신청 테이블 : 출금여부 = Y, 출금시간 : NOW()
+					tradeService.depositWithdraw1(Code);
+					// 입찰자 테이블 : 예치금 환불 가능여부 = N, 환불완료여부 = Y
+					tradeService.depositWithdraw2(bCode);
+				}
+				url = "depositList";
 			}else if(codeName.equals("payout")) {
-				
+				// 거래대금 출금 신청 테이블 : 출금여부 = Y, 출금시간 : NOW()
+				tradeService.paymentoutWithdraw(Code);
+				url = "commissionList";
 			}
 		}
-		return "redirect:/profit/depositList";
+		return "redirect:/profit/" + url;
 	}
 	
 	@PostMapping("/accountCheck")
@@ -129,7 +135,7 @@ public class ProfitController {
 			if(codeName.equals("deout")) {
 				tradeService.depositAccountCheck(Code);
 			}else if(codeName.equals("payout")) {
-				
+				tradeService.paymentoutAccountCheck(Code);
 			}
 		}
 		
@@ -139,18 +145,13 @@ public class ProfitController {
 	@GetMapping("/profit/withDraw")
 	public String withDraw(Model model, @RequestParam(name="Code", required=false) String Code) {
 		System.out.println("출금신청코드 : " + Code);
-		String codeName = null;
-		codeName = Code.substring(0, Code.indexOf('_'));
-		if(codeName != null) {
-			if(codeName.equals("deout")) {
-				TradeDepositOutDTO depositout = tradeService.getDepositOut(Code);
-				System.out.println(depositout);
-				model.addAttribute("depositout", depositout);
-			}else if(codeName.equals("payout")) {
-				TradePaymentOutDTO paymentout = tradeService.getPaymentOut(Code);
-				System.out.println(paymentout);
-				model.addAttribute("paymentout", paymentout);
-			}
+		if(Code != null) {
+			TradeDepositOutDTO depositout = tradeService.getDepositOut(Code);
+			TradePaymentOutDTO paymentout = tradeService.getPaymentOut(Code);
+			System.out.println(depositout);
+			System.out.println(paymentout);
+			model.addAttribute("depositout", depositout);
+			model.addAttribute("paymentout", paymentout);
 		}
 		return "/profit/withDraw";
 	}
