@@ -44,7 +44,10 @@ public class SellService {
 		this.fileUtils = fileUtils;
 		this.fileMapper = fileMapper;
 	}
-	
+	//거래대금출금신청 은행 변경
+	public void updateBankInfo(String accountBank,String accountNumber, String code) {
+			sellMapper.updateBankInfo(accountBank, accountNumber, code);
+	}
 	
 	//계약 정보 얻기
 	public List<TradePriorityDTO> getTradeInfo(String bPlCode){
@@ -383,7 +386,7 @@ public class SellService {
 		sellMapper.addComponent(componentDto);
 	}
 	
-	//판매자가 등록한 서류 얻기
+	//판매자가 등록한 공서류 얻기
 	public List<FileDTO> getsellerFileList(String code) throws Exception{
 		FileDTO fileDto = new FileDTO();
 		fileDto.setFileSortIdx(1);
@@ -391,6 +394,8 @@ public class SellService {
 		
 		return fileMapper.getFileList(fileDto);
 	}
+
+	
 	
 	//발전소 공고 내용 조회
 	public List<BidPlantDTO> getBidPlantDetail(String code) throws Exception{
