@@ -3,6 +3,7 @@ package com.cafe24.kangk0269.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -179,13 +180,25 @@ public class MyPageController {
 	
 	//계좌 사용여부 변경처리
 	@RequestMapping(value="/modifyAccountUse", method = RequestMethod.POST)
-	public @ResponseBody boolean modifyAccountUse(Model model
+	public @ResponseBody String modifyAccountUse(Model model
 												, @RequestParam(name = "mAccountCheck", required = false) String mAccountCheck
 												, @RequestParam(name = "mAccountIdx", required = false) int mAccountIdx) {
-		MemberAccountDTO memberAccountDTO = accountService.modifyAccountUse(mAccountCheck, mAccountIdx);
-		model.addAttribute("memberAccountDTO", memberAccountDTO);
-		return false;
+		System.out.println(mAccountCheck);
+		System.out.println(mAccountIdx);
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("mAccountCheck", mAccountCheck);
+		map.put("mAccountIdx", mAccountIdx);
 		
+		System.out.println(map+"<---쿼리실행전");
+		
+		int result = accountService.modifyAccountUse(map);
+		System.out.println(map+"<---쿼리실행후");
+		if(result > 0) {
+			mAccountCheck = (String) map.get("mAccountCheck");
+			System.out.println(mAccountCheck);
+			return mAccountCheck;
+		}
+		return mAccountCheck;
 	}
 	
 	// 계좌등록 처리

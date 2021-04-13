@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.serivce;
 
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
@@ -38,8 +39,8 @@ public class AccountService {
 	}
 	
 	//계좌 사용여부 변경처리
-	public MemberAccountDTO modifyAccountUse(String mAccountCheck, int mAccountIdx) {
-		return bankAccountMapper.modifyAccountUse(mAccountCheck, mAccountIdx);
+	public int modifyAccountUse(HashMap<String, Object> map) {
+		return bankAccountMapper.modifyAccountUse(map);
 	}
 	
 	//개인 계좌등록

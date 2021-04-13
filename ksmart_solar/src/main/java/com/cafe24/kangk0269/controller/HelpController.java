@@ -32,18 +32,26 @@ public class HelpController {
 	}
 	
 	
+	//임시저장 불러오기
+	@GetMapping("/help/loadQna")
+	public void loadQna(Model model, HttpSession session) {
+		String log_id = (String)session.getAttribute("SID");
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.loadQna(log_id); 
+		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
+	}
 	 
-	/*
-	 * //답글 처리
-	 * 
-	 * @PostMapping("/help/addReQna") public String addReQna(BoardQnaDTO
-	 * boardQnaDTO) { boardQnaService.addReQna(boardQnaDTO); return
-	 * "redirect:/help/qna"; }
-	 */
-	//답글 화면
+	
+	//문의답글 처리
+	@PostMapping("/help/addReQna")
+	public String addReQna(BoardQnaDTO boardQnaDTO) {
+		boardQnaService.addReQna(boardQnaDTO);
+		return "redirect:/help/qna"; 
+	}
+	 
+	//문의답글 화면
 	@GetMapping("/help/addReQna")
-	public String addReQna(Model model,
-							@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
+	public String addReQna(Model model
+							,@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
 		getQna(model, bQnaIdx);
 		return "/help/addReQna";
 		

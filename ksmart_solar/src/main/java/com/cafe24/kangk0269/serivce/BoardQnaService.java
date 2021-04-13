@@ -29,17 +29,21 @@ public class BoardQnaService {
 	}
 	
 	
+	//임시저장 불러오기
+	public List<BoardQnaDTO> loadQna(String log_id) {
+		return boardQnaMapper.loadQna(log_id);
+	}
+	
 	//문의 조회수 증가
 	public int addQnaViews(int bQnaIdx) {
 		return boardQnaMapper.addQnaViews(bQnaIdx);
 	}
 	
-	/*
-	 * //답글 등록 public int addReQna(BoardQnaDTO boardQnaDTO) {
-	 * if(boardQnaDTO.getBQnaOpen().equals("Y")) { boardQnaDTO.setBQnaOpen("Y");
-	 * }else { boardQnaDTO.setBQnaOpen("N"); } return
-	 * boardQnaMapper.addReQna(boardQnaDTO); }
-	 */
+	//문의 답글처리
+	public int addReQna(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.addReQna(boardQnaDTO);
+	}
+	
 	//문의 삭제
 	public int removeQna(int bQnaIdx) {
 		return boardQnaMapper.removeQna(bQnaIdx);
