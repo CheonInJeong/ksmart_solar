@@ -7,6 +7,7 @@ public class ComponentDTO {
 	private String cpPhoto;	
 	private String cpInfo;	
 	private String cpMaker;	
+	private String cpDeleteCheck;	
 	private String cpMakedate;	
 	private String cpUsedate;	
 	private String cpDate;
@@ -96,6 +97,12 @@ public class ComponentDTO {
 	}
 	public void setCpPhoto(String cpPhoto) {
 		this.cpPhoto = cpPhoto;
+	}
+	public String getCpDeleteCheck() {
+		return cpDeleteCheck;
+	}
+	public void setCpDeleteCheck(String cpDeleteCheck) {
+		this.cpDeleteCheck = cpDeleteCheck;
 	}
 	
 	

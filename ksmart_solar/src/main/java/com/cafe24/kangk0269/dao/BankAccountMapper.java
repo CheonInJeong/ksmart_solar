@@ -1,5 +1,6 @@
 package com.cafe24.kangk0269.dao;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -14,7 +15,7 @@ public interface BankAccountMapper {
 	public int removeAccount(int mAccountIdx);
 	
 	//계좌 사용여부 변경처리
-	public MemberAccountDTO modifyAccountUse(String mAccountCheck, int mAccountIdx);
+	public int modifyAccountUse(HashMap<String, Object> map);
 	
 	//개인 계좌조회
 	public List<MemberAccountDTO> getAccountListById(String login_id);

@@ -15,7 +15,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 
 
-	<!--  -->
 
 	<!-- 계좌 삭제처리  -->
 	<delete id="removeAccount" parameterType="int">
@@ -26,16 +25,25 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 
 
 	<!-- 계좌 사용여부 변경처리 -->
-	<update id="modifyAccountUse" parameterType="map">
+	<update id="modifyAccountUse" parameterType="Map">
 		UPDATE tb_member_account
 		SET
-		<if test="mAccountCheck == 'Y'">
+		<if test='mAccountCheck == "Y"'>
 			m_account_check = 'N'
 		</if>
-		<if test="mAccountCheck == 'N'">
+		<if test='mAccountCheck == "N"'>
 			m_account_check = 'Y'
 		</if>
 			WHERE m_account_idx = #{mAccountIdx} 
+		
+		<selectKey keyProperty="mAccountCheck" keyColumn="m_account_check" resultType="String" order="AFTER">
+		    SELECT 
+		    	m_account_check 
+		    FROM 
+		    	tb_member_account
+		    WHERE 
+		    	m_account_idx = #{mAccountIdx} 
+		</selectKey>
 	</update>
 	
 

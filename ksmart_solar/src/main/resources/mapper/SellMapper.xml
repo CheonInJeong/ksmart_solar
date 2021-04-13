@@ -147,14 +147,24 @@
   		  		<result property ="mIdSeller" column ="m_id_seller"/>
   		  		<result property ="mIdBuyer" column ="m_id_buyer"/>
   		  		<result property ="trPrPrice" column ="tr_pr_price"/>
+  		  		<result property ="trPrRank" column ="tr_pr_rank"/>
   		  		<result property ="trPayoutCheck" column ="tr_payout_check"/>
-  		  		<result property ="comissionRate" column ="comissionRate"/>
-  		  		<result property ="commission" column ="commission"/>
-  		  		<result property ="availableOut" column ="availableOut"/>
-  		  		
-  		  		
+  		  		<result property ="trTypeName" column ="tr_type_name"/>
+  		  		<result property ="trPrConclusionDate1" column ="tr_pr_conclusion_date1"/>
+  		  		<result property ="trPrConclusionDate2" column ="tr_pr_conclusion_date2"/>
+  		  		<association property ="tradePaymentOutDTO" javaType="TradePaymentOutDTO">
+  		  			<result property ="trPayoutPrice" column="tr_payout_price"/>
+  		  			<result property ="cTradeCm" column="c_trade_cm"/>
+  		  			<result property ="trPayoutPriceReal" column="tr_payout_price_real"/>
+  		  			<result property ="sCommissionRate" column="s_commission_rate"/>
+  		  			<result property ="trPayoutDate" column="tr_payout_date"/>
+  		  			<result property ="trPayoutAccount" column="tr_payout_account"/>
+  		  			<result property ="trPayoutBank" column="tr_payout_bank"/>
+  		  			<result property ="trPayoutWdDate" column="tr_payout_wd_date"/>
+  		  			<result property ="trPayoutCode" column="tr_payout_code"/>
+  		  		</association>
   		  		<association property ="tradePaymentInDTO" javaType="TradePaymentInDTO">
-  		  			<id property ="bMoDate" column="b_mo_date"/>
+  		  			<id property="announcedCode" column="announced_code"/>
   		  			<result property ="bMoDate" column="b_mo_date"/>
   		  		</association>
   		  		
@@ -165,6 +175,7 @@
   		  	<result property="mAccountNumber" column ="m_account_number"/>
   		  	<result property="mAccountName" column ="m_account_Name"/>
   		  	<result property="mAccountBank" column ="m_account_bank"/>
+  		  	<result property="mAccountIdx" column ="m_account_idx"/>
   		  </resultMap>
   		  
   		  <resultMap type="TradePaymentOutDTO" id="tradePaymentOutResultMap">
@@ -191,6 +202,39 @@
   		  	<result property="bzDetailAddr" column ="bz_detail_addr"/>
   		  	<result property="bzAddr" column ="bz_addr"/>
   		  </resultMap>
+  		  
+  		  <update id="updateBankInfo" parameterType="String">
+  		  		UPDATE tb_trade_payment_out
+				SET
+					tr_payout_bank=#{accountBank},
+					tr_payout_account=#{accountNumber}
+				WHERE 
+					tr_payout_check ='N' AND tr_payout_code = #{code} 
+			  		  
+  		  
+  		  </update>
+  		  
+  		  
+  		  <select id="getTradeInfo" resultMap="tradePriorityResultMap" parameterType="String">
+  		  	SELECT 
+				p.announced_code,
+				p.m_id_buyer,
+				p.tr_pr_price,
+				p.tr_pr_rank,
+				p.tr_pr_code,
+				p.tr_type_name,
+				p.tr_pr_conclusion_date1,
+				p.tr_pr_conclusion_date2
+			FROM 
+				tb_trade_payment_in AS i 
+			right JOIN 
+				tb_trade_priority AS p 
+			ON 
+				i.tr_pr_code = p.tr_pr_code 
+			WHERE p.announced_code =#{announcedCode}
+  		  	
+  		  </select>
+  		  
   		  
   		  <select id="getRecentlybPlCodeByGroupcode" resultType="String" parameterType="String">
   		  	select b_pl_code FROM tb_bid_plant WHERE b_pl_groupcode = #{bPlGroupcode} ORDER BY b_pl_date_decision2 DESC LIMIT 1
@@ -696,6 +740,7 @@
   		  <select id="getMemberAccountById" resultMap = "memberAccountResultMap" parameterType="String">
   		  		SELECT 
 	  		  		m_id, 
+	  		  		m_account_idx,
 	  		  		m_account_number, 
 	  		  		m_account_name, 
 	  		  		m_account_bank 
@@ -733,8 +778,7 @@
   		  
   		  
   		  <!--출금신청 가능한 목록  -->
-  		  <select id="getPaymentAvailable" resultMap = "tradePriorityResultMap" parameterType="String">
-  		  		
+  		  <select id="getPaymentAvailable" resultMap = "tradePriorityResultMap" parameterType="map">
 				SELECT 
 					pin.b_mo_date,
 					p.tr_pr_code,
@@ -753,72 +797,180 @@
 				on
 					pin.announced_code = p.announced_code
 				
-				WHERE 
-					p.tr_type_code = 14 
-				AND 
-					p.m_id_seller=#{mIdSeller}
-				AND 
-					p.tr_payout_check='N'
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="mId!=null and ''.toString()">
+						p.m_id_seller=#{mId}
+						AND 
+						p.tr_type_code = 14 
+						AND 
+						p.tr_payout_check='N'
+					</if>
+					<if test="searchValue!=null and ''.toString()">
+						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+					</if>
+				</trim>
+				LIMIT
+					#{TradePriorityDTO.pagination.firstRecordIndex},#{TradePriorityDTO.recordsPerPage}
+
+  		  </select>
+  		  <select id="getPaymentAvailableCount" resultType = "int" parameterType="map">
+				SELECT 
+					count(1)
+				FROM 
+					tb_trade_priority as p 
+				INNER JOIN
+					tb_trade_payment_in AS pin
+				on
+					pin.announced_code = p.announced_code
+				
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="mId!=null and ''.toString()">
+						p.m_id_seller=#{mId}
+						AND 
+						p.tr_type_code = 14 
+						AND 
+						p.tr_payout_check='N'
+					</if>
+					<if test="searchValue!=null and ''.toString()">
+						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+					</if>
+				</trim>
 
   		  </select>
   		  <!-- 출금신청한 목록  -->
-  		  	<select id="getPaymentApplyList" resultMap = "tradePriorityResultMap" parameterType="String">
-  		  		SELECT 
-					p.tr_pr_code,
-					p.announced_title,
-					p.announced_code,
-					p.m_id_buyer,
-					p.tr_pr_price, 
-					sf_get_commission(p.tr_pr_price) AS comissionRate,
-					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
-					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut,
-					p.tr_payout_check,
-					pout.tr_payout_check
-			
-				FROM 
-					tb_trade_priority as p 
-				
-				INNER JOIN
-					tb_trade_payment_out AS pout
-				on
-					p.m_id_seller = pout.m_id
-				WHERE 
-					p.m_id_seller=#{mId}
-				AND 
-					p.tr_payout_check = 'Y'
-				AND 
-					pout.tr_payout_check='N'
+  		  	<select id="getPaymentApplyList" resultMap = "tradePriorityResultMap" parameterType="map">
+	  			SELECT 
+						p.tr_pr_code,
+						p.announced_title,
+						p.announced_code,
+						p.m_id_buyer,
+						pout.tr_payout_price,
+						pout.s_commission_rate,
+						pout.c_trade_cm,
+						pout.tr_payout_price_real,
+						p.tr_payout_check,
+						pout.tr_payout_check,
+						pout.tr_payout_account,
+						pout.tr_payout_bank,
+						pout.tr_payout_date,
+						pout.tr_payout_code
+					FROM 
+						tb_trade_priority as p 
+	
+					INNER JOIN
+						tb_trade_payment_out AS pout
+					on
+						p.tr_pr_code = pout.tr_pr_code
 					
+					<trim prefix="WHERE" prefixOverrides="AND / OR ">
+						<if test="mId!=null and ''.toString()">
+							p.m_id_seller=#{mId}
+						AND 
+								
+							p.tr_payout_check = 'Y'
+						AND 
+							pout.tr_payout_check='N'
+						</if>
+						<if test="searchKeyApply!=null and ''.toString()">
+							and ${searchKeyApply} LIKE CONCAT ('%',#{searchValueApply},'%')
+						</if>
+					
+					</trim>	
+					LIMIT
+					#{TradePriorityDTO.pagination.firstRecordIndex},#{TradePriorityDTO.recordsPerPage}
+  		  	</select>
+  		  	<select id="getPaymentApplyListCount" resultType = "int" parameterType="map">
+	  			SELECT 
+						count(1)
+					FROM 
+						tb_trade_priority as p 
+	
+					INNER JOIN
+						tb_trade_payment_out AS pout
+					on
+						p.tr_pr_code = pout.tr_pr_code
+					
+						
+					<trim prefix="WHERE" prefixOverrides="AND / OR ">
+						<if test="mId!=null and ''.toString()">
+							p.m_id_seller=#{mId}
+						AND 
+								
+							p.tr_payout_check = 'Y'
+						AND 
+							pout.tr_payout_check='N'
+						</if>
+						<if test="searchKeyApply!=null and ''.toString()">
+							and ${searchKeyApply} LIKE CONCAT ('%',#{searchValueApply},'%')
+						</if>
+					</trim>	
   		  	</select>
   		  
   		  
   		  <!-- -출금완료 목록 -->
-  		  <select id="getPaymentOutList" resultMap="tradePriorityResultMap" parameterType="String">
+  		  <select id="getPaymentOutList" resultMap="tradePriorityResultMap" parameterType="map">
   		  		SELECT 
 					p.tr_pr_code,
 					p.announced_title,
 					p.announced_code,
 					p.m_id_buyer,
-					p.tr_pr_price, 
-					sf_get_commission(p.tr_pr_price) AS comissionRate,
-					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
-					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut,
+					pout.tr_payout_price,
+					pout.s_commission_rate,
+					pout.c_trade_cm,
+					pout.tr_payout_price_real,
 					p.tr_payout_check,
-					pout.tr_payout_check
-			
+					pout.tr_payout_check,
+					pout.tr_payout_wd_date,
+					pout.tr_payout_account,
+					pout.tr_payout_bank
 				FROM 
 					tb_trade_priority as p 
-				
+
 				INNER JOIN
 					tb_trade_payment_out AS pout
 				on
-					p.m_id_seller = pout.m_id
-				WHERE 
-					p.m_id_seller=#{mId}
-				AND 
-					p.tr_payout_check = 'Y'
-				AND 
-					pout.tr_payout_check='Y'
+					p.tr_pr_code = pout.tr_pr_code
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+						<if test="mId!=null and ''.toString()">
+							p.m_id_seller=#{mId}
+						AND 
+								
+							p.tr_payout_check = 'Y'
+						AND 
+							pout.tr_payout_check='Y'
+						</if>
+						<if test="searchValueFinish!=null and ''.toString()">
+							and ${searchKeyFinish} LIKE CONCAT ('%',#{searchValueFinish},'%')
+						</if>
+				</trim>	
+				LIMIT
+					#{TradePriorityDTO.pagination.firstRecordIndex},#{TradePriorityDTO.recordsPerPage}
+  		  </select>
+  		  <select id="getPaymentOutListCount" resultType = "int" parameterType="map">
+  		  		SELECT 
+					count(1)
+				FROM 
+					tb_trade_priority as p 
+
+				INNER JOIN
+					tb_trade_payment_out AS pout
+				on
+					p.tr_pr_code = pout.tr_pr_code
+					
+				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+						<if test="mId!=null and ''.toString()">
+							p.m_id_seller=#{mId}
+						AND 
+								
+							p.tr_payout_check = 'Y'
+						AND 
+							pout.tr_payout_check='Y'
+						</if>
+						<if test="searchValueFinish!=null and ''.toString()">
+							and ${searchKeyFinish} LIKE CONCAT ('%',#{searchValueFinish},'%')
+						</if>
+				</trim>		
+					
   		  </select>
   		  
   		  

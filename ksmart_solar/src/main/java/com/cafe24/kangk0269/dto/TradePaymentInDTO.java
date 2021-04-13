@@ -61,7 +61,7 @@ public class TradePaymentInDTO {
 	public long getbPrice() {
 		return bPrice;
 	}
-	public void setbPrice(int bPrice) {
+	public void setbPrice(long bPrice) {
 		this.bPrice = bPrice;
 	}
 	public String getsDepositRate() {
@@ -150,14 +150,55 @@ public class TradePaymentInDTO {
 	}
 	@Override
 	public String toString() {
-		return "TradePaymentInDTO [trPayinCode=" + trPayinCode + ", trPrCode=" + trPrCode + ", bCode=" + bCode
-				+ ", announcedCode=" + announcedCode + ", mIdSeller=" + mIdSeller + ", mIdBuyer=" + mIdBuyer
-				+ ", bPrice=" + bPrice + ", sDepositRate=" + sDepositRate + ", bDeposit=" + bDeposit + ", trPayinPrice="
-				+ trPayinPrice + ", sCommissionRate=" + sCommissionRate + ", cTradeCm=" + cTradeCm + ", trPayinDate1="
-				+ trPayinDate1 + ", trPayinDate2=" + trPayinDate2 + ", trPayinCheck=" + trPayinCheck + ", bMoCode="
-				+ bMoCode + ", bMoDate=" + bMoDate + ", trPayinStatus=" + trPayinStatus + ", mAccountBankName="
-				+ mAccountBankName + ", mAccountNumber=" + mAccountNumber + ", mPaymentName=" + mPaymentName + "]";
+		StringBuilder builder = new StringBuilder();
+		builder.append("TradePaymentInDTO [trPayinCode=");
+		builder.append(trPayinCode);
+		builder.append(", trPrCode=");
+		builder.append(trPrCode);
+		builder.append(", bCode=");
+		builder.append(bCode);
+		builder.append(", announcedCode=");
+		builder.append(announcedCode);
+		builder.append(", mIdSeller=");
+		builder.append(mIdSeller);
+		builder.append(", mIdBuyer=");
+		builder.append(mIdBuyer);
+		builder.append(", bPrice=");
+		builder.append(bPrice);
+		builder.append(", sDepositRate=");
+		builder.append(sDepositRate);
+		builder.append(", bDeposit=");
+		builder.append(bDeposit);
+		builder.append(", trPayinPrice=");
+		builder.append(trPayinPrice);
+		builder.append(", sCommissionRate=");
+		builder.append(sCommissionRate);
+		builder.append(", cTradeCm=");
+		builder.append(cTradeCm);
+		builder.append(", trPayinDate1=");
+		builder.append(trPayinDate1);
+		builder.append(", trPayinDate2=");
+		builder.append(trPayinDate2);
+		builder.append(", trPayinCheck=");
+		builder.append(trPayinCheck);
+		builder.append(", bMoCode=");
+		builder.append(bMoCode);
+		builder.append(", bMoDate=");
+		builder.append(bMoDate);
+		builder.append(", trPayinStatus=");
+		builder.append(trPayinStatus);
+		builder.append(", mAccountBankName=");
+		builder.append(mAccountBankName);
+		builder.append(", mAccountNumber=");
+		builder.append(mAccountNumber);
+		builder.append(", mPaymentName=");
+		builder.append(mPaymentName);
+		builder.append("]");
+		return builder.toString();
 	}
+	
+	
+	
 	
 
 }
