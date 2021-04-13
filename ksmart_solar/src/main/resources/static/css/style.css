@@ -3596,3 +3596,6 @@ ul.chat-available-user li a:hover {
 	width: auto; height: 100%; 
 }
 
+a {
+	cursor: pointer;
+}

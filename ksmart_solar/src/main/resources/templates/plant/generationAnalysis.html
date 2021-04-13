@@ -22,8 +22,8 @@
 					<div>
 						<div class="h1 col-md-6">
 							<span style="font-weight:900; margin-right: 10px;">[[${bzPlName}]]</span>
-							<button type="button" id="plantModify" class="btn btn-info btn-xs">수정</button>
-							<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${bzPlCode}" class="btn btn-danger btn-xs">삭제</button>
+							<button type="button" id="plantModify" th:data-plName="${bzPlName}" th:data-plCode="${plCode}" class="btn btn-info btn-xs">수정</button>
+							<button type="button" id="plantDelete" th:data-plName="${bzPlName}" th:data-plCode="${plCode}" class="btn btn-danger btn-xs">삭제</button>
 						</div>
 						<div class="h2 col-md-6 col-xs-12" style="margin: 20px 0 15px 0; padding: 0;">
 							<div class="col-xs-6">
@@ -69,6 +69,7 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="/js/plant.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="text/javascript">
 			var plantPowerInput = $('#thymeleafData').attr('data-bzPlPower');
