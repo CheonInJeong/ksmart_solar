@@ -94,7 +94,7 @@ public class NoticeController {
 		System.out.println(bidPlantDTO.getCurrentPageNo()+"-------------------------------발전소 현재페이지");
 																
 		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("진행",searchKeyCp,searchValueCp,bidComponentDTO);
-		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlant("진행");
+		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlant("진행",searchKeyPl,searchValuePl,bidPlantDTO);
 		
 		if(searchKeyCp!=null && !searchKeyCp.equals("null")) {
 			model.addAttribute("searchKeyCp", searchKeyCp);
@@ -112,7 +112,7 @@ public class NoticeController {
 		model.addAttribute("bidPlantDTO", bidPlantDTO);
 		model.addAttribute("bidComponentDTO", bidComponentDTO);
 		model.addAttribute("bidComponentList", bidComponentList);
-		return "/notice/noticeList";
+		return "notice/noticeList";
 	}
 	//마감한 공고 목록
 	@GetMapping("/notice/history")
@@ -153,7 +153,7 @@ public class NoticeController {
 		System.out.println(bidPlantDTO.getCurrentPageNo()+"-------------------------------발전소 현재페이지");
 																
 		List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponent("종료",searchKeyCp,searchValueCp,bidComponentDTO);
-		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlant("종료");
+		List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlant("종료",searchKeyPl,searchValuePl,bidPlantDTO);
 		
 		if(searchKeyCp!=null && !searchKeyCp.equals("null")) {
 			model.addAttribute("searchKeyCp", searchKeyCp);
