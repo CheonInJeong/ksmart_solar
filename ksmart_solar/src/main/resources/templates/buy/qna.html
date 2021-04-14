@@ -19,7 +19,7 @@
             <div class="content-panel" style="padding: 30px;">
               <h4><i class="fa fa-angle-right"></i>문의내역</h4><hr>
                <div style="text-align : right; margin-bottom: 10px;">
-	              <form th:action="@{/buy/qna}">
+	              <form th:action="@{/buy/qna}" id="searchForm">
 	            	<select name="searchKey">
 	            		<option value="0">카테고리</option>
 	            		<option value="bSubject">제목</option>
@@ -27,7 +27,7 @@
 	            		<option value="bBidType">구분</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValue">
-	            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
+	            	<input type="button" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
 	               </form>
                </div>
               <table class="table table-striped table-advance table-hover">
@@ -79,30 +79,32 @@
 			buy.parent().find('.sub').css('display','block');
 			buy.parent().find('.sub').children().eq(2).addClass('active');
 		</script>
-		<script>
+		<script th:inline="javascript">
+			/*<![CDATA[*/
+				var searchKey = '&searchKey='		+	/*[[ ${searchKey} ]]*/;
+				var searchValue = '&searchValue='	+	/*[[ ${searchValue} ]]*/;
+				var select = $('select[name="searchKey"]');
+				select.children().each(function(){
+					if($(this).val()==/*[[ ${searchKey} ]]*/){
+						$(this).prop('selected',true);
+					}
+				})
+				
 				$('#searchBtn').click(function(){
-					var searchKey = '&searchKey='		+	/*[[ ${searchKey} ]]*/;
-					var searchValue = '&searchValue='	+	/*[[ ${searchValue} ]]*/;
 					var selected = $('select option:selected');
-					var select = $('select[name="searchKey"]');
-					
-					select.children().each(function(){
-						if($(this).val()==/*[[ ${searchKey} ]]*/){
-							$(this).prop('selected',true);
-						}
-					})
 					if(selected.val()==0){
 						alert('카테고리를 선택해주세요.');
+						return false;
 					}
 					console.log(selected.val());
-					
+					$('searchForm').submit();
 				})
 				
 				function movePage(uri, queryString) {
 					location.href = uri + queryString + searchKey + searchValue;
 				}
 			
-		
+				/*]]>*/
 		</script>
 	</th:block>
 </html>
