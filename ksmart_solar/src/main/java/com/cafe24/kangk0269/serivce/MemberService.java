@@ -66,6 +66,21 @@ public class MemberService {
 		
 		return memberMapper.getWithdrawAdmitMember(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
 	}
+
+	// 탈퇴완료회원 조회
+	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF){
+		if(searchKeyWCM != null && searchKeyWCM != "") {
+			if("mId".equals(searchKeyWCM)) {
+				searchKeyWCM = "m_id";
+			}else if("mRevokeDate".equals(searchKeyWCM)) {
+				searchKeyWCM = "m_revoke_date";
+			}else {
+				searchKeyWCM = "m_revoke_final_date";
+			}
+		}
+		
+		return memberMapper.getWithdrawCompleteMember(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
+	}
 	
 	// 로그인 기록 조회
 	public Map<String, Object> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){

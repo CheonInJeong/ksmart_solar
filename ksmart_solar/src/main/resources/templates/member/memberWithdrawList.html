@@ -38,7 +38,7 @@
             <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 탈퇴신청회원리스트</h4>
 				<div style="text-align : right; margin-bottom: 10px;">
-	              <form th:action="@{/member/memberList}">
+	              <form th:action="@{/member/memberWithdrawList}">
 	            	<select name="searchKeyWAM">
 	            		<option value="">카테고리</option>
 	            		<option value="mId">아이디</option>
@@ -64,8 +64,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each = "l, status : ${withdrawAdmitList}">
-							<th:block th:if="${l.mRevokeFinalDate == null}">
+						<tr th:if="${#lists.size(withdrawAdmitList) > 0}" th:each = "l, status : ${withdrawAdmitList}">
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="아이디">
 								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
@@ -73,7 +72,9 @@
 							<td data-title="탈퇴사유" th:text="${l.mRevokeReason}"></td>
 							<td data-title="탈퇴신청일" th:text="${l.mRevokeDate}"></td>
 							<td data-title="탈퇴취소일" th:text="${l.mRevokeCancelDate}"></td>
-							</th:block>
+						</tr>
+						<tr th:unless="${#lists.size(withdrawAdmitList) > 0}">
+							<td colspan="5">조회된 내용이 없습니다.</td>
 						</tr>
 					</tbody>
 				</table>
@@ -103,7 +104,7 @@
             <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 탈퇴완료회원리스트</h4>
 				<div style="text-align : right; margin-bottom: 10px;">
-	              <form th:action="@{/member/memberList}">
+	              <form th:action="@{/member/memberWithdrawList}">
 	            	<select name="searchKeyWCM">
 	            		<option value="">카테고리</option>
 	            		<option value="mId">아이디</option>
@@ -130,8 +131,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each = "l, status : ${withdrawAdmitList}">
-							<th:block th:unless="${l.mRevokeFinalDate == null}">
+						<tr th:if="${#lists.size(withdrawCompleteList) > 0}" th:each = "l, status : ${withdrawCompleteList}">
 							<td data-title="번호" th:text="${status.count}"></td>
 							<td data-title="아이디">
 								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
@@ -139,7 +139,9 @@
 							<td data-title="탈퇴사유" th:text="${l.mRevokeReason}"></td>
 							<td data-title="탈퇴신청일" th:text="${l.mRevokeDate}"></td>
 							<td data-title="최종탈퇴일" th:text="${l.mRevokeFinalDate}"></td>
-							</th:block>
+						</tr>
+						<tr th:unless="${#lists.size(withdrawCompleteList) > 0}">
+							<td colspan="5">조회된 내용이 없습니다.</td>
 						</tr>
 					</tbody>
 				</table>

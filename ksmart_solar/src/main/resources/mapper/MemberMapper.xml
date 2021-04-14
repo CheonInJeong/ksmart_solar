@@ -90,13 +90,20 @@
 		FROM 
 			tb_member_revoke
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyWAM == null or searchKeyWAM == ''.toString()">
+				m_revoke_final_date IS NULL
+			</if>
 			<if test="searchKeyWAM != null and searchKeyWAM != ''.toString()">
+				m_revoke_final_date IS NULL AND
 				<choose>
-					<when test="'m_log_in'.equals(searchKeyL)">
-						m_log_in BETWEEN #{searchValueLS} AND #{searchValueLF}
+					<when test="'m_revoke_date'.equals(searchKeyWAM)">
+						m_revoke_date BETWEEN #{searchValueWAMS} AND #{searchValueWAMF}
+					</when>
+					<when test="'m_revoke_cancel_date'.equals(searchKeyWAM)">
+						m_revoke_cancel_date BETWEEN #{searchValueWAMS} AND #{searchValueWAMF}
 					</when>
 					<otherwise>
-						${searchKeyL} LIKE CONCAT ('%',#{searchValueL},'%')
+						${searchKeyWAM} LIKE CONCAT ('%',#{searchValueWAM},'%')
 					</otherwise>
 				</choose>
 			</if>
@@ -114,6 +121,25 @@
 			, m_revoke_final_date	AS mRevokeFinalDate
 		FROM 
 			tb_member_revoke
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyWCM == null or searchKeyWCM == ''.toString()">
+				m_revoke_cancel_date IS NULL
+			</if>
+			<if test="searchKeyWCM != null and searchKeyWCM != ''.toString()">
+				m_revoke_cancel_date IS NULL AND
+				<choose>
+					<when test="'m_revoke_date'.equals(searchKeyWCM)">
+						m_revoke_date BETWEEN #{searchValueWCMS} AND #{searchValueWCMF}
+					</when>
+					<when test="'m_revoke_final_date'.equals(searchKeyWCM)">
+						m_revoke_final_date BETWEEN #{searchValueWCMS} AND #{searchValueWCMF}
+					</when>
+					<otherwise>
+						${searchKeyWCM} LIKE CONCAT ('%',#{searchValueWCM},'%')
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 로그인 기록 조회 -->

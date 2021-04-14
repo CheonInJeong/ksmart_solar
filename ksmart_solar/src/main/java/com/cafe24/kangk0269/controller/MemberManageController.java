@@ -141,7 +141,9 @@ public class MemberManageController {
 									, @RequestParam(name="searchValueWCMF", required=false) String searchValueWCMF) {
 		
 		List<MemberRevokeDTO> withdrawAdmitList = memberService.getWithdrawAdmitMember(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
+		List<MemberRevokeDTO> withdrawCompleteList = memberService.getWithdrawCompleteMember(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
 		model.addAttribute("withdrawAdmitList", withdrawAdmitList);
+		model.addAttribute("withdrawCompleteList", withdrawCompleteList);
 		return "/member/memberWithdrawList";
 	}
 	
