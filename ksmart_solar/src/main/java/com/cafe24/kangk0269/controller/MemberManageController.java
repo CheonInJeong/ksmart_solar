@@ -99,29 +99,48 @@ public class MemberManageController {
 	
 	@GetMapping("/member/memberList")
 	public String MemberList(Model model
-							, @RequestParam(name="searchKeyM", required=false) String searchKeyM
-							, @RequestParam(name="searchValueM", required=false) String searchValueM) {
-		System.out.println("카테고리 : " + searchKeyM);
-		System.out.println("검색내용 : " + searchValueM);
-		List<MemberDTO> memberList = memberService.getAllMember(searchKeyM, searchValueM);
-		System.out.println("전체회원조회 : " + memberList);
-		model.addAttribute("memberList", memberList);
+							, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
+							, @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
+							, @RequestParam(name="searchValueRM", required=false) String searchValueRM) {
+		System.out.println("활동카테고리 : " + searchKeyAM);
+		System.out.println("활동검색내용 : " + searchValueAM);
+		System.out.println("휴면카테고리 : " + searchKeyRM);
+		System.out.println("휴면검색내용 : " + searchValueRM);
+		List<MemberDTO> activememberList = memberService.getActiveMember(searchKeyAM, searchValueAM);
+		List<MemberDTO> restmemberList = memberService.getRestMember(searchKeyRM, searchValueRM);
+		System.out.println("활동회원조회 : " + activememberList);
+		System.out.println("휴면회원조회 : " + restmemberList);
+		model.addAttribute("activememberList", activememberList);
+		model.addAttribute("restmemberList", restmemberList);
 		return "/member/memberList";
 	}
 	
 	@GetMapping("/member/memberLoginHistory")
-	public String MemberLoginHistory(Model model) {
-		
-		Map<String, Object> resultMap = memberService.getLoginHistory();
+	public String MemberLoginHistory(Model model
+									, @RequestParam(name="searchKeyL", required=false) String searchKeyL
+									, @RequestParam(name="searchValueL", required=false) String searchValueL
+									, @RequestParam(name="searchValueLS", required=false) String searchValueLS
+									, @RequestParam(name="searchValueLF", required=false) String searchValueLF) {
+		System.out.println("로그인 기록 카테고리 : " + searchKeyL);
+		Map<String, Object> resultMap = memberService.getLoginHistory(searchKeyL, searchValueL, searchValueLS, searchValueLF);
 		System.out.println(resultMap.get("loginHistory"));
 		model.addAttribute("loginHistoryList", resultMap.get("loginHistory"));
 		return "/member/memberLoginHistory";
 	}
 
 	@GetMapping("/member/memberWithdrawList")
-	public String MemberWithdrawList(Model model) {
+	public String MemberWithdrawList(Model model
+									, @RequestParam(name="searchKeyWAM", required=false) String searchKeyWAM
+									, @RequestParam(name="searchValueWAM", required=false) String searchValueWAM
+									, @RequestParam(name="searchValueWAMS", required=false) String searchValueWAMS
+									, @RequestParam(name="searchValueWAMF", required=false) String searchValueWAMF
+									, @RequestParam(name="searchKeyWCM", required=false) String searchKeyWCM
+									, @RequestParam(name="searchValueWCM", required=false) String searchValueWCM
+									, @RequestParam(name="searchValueWCMS", required=false) String searchValueWCMS
+									, @RequestParam(name="searchValueWCMF", required=false) String searchValueWCMF) {
 		
-		List<MemberRevokeDTO> withdrawAdmitList = memberService.getWithdrawAdmitMember();
+		List<MemberRevokeDTO> withdrawAdmitList = memberService.getWithdrawAdmitMember(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
 		model.addAttribute("withdrawAdmitList", withdrawAdmitList);
 		return "/member/memberWithdrawList";
 	}

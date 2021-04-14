@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>회원리스트조회</title>
@@ -38,7 +38,7 @@
 						<h4><i class="fa fa-angle-right"></i> 활동회원리스트</h4>
 						<div style="text-align : right; margin-bottom: 10px;">
 			              <form th:action="@{/member/memberList}">
-			            	<select name="searchKeyM">
+			            	<select name="searchKeyAM">
 			            		<option >카테고리</option>
 			            		<option value="mId">아이디</option>
 			            		<option value="mName">이름</option>
@@ -46,7 +46,7 @@
 			            		<option value="mAddr">주소</option>
 			            		<option value="mSubDate">회원가입(월일)</option>
 			            	</select>
-			            	<input type="text" placeholder="검색어" name="searchValueM" th:value="${searchValueM}">
+			            	<input type="text" placeholder="검색어" name="searchValueAM" th:value="${searchValueAM}">
 			            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 			               </form>
 		            	</div>
@@ -65,8 +65,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:if="${#lists.size(memberList) > 0}" th:each="l, status : ${memberList}">
-									<th:block th:if="${l.mRevokeCheck == 'N' and l.mRestCheck == 'N' and l.mRevokeDelayCheck == 'N'}">
+								<tr th:if="${#lists.size(activememberList) > 0}" th:each="l, status : ${activememberList}">
 									<td data-title="번호" th:text="${status.count}"></td>
 									<td data-title="아이디">
 										<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
@@ -78,9 +77,8 @@
 									<td data-title="수정">
 										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 									</td>
-									</th:block>
 								</tr>
-								<tr th:unless="${#lists.size(memberList) > 0}">
+								<tr th:unless="${#lists.size(activememberList) > 0}">
 									<td colspan="7">조회된 내용이 없습니다.</td>
 								</tr>
 							</tbody>
@@ -111,6 +109,20 @@
 		    <div role="tabpanel" class="tab-pane" id="profile">
 		            <div class="content-panel" style="padding : 30px;">
 						<h4><i class="fa fa-angle-right"></i> 휴면회원리스트</h4>
+			              	<div style="text-align : right; margin-bottom: 10px;">
+				              <form th:action="@{/member/memberList}">
+				            	<select name="searchKeyRM">
+				            		<option >카테고리</option>
+				            		<option value="mId">아이디</option>
+				            		<option value="mName">이름</option>
+				            		<option value="mLevel">권한</option>
+				            		<option value="mAddr">주소</option>
+				            		<option value="mSubDate">회원가입(월일)</option>
+				            	</select>
+				            	<input type="text" placeholder="검색어" name="searchValueRM" th:value="${searchValueRM}">
+				            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+				               </form>
+			            	</div>
 			              <section id="no-more-tables">
 			              	<hr>
 			                <table class="table table-condensed cf">
@@ -126,8 +138,7 @@
 								</tr>
 							</thead>
 							<tbody>
-								<tr th:each="l, status : ${memberList}">
-									<th:block th:if="${l.mRestCheck == 'Y'}">
+								<tr th:if="${#lists.size(restmemberList) > 0}" th:each="l, status : ${restmemberList}">
 									<td data-title="번호" th:text="${status.count}"></td>
 									<td data-title="아이디">
 										<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
@@ -139,7 +150,9 @@
 									<td data-title="수정">
 										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
 									</td>
-									</th:block>
+								</tr>
+								<tr th:unless="${#lists.size(restmemberList) > 0}">
+									<td colspan="7">조회된 내용이 없습니다.</td>
 								</tr>
 							</tbody>
 						</table>
