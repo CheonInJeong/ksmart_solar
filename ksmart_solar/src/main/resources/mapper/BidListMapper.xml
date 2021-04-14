@@ -378,4 +378,26 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			and b_check ='Y'
 		</trim>
 	</update>
+	<insert id="addqnaRequest" parameterType="BoardSellerDTO">
+		INSERT INTO tb_board_seller
+			( 
+			b_subject, 
+			b_contents, 
+			m_id_buyer, 
+			m_id_seller,
+			announced_code, 
+			b_photo, 
+			b_reg_date, 
+			b_bid_type)
+		VALUES 
+			(
+			#{bSubject}, 
+			#{bContents}, 
+			#{mIdBuyer}, 
+			#{mIdSeller}, 
+			#{announcedCode}, 
+			#{bPhoto}, 
+			NOW(), 
+			#{bBidType})
+	</insert>
 </mapper>

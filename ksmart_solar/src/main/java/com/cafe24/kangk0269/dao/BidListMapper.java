@@ -10,6 +10,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.cafe24.kangk0269.dto.BidListDTO;
+import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 
 @Mapper
@@ -58,6 +59,7 @@ public interface BidListMapper {
 	public int updateBidTrade(Map<String,Object> List);
 	//입찰 성공 -> 계약대기
 	public int updateBidTradeWait(Map<String,Object> List);
-	
+	//문의하기 등록
+	public int addqnaRequest(BoardSellerDTO boardSellerDTO);
 
 }

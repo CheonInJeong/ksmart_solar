@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>문의내역</title>
@@ -14,19 +14,20 @@
 			<a href="/buy/applyRefund" style="text-decoration: none;">문의내역</a>
 		</div>
 		<div id="container-header-space"></div>
-		<div class="row mt">
+		 <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel" style="padding: 30px;">
               <h4><i class="fa fa-angle-right"></i>문의내역</h4><hr>
                <div style="text-align : right; margin-bottom: 10px;">
-	              <form th:action="@{/sell/myHistory}">
+	              <form th:action="@{/buy/qna}">
 	            	<select name="searchKey">
-	            		<option value="bPlCode">제목</option>
-	            		<option value="bzPlName">작성자</option>
-	            		<option value="bzPlTitle">구분</option>
+	            		<option value="0">카테고리</option>
+	            		<option value="bSubject">제목</option>
+	            		<option value="mIdSeller">판매자</option>
+	            		<option value="bBidType">구분</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValue">
-	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
 	               </form>
                </div>
               <table class="table table-striped table-advance table-hover">
@@ -35,44 +36,34 @@
                     <th><i class="fa fa-bullhorn"></i>공고코드</th>
                     <th>구분</th>
                     <th><i class="fa fa-bookmark"></i>문의제목</th>
-					<th class="hidden-phone"><i class="fa fa-question-circle"></i>문의자</th>
+					<th class="hidden-phone"><i class="fa fa-question-circle"></i>판매자</th>
                     <th><i class=" fa fa-edit"></i>문의시간</th>
                     <th><i class=" fa fa-edit"></i>조회수</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-	                   <td>b_pl_code</td>
-	                   <td>발전소</td>
-	                   <td>질문합니다.</td>
-	                   <td>id005</td>
-	                   <td>2021-03-24</td>
-	                   <td>0</td>
+                  <tr th:if="${qnaList!=null and qnaList.size()>0}" th:each="list:${qnaList}">
+	                   <td th:text="${list.announcedCode}"></td>
+	                   <td th:if="${list.bBidType == 1}">발전소</td>
+	                   <td th:if="${list.bBidType == 2}">부품</td>
+	                   <td style="text-align:left"><a th:href="@{/sell/qnaDetail(idx=${list.bIdx})}">[[${list.bSubject}]]</a></td>
+	                   
+	                   
+	                   <td th:text="${list.mIdSeller}"></td>
+	                   <td th:text="${list.bRegDate}"></td>
+	                   <td th:text="${list.bView}"></td>
+	                   
                  </tr>
-                 
+                 <tr th:unless="${qnaList!=null and qnaList.size()>0}">
+	                	<td>문의글이 없습니다.</td>
+                 </tr>
                 </tbody>
                 <tfoot>
                 	 <tr>
                   	<td colspan ="10" style="text-align:center;">
-                  		<nav>
-							  <ul class="pagination">
-							    <li>
-							      <a href="#" aria-label="Previous">
-							        <span aria-hidden="true">&laquo;</span>
-							      </a>
-							    </li>
-							    <li><a href="#">1</a></li>
-							    <li><a href="#">2</a></li>
-							    <li><a href="#">3</a></li>
-							    <li><a href="#">4</a></li>
-							    <li><a href="#">5</a></li>
-							    <li>
-							      <a href="#" aria-label="Next">
-							        <span aria-hidden="true">&raquo;</span>
-							      </a>
-							    </li>
-							  </ul>
-						</nav>
+                  		<th:block layout:fragment="paging">
+                  			<nav th:replace="fragments/boardSellerPagination :: pagination"></nav>
+                  		</th:block>
                   	</td>
                   </tr>
                 </tfoot>
@@ -87,6 +78,31 @@
 			buy.addClass('active');
 			buy.parent().find('.sub').css('display','block');
 			buy.parent().find('.sub').children().eq(2).addClass('active');
+		</script>
+		<script>
+				$('#searchBtn').click(function(){
+					var searchKey = '&searchKey='		+	/*[[ ${searchKey} ]]*/;
+					var searchValue = '&searchValue='	+	/*[[ ${searchValue} ]]*/;
+					var selected = $('select option:selected');
+					var select = $('select[name="searchKey"]');
+					
+					select.children().each(function(){
+						if($(this).val()==/*[[ ${searchKey} ]]*/){
+							$(this).prop('selected',true);
+						}
+					})
+					if(selected.val()==0){
+						alert('카테고리를 선택해주세요.');
+					}
+					console.log(selected.val());
+					
+				})
+				
+				function movePage(uri, queryString) {
+					location.href = uri + queryString + searchKey + searchValue;
+				}
+			
+		
 		</script>
 	</th:block>
 </html>

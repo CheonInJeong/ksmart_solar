@@ -25,7 +25,7 @@ public class BoardSellerService {
 	}
 	
 	//아이디로 문의글 가져오기 by 천인정
-	public List<BoardSellerDTO> getQnaListById(String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+	public List<BoardSellerDTO> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
 	
 		if(searchKey!=null) {
 			if("bSubject".equals(searchKey)) {
@@ -34,6 +34,8 @@ public class BoardSellerService {
 				searchKey ="m_id_buyer";
 			}else if("bBidType".equals(searchKey)){
 				searchKey ="b_bid_type";
+			}else if("mIdSeller".equals(searchKey)){
+				searchKey ="m_id_seller";
 			}
 		}
 		if(searchValue!=null) {
@@ -45,14 +47,15 @@ public class BoardSellerService {
 			}
 		}
 		
+		
 		List<BoardSellerDTO> boardSellerList = null;
-		int boardSellerCount = boardSellerMapper.getQnaListCount(id, searchKey, searchValue, boardSellerDTO);
+		int boardSellerCount = boardSellerMapper.getQnaListCount(state,id, searchKey, searchValue, boardSellerDTO);
 		Pagination pagination = new Pagination(boardSellerDTO);
 		pagination.setTotalRecordCount(boardSellerCount);
 		boardSellerDTO.setPagination(pagination);
 		
 		if(boardSellerCount>0) {
-			boardSellerList = boardSellerMapper.getQnaListById(id, searchKey, searchValue, boardSellerDTO);
+			boardSellerList = boardSellerMapper.getQnaListById(state,id, searchKey, searchValue, boardSellerDTO);
 		}
 		
 		return boardSellerList;

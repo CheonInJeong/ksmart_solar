@@ -39,7 +39,27 @@
   		
   		<!-- 문의글 갯수 가져오기 by천인정 -->
   		<select id="getQnaListCount" parameterType="map" resultType="int">
-  			SELECT COUNT(1)	FROM tb_board_seller WHERE m_id_seller =#{mIdSeller}
+  			SELECT 
+  				COUNT(1)	
+  			FROM 
+  				tb_board_seller 
+  			<trim prefix="WHERE" prefixOverrides="AND / OR ">
+					<if test="state!=null and state.toString() == 'sell'.toString()">
+						<if test="mId!=null and ''.toString()">
+							m_id_seller = #{mId}
+						
+						</if>
+					</if>
+					<if test="state!=null and state.toString() == 'buy'.toString()">
+						<if test="mId!=null and ''.toString()">
+							m_id_buyer = #{mId}
+						
+						</if>
+					</if>
+					<if test="searchValue!=null and ''.toString()">
+						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+					</if>
+			</trim>
   		</select>
   		
   		<!-- 게시글 조회수 +1 by 천인정 -->
@@ -68,15 +88,22 @@
 			FROM 
 				tb_board_seller 
 			<trim prefix="WHERE" prefixOverrides="AND / OR ">
-					<if test="mIdSeller!=null and ''.toString()">
-						m_id_seller = #{mIdSeller}
-					
+					<if test="state!=null and state.toString() == 'sell'.toString()">
+						<if test="mId!=null and ''.toString()">
+							m_id_seller = #{mId}
+						
+						</if>
+					</if>
+					<if test="state!=null and state.toString() == 'buy'.toString()">
+						<if test="mId!=null and ''.toString()">
+							m_id_buyer = #{mId}
+						
+						</if>
 					</if>
 					<if test="searchValue!=null and ''.toString()">
 						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
 					</if>
-				
-				</trim>
+			</trim>
 			LIMIT
 					#{boardSellerDTO.pagination.firstRecordIndex},#{boardSellerDTO.recordsPerPage}
 			
@@ -166,8 +193,6 @@
 				b_idx=#{bIdx}
 			AND 
 				cmt_delete_yn = 'N' 
-
-  		
   		</select>
   		
   		
