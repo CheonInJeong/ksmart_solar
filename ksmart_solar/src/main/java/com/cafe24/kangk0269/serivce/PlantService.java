@@ -286,7 +286,7 @@ public class PlantService {
 		int dayGen = 0;
 		int monthGen = (int) Math.round((Double.parseDouble(sumMonthData) *10000/36) * ((double)bzPlPower/1000));
 		int[] radData = new int[24];
-		for(int i=0; i<pr.size(); i++) {
+		for(int i=0; i<24; i++) {
 			String Icsr = pr.get(i).getPlRadIcsr();
 			if("".equals(Icsr)) {
 				radData[i] = 0;
@@ -294,7 +294,6 @@ public class PlantService {
 				radData[i] = (int) Math.round(Double.parseDouble(pr.get(i).getPlRadIcsr())*10000/36);
 			}
 			dayGen += radData[i] * ((double)bzPlPower/1000);
-			System.out.println(dayGen);
 		}
 		PlantKpxDTO pk = new PlantKpxDTO();
 		pk = plantMapper.getKpxTodayData();
