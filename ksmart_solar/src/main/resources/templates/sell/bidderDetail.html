@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>테스트</title>
@@ -17,7 +17,7 @@
               <h4><i class="fa fa-angle-right"></i>입찰자 정보</h4>
              	<input type="hidden" th:value="${member.announcedCode}" id="announcedCode">
               <hr>
-              <table class="table">
+              <table class="table" style="text-align:left">
               	<tr>
               		<td>아이디</td>
               		<td th:text="${member.businessDTO.mId}"></td>
@@ -44,7 +44,7 @@
             <div class="content-panel"  style="padding: 30px;">
               <h4><i class="fa fa-angle-right"></i>입찰 정보</h4>
               <hr>
-              <table class="table">
+              <table class="table"  style="text-align:left">
               	<tr>
               		<td>입찰코드</td>
               		<td colspan="2" th:text ="${member.bCode}" id="bCode"></td>
