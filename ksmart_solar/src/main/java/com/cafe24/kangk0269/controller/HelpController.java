@@ -43,8 +43,10 @@ public class HelpController {
 	
 	//문의답글 처리
 	@PostMapping("/help/addReQna")
-	public String addReQna(BoardQnaDTO boardQnaDTO) {
+	public String addReQna(BoardQnaDTO boardQnaDTO
+							,@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
 		boardQnaService.addReQna(boardQnaDTO);
+		boardQnaService.addRefCode(bQnaIdx);
 		return "redirect:/help/qna"; 
 	}
 	 
