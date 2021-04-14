@@ -53,14 +53,30 @@ public class MemberService {
 	}
 	
 	// 탈퇴신청회원 조회
-	public List<MemberRevokeDTO> getWithdrawAdmitMember(){
-		return memberMapper.getWithdrawAdmitMember();
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF){
+		if(searchKeyWAM != null && searchKeyWAM != "") {
+			if("mId".equals(searchKeyWAM)) {
+				searchKeyWAM = "m_id";
+			}else if("mRevokeDate".equals(searchKeyWAM)) {
+				searchKeyWAM = "m_revoke_date";
+			}else {
+				searchKeyWAM = "m_revoke_cancel_date";
+			}
+		}
+		
+		return memberMapper.getWithdrawAdmitMember(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
 	}
 	
 	// 로그인 기록 조회
-	public Map<String, Object> getLoginHistory(){
-		
-		List<Map<String, Object>> loginHistory = memberMapper.getLoginHistory();
+	public Map<String, Object> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){
+		if(searchKeyL != null && searchKeyL != "") {
+			if("mId".equals(searchKeyL)) {
+				searchKeyL = "m_id";
+			}else {
+				searchKeyL = "m_log_in";
+			}
+		}
+		List<Map<String, Object>> loginHistory = memberMapper.getLoginHistory(searchKeyL, searchValueL, searchValueLS, searchValueLF);
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("loginHistory", loginHistory);
 		
@@ -169,21 +185,22 @@ public class MemberService {
 		return managerList;
 	}
 	
-	public List<MemberDTO> getAllMember(String searchKeyM, String searchValueM){
-		if(searchKeyM != null) {
-			if("mId".equals(searchKeyM)) {
-				searchKeyM = "m_id";
-			}else if("mName".equals(searchKeyM)) {
-				searchKeyM = "m_name";
-			}else if("mLevel".equals(searchKeyM)) {
-				searchKeyM = "m_level";
-			}else if("mAddr".equals(searchKeyM)) {
-				searchKeyM = "m_addr";
+	// 활동회원조회
+	public List<MemberDTO> getActiveMember(String searchKeyAM, String searchValueAM){
+		if(searchKeyAM != null) {
+			if("mId".equals(searchKeyAM)) {
+				searchKeyAM = "m_id";
+			}else if("mName".equals(searchKeyAM)) {
+				searchKeyAM = "m_name";
+			}else if("mLevel".equals(searchKeyAM)) {
+				searchKeyAM = "m_level";
+			}else if("mAddr".equals(searchKeyAM)) {
+				searchKeyAM = "m_addr";
 			}else {
-				searchKeyM = "m_sub_date";
+				searchKeyAM = "m_sub_date";
 			}
 		}
-		List<MemberDTO> memberList = memberMapper.getAllMember(searchKeyM, searchValueM);
+		List<MemberDTO> memberList = memberMapper.getActiveMember(searchKeyAM, searchValueAM);
 		
 		for(int i=0; i < memberList.size(); i++) {
 			int mLevel = memberList.get(i).getmLevel();
@@ -203,5 +220,42 @@ public class MemberService {
 		
 		return memberList;
 
+	}
+	
+	// 휴면회원조회
+	public List<MemberDTO> getRestMember(String searchKeyRM, String searchValueRM){
+		if(searchKeyRM != null) {
+			if("mId".equals(searchKeyRM)) {
+				searchKeyRM = "m_id";
+			}else if("mName".equals(searchKeyRM)) {
+				searchKeyRM = "m_name";
+			}else if("mLevel".equals(searchKeyRM)) {
+				searchKeyRM = "m_level";
+			}else if("mAddr".equals(searchKeyRM)) {
+				searchKeyRM = "m_addr";
+			}else {
+				searchKeyRM = "m_sub_date";
+			}
+		}
+		List<MemberDTO> memberList = memberMapper.getRestMember(searchKeyRM, searchValueRM);
+		
+		for(int i=0; i < memberList.size(); i++) {
+			int mLevel = memberList.get(i).getmLevel();
+			if(mLevel == 1) {
+				memberList.get(i).setmLevelName("관리자");
+			}
+			if(mLevel == 2) {
+				memberList.get(i).setmLevelName("태양광");
+			}
+			if(mLevel == 3) {
+				memberList.get(i).setmLevelName("재활용");
+			}
+			if(mLevel == 4) {
+				memberList.get(i).setmLevelName("일반");
+			}
+		}
+		
+		return memberList;
+		
 	}
 }
