@@ -17,10 +17,13 @@ public interface MemberMapper {
 	public List<MemberAccountDTO> getAllBankAccount();
 	
 	// 탈퇴신청회원 조회
-	public List<MemberRevokeDTO> getWithdrawAdmitMember();
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
+
+	// 탈퇴완료회원 조회
+	public List<MemberRevokeDTO> getWithdrawCompleteMember();
 	
 	// 로그인 기록 조회
-	public List<Map<String,Object>> getLoginHistory();
+	public List<Map<String,Object>> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
 	
 	//개인 비밀번호수정
 	public int modifyPw(String login_id, String newPw);
@@ -36,8 +39,11 @@ public interface MemberMapper {
 	// 전체회원정보 수정
 	public int modifyMember(MemberDTO member);
 	
-	// 전체회원조회
-	public List<MemberDTO> getAllMember(String searchKeyM, String searchValueM);
+	// 활동회원조회
+	public List<MemberDTO> getActiveMember(String searchKeyAM, String searchValueAM);
+	
+	// 휴면회원조회
+	public List<MemberDTO> getRestMember(String searchKeyRM, String searchValueRM);
 	
 	// 회원가입
 	public int addMember(MemberDTO member);

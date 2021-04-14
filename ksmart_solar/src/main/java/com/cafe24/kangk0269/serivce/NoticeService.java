@@ -3,12 +3,17 @@ package com.cafe24.kangk0269.serivce;
 import java.util.List;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.common.FileUtils;
 import com.cafe24.kangk0269.dao.NoticeMapper;
+import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.NoticeDTO;
 
 @Service
@@ -16,10 +21,12 @@ import com.cafe24.kangk0269.dto.NoticeDTO;
 public class NoticeService {
 	
 	private final NoticeMapper noticeMapper;
+	private final FileUtils fileUtils;
 	
 	@Autowired
-	public NoticeService(NoticeMapper noticeMapper) {
+	public NoticeService(NoticeMapper noticeMapper,FileUtils fileUtils) {
 		this.noticeMapper = noticeMapper;
+		this.fileUtils = fileUtils;
 	}
 	
 	@PostConstruct
@@ -54,6 +61,20 @@ public class NoticeService {
 	public NoticeDTO modifyNoticeByIdx(int noticeIdx) {
 		return noticeMapper.modifyNoticeByIdx(noticeIdx);
 		
+	}
+	
+	//공지사항 파일조회
+	public List<FileDTO> getNoticeFileList(){
+		
+		return noticeMapper.getNoticeFileList();
+	}	
+	
+	//공지사항 파일등록
+	public void addNoticeFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
+		List<FileDTO> filelist = fileUtils.parseFileInfo("공지서류",3,"공지서류", multipartHttpServletRequest,request);
+		if(CollectionUtils.isEmpty(filelist)==false) {
+			noticeMapper.addFile(filelist);
+		}
 	}
 	
 	//공지사항 등록

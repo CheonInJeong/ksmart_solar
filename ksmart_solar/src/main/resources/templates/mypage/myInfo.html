@@ -1,25 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>개인 정보 조회</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
-		<!-- Bootstrap core CSS -->
-		  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-		  <!--external css-->
-		  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-fileupload/bootstrap-fileupload.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datepicker/css/datepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-daterangepicker/daterangepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-timepicker/compiled/timepicker.css}" />
-		  <link rel="stylesheet" type="text/css" th:href="@{/lib/bootstrap-datetimepicker/datertimepicker.css}" />
-		  <!-- Custom styles for this template -->
-		  <link th:href="@{/css/style.css}" rel="stylesheet">
-		  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
 		<style>
 			label {
 				text-align:center;

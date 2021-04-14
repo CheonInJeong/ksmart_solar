@@ -59,6 +59,12 @@ public class SellController {
 		
 	}
 	
+	//댓글수 가져오기
+	@RequestMapping(value="/ajax/getCmtCount",method=RequestMethod.POST)
+	public @ResponseBody int getCmtCount(@RequestParam(value="bIdx") int bIdx) {
+		return boardSellerService.getCmtCount(bIdx);
+	}
+	
 	//출금신청 목록 은행 수정
 	@RequestMapping(value="/ajax/updateBankInfo",method=RequestMethod.POST)
 	public @ResponseBody String updateBankInfo(@RequestParam(value="accountNumber") String accountNumber
