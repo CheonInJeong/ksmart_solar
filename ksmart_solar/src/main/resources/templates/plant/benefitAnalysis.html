@@ -35,7 +35,7 @@
 						</div>
 					</div><br>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
-						<div class="h3" style="font-weight: 600;" id="dataDiv" th:data-basedPrice="${basedPrice2}" th:data-startDate="${startDate}">기준금액</div>
+						<div class="h3" style="font-weight: 600;">기준금액</div>
 						<p class="h3">[[${basedPrice}]] <small>[원]</small></p>
 					</div>
 					<div class="col-lg-3 col-md-4 col-sm-6" style="margin: 40px 0 0 0;">
@@ -54,7 +54,7 @@
 		        <div class="row">
 		        <span style="float: right; color: #888;">
 			        <small>수익 = 발전소 용량 x 월별 평균발전량 x 패널 수명 효율</small><br>
-			        <small>비용 = 고정유지비 + 발전소 감가 + 예상유지비(인버터교체비용등 )</small><br>
+			        <small>비용 = 고정유지비 + 예상유지비(인버터교체비용등 )</small><br>
 			        <small>손익 = 수익 - 비용</small>
 		        </span>
 					<canvas id="myChart" style="width: 100%;"></canvas>
@@ -62,14 +62,18 @@
 		        </div>
 			</div>
 		</div>
+		<div hidden="" id="thymeleafData" th:data-bzPlPower="${bzPlPower}" th:data-smp="${smp}" th:data-rec="${rec}" th:data-basedPrice="${basedPrice2}" th:data-startDate="${startDate}"></div>
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script src="/js/plant.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="text/javascript">
-				var basedPrice = $('#dataDiv').attr('data-basedPrice');
-				var startDate = $('#dataDiv').attr('data-startDate');
+				var plantPower = $('#thymeleafData').attr('data-bzPlPower');
+				var smp = $('#thymeleafData').attr('data-smp');
+				var rec = $('#thymeleafData').attr('data-rec');
+				var basedPrice = $('#thymeleafData').attr('data-basedPrice');
+				var startDate = $('#thymeleafData').attr('data-startDate');
 				///////////////감가 그래프 계산////////////////
 				var labelsArray = []
 				var residualPriceArray = [basedPrice];
@@ -79,10 +83,11 @@
 				var todayMonth = new String(date.getMonth()+1); 
 				var startYear = startDate.substring(0,4);
 				var startMonth = startDate.substring(4,6);
+				var calculMonth = startMonth;
 				var basedRatePrice = basedPrice;
 				if(todayMonth.length == 1){ 
 					todayMonth = "0" + todayMonth; 
-				} 
+				}
 				var nowDate = todayYear + '/' + todayMonth;
 				for(var i=0; i<20; i++){
 					for(var j=0; j<12; j++){
@@ -90,6 +95,7 @@
 						if(basedPrice > 0){
 							residualPriceArray.push(Math.round(basedPrice));
 						}
+						
 					}
 				}
 				for(var i=0; i<240; i++){
@@ -106,17 +112,40 @@
 					}
 				}
 				
-				
+				///////////////////// 수익, 비용, 손익 계산///////////////////////
+				var benefitArray = [];	//수익 >> 현재 수익 * 월별 예상 발전량 * 연도별로 줄어드는 % (연간 1.5% 감소)
+				var costArray = [];	//비용 >> 입력한 비용에 %를 곱하고 10년단위로 인버터 비용 추가, 연간 kw당 1.2만원, 인버터 비용 1번교체 1kw당 12만
+				var incomeArray = [];	//손익 >> 수익 - 비용
+				var incomeSumArray = []; //누적 손익
 				//모듈 제조사 연도별 효율
 				var efficiencyRate = [100.0, 99.2, 98.4, 97.6, 96.8, 96.1, 95.3, 94.5, 93.8, 93.0, 91.5, 90.8, 90.1, 89.4, 88.7, 87.9, 87.2, 86.5, 85.9, 85.1]
 				//월별 발전시간(쏠라커넥트)
-				var generationTime = [2.82, 3.52, 4.35, 4.72, 4.86, 4.45, 3.33, 3.77, 3.38, 3.71, 2.96, 2.57]
+				var generationTime = [87.42,98.56,134.85,141.6,150.66,133.5,103.23,116.87,101.4,115.01,88.8,79.67]
+				var count = 0;
+				var benefitSum = 0;
+				//인버터 가격, 월유지비 * 유지비는 증가
 				
 				
 				
-				var chartData1 = [];	//수익 >> 현재 수익 * 월별 예상 발전량 * 연도별로 줄어드는 % (연간 1.5% 감소)
-				var chartData2 = [];	//비용 >> 입력한 비용에 %를 곱하고 10년단위로 인버터 비용 추가
-				var chartData3 = [];	//손익 >> 수익 - 비용
+				for(var i=0; i<20; i++){
+					for(var j=0; j<12; j++){
+						var genPower = plantPower*efficiencyRate[i]*generationTime[j]/100;
+						console.log(genPower);
+						if(calculMonth == 12){
+							benefitArray[count] = Math.round((genPower*smp) + (rec/1000 * genPower));
+							calculMonth = 1;
+						}else{
+							benefitArray[count] = Math.round((genPower*smp) + (rec/1000 * genPower));
+							calculMonth++;
+						}
+						benefitSum = benefitSum + Math.round((genPower*smp) + (rec/1000 * genPower));
+						incomeSumArray[count] = benefitSum;
+						count++;
+					}
+				}
+				
+				console.log(benefitArray);
+				
 				//수익 계산공식, 비용 계산공식 화면에 표시
 				
 				chartDraw();
@@ -129,18 +158,38 @@
 					        datasets: [
 					        	{
 					        		label: '예상 수익', 
-					        		data: chartData1, 
+					        		data: benefitArray, 
 					        		backgroundColor: 'rgb(255, 99, 132)', 
 					        		borderColor: 'rgb(255, 99, 132)', 
 					        		oreder: 0, 
 					        		yAxisID: 'left'}
 					        	,{
 					        		label: '예상 비용', 
-					        		data: chartData1, 
+					        		data: costArray, 
 					        		backgroundColor: 'rgb(255, 99, 132)', 
 					        		borderColor: 'rgb(255, 99, 132)', 
 					        		oreder: 1, 
 					        		yAxisID: 'left'}
+					        	,{
+					        		label: '예상 손익', 
+					        		data: incomeArray, 
+					        		type: 'line',
+					        		backgroundColor: '#465FC5', 
+					        		borderColor: '#465FC5',
+					        		fill: false, 
+					        		order: 3, 
+					        		yAxisID: 'left'
+					        	}
+					        	,{
+					        		label: '누적 손익', 
+					        		data: incomeSumArray, 
+					        		type: 'line',
+					        		backgroundColor: '#465FC5', 
+					        		borderColor: '#465FC5',
+					        		fill: false, 
+					        		order: 4, 
+					        		yAxisID: 'right'
+					        	}
 				        		,{
 				        			label: '예상 잔존가치', 
 				        			data: residualPriceArray,
@@ -150,16 +199,6 @@
 				        			order: 2, 
 				        			yAxisID: 'right'
 				        		}
-					        	,{
-					        		label: '예상 손익', 
-					        		data: chartData1, 
-					        		type: 'line',
-					        		backgroundColor: '#465FC5', 
-					        		borderColor: '#465FC5',
-					        		fill: false, 
-					        		order: 3, 
-					        		yAxisID: 'left'
-					        	}
 					        ],
 					        labels: labelsArray
 					    },

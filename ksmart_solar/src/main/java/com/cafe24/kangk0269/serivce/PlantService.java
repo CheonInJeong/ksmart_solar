@@ -112,10 +112,13 @@ public class PlantService {
 		//리턴해야할 것들
 		//240개 값, 유지비용,
 		int[] benefitGraph = new int[240];
-		
+		PlantKpxDTO pk = new PlantKpxDTO();
+		pk = plantMapper.getKpxTodayData();
 		List<BusinessPlantDTO> plantList = plantMapper.getPlantListByCode(bzCode);
 		model.addAttribute("bzPlName", plantList.get(0).getBzPlName());
-		
+		model.addAttribute("bzPlPower", plantList.get(0).getBzPlPower());
+		model.addAttribute("smp", Double.parseDouble(pk.getPlKpxSmpShoreAvg().replace(",", "")));
+		model.addAttribute("rec", Double.parseDouble(pk.getPlKpxRecAvg().replace(",", "")));
 		return benefitGraph;
 	}
 

@@ -14,10 +14,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.cafe24.kangk0269.dto.BusinessDTO;
-import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
-import com.cafe24.kangk0269.dto.PlantDepreciationDTO;
 import com.cafe24.kangk0269.serivce.ComponentService;
 
 @Controller
