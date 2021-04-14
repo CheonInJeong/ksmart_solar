@@ -47,10 +47,10 @@ public interface BidListMapper {
 												@Param(value="bidListDTO")BidListDTO bidListDTO);
 	//환불 가능한 목록 조회 갯수
 	public int getApplyRefundListCount(@Param(value="id") String id,
-													@Param(value="status")String status,
-													@Param(value="searchKey")String searchKey,
-													@Param(value="searchValue")String searchValue, 
-													@Param(value="bidListDTO")BidListDTO bidListDTO);
+										@Param(value="status")String status,
+										@Param(value="searchKey")String searchKey,
+										@Param(value="searchValue")String searchValue, 
+										@Param(value="bidListDTO")BidListDTO bidListDTO);
 	//입찰상태 변경
 	public int updateBidStatus(Map<String,Object> List);
 	//입찰 성공 -> 입찰 종료
@@ -61,5 +61,12 @@ public interface BidListMapper {
 	public int updateBidTradeWait(Map<String,Object> List);
 	//문의하기 등록
 	public int addqnaRequest(BoardSellerDTO boardSellerDTO);
+	//문의 수정
+	public int modifyQna(@Param(value="mIdBuyer")String mIdBuyer,
+						@Param(value="bSubject")String bSubject,
+						@Param(value="bContents")String bContents,
+						@Param(value="bIdx")int bIdx); 
+	public int removeQna(int bIdx);
+	public int removeQnaCo(int bIdx);
 
 }
