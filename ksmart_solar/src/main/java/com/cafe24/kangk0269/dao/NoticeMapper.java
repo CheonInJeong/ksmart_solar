@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.NoticeDTO;
 
 @Mapper
@@ -15,6 +16,9 @@ public interface NoticeMapper {
 	//공지 삭제
 	public int removeNotice(int noticeIdx);
 	
+	//공지사항 파일조회
+	public List<FileDTO> getNoticeFileList();
+	
 	//공지사항 상세조회
 	public NoticeDTO getNotice(int noticeIdx);
 	
@@ -23,6 +27,9 @@ public interface NoticeMapper {
 	
 	//공지사항 수정화면
 	public NoticeDTO modifyNoticeByIdx(int noticeIdx);
+	
+	//공지사항 파일등록
+	public int addFile(List<FileDTO> list);
 	
 	//공지사항 등록
 	public int addNotice(NoticeDTO noticeDTO);

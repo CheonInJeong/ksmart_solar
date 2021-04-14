@@ -59,8 +59,7 @@ public interface BoardSellerMapper {
 	public int removeCmt(int idx);
 	
 	//해당 게시글의 댓글 수 가져오기 by천인정
-	public int getCmtCount(@Param(value="bIdx") int idx,
-						   @Param(value="commentDTO") CommentDTO commentDTO);
+	public int getCmtCount(@Param(value="bIdx") int idx);
 	
 	//해당 게시글의 댓글 가져오기 by 천인정
 	public List<CommentDTO> getCommentList(@Param(value="bIdx") int idx,

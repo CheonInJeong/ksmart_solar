@@ -400,4 +400,19 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			NOW(), 
 			#{bBidType})
 	</insert>
+	<update id="modifyQna" parameterType="map">
+		UPDATE tb_board_seller
+		SET
+			b_subject=#{bSubject},
+			b_contents=#{bContents}
+		WHERE
+			b_idx = #{bIdx}
+			and m_id_buyer = #{mIdBuyer}
+	</update>
+	<delete id="removeQna" parameterType="int">
+		DELETE FROM tb_board_seller WHERE b_idx=#{bIdx}
+	</delete>
+	<delete id="removeQnaCo" parameterType="int">
+		DELETE FROM tb_comment WHERE b_idx=#{bIdx}
+	</delete>
 </mapper>

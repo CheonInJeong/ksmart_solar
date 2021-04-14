@@ -83,7 +83,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			VALUES 
 				( #{bQnaSubject}
 				, #{bQnaContents}
-				, '관리자'
+				, #{mId}
 				, NOW()
 				, 0
 				, #{bQnaOpen}
@@ -93,6 +93,15 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, ${bQnaReLev} + 1
 				, ${bQnaReSeq} + 1)
 		</insert>
+	
+	<!-- 부모글 참조번호 추가 -->
+		<update id="addRefCode" parameterType="int">
+			UPDATE tb_board_qna
+			SET
+				b_qna_ref_code = #{bQnaIdx}
+			WHERE
+			 b_qna_idx = #{bQnaIdx}
+		</update>
 		
 		
 	<!-- 문의 등록 -->
@@ -105,6 +114,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_qna_views
 			, b_qna_open
 			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
 			, b_qna_temp)
 		VALUES 
 			( #{bQnaSubject}
@@ -114,6 +126,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, 0
 			, #{bQnaOpen}
 			, #{bQnaPassword}
+			, 0
+			, 0
+			, 0
 			, 'N')
 	</insert>
 	

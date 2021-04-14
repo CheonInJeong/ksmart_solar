@@ -93,9 +93,7 @@
   		  			<result property="bzAddr" column="bz_addr"/>
   		  			<result property="bzDetailAddr" column="bz_detail_addr"/>
   		  		</association>
-
   		  </resultMap>
-  		  
   		  <resultMap type="ComponentDTO" id="componentResultMap">
   		  		<result property ="cpCode" column = "cp_code"/>
   		  		<result property ="mId" column = "m_id"/>
@@ -110,7 +108,6 @@
   		  			<result property="cpCode" column="cp_code"/>
   		  		</association>
   		  </resultMap>
-  		  
   		  <resultMap type="BidComponentDTO" id="bidComponentResultMap">
   				<result property = "mId" column = "m_id"/>
   		  		<result property = "bCpCode" column = "b_cp_code"/>
@@ -134,6 +131,7 @@
   		  			<result property ="cpMaker" column="cp_maker"/>
   		  			<result property ="cpUsedate" column="cp_usedate"/>
   		  			<result property ="cpMakedate" column="cp_makedate"/>
+  		  			<result property ="cpPhoto" column="cp_photo"/>
   		  		</association>
   		  	
   		  </resultMap>
@@ -1103,6 +1101,7 @@
 					c.cp_name,
 					c.cp_info,
 					c.cp_maker,
+					c.cp_photo,
 					c.cp_usedate,
 					c.cp_makedate 
 				FROM 

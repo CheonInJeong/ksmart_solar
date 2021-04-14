@@ -184,7 +184,7 @@
   		</update>
   		
   		<!-- 해당 게시글의 댓글 총 수 가져오기 by 천인정  -->
-  		<select id="getCmtCount" resultType="int" parameterType="map">
+  		<select id="getCmtCount" resultType="int" parameterType="int">
   			SELECT 
 	  			count(1)
 			FROM 
@@ -208,13 +208,13 @@
   				cmt_comment, 
   				cmt_reg_date,  
   				cmt_group_code, 
-  				cmt_order
+  				cmt_order,
+  				cmt_delete_yn
 			FROM 
 				tb_comment
 			WHERE 
 				b_idx=#{bIdx}
-			AND 
-				cmt_delete_yn = 'N' 
+			 
 			order by
 				cmt_reg_date asc
 			<!-- LIMIT
