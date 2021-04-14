@@ -28,6 +28,11 @@ public class BoardQnaService {
 		System.out.println("=========================================================");
 	}
 	
+
+	//부모글 참조번호 추가
+	public void addRefCode(int bQnaIdx) {
+		boardQnaMapper.addRefCode(bQnaIdx);
+	}
 	
 	//임시저장 불러오기
 	public List<BoardQnaDTO> loadQna(String log_id) {

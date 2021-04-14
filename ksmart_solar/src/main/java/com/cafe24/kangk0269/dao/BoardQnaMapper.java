@@ -9,6 +9,9 @@ import com.cafe24.kangk0269.dto.BoardQnaDTO;
 @Mapper
 public interface BoardQnaMapper {
 
+	//부모글 참조번호 추가
+	public int addRefCode(int bQnaIdx);
+	
 	//임시저장 불러오기
 	public List<BoardQnaDTO> loadQna(String log_id);
 	
