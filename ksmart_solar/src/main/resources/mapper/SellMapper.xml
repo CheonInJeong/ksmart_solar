@@ -796,14 +796,15 @@
 					tb_trade_payment_in AS pin
 				on
 					pin.announced_code = p.announced_code
-				
-				<trim prefix="WHERE" prefixOverrides="AND / OR ">
+				where 
+					p.tr_type_code = 14 
+						AND 
+					p.tr_payout_check='N'
+				<trim  prefixOverrides="AND / OR ">
 					<if test="mId!=null and ''.toString()">
 						p.m_id_seller=#{mId}
-						AND 
-						p.tr_type_code = 14 
-						AND 
-						p.tr_payout_check='N'
+						
+						
 					</if>
 					<if test="searchValue!=null and ''.toString()">
 						and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
