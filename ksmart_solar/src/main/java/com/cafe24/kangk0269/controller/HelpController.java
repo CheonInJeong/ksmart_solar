@@ -3,6 +3,7 @@ package com.cafe24.kangk0269.controller;
 import java.io.IOException;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.ScriptUtils;
 import com.cafe24.kangk0269.dto.BoardQnaDTO;
@@ -142,7 +144,7 @@ public class HelpController {
 		return "redirect:/help/notice";
 	}
 	
-	//공지 상세조회 + 공지 조회수 증가
+	//공지 상세조회 + 공지 조회수 증가 + 파일조회
 	@GetMapping("/help/getNotice")
 	public String getNotice(Model model,
 								@RequestParam(name = "noticeIdx", required = false ) int noticeIdx) throws Exception{
@@ -151,6 +153,7 @@ public class HelpController {
 		
 		NoticeDTO noticeDTO = noticeService.getNotice(noticeIdx);
 		model.addAttribute("noticeDTO", noticeDTO);
+		model.addAttribute("fileList", noticeService.getNoticeFileList());
 		return "/help/getNotice";
 		
 	}
@@ -173,11 +176,13 @@ public class HelpController {
 		return "/help//modifyNotice";
 	}
 	
-	//공지등록 처리
+	
+	//공지등록 + 파일등록 처리
 	@PostMapping("/help/addNotice")
-	public String addNotice(NoticeDTO noticeDTO) {
+	public String addNotice(NoticeDTO noticeDTO, MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		System.out.println("noticeDTO-->" + noticeDTO);
 		noticeService.addNotice(noticeDTO);
+		noticeService.addNoticeFile(multipartHttpServletRequest, request);
 		return "redirect:/help/notice";
 		
 	}

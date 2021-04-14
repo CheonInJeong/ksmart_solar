@@ -7,13 +7,6 @@
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
-	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	  <!--external css-->
-	  <link th:href="@{/lib/font-awesome/css/font-awesome.css}" rel="stylesheet" />
-	  <!-- Custom styles for this template -->
-	  <link th:href="@{/css/style.css}" rel="stylesheet">
-	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
-	  <link th:href="@{/css/table-responsive.css}" rel="stylesheet">
 	<style>
 	th, tbody {
 		text-align:center;
@@ -37,14 +30,14 @@
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
-							<th class="col-md-8">공지제목</th>
+							<th class="col-md-7">공지제목</th>
 							<th class="col-md-2">조회수</th>
-							<th class="col-md-2">등록일</th>
+							<th class="col-md-3">등록일</th>
 						</tr>
 					</thead>
 					<tbody>
 						<tr th:each="l : ${noticeDTOList}">
-							<td data-title="공지제목">
+							<td data-title="공지제목" style="text-align: left; padding-left: 20px;">
 								<a th:href=@{/help/getNotice(noticeIdx=${l.noticeIdx})}>[[${l.notSubject}]]</a>
 							</td>
 							<td data-title="조회수" th:text="${l.notViews}"></td>
