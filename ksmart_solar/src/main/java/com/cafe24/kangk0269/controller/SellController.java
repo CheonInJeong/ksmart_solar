@@ -29,6 +29,7 @@ import com.cafe24.kangk0269.dto.CommentDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 import com.cafe24.kangk0269.serivce.BoardSellerService;
 import com.cafe24.kangk0269.serivce.PlantService;
 import com.cafe24.kangk0269.serivce.SellService;
@@ -52,6 +53,25 @@ public class SellController {
 		this.plantService = plantService;
 		this.boardSellerService = boardSellerService;
 		
+	}
+	
+	//출금신청 목록 은행 수정
+	@RequestMapping(value="/ajax/updateBankInfo",method=RequestMethod.POST)
+	public @ResponseBody String updateBankInfo(@RequestParam(value="accountNumber") String accountNumber
+											  ,@RequestParam(value="trPayoutCode") String trPayoutCode
+											  ,@RequestParam(value="accountBank") String accountBank) {
+		System.out.println(accountNumber+"<----수정필요");
+		System.out.println(trPayoutCode+"<----수정필요");
+		System.out.println(accountBank+"<----수정필요");
+		sellService.updateBankInfo(accountBank, accountNumber, trPayoutCode);
+		
+		return "성공";
+	}
+	
+	//출금신청 목록 수정하기 위한 은행 정보 불러오기
+	@RequestMapping(value="/ajax/getBankInfo",method = RequestMethod.POST)
+	public @ResponseBody List<MemberAccountDTO> getBankInfo(HttpSession session) throws Exception {
+		return sellService.getMemberAccountById((String)session.getAttribute("SID"));
 	}
 	
 	//댓글 수정
@@ -304,6 +324,9 @@ public class SellController {
 	@GetMapping("/sell/getBidComponentDetail")
 	public String getBidComponentDetail(@RequestParam(value="bCpCode") String code, Model model)  throws Exception{
 		model.addAttribute("detail", sellService.getComponentDetail(code));
+		model.addAttribute("file", sellService.getsellerFileList(code));
+		model.addAttribute("trade",sellService.getTradeInfo(code));
+		model.addAttribute("qna",boardSellerService.getQnaListForSeller(code));
 		return "sell/bidComponentDetail";
 	}
 	
@@ -313,6 +336,7 @@ public class SellController {
 		
 		model.addAttribute("bidPlantDetail", sellService.getBidPlantDetail(code));
 		model.addAttribute("file", sellService.getsellerFileList(code));
+		model.addAttribute("trade",sellService.getTradeInfo(code));
 		model.addAttribute("qna",boardSellerService.getQnaListForSeller(code));
 		return "sell/bidPlantDetail";
 	}
@@ -494,16 +518,77 @@ public class SellController {
 	
 	//출금 가능한 거래 내역 보기
 	@GetMapping("/sell/paymentList")
-	public String PaymentList(Model model, HttpSession session) throws Exception {
+	public String PaymentList(Model model, 
+							  HttpSession session,
+							  @RequestParam(value="searchKey", required = false) 			String searchKey,
+							  @RequestParam(value="searchValue", required = false) 			String searchValue,
+							  @RequestParam(value="searchKeyApply", required = false) 		String searchKeyApply,
+							  @RequestParam(value="searchValueApply", required = false) 	String searchValueApply,
+							  @RequestParam(value="searchKeyFinish", required = false) 		String searchKeyFinish,
+							  @RequestParam(value="searchValueFinish", required = false)	String searchValueFinish,
+							  @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+							  @RequestParam(value = "recordsPerPage", required = false) 	String recordsPerPage,
+							  @RequestParam(value = "pageSize", required = false) 			String pageSize,
+							  @RequestParam(value = "state", required = false) 				String state
+							  ) throws Exception {
+		
+		TradePriorityDTO search= new TradePriorityDTO();
+		TradePriorityDTO searchApply= new TradePriorityDTO();
+		TradePriorityDTO searchFinish= new TradePriorityDTO();
+		
+		search.setState(1);
+		searchApply.setState(2);
+		searchFinish.setState(3);
+
+		if(savePaging==null || state==null) {
+			savePaging = new SavePaging(3,session);
+			savePaging.setPaging(1, 1, 5, 5);//첫번째 리스트, 맨처음페이징번호,한번에 몇개 보여줄지, 버튼몇개
+			savePaging.setPaging(2, 1, 5, 5);
+			savePaging.setPaging(3, 1, 5, 5);
+		}
+		
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+		savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		
+		
+		//페이지 저장 가져오기
+		savePaging.getPaging(search);
+		savePaging.getPaging(searchApply);
+		savePaging.getPaging(searchFinish);
+
+		if(searchKey != null && searchKey.equals("null")) {
+		searchKey = null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+		searchValue = null;
+		}
+		if(searchKeyApply != null && searchKeyApply.equals("null")) {
+			searchKeyApply = null;
+		}
+		if(searchValueApply != null && searchValueApply.equals("null")) {
+			searchValueApply = null;
+		}
+		if(searchKeyFinish != null && searchKeyFinish.equals("null")) {
+			searchKeyFinish = null;
+		}
+		if(searchValueFinish != null && searchValueFinish.equals("null")) {
+			searchValueFinish = null;
+		}
+
+	
+				
+		
 		String sessionId = (String)session.getAttribute("SID");
 		//출금가능한목록
-		model.addAttribute("available", sellService.getPaymentAvailable(sessionId));
-		
+		model.addAttribute("available", sellService.getPaymentAvailable(sessionId, searchKey, searchValue, search));
 		//출금신청한 목록
-		model.addAttribute("apply", sellService.getPaymentApplyList(sessionId));
+		model.addAttribute("apply", sellService.getPaymentApplyList(sessionId, searchKeyApply, searchValueApply, searchApply));
 		//출금완료된 목록
-		
-		model.addAttribute("finish",sellService.getPaymentOutList(sessionId));
+		model.addAttribute("finish",sellService.getPaymentOutList(sessionId, searchKeyFinish, searchValueFinish, searchFinish));
+		model.addAttribute("search",search);
+		model.addAttribute("searchApply",searchApply);
+		model.addAttribute("searchFinish",searchFinish);
 		return "sell/paymentList";
 	}
 	@GetMapping("/sell/qna")

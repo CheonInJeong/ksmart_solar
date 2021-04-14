@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>테스트</title>
@@ -14,12 +14,13 @@
                <div style="text-align : right; margin-bottom: 10px;">
 	              <form th:action="@{/sell/qna}">
 	            	<select name="searchKey">
+	            		<option value="0">카테고리</option>
 	            		<option value="bSubject">제목</option>
 	            		<option value="mIdBuyer">작성자</option>
 	            		<option value="bBidType">구분</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValue">
-	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
 	               </form>
                </div>
               <table class="table table-striped table-advance table-hover">
@@ -47,7 +48,7 @@
 	                   
                  </tr>
                  <tr th:unless="${qnaList!=null and qnaList.size()>0}">
-	                	<td>문의글이 없습니다.</td>
+	                	<td colspan="6">문의글이 없습니다.</td>
                  </tr>
                 </tbody>
                 <tfoot>
@@ -73,8 +74,15 @@
 		</script>
 		
 		<script>
-			
-		
+				$('#searchBtn').click(function(){
+					var selected = $('select option:selected');
+					if(selected.val()==0){
+						alert('카테고리를 선택해주세요.');
+					}
+					console.log(selected.val());
+					
+				})
+				
 				function movePage(uri, queryString) {
 					location.href = uri + queryString;
 				}

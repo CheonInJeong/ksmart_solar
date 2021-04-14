@@ -19,6 +19,20 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
+	<!-- 임시저장 불러오기  -->
+	<select id="loadQna" parameterType="String" resultMap="BoardQnaDTOMap">
+		SELECT 
+		  b_qna_idx
+		, b_qna_subject
+		, b_qna_reg_date
+		FROM 
+			tb_board_qna
+		WHERE 
+			b_qna_temp = 'Y'
+		AND
+			m_id = #{log_id}
+	</select>
+	
 	<!-- 문의 조회수 증가  -->	 
 	<update id="addQnaViews">
 		UPDATE 
@@ -52,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_qna_idx= #{bQnaIdx}
 	</update>
 	
-	<!-- 답글 등록  -->
+	<!-- 문의답글 등록  -->
 		<insert id="addReQna" parameterType="BoardQnaDTO">
 			INSERT INTO tb_board_qna
 				( b_qna_subject
@@ -62,7 +76,10 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, b_qna_views
 				, b_qna_open
 				, b_qna_password
-				, b_qna_temp)
+				, b_qna_temp
+				, b_qna_ref_code
+				, b_qna_re_lev
+				, b_qna_re_seq)
 			VALUES 
 				( #{bQnaSubject}
 				, #{bQnaContents}
@@ -71,8 +88,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, 0
 				, #{bQnaOpen}
 				, #{bQnaPassword}
-				, 'N')
+				, #{bQnaTemp}
+				, #{bQnaIdx}
+				, ${bQnaReLev} + 1
+				, ${bQnaReSeq} + 1)
 		</insert>
+		
+		
 	<!-- 문의 등록 -->
 	<insert id="addQna" parameterType="BoardQnaDTO">
 		INSERT INTO tb_board_qna
@@ -139,6 +161,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
 			</if>
 		</trim>
-		ORDER BY b_qna_reg_date DESC
+		ORDER BY b_qna_ref_code DESC, b_qna_re_seq ASC
 	</select>
 </mapper>

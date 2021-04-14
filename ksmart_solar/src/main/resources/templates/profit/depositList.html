@@ -23,7 +23,7 @@
 	<div id="container-header-space"></div>
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 예치금출금신청목록</h4>
 	              <section id="no-more-tables">
 	              	<hr>
@@ -54,7 +54,7 @@
 								([[${l.mAccountBankName}]]) [[${l.mAccountNumber}]]
 							</td>
 							<td data-title="예금주명" th:text="${l.mAccountName}"></td>
-							<td data-title="관련공고">
+							<td data-title="관련공고" style="cursor: pointer;">
 								<form th:action="@{/notice/announcement}" method="post">
 									<a class="announceTitle">[[${l.bTitle}]]</a>
 			                      	<input type="hidden" name="announceCode" th:value="${l.announcedCode}">
