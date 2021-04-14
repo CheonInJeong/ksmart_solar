@@ -275,8 +275,18 @@ public class BidListService {
 			System.out.println(result+"<-낙찰자마감날에 순위를 정했는지");
 		}
 	}
+	//문의등록
 	public int addqnaRequest(BoardSellerDTO boardSellerDTO) {
 		return bidListMapper.addqnaRequest(boardSellerDTO);
+	}
+	//문의수정
+	public int modifyQna(String mIdBuyer,String bSubject,String bContents,int bIdx) {
+		return bidListMapper.modifyQna(mIdBuyer,bSubject,bContents,bIdx);
+	}
+	public int removeQna(int bIdx) {
+		bidListMapper.removeQnaCo(bIdx);
+		bidListMapper.removeQna(bIdx);
+		return 0;
 	}
 
 }
