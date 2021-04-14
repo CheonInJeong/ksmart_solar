@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>판매관리>문의글</title>
@@ -28,8 +28,8 @@
 						<tr>
 							<td>작성자</td>
 							<td th:text="${qna.mIdBuyer}"></td>
-							<td>작성시간<td>
-							<td th:text="${qna.bRegDate}"><td>
+							<td>작성시간</td>
+							<td th:text="${qna.bRegDate}"></td>
 							<td>조회수</td>
 							<td th:text="${qna.bView}"></td>
 						</tr>
@@ -38,16 +38,18 @@
 						<tr>
 					</tbody>
 				</table>
-				
-				<div style="margin :10px;">
-					<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
-				</div>
-				
 				<hr>
-				<h4><i class="fa fa-angle-right"></i>댓글</h4>
+				
+				
+				<div style="margin-top :40x;width:100%;">
+						<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
+				</div>
+				<br>
+				<div>
+					<h4><i class="fa fa-angle-right"></i>댓글</h4>
+				</div>
 				<table class="table" id="commentTable">
 					<tbody>
-					
 					
 						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
@@ -81,11 +83,12 @@
                   			<nav th:replace="fragments/commentPagination :: pagination"></nav>
                   	</th:block>
 				</div>
-				<div class="form-group">
-					<div class="col-lg-10">
+				<hr>
+				<div class="form-group" style="float:center; margin-top:10px;">
+					<div class="col-lg-10 col-lg-offset-1">
 						<textarea id="inputContents" class="form-control " placeholder="댓글을 작성해주세요."></textarea>
 					</div>
-					<div class="col-lg-2">
+					<div class="col-lg-1">
 						<button type="button" class="btn  btn-sm  btn-default " id="regCmt">등록</button>		
 					</div>
 				</div>
