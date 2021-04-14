@@ -15,8 +15,7 @@
 			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
 			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
 			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
-			<a href="#"  style="text-decoration: none;"> 공고정보 </a>>
-			<a href="#" id="thirdUrl" style="text-decoration: none;"> 문의등록 </a>
+			<a href="#"  style="text-decoration: none;"> 문의등록 </a>>
 			<input type="hidden" id="url" th:value="${url}">
 		</div>
      	<div id="container-header-space"></div>	
@@ -63,7 +62,7 @@
                 </div>
                 <div style="text-align: center">
                 	<button id="qnaRequestBtn" class="btn standardBtn">등록</button>
-                  	<a class="btn btn-info" th:href="${url}">돌아가기</a>	
+                  	<a id="returnPage" class="btn btn-info">돌아가기</a>	
                 </div>
               </form>
             </div>
@@ -92,7 +91,7 @@
 					secondUrl.attr('href',$(this).prop('href'));
 				}
 			});
-			
+			$('#returnPage').attr('href',link2);
 			var file = document.getElementById('bPhoto');
 			var img = $('#img');
 			var imgA = $('#imgA');
