@@ -52,7 +52,12 @@ public class SellController {
 		this.sellService = sellService;
 		this.plantService = plantService;
 		this.boardSellerService = boardSellerService;
-		
+	}
+	
+	//댓글수 가져오기
+	@RequestMapping(value="/ajax/getCmtCount",method=RequestMethod.POST)
+	public @ResponseBody int getCmtCount(@RequestParam(value="bIdx") int bIdx) {
+		return boardSellerService.getCmtCount(bIdx);
 	}
 	
 	//출금신청 목록 은행 수정

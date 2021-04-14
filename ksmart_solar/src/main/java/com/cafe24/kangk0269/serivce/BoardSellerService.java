@@ -5,6 +5,7 @@ package com.cafe24.kangk0269.serivce;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,12 @@ public class BoardSellerService {
 	public BoardSellerService(BoardSellerMapper boardSellerMapper) {
 		this.boardSellerMapper = boardSellerMapper;
 	}
+	
+	//해당 게시글의 댓글 수 가져오기 by천인정
+	public int getCmtCount(int idx) {
+		return boardSellerMapper.getCmtCount(idx);
+	}
+	
 	
 	//아이디로 문의글 가져오기 by 천인정
 	public List<BoardSellerDTO> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
@@ -102,7 +109,7 @@ public class BoardSellerService {
 
 		List<CommentDTO> commentDtoList = null;
 		
-		int cmtCount = boardSellerMapper.getCmtCount(idx,commentDto);
+		int cmtCount = boardSellerMapper.getCmtCount(idx);
 		
 		Pagination pagination = new Pagination(commentDto);
 		pagination.setTotalRecordCount(cmtCount);
