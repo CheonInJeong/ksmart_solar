@@ -48,7 +48,7 @@
 		                  <tr>
 		                    <td th:text="${l.num}"></td>
 		                    <td>
-		                    	<form th:action="@{/notice/history}" method="post">
+		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
 			                      	<input type="hidden" name="uri">
 			                      	<input type="hidden" name="announceCode" th:value="${l.bCpCode}">

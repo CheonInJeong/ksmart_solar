@@ -119,20 +119,20 @@
 				var fileURL = '';
 				form.append("image", file.files[0])
 			 	if($('[name="bSubject"]').val()==''){
+			 		$('[name="bSubject"]').focus();
 			 		Swal.fire({
 						  title: '등록실패!',
 						  text: '제목을 입력해주세요.',
 						  icon: 'info'
 						});
-			 		$('[name="bSubject"]').focus();
 					return false;
 				}if($('[name="bContents"]').val()==''){
+					$('[name="bContents"]').focus();
 					Swal.fire({
 						  title: '등록실패!',
 						  text: '내용을 입력해주세요.',
 						  icon: 'info'
 						});
-					$('[name="bContents"]').focus();
 					return false;
 				}
 				if(file.files[0]!=null){
