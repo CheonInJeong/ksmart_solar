@@ -23,6 +23,7 @@ import com.cafe24.kangk0269.dao.TradeMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 
 @Service
@@ -273,6 +274,9 @@ public class BidListService {
 			int result = bidComponentMapper.getComponentBidList(componentList.get(i));
 			System.out.println(result+"<-낙찰자마감날에 순위를 정했는지");
 		}
+	}
+	public int addqnaRequest(BoardSellerDTO boardSellerDTO) {
+		return bidListMapper.addqnaRequest(boardSellerDTO);
 	}
 
 }

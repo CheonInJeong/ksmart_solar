@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>종료된 공고 리스트</title>
@@ -48,7 +48,7 @@
 		                  <tr>
 		                    <td th:text="${l.num}"></td>
 		                    <td>
-		                    	<form th:action="@{/notice/history}" method="post">
+		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
 			                      	<input type="hidden" name="uri">
 			                      	<input type="hidden" name="announceCode" th:value="${l.bCpCode}">

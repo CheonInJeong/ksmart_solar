@@ -20,12 +20,14 @@ import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
 import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.BidPlantService;
+import com.cafe24.kangk0269.serivce.BoardSellerService;
 import com.cafe24.kangk0269.serivce.TradeService;
 
 @Controller
@@ -36,18 +38,21 @@ public class BuyController {
 	private final BidListService bidListService;
 	private final AccountService accountService;
 	private final TradeService tradeService;
+	private final BoardSellerService boardSellerService;
 	SavePaging savePaging = null;
 	@Autowired
 	public BuyController(BidComponentService bidComponentService,
 							BidPlantService bidPlantService
 							,BidListService bidListService,
 							AccountService accountService,
-							TradeService tradeService) {
+							TradeService tradeService,
+							BoardSellerService boardSellerService) {
 		this.bidComponentService = bidComponentService; 
 		this.bidPlantService = bidPlantService; 
 		this.bidListService = bidListService; 
 		this.accountService = accountService; 
 		this.tradeService = tradeService; 
+		this.boardSellerService = boardSellerService; 
 	}
 	//내가 입찰한 공고
 	@GetMapping("/buy/myHistory")
@@ -196,11 +201,6 @@ public class BuyController {
 		return "buy/applyRefund";
 	}
 	
-	@GetMapping("/buy/qna")
-	public String Qna() {
-		
-		return "buy/qna";
-	}
 	//예치금 출금 신청
 	@PostMapping("/buy/refundRequest")
 	public String refundRequest(String bCode,String bDeposit,HttpSession session, String bTitle,Model model, String bType) {
@@ -249,5 +249,43 @@ public class BuyController {
 		model.addAttribute("bType", bType);
 		model.addAttribute("tradeDepositOutDTO", tradeDepositOutDTO);
 		return "/buy/refundResult";
+	}
+	@GetMapping("/buy/qna")
+	public String Qna(Model model, 
+					  HttpSession session,
+					  @RequestParam(value="searchValue", required=false) 		String searchValue,
+					  @RequestParam(value="searchKey", required=false) 			String searchKey,
+					  @RequestParam(value = "currentPageNo", required = false) 	String currentPageNo,
+					  @RequestParam(value = "recordsPerPage", required = false) String recordsPerPage,
+					  @RequestParam(value = "pageSize", required = false) 		String pageSize,
+					  @RequestParam(value = "state", required = false) 			String state) {
+		
+		BoardSellerDTO boardSellerDTO = new BoardSellerDTO(); 
+		boardSellerDTO.setState(1);
+		if(savePaging==null||state==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,10,5);
+		}
+		
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		
+		savePaging.getPaging(boardSellerDTO);
+		
+		if(searchKey!=null && searchKey.equals("null")) {
+			searchKey =null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		
+		
+		model.addAttribute("qnaList",boardSellerService.getQnaListById("buy",(String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
+		model.addAttribute("boardSellerDTO",boardSellerDTO);
+		model.addAttribute("searchKey",searchKey);
+		model.addAttribute("searchValue",searchValue);
+		
+		return "buy/qna";
 	}
 }

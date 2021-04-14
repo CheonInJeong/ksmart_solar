@@ -25,7 +25,7 @@ public class BoardSellerService {
 	}
 	
 	//아이디로 문의글 가져오기 by 천인정
-	public List<BoardSellerDTO> getQnaListById(String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+	public List<BoardSellerDTO> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
 	
 		if(searchKey!=null) {
 			if("bSubject".equals(searchKey)) {
@@ -34,6 +34,8 @@ public class BoardSellerService {
 				searchKey ="m_id_buyer";
 			}else if("bBidType".equals(searchKey)){
 				searchKey ="b_bid_type";
+			}else if("mIdSeller".equals(searchKey)){
+				searchKey ="m_id_seller";
 			}
 		}
 		if(searchValue!=null) {
@@ -45,14 +47,15 @@ public class BoardSellerService {
 			}
 		}
 		
+		
 		List<BoardSellerDTO> boardSellerList = null;
-		int boardSellerCount = boardSellerMapper.getQnaListCount(id, searchKey, searchValue, boardSellerDTO);
+		int boardSellerCount = boardSellerMapper.getQnaListCount(state,id, searchKey, searchValue, boardSellerDTO);
 		Pagination pagination = new Pagination(boardSellerDTO);
 		pagination.setTotalRecordCount(boardSellerCount);
 		boardSellerDTO.setPagination(pagination);
 		
 		if(boardSellerCount>0) {
-			boardSellerList = boardSellerMapper.getQnaListById(id, searchKey, searchValue, boardSellerDTO);
+			boardSellerList = boardSellerMapper.getQnaListById(state,id, searchKey, searchValue, boardSellerDTO);
 		}
 		
 		return boardSellerList;
@@ -100,20 +103,22 @@ public class BoardSellerService {
 		List<CommentDTO> commentDtoList = null;
 		
 		int cmtCount = boardSellerMapper.getCmtCount(idx,commentDto);
+		
 		Pagination pagination = new Pagination(commentDto);
 		pagination.setTotalRecordCount(cmtCount);
+		
 		commentDto.setPagination(pagination);
+		
+		//부모댓글 담을 리스트
+		List<CommentDTO> commentParentList = new ArrayList<CommentDTO>();
+		//자식댓글 담을 리스트
+		List<CommentDTO> commentChildList = new ArrayList<CommentDTO>();
+		//통합
+		List<CommentDTO> commentAllList = new ArrayList<CommentDTO>();
 		
 		if(cmtCount>0) {
 			 commentDtoList =  boardSellerMapper.getCommentList(idx,commentDto);
 			 
-			//부모댓글 담을 리스트
-				List<CommentDTO> commentParentList = new ArrayList<CommentDTO>();
-				//자식댓글 담을 리스트
-				List<CommentDTO> commentChildList = new ArrayList<CommentDTO>();
-				//통합
-				List<CommentDTO> commentAllList = new ArrayList<CommentDTO>();
-				
 				//부모와 자식 분리
 				for(CommentDTO commentDTO:commentDtoList) {
 					if(commentDTO.getCmtClass()==0) {
@@ -135,11 +140,6 @@ public class BoardSellerService {
 				}
 				
 				int startPage = commentDto.getPagination().getFirstRecordIndex();
-				System.out.println(startPage+"<------------------------------startPage");
-				System.out.println(startPage+"<------------------------------startPage");
-				System.out.println(startPage+"<------------------------------startPage");
-				System.out.println(startPage+"<------------------------------startPage");
-				System.out.println(startPage+"<------------------------------startPage");
 				int cmtAllListSize = commentAllList.size();
 				if(startPage > 0) {
 					//start 제외하고 예) subList(0,10)이면 0에서 9까지를 지움
@@ -147,8 +147,6 @@ public class BoardSellerService {
 					
 					if(startPage > (cmtAllListSize-10)) commentAllList.subList(startPage, cmtAllListSize).clear();
 					
-				}else {
-					commentAllList.subList(10, cmtAllListSize).clear();
 				}
 				return commentAllList;
 		}
