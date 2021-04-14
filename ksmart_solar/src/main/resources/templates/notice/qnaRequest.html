@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 		<title>문의 등록</title>
@@ -15,8 +15,7 @@
 			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
 			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
 			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
-			<a href="#"  style="text-decoration: none;"> 공고정보 </a>>
-			<a href="#" id="thirdUrl" style="text-decoration: none;"> 문의등록 </a>
+			<a href="#"  style="text-decoration: none;"> 문의등록 </a>>
 			<input type="hidden" id="url" th:value="${url}">
 		</div>
      	<div id="container-header-space"></div>	
@@ -25,7 +24,9 @@
              <div class="content-panel" style="padding: 30px;">
               <h4 class="mb"><i class="fa fa-angle-right"></i>문의 등록</h4>
               <form th:action="@{/help/addqnaRequest}" method="post" class="form-horizontal style-form" id="qnaForm">
-                <input type="hidden" name="announcedCode" th:value="${announcedCode}">
+                <input type="hidden" name="announcedCode" th:value="${boardSellerDTO.announcedCode}">
+                <input type="hidden" name="mIdSeller" th:value="${boardSellerDTO.mIdSeller}">
+                <input type="hidden" name="bBidType" th:value="${boardSellerDTO.bBidType}">
                 <input type="hidden" name="url" th:value="${url}">
                 <div class="form-group">
                   <label class="col-sm-2 col-sm-2 control-label">문의 제목</label>
@@ -61,7 +62,7 @@
                 </div>
                 <div style="text-align: center">
                 	<button id="qnaRequestBtn" class="btn standardBtn">등록</button>
-                  	<a class="btn btn-info" th:href="${url}">돌아가기</a>	
+                  	<a id="returnPage" class="btn btn-info">돌아가기</a>	
                 </div>
               </form>
             </div>
@@ -90,7 +91,7 @@
 					secondUrl.attr('href',$(this).prop('href'));
 				}
 			});
-			
+			$('#returnPage').attr('href',link2);
 			var file = document.getElementById('bPhoto');
 			var img = $('#img');
 			var imgA = $('#imgA');
@@ -119,20 +120,20 @@
 				var fileURL = '';
 				form.append("image", file.files[0])
 			 	if($('[name="bSubject"]').val()==''){
+			 		$('[name="bSubject"]').focus();
 			 		Swal.fire({
 						  title: '등록실패!',
 						  text: '제목을 입력해주세요.',
 						  icon: 'info'
 						});
-			 		$('[name="bSubject"]').focus();
 					return false;
 				}if($('[name="bContents"]').val()==''){
+					$('[name="bContents"]').focus();
 					Swal.fire({
 						  title: '등록실패!',
 						  text: '내용을 입력해주세요.',
 						  icon: 'info'
 						});
-					$('[name="bContents"]').focus();
 					return false;
 				}
 				if(file.files[0]!=null){

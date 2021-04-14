@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>판매관리>문의글</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>내공고목록</strong></div>
-     	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> ><!--  <a th:href="@{/sell/plantBidderList}">입찰자목록</a> > --> 문의글</div>
-      	<div id="container-header-space"></div>		
-		
+		<div id="container-header-title"><strong>문의글</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 문의글 </a>
+		</div>
+		<div id="container-header-space"></div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="content-panel" style="padding : 30px 30px 100px 30px;">
@@ -28,8 +32,8 @@
 						<tr>
 							<td>작성자</td>
 							<td th:text="${qna.mIdBuyer}"></td>
-							<td>작성시간<td>
-							<td th:text="${qna.bRegDate}"><td>
+							<td>작성시간</td>
+							<td th:text="${qna.bRegDate}"></td>
 							<td>조회수</td>
 							<td th:text="${qna.bView}"></td>
 						</tr>
@@ -38,16 +42,18 @@
 						<tr>
 					</tbody>
 				</table>
-				
-				<div style="margin :10px;">
-					<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
-				</div>
-				
 				<hr>
-				<h4><i class="fa fa-angle-right"></i>댓글</h4>
+				
+				
+				<div style="margin-top :40x;width:100%;">
+						<a class="btn btn-default pull-right" th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">이전</a>
+				</div>
+				<br>
+				<div>
+					<h4><i class="fa fa-angle-right"></i>댓글</h4>
+				</div>
 				<table class="table" id="commentTable">
 					<tbody>
-					
 					
 						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
@@ -81,11 +87,12 @@
                   			<nav th:replace="fragments/commentPagination :: pagination"></nav>
                   	</th:block>
 				</div>
-				<div class="form-group">
-					<div class="col-lg-10">
+				<hr>
+				<div class="form-group" style="float:center; margin-top:10px;">
+					<div class="col-xs-10 col-xs-offset-1">
 						<textarea id="inputContents" class="form-control " placeholder="댓글을 작성해주세요."></textarea>
 					</div>
-					<div class="col-lg-2">
+					<div class="col-xs-1">
 						<button type="button" class="btn  btn-sm  btn-default " id="regCmt">등록</button>		
 					</div>
 				</div>
@@ -96,10 +103,44 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
-			var sell = $('#sell');
-			sell.addClass('active');
-			sell.parent().find('.sub').css('display','block');
-			sell.parent().find('.sub').children().eq(1).addClass('active');
+			var link = document.referrer;
+			console.log(link.indexOf("?"));
+			if(link.indexOf("?")>0){
+				link = link.substring(0,link.indexOf("?"));
+			}
+			console.log(link);
+			$('#returnPage').attr('href',link);
+			var linkArr = link.split('/');
+			var link2 = ('/'+linkArr[linkArr.length-2]+'/'+linkArr[linkArr.length-1])
+			var firstUrl = $('#firstUrl');
+			var secondUrl = $('#secondUrl');
+			var thirdUrl = $('#thirdUrl');
+			var a = $('a');
+			a.each(function(){
+				if($(this).attr('href')==link2){
+					$(this).parent().parent().parent().children().eq(0).addClass('active');
+					$(this).parent().parent().css('display','block');
+					$(this).parent().addClass('active');
+					firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+					secondUrl.text($(this).parent().text());
+					secondUrl.attr('href',$(this).prop('href'));
+					console.log('확인')
+				}
+			});
+			if(firstUrl.text().trim()==''){
+				link2 = ('/'+linkArr[linkArr.length-2]+'/qna');
+				a.each(function(){
+					if($(this).attr('href')==link2){
+						$(this).parent().parent().parent().children().eq(0).addClass('active');
+						$(this).parent().parent().css('display','block');
+						$(this).parent().addClass('active');
+						firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+						secondUrl.text($(this).parent().text());
+						secondUrl.attr('href',$(this).prop('href'));
+						console.log('확인')
+					}
+				});
+			}
 		</script>
 		
 		<script th:inline="javascript">

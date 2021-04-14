@@ -622,7 +622,7 @@ public class SellController {
 		}
 		
 		
-		model.addAttribute("qnaList",boardSellerService.getQnaListById((String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
+		model.addAttribute("qnaList",boardSellerService.getQnaListById("sell",(String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
 		model.addAttribute("boardSellerDTO",boardSellerDTO);
 		model.addAttribute("searchKey",searchKey);
 		model.addAttribute("searchValue",searchValue);

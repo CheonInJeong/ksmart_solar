@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 		<title>발전소 상세정보</title>
@@ -99,15 +99,6 @@
 		</form>
 	</th:block>
 	<th:block layout:fragment="customScript">
-		<style>
-		.order-1 { order: 1; }
-		.order-2 { order: 2; }
-		.order-3 { order: 3; }
-		
-		.right-gap {
-		  margin-right: auto;
-		}
-		</style>
 		<script src="/js/plant.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=d3788a7edce4414e28e5cab2a0ac6ca7&libraries=services"></script>

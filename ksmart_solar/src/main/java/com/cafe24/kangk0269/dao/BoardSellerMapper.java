@@ -20,13 +20,15 @@ public interface BoardSellerMapper {
 	public int updateView(int bIdx);
 	
 	//아이디로 문의글 가져오기  by 천인정
-	public List<BoardSellerDTO> getQnaListById(@Param(value="mIdSeller") String mIdSeller
+	public List<BoardSellerDTO> getQnaListById(@Param(value="state") String state
+											  ,@Param(value="mId") String mId
 											  ,@Param(value="searchKey") String searchKey
 											  ,@Param(value="searchValue") String searchValue
 											  ,@Param(value="boardSellerDTO") BoardSellerDTO boardSellerDTO);
 	
 	//문의글 갯수 가져오기 by천인정
-	public int getQnaListCount(@Param(value="mIdSeller") String mIdSeller
+	public int getQnaListCount(@Param(value="state") String state
+							  ,@Param(value="mId") String mId
 							  ,@Param(value="searchKey") String searchKey
 							  ,@Param(value="searchValue") String searchValue
 							  ,@Param(value="boardSellerDTO") BoardSellerDTO boardSellerDTO);
