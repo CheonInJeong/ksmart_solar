@@ -33,6 +33,7 @@
               <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
+                  	<th>번호</th>
                     <th><i class="fa fa-bullhorn"></i>공고코드</th>
                     <th>구분</th>
                     <th><i class="fa fa-bookmark"></i>문의제목</th>
@@ -42,7 +43,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:if="${qnaList!=null and qnaList.size()>0}" th:each="list:${qnaList}">
+                  <tr th:if="${qnaList!=null and qnaList.size()>0}" th:each="list,index:${qnaList}">
+                  	   <td th:text="${index.count}"></td>
 	                   <td th:text="${list.announcedCode}"></td>
 	                   <td th:if="${list.bBidType == 1}">발전소</td>
 	                   <td th:if="${list.bBidType == 2}">부품</td>
