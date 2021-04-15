@@ -39,6 +39,11 @@ public class MemberService {
 		System.out.println("MemberService bean 등록");
 		System.out.println("=========================================================");
 	}
+	
+	//권한에 따른 uri 가져오기
+	public List<String> getUri(int level){
+		return memberMapper.getUri(level);
+	}
 
 	// 프로필 사진 수정
 	public MultipartResolver multipartResolver() {
