@@ -55,6 +55,35 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		)
 	</insert>
 	
+	<!-- 예치금 입금 : 입찰자 테이블 업데이트 -->
+	<update id="modifyBidDepositIn" parameterType="BidListDTO">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_check = 'Y',
+			b_mo_code = sf_new_b_mo_code(#{bDepositDate}),
+			b_deposit_date = #{bDepositDate},
+			tr_type_code = 3,
+			tr_type_name = '입찰성공',
+			b_date_up = #{bDepositDate},
+		WHERE b_code = #{bCode}
+	</update>
+	
+	<!-- 예치금 입금 : 발전소매각공고신청 테이블 업데이트 -->
+	<update id="modifyPlantDepositIn" parameterType="BidPlantDTO">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_number_of_bidder = sf_b_number_of_bidder_update(#{bPlCode})
+		WHERE b_pl_code = #{bPlCode}
+	</update>
+	
+	<!-- 예치금 입금 : 부품매각공고신청 테이블 업데이트 -->
+	<update id="modifyComDepositIn" parameterType="BidComponentDTO">
+		UPDATE tb_bid_component
+		SET
+			b_cp_bidder_number = sf_b_number_of_bidder_update(#{bCpCode}),
+		WHERE b_cp_code = #{bCpCode}
+	</update>
+	
 	<!-- 확인 입출금 개별(미완료) -->
 	<select id="getMoneyCheck" resultType="MoneyCheckDTO">
 		SELECT

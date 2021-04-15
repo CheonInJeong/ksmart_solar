@@ -23,7 +23,7 @@ public interface MemberMapper {
 	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
 
 	// 탈퇴완료회원 조회
-	public List<MemberRevokeDTO> getWithdrawCompleteMember();
+	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
 	
 	// 로그인 기록 조회
 	public List<Map<String,Object>> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);

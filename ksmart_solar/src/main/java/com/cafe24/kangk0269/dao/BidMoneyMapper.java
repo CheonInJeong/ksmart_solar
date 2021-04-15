@@ -9,6 +9,7 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidMoneyDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.MoneyCheckDTO;
+import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 
 @Mapper
 public interface BidMoneyMapper {
@@ -24,7 +25,9 @@ public interface BidMoneyMapper {
 	public int modifyComDepositIn(BidComponentDTO bidcomponent);
 	
 	// 거래대금납부 테이블 업데이트(입출금코드,입금여부,입금시간,진행상황) - 대금 입금
+	public int modifyPayIn(TradePaymentInDTO paymentin);
 	// 낙찰자우선순위 테이블 업데이트(진행상태코드,진행상태,상태변경시간) - 대금 입금
+	public int modifyPriority();
 	// 입찰자 테이블 업데이트(진행상태코드,진행상태,상태변경일) - 대금 입금
 	// 발전소매각공고신청 테이블 업데이트(진행상태) - 대금 입금
 	// 부품매각공고신청 테이블 업데이트(진행상태) - 대금 입금

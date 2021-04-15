@@ -9,7 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidMoneyDTO;
+import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MoneyCheckDTO;
@@ -22,15 +25,17 @@ import com.cafe24.kangk0269.serivce.TradeService;
 
 @Controller
 public class ProfitController {
-
+	private final MemberService memberService;
+	private final TradeService tradeService;
+	private final BidMoneyService bidMoneyService;
 	@Autowired
-	private MemberService memberService;
-	
-	@Autowired
-	private TradeService tradeService;
-
-	@Autowired
-	private BidMoneyService bidMoneyService;
+	public ProfitController(MemberService memberService,TradeService tradeService
+							,BidMoneyService bidMoneyService){
+		this.memberService = memberService;
+		this.tradeService = tradeService;
+		this.bidMoneyService = bidMoneyService;
+		
+	}
 	
 	@GetMapping("/profit/cancel")
 	public String Cancel(Model model) {
@@ -52,10 +57,27 @@ public class ProfitController {
 	public String bidMoneyInsertSend(MoneyCheckDTO moneycheck) {
 		System.out.println("입출금 내역 입력 필요요소 :" + moneycheck);
 		System.out.println(moneycheck.getCode().substring(0,1));
-		if(moneycheck.getCode().substring(0,1).equals('b')) {
-			
-		}else {
+		String firstCode =  moneycheck.getCode().substring(0,1);
+		if(firstCode != null) {
+			if(firstCode.equals("b")) {
+				BidListDTO bidlist = new BidListDTO();
+				BidPlantDTO bidplant = new BidPlantDTO();
+				BidComponentDTO bidcomponent = new BidComponentDTO();
+				bidlist.setbCode(moneycheck.getCode());
+				bidlist.setbDepositDate(moneycheck.getInoutDate());
+				bidplant.setbPlCode(moneycheck.getnCode());
+				bidcomponent.setbCpCode(moneycheck.getnCode());
+				System.out.println("입찰코드 + 입찰확인일 : " + bidlist);
+				System.out.println("관련 발전소 공고코드 : " + bidplant);
+				System.out.println("관련 부품 공고코드 : " + bidcomponent);
+				//bidMoneyService.modifyBidDepositIn(bidlist);
+				//bidMoneyService.modifyPlantDepositIn(bidplant);
+				//bidMoneyService.modifyComDepositIn(bidcomponent);
+			}else {
+				
+			}
 			//bidMoneyService.addBidMoney(moneycheck);
+			
 		}
 		
 		return "/profit/balance";
