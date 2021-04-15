@@ -26,7 +26,21 @@ public class WebConfig implements WebMvcConfigurer{
 				.excludePathPatterns("/")
 				.excludePathPatterns("/css/*");
 		
-	
+		//허용되는것만쓰는거....
+		//localhost는 인터셉터를 거치지 않게
+		//css파일은 인터셉터를 거치지 않게 
+		registry.addInterceptor(loginInterceptor)
+		.addPathPatterns("/**")
+		.excludePathPatterns("/")
+		.excludePathPatterns("/favicon.ico")
+		.excludePathPatterns("/ajax/**")
+		.excludePathPatterns("/css/**")
+		.excludePathPatterns("/img/**")
+		.excludePathPatterns("/lib/**")
+		.excludePathPatterns("/login")
+		.excludePathPatterns("/logout")
+		.excludePathPatterns("/logoutKakao")
+		.excludePathPatterns("/js/**");
 		
 		
 	}

@@ -38,17 +38,7 @@
   		</resultMap>
 		<!-- 거래대금 수수료  스케쥴러-->
 		
-		<!--///////////////여기서 안씀//////////////////////  -->
-		<update id="updateCommissionStatusN" parameterType="map">
-				UPDATE
-				 	tb_standard_commission
-				SET
-					s_commission_use='N'
-					,s_commission_last = #{sCommissionLast}
-		
-				WHERE 	s_commission_use='Y' AND s_commission_type = #{sCommissionType}
-		</update>
-		<!-- /////////////////////////안써 -->
+
 		<update id="updateCommissionStatusY" parameterType="String">
 			UPDATE 
 				tb_standard_commission

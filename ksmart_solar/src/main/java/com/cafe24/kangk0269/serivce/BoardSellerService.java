@@ -5,7 +5,6 @@ package com.cafe24.kangk0269.serivce;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -154,6 +153,12 @@ public class BoardSellerService {
 					
 					if(startPage > (cmtAllListSize-10)) commentAllList.subList(startPage, cmtAllListSize).clear();
 					
+				}else {
+					if(cmtAllListSize>10) {
+						
+						commentAllList.subList(10,cmtAllListSize).clear();
+					}
+				
 				}
 				return commentAllList;
 		}
