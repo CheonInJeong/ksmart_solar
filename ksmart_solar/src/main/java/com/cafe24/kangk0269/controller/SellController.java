@@ -295,7 +295,7 @@ public class SellController {
 	
 	
 	//부품 등록
-	@RequestMapping(value="/sell/addComponent", method=RequestMethod.POST)
+	@RequestMapping(value="/ajax/sell/addComponent", method=RequestMethod.POST)
 	public @ResponseBody String regComponentSell ( @RequestParam(value="mId") String mId,
 									@RequestParam(value="cpName") String cpName,
 									@RequestParam(value="cpInfo") String cpInfo,

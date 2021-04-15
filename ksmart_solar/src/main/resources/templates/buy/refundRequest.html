@@ -103,7 +103,7 @@
 			bank.change(function(){
 				//본인 계좌 가져오는 ajax
 				$.ajax({
-					  url: '/myBank', 
+					  url: '/ajax/myBank', 
 					  method: 'POST',
 					  data : {mAccountIdx : $(this).val()},
 					  success: function(data){
