@@ -300,9 +300,12 @@ public class MemberManageController {
 				session.setAttribute("SID", resultId);
 				//권한
 				session.setAttribute("SLEVEL", resultLevel);
+				session.setAttribute("SLEVELNUM", member.getmLevel());
 				//이름
 				session.setAttribute("SNAME", resultName);	
 				session.setAttribute("SPHOTO", member.getmPhoto());	
+				//메뉴
+				session.setAttribute("SURI", memberService.getUri(member.getmLevel()));
 				
 				
 			}else {

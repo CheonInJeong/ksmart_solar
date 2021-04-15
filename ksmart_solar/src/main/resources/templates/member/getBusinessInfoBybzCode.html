@@ -147,7 +147,7 @@
 				if(result){
 					console.log('승인완료');
 					var request = $.ajax({
-						url: "/businessAdmitSend",
+						url: "/ajax/businessAdmitSend",
 						method: "post",
 						data: { bzCode : bzCode.val() },
 					});

@@ -29,6 +29,17 @@
 		<result property="kakaoEmail" 			column="m_email"/>
 		<result property="thumbnailImage" 		column="m_photo"/>
 	</resultMap>
+	
+	<select id="getUri" parameterType="int" resultType="String">
+		SELECT 
+			i_uri
+		FROM 
+			tb_interceptor 
+		WHERE 
+			i_level = #{level}
+	
+	</select>
+	
 	<insert id="addMemberKakao" parameterType="MemberKakao">
 		INSERT INTO tb_member(  
 			 m_id

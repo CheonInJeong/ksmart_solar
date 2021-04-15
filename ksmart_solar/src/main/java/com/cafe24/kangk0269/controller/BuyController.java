@@ -217,7 +217,7 @@ public class BuyController {
 		return "/buy/refundRequest";
 	}
 	//본인계좌 조회 ajax
-	@RequestMapping(value = "/myBank", method=RequestMethod.POST)
+	@RequestMapping(value = "/ajax/myBank", method=RequestMethod.POST)
 	public @ResponseBody MemberAccountDTO bankCheck (String mAccountIdx) {
 		MemberAccountDTO memberAccountDTO = accountService.getAccountListByIdx(mAccountIdx);
 		return memberAccountDTO; 

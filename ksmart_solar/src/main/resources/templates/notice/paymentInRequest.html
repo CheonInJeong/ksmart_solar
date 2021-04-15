@@ -134,7 +134,7 @@
 				var bidResultBtn = $('#bidResultBtn');
 				//예치금율 가져오는 비동기호출
 				$.ajax({
-					  url: '/sDepositRateCheck', 
+					  url: '/ajax/sDepositRateCheck', 
 					  method: 'POST',
 					  async:false,
 					  success: function(data){
@@ -155,7 +155,7 @@
 				var mAccountNumber = [];
 				//관리자 계좌 가져오기
 				$.ajax({
-					  url: '/bankCheck', 
+					  url: '/ajax/bankCheck', 
 					  method: 'POST',
 					  //ajax가 실행이 끝날때까지 스크립트를 기다리게 한다.
 				      async:false,

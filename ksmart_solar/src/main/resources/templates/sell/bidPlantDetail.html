@@ -210,8 +210,8 @@
 	               	</thead>
 	               	<tbody>
 	               		<tr th:if="${#lists.size(qna)}>0" th:each="q,index:${qna}">
-	               			<td th:text="{index.count}"></td>
-	               			<td class="subject"><a th:href="@{/sell/qnaDetail(idx=${q.bIdx})}">[[${q.bSubject}]]</a></td>         			
+	               			<td th:text="${index.count}"></td>
+	               			<td class="subject" style="text-align:left"><a th:href="@{/sell/qnaDetail(idx=${q.bIdx})}">[[${q.bSubject}]]</a></td>         			
 	               			<td th:text="${q.bView}"></td>
 	               			<td th:text="${q.mIdBuyer}"></td>
 	               			<td th:text="${q.bRegDate}"></td>
@@ -268,7 +268,7 @@
 			 			data : {bIdx : qna[i].bIdx},
 		 			 	success : function(data){
 		 			 		console.log(data);
-		 			 		$('.cmtCount').text(data);
+		 			 		$('.cmtCount').eq(i).text(data);
 		 			 	}
 			 		}) 
 		 		})

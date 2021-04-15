@@ -19,22 +19,22 @@
 	        <h5 class="centered" th:if="${session.SID ne null}"><small>[[${session.SID}]]</small></h5>
 	      </li>
           <li class="mt">
-            <a class="" th:href="@{#}">
+            <a class="" th:href="@{/}">
               <i class="fa fa-bar-chart-o"></i>
               <span>#프로젝트 소개</span>
              </a>
           </li>
           
-         <li class="sub-menu">
+         <li class="sub-menu" th:if="${session.SLEVELNUM==2}">
             <a href="javascript:;" id="plant">
               <i class="fa fa-dashboard"></i>
-              <span>#내 발전소 관리(판매자)-강석인</span>
+              <span>내 발전소 관리</span>
               </a>
             <ul class="sub">
-              <li><a th:href="@{/plant/plantList}">#발전소리스트</a></li>
-              <li><a th:href="@{/plant/addPlant}">#발전소 등록</a></li>
-              <li><a th:href="@{/plant/componentList}">#부품리스트</a></li>
-              <li><a th:href="@{/plant/addComponent}">#부품 등록</a></li>
+              <li><a th:href="@{/plant/plantList}">발전소리스트</a></li>
+              <li><a th:href="@{/plant/addPlant}">발전소 등록</a></li>
+              <li><a th:href="@{/plant/componentList}">부품리스트</a></li>
+              <li><a th:href="@{/plant/addComponent}">부품 등록</a></li>
             </ul>
           </li>
           
@@ -50,7 +50,7 @@
               <li><a th:href="@{/plant/authorization}">#사업자 인증 신청(강석인)</a></li>
             </ul>
           </li>
-          <li class="sub-menu">
+          <li class="sub-menu" th:if="${session.SLEVELNUM==1}">
             <a href="javascript:;" id="member">
               <i class="fa fa-dashboard"></i>
               <span>#회원관리(관리자) - 김지숙</span>
@@ -65,7 +65,7 @@
             </ul>
           </li>
           
-           <li class="sub-menu">
+           <li class="sub-menu" th:if="${session.SLEVELNUM==1}">
             <a href="javascript:;" id="profit">
               <i class="fa fa-dashboard"></i>
               <span>#수익관리(관리자) - 김지숙</span>
@@ -81,7 +81,7 @@
           </li>
           
           
-          <li class="sub-menu">
+          <li class="sub-menu" th:if="${session.SLEVELNUM==1}">
             <a href="javascript:;" id="policy">
               <i class="fa fa-dashboard"></i>
               <span>정책관리</span>
@@ -95,7 +95,7 @@
             </ul>
           </li>
         
-           <li class="sub-menu">
+           <li class="sub-menu" th:if="${session.SLEVELNUM==2}">
             <a href="javascript:;" id="sell">
               <i class="fa fa-dashboard"></i>
               <span>판매관리</span>
@@ -109,7 +109,7 @@
             </ul>
           </li>
           
-          <li class="sub-menu">
+          <li class="sub-menu" th:if="${session.SLEVELNUM==2 and session.SLEVELNUM==3 }">
             <a href="javascript:;" id="buy">
               <i class="fa fa-dashboard"></i>
               <span>구매관리</span>
