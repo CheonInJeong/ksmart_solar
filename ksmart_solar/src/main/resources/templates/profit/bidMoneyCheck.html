@@ -92,15 +92,24 @@
 								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'b'}">
 									예치금입금(입찰성공)
 								</td>
+								<th:block th:unless="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'b'}">
 								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payin'}">
 									대금입금
 								</td>
+								<th:block th:unless="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payin'}">
 								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payout'}">
 									대금출금
 								</td>
+								<th:block th:unless="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payout'}">
 								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'deout'}">
 									예치금환불
 								</td>
+								<td th:unless="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'deout'}">
+									테스트용
+								</td>
+								</th:block>
+								</th:block>
+								</th:block>
 								<td>[[${l.Id}]]</td>
 								<td>[[${l.nTitle}]]</td>
 								<td>[[${#numbers.formatInteger(l.money,3,'COMMA')}]]</td>
