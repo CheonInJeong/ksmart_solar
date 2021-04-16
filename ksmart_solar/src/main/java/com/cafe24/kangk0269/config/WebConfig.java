@@ -40,6 +40,9 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/login")
 		.excludePathPatterns("/logout")
 		.excludePathPatterns("/logoutKakao")
+		.excludePathPatterns("/notice/noticeList")
+		.excludePathPatterns("/notice/history")
+		.excludePathPatterns("/notice/announcement")
 		.excludePathPatterns("/js/**");
 		
 		
