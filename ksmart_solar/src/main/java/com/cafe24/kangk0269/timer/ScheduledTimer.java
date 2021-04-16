@@ -14,6 +14,7 @@ import com.cafe24.kangk0269.dto.PlantKpxDTO;
 import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.PlantService;
 import com.cafe24.kangk0269.serivce.PolicyService;
+import com.cafe24.kangk0269.serivce.ScheduledService;
 import com.cafe24.kangk0269.serivce.SellService;
 
  
@@ -28,6 +29,8 @@ public class ScheduledTimer {
 	private PolicyService policyService;
 	@Autowired
 	private BidListService bidListService;
+	@Autowired
+	private ScheduledService scheduledService;
 	
 	@Scheduled(cron = "0  00  8  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
@@ -49,14 +52,8 @@ public class ScheduledTimer {
 	public void updateComponentAcStatus() throws Exception {
 	}
 	
-	//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
-	@Scheduled(cron = "0  00  0  *  *  *")
-	public void updateAcStatus() throws Exception {
-			sellService.updateAcStatus();
-	}
 	
-	
-	@Scheduled(cron = "15  00  0  *  *  *") 
+	@Scheduled(cron = "0  00  0  *  *  *") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
@@ -120,7 +117,15 @@ public class ScheduledTimer {
 	}
 	
 	
-	
+	//test
+	@Scheduled(cron = "50  25  17  *  *  *") 
+	public void updatePayIn() throws IOException, ParseException, ClassNotFoundException, SQLException {
+		try {
+			scheduledService.updatePayIn();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 		
 		
