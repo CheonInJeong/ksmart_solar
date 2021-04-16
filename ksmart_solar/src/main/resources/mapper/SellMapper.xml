@@ -526,6 +526,27 @@
 				b_cp_date_decision1 = CURDATE();
   		  </update>
   		  
+  		  <update id="updateComponentAcStatus1">
+  		  	UPDATE 
+  		  		tb_bid_component
+  		  	<if test="state.toString()=='진행'.toString()">
+				SET
+					b_cp_status='거래진행중',
+					ac_status_code= 6
+  		  	</if>
+  		  	<if test="state.toString()=='취소'.toString()">
+				SET
+					b_cp_status='공고취소',
+					ac_status_code= 8
+  		  	</if>
+			WHERE 
+				ac_status_code = 5
+  		  	AND 
+  		  		CAST(b_cp_date_decision2 AS DATE) = CURDATE()
+			AND
+				b_cp_code = #{Code}
+  		  </update>
+  		  
   		  
   		  <select id="getComponentAcStatus" resultMap="bidComponentResultMap">
   		  	SELECT b_cp_date_decision1 FROM tb_bid_component;
@@ -622,6 +643,28 @@
 				ac_status_code = 4
   		  	AND 
 				b_pl_date_decision1 = CURDATE();
+  		  </update>
+  		  
+  		  
+  		  <update id="updateAcStatus1">
+  		  	UPDATE 
+  		  		tb_bid_plant
+  		  	<if test="state.toString()=='진행'.toString()">
+				SET
+					b_pl_status='거래진행중',
+					ac_status_code= 6
+  		  	</if>
+  		  	<if test="state.toString()=='취소'.toString()">
+				SET
+					b_pl_status='공고취소',
+					ac_status_code= 8
+  		  	</if>
+			WHERE 
+				ac_status_code = 5
+  		  	AND 
+				CAST(b_pl_date_decision2 AS DATE) = CURDATE()
+			AND
+				b_pl_code = #{Code}
   		  </update>
   		  
   		  <select id="getAcStatus" resultMap="bidPlantResultMap">

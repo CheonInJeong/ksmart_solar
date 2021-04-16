@@ -19,6 +19,7 @@ import com.cafe24.kangk0269.dao.BidListMapper;
 import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.PolicyMapper;
+import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dao.TradeMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
@@ -36,6 +37,7 @@ public class BidListService {
 	private final BidPlantMapper bidPlantMapper;
 	private final PolicyMapper policyMapper;
 	private final TradeMapper tradeMapper;
+	private final SellMapper sellMapper;
 	
 	@Autowired
 	public BidListService(BidListMapper bidListMapper
@@ -44,7 +46,8 @@ public class BidListService {
 						,BidComponentMapper bidComponentMapper
 						,BidPlantMapper bidPlantMapper
 						,PolicyMapper policyMapper
-						,TradeMapper tradeMapper) {
+						,TradeMapper tradeMapper
+						,SellMapper sellMapper) {
 		this.bidListMapper = bidListMapper; 
 		this.fileUtils = fileUtils; 
 		this.fileMapper = fileMapper; 
@@ -52,6 +55,7 @@ public class BidListService {
 		this.bidPlantMapper = bidPlantMapper; 
 		this.policyMapper = policyMapper; 
 		this.tradeMapper = tradeMapper; 
+		this.sellMapper = sellMapper; 
 	}
 	
 	public double getDepositRate() {
@@ -268,11 +272,50 @@ public class BidListService {
 	//낙찰자 선정기간내에 낙찰자를 선정하지 못한 경우 공고를 취소로
 	//낙찰자를 선정한공고는 거래진행중으로 상태 변경
 	public void updateBidMemberStatus() {
-		List<String> componentList = bidComponentMapper.getComponentSatusList(6,"거래진행중");
+		List<String> componentList = bidComponentMapper.getComponentSatusList(5,"거래진행중");
+		List<String> plantList = bidPlantMapper.getPlantSatusList(5,"거래진행중");
+		//sellMapper.updateAcStatus1();
 		System.out.println(componentList+"<-부품공고");
+		System.out.println(plantList+"<-발전소공고");
 		for(int i=0; i<componentList.size();i++) {
 			int result = bidComponentMapper.getComponentBidList(componentList.get(i));
 			System.out.println(result+"<-낙찰자마감날에 순위를 정했는지");
+			if(result!=0) {
+				try {
+					sellMapper.updateComponentAcStatus1("진행",componentList.get(i));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else {
+				try {
+					sellMapper.updateComponentAcStatus1("취소",componentList.get(i));
+					bidListMapper.bidCancel(componentList.get(i), "공고취소");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+		for(int i=0; i<plantList.size();i++) {
+			int result = bidPlantMapper.getPlantBidList(plantList.get(i));
+			System.out.println(result+"<-낙찰자마감날에 순위를 정했는지");
+			if(result!=0) {
+				try {
+					sellMapper.updateAcStatus1("진행",plantList.get(i));
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}else {
+				try {
+					sellMapper.updateAcStatus1("취소",plantList.get(i));
+					bidListMapper.bidCancel(plantList.get(i), "공고취소");
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
 		}
 	}
 	//문의등록
