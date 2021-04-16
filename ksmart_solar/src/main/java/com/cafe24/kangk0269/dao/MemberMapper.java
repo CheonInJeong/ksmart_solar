@@ -38,6 +38,11 @@ public interface MemberMapper {
 	public MemberDTO getMyInfoById(String login_id);
 	
 	
+	//개인 회원탈퇴신청
+	public void withdraw(MemberRevokeDTO memberRevokeDTO);
+	
+	//탈퇴 회원상태 변경
+	public void modifyMemberState(String login_id);
 	
 	// 전체회원정보 수정
 	public int modifyMember(MemberDTO member);

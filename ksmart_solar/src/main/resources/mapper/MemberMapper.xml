@@ -30,6 +30,28 @@
 		<result property="thumbnailImage" 		column="m_photo"/>
 	</resultMap>
 	
+	
+	<!-- 탈퇴 회원상태 변경 -->
+	<update id="modifyMemberState">
+		UPDATE tb_member
+		SET
+			m_revoke_delay_check='Y',
+			m_state_modify_date=NOW()
+		WHERE m_id = #{login_id}		
+	</update>
+	
+	<!-- 개인 회원 탈퇴 신청  -->
+	<insert id="withdraw">
+		INSERT INTO tb_member_revoke
+			( m_id
+			, m_revoke_reason
+			, m_revoke_date)
+		VALUES
+			 (  #{mId}
+			  , #{mRevokeReason}
+			  , NOW())		
+	</insert>
+	
 	<select id="getUri" parameterType="int" resultType="String">
 		SELECT 
 			i_uri

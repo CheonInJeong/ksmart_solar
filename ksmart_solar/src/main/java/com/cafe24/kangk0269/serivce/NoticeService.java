@@ -63,10 +63,15 @@ public class NoticeService {
 		
 	}
 	
+	//공지사항 파일 참조번호 수정
+	public void modifyFileReference(int noticeIdx) {
+		noticeMapper.modifyFileReference(noticeIdx);
+	}
+	
 	//공지사항 파일조회
-	public List<FileDTO> getNoticeFileList(){
+	public List<FileDTO> getNoticeFileList(int noticeIdx){
 		
-		return noticeMapper.getNoticeFileList();
+		return noticeMapper.getNoticeFileList(noticeIdx);
 	}	
 	
 	//공지사항 파일등록
