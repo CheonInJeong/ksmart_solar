@@ -70,9 +70,6 @@ public class SellController {
 	public @ResponseBody String updateBankInfo(@RequestParam(value="accountNumber") String accountNumber
 											  ,@RequestParam(value="trPayoutCode") String trPayoutCode
 											  ,@RequestParam(value="accountBank") String accountBank) {
-		System.out.println(accountNumber+"<----수정필요");
-		System.out.println(trPayoutCode+"<----수정필요");
-		System.out.println(accountBank+"<----수정필요");
 		sellService.updateBankInfo(accountBank, accountNumber, trPayoutCode);
 		
 		return "성공";
