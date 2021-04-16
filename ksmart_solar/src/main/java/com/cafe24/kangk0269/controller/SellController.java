@@ -583,8 +583,7 @@ public class SellController {
 			searchValueFinish = null;
 		}
 
-	
-				
+			
 		
 		String sessionId = (String)session.getAttribute("SID");
 		//출금가능한목록

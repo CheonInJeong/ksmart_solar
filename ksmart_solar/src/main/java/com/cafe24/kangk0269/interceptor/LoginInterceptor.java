@@ -37,6 +37,9 @@ public class LoginInterceptor implements HandlerInterceptor{
 		log.info("sessionName			:::: {}",sessionName);
 		log.info("sessionURI			:::: {}",sessionURI);
 
+		System.out.println(sessionURI);
+		
+		
 		if(sessionId == null ||sessionLevel == null || sessionURI==null) {
 			if(requestUri.indexOf("/member/memberSignUp") > -1) {
 				return true;
@@ -47,8 +50,11 @@ public class LoginInterceptor implements HandlerInterceptor{
 
 			if(!sessionURI.contains(requestUri)) {
 				response.sendRedirect("/");
+			
+			
 				return false;
 			}
+		
 			
 		}
 		return true;

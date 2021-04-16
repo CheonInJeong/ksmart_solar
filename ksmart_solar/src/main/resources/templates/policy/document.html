@@ -19,11 +19,10 @@
 						<div class="form-group">
 							<label class="control-label col-md-3">공고신청관련파일업로드</label>
 							<div class="col-md-4 col-xs-4" >
-								<!-- multiple 설정을 하면 하나의 태그에서 여러 파일 첨부 가능 -->
-								<input type="file" name="files" multiple="multiple" class="default" />
+								<input type="file" name="files" multiple="multiple" class="default" id="noticeFile"/>
 							</div>
 							<div class="col-md-4 col-xs-4">
-								<input type="submit" value="업로드" class="default"/>
+								<input type="submit" value="업로드" class="default" id="noticeFileBtn"/>
 							</div>
 						</div>
 					</form>
@@ -52,13 +51,7 @@
 										<td colspan="5">등록 된 파일이 없습니다.</td>
 									</tr>
 								</tbody>
-							</table>
-							
-						
-					
-						
-					
-						
+							</table>	
 					</div>
 				</div>
 			</div>
@@ -71,17 +64,15 @@
 						<div class="form-group">
 							<label class="control-label col-md-3">입찰신청파일업로드</label>
 							<div class="col-md-4 col-xs-4" >
-								<!-- multiple 설정을 하면 하나의 태그에서 여러 파일 첨부 가능 -->
-								<input type="file" name="files" multiple="multiple" class="default" />
+								<input type="file" name="files" multiple="multiple" class="default" id="bidFile"/>
 							</div>
 							<div class="col-md-4 col-xs-4">
-								<input type="submit" value="업로드" class="default"/>
+								<input type="submit" value="업로드" class="default" id="bidFileBtn">
 							</div>
 						</div>
 					</form>
 					
 					<div class="form-group">
-						
 							<table class="table table-hover">
 								<thead>
 									<tr>
@@ -119,6 +110,42 @@
 			policy.addClass('active');
 			policy.parent().find('.sub').css('display','block');
 			policy.parent().find('.sub').children().eq(3).addClass('active');
+	
+			$('#noticeFileBtn').click(function(){
+				var fileExtension = $('#noticeFile').val();
+				if(fileExtension==''){
+					alert('파일을 선택해주세요.');
+					return false;
+				}
+				
+				if(fileExtension.indexOf('txt')=='-1'
+				  ||fileExtension.indexOf('pdf')=='-1'
+				  ||fileExtension.indexOf('hwp')=='-1'
+				  ||fileExtension.indexOf('png')=='-1'
+				  ||fileExtension.indexOf('jpg')=='-1'
+				  ||fileExtension.indexOf('gif')=='-1'){
+					alert('등록할 수 없는 확장자 입니다.\n다른 파일을 선택해주세요.\n(등록가능 확장자 : pdf,txt,jpg,png,gif,hwp)');
+					return false;
+				}
+			});
+			
+			$('#bidFileBtn').click(function(){
+				var fileExtension = $('#bidFile').val();
+				if(fileExtension==''){
+					alert('파일을 선택해주세요.');
+					return false;
+				}
+				if(fileExtension.indexOf('txt')=='-1'
+				  ||fileExtension.indexOf('pdf')=='-1'
+				  ||fileExtension.indexOf('hwp')=='-1'
+				  ||fileExtension.indexOf('png')=='-1'
+				  ||fileExtension.indexOf('jpg')=='-1'
+				  ||fileExtension.indexOf('gif')=='-1'){
+					alert('등록할 수 없는 확장자 입니다.\n다른 파일을 선택해주세요.\n(등록가능 확장자 : pdf,txt,jpg,png,gif,hwp)');
+					return false;
+				}
+			})
+			
 		</script>
 	</th:block>
 </html>
