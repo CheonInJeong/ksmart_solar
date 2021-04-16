@@ -27,6 +27,7 @@ import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
+import com.cafe24.kangk0269.dto.PageDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
 import com.cafe24.kangk0269.serivce.BidPlantService;
@@ -121,8 +122,11 @@ public class MemberManageController {
 									, @RequestParam(name="searchKeyL", required=false) String searchKeyL
 									, @RequestParam(name="searchValueL", required=false) String searchValueL
 									, @RequestParam(name="searchValueLS", required=false) String searchValueLS
-									, @RequestParam(name="searchValueLF", required=false) String searchValueLF) {
+									, @RequestParam(name="searchValueLF", required=false) String searchValueLF
+									, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("로그인 기록 카테고리 : " + searchKeyL);
+		int listCnt = memberService.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
+		System.out.println(listCnt);
 		Map<String, Object> resultMap = memberService.getLoginHistory(searchKeyL, searchValueL, searchValueLS, searchValueLF);
 		System.out.println(resultMap.get("loginHistory"));
 		model.addAttribute("loginHistoryList", resultMap.get("loginHistory"));

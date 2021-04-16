@@ -27,6 +27,8 @@ public interface MemberMapper {
 	
 	// 로그인 기록 조회
 	public List<Map<String,Object>> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
+	// 로그인 기록 리스트 수 조회
+	public int getLoginHistoryCnt(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
 	
 	//개인 비밀번호수정
 	public int modifyPw(String login_id, String newPw);

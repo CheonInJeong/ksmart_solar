@@ -175,6 +175,26 @@
 			</if>
 		</trim>
 	</select>
+	
+	<!-- 로그인 기록 리스트 수 조회 -->
+	<select id="getLoginHistoryCnt" resultType="int" parameterType="String">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_member_log
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyL != null and searchKeyL != ''.toString()">
+				<choose>
+					<when test="'m_log_in'.equals(searchKeyL)">
+						m_log_in BETWEEN #{searchValueLS} AND #{searchValueLF}
+					</when>
+					<otherwise>
+						${searchKeyL} LIKE CONCAT ('%',#{searchValueL},'%')
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
+	</select>
 
 	<!-- 전체 회원정보수정  -->
 	<update id="modifyMember" parameterType="MemberDTO">

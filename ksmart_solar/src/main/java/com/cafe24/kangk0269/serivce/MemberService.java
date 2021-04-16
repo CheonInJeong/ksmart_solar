@@ -102,6 +102,17 @@ public class MemberService {
 		
 		return resultMap;
 	}
+	// 로그인 기록 리스트 수 조회
+	public int getLoginHistoryCnt(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF) {
+		if(searchKeyL != null && searchKeyL != "") {
+			if("mId".equals(searchKeyL)) {
+				searchKeyL = "m_id";
+			}else {
+				searchKeyL = "m_log_in";
+			}
+		}
+		return memberMapper.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
+	}
 	
 	// 전체 회원정보수정
 	public int modifyMember(MemberDTO member) {
