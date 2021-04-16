@@ -55,6 +55,149 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		)
 	</insert>
 	
+	<!-- 예치금 입금 : 입찰자 테이블 업데이트 -->
+	<update id="modifyBidDepositIn" parameterType="BidListDTO">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_check = 'Y',
+			b_mo_code = sf_new_b_mo_code(#{bDepositDate}),
+			b_deposit_date = #{bDepositDate},
+			tr_type_code = 3,
+			tr_type_name = '입찰성공',
+			b_date_up = NOW(),
+		WHERE b_code = #{bCode}
+	</update>
+	
+	<!-- 예치금 입금 : 발전소매각공고신청 테이블 업데이트 -->
+	<update id="modifyPlantDepositIn" parameterType="BidPlantDTO">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_number_of_bidder = sf_b_number_of_bidder_update(#{bPlCode})
+		WHERE b_pl_code = #{bPlCode}
+	</update>
+	
+	<!-- 예치금 입금 : 부품매각공고신청 테이블 업데이트 -->
+	<update id="modifyComDepositIn" parameterType="BidComponentDTO">
+		UPDATE tb_bid_component
+		SET
+			b_cp_bidder_number = sf_b_number_of_bidder_update(#{bCpCode}),
+		WHERE b_cp_code = #{bCpCode}
+	</update>
+	
+	<!-- 대금 입금 : 거래대금납부 테이블 업데이트 -->
+	<update id="modifyPayIn" parameterType="TradePaymentInDTO">
+		UPDATE tb_trade_payment_in
+		SET
+			tr_payin_check = 'Y',
+			b_mo_code = sf_new_b_mo_code(#{bMoDate}),
+			b_mo_date = #{bMoDate},
+			tr_payin_status = '납부완료'
+		WHERE tr_payin_code = #{trPayinCode}
+	</update>
+	
+	<!-- 대금 입금 : 낙찰자우선순위 테이블 업데이트 -->
+	<update id="modifyPriPayIn" parameterType="TradePaymentInDTO">
+		UPDATE tb_trade_priority
+		SET
+		tr_type_code = 13,
+		tr_type_name = '대금완료',
+		tr_pr_date_up = NOW()
+		WHERE tr_pr_code=(	SELECT
+							*
+							FROM 
+							(	SELECT
+									a.tr_pr_code
+								FROM
+									tb_trade_priority AS a
+									INNER JOIN 
+									tb_trade_payment_in AS b
+									ON 
+									a.tr_pr_code = b.tr_pr_code
+								WHERE b.tr_payin_code = #{trPayinCode}) AS r)
+	</update>
+	
+	<!-- 대금 입금 : 입찰자 테이블 업데이트 -->
+	<update id="modifyBidPayIn" parameterType="TradePaymentInDTO">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = 13,
+			tr_type_name = '대금완료',
+			b_date_up = NOW()
+		WHERE b_code=(	SELECT 
+						*
+						FROM 
+							(
+								SELECT
+									b.b_code
+								FROM
+									tb_bid_list AS a
+									INNER JOIN 
+									tb_trade_payment_in AS b
+									ON 
+									a.b_code = b.b_code
+								WHERE b.tr_payin_code = #{trPayinCode}
+	
+							) AS r)
+	</update>
+	
+	<!-- 대금 입금 : 발전소매각공고신청 테이블 업데이트 -->
+	<update id="modifyPlantPayIn" parameterType="BidPlantDTO">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status = '거래완료',
+			ac_status_code = 7
+		WHERE b_pl_code = #{bPlCode}
+	</update>
+	
+	<!-- 대금 입금 : 부품매각공고신청 테이블 업데이트 -->
+	<update id="modifyComPayIn" parameterType="BidComponentDTO">
+		UPDATE tb_bid_component
+		SET
+			b_cp_status = '거래완료',
+			ac_status_code = 7
+		WHERE b_cp_code = #{bCpCode}
+	</update>
+	
+	<!-- 예치금 환불 : 예치금출금신청 테이블 업데이트 -->
+	<update id="modifyDepositOut" parameterType="TradeDepositOutDTO">
+		UPDATE tb_trade_deposit_out
+		SET
+			b_mo_code = sf_new_b_mo_code(#{trDepWdDate})
+		WHERE tr_dep_code = #{trDepCode}
+	</update>
+	
+	<!-- 예치금 환불 : 입찰자 테이블 업데이트 -->
+	<update id="modifyBidDepositOut" parameterType="TradeDepositOutDTO">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'N',
+			b_deposit_refund = 'Y'
+		WHERE b_code = (	
+							SELECT 
+							*
+							FROM 
+							(
+								SELECT
+									a.b_code
+								FROM
+									tb_trade_deposit_out AS a
+									INNER JOIN 
+									tb_bid_list AS b
+									ON 
+									a.b_code = b.b_code
+								WHERE a.tr_dep_code = #{trDepCode}
+							) AS r
+						)
+	</update>
+	
+	<!-- 대금 출금 : 거래대금출금신청 테이블 업데이트 -->
+	<update id="modifyPayOut" parameterType="TradePaymentOutDTO">
+		UPDATE tb_trade_payment_out
+		SET
+			b_mo_code = sf_new_b_mo_code(#{trPayoutWdDate})
+		WHERE tr_payout_code = #{trPayoutCode}
+	</update>
+	
 	<!-- 확인 입출금 개별(미완료) -->
 	<select id="getMoneyCheck" resultType="MoneyCheckDTO">
 		SELECT
@@ -63,7 +206,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, result.nTitle										AS nTitle
 			, result.Id											AS Id
 			, result.money										AS money
-			, if(SUBSTR(result.Code,5,1)='t' OR 'u','출금','입금') AS iOut
+			, if(SUBSTR(result.Code,INSTR(result.Code,'o'),3)='out','출금','입금') AS iOut
 			, result.startDate									AS startDate
 			, result.endDate									AS endDate
 			, result.inoutCheck									AS inoutCheck
@@ -202,7 +345,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, result.nTitle										AS nTitle
 			, result.Id											AS Id
 			, result.money										AS money
-			, if(SUBSTR(result.Code,5,1)='t' OR 'u','출금','입금') AS iOut
+			, if(SUBSTR(result.Code,INSTR(result.Code,'o'),3)='out','출금','입금') AS iOut
 			, result.startDate									AS startDate
 			, result.endDate									AS endDate
 			, result.inoutCheck									AS inoutCheck
