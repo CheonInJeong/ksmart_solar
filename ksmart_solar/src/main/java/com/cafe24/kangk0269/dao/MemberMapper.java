@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
+import com.cafe24.kangk0269.dto.MemberLogDTO;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Mapper
@@ -26,7 +27,7 @@ public interface MemberMapper {
 	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
 	
 	// 로그인 기록 조회
-	public List<Map<String,Object>> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
+	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
 	// 로그인 기록 리스트 수 조회
 	public int getLoginHistoryCnt(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
 	

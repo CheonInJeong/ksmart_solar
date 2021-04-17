@@ -52,7 +52,7 @@
 					</thead>
 					<tbody>
 						<tr th:if="${#lists.size(loginHistoryList) > 0}" th:each="l, status : ${loginHistoryList}">
-							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="번호" th:text="${status.count+(page.curPage-1)*5}"></td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="로그인 시간" th:text="${l.mLogIn}"></td>
 							<td data-title="로그아웃 시간" th:text="${l.mLogOut}"></td>
@@ -65,17 +65,20 @@
 						<div class="text-center">
 						  <ul class="pagination">
 						    <li>
-						      <a href="#" aria-label="Previous">
+						      <a th:if="${page.curBlock > 1}" th:href="@{/member/memberLoginHistory(curPage=${page.prevPage},searchKeyL=${searchKeyL},searchValueL=${searchValueL},searchValueLS=${searchValueLS},searchValueLF=${searchValueLF})}" aria-label="Previous">
 						        <span aria-hidden="true">&laquo;</span>
 						      </a>
 						    </li>
-						    <li><a href="#">1</a></li>
-						    <li><a href="#">2</a></li>
-						    <li><a href="#">3</a></li>
-						    <li><a href="#">4</a></li>
-						    <li><a href="#">5</a></li>
+					    	<th:block th:each="num : ${#numbers.sequence(page.blockBegin, page.blockEnd)}">
+					   		<li th:if="${num == page.curPage}" class="active">
+					   			<a>[[${num}]]</a>
+					   		</li>
+					   		<li th:unless="${num == page.curPage}">
+					   			<a th:href="@{/member/memberLoginHistory(curPage=${num},searchKeyL=${searchKeyL},searchValueL=${searchValueL},searchValueLS=${searchValueLS},searchValueLF=${searchValueLF})}">[[${num}]]</a>
+					   		</li>
+					  		</th:block>
 						    <li>
-						      <a href="#" aria-label="Next">
+						      <a th:if="${page.curBlock <= page.totBlock}" th:href="@{member/memberLoginHistory(curPage=${page.nextPage},searchKeyL=${searchKeyL},searchValueL=${searchValueL},searchValueLS=${searchValueLS},searchValueLF=${searchValueLF})}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>
 						    </li>

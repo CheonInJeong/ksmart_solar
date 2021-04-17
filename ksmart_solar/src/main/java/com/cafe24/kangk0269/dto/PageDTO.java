@@ -3,7 +3,7 @@ package com.cafe24.kangk0269.dto;
 public class PageDTO {
 
 	//페이지당 리스트 수
-	public static final int PAGE_SCALE = 5;
+	public static final int PAGE_SCALE=5;
 	//화면당 페이지 수
 	public static final int BLOCK_SCALE=5;
 	//현재 페이지 번호
@@ -22,9 +22,9 @@ public class PageDTO {
 	private int prevBlock;
 	//다음 페이지 블록 번호
 	private int nextBlock;
-
+	//#{start}
 	private int pageBegin;
-	
+	//#{end}
 	private int pageEnd;
 	//현재 페이지 블록 시작번호
 	private int blockBegin;
@@ -64,10 +64,11 @@ public class PageDTO {
 	}
 	
 	public void setPageRange() {
-		//시작번호 = (현재페이지-1)*페이지당 게시물수 +1
-		pageBegin = (curPage-1)*PAGE_SCALE+1;
-		//끝번호 = 시작번호+페이지당 게시물 수 -1
-		pageEnd = pageBegin+PAGE_SCALE-1;
+		//LIMIT #{start},#{end}
+		//시작번호 = (현재페이지-1)*페이지당 게시물수 
+		pageBegin = (curPage-1)*PAGE_SCALE;
+		//끝번호 = 페이지당 게시물 수
+		pageEnd = PAGE_SCALE;
 	}
 	
 

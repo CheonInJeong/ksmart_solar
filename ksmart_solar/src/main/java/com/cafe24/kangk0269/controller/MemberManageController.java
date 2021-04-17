@@ -26,6 +26,7 @@ import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
+import com.cafe24.kangk0269.dto.MemberLogDTO;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 import com.cafe24.kangk0269.dto.PageDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
@@ -125,11 +126,23 @@ public class MemberManageController {
 									, @RequestParam(name="searchValueLF", required=false) String searchValueLF
 									, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("로그인 기록 카테고리 : " + searchKeyL);
-		int listCnt = memberService.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
-		System.out.println(listCnt);
-		Map<String, Object> resultMap = memberService.getLoginHistory(searchKeyL, searchValueL, searchValueLS, searchValueLF);
-		System.out.println(resultMap.get("loginHistory"));
-		model.addAttribute("loginHistoryList", resultMap.get("loginHistory"));
+		//리스트 개수
+		int count = memberService.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
+		System.out.println(count);
+		//페이지 나누기
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		System.out.println("start : " + start);
+		System.out.println("end : " + end);
+		List<MemberLogDTO> loginHistoryList = memberService.getLoginHistory(start, end, searchKeyL, searchValueL, searchValueLS, searchValueLF);
+		model.addAttribute("loginHistoryList", loginHistoryList);
+		model.addAttribute("searchKeyL", searchKeyL);
+		model.addAttribute("searchValueL", searchValueL);
+		model.addAttribute("searchValueLS", searchValueLS);
+		model.addAttribute("searchValueLF", searchValueLF);
+		model.addAttribute("count", count);
+		model.addAttribute("page", page);
 		return "/member/memberLoginHistory";
 	}
 

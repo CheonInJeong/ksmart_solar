@@ -18,6 +18,7 @@ import com.cafe24.kangk0269.dao.MemberMapper;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
+import com.cafe24.kangk0269.dto.MemberLogDTO;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Service
@@ -88,7 +89,7 @@ public class MemberService {
 	}
 	
 	// 로그인 기록 조회
-	public Map<String, Object> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){
+	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){
 		if(searchKeyL != null && searchKeyL != "") {
 			if("mId".equals(searchKeyL)) {
 				searchKeyL = "m_id";
@@ -96,11 +97,9 @@ public class MemberService {
 				searchKeyL = "m_log_in";
 			}
 		}
-		List<Map<String, Object>> loginHistory = memberMapper.getLoginHistory(searchKeyL, searchValueL, searchValueLS, searchValueLF);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("loginHistory", loginHistory);
 		
-		return resultMap;
+		List<MemberLogDTO> loginHistory = memberMapper.getLoginHistory(start, end ,searchKeyL, searchValueL, searchValueLS, searchValueLF);
+		return loginHistory;
 	}
 	// 로그인 기록 리스트 수 조회
 	public int getLoginHistoryCnt(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF) {
