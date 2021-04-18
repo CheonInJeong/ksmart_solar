@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
+import com.cafe24.kangk0269.dto.MemberLogDTO;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Mapper
@@ -20,13 +21,19 @@ public interface MemberMapper {
 	public List<MemberAccountDTO> getAllBankAccount();
 	
 	// 탈퇴신청회원 조회
-	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(int start, int end, String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
+	// 탈퇴신청회원 리스트 수 조회
+	public int getWithdrawAdmitMemberCnt(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
 
 	// 탈퇴완료회원 조회
-	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
+	public List<MemberRevokeDTO> getWithdrawCompleteMember(int start, int end, String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
+	// 탈퇴완료회원 리스트 수 조회
+	public int getWithdrawCompleteMemberCnt(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
 	
 	// 로그인 기록 조회
-	public List<Map<String,Object>> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
+	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
+	// 로그인 기록 리스트 수 조회
+	public int getLoginHistoryCnt(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
 	
 	//개인 비밀번호수정
 	public int modifyPw(String login_id, String newPw);
@@ -39,14 +46,18 @@ public interface MemberMapper {
 	
 	
 	
-	// 전체회원정보 수정
+	// 전체회원권한수정
 	public int modifyMember(MemberDTO member);
 	
 	// 활동회원조회
-	public List<MemberDTO> getActiveMember(String searchKeyAM, String searchValueAM);
+	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM);
+	// 활동회원 리스트 수 조회
+	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM);
 	
 	// 휴면회원조회
-	public List<MemberDTO> getRestMember(String searchKeyRM, String searchValueRM);
+	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM);
+	// 휴면회원 리스트 수 조회
+	public int getRestMemberCnt(String searchKeyRM, String searchValueRM);
 	
 	// 회원가입
 	public int addMember(MemberDTO member);

@@ -18,6 +18,7 @@ import com.cafe24.kangk0269.dao.MemberMapper;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
+import com.cafe24.kangk0269.dto.MemberLogDTO;
 import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 
 @Service
@@ -58,7 +59,7 @@ public class MemberService {
 	}
 	
 	// 탈퇴신청회원 조회
-	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF){
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(int start, int end, String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF){
 		if(searchKeyWAM != null && searchKeyWAM != "") {
 			if("mId".equals(searchKeyWAM)) {
 				searchKeyWAM = "m_id";
@@ -69,11 +70,24 @@ public class MemberService {
 			}
 		}
 		
-		return memberMapper.getWithdrawAdmitMember(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
+		return memberMapper.getWithdrawAdmitMember(start, end, searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
+	}
+	// 탈퇴신청회원 리스트 수 조회
+	public int getWithdrawAdmitMemberCnt(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF) {
+		if(searchKeyWAM != null && searchKeyWAM != "") {
+			if("mId".equals(searchKeyWAM)) {
+				searchKeyWAM = "m_id";
+			}else if("mRevokeDate".equals(searchKeyWAM)) {
+				searchKeyWAM = "m_revoke_date";
+			}else {
+				searchKeyWAM = "m_revoke_cancel_date";
+			}
+		}
+		return memberMapper.getWithdrawAdmitMemberCnt(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
 	}
 
 	// 탈퇴완료회원 조회
-	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF){
+	public List<MemberRevokeDTO> getWithdrawCompleteMember(int start, int end, String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF){
 		if(searchKeyWCM != null && searchKeyWCM != "") {
 			if("mId".equals(searchKeyWCM)) {
 				searchKeyWCM = "m_id";
@@ -84,11 +98,24 @@ public class MemberService {
 			}
 		}
 		
-		return memberMapper.getWithdrawCompleteMember(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
+		return memberMapper.getWithdrawCompleteMember(start, end, searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
+	}
+	// 탈퇴완료회원 리스트 수 조회
+	public int getWithdrawCompleteMemberCnt(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF) {
+		if(searchKeyWCM != null && searchKeyWCM != "") {
+			if("mId".equals(searchKeyWCM)) {
+				searchKeyWCM = "m_id";
+			}else if("mRevokeDate".equals(searchKeyWCM)) {
+				searchKeyWCM = "m_revoke_date";
+			}else {
+				searchKeyWCM = "m_revoke_final_date";
+			}
+		}
+		return memberMapper.getWithdrawCompleteMemberCnt(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
 	}
 	
 	// 로그인 기록 조회
-	public Map<String, Object> getLoginHistory(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){
+	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){
 		if(searchKeyL != null && searchKeyL != "") {
 			if("mId".equals(searchKeyL)) {
 				searchKeyL = "m_id";
@@ -96,14 +123,23 @@ public class MemberService {
 				searchKeyL = "m_log_in";
 			}
 		}
-		List<Map<String, Object>> loginHistory = memberMapper.getLoginHistory(searchKeyL, searchValueL, searchValueLS, searchValueLF);
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("loginHistory", loginHistory);
 		
-		return resultMap;
+		List<MemberLogDTO> loginHistory = memberMapper.getLoginHistory(start, end ,searchKeyL, searchValueL, searchValueLS, searchValueLF);
+		return loginHistory;
+	}
+	// 로그인 기록 리스트 수 조회
+	public int getLoginHistoryCnt(String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF) {
+		if(searchKeyL != null && searchKeyL != "") {
+			if("mId".equals(searchKeyL)) {
+				searchKeyL = "m_id";
+			}else {
+				searchKeyL = "m_log_in";
+			}
+		}
+		return memberMapper.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
 	}
 	
-	// 전체 회원정보수정
+	// 전체 회원권한수정
 	public int modifyMember(MemberDTO member) {
 		int result = memberMapper.modifyMember(member);
 		return result;
@@ -206,7 +242,7 @@ public class MemberService {
 	}
 	
 	// 활동회원조회
-	public List<MemberDTO> getActiveMember(String searchKeyAM, String searchValueAM){
+	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM){
 		if(searchKeyAM != null) {
 			if("mId".equals(searchKeyAM)) {
 				searchKeyAM = "m_id";
@@ -220,7 +256,7 @@ public class MemberService {
 				searchKeyAM = "m_sub_date";
 			}
 		}
-		List<MemberDTO> memberList = memberMapper.getActiveMember(searchKeyAM, searchValueAM);
+		List<MemberDTO> memberList = memberMapper.getActiveMember(start, end, searchKeyAM, searchValueAM);
 		
 		for(int i=0; i < memberList.size(); i++) {
 			int mLevel = memberList.get(i).getmLevel();
@@ -241,9 +277,26 @@ public class MemberService {
 		return memberList;
 
 	}
+	// 활동회원 리스트 수 조회
+	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM) {
+		if(searchKeyAM != null) {
+			if("mId".equals(searchKeyAM)) {
+				searchKeyAM = "m_id";
+			}else if("mName".equals(searchKeyAM)) {
+				searchKeyAM = "m_name";
+			}else if("mLevel".equals(searchKeyAM)) {
+				searchKeyAM = "m_level";
+			}else if("mAddr".equals(searchKeyAM)) {
+				searchKeyAM = "m_addr";
+			}else {
+				searchKeyAM = "m_sub_date";
+			}
+		}
+		return memberMapper.getActiveMemberCnt(searchKeyAM, searchValueAM);
+	}
 	
 	// 휴면회원조회
-	public List<MemberDTO> getRestMember(String searchKeyRM, String searchValueRM){
+	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM){
 		if(searchKeyRM != null) {
 			if("mId".equals(searchKeyRM)) {
 				searchKeyRM = "m_id";
@@ -257,7 +310,7 @@ public class MemberService {
 				searchKeyRM = "m_sub_date";
 			}
 		}
-		List<MemberDTO> memberList = memberMapper.getRestMember(searchKeyRM, searchValueRM);
+		List<MemberDTO> memberList = memberMapper.getRestMember(start, end, searchKeyRM, searchValueRM);
 		
 		for(int i=0; i < memberList.size(); i++) {
 			int mLevel = memberList.get(i).getmLevel();
@@ -277,5 +330,22 @@ public class MemberService {
 		
 		return memberList;
 		
+	}
+	// 휴면회원 리스트 수 조회
+	public int getRestMemberCnt(String searchKeyRM, String searchValueRM) {
+		if(searchKeyRM != null) {
+			if("mId".equals(searchKeyRM)) {
+				searchKeyRM = "m_id";
+			}else if("mName".equals(searchKeyRM)) {
+				searchKeyRM = "m_name";
+			}else if("mLevel".equals(searchKeyRM)) {
+				searchKeyRM = "m_level";
+			}else if("mAddr".equals(searchKeyRM)) {
+				searchKeyRM = "m_addr";
+			}else {
+				searchKeyRM = "m_sub_date";
+			}
+		}
+		return memberMapper.getRestMemberCnt(searchKeyRM, searchValueRM);
 	}
 }
