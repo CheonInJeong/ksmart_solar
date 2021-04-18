@@ -200,19 +200,11 @@
 		</trim>
 	</select>
 
-	<!-- 전체 회원정보수정  -->
+	<!-- 전체 회원권한수정  -->
 	<update id="modifyMember" parameterType="MemberDTO">
 		UPDATE tb_member
 		SET
-			m_id = #{mId},
-			m_pw = #{mPw},
-			m_name = #{mName},
 			m_level = #{mLevel},
-			m_zipcode = #{mZipcode},
-			m_addr = #{mAddr},
-			m_detail_addr = #{mDetailAddr},
-			m_phone = #{mPhone},
-			m_email = #{mEmail},
 			m_sub_date_modify = NOW()
 		WHERE 
 			m_id = #{mId}
@@ -321,7 +313,7 @@
 	</select>
 	
 	<!-- 활동회원조회 -->
-	<select id="getActiveMember" parameterType="String" resultMap="memberResultMap">
+	<select id="getActiveMember" resultMap="memberResultMap">
 		SELECT 
 			m_id
 			, m_pw
@@ -349,6 +341,36 @@
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKeyAM == null or searchKeyAM == ''.toString()">
 				a.m_rest_check = 'N' AND a.m_revoke_check = 'N' AND a.m_revoke_delay_check = 'N'
+				LIMIT #{start},#{end}
+			</if>
+			<if test="searchKeyAM != null and searchKeyAM != ''.toString()">
+				a.m_rest_check = 'N' AND a.m_revoke_check = 'N' AND a.m_revoke_delay_check = 'N' AND
+				<choose>
+					<when test="'m_level'.equals(searchKeyAM)">
+						b.m_level_name LIKE CONCAT('%',#{searchValueAM},'%')
+					</when>
+					<otherwise>
+						${searchKeyAM} LIKE CONCAT('%',#{searchValueAM},'%')
+					</otherwise>
+				</choose>
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 활동회원 리스트 수 조회 -->
+	<select id="getActiveMemberCnt" resultType="int" parameterType="String">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_member AS a
+			INNER join
+			tb_member_level AS b
+			ON 
+			a.m_level = b.m_level
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyAM == null or searchKeyAM == ''.toString()">
+				a.m_rest_check = 'N' AND a.m_revoke_check = 'N' AND a.m_revoke_delay_check = 'N'
 			</if>
 			<if test="searchKeyAM != null and searchKeyAM != ''.toString()">
 				a.m_rest_check = 'N' AND a.m_revoke_check = 'N' AND a.m_revoke_delay_check = 'N' AND
@@ -365,7 +387,7 @@
 	</select>
 	
 	<!-- 휴면회원조회 -->
-	<select id="getRestMember" parameterType="String" resultMap="memberResultMap">
+	<select id="getRestMember" resultMap="memberResultMap">
 		SELECT 
 			m_id
 			, m_pw
@@ -384,6 +406,36 @@
 			, m_revoke_check
 			, m_revoke_delay_check
 			, m_state_modify_date
+		FROM 
+			tb_member AS a
+			INNER join
+			tb_member_level AS b
+			ON 
+			a.m_level = b.m_level
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyRM == null or searchKeyRM == ''.toString()">
+				a.m_rest_check = 'Y'
+				LIMIT #{start},#{end}
+			</if>
+			<if test="searchKeyRM != null and searchKeyRM != ''.toString()">
+				a.m_rest_check = 'Y' AND
+				<choose>
+					<when test="'m_level'.equals(searchKeyRM)">
+						b.m_level_name LIKE CONCAT('%',#{searchValueRM},'%')
+					</when>
+					<otherwise>
+						${searchKeyRM} LIKE CONCAT('%',#{searchValueRM},'%')
+					</otherwise>
+				</choose>
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 휴면회원 리스트 수 조회 -->
+	<select id="getRestMemberCnt" resultType="int" parameterType="String">
+		SELECT 
+			COUNT(*)
 		FROM 
 			tb_member AS a
 			INNER join

@@ -52,7 +52,7 @@
 					</thead>
 					<tbody>
 						<tr th:if="${#lists.size(loginHistoryList) > 0}" th:each="l, status : ${loginHistoryList}">
-							<td data-title="번호" th:text="${status.count+(page.curPage-1)*5}"></td>
+							<td data-title="번호" th:text="${status.count+(page.curPage-1)*page.pageEnd}"></td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="로그인 시간" th:text="${l.mLogIn}"></td>
 							<td data-title="로그아웃 시간" th:text="${l.mLogOut}"></td>
@@ -74,11 +74,13 @@
 					   			<a>[[${num}]]</a>
 					   		</li>
 					   		<li th:unless="${num == page.curPage}">
+					   		<th:block th:if="${num} != 0">
 					   			<a th:href="@{/member/memberLoginHistory(curPage=${num},searchKeyL=${searchKeyL},searchValueL=${searchValueL},searchValueLS=${searchValueLS},searchValueLF=${searchValueLF})}">[[${num}]]</a>
+					   		</th:block>
 					   		</li>
 					  		</th:block>
 						    <li>
-						      <a th:if="${page.curBlock <= page.totBlock}" th:href="@{member/memberLoginHistory(curPage=${page.nextPage},searchKeyL=${searchKeyL},searchValueL=${searchValueL},searchValueLS=${searchValueLS},searchValueLF=${searchValueLF})}" aria-label="Next">
+						      <a th:if="${page.curBlock <= page.totBlock}" th:href="@{/member/memberLoginHistory(curPage=${page.nextPage},searchKeyL=${searchKeyL},searchValueL=${searchValueL},searchValueLS=${searchValueLS},searchValueLF=${searchValueLF})}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>
 						    </li>

@@ -42,14 +42,18 @@ public interface MemberMapper {
 	
 	
 	
-	// 전체회원정보 수정
+	// 전체회원권한수정
 	public int modifyMember(MemberDTO member);
 	
 	// 활동회원조회
-	public List<MemberDTO> getActiveMember(String searchKeyAM, String searchValueAM);
+	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM);
+	// 활동회원 리스트 수 조회
+	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM);
 	
 	// 휴면회원조회
-	public List<MemberDTO> getRestMember(String searchKeyRM, String searchValueRM);
+	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM);
+	// 휴면회원 리스트 수 조회
+	public int getRestMemberCnt(String searchKeyRM, String searchValueRM);
 	
 	// 회원가입
 	public int addMember(MemberDTO member);

@@ -113,7 +113,7 @@ public class MemberService {
 		return memberMapper.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
 	}
 	
-	// 전체 회원정보수정
+	// 전체 회원권한수정
 	public int modifyMember(MemberDTO member) {
 		int result = memberMapper.modifyMember(member);
 		return result;
@@ -216,7 +216,7 @@ public class MemberService {
 	}
 	
 	// 활동회원조회
-	public List<MemberDTO> getActiveMember(String searchKeyAM, String searchValueAM){
+	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM){
 		if(searchKeyAM != null) {
 			if("mId".equals(searchKeyAM)) {
 				searchKeyAM = "m_id";
@@ -230,7 +230,7 @@ public class MemberService {
 				searchKeyAM = "m_sub_date";
 			}
 		}
-		List<MemberDTO> memberList = memberMapper.getActiveMember(searchKeyAM, searchValueAM);
+		List<MemberDTO> memberList = memberMapper.getActiveMember(start, end, searchKeyAM, searchValueAM);
 		
 		for(int i=0; i < memberList.size(); i++) {
 			int mLevel = memberList.get(i).getmLevel();
@@ -251,9 +251,26 @@ public class MemberService {
 		return memberList;
 
 	}
+	// 활동회원 리스트 수 조회
+	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM) {
+		if(searchKeyAM != null) {
+			if("mId".equals(searchKeyAM)) {
+				searchKeyAM = "m_id";
+			}else if("mName".equals(searchKeyAM)) {
+				searchKeyAM = "m_name";
+			}else if("mLevel".equals(searchKeyAM)) {
+				searchKeyAM = "m_level";
+			}else if("mAddr".equals(searchKeyAM)) {
+				searchKeyAM = "m_addr";
+			}else {
+				searchKeyAM = "m_sub_date";
+			}
+		}
+		return memberMapper.getActiveMemberCnt(searchKeyAM, searchValueAM);
+	}
 	
 	// 휴면회원조회
-	public List<MemberDTO> getRestMember(String searchKeyRM, String searchValueRM){
+	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM){
 		if(searchKeyRM != null) {
 			if("mId".equals(searchKeyRM)) {
 				searchKeyRM = "m_id";
@@ -267,7 +284,7 @@ public class MemberService {
 				searchKeyRM = "m_sub_date";
 			}
 		}
-		List<MemberDTO> memberList = memberMapper.getRestMember(searchKeyRM, searchValueRM);
+		List<MemberDTO> memberList = memberMapper.getRestMember(start, end, searchKeyRM, searchValueRM);
 		
 		for(int i=0; i < memberList.size(); i++) {
 			int mLevel = memberList.get(i).getmLevel();
@@ -287,5 +304,22 @@ public class MemberService {
 		
 		return memberList;
 		
+	}
+	// 휴면회원 리스트 수 조회
+	public int getRestMemberCnt(String searchKeyRM, String searchValueRM) {
+		if(searchKeyRM != null) {
+			if("mId".equals(searchKeyRM)) {
+				searchKeyRM = "m_id";
+			}else if("mName".equals(searchKeyRM)) {
+				searchKeyRM = "m_name";
+			}else if("mLevel".equals(searchKeyRM)) {
+				searchKeyRM = "m_level";
+			}else if("mAddr".equals(searchKeyRM)) {
+				searchKeyRM = "m_addr";
+			}else {
+				searchKeyRM = "m_sub_date";
+			}
+		}
+		return memberMapper.getRestMemberCnt(searchKeyRM, searchValueRM);
 	}
 }

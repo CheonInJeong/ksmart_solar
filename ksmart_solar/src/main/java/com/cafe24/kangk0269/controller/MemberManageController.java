@@ -65,19 +65,23 @@ public class MemberManageController {
 	
 	@GetMapping("/getMemberInfoById")
 	public String getMemberInfoById(Model model
-									,@RequestParam(value="mId", required=false) String mId) throws Exception {
+									,@RequestParam(value="mId", required=false) String mId
+									, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
+									, @RequestParam(name="searchValueAM", required=false) String searchValueAM
+									, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
+									, @RequestParam(name="searchValueRM", required=false) String searchValueRM
+									, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
+									, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) throws Exception {
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
-		List<BusinessDTO> businessList = businessService.getBusinessInfoById(mId);
-		List<BidPlantDTO> plantList = bidPlantService.getBidPlantById(mId);
-		List<BusinessPlantDTO> operPlantList = plantService.getOperPlantListById(mId);
-		List<ComponentDTO> componentList = sellService.getComponent(mId);
 		model.addAttribute("member", member);
 		model.addAttribute("accountList", accountList);
-		model.addAttribute("businessList", businessList);
-		model.addAttribute("plantList", plantList);
-		model.addAttribute("operPlantList", operPlantList);
-		model.addAttribute("componentList", componentList);
+		model.addAttribute("searchKeyAM", searchKeyAM);
+		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchKeyRM", searchKeyRM);
+		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("curPage1", curPage1);
+		model.addAttribute("curPage2", curPage2);
 		return "/member/getMemberInfoById";
 		
 	}
@@ -104,17 +108,27 @@ public class MemberManageController {
 							, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 							, @RequestParam(name="searchValueAM", required=false) String searchValueAM
 							, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
-							, @RequestParam(name="searchValueRM", required=false) String searchValueRM) {
-		System.out.println("활동카테고리 : " + searchKeyAM);
-		System.out.println("활동검색내용 : " + searchValueAM);
-		System.out.println("휴면카테고리 : " + searchKeyRM);
-		System.out.println("휴면검색내용 : " + searchValueRM);
-		List<MemberDTO> activememberList = memberService.getActiveMember(searchKeyAM, searchValueAM);
-		List<MemberDTO> restmemberList = memberService.getRestMember(searchKeyRM, searchValueRM);
-		System.out.println("활동회원조회 : " + activememberList);
-		System.out.println("휴면회원조회 : " + restmemberList);
+							, @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
+							, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
+		int count1 = memberService.getActiveMemberCnt(searchKeyAM, searchValueAM);
+		PageDTO page1 = new PageDTO(count1,curPage1);
+		int start1 = page1.getPageBegin();
+		int end1 = page1.getPageEnd();
+		List<MemberDTO> activememberList = memberService.getActiveMember(start1, end1, searchKeyAM, searchValueAM);
+		int count2 = memberService.getRestMemberCnt(searchKeyRM, searchValueRM);
+		PageDTO page2 = new PageDTO(count2,curPage2);
+		int start2 = page2.getPageBegin();
+		int end2 = page2.getPageEnd();
+		List<MemberDTO> restmemberList = memberService.getRestMember(start2, end2, searchKeyRM, searchValueRM);
 		model.addAttribute("activememberList", activememberList);
 		model.addAttribute("restmemberList", restmemberList);
+		model.addAttribute("searchKeyAM", searchKeyAM);
+		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchKeyRM", searchKeyRM);
+		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("page1", page1);
+		model.addAttribute("page2", page2);
 		return "/member/memberList";
 	}
 	
@@ -180,11 +194,19 @@ public class MemberManageController {
 		return "redirect:/bzCheckReason?bzCode=" + business.getBzCode();
 	}
 	
-	@PostMapping("/businessAdmitSend")
+	@PostMapping("/ajax/businessAdmitSend")
 	public String businessAdmitSend(@RequestParam(name="bzCode", required=false) String bzCode) {
 		System.out.println("승인된 사업자신청코드 : " + bzCode);
 		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
 		businessService.businessAdmit(business);
+		MemberDTO member = new MemberDTO();
+		member.setmId(business.getmId());
+		if(business.getBzType() == "태양광사업자(판매자)") {
+			member.setmLevel(2);
+		}else {
+			member.setmLevel(3);
+		}
+		memberService.modifyMember(member);
 		return "redirect:/getBusinessInfoBybzCode?bzCode=" + business.getBzCode();
 	}
 	
