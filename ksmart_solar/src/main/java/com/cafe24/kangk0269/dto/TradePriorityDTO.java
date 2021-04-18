@@ -27,6 +27,16 @@ public class TradePriorityDTO extends CommonDTO{
 	private TradePaymentInDTO tradePaymentInDTO;
 	private TradePaymentOutDTO tradePaymentOutDTO;
 	
+	private BidListDTO bidListDTO;
+	
+	
+	public BidListDTO getBidListDTO() {
+		return bidListDTO;
+	}
+
+	public void setBidListDTO(BidListDTO bidListDTO) {
+		this.bidListDTO = bidListDTO;
+	}
 
 	public TradePaymentOutDTO getTradePaymentOutDTO() {
 		return tradePaymentOutDTO;
@@ -265,9 +275,13 @@ public class TradePriorityDTO extends CommonDTO{
 		builder.append(tradePaymentInDTO);
 		builder.append(", tradePaymentOutDTO=");
 		builder.append(tradePaymentOutDTO);
+		builder.append(", bidListDTO=");
+		builder.append(bidListDTO);
 		builder.append("]");
 		return builder.toString();
 	}
+
+
 
 
 }

@@ -64,6 +64,9 @@ public interface SellMapper {
 	//공고 상태 변경
 	public int updateAcStatus() throws Exception;
 	public int updateComponentAcStatus() throws Exception;
+	//공고 상태 공고 마감-> 거래 진행중
+	public int updateAcStatus1(String state,String Code) throws Exception;
+	public int updateComponentAcStatus1(String state,String Code) throws Exception;
 	
 	//공고상태 및  낙찰자 결정 시간 가져오기
 	public List<BidPlantDTO> getAcStatus() throws Exception;

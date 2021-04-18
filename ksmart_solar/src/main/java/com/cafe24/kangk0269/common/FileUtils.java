@@ -13,13 +13,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.ResourceUtils;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.dto.FileDTO;
 
-//첨부파일 정보 가공 및 지정된 위치에 파일 저장
+
 @Component
 public class FileUtils {
 
@@ -42,9 +41,7 @@ public class FileUtils {
 		ZonedDateTime current = ZonedDateTime.now();
 		//파일 폴더 일자별 지정
 		filePath += current.format(format);
-		//파일 업로드 프로젝트 내 설정
-		
-
+		//파일이 업로드 될 물리적 경로를 구한다
 		String path  = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/file");
 		
 		System.out.println(path+"<----fileutils path");
@@ -105,10 +102,6 @@ public class FileUtils {
 					fileDto.setFileSortIdx(fileSortIdx);
 					fileList.add(fileDto);
 					
-					System.out.println(fileDto.getRelatedTableCode()+"<---fileUtils");
-					System.out.println(fileDto.getUpdatorId()+"<---fileUtils");
-					System.out.println(fileDto.getFileSortName()+"<---fileUtils");
-					System.out.println(fileDto.getOriginalFileName()+"<---fileUtils");
 					
 					//업로드 된 파일을 새로운 이름으로 바꾸어 지정된 경로에 저장
 					file = new File(path+"/"+newFileName);

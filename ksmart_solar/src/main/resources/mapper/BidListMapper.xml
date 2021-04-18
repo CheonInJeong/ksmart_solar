@@ -165,12 +165,23 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tr_type_name='입찰취소',
 			b_deposit_available='Y'
 		</if>
+		<if test="status.toString()=='공고취소'.toString()">
+			tr_type_code=15,
+			tr_type_name='공고취소',
+			b_deposit_available='Y'
+		</if>
 		<if test="status.toString()=='계약'.toString()">
 			tr_type_code=8,
 			tr_type_name='계약취소'
 		</if>
-		WHERE 
-			b_code = #{bCode}
+		WHERE
+			<if test="status.toString()=='계약'.toString() or status.toString()=='입찰'.toString()">
+				b_code = #{bCode}
+			</if>
+			<if test="status.toString()=='공고취소'.toString()">
+				announced_code = #{bCode}
+				and tr_type_code = 3
+			</if>
 	</update>
 	<update id="bidPlantMemberMinus">
 		UPDATE tb_bid_plant

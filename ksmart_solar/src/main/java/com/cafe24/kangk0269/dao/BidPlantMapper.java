@@ -38,4 +38,6 @@ public interface BidPlantMapper {
 								,@Param(value="searchKeyPl") String searchKeyPl
 								,@Param(value="searchValuePl") String searchValuePl
 								,@Param(value="bidPlantDTO") BidPlantDTO bidPlantDTO);
+	//
+	public int getPlantBidList(String announcedCode);
 }
