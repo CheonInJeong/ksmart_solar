@@ -21,10 +21,14 @@ public interface MemberMapper {
 	public List<MemberAccountDTO> getAllBankAccount();
 	
 	// 탈퇴신청회원 조회
-	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(int start, int end, String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
+	// 탈퇴신청회원 리스트 수 조회
+	public int getWithdrawAdmitMemberCnt(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);
 
 	// 탈퇴완료회원 조회
-	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
+	public List<MemberRevokeDTO> getWithdrawCompleteMember(int start, int end, String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
+	// 탈퇴완료회원 리스트 수 조회
+	public int getWithdrawCompleteMemberCnt(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
 	
 	// 로그인 기록 조회
 	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);

@@ -68,7 +68,7 @@
 								<tr th:if="${#lists.size(activememberList) > 0}" th:each="l, status : ${activememberList}">
 									<td data-title="번호" th:text="${status.count+(page1.curPage-1)*page1.pageEnd}"></td>
 									<td data-title="아이디">
-										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}>[[${l.mId}]]</a>
+										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},uri=${uri})}>[[${l.mId}]]</a>
 									</td>
 									<td data-title="이름" th:text="${l.mName}"></td>
 									<td data-title="권한" th:text="${l.mLevelName}"></td>
@@ -146,7 +146,7 @@
 								<tr th:if="${#lists.size(restmemberList) > 0}" th:each="l, status : ${restmemberList}">
 									<td data-title="번호" th:text="${status.count+(page2.curPage-1)*page2.pageEnd}"></td>
 									<td data-title="아이디">
-										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}>[[${l.mId}]]</a>
+										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},uri=${uri})}>[[${l.mId}]]</a>
 									</td>
 									<td data-title="이름" th:text="${l.mName}"></td>
 									<td data-title="권한" th:text="${l.mLevelName}"></td>

@@ -103,6 +103,35 @@
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKeyWAM == null or searchKeyWAM == ''.toString()">
 				m_revoke_final_date IS NULL
+				LIMIT #{start},#{end}
+			</if>
+			<if test="searchKeyWAM != null and searchKeyWAM != ''.toString()">
+				m_revoke_final_date IS NULL AND
+				<choose>
+					<when test="'m_revoke_date'.equals(searchKeyWAM)">
+						m_revoke_date BETWEEN #{searchValueWAMS} AND #{searchValueWAMF}
+					</when>
+					<when test="'m_revoke_cancel_date'.equals(searchKeyWAM)">
+						m_revoke_cancel_date BETWEEN #{searchValueWAMS} AND #{searchValueWAMF}
+					</when>
+					<otherwise>
+						${searchKeyWAM} LIKE CONCAT ('%',#{searchValueWAM},'%')
+					</otherwise>
+				</choose>
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 탈퇴신청회원 리스트 수 조회 -->
+	<select id="getWithdrawAdmitMemberCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_member_revoke
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyWAM == null or searchKeyWAM == ''.toString()">
+				m_revoke_final_date IS NULL
 			</if>
 			<if test="searchKeyWAM != null and searchKeyWAM != ''.toString()">
 				m_revoke_final_date IS NULL AND
@@ -134,10 +163,39 @@
 			tb_member_revoke
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKeyWCM == null or searchKeyWCM == ''.toString()">
-				m_revoke_cancel_date IS NULL
+				m_revoke_final_date IS NOT NULL
+				LIMIT #{start},#{end}
 			</if>
 			<if test="searchKeyWCM != null and searchKeyWCM != ''.toString()">
-				m_revoke_cancel_date IS NULL AND
+				m_revoke_final_date IS NOT NULL AND
+				<choose>
+					<when test="'m_revoke_date'.equals(searchKeyWCM)">
+						m_revoke_date BETWEEN #{searchValueWCMS} AND #{searchValueWCMF}
+					</when>
+					<when test="'m_revoke_final_date'.equals(searchKeyWCM)">
+						m_revoke_final_date BETWEEN #{searchValueWCMS} AND #{searchValueWCMF}
+					</when>
+					<otherwise>
+						${searchKeyWCM} LIKE CONCAT ('%',#{searchValueWCM},'%')
+					</otherwise>
+				</choose>
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 탈퇴완료회원 리스트 수 조회 -->
+	<select id="getWithdrawCompleteMemberCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_member_revoke
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKeyWCM == null or searchKeyWCM == ''.toString()">
+				m_revoke_final_date IS NOT NULL
+			</if>
+			<if test="searchKeyWCM != null and searchKeyWCM != ''.toString()">
+				m_revoke_final_date IS NOT NULL AND
 				<choose>
 					<when test="'m_revoke_date'.equals(searchKeyWCM)">
 						m_revoke_date BETWEEN #{searchValueWCMS} AND #{searchValueWCMF}

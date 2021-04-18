@@ -59,7 +59,7 @@ public class MemberService {
 	}
 	
 	// 탈퇴신청회원 조회
-	public List<MemberRevokeDTO> getWithdrawAdmitMember(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF){
+	public List<MemberRevokeDTO> getWithdrawAdmitMember(int start, int end, String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF){
 		if(searchKeyWAM != null && searchKeyWAM != "") {
 			if("mId".equals(searchKeyWAM)) {
 				searchKeyWAM = "m_id";
@@ -70,11 +70,24 @@ public class MemberService {
 			}
 		}
 		
-		return memberMapper.getWithdrawAdmitMember(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
+		return memberMapper.getWithdrawAdmitMember(start, end, searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
+	}
+	// 탈퇴신청회원 리스트 수 조회
+	public int getWithdrawAdmitMemberCnt(String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF) {
+		if(searchKeyWAM != null && searchKeyWAM != "") {
+			if("mId".equals(searchKeyWAM)) {
+				searchKeyWAM = "m_id";
+			}else if("mRevokeDate".equals(searchKeyWAM)) {
+				searchKeyWAM = "m_revoke_date";
+			}else {
+				searchKeyWAM = "m_revoke_cancel_date";
+			}
+		}
+		return memberMapper.getWithdrawAdmitMemberCnt(searchKeyWAM, searchValueWAM, searchValueWAMS, searchValueWAMF);
 	}
 
 	// 탈퇴완료회원 조회
-	public List<MemberRevokeDTO> getWithdrawCompleteMember(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF){
+	public List<MemberRevokeDTO> getWithdrawCompleteMember(int start, int end, String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF){
 		if(searchKeyWCM != null && searchKeyWCM != "") {
 			if("mId".equals(searchKeyWCM)) {
 				searchKeyWCM = "m_id";
@@ -85,7 +98,20 @@ public class MemberService {
 			}
 		}
 		
-		return memberMapper.getWithdrawCompleteMember(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
+		return memberMapper.getWithdrawCompleteMember(start, end, searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
+	}
+	// 탈퇴완료회원 리스트 수 조회
+	public int getWithdrawCompleteMemberCnt(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF) {
+		if(searchKeyWCM != null && searchKeyWCM != "") {
+			if("mId".equals(searchKeyWCM)) {
+				searchKeyWCM = "m_id";
+			}else if("mRevokeDate".equals(searchKeyWCM)) {
+				searchKeyWCM = "m_revoke_date";
+			}else {
+				searchKeyWCM = "m_revoke_final_date";
+			}
+		}
+		return memberMapper.getWithdrawCompleteMemberCnt(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
 	}
 	
 	// 로그인 기록 조회

@@ -135,8 +135,10 @@
 		                </div>
 		                <div class="form-group">
 		                  <div class="col-lg-offset-2 col-lg-10">
-		                    <a class="btn standardBtn" th:href="@{/modifyMember(mId=${member.mId})}" role="button">수정</a>
-		                    <a class="btn standardBtn" th:href="@{/member/memberList(curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" role="button">목록이동</a>
+		                    <a class="btn standardBtn" th:if="${uri == '/member/memberList'}" th:href="@{/modifyMember(mId=${member.mId})}" role="button">수정</a>
+		                    <a class="btn standardBtn" th:if="${uri == '/member/memberList'}" th:href="@{/member/memberList(curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" role="button">목록이동</a>
+		                    <a class="btn standardBtn" th:if="${uri == '/member/memberWithdrawList'}" th:href="@{/member/memberWithdrawList(curPage1=${curPage1},searchKeyWAM=${searchKeyWAM},searchValueWAM=${searchValueWAM},searchValueWAMS=${searchValueWAMS},searchValueWAMF=${searchValueWAMF},curPage2=${curPage2},searchKeyWCM=${searchKeyWCM},searchValueWCM=${searchValueWCM},searchValueWCMS=${searchValueWCMS},searchValueWCMF=${searchValueWCMF})}" role="button">목록이동</a>
+		                  	<input type="hidden" id="uri" th:value="${uri}"/>
 		                  </div>
 		                </div>
 		              </form>
@@ -165,10 +167,15 @@
 	<th:block layout:fragment="customScript">
 	
 		<script type="text/javascript">
+			var uri = $('#uri').val();
 			var member = $('#member');
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
-			member.parent().find('.sub').children().eq(0).addClass('active');
+			if(uri == '/member/memberList'){
+				member.parent().find('.sub').children().eq(0).addClass('active');
+			}else{
+				member.parent().find('.sub').children().eq(2).addClass('active');
+			}
 		</script>
 	</th:block>
 </html>
