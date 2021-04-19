@@ -249,11 +249,11 @@ public class BidListService {
 		List<String> componentList = bidComponentMapper.getComponentSatusList(6,"거래진행중");
 		List<String> plantList = bidPlantMapper.getPlantSatusList(6,"거래진행중");
 		int tradePerioddate = policyMapper.getTradePeriod();
-		Map<String,Object> List = new HashMap<String,Object>();
-		List.put("tradePerioddate", tradePerioddate);
 		if(componentList!=null && componentList.size()>0) {
 			List<BidComponentDTO> BidComTradeList = bidComponentMapper.getBidComTradeList(componentList);
 			for(int i=0; i<BidComTradeList.size(); i++) {
+				Map<String,Object> List = new HashMap<String,Object>();
+				List.put("tradePerioddate", tradePerioddate);
 				List.put("BidComTradeList", BidComTradeList.get(i));				
 				tradeMapper.addTradePriority(List);
 			}
@@ -262,6 +262,8 @@ public class BidListService {
 		if(plantList!=null && plantList.size()>0) {
 			List<BidPlantDTO> BidPlantTradeList = bidPlantMapper.getBidPlantTradeList(plantList);
 			for(int i=0; i<BidPlantTradeList.size(); i++) {
+				Map<String,Object> List = new HashMap<String,Object>();
+				List.put("tradePerioddate", tradePerioddate);
 				List.put("BidPlantTradeList", BidPlantTradeList.get(i));				
 				tradeMapper.addTradePriority(List);
 			}
