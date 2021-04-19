@@ -50,7 +50,6 @@ public class TradeService {
 	public TradePaymentOutDTO getPaymentOut(String Code) {
 		return tradeMapper.getPaymentOut(Code);
 	}
-	
 	// 거래대금출금신청목록
 	public List<TradePaymentOutDTO> getPaymentOutList(){
 		return tradeMapper.getPaymentOutList();
@@ -72,12 +71,16 @@ public class TradeService {
 	public TradeDepositOutDTO getDepositOut(String Code) {
 		return tradeMapper.getDepositOut(Code);
 	}
-	
 	// 예치금출금신청목록
 	public List<TradeDepositOutDTO> getDepositOutList() {
-
 		return tradeMapper.getDepositOutList();
 	}
+	
+	// 거래대금 납부 납부코드로 상세조회
+	public TradePaymentInDTO getPayInByPayInCode(String payInCode) {
+		return tradeMapper.getPayInByPayInCode(payInCode);
+	}
+	
 	//대금납부 정보 
 	public TradePaymentInDTO getTradePaymentIn(String bCode) {
 		return tradeMapper.getTradePaymentIn(bCode);

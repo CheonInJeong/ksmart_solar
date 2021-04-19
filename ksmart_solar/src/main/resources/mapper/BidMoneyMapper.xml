@@ -158,6 +158,41 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE b_cp_code = #{bCpCode}
 	</update>
 	
+	<!-- 대금 입금 : 입금자가 1순위일 경우 2순위는 ?: 입찰자 테이블 업데이트(진행상태코드,진행상태,상태변경일,예치금환불가능여부) -->
+	<update id="modifyBidPayInPri12" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = 10,
+			tr_type_name = '계약종료',
+			b_deposit_available = 'Y',
+			b_date_up = NOW()
+		WHERE announced_code = #{announcedCode} AND b_rank = 2
+	</update>
+	
+	<!-- 대금 입금 : 입금자가 1순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부) -->
+	<update id="modifyBidPayInPri1ex" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'Y'
+		WHERE announced_code = #{announcedCode} AND b_rank IS NULL AND b_deposit_check = 'Y' AND b_deposit_available = 'N' AND b_deposit_refund = 'N'
+	</update>
+	
+	<!-- 대금 입금 : 입금자가 2순위일 경우 1순위는? : 입찰자 테이블 업데이트(예치금환불가능여부) -->
+	<update id="modifyBidPayInPri21" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'N'
+		WHERE announced_code = #{announcedCode} AND b_rank = 1
+	</update>
+	
+	<!-- 대금 입금 : 입금자가 2순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부 : Y) -->
+	<update id="modifyBidPayInPri2ex" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'Y'
+		WHERE announced_code = #{announcedCode} AND b_rank IS NULL AND b_deposit_check = 'Y' AND b_deposit_available = 'N' AND b_deposit_refund = 'N'
+	</update>
+	
 	<!-- 예치금 환불 : 예치금출금신청 테이블 업데이트 -->
 	<update id="modifyDepositOut" parameterType="TradeDepositOutDTO">
 		UPDATE tb_trade_deposit_out
