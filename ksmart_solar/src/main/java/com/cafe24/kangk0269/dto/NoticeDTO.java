@@ -1,10 +1,5 @@
 package com.cafe24.kangk0269.dto;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-
-
 public class NoticeDTO {
 	private int noticeIdx;
 	private String notSubject;
