@@ -37,6 +37,15 @@ public interface BidMoneyMapper {
 	public int modifyPlantPayIn(BidPlantDTO bidplant);
 	// 부품매각공고신청 테이블 업데이트(진행상태, 공고진행상태코드) - 대금 입금
 	public int modifyComPayIn(BidComponentDTO bidcomponent);
+	// 입금자가 1순위일 경우 2순위는 ?: 입찰자 테이블 업데이트(진행상태코드,진행상태,상태변경일,예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri12(String announcedCode);
+	// 입금자가 1순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri1ex(String announcedCode);
+	// 입금자가 2순위일 경우 1순위는? : 입찰자 테이블 업데이트(예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri21(String announcedCode);
+	// 입금자가 2순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri2ex(String announcedCode);
+	
 	
 	// 예치금출금신청 테이블 업데이트(입출금코드) - 예치금 환불
 	public int modifyDepositOut(TradeDepositOutDTO depositout);

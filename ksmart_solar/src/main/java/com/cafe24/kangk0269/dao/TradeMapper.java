@@ -9,6 +9,7 @@ import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Mapper
 public interface TradeMapper {
@@ -45,6 +46,11 @@ public interface TradeMapper {
 	public TradeDepositOutDTO getDepositOut(String Code);
 	// 예치금출금신청목록
 	public List<TradeDepositOutDTO> getDepositOutList();
+	
+	// 낙찰자 테이블 낙찰코드로 상세조회
+	public TradePriorityDTO getPriByPrCode(String prCode);
+	// 거래대금 납부 납부코드로 상세조회
+	public TradePaymentInDTO getPayInByPayInCode(String payInCode);
 	
 	//거래대금납부목록(본인)
 	public TradePaymentInDTO getTradePaymentIn(String bCode);

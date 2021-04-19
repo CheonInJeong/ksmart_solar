@@ -65,6 +65,22 @@ public class BidMoneyService {
 	public int modifyComPayIn(BidComponentDTO bidcomponent) {
 		return bidMoneyMapper.modifyComPayIn(bidcomponent);
 	}
+	// 입금자가 1순위일 경우 2순위는 ?: 입찰자 테이블 업데이트(진행상태코드,진행상태,상태변경일,예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri12(String announcedCode) {
+		return bidMoneyMapper.modifyBidPayInPri12(announcedCode);
+	}
+	// 입금자가 1순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri1ex(String announcedCode) {
+		return bidMoneyMapper.modifyBidPayInPri1ex(announcedCode);
+	}
+	// 입금자가 2순위일 경우 1순위는? : 입찰자 테이블 업데이트(예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri21(String announcedCode) {
+		return bidMoneyMapper.modifyBidPayInPri21(announcedCode);
+	}
+	// 입금자가 2순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부) - 대금입금
+	public int modifyBidPayInPri2ex(String announcedCode) {
+		return bidMoneyMapper.modifyBidPayInPri2ex(announcedCode);
+	}
 	
 	// 예치금출금신청 테이블 업데이트(입출금코드) - 예치금 환불
 	public int modifyDepositOut(TradeDepositOutDTO depositout) {

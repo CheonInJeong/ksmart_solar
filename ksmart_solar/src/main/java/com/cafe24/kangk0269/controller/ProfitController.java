@@ -20,6 +20,7 @@ import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 import com.cafe24.kangk0269.serivce.BidMoneyService;
 import com.cafe24.kangk0269.serivce.MemberService;
 import com.cafe24.kangk0269.serivce.TradeService;
@@ -93,6 +94,21 @@ public class ProfitController {
 					paymentin.setbMoDate(moneycheck.getInoutDate());
 					bidplant.setbPlCode(moneycheck.getnCode());
 					bidcomponent.setbCpCode(moneycheck.getnCode());
+					
+					String payInCode = paymentin.getTrPayinCode();
+					TradePaymentInDTO paymentin2 = tradeService.getPayInByPayInCode(payInCode);
+					String prCode = paymentin2.getTrPrCode();
+					TradePriorityDTO priority = tradeService.getPriByPrCode(prCode);
+					int rank = priority.getTrPrRank();
+					String announcedCode = paymentin2.getAnnouncedCode();
+					if(rank == 1) {
+						bidMoneyService.modifyBidPayInPri12(announcedCode);
+						bidMoneyService.modifyBidPayInPri1ex(announcedCode);
+					}else {
+						bidMoneyService.modifyBidPayInPri21(announcedCode);
+						bidMoneyService.modifyBidPayInPri2ex(announcedCode);
+					}
+					
 					System.out.println("대금입금코드 + 대금입금일 : " + paymentin);
 					System.out.println("관련 발전소 공고코드 : " + bidplant);
 					bidMoneyService.modifyPayIn(paymentin);
