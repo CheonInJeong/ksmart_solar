@@ -9,10 +9,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cafe24.kangk0269.common.FileUtils;
-import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.ScheduledMapper;
-import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
@@ -30,29 +27,39 @@ public class ScheduledService {
 		this.scheduledMapper = scheduledMapper;
 	}
 	
-	//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
+	//공고상태코드 변경
 	public void updateBidStatus() {
 		List<BidListDTO> plant = scheduledMapper.getPlantBidderNumber();
 		List<BidListDTO> component = scheduledMapper.getComponentBidderNumber();
 		
-		//발전소인경우
+		
 		for(int i=0; i<plant.size(); i++) {
 			int bidderNumber = plant.get(i).getBidPlantDTO().getbPlNumberOfBidder();
-			
+			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경 - 발전소인경우
 			if(plant.get(i).getBidPlantDTO().getbPlDateBidding2().equals(today)) {
 				if(bidderNumber==0) {
 					scheduledMapper.updateBidPlantAc(plant.get(i).getBidPlantDTO().getbPlCode());
 				}
 			}
+			//공고시작일에 공고진행상태 공고승인 > 공고진행중으로 바꾸기
+			if(plant.get(i).getBidPlantDTO().getbPlDateBidding1().equals(today)) {
+				scheduledMapper.updatePlantConfirmToIng(today);
+			}
+			
 		}
-		//부품인경우
+		
 		for(int i=0; i<component.size(); i++) {
 			int bidderNumber = component.get(i).getBidComponentDTO().getbCpBidderNumber();
+			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경 - 부품인경우
 			if(component.get(i).getBidComponentDTO().getbCpDateBidding2().equals(today)) {
 				if(bidderNumber==0) {
 					scheduledMapper.updateBiComponentAc(component.get(i).getBidComponentDTO().getbCpCode());
 				}
 			}
+			if(component.get(i).getBidComponentDTO().getbCpDateBidding1().equals(today)) {
+				scheduledMapper.updateComponentConfirmToIng(today);
+			}
+			
 			
 		}
 		
