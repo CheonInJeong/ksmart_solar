@@ -27,7 +27,9 @@ public interface PlantMapper {
 	public BusinessPlantDTO getPlantInfoBybzPlCode(String bzPlCode);
 	
 	// 발전소인증신청목록
-	public List<BusinessPlantDTO> getAllPlantAdmitList();
+	public List<BusinessPlantDTO> getAllPlantAdmitList(int start, int end, String searchKey, String searchValue);
+	// 발전소인증신청 리스트 수
+	public int getAllPlantAdmitListCnt(String searchKey, String searchValue);
 	
 	//발전소리스트(아이디)
 	public List<BusinessPlantDTO> getPlantListById(String SID);

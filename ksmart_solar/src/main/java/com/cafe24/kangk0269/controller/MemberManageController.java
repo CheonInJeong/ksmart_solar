@@ -253,11 +253,17 @@ public class MemberManageController {
 	
 	@GetMapping("/getBusinessInfoBybzCode")
 	public String getBusinessInfoBybzCode(Model model
-										  ,@RequestParam(value="bzCode", required=false) String bzCode) {
+										  , @RequestParam(value="bzCode", required=false) String bzCode
+										  , @RequestParam(name="searchKey", required=false) String searchKey
+										  , @RequestParam(name="searchValue", required=false) String searchValue
+										  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("사업자신청코드 : " + bzCode);
 		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
 		System.out.println("코드조회결과 : " + business);
 		model.addAttribute("business", business);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("curPage", curPage);
 		return "/member/getBusinessInfoBybzCode";
 	}
 	
@@ -306,10 +312,19 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/member/plantList")
-	public String PlantList(Model model) {
-		List<BusinessPlantDTO> plantList = plantService.getAllPlantAdmitList();
-		System.out.println(plantList);
+	public String PlantList(Model model
+							, @RequestParam(name="searchKey", required=false) String searchKey
+						    , @RequestParam(name="searchValue", required=false) String searchValue
+						    , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = plantService.getAllPlantAdmitListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<BusinessPlantDTO> plantList = plantService.getAllPlantAdmitList(start, end, searchKey, searchValue);
 		model.addAttribute("plantList", plantList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/member/plantList";
 	}
 	

@@ -58,7 +58,7 @@
 						<tr th:each="l, status : ${businessList}">
 							<td data-title="번호" th:text="${status.count+(page.curPage-1)*page.pageEnd}"></td>
 							<td data-title="사업자 관리코드">
-								<a th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})}>[[${l.bzCode}]]</a>
+								<a th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode},curPage=${page.curPage},searchKey=${searchKey},searchValue=${searchValue})}>[[${l.bzCode}]]</a>
 							</td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="법인명" th:text="${l.bzCompanyName}"></td>
@@ -66,7 +66,7 @@
 							<td data-title="사업장 소재지" th:text="${l.bzPlace}"></td>
 							<td data-title="사업자 분류" th:text="${l.bzType}"></td>
 							<td data-title="승인/반려" th:if="${l.bzCheck} == N">
-								<a class="btn standardBtn" th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode})} role="button">상세보기</a>
+								<a class="btn standardBtn" th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode},curPage=${page.curPage},searchKey=${searchKey},searchValue=${searchValue})} role="button">상세보기</a>
 							</td>
 							<td data-title="승인/반려" th:unless="${l.bzCheck} == N">
 								<span th:if="${l.bzCheck} == Y">승인완료</span>
