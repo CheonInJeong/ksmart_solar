@@ -80,16 +80,18 @@ public class ScheduledTimer {
 			e.printStackTrace();
 		}
 	}
-	/*
+/*
 	  //테스트
 	  @Scheduled(cron = "0/5  *  *  *  *  *") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
+			  scheduledService.updatePriority();
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
 	  }
-	 */
+*/	
+
 	
 	//예약한 시간에 정책 적용 상태 바꾸는 메서드
 	@Scheduled(cron = "30  00  0  *  *  *") 

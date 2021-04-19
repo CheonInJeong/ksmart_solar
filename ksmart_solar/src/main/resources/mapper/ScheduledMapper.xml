@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cafe24.kangk0269.dao.ScheduledMapper">
-	
 	<resultMap type="TradePriorityDTO" id="tradePriorityResultMap">
 		<result property="trPrCode" column="tr_pr_code"/>
 		<result property="bCode" column="b_code"/>
@@ -22,19 +21,34 @@
 		<result property="trTypeName" column="tr_type_name"/>
 		<result property="trPrDateUp" column="tr_pr_date_up"/>
 		<result property="trPayoutCheck" column="tr_payout_check"/>
-		
-		<association property="bidListDTO" javaType="BidListDTO">
-  		  	<id property="bCode" column="b_code"/>
-  		  	<result property="bTypeCode" column="b_type_code"/>
-  		  	<result property="mAccountBankName" column="m_account_bank_name"/>
-  			<result property="mAccountNumber" column="m_account_number"/>
-   			<result property="mPaymentName" column="m_payment_name"/>
-  		</association>
-  		
-  		<association property="tradePaymentInDTO" javaType="TradePaymentInDTO">
-  			<id property="trPrCode" column="tr_pr_code"/>
-  			<result property="trPayinCode" column="tr_payin_code"/>
-  		</association>
+		<collection property="bidListDTO" 	resultMap="bidListDTOMap" />
+	</resultMap>
+	<resultMap	type="BidListDTO" 			id="bidListDTOMap">
+ 		<id 	property="bCode" 					column="b_code" />
+		<result property="announcedCode" 			column="announced_code" />
+		<result property="bTypeCode" 				column="b_type_code" />
+		<result property="mId" 						column="m_id" />
+		<result property="bPrice" 					column="b_price" />
+		<result property="bTitle"					column="b_title" />		
+		<result property="sDepositRate" 			column="s_dep_rate" />	
+		<result property="bDeposit" 				column="b_deposit" />	
+		<result property="bDepositCheck" 			column="b_deposit_check" />	
+		<result property="bMoCode" 					column="b_mo_code" />	
+		<result property="bDepositDate" 			column="b_deposit_date" />	
+		<result property="trTypeCode" 				column="tr_type_code" />	
+		<result property="trTypeName" 				column="tr_type_name" />	
+		<result property="dcInstructions" 			column="dc_instructions" />	
+		<result property="dcApplication" 			column="dc_application" />	
+		<result property="dcProposal" 				column="dc_proposal" />	
+		<result property="bDate" 					column="b_date" />	
+		<result property="bCheck"					column="b_check" />	
+		<result property="bRank" 					column="b_rank" />	
+		<result property="bDepositAvailable" 		column="b_deposit_available" />	
+		<result property="bDepositRefund" 			column="b_deposit_refund" />	
+		<result property="bDateUp" 					column="b_date_up" />
+		<result property="mAccountBankName" 		column="m_account_bank_name" />
+		<result property="mAccountNumber" 			column="m_account_number" />
+		<result property="mPaymentName" 			column="m_payment_name" />
 	</resultMap>
 	
 	<resultMap type="BidListDTO" id="bidListResultMap">
@@ -317,5 +331,25 @@
 		ON 
 			b.b_code = p.b_code 
 	</select>
-	
+	<select id="getPriorityFail" resultMap="tradePriorityResultMap">
+		SELECT 
+			announced_code,
+			tr_pr_rank
+		FROM 
+			tb_trade_priority
+		WHERE
+			tr_type_code = 8
+		AND
+			CAST(tr_pr_conclusion_date2 AS DATE) = CURDATE()
+	</select>
+	<select id="getBidListNextRank" parameterType="map" resultType="String">
+		SELECT 
+			b_type_code
+		FROM 
+			tb_bid_list
+		WHERE
+			announced_code = #{announcedCode}
+		AND
+			b_rank = #{rank}
+	</select>
 </mapper>

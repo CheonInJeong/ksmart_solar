@@ -48,6 +48,11 @@ public interface ScheduledMapper {
 	
 	//우선순위테이블 조회 by 천인정
 	public List<TradePriorityDTO> getPriority();
+	//계약이 취소된 낙찰자의 공고코드와 순위가져오는 쿼리
+	public List<TradePriorityDTO> getPriorityFail();
+	//낙찰자 테이블에서 취소가 되면 다음순위 낙찰자 가져오는 쿼리
+	public String getBidListNextRank(@Param(value="announcedCode") String announcedCode,
+										 @Param(value="rank") int rank);
 	
 	//대금 미납인 입찰자의 정보 가져오기 by천인정
 	public List<TradePriorityDTO> getNotPaied();
