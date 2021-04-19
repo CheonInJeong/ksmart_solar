@@ -76,6 +76,26 @@
   		</association>
 	</resultMap>
 	
+	<select id="updateBidPlantAc" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status='거래실패',
+			ac_status_code=9
+		WHERE b_pl_code = #{announcedCode}
+	
+	</select>
+	
+	<update id="updateBiComponentAc" parameterType="String">
+		
+		UPDATE 
+			tb_bid_component
+		SET
+			b_cp_status='거래실패',
+			ac_status_code=9
+		WHERE b_cp_code = #{announcedCode}
+	
+	</update>
+	
 	
 	<update id="updateComponentConfirmToIng" parameterType="String">
 		UPDATE tb_bid_component
