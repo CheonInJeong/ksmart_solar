@@ -81,8 +81,6 @@
 	</resultMap>
 	
 	
-	
-	
 	<update id="updateComponentConfirmToIng" parameterType="String">
 		UPDATE tb_bid_component
 		SET

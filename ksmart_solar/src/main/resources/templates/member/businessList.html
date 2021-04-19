@@ -28,7 +28,7 @@
 				<div style="text-align : right; margin-bottom: 10px;">
 	              <form th:action="@{/member/businessList}">
 	            	<select name="searchKey">
-	            		<option >카테고리</option>
+	            		<option value="">카테고리</option>
 	            		<option value="bzCode">사업자코드</option>
 	            		<option value="mId">아이디</option>
 	            		<option value="bzPlace">주소</option>
@@ -55,7 +55,7 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l, status : ${businessList}">
+						<tr th:if="${#lists.size(businessList) > 0}" th:each="l, status : ${businessList}">
 							<td data-title="번호" th:text="${status.count+(page.curPage-1)*page.pageEnd}"></td>
 							<td data-title="사업자 관리코드">
 								<a th:href=@{/getBusinessInfoBybzCode(bzCode=${l.bzCode},curPage=${page.curPage},searchKey=${searchKey},searchValue=${searchValue})}>[[${l.bzCode}]]</a>
@@ -72,6 +72,9 @@
 								<span th:if="${l.bzCheck} == Y">승인완료</span>
 								<span th:if="${l.bzCheck} == F">반려</span>
 							</td>
+						</tr>
+						<tr th:unless="${#lists.size(businessList) > 0}">
+							<td colspan="8">조회된 내용이 없습니다.</td>
 						</tr>
 					</tbody>
 				</table>

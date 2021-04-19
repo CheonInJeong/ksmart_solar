@@ -58,7 +58,7 @@ public class BusinessService {
 	
 	// 전체 사업자신청 조회
 	public List<BusinessDTO> getAllBusinessAdmitList(int start,int end,String searchKey,String searchValue){
-		if(searchKey != null) {
+		if(searchKey != null && searchKey != "") {
 			if("mId".equals(searchKey)) {
 				searchKey = "m_id";
 			}else if("bzCompanyName".equals(searchKey)) {
@@ -77,7 +77,7 @@ public class BusinessService {
 	}
 	// 사업자인증신청 리스트 수
 	public int getAllBusinessAdmitListCnt(String searchKey,String searchValue) {
-		if(searchKey != null) {
+		if(searchKey != null && searchKey != "") {
 			if("mId".equals(searchKey)) {
 				searchKey = "m_id";
 			}else if("bzCompanyName".equals(searchKey)) {
