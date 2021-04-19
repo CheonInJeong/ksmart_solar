@@ -64,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_deposit_date = #{bDepositDate},
 			tr_type_code = 3,
 			tr_type_name = '입찰성공',
-			b_date_up = NOW(),
+			b_date_up = NOW()
 		WHERE b_code = #{bCode}
 	</update>
 	
@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyComDepositIn" parameterType="BidComponentDTO">
 		UPDATE tb_bid_component
 		SET
-			b_cp_bidder_number = sf_b_number_of_bidder_update(#{bCpCode}),
+			b_cp_bidder_number = sf_b_number_of_bidder_update(#{bCpCode})
 		WHERE b_cp_code = #{bCpCode}
 	</update>
 	
@@ -158,6 +158,41 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		WHERE b_cp_code = #{bCpCode}
 	</update>
 	
+	<!-- 대금 입금 : 입금자가 1순위일 경우 2순위는 ?: 입찰자 테이블 업데이트(진행상태코드,진행상태,상태변경일,예치금환불가능여부) -->
+	<update id="modifyBidPayInPri12" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code = 10,
+			tr_type_name = '계약종료',
+			b_deposit_available = 'Y',
+			b_date_up = NOW()
+		WHERE announced_code = #{announcedCode} AND b_rank = 2
+	</update>
+	
+	<!-- 대금 입금 : 입금자가 1순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부) -->
+	<update id="modifyBidPayInPri1ex" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'Y'
+		WHERE announced_code = #{announcedCode} AND b_rank IS NULL AND b_deposit_check = 'Y' AND b_deposit_available = 'N' AND b_deposit_refund = 'N'
+	</update>
+	
+	<!-- 대금 입금 : 입금자가 2순위일 경우 1순위는? : 입찰자 테이블 업데이트(예치금환불가능여부) -->
+	<update id="modifyBidPayInPri21" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'N'
+		WHERE announced_code = #{announcedCode} AND b_rank = 1
+	</update>
+	
+	<!-- 대금 입금 : 입금자가 2순위일 경우 그외 순위? : 입찰자 테이블 업데이트(예치금환불가능여부 : Y) -->
+	<update id="modifyBidPayInPri2ex" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			b_deposit_available = 'Y'
+		WHERE announced_code = #{announcedCode} AND b_rank IS NULL AND b_deposit_check = 'Y' AND b_deposit_available = 'N' AND b_deposit_refund = 'N'
+	</update>
+	
 	<!-- 예치금 환불 : 예치금출금신청 테이블 업데이트 -->
 	<update id="modifyDepositOut" parameterType="TradeDepositOutDTO">
 		UPDATE tb_trade_deposit_out
@@ -227,16 +262,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
 				, b_deposit_check										AS inoutCheck
 				, b_deposit_date										AS inoutDate
-				, h.m_account_bank										AS bankName
-				, h.m_account_number									AS accountNumber
-				, m_payment_name										AS accountName
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
 				, a.b_mo_code											AS moCode
 			FROM 
 				tb_bid_list	AS a
-				INNER JOIN 
-				tb_member_account AS h
-				ON 
-				a.m_payment_name = h.m_account_name
 				LEFT JOIN 
 				tb_bid_money AS i
 				ON 
@@ -333,11 +364,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
-		WHERE result.Code = #{Code}
+		WHERE result.Code = #{Code} AND result.moCode IS NULL
 		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	
-	<!-- 확인 입출금 목록(미완료, 완료) -->
+	<!-- 확인 입출금 목록(미완료) -->
 	<select id="getMoneyCheckList" resultType="MoneyCheckDTO">
 		SELECT
 			result.Code											AS Code
@@ -366,16 +397,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
 				, b_deposit_check										AS inoutCheck
 				, b_deposit_date										AS inoutDate
-				, h.m_account_bank										AS bankName
-				, h.m_account_number									AS accountNumber
-				, m_payment_name										AS accountName
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
 				, a.b_mo_code											AS moCode
 			FROM 
 				tb_bid_list	AS a
-				INNER JOIN 
-				tb_member_account AS h
-				ON 
-				a.m_payment_name = h.m_account_name
 				LEFT JOIN 
 				tb_bid_money AS i
 				ON 
@@ -472,6 +499,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
+		WHERE result.moCode IS NULL
 		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	

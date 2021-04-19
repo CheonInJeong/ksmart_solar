@@ -24,7 +24,12 @@ public class WebConfig implements WebMvcConfigurer{
 		registry.addInterceptor(commonInterceptor)
 				.addPathPatterns("/**")
 				.excludePathPatterns("/")
-				.excludePathPatterns("/css/*");
+				.excludePathPatterns("/css/*")
+				.excludePathPatterns("/ajax/**")
+				.excludePathPatterns("/css/**")
+				.excludePathPatterns("/img/**")
+				.excludePathPatterns("/lib/**")
+				.excludePathPatterns("/js/**");
 		
 		//허용되는것만쓰는거....
 		//localhost는 인터셉터를 거치지 않게
@@ -37,6 +42,8 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/css/**")
 		.excludePathPatterns("/img/**")
 		.excludePathPatterns("/lib/**")
+		.excludePathPatterns("/js/**")
+		.excludePathPatterns("/signup")
 		.excludePathPatterns("/login")
 		.excludePathPatterns("/logout")
 		.excludePathPatterns("/logoutKakao")
@@ -44,6 +51,7 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/notice/history")
 		.excludePathPatterns("/notice/announcement")
 		.excludePathPatterns("/help/notice")
+		.excludePathPatterns("/policy/downloadFile")
 		.excludePathPatterns("/help/getNotice");
 	}
 }

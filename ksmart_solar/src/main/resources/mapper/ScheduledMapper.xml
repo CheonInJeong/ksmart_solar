@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.cafe24.kangk0269.dao.ScheduledMapper">
-	
 	<resultMap type="TradePriorityDTO" id="tradePriorityResultMap">
 		<result property="trPrCode" column="tr_pr_code"/>
 		<result property="bCode" column="b_code"/>
@@ -22,14 +21,259 @@
 		<result property="trTypeName" column="tr_type_name"/>
 		<result property="trPrDateUp" column="tr_pr_date_up"/>
 		<result property="trPayoutCheck" column="tr_payout_check"/>
+		<collection property="bidListDTO" 	resultMap="bidListDTOMap" />
+	</resultMap>
+	<resultMap	type="BidListDTO" 			id="bidListDTOMap">
+ 		<id 	property="bCode" 					column="b_code" />
+		<result property="announcedCode" 			column="announced_code" />
+		<result property="bTypeCode" 				column="b_type_code" />
+		<result property="mId" 						column="m_id" />
+		<result property="bPrice" 					column="b_price" />
+		<result property="bTitle"					column="b_title" />		
+		<result property="sDepositRate" 			column="s_dep_rate" />	
+		<result property="bDeposit" 				column="b_deposit" />	
+		<result property="bDepositCheck" 			column="b_deposit_check" />	
+		<result property="bMoCode" 					column="b_mo_code" />	
+		<result property="bDepositDate" 			column="b_deposit_date" />	
+		<result property="trTypeCode" 				column="tr_type_code" />	
+		<result property="trTypeName" 				column="tr_type_name" />	
+		<result property="dcInstructions" 			column="dc_instructions" />	
+		<result property="dcApplication" 			column="dc_application" />	
+		<result property="dcProposal" 				column="dc_proposal" />	
+		<result property="bDate" 					column="b_date" />	
+		<result property="bCheck"					column="b_check" />	
+		<result property="bRank" 					column="b_rank" />	
+		<result property="bDepositAvailable" 		column="b_deposit_available" />	
+		<result property="bDepositRefund" 			column="b_deposit_refund" />	
+		<result property="bDateUp" 					column="b_date_up" />
+		<result property="mAccountBankName" 		column="m_account_bank_name" />
+		<result property="mAccountNumber" 			column="m_account_number" />
+		<result property="mPaymentName" 			column="m_payment_name" />
+	</resultMap>
+	
+	<resultMap type="BidListDTO" id="bidListResultMap">
+		<result property="bCode" column="b_code"/>
+		<result property="bTypeCode" column="b_type_code"/>
+		<result property="announcedCode" column="announced_code"/>
+		<result property="bTitle" column="b_title"/>
+		<result property="mIdBuyer" column="m_id"/>
+		<result property="bRank" column="b_rank"/>
+		<result property="bPrice" column="b_price"/>
+		<result property="bDeposit" column="b_deposit"/>
+		<result property="sDepRate" column="s_dep_rate"/>
 		
-		<association property="bidListDTO" javaType="BidListDTO">
-  		  	<id property="bCode" column="b_code"/>
-  		  	<result property="mAccountBankName" column="m_account_bank_name"/>
-  			<result property="mAccountNumber" column="m_account_number"/>
-   			<result property="mPaymentName" column="m_payment_name"/>
+		<association property="bidComponentDTO" javaType="BidComponentDTO">
+  			<id property="bCpCode" column="b_cp_code"/>
+  			<result property="mIdSeller" column="m_id"/>
+  			<result property="bCpGroupcode" column="b_cp_groupcode"/>
+  			<result property="bCpGroupcode" column="b_cp_groupcode"/>
+  			<result property="bCpDateBidding1" column="b_cp_date_bidding1"/>
+  			<result property="bCpDateBidding2" column="b_cp_date_bidding2"/>
+  		</association>
+		<association property="bidPlantDTO" javaType="bidPlantDTO">
+  			<id property="bPlCode" column="b_pl_code"/>
+  			<result property="mIdSeller" column="m_id"/>
+  			<result property="bPlGroupcode" column="b_pl_groupcode"/>
+  			<result property="bPlNumberOfBidder" column="b_pl_number_of_bidder"/>
+  			<result property="bPlDateBidding1" column="b_pl_date_bidding1"/>
+  			<result property="bPlDateBidding2" column="b_pl_date_bidding2"/>
   		</association>
 	</resultMap>
+	
+	<select id="updateBidPlantAc" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status='거래실패',
+			ac_status_code=9
+		WHERE b_pl_code = #{announcedCode}
+	
+	</select>
+	
+	<update id="updateBiComponentAc" parameterType="String">
+		
+		UPDATE 
+			tb_bid_component
+		SET
+			b_cp_status='거래실패',
+			ac_status_code=9
+		WHERE b_cp_code = #{announcedCode}
+	
+	</update>
+	
+	
+	<update id="updateComponentConfirmToIng" parameterType="String">
+		UPDATE tb_bid_component
+		SET
+			b_cp_status='공고신청',
+			ac_status_code=0
+		WHERE b_cp_date_bidding1 = #{today}
+		
+	</update>
+	
+	
+	<update id="updatePlantConfirmToIng" parameterType="String">
+		UPDATE 
+			tb_bid_plant
+		SET
+			ac_status_code=4,
+			b_pl_status='공고진행중'
+		WHERE 
+			b_pl_date_bidding1 = #{today}
+	
+	</update>
+	
+	<select id="getComponentBidderNumber"  resultMap = "bidListResultMap">
+		SELECT 
+			b_cp_code,
+			b_cp_bidder_number, 
+			b_cp_status, 
+			ac_status_code, 
+			b_cp_date_bidding1,
+			b_cp_date_bidding2
+		FROM 
+			tb_bid_component
+	</select>
+	
+	<select id="getPlantBidderNumber" resultMap = "bidListResultMap">
+		SELECT 
+			b_pl_code,b_pl_status, ac_status_code, b_pl_number_of_bidder, b_pl_date_bidding1, b_pl_date_bidding2
+		FROM 
+			tb_bid_plant
+	
+	</select>
+	
+	<insert id="addTradePriod" parameterType="map">
+		INSERT 
+		INTO 
+			tb_trade_priority
+			(tr_pr_code, 
+			b_code, 
+			b_type_code, 
+			announced_code, 
+			announced_title, 
+			b_groupcode, 
+			m_id_seller, 
+			m_id_buyer, 
+			tr_pr_rank, 
+			tr_pr_price, 
+			s_deposit_rate, 
+			b_deposit, 
+			tr_pr_conclusion_date1, 
+			tr_pr_conclusion_date2, 
+			tr_type_code, 
+			tr_type_name
+			)
+		VALUES 
+			(sf_tr_pr_code(), 
+			#{bidListDTO.bcode},
+			#{bidListDTO.bTypeCode},
+			#{bidListDTO.announcedCode}, 
+			#{bidListDTO.announcedTitle}, 
+			#{bidListDTO.bGroupcode},
+			#{bidListDTO.mIdSeller},
+			#{bidListDTO.mIdBuyer}, 
+			#{bidListDTO.bRank},
+			#{bidListDTO.bPrice},
+			#{bidListDTO.sDepRate},
+			#{bidListDTO.bDeposit}, 
+			#{today}, 
+			sf_pr_conclusion_date(#{today}), 
+			6, 
+			'계약중')
+		
+	</insert>
+	
+	<select id="getComponentRankInfo" parameterType="String" resultMap = "bidListResultMap">
+		SELECT 
+			l.b_code,
+			l.b_type_code,
+			l.announced_code,
+			l.b_title,
+			c.b_cp_groupcode,
+			c.m_id as mIdSeller,
+			l.m_id as mIdBuyer,
+			l.b_rank,
+			l.b_price,
+			l.b_deposit,
+			l.s_dep_rate 
+		from 
+			tb_bid_list AS l 
+		INNER JOIN 
+			tb_bid_component AS c
+		ON 
+			l.announced_code = c.b_cp_code
+		WHERE
+			l.announced_code = #{trPrCode}
+		And 
+			l.b_rank =2 
+	
+	</select>
+	
+	<select id="getPlantRankInfo" parameterType="String" resultMap = "bidListResultMap">
+		SELECT 
+			l.b_code,
+			l.b_type_code,
+			l.announced_code,
+			l.b_title,
+			p.b_pl_groupcode,
+			p.m_id as mIdSeller,
+			l.m_id as mIdBuyer,
+			l.b_rank,
+			l.b_price,
+			l.b_deposit,
+			l.s_dep_rate
+		from 
+			tb_bid_list AS l 
+		INNER JOIN 
+			tb_bid_plant AS p
+		ON 
+			l.announced_code = p.b_pl_code
+		WHERE
+			l.announced_code = #{trPrCode}
+		And 
+			l.b_rank =2 ;
+	
+	</select>
+	
+	<update id="updateAcInbidList" parameterType="String">
+		UPDATE 
+			tb_bid_list AS l 
+		SET 
+			l.b_type_code = 12, 
+			l.tr_type_name ='대금미납' 
+		WHERE l.b_code = #{bCode};
+		
+	</update>
+	
+	
+	<update id="updateAcInPriority" parameterType="String">
+		UPDATE tb_trade_priority AS p 
+		SET 
+			p.tr_type_code =12 ,
+			p.tr_type_name ='대금미납' 
+		WHERE 
+			p.tr_pr_code = #{trPrCode}
+	</update>
+	<select id="getNotPaied" resultMap ="tradePriorityResultMap">
+		SELECT 
+			i.tr_payin_code,
+			p.tr_pr_code,
+			p.announced_code,
+			p.tr_pr_conclusion_date2,
+			p.b_code,
+			p.tr_type_code,
+			b.b_type_code
+		FROM 
+			tb_trade_priority AS p
+		INNER JOIN 
+			tb_trade_payment_in AS i 
+		ON 
+			p.tr_pr_code = i.tr_pr_code 
+		INNER JOIN tb_bid_list AS b
+		ON b.b_code = p.b_code
+		WHERE 
+			i.tr_payin_check ='N';
+	</select>
 
  	<insert id="addPayIn" parameterType="map">
 		INSERT 
@@ -109,5 +353,25 @@
 		ON 
 			b.b_code = p.b_code 
 	</select>
-	
+	<select id="getPriorityFail" resultMap="tradePriorityResultMap">
+		SELECT 
+			announced_code,
+			tr_pr_rank
+		FROM 
+			tb_trade_priority
+		WHERE
+			tr_type_code = 8
+		AND
+			CAST(tr_pr_conclusion_date2 AS DATE) = CURDATE()
+	</select>
+	<select id="getBidListNextRank" parameterType="map" resultType="String">
+		SELECT 
+			b_type_code
+		FROM 
+			tb_bid_list
+		WHERE
+			announced_code = #{announcedCode}
+		AND
+			b_rank = #{rank}
+	</select>
 </mapper>

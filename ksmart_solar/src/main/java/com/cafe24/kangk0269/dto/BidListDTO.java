@@ -30,6 +30,26 @@ public class BidListDTO extends CommonDTO {
 
 	private BusinessDTO businessDTO;
 	private TradeDepositOutDTO tradeDepositOutDTO;
+	private BidComponentDTO bidComponentDTO;
+	private BidPlantDTO bidPlantDTO;
+	
+
+	
+	public BidComponentDTO getBidComponentDTO() {
+		return bidComponentDTO;
+	}
+
+	public void setBidComponentDTO(BidComponentDTO bidComponentDTO) {
+		this.bidComponentDTO = bidComponentDTO;
+	}
+
+	public BidPlantDTO getBidPlantDTO() {
+		return bidPlantDTO;
+	}
+
+	public void setBidPlantDTO(BidPlantDTO bidPlantDTO) {
+		this.bidPlantDTO = bidPlantDTO;
+	}
 
 	public int getNum() {
 		return num;
@@ -314,8 +334,14 @@ public class BidListDTO extends CommonDTO {
 		builder.append(businessDTO);
 		builder.append(", tradeDepositOutDTO=");
 		builder.append(tradeDepositOutDTO);
+		builder.append(", bidComponentDTO=");
+		builder.append(bidComponentDTO);
+		builder.append(", bidPlantDTO=");
+		builder.append(bidPlantDTO);
 		builder.append("]");
 		return builder.toString();
 	}
+
+
 
 }

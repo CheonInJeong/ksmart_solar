@@ -24,7 +24,9 @@ public interface BusinessMapper {
 	public List<BusinessDTO> getBusinessInfoById(String mId);
 	
 	// 사업자인증신청목록
-	public List<BusinessDTO> getAllBusinessAdmitList();
+	public List<BusinessDTO> getAllBusinessAdmitList(int start,int end,String searchKey,String searchValue);
+	// 사업자인증신청 리스트 수
+	public int getAllBusinessAdmitListCnt(String searchKey,String searchValue);
 	
 	// 일반 사업자 신청
 	public int addRecycleEntrepreneur(BusinessDTO bs);
