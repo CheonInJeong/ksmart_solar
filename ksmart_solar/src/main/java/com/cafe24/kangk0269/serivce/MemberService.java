@@ -254,7 +254,7 @@ public class MemberService {
 	
 	// 활동회원조회
 	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM){
-		if(searchKeyAM != null) {
+		if(searchKeyAM != null && searchKeyAM != "") {
 			if("mId".equals(searchKeyAM)) {
 				searchKeyAM = "m_id";
 			}else if("mName".equals(searchKeyAM)) {
@@ -290,7 +290,7 @@ public class MemberService {
 	}
 	// 활동회원 리스트 수 조회
 	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM) {
-		if(searchKeyAM != null) {
+		if(searchKeyAM != null && searchKeyAM != "") {
 			if("mId".equals(searchKeyAM)) {
 				searchKeyAM = "m_id";
 			}else if("mName".equals(searchKeyAM)) {
@@ -308,7 +308,7 @@ public class MemberService {
 	
 	// 휴면회원조회
 	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM){
-		if(searchKeyRM != null) {
+		if(searchKeyRM != null && searchKeyRM != "") {
 			if("mId".equals(searchKeyRM)) {
 				searchKeyRM = "m_id";
 			}else if("mName".equals(searchKeyRM)) {
@@ -344,7 +344,7 @@ public class MemberService {
 	}
 	// 휴면회원 리스트 수 조회
 	public int getRestMemberCnt(String searchKeyRM, String searchValueRM) {
-		if(searchKeyRM != null) {
+		if(searchKeyRM != null  && searchKeyRM != "") {
 			if("mId".equals(searchKeyRM)) {
 				searchKeyRM = "m_id";
 			}else if("mName".equals(searchKeyRM)) {
