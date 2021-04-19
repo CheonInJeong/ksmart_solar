@@ -28,7 +28,24 @@ public class BoardQnaService {
 		System.out.println("=========================================================");
 	}
 	
-
+	
+	
+	//임서저장 글 불러오기
+	public BoardQnaDTO getLoadQna(int bQnaIdx) {
+		return boardQnaMapper.getLoadQna(bQnaIdx);
+	}
+	
+	
+	//문의사항 임시저장(update) 
+	public int saveQnaUp(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.saveQnaUp(boardQnaDTO);
+	}
+	
+	//문의사항 임시저장(insert)
+	public int saveQnaIn(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.saveQnaIn(boardQnaDTO);
+	}
+	
 	//부모글 참조번호 추가
 	public void addRefCode(int bQnaIdx) {
 		boardQnaMapper.addRefCode(bQnaIdx);
@@ -59,9 +76,14 @@ public class BoardQnaService {
 		return boardQnaMapper.modifyQna(boardQnaDTO);
 	}
 	
-	//문의 등록
-	public int addQna(BoardQnaDTO boardQnaDTO) {
-		return boardQnaMapper.addQna(boardQnaDTO);
+	//문의 등록(update)
+	public int addQnaUp(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.addQnaUp(boardQnaDTO);
+	}
+	
+	//문의 등록(insert)
+	public int addQnaIn(BoardQnaDTO boardQnaDTO) {
+		return boardQnaMapper.addQnaIn(boardQnaDTO);
 	}
 	
 	//문의 상세조회
