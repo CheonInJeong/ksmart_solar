@@ -13,6 +13,12 @@
 	        <p th:if="${session.SID eq null}">
 	        	<a class="logout" th:href="@{/login}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">로 그 인</a>
 	        </p>
+	        <p th:if="${session.SID ne null and session.accessToken eq null}">
+	        	<a class="logout" th:href="@{/logout}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">로그아웃</a>
+	        </p>
+	        <p th:if="${session.SID ne null and session.accessToken ne null}">
+	        	<a class="logout" th:href="@{/logoutKakao}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">로그아웃</a>
+	        </p>
 	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><a href="/mypage/myInfo"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></a></p>
 	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><a href="/mypage/myInfo"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
 	        <h5 class="centered" th:if="${session.SID ne null}">[[${session.SNAME}]] ([[${session.SLEVEL}]])</h5>
