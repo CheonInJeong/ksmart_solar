@@ -57,9 +57,42 @@ public class BusinessService {
 	}
 	
 	// 전체 사업자신청 조회
-	public List<BusinessDTO> getAllBusinessAdmitList(){
-
-		return businessMapper.getAllBusinessAdmitList();
+	public List<BusinessDTO> getAllBusinessAdmitList(int start,int end,String searchKey,String searchValue){
+		if(searchKey != null) {
+			if("mId".equals(searchValue)) {
+				searchKey = "m_id";
+			}else if("bzCompanyName".equals(searchValue)) {
+				searchKey = "bz_company_name";
+			}else if("bzCeoName".equals(searchValue)) {
+				searchKey = "bz_ceo_name";
+			}else if("bzPlace".equals(searchValue)) {
+				searchKey = "bz_place";
+			}else if("bzType".equals(searchValue)){
+				searchKey = "bz_type";
+			}else {
+				searchKey = "bz_check";
+			}
+		}
+		return businessMapper.getAllBusinessAdmitList(start, end, searchKey, searchValue);
+	}
+	// 사업자인증신청 리스트 수
+	public int getAllBusinessAdmitListCnt(String searchKey,String searchValue) {
+		if(searchKey != null) {
+			if("mId".equals(searchValue)) {
+				searchKey = "m_id";
+			}else if("bzCompanyName".equals(searchValue)) {
+				searchKey = "bz_company_name";
+			}else if("bzCeoName".equals(searchValue)) {
+				searchKey = "bz_ceo_name";
+			}else if("bzPlace".equals(searchValue)) {
+				searchKey = "bz_place";
+			}else if("bzType".equals(searchValue)){
+				searchKey = "bz_type";
+			}else {
+				searchKey = "bz_check";
+			}
+		}
+		return businessMapper.getAllBusinessAdmitListCnt(searchKey, searchValue);
 	}
 	
 	// 일반 사업자 신청(석인)

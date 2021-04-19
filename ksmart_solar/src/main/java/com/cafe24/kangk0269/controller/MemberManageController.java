@@ -228,7 +228,7 @@ public class MemberManageController {
 		return "/member/bzCheckReason";
 	}
 	
-	@PostMapping("/businessReturnSend")
+	@PostMapping("/ajax/businessReturnSend")
 	public String businessReturnSend(BusinessDTO business) {
 		System.out.println("반려사유 추가 : " + business );
 		businessService.businessReturn(business);
@@ -262,14 +262,24 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/member/businessList")
-	public String BusinessList(Model model) {
-		List<BusinessDTO> businessList = businessService.getAllBusinessAdmitList();
+	public String BusinessList(Model model
+							   , @RequestParam(name="searchKey", required=false) String searchKey
+							   , @RequestParam(name="searchValue", required=false) String searchValue
+							   , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = businessService.getAllBusinessAdmitListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<BusinessDTO> businessList = businessService.getAllBusinessAdmitList(start, end, searchKey, searchValue);
 		System.out.println(businessList);
 		model.addAttribute("businessList", businessList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/member/businessList";
 	}
 	
-	@PostMapping("/plantReturnSend")
+	@PostMapping("/ajax/plantReturnSend")
 	public String plantReturnSend(@RequestParam(name="bzPlCode", required=false) String bzPlCode) {
 		System.out.println("반려된 사업자신청코드 : " + bzPlCode);
 		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
@@ -277,7 +287,7 @@ public class MemberManageController {
 		return "redirect:/getPlantInfoBybzPlCode?bzPlCode=" + plant.getBzPlCode();
 	}
 	
-	@PostMapping("/plantAdmitSend")
+	@PostMapping("/ajax/plantAdmitSend")
 	public String plantAdmitSend(@RequestParam(name="bzPlCode", required=false) String bzPlCode) {
 		System.out.println("승인된 사업자신청코드 : " + bzPlCode);
 		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);

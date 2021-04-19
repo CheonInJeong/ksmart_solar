@@ -64,7 +64,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_deposit_date = #{bDepositDate},
 			tr_type_code = 3,
 			tr_type_name = '입찰성공',
-			b_date_up = NOW(),
+			b_date_up = NOW()
 		WHERE b_code = #{bCode}
 	</update>
 	
@@ -80,7 +80,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyComDepositIn" parameterType="BidComponentDTO">
 		UPDATE tb_bid_component
 		SET
-			b_cp_bidder_number = sf_b_number_of_bidder_update(#{bCpCode}),
+			b_cp_bidder_number = sf_b_number_of_bidder_update(#{bCpCode})
 		WHERE b_cp_code = #{bCpCode}
 	</update>
 	

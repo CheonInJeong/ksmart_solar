@@ -10,7 +10,12 @@
 	
 	<th:block layout:fragment="Contents">
 	<div id="container-header-title"><strong>[[${member.mId}]] 회원정보</strong></div>
+	<th:block th:if="${uri == '/member/memberList'}">
 	<div id="container-header-path">회원관리 > <a th:href=@{/member/memberList}>회원리스트조회</a> > [[${member.mId}]] 회원정보</div>
+	</th:block>
+	<th:block th:unless="${uri == '/member/memberList'}">
+	<div id="container-header-path">회원관리 > <a th:href=@{/member/memberWithdrawList}>탈퇴신청회원조회</a> > [[${member.mId}]] 회원정보</div>
+	</th:block>
 	<div id="container-header-space"></div>
 	
 	
