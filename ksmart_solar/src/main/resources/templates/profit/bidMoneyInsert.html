@@ -40,7 +40,7 @@
 							<tr th:if="${l.moCode == null}">
 								<td>[[${status.count}]]</td>
 								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'b'}">
-									예치금입금(입찰성공)
+									예치금입금
 								</td>
 								<td th:if="${#strings.substring(l.Code,0,#strings.indexOf(l.Code,'_')) == 'payin'}">
 									대금입금
