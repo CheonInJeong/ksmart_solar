@@ -335,9 +335,19 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/member/account")
-	public String Account(Model model) {
-		List<MemberAccountDTO> allBankAccountList = memberService.getAllBankAccount();
+	public String Account(Model model
+						  , @RequestParam(name="searchKey", required=false) String searchKey
+						  , @RequestParam(name="searchValue", required=false) String searchValue
+						  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = memberService.getAllBankAccountCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<MemberAccountDTO> allBankAccountList = memberService.getAllBankAccount(start, end, searchKey, searchValue);
 		model.addAttribute("allBankAccountList", allBankAccountList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/member/account";
 	}
 	
