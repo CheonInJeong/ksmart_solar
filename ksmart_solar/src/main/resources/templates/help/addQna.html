@@ -131,12 +131,14 @@
 				return false;
 			}if($('[name="bQnaOpen"]:checked').length==0){
 				alert('비밀글여부를 선택해주세요.')
-				$('[name="mEmail"]').focus();
 				return false;
-			}if($('[name="bQnaPassword"]').val()==''){
-				alert('비밀글암호를 입력해주세요.')
-				$('[name="mZipcode"]').focus();
-				return false;
+			}
+			if($('[name="bQnaOpen"]:checked').val=='Y'){
+				if($('[name="bQnaPassword"]').val()==''){
+					alert('비밀글암호를 입력해주세요.')
+					$('[name="bQnaPassword"]').focus();
+					return false;
+				}
 			}
 		 })
 	</script>

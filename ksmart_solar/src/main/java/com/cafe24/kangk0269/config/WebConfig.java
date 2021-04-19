@@ -43,9 +43,8 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/notice/noticeList")
 		.excludePathPatterns("/notice/history")
 		.excludePathPatterns("/notice/announcement")
-		.excludePathPatterns("/js/**");
-		
-		
+		.excludePathPatterns("/help/notice")
+		.excludePathPatterns("/help/getNotice");
 	}
 }
 
