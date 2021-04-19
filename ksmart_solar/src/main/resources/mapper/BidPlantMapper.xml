@@ -290,6 +290,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="bStatus!=null and bStatus.toString()=='거래진행중'.toString()">
 				CAST(b_pl_date_decision2 AS DATE) = CURDATE()
 			</if>
+			<if test="bStatus!=null and bStatus.toString()=='거래실패'.toString()">
+				CAST(b_pl_date_decision1 AS DATE) = CURDATE()
+			</if>
 			AND ac_status_code = #{status};
 	</select>
 	<select id="getBidPlantTradeList" parameterType="String" resultMap="BidPlantDTOMap">

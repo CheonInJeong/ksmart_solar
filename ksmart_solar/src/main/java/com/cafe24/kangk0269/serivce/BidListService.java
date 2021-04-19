@@ -214,6 +214,28 @@ public class BidListService {
 			int result = bidListMapper.updateBidStatus(List);
 			System.out.println(result);
 		}
+		List<String> componentFail = bidComponentMapper.getComponentSatusList(9,"거래실패");
+		List<String> plantFail = bidPlantMapper.getPlantSatusList(9,"거래실패");
+		System.out.println(componentFail+"---------------------------componentFail");
+		System.out.println(plantFail+"---------------------------plantFail");
+		if(componentFail!=null && componentFail.size()>0) {
+			List = new HashMap<String,Object>();
+			List.put("BList", componentFail);
+			List.put("status", 1);
+			List.put("updateStatus", 2);
+			List.put("updateStatusName", "입찰실패");
+			int result = bidListMapper.updateBidStatus(List);
+			System.out.println(result);
+		}
+		if(plantFail!=null && plantFail.size()>0) {
+			List = new HashMap<String,Object>();
+			List.put("BList", plantFail);
+			List.put("status", 1);
+			List.put("updateStatus", 2);
+			List.put("updateStatusName", "입찰실패");
+			int result = bidListMapper.updateBidStatus(List);
+			System.out.println(result);
+		}
 		System.out.println(componentList);
 		System.out.println(plantList);
 	}
