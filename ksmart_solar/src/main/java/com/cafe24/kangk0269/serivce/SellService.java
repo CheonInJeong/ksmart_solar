@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.cafe24.kangk0269.common.Criteria;
 import com.cafe24.kangk0269.common.FileUtils;
 import com.cafe24.kangk0269.common.Pagination;
+import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
@@ -38,6 +39,9 @@ public class SellService {
 	private final FileUtils fileUtils;
 	@Autowired
 	private final FileMapper fileMapper;
+	
+	@Autowired
+	private BidPlantMapper bidPlantMapper;
 	
 	public SellService(SellMapper sellMapper,FileUtils fileUtils, FileMapper fileMapper) {
 		this.sellMapper = sellMapper;
@@ -201,6 +205,13 @@ public class SellService {
 				}
 			}
 		}
+		
+	}
+	public void updateAcStatus1() throws Exception{
+		//공고상태 공고마감-> 거래진행중으로
+		List<String> plantList = bidPlantMapper.getPlantSatusList(5,"거래진행중");
+		//sellMapper.updateAcStatus1();
+		
 	}
 	
 	

@@ -165,12 +165,23 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tr_type_name='입찰취소',
 			b_deposit_available='Y'
 		</if>
+		<if test="status.toString()=='공고취소'.toString()">
+			tr_type_code=15,
+			tr_type_name='공고취소',
+			b_deposit_available='Y'
+		</if>
 		<if test="status.toString()=='계약'.toString()">
 			tr_type_code=8,
 			tr_type_name='계약취소'
 		</if>
-		WHERE 
-			b_code = #{bCode}
+		WHERE
+			<if test="status.toString()=='계약'.toString() or status.toString()=='입찰'.toString()">
+				b_code = #{bCode}
+			</if>
+			<if test="status.toString()=='공고취소'.toString()">
+				announced_code = #{bCode}
+				and tr_type_code = 3
+			</if>
 	</update>
 	<update id="bidPlantMemberMinus">
 		UPDATE tb_bid_plant
@@ -378,4 +389,41 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			and b_check ='Y'
 		</trim>
 	</update>
+	<insert id="addqnaRequest" parameterType="BoardSellerDTO">
+		INSERT INTO tb_board_seller
+			( 
+			b_subject, 
+			b_contents, 
+			m_id_buyer, 
+			m_id_seller,
+			announced_code, 
+			b_photo, 
+			b_reg_date, 
+			b_bid_type)
+		VALUES 
+			(
+			#{bSubject}, 
+			#{bContents}, 
+			#{mIdBuyer}, 
+			#{mIdSeller}, 
+			#{announcedCode}, 
+			#{bPhoto}, 
+			NOW(), 
+			#{bBidType})
+	</insert>
+	<update id="modifyQna" parameterType="map">
+		UPDATE tb_board_seller
+		SET
+			b_subject=#{bSubject},
+			b_contents=#{bContents}
+		WHERE
+			b_idx = #{bIdx}
+			and m_id_buyer = #{mIdBuyer}
+	</update>
+	<delete id="removeQna" parameterType="int">
+		DELETE FROM tb_board_seller WHERE b_idx=#{bIdx}
+	</delete>
+	<delete id="removeQnaCo" parameterType="int">
+		DELETE FROM tb_comment WHERE b_idx=#{bIdx}
+	</delete>
 </mapper>

@@ -179,7 +179,7 @@ public class MyPageController {
 
 	
 	//계좌 사용여부 변경처리
-	@RequestMapping(value="/modifyAccountUse", method = RequestMethod.POST)
+	@RequestMapping(value="/ajax/modifyAccountUse", method = RequestMethod.POST)
 	public @ResponseBody String modifyAccountUse(Model model
 												, @RequestParam(name = "mAccountCheck", required = false) String mAccountCheck
 												, @RequestParam(name = "mAccountIdx", required = false) int mAccountIdx) {

@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Config 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.cafe24.kangk0269.dao.ScheduledMapper">
+	
+	<resultMap type="TradePriorityDTO" id="tradePriorityResultMap">
+		<result property="trPrCode" column="tr_pr_code"/>
+		<result property="bCode" column="b_code"/>
+		<result property="bTypeCode" column="b_type_code"/>
+		<result property="announcedCode" column="announced_code"/>
+		<result property="announcedTitle" column="announced_title"/>
+		<result property="bGroupcode" column="b_group_code"/>
+		<result property="mIdSeller" column="m_id_seller"/>
+		<result property="mIdBuyer" column="m_id_buyer"/>
+		<result property="trPrRank" column="tr_pr_rank"/>
+		<result property="trPrPrice" column="tr_pr_price"/>
+		<result property="sDepositRate" column="s_deposit_rate"/>
+		<result property="bDeposit" column="b_deposit"/>
+		<result property="trPrConclusionDate1" column="tr_pr_conclusion_date1"/>
+		<result property="trPrConclusionDate2" column="tr_pr_conclusion_date2"/>
+		<result property="trTypeCode" column="tr_type_code"/>
+		<result property="trTypeName" column="tr_type_name"/>
+		<result property="trPrDateUp" column="tr_pr_date_up"/>
+		<result property="trPayoutCheck" column="tr_payout_check"/>
+		
+		<association property="bidListDTO" javaType="BidListDTO">
+  		  	<id property="bCode" column="b_code"/>
+  		  	<result property="mAccountBankName" column="m_account_bank_name"/>
+  			<result property="mAccountNumber" column="m_account_number"/>
+   			<result property="mPaymentName" column="m_payment_name"/>
+  		</association>
+	</resultMap>
+
+ 	<insert id="addPayIn" parameterType="map">
+		INSERT 
+		INTO 
+			tb_trade_payment_in
+			(
+			tr_payin_code, 
+			tr_pr_code, 
+			b_code, 
+			announced_code, 
+			m_id_seller, 
+			m_id_buyer, 
+			b_price, 
+			s_deposit_rate, 
+			b_deposit, 
+			tr_payin_price, 
+			s_commission_rate, 
+			c_trade_cm, 
+			tr_payin_date1, 
+			tr_payin_date2, 
+			tr_payin_status, 
+			m_account_bank_name, 
+			m_account_number, 
+			m_payment_name)
+		VALUES 
+			(
+			sf_tr_payin_code(), 
+			#{tradePriorityDTO.trPrCode}, 
+			#{tradePriorityDTO.bCode}, 
+			#{tradePriorityDTO.announcedCode},
+			#{tradePriorityDTO.mIdSeller},
+			#{tradePriorityDTO.mIdBuyer},
+			#{tradePriorityDTO.trPrPrice},
+			#{tradePriorityDTO.sDepositRate},
+			#{tradePriorityDTO.bDeposit},
+			#{tradePriorityDTO.trPrPrice}-#{tradePriorityDTO.bDeposit},
+			sf_get_commission(#{tradePriorityDTO.trPrPrice}),
+			#{tradePriorityDTO.trPrPrice}*sf_get_commission(#{tradePriorityDTO.trPrPrice})/100,
+			#{tomorrow},
+			sf_payin_date(#{tomorrow}),
+			'진행중', 
+			#{tradePriorityDTO.bidListDTO.mAccountBankName},
+			#{tradePriorityDTO.bidListDTO.mAccountNumber},
+			#{tradePriorityDTO.bidListDTO.mPaymentName})
+		
+	
+	</insert> 
+
+	<!-- 우선순위테이블 조회  by천인정-->
+	<select id="getPriority" resultMap="tradePriorityResultMap">
+		SELECT 
+			p.tr_pr_code, 
+			p.b_code, 
+			p.b_type_code, 
+			p.announced_code, 
+			p.announced_title, 
+			p.b_groupcode, 
+			p.m_id_seller, 
+			p.m_id_buyer, 
+			p.tr_pr_rank, 
+			p.tr_pr_price, 
+			p.s_deposit_rate, 
+			p.b_deposit, 
+			p.tr_pr_conclusion_date1, 
+			p.tr_pr_conclusion_date2, 
+			p.tr_type_code, 
+			p.tr_type_name, 
+			p.tr_pr_date_up, 
+			p.tr_payout_check,
+			b.m_account_bank_name,
+			b.m_account_number,
+			b.m_payment_name
+		FROM 
+			tb_trade_priority AS p
+		INNER JOIN
+			tb_bid_list AS b
+		ON 
+			b.b_code = p.b_code 
+	</select>
+	
+</mapper>

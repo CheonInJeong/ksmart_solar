@@ -314,4 +314,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				 #{item}
 		  	</foreach>
 	</select>
+	<select id="getPlantBidList" resultType="int">
+		SELECT
+			COUNT(1)
+		FROM
+			tb_bid_list AS bl
+		JOIN
+			tb_bid_plant AS pl
+		ON bl.announced_code = pl.b_pl_code
+		WHERE
+			announced_code = #{announcedCode}
+			AND b_rank IS NOT null
+	</select>
 </mapper>

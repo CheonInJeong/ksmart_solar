@@ -43,6 +43,14 @@
 						<table class="table" style="text-align:left">
 							<tbody>
 								<tr>
+			                		<td>부품사진</td>
+			                		<td colspan="3">
+			                			<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+				                        	<img th:src="${d.componentDTO.cpPhoto}" alt="부품사진" style="width: 100%; height: 100%">
+				                        </div>
+			                		</td>
+	                			</tr>
+								<tr>
 									<td>부품명</td>
 									<td colspan="3" th:text="${d.componentDTO.cpName}"></td>
 								</tr>
@@ -160,7 +168,9 @@
 			              </th:block>
 			              
 				          <th:block th:unless="${#lists.size(trade)}>0">
-					          <span style="float:center">진행중인 계약이 없습니다.</span>
+					          <div style="text-align:center;" class="text-center" >
+						          <span>진행중인 계약이 없습니다.</span>
+					          </div>
 				          </th:block>
 			          </div>
 		          </div>
@@ -175,21 +185,22 @@
 			              <table class="table" id="qnaTable">
 			               	<thead>
 			               		<tr>
+			               			<th>번호</th>
 			               			<th>제목</th>
 			               			<th>조회수</th>
 			               			<th>작성자</th>
 			               			<th>작성일</th>
-			               			<th>답변여부</th>
+			               			<th>댓글수</th>
 			               		</tr>
 			               	</thead>
 			               	<tbody>
-			               		<tr th:if="${#lists.size(qna)}>0" th:each="q:${qna}">
+			               		<tr th:if="${#lists.size(qna)}>0" th:each="q,index:${qna}">
+			               			<td th:text="${index.count}"></td>
 			               			<td class="subject"><a th:href="@{/sell/qnaDetail(idx=${q.bIdx})}">[[${q.bSubject}]]</a></td>         			
 			               			<td th:text="${q.bView}"></td>
 			               			<td th:text="${q.mIdBuyer}"></td>
 			               			<td th:text="${q.bRegDate}"></td>
-			               			<td th:if="${q.bAnswer=='Y'}">답변</td>
-			               			<td th:if="${q.bAnswer=='N'}">미답변</td>
+			               			<td class="cmtCount"></td>
 			               		</tr>
 			               		<tr th:unless="${#lists.size(qna)}>0"><td colspan="5" style="text-align:center">문의내역이 없습니다</td></tr>
 			                </tbody>
@@ -209,7 +220,7 @@
 			sell.parent().find('.sub').css('display','block');
 			sell.parent().find('.sub').children().eq(1).addClass('active');
 		</script>
-		<script>
+		<script th:inline="javascript">
 			//숫자에 콤마 찍는 함수
 			 function comma(str) {
 	       		 str = String(str);
@@ -223,9 +234,9 @@
 		 		$('body').attr('data-target','.nabvar');
 		 		$('body').attr('data-offset','50');
 		 		
-		
+		 		//스크롤스파이 시작		
 				$('body').scrollspy({target: ".navbar", offset: 50}); 
-							
+				
 				$("#myNav a").on('click', function(event) {
 			 		if (this.hash !== "") {
 						event.preventDefault();
@@ -237,6 +248,22 @@
 						 });
 					 } 
 				 });
+				//스크롤스파이 끝
+					var qna = /*[[${qna}]]*/
+			 		$('.cmtCount').each(function(){
+			 			var i = $('.cmtCount').index(this);
+			 			console.log(qna[i].bIdx+"<---인덱스");
+			 			 $.ajax({
+				 			url : '/ajax/getCmtCount',
+				 			type : 'post',
+				 			data : {bIdx : qna[i].bIdx},
+			 			 	success : function(data){
+			 			 		console.log(data);
+			 			 		$('.cmtCount').text(data);
+			 			 	}
+				 		}) 
+			 		})
+				
 			});
 			 	
 		 	

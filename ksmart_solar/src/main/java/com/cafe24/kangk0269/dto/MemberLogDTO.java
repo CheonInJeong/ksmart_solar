@@ -44,5 +44,6 @@ public class MemberLogDTO {
 		builder.append("]");
 		return builder.toString();
 	}
-
+	
+	
 }

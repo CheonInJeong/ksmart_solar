@@ -7,6 +7,13 @@
 				<title>테스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<div id="container-header-title"><strong>문의받은내역</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;">매인화면</a>>
+			<a href="#" style="text-decoration: none;">판매관리</a>>
+			<a href="/sell/qna" style="text-decoration: none;">문의받은내역</a>
+		</div>
+		<div id="container-header-space"></div>
 		 <div class="row mt">
           <div class="col-md-12">
             <div class="content-panel" style="padding: 30px;">
@@ -26,6 +33,7 @@
               <table class="table table-striped table-advance table-hover">
                 <thead>
                   <tr>
+                  	<th>번호</th>
                     <th><i class="fa fa-bullhorn"></i>공고코드</th>
                     <th>구분</th>
                     <th><i class="fa fa-bookmark"></i>문의제목</th>
@@ -35,7 +43,8 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <tr th:if="${qnaList!=null and qnaList.size()>0}" th:each="list:${qnaList}">
+                  <tr th:if="${qnaList!=null and qnaList.size()>0}" th:each="list,index:${qnaList}">
+                  	   <td th:text="${index.count}"></td>
 	                   <td th:text="${list.announcedCode}"></td>
 	                   <td th:if="${list.bBidType == 1}">발전소</td>
 	                   <td th:if="${list.bBidType == 2}">부품</td>

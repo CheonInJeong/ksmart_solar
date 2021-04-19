@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	layout:decorate="@{layout/default}">
+	layout:decorate="layout/default">
 
 <th:block layout:fragment="customTitle">
 	<title>문의하기</title>
@@ -58,7 +58,7 @@
 						</thead>
 						<tbody>
 							<tr th:if="${#lists.size(boardQnaDTOList) > 0}" th:each="l : ${boardQnaDTOList}">
-								<td data-title="문의제목">
+								<td data-title="문의제목" style="text-align: left; padding-left: 20px;">
 									<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
 								</td>
 								<td data-title="작성자" th:text="${l.mId}"></td>

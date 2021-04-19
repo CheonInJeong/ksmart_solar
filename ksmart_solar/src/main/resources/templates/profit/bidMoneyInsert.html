@@ -59,7 +59,10 @@
 									[[${l.Code}]]
 									<input type="hidden" id="Code" th:value="${check.Code}">
 								</td>
-								<td style="display: none;">[[${l.nCode}]]</td>
+								<td style="display: none;">
+									[[${l.nCode}]]
+									<input type="hidden" id="nCode" th:value="${check.nCode}">
+								</td>
 								<td>[[${l.nTitle}]]</td>
 								<td>[[${l.startDate}]]</td>
 								<td>[[${l.endDate}]]</td>
@@ -97,15 +100,17 @@
 		
 		function checkFinish(){
 			var Code = $('#Code');
+			var nCode = $('#nCode');
 			var Id = $('#Id');
 			var money = $('#money');
 			var iOut = $('#iOut');
 			var inoutDate = $('#inoutDate');
 			
 			var request = $.ajax({
-				url: "/bidMoneyInsertSend",
+				url: "/ajax/bidMoneyInsertSend",
 				method: "post",
 				data: { Code : Code.val(), 
+						nCode : nCode.val(),
 						Id : Id.val(),
 						money : money.val(),
 						iOut : iOut.val(),

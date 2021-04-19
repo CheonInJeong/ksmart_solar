@@ -30,6 +30,7 @@ import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.dto.TradePriorityDTO;
+import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.BoardSellerService;
 import com.cafe24.kangk0269.serivce.PlantService;
 import com.cafe24.kangk0269.serivce.SellService;
@@ -45,14 +46,23 @@ public class SellController {
 	
 	@Autowired
 	private final BoardSellerService boardSellerService;
+	@Autowired
+	private final BidListService bidListService;
 	
 	SavePaging savePaging = null;
 	
-	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService) {
+	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService,BidListService bidListService) {
 		this.sellService = sellService;
 		this.plantService = plantService;
 		this.boardSellerService = boardSellerService;
+		this.bidListService = bidListService;
 		
+	}
+	
+	//댓글수 가져오기
+	@RequestMapping(value="/ajax/getCmtCount",method=RequestMethod.POST)
+	public @ResponseBody int getCmtCount(@RequestParam(value="bIdx") int bIdx) {
+		return boardSellerService.getCmtCount(bIdx);
 	}
 	
 	//출금신청 목록 은행 수정
@@ -60,9 +70,6 @@ public class SellController {
 	public @ResponseBody String updateBankInfo(@RequestParam(value="accountNumber") String accountNumber
 											  ,@RequestParam(value="trPayoutCode") String trPayoutCode
 											  ,@RequestParam(value="accountBank") String accountBank) {
-		System.out.println(accountNumber+"<----수정필요");
-		System.out.println(trPayoutCode+"<----수정필요");
-		System.out.println(accountBank+"<----수정필요");
 		sellService.updateBankInfo(accountBank, accountNumber, trPayoutCode);
 		
 		return "성공";
@@ -285,7 +292,7 @@ public class SellController {
 	
 	
 	//부품 등록
-	@RequestMapping(value="/sell/addComponent", method=RequestMethod.POST)
+	@RequestMapping(value="/ajax/sell/addComponent", method=RequestMethod.POST)
 	public @ResponseBody String regComponentSell ( @RequestParam(value="mId") String mId,
 									@RequestParam(value="cpName") String cpName,
 									@RequestParam(value="cpInfo") String cpInfo,
@@ -576,8 +583,7 @@ public class SellController {
 			searchValueFinish = null;
 		}
 
-	
-				
+			
 		
 		String sessionId = (String)session.getAttribute("SID");
 		//출금가능한목록
@@ -622,11 +628,21 @@ public class SellController {
 		}
 		
 		
-		model.addAttribute("qnaList",boardSellerService.getQnaListById((String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
+		model.addAttribute("qnaList",boardSellerService.getQnaListById("sell",(String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
 		model.addAttribute("boardSellerDTO",boardSellerDTO);
 		model.addAttribute("searchKey",searchKey);
 		model.addAttribute("searchValue",searchValue);
 		
 		return "sell/qna";
 	}
+	@RequestMapping(value="/ajax/modifyQna",method = RequestMethod.POST)
+	public @ResponseBody int modifyQna(HttpSession session,BoardSellerDTO boardSellerDTO) throws Exception {
+		return bidListService.modifyQna((String)session.getAttribute("SID"), boardSellerDTO.getbSubject(), boardSellerDTO.getbContents(), boardSellerDTO.getbIdx());
+	}
+	@PostMapping("/sell/removeQna")
+	public String removeQna(int bIdx, String url) {
+		bidListService.removeQna(bIdx);
+		return "redirect:"+url;
+	}
+	
 }

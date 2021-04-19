@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>공고정보</title>
@@ -232,7 +232,11 @@
 					</form>
 					<form class="form-group" action="/notice/qnaRequest" method="post">
 						<input th:if="${bidComponentdto!=null}" type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">
+						<input th:if="${bidComponentdto!=null}" type="hidden" name="mIdSeller" th:value="${bidComponentdto.mId}">
+						<input th:if="${bidComponentdto!=null}" type="hidden" name="bBidType" value="2">
 						<input th:if="${bidPlantdto!=null}" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+						<input th:if="${bidPlantdto!=null}" type="hidden" name="mIdSeller" th:value="${bidPlantdto.mId}">
+						<input th:if="${bidPlantdto!=null}" type="hidden" name="bBidType" value="1">
 						<input type="hidden" name="url">
 						<div class="form-group">
 				 			<button type="submit" class="btn btn-default">문의하기</button>
@@ -313,7 +317,7 @@
 				if(ReCount.val()>0){
 					var count = 0;
 					$.ajax({
-						  url: '/reBidCount', 
+						  url: '/ajax/reBidCount', 
 						  method: 'get',
 						  data : {bGroupcode : bGroupcode.val()},
 						  async:false,

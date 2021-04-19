@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>예치금 환불 신청</title>
@@ -103,7 +103,7 @@
 			bank.change(function(){
 				//본인 계좌 가져오는 ajax
 				$.ajax({
-					  url: '/myBank', 
+					  url: '/ajax/myBank', 
 					  method: 'POST',
 					  data : {mAccountIdx : $(this).val()},
 					  success: function(data){

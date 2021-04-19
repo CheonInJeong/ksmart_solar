@@ -20,6 +20,7 @@ import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -323,12 +324,12 @@ public class NoticeController {
 		return "/notice/bidRequest";
 	}
 	//수수료율 가져오는 ajax통신
-	@RequestMapping(value = "/sDepositRateCheck", method=RequestMethod.POST)
+	@RequestMapping(value = "/ajax/sDepositRateCheck", method=RequestMethod.POST)
 	public @ResponseBody double sDepositRateCheck () {
 		return bidListService.getDepositRate(); 
 	}
 	//관리자 계좌 가져오는 ajax 통신
-	@RequestMapping(value = "/bankCheck", method=RequestMethod.POST)
+	@RequestMapping(value = "/ajax/bankCheck", method=RequestMethod.POST)
 	public @ResponseBody List<MemberAccountDTO> bankCheck () {
 		List<String> managerList=memberService.getManager();
 		List<MemberAccountDTO> accountList=accountService.getAccountListByManager(managerList);
@@ -354,7 +355,7 @@ public class NoticeController {
 		return "redirect:/buy/myHistory";
 	}
 	//재공고 입찰시 이전 공고에서 거래를 취소한 적이 있는지 파악
-	@RequestMapping(value = "/reBidCount",method = RequestMethod.GET )
+	@RequestMapping(value = "/ajax/reBidCount",method = RequestMethod.GET )
 	public @ResponseBody int reBidCount(String bGroupcode,HttpSession session) {
 		System.out.println("입찰 카운드 들어옴");
 		System.out.println(bGroupcode);
@@ -371,24 +372,29 @@ public class NoticeController {
 		return "redirect:/notice/noticeList";
 	}
 	@PostMapping("/notice/qnaRequest")
-	public String qnaRequest(String announcedCode,
+	public String qnaRequest(BoardSellerDTO boardSellerDTO,
 							 String url,
 							 Model model) {
-		model.addAttribute("announcedCode", announcedCode);
+		System.out.println(boardSellerDTO.getAnnouncedCode());
+		System.out.println(boardSellerDTO.getmIdSeller());
+		System.out.println(boardSellerDTO.getbBidType());
+		model.addAttribute("boardSellerDTO", boardSellerDTO);
 		model.addAttribute("url", url);
 		return "/notice/qnaRequest";
 	}
 	@PostMapping("/help/addqnaRequest")
-	public String addqnaRequest(String bSubject,
-								String bContents,
-								String bPhoto,
-								String announcedCode,
-								String url) {
-		System.out.println(bSubject);
-		System.out.println(bContents);
-		System.out.println(bPhoto);
-		System.out.println(announcedCode);
+	public String addqnaRequest(BoardSellerDTO boardSellerDTO,
+								String url,
+								HttpSession session) {
+		System.out.println(boardSellerDTO.getbSubject());
+		System.out.println(boardSellerDTO.getbContents());
+		System.out.println(boardSellerDTO.getbPhoto());
+		System.out.println(boardSellerDTO.getAnnouncedCode());
+		System.out.println(boardSellerDTO.getmIdSeller());
+		System.out.println(boardSellerDTO.getbBidType());
+		boardSellerDTO.setmIdBuyer((String)session.getAttribute("SID"));
 		System.out.println(url);
+		bidListService.addqnaRequest(boardSellerDTO);
 		return "redirect:"+url;
 	}
 }

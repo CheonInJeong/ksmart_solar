@@ -1,6 +1,6 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>개인 계좌 조회</title>
@@ -96,7 +96,7 @@
 				
 			     $.ajax({
 			        type : "POST",
-			        url : "/modifyAccountUse",
+			        url : "/ajax/modifyAccountUse",
 			        dataType : "text",
 			        data : {"mAccountCheck": mAccountCheck, "mAccountIdx": mAccountIdx},
 			        error : function(error) {

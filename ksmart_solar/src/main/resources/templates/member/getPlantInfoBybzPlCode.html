@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="@{layout/default}">
+	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
 				<title>[[${plant.bzPlCode}]] 상세정보</title>
@@ -159,7 +159,7 @@
 				if(result){
 					console.log('승인완료');
 					var request = $.ajax({
-						url: "/plantAdmitSend",
+						url: "/ajax/plantAdmitSend",
 						method: "post",
 						data: { bzPlCode : bzPlCode.val() },
 					});
@@ -181,7 +181,7 @@
 				if(result){
 					console.log('반려완료');
 					var request = $.ajax({
-						url: "/plantReturnSend",
+						url: "/ajax/plantReturnSend",
 						method: "post",
 						data: { bzPlCode : bzPlCode.val() },
 					});
