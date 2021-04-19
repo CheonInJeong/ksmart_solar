@@ -10,6 +10,7 @@ import com.cafe24.kangk0269.dto.NoticeDTO;
 @Mapper
 public interface NoticeMapper {
 	
+	
 	//공지 조회수 증가
 	public int addNoticeViews(int noticeIdx);
 	
@@ -17,7 +18,7 @@ public interface NoticeMapper {
 	public int removeNotice(int noticeIdx);
 	
 	//공지사항 파일조회
-	public List<FileDTO> getNoticeFileList();
+	public List<FileDTO> getNoticeFileList(int noticeIdx);
 	
 	//공지사항 상세조회
 	public NoticeDTO getNotice(int noticeIdx);
@@ -27,6 +28,9 @@ public interface NoticeMapper {
 	
 	//공지사항 수정화면
 	public NoticeDTO modifyNoticeByIdx(int noticeIdx);
+	
+	//공지사항 파일참조번호 수정
+	public void modifyFileReference(int noticeIdx); 
 	
 	//공지사항 파일등록
 	public int addFile(List<FileDTO> list);

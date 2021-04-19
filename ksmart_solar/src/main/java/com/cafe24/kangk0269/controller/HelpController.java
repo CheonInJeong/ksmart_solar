@@ -153,7 +153,7 @@ public class HelpController {
 		
 		NoticeDTO noticeDTO = noticeService.getNotice(noticeIdx);
 		model.addAttribute("noticeDTO", noticeDTO);
-		model.addAttribute("fileList", noticeService.getNoticeFileList());
+		model.addAttribute("fileList", noticeService.getNoticeFileList(noticeIdx));
 		return "/help/getNotice";
 		
 	}
@@ -183,8 +183,9 @@ public class HelpController {
 		System.out.println("noticeDTO-->" + noticeDTO);
 		noticeService.addNotice(noticeDTO);
 		noticeService.addNoticeFile(multipartHttpServletRequest, request);
+		int noticeIdx = noticeDTO.getNoticeIdx();
+		noticeService.modifyFileReference(noticeIdx);
 		return "redirect:/help/notice";
-		
 	}
 	
 	//공지등록 화면

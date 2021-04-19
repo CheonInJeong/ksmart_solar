@@ -41,6 +41,8 @@ public class MemberService {
 		System.out.println("=========================================================");
 	}
 	
+	
+	
 	//권한에 따른 uri 가져오기
 	public List<String> getUri(int level){
 		return memberMapper.getUri(level);
@@ -139,10 +141,19 @@ public class MemberService {
 		return memberMapper.getLoginHistoryCnt(searchKeyL, searchValueL, searchValueLS, searchValueLF);
 	}
 	
+	//탈퇴 회원상태 변경
+	public void modifyMemberState(String login_id) {
+		memberMapper.modifyMemberState(login_id);
+	}
 	// 전체 회원권한수정
 	public int modifyMember(MemberDTO member) {
 		int result = memberMapper.modifyMember(member);
 		return result;
+	}
+	
+	//개인 회원탈퇴신청
+	public void withdraw(MemberRevokeDTO memberRevokeDTO) {
+		memberMapper.withdraw(memberRevokeDTO);
 	}
 	
 	//개인 비멀번호수정

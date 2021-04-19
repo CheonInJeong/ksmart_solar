@@ -86,7 +86,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</select>
 	
 	<!-- 공지사항 파일조회  -->
-	<select id="getNoticeFileList"  resultMap="fileResultMap">
+	<select id="getNoticeFileList"  resultMap="fileResultMap" parameterType="int">
 		SELECT 
 			f.idx,
 			f.file_sort_name,
@@ -106,7 +106,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		AND 
 			m.m_level=1
 		AND 
-			f.related_table_code='공지서류'	
+			f.related_table_code= #{noticeIdx}	
 	</select>
 	
 	
@@ -122,6 +122,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		
   	</insert>	
 	
+	
+	<!-- 공지사항 파일 참조번호 수정  -->
+	<update id="modifyFileReference" parameterType="int">
+		UPDATE tb_file
+		SET
+			related_table_code = #{noticeIdx}
+		WHERE related_table_code='공지서류'
+	</update>
+	
+	
 	<!-- 공지사항 등록 -->
 	<insert id="addNotice" parameterType="NoticeDTO">
 		INSERT INTO tb_notice
@@ -134,11 +144,21 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		VALUES 
 			( #{notSubject}
 			, #{notContents}
-			, '관리자'
+			, #{mId}
 			, NOW()
 			, 0
 			, 'N')
+					
+		<selectKey keyProperty="noticeIdx" keyColumn="not_idx" resultType="int" order="AFTER">
+		    SELECT 
+		    	not_idx 
+		    FROM 
+		    	tb_notice
+		   order by not_idx desc limit 1
+		</selectKey>
 	</insert>
+	
+	
 	
 	<!-- 공지사항 조회 -->
 	<select id="getNoticeList" resultMap="NoticeDTOMap">
