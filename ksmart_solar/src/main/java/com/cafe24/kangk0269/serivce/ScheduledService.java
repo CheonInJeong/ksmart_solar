@@ -159,8 +159,10 @@ public class ScheduledService {
 			String announcedCode = priorityFail.get(i).getAnnouncedCode();
 			int rank = priorityFail.get(i).getTrPrRank();
 			rank++;
+			//다음순위의 
 			String bidListDTO = scheduledMapper.getBidListNextRank(announcedCode, rank);
 			System.out.println(bidListDTO);
+			//다음순위가 있다면 다음순위 낙찰자 테이블에 삽입
 			if(bidListDTO!=null) {
 				if(bidListDTO.equals("1")) {
 					System.out.println("발전소");
@@ -177,6 +179,15 @@ public class ScheduledService {
 					List.put("tradePerioddate", tradePerioddate);
 					List.put("BidComTradeList", BidComTradeList);
 					tradeMapper.addTradePriority(List);
+				}
+			//다음 순위가 없다면 거래 실패
+			}else if(bidListDTO==null) {
+				String bidType = scheduledMapper.getBidListNextRank(announcedCode, rank-1);
+				if(bidType.equals("1")) {
+					
+				}
+				if(bidType.equals("2")) {
+					
 				}
 			}
 		}
