@@ -37,7 +37,7 @@ public class LoginInterceptor implements HandlerInterceptor{
 		log.info("sessionName			:::: {}",sessionName);
 		log.info("sessionURI			:::: {}",sessionURI);
 
-		System.out.println(sessionURI);
+		//System.out.println(sessionURI);
 		
 		
 		if(sessionId == null ||sessionLevel == null || sessionURI==null) {
