@@ -18,7 +18,7 @@ public class Commoninterceptor  implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		
+		/*
 		log.info("Commoninterceptor===============================================================START");
 		log.info("ACCESS INFO===============================================================START");
 		log.info("PORT         ::::::::::::::::::::::::  {}",request.getLocalPort());
@@ -26,6 +26,7 @@ public class Commoninterceptor  implements HandlerInterceptor{
 		log.info("method       ::::::::::::::::::::::::  {}",request.getMethod());
 		log.info("URI          ::::::::::::::::::::::::  {}",request.getRequestURI());
 		log.info("ACCESS INFO===============================================================END");
+		*/
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 	
@@ -33,7 +34,7 @@ public class Commoninterceptor  implements HandlerInterceptor{
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		
-		log.info("Commoninterceptor===============================================================END");
+		//log.info("Commoninterceptor===============================================================END");
 		HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
 	}
 	
@@ -41,7 +42,7 @@ public class Commoninterceptor  implements HandlerInterceptor{
 	public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex)
 			throws Exception {
 		
-		log.info("Commoninterceptor===============================================================AFTER");
+		//log.info("Commoninterceptor===============================================================AFTER");
 		HandlerInterceptor.super.afterCompletion(request, response, handler, ex);
 	}
 }
