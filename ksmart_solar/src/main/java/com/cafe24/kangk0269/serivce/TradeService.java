@@ -11,6 +11,7 @@ import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Service
 @Transactional
@@ -76,6 +77,10 @@ public class TradeService {
 		return tradeMapper.getDepositOutList();
 	}
 	
+	// 낙찰자 테이블 낙찰코드로 상세조회
+	public TradePriorityDTO getPriByPrCode(String prCode) {
+		return tradeMapper.getPriByPrCode(prCode);
+	}
 	// 거래대금 납부 납부코드로 상세조회
 	public TradePaymentInDTO getPayInByPayInCode(String payInCode) {
 		return tradeMapper.getPayInByPayInCode(payInCode);
