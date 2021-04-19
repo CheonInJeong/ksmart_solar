@@ -19,7 +19,7 @@ public class BusinessPlantDTO {
 	private int bzPlInvPower;	
 	private int bzPlInvCount;	
 	private String bzPlInvMaker;	
-	private int bzPlRec;
+	private String bzPlRec;
 	private String bzPlRegDate;	
 	private String bzPlModDate;	
 	private PlantDepreciationDTO plantDepreciationDTO;
@@ -120,10 +120,10 @@ public class BusinessPlantDTO {
 	public void setBzPlInvMaker(String bzPlInvMaker) {
 		this.bzPlInvMaker = bzPlInvMaker;
 	}
-	public int getBzPlRec() {
+	public String getBzPlRec() {
 		return bzPlRec;
 	}
-	public void setBzPlRec(int bzPlRec) {
+	public void setBzPlRec(String bzPlRec) {
 		this.bzPlRec = bzPlRec;
 	}
 	public PlantDepreciationDTO getPlantDepreciationDTO() {
