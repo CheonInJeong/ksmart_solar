@@ -113,11 +113,23 @@ public class MemberManageController {
 	
 	@GetMapping("/modifyMember")
 	public String modifyMember(Model model
-							   ,@RequestParam(name="mId", required=false) String mId) {
+							   , @RequestParam(name="mId", required=false) String mId
+							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
+							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
+							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
+							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("입력받은 아이디 : " + mId);
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		System.out.println("회원정보조회 : " + member);
 		model.addAttribute("member", member);
+		model.addAttribute("searchKeyAM", searchKeyAM);
+		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchKeyRM", searchKeyRM);
+		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("curPage1", curPage1);
+		model.addAttribute("curPage2", curPage2);
 		return "/member/modifyMember";
 	}
 	
