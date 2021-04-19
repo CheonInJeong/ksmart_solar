@@ -63,7 +63,7 @@ public class PlantService {
 	
 	// 전체 발전소 인증 신청 목록
 	public List<BusinessPlantDTO> getAllPlantAdmitList(int start, int end, String searchKey, String searchValue) {
-		if(searchKey != null) {
+		if(searchKey != null && searchKey != "") {
 			if("bzPlCode".equals(searchKey)) {
 				searchKey = "bz_pl_code";
 			}else if("mId".equals(searchKey)){
@@ -82,16 +82,16 @@ public class PlantService {
 	}
 	// 발전소인증신청 리스트 수
 	public int getAllPlantAdmitListCnt(String searchKey, String searchValue) {
-		if(searchKey != null) {
-			if("bzPlCode".equals(searchValue)) {
+		if(searchKey != null && searchKey != "") {
+			if("bzPlCode".equals(searchKey)) {
 				searchKey = "bz_pl_code";
-			}else if("mId".equals(searchValue)){
+			}else if("mId".equals(searchKey)){
 				searchKey = "m_id";
-			}else if("bzPlName".equals(searchValue)){
+			}else if("bzPlName".equals(searchKey)){
 				searchKey = "bz_pl_name";
-			}else if("bzPlAddr".equals(searchValue)){
+			}else if("bzPlAddr".equals(searchKey)){
 				searchKey = "bz_pl_addr";
-			}else if("bzPlHardware".equals(searchValue)){
+			}else if("bzPlHardware".equals(searchKey)){
 				searchKey = "bz_pl_hardware";
 			}else {
 				searchKey = "bz_pl_check";
