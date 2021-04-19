@@ -53,7 +53,10 @@
 				  </div>
 				</div>
 				<div th:unless="${#lists.size(plantListById) > 0}">
-				조회된 내용이 없습니다.
+					<div class="content-panel col-xs-12" style="min-height: 80vh; text-align: center;">
+						<h2>조회된 내용이 없습니다.</h2>
+						<h4>(발전소 등록을 해주세요.)</h4>
+					</div>
 				</div>
 			</div>
 		<!-- 클릭한 발전소의 코드를 전송 -->
@@ -63,8 +66,6 @@
 	<th:block layout:fragment="customScript">
 		<script src="/js/plant.js"></script>
 		<script type="text/javascript">
-			
-		
 			$(document).ready(function(){
 				var sessionID = $('#sessionID').attr('data-session-id');
 				var sessionNAME = $('#sessionNAME').attr('data-session-name');
@@ -87,8 +88,6 @@
 			$('#plantDetailMove').click(function(){
 				document.location.href = '/plant/plantDetail';
 			});
-			
-			
 			$('.plantImg').click(function(){
 				console.log(this);
 				var code = $(this).attr('data-bzCode');

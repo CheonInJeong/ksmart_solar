@@ -37,6 +37,7 @@ public class WebConfig implements WebMvcConfigurer{
 		.excludePathPatterns("/css/**")
 		.excludePathPatterns("/img/**")
 		.excludePathPatterns("/lib/**")
+		.excludePathPatterns("/signup")
 		.excludePathPatterns("/login")
 		.excludePathPatterns("/logout")
 		.excludePathPatterns("/logoutKakao")
