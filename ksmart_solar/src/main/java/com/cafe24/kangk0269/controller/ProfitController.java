@@ -154,10 +154,15 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/balance")
-	public String Balance(Model model) {
+	public String Balance(Model model
+						  , @RequestParam(name="searchKey", required=false) String searchKey
+						  , @RequestParam(name="searchValue", required=false) String searchValue
+						  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
 		System.out.println(bidMoneyList);
 		model.addAttribute("bidMoneyList", bidMoneyList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
 		return "/profit/balance";
 	}
 	
