@@ -46,6 +46,9 @@ public interface TradeMapper {
 	// 예치금출금신청목록
 	public List<TradeDepositOutDTO> getDepositOutList();
 	
+	// 거래대금 납부 납부코드로 상세조회
+	public TradePaymentInDTO getPayInByPayInCode(String payInCode);
+	
 	//거래대금납부목록(본인)
 	public TradePaymentInDTO getTradePaymentIn(String bCode);
 	//대금신청 정보 갱신
