@@ -30,16 +30,17 @@ public class LoginInterceptor implements HandlerInterceptor{
 		List<String> sessionURI   = (List<String>)session.getAttribute("SURI");
 		//요청받은 uri
 		String requestUri   = request.getRequestURI();
-		
+
 		log.info("LoginInterceptor****************************START");
 		log.info("sessionId				:::: {}",sessionId);
 		log.info("sessionLevel			:::: {}",sessionLevel);
 		log.info("sessionName			:::: {}",sessionName);
 		log.info("sessionURI			:::: {}",sessionURI);
 
+
 		//System.out.println(sessionURI);
 		
-		
+
 		if(sessionId == null ||sessionLevel == null || sessionURI==null) {
 			if(requestUri.indexOf("/member/memberSignUp") > -1) {
 				return true;
