@@ -208,6 +208,7 @@
 			bz_code = #{bzCode}
 	</select>
 	
+	<!-- 사업자인증신청목록 -->
 	<select id="getAllBusinessAdmitList" resultMap="businessResultMap">
 		SELECT 
 			bz_code
@@ -225,6 +226,30 @@
 			, bz_check
 			, bz_check_reason
 		FROM 
-			tb_business;
+			tb_business
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
 	</select>
+	
+	<!-- 사업자인증신청 리스트 수 -->
+	<select id="getAllBusinessAdmitListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_business
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
+	</select>
+	
+	
 </mapper> 

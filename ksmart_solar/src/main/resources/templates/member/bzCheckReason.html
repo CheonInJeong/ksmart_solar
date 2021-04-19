@@ -28,7 +28,7 @@
 			if(result){
 				console.log('반려완료');
 				var request = $.ajax({
-					url: "/businessReturnSend",
+					url: "/ajax/businessReturnSend",
 					method: "post",
 					data: { bzCode : bzCode.val(), bzCheckReason : bzCheckReason.val() },
 				});

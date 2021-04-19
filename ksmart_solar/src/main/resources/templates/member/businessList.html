@@ -25,6 +25,20 @@
           <div class="col-lg-12">
             <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 사업자인증신청목록</h4>
+				<div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/member/memberList}">
+	            	<select name="searchKey">
+	            		<option >카테고리</option>
+	            		<option value="bzCode">사업자코드</option>
+	            		<option value="mId">아이디</option>
+	            		<option value="bzPlace">주소</option>
+	            		<option value="bzType">권한</option>
+	            		<option value="bzCheck">승인/반려</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+            	</div>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
