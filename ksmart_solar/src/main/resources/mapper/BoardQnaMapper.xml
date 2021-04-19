@@ -19,12 +19,43 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bQnaTemp"			column="b_qna_temp"/>
 	</resultMap>
 	
+	
+	<!-- 임서저장 글 불러오기 -->
+	<select id="getLoadQna" parameterType="int" resultMap="BoardQnaDTOMap">
+		SELECT 
+			  b_qna_idx
+			, b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp
+		FROM 
+			tb_board_qna
+		WHERE
+			b_qna_idx = #{bQnaIdx}
+	</select>
+	
 	<!-- 임시저장 불러오기  -->
 	<select id="loadQna" parameterType="String" resultMap="BoardQnaDTOMap">
 		SELECT 
-		  b_qna_idx
-		, b_qna_subject
-		, b_qna_reg_date
+			  b_qna_idx
+			, b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp
 		FROM 
 			tb_board_qna
 		WHERE 
@@ -32,6 +63,48 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		AND
 			m_id = #{log_id}
 	</select>
+	
+	<!-- 문의사항 임시저장(update) -->
+	<update id="saveQnaUp" parameterType="BoardQnaDTO"> 
+		UPDATE
+			tb_board_qna
+		SET
+			b_qna_subject = #{bQnaSubject},
+			b_qna_contents = #{bQnaContents},
+			b_qna_reg_date = NOW(),
+			b_qna_open = #{bQnaOpen},
+			b_qna_password = #{bQnaPassword}
+		WHERE 
+			b_qna_idx = #{bQnaIdx}		
+	</update>
+	
+	<!-- 문의사항 임시 저장 (insert) -->
+	<insert id="saveQnaIn" parameterType="BoardQnaDTO">
+		INSERT INTO tb_board_qna
+			( b_qna_subject
+			, b_qna_contents
+			, m_id
+			, b_qna_reg_date
+			, b_qna_views
+			, b_qna_open
+			, b_qna_password
+			, b_qna_ref_code
+			, b_qna_re_lev
+			, b_qna_re_seq
+			, b_qna_temp)
+		VALUES 
+			( #{bQnaSubject}
+			, #{bQnaContents}
+			, #{mId}
+			, NOW()
+			, 0
+			, #{bQnaOpen}
+			, #{bQnaPassword}
+			, 0
+			, 0
+			, 0
+			, 'Y')
+	</insert>
 	
 	<!-- 문의 조회수 증가  -->	 
 	<update id="addQnaViews">
@@ -104,8 +177,23 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		</update>
 		
 		
-	<!-- 문의 등록 -->
-	<insert id="addQna" parameterType="BoardQnaDTO">
+	<!--문의 등록(update) -->	
+	<update id="addQnaUp" parameterType="BoardQnaDTO">
+		UPDATE
+			tb_board_qna
+		SET
+			b_qna_subject = #{bQnaSubject},
+			b_qna_contents = #{bQnaContents},
+			b_qna_reg_date = NOW(),
+			b_qna_open = #{bQnaOpen},
+			b_qna_password = #{bQnaPassword},
+			b_qna_temp = 'N'
+		WHERE 
+			b_qna_idx = #{bQnaIdx}
+	</update>
+		
+	<!-- 문의 등록(insert) -->
+	<insert id="addQnaIn" parameterType="BoardQnaDTO">
 		INSERT INTO tb_board_qna
 			( b_qna_subject
 			, b_qna_contents
@@ -176,6 +264,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
 			</if>
 		</trim>
+		WHERE b_qna_temp = 'N'
 		ORDER BY b_qna_ref_code DESC, b_qna_re_seq ASC
 	</select>
 </mapper>

@@ -27,20 +27,19 @@
 				<h4 class="mb">
 					<i class="fa fa-angle-right"></i>문의사항 등록
 				</h4>
-				<form th:action="@{/help/addQna}" method="post"
-					class="form-horizontal style-form">
-					<input type="text" hidden="hidden" name="mId"
-						th:value="${session.SID}">
+				<form method="post" name="form" class="form-horizontal style-form">
+					<input type="text" hidden="hidden" name="mId" th:value="${session.SID}">
+					<input type="hidden" name="bQnaIdx" th:value="${boardQnaDTO != null ? boardQnaDTO.bQnaIdx : 0}"/>
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">문의제목</label>
 						<div class="col-lg-10">
-							<input type="text" name="bQnaSubject" class="form-control">
+							<input type="text" name="bQnaSubject" class="form-control" th:value="${boardQnaDTO != null ? boardQnaDTO.bQnaSubject : ''}">
 						</div>
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">문의내용</label>
 						<div class="col-lg-10">
-							<textarea name="bQnaContents" rows="30" class="form-control"></textarea>
+							<textarea name="bQnaContents" rows="30" class="form-control"  th:text="${boardQnaDTO != null ? boardQnaDTO.bQnaContents : ''}"></textarea>
 						</div>
 					</div>
 					<div class="form-group">
@@ -62,12 +61,12 @@
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
 								<a class="btn btn-primary" th:href="@{/help/qna}">목록</a> 
-								<a class="btn btn-info" th:href="@{#}">임시저장</a>
 								<a class="btn btn-info" data-toggle="modal" data-target="#qnaModal" data-whatever="@mdo">불러오기</a>
 							</div>
 						</div>
 						<div style="text-align: center">
-							<button id="qnaBtn" type="submit" class="btn btn-success">등록</button>
+							<input type="submit" class="btn btn-info" value="임시저장" formaction="/help/saveQna">
+							<button type="submit" class="btn btn-success" id="qnaBtn"formaction="/help/addQna" >등록</button>
 						</div>
 				</form>
 			</div>
@@ -82,8 +81,24 @@
 						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 						<h4 class="modal-title" id="exampleModalLabel">임시저장 글 불러오기</h4>
 					</div>
+					
 					<div class="modal-body">
-							<div>리스트 뿌려줘야되는디..</div>
+                	<th:block th:if="${boardQnaDTOList != null}" th:each="l:${boardQnaDTOList}">
+                			<form th:action="@{/help/getLoadQna}" method="get">
+                				<a class="qnaTitle" style="cursor: pointer" th:text="${l.bQnaSubject}"></a>
+                				<input type="hidden" name="bQnaIdx" th:value="${l.bQnaIdx}">
+							</form>		                		
+		                		<p th:text="${l.bQnaRegDate}"></p>
+		                		<a class="btn btn-danger btn-xs" th:href="@{/help/removeLoadQna(bQnaIdx=${l.bQnaIdx})}">
+								삭제                			
+		                		</a>
+		                		<hr>
+                	</th:block>
+                	
+                	<th:block th:if="${boardQnaDTOList == null}">
+                		<p>저장된 문의가 없습니다.</p>
+                	</th:block>
+					
 					<div class="modal-footer">
 						<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 					</div>
@@ -141,6 +156,12 @@
 				}
 			}
 		 })
+		 
+		 
+		 //임시저장글 수정화면
+			$('.qnaTitle').click(function(){
+				$(this).parent().submit();
+			});
 	</script>
 </th:block>
 </html>

@@ -9,6 +9,16 @@ import com.cafe24.kangk0269.dto.BoardQnaDTO;
 @Mapper
 public interface BoardQnaMapper {
 
+	
+	//임서저장 글 불러오기
+	public BoardQnaDTO getLoadQna(int bQnaIdx);
+	
+	//문의사항 임시저장(update)
+	public int saveQnaUp(BoardQnaDTO boardQnaDTO);
+	
+	//문의사항 임시저장(insert)
+	public int saveQnaIn(BoardQnaDTO boardQnaDTO);
+	
 	//부모글 참조번호 추가
 	public int addRefCode(int bQnaIdx);
 	
@@ -27,8 +37,10 @@ public interface BoardQnaMapper {
 	//문의 수정
 	public int modifyQna(BoardQnaDTO boardQnaDTO);
 	
-	//문의 등록
-	public int addQna(BoardQnaDTO boardQnaDTO);
+	//문의 등록(update)
+	public int addQnaUp(BoardQnaDTO boardQnaDTO);
+	//문의 등록(insert)
+	public int addQnaIn(BoardQnaDTO boardQnaDTO);
 		
 	//문의 상세조회
 	public BoardQnaDTO getQna(int bQnaIdx);

@@ -42,7 +42,7 @@
 	                	<tr>
 		                    <td data-title="공고 코드" th:text="${l.pCode}"></td>
 		                    <td>
-		                    	<form th:action="@{/notice/announcement}" method="post">
+		                    	<form th:action="@{/notice/announcement}" method="get">
 			                		<a class="announceTitle" style="cursor: pointer" th:text="${l.bidPlantDTO.bPlTitle}"></a>
 			                		<input type="hidden" name="announceCode" th:value="${l.pCode}">
 			                      	<input type="hidden" name="announceType" value="발전소">

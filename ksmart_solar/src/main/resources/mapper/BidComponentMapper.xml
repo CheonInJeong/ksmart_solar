@@ -244,6 +244,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<if test="bStatus!=null and bStatus.toString()=='거래진행중'.toString()">
 			CAST(b_cp_date_decision2 AS DATE) = CURDATE()
 		</if>
+		<if test="bStatus!=null and bStatus.toString()=='거래실패'.toString()">
+			CAST(b_cp_date_decision1 AS DATE) = CURDATE()
+		</if>
 			AND ac_status_code = #{status}
 	</select>
 	<!-- 낙찰자 선택 마감날 1순위로 선정된 사람 -->

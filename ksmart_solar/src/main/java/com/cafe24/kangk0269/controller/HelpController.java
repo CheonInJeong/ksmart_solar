@@ -34,14 +34,52 @@ public class HelpController {
 	}
 	
 	
-	//임시저장 불러오기
+	//임서저장 글 불러오기
+	@GetMapping("/help/getLoadQna")
+	public String getLoadQna(Model model
+							,@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx
+							, HttpSession session) {
+		String log_id = (String)session.getAttribute("SID");
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.loadQna(log_id); 
+		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
+		BoardQnaDTO boardQnaDTO = boardQnaService.getLoadQna(bQnaIdx);
+		model.addAttribute("boardQnaDTO", boardQnaDTO);
+		return "/help/addQna";
+	}
+	
+	//임시저장 글 삭제
+	@GetMapping("/help/removeLoadQna")
+	public String removeLoadQna(@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
+		boardQnaService.removeQna(bQnaIdx);
+		return "redirect:/help/addQna";
+	}
+	
+	//임시저장 목록 불러오기
 	@GetMapping("/help/loadQna")
 	public void loadQna(Model model, HttpSession session) {
 		String log_id = (String)session.getAttribute("SID");
 		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.loadQna(log_id); 
 		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
+		System.out.println(boardQnaDTOList);
 	}
 	 
+	
+	
+	  //문의사항 임시저장
+	@PostMapping("/help/saveQna")
+	public void saveQna(HttpServletResponse response, BoardQnaDTO boardQnaDTO) throws IOException {
+		
+	  if(boardQnaDTO.getbQnaIdx() > 0) {
+		  //첫 임시저장일 때(insert)
+		  boardQnaService.saveQnaUp(boardQnaDTO);
+	  }else {
+		  //불러온 문서 임시저장일 때(update) 
+		  boardQnaService.saveQnaIn(boardQnaDTO);
+	  }
+	  ScriptUtils.alertAndBackPage(response, "임시저장되었습니다");
+	}
+	 
+	
 	
 	//문의답글 처리
 	@PostMapping("/help/addReQna")
@@ -87,18 +125,26 @@ public class HelpController {
 	//문의 등록처리
 	@PostMapping("/help/addQna")
 	public String addQna(BoardQnaDTO boardQnaDTO) {
-		boardQnaService.addQna(boardQnaDTO);
+		if(boardQnaDTO.getbQnaIdx() > 0) {
+			//임시저장파일 등록(insert)
+			boardQnaService.addQnaUp(boardQnaDTO);
+		}else {
+			//임시저장 아닌 파일 등록(update)			
+			boardQnaService.addQnaIn(boardQnaDTO);
+		}
 		return "redirect:/help/qna";
 		
 	}
 	
 	// 문의 등록화면
 	@GetMapping("/help/addQna")
-	public String addQna(HttpServletResponse response, HttpSession session) throws IOException {
+	public String addQna(Model model, HttpServletResponse response, HttpSession session) throws IOException {
 		String log_id = (String)session.getAttribute("SID");
 		if(log_id == null) {
 			ScriptUtils.alertAndMovePage(response, "로그인해주세요", "/login");
+			
 		}
+		loadQna(model, session);
 		return "/help/addQna";
 	}
 	
