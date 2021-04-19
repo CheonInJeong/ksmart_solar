@@ -368,11 +368,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
-		WHERE result.Code = #{Code}
+		WHERE result.Code = #{Code} AND result.moCode IS NULL
 		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	
-	<!-- 확인 입출금 목록(미완료, 완료) -->
+	<!-- 확인 입출금 목록(미완료) -->
 	<select id="getMoneyCheckList" resultType="MoneyCheckDTO">
 		SELECT
 			result.Code											AS Code
@@ -507,6 +507,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
+		WHERE result.moCode IS NULL
 		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	

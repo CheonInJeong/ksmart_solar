@@ -132,7 +132,7 @@ public class PlantController {
 									  ,@RequestParam(value="bzPlInvPower", required = false) 	int bzPlInvPower
 									  ,@RequestParam(value="bzPlInvCount", required = false) 	int bzPlInvCount
 									  ,@RequestParam(value="bzPlInvMaker", required = false) 	String bzPlInvMaker
-									  ,@RequestParam(value="bzPlRec", required = false) 		int bzPlRec
+									  ,@RequestParam(value="bzPlRec", required = false) 		String bzPlRec
 									  ,@RequestParam(value="bzPlHardware", required = false) 	String bzPlHardware
 									  
 									  ,@RequestParam(value="plDepPrice", required = false) 		int plDepPrice
@@ -215,7 +215,7 @@ public class PlantController {
 			  ,@RequestParam(value="bzPlInvPower", required = false) 	int bzPlInvPower
 			  ,@RequestParam(value="bzPlInvCount", required = false) 	int bzPlInvCount
 			  ,@RequestParam(value="bzPlInvMaker", required = false) 	String bzPlInvMaker
-			  ,@RequestParam(value="bzPlRec", required = false) 		int bzPlRec
+			  ,@RequestParam(value="bzPlRec", required = false) 		String bzPlRec
 			  ,HttpSession session
 			 ) throws ParseException { 
 		  BusinessPlantDTO bp = new BusinessPlantDTO();
@@ -237,7 +237,7 @@ public class PlantController {
 	public String plantDetail(Model model 
 							  ,@RequestParam(name="plCode", required=false) String plCode) throws ParseException {
 		BusinessPlantDTO bp = plantService.getPlantInfoBybzPlCode(plCode);
-		model.addAttribute("plCode", plCode);
+		model.addAttribute("plCode", plCode); 
 		model.addAttribute("bp", bp);
 		return "/plant/plantModify";
 	}

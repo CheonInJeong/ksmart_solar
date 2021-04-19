@@ -8,10 +8,10 @@
         <ul class="sidebar-menu" id="nav-accordion">
           <li>
 	        <p th:if="${session.SID eq null}">
-	        	<a class="logout" th:href="@{/signup}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">회원가입</a>
+	        	<button class="btn standardBtn" onclick="location.href='/signup'" style="font-size: 18px; font-weight: 600; width: 100%">회원가입</button>
 	        </p>
 	        <p th:if="${session.SID eq null}">
-	        	<a class="logout" th:href="@{/login}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">로 그 인</a>
+	        	<button class="btn standardBtn" onclick="location.href='/login'" style="font-size: 18px; font-weight: 600; width: 100%;">로 그 인</button>
 	        </p>
 	        <p th:if="${session.SID ne null and session.accessToken eq null}">
 	        	<a class="logout" th:href="@{/logout}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">로그아웃</a>
@@ -19,7 +19,7 @@
 	        <p th:if="${session.SID ne null and session.accessToken ne null}">
 	        	<a class="logout" th:href="@{/logoutKakao}" style="color: #fff; background-color: #4ECDC4; text-align: center; font-size: 18px; font-weight: 600; padding: 5px 0 5px 0; margin: 0 auto; border-radius: 5px;">로그아웃</a>
 	        </p>
-	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><a href="/mypage/myInfo"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></a></p>
+	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne '' and session.SPHOTO ne null}"><a href="/mypage/myInfo"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></a></p>
 	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><a href="/mypage/myInfo"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="80"></a></p>
 	        <h5 class="centered" th:if="${session.SID ne null}">[[${session.SNAME}]] ([[${session.SLEVEL}]])</h5>
 	        <h5 class="centered" th:if="${session.SID ne null}"><small>[[${session.SID}]]</small></h5>
