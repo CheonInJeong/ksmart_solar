@@ -368,7 +368,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
-		WHERE result.Code = #{Code} AND WHERE result.moCode IS NULL
+		WHERE result.Code = #{Code} AND result.moCode IS NULL
 		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	
