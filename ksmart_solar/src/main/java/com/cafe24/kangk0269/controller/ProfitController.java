@@ -20,6 +20,7 @@ import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 import com.cafe24.kangk0269.serivce.BidMoneyService;
 import com.cafe24.kangk0269.serivce.MemberService;
 import com.cafe24.kangk0269.serivce.TradeService;
@@ -96,9 +97,11 @@ public class ProfitController {
 					
 					String payInCode = paymentin.getTrPayinCode();
 					TradePaymentInDTO paymentin2 = tradeService.getPayInByPayInCode(payInCode);
-					int pri = paymentin2.getTrPrCode().lastIndexOf('1');
+					String prCode = paymentin2.getTrPrCode();
+					TradePriorityDTO priority = tradeService.getPriByPrCode(prCode);
+					int rank = priority.getTrPrRank();
 					String announcedCode = paymentin2.getAnnouncedCode();
-					if(pri == 18) {
+					if(rank == 1) {
 						bidMoneyService.modifyBidPayInPri12(announcedCode);
 						bidMoneyService.modifyBidPayInPri1ex(announcedCode);
 					}else {

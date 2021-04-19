@@ -406,8 +406,34 @@
 			a.b_code = b.b_code
 	</select>
 	
+	<!-- 낙찰자 테이블 낙찰코드로 상세조회 -->
+	<select id="getPriByPrCode" resultMap="tradePriorityResultMap" parameterType="String">
+		SELECT 
+			tr_pr_code
+			, b_code
+			, b_type_code
+			, announced_code
+			, announced_title
+			, b_groupcode
+			, m_id_seller
+			, m_id_buyer
+			, tr_pr_rank
+			, tr_pr_price
+			, s_deposit_rate
+			, b_deposit
+			, tr_pr_conclusion_date1
+			, tr_pr_conclusion_date2
+			, tr_type_code
+			, tr_type_name
+			, tr_pr_date_up
+			, tr_payout_check
+		FROM 
+			tb_trade_priority
+		WHERE tr_pr_code = #{prCode}
+	</select>
+	
 	<!-- 거래대금 납부 납부코드로 상세조회 -->
-	<select id="getPayInByPayInCode" resultType="TradePaymentInDTO" parameterType="String">
+	<select id="getPayInByPayInCode" resultMap="paymentInMap" parameterType="String">
 		SELECT 
 			tr_payin_code
 			, tr_pr_code
