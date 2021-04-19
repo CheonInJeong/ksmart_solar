@@ -11,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.websocket.Session;
 import javax.xml.ws.Response;
 
 import org.mybatis.logging.LoggerFactory;
@@ -32,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cafe24.kangk0269.common.ScriptUtils;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
+import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 import com.cafe24.kangk0269.dto.PickDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.MemberService;
@@ -90,7 +92,25 @@ public class MyPageController {
 	}
 
 	// 탈퇴 신청처리
-
+	@PostMapping("/mypage/withdraw")
+	public void withdraw(HttpServletResponse response, MemberRevokeDTO memberRevokeDTO, HttpSession session
+							,@RequestParam(name = "in_pw", required = false) String in_pw) throws IOException {
+		
+		String login_id = (String) session.getAttribute("SID");
+		MemberDTO member = memberService.getMemberInfoById(login_id);
+		String currentPw = member.getmPw();
+		if(!currentPw.equals(in_pw)) {
+			ScriptUtils.alertAndBackPage(response, "현재 비밀번호가 틀렸습니다");
+		}else {
+			
+			memberService.withdraw(memberRevokeDTO);
+			ScriptUtils.alertAndMovePage(response, "회원탈퇴 신청이되었습니다.", "/");
+			memberService.modifyMemberState(login_id);
+			session.invalidate();
+		}
+	}
+	
+	
 	// 탈퇴 신청화면
 	@GetMapping("/mypage/withdraw")
 	public String withdraw() {

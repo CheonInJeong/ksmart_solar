@@ -29,20 +29,18 @@
 					<i class="fa fa-angle-right"></i>프로필수정
 				</h4>
 
-				<form th:action="@{/mypage/ModifyMyInfo}" method="post" class="form-horizontal style-form">
+				<form th:action="@{/mypage/ModifyMyInfo}" method="post"
+					class="form-horizontal style-form">
 					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">프로필 사진</label>
-						<div class="col-sm-10">
-							<div class="col-md-9">
-								<input type="file" id="files" class="default" name="files" multiple="multiple">
-								<div class="fileupload fileupload-new" data-provides="fileupload">
-									<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-										 <img th:if="${memberDTO.mPhoto} == null" src="http://www.placehold.it/200x150/EFEFEF/AAAAAA&text=no+image" alt="" />
-										 <img th:if="${memberDTO.mPhoto} != null" src="${memberDTO.mPhoto}" alt="" />
-									</div>
-								</div>
-							</div>
-						</div>
+                  	<label class="col-sm-2 control-label">프로필 사진</label>
+	                  <div class="col-md-1">
+	          	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></a></p>
+	        			<p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="40"></p>
+	                  </div>						
+	                
+	                 <input type="file" id="inputFile" name="mPhoto" accept="image/*" />
+ 					<div class="selectImg"><img class="img-circle" src=""  /></div>
+	                
 					</div>
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">아이디</label>
@@ -68,26 +66,30 @@
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">이메일</label>
 						<div class="col-lg-10">
-							<input type="text" name="mEmail" th:value="${memberDTO.mEmail}"
-								class="form-control">
+							<input type="text" name="mEmail" th:value="${memberDTO.mEmail}" class="form-control">
 						</div>
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">우편번호</label>
+							<label class="col-sm-2 col-sm-2 control-label">우편번호</label>
+							<div class="col-lg-10">
+								<div class="form-inline">
+									<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" id="postcode" class="form-control col-md-12" placeholder="우편번호" readonly="readonly">
+									<input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기">
+								</div>
+							</div>	
+					</div>
+					<br>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label"></label>
 						<div class="col-lg-10">
-							<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" class="form-control">
-						</div>
+							<input type="text" name="mAddr" id="roadAddress" th:value="${memberDTO.mAddr}" class="form-control" placeholder="도로명주소"> 
+						</div>							
+						<input type="hidden" id="jibunAddress" class="form-control" placeholder="">
 					</div>
 					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
+						<label class="col-sm-2 col-sm-2 control-label"></label>
 						<div class="col-lg-10">
-							<input type="text" name="mAddr" th:value="${memberDTO.mAddr}" class="form-control">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">상세주소</label>
-						<div class="col-lg-10">
-							<input type="text" name="mDetailAddr" th:value="${memberDTO.mDetailAddr}" class="form-control">
+							<input type="text" name="mDetailAddr" id="detailAddress" th:value="${memberDTO.mDetailAddr}" class="form-control" placeholder="상세주소">
 						</div>
 					</div>
 					<div class="form-group">
@@ -102,7 +104,7 @@
 </th:block>
 
 <th:block layout:fragment="customScript">
-
+	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 	<script type="text/javascript">
 		//메뉴탭
 		var mypage = $('#mypage');
@@ -111,33 +113,114 @@
 		mypage.parent().find('.sub').children().eq(0).addClass('active');
 
 		//유효성검사
-		 $('#modifyBtn').click(function(){
-		 	if($('[name="mName"]').val()==''){
+		$('#modifyBtn').click(function() {
+			if ($('[name="mName"]').val() == '') {
 				alert('이름을 입력해주세요.');
 				$('[name="mName"]').focus();
 				return false;
-			}if($('[name="mPhone"]').val()==''){
+			}
+			if ($('[name="mPhone"]').val() == '') {
 				alert('연락처를 입력해주세요.')
 				$('[name="mPhone"]').focus();
 				return false;
-			}if($('[name="mEmail"]').val()==''){
+			}
+			if ($('[name="mEmail"]').val() == '') {
 				alert('이메일을 입력해주세요.')
 				$('[name="mEmail"]').focus();
 				return false;
-			}if($('[name="mZipcode"]').val()==''){
+			}
+			if ($('[name="mZipcode"]').val() == '') {
 				alert('우편번호를 입력해주세요.')
 				$('[name="mZipcode"]').focus();
 				return false;
-			}if($('[name="mAddr"]').val()==''){
+			}
+			if ($('[name="mAddr"]').val() == '') {
 				alert('주소를 입력해주세요.')
 				$('[name="mAddr"]').focus();
 				return false;
-			}if($('[name="mDetailAddr"]').val()==''){
+			}
+			if ($('[name="mDetailAddr"]').val() == '') {
 				alert('상세주소를 입력해주세요.')
 				$('[name="mDetailAddr"]').focus();
 				return false;
 			}
-		 })			
+		})
+		
+		
+			///////////////////////////파일 업로드 ImgBB///////////////////////////////
+	
+			var file = document.getElementById('inputFile');
+			var form = new FormData();
+			form.append("image", file.files[0])
+			
+			var settings = {
+			  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+			  "method": "POST",
+			  "timeout": 0,
+			  "processData": false,
+			  "mimeType": "multipart/form-data",
+			  "contentType": false,
+			  "data": form
+			};
+			
+			
+			$.ajax(settings).done(function (response) {
+			  console.log(response);
+			  var jx = JSON.parse(response);
+			  console.log(jx.data.url);
+			  console.log(jx.data.delete_url)
+			  
+			  fileURL = jx.data.url;
+			  fileDeleteURL = jx.data.delete_url;
+			});
+			
+			
+		
+			
+		//프로필 썸네일 
+		  $("#inputFile").change(function(){
+		   if(this.files && this.files[0]) {
+		    var reader = new FileReader;
+		    reader.onload = function(data) {
+		     $(".selectImg img").attr("src", data.target.result).width(150);        
+		    }
+		    reader.readAsDataURL(this.files[0]);
+		   }
+		  });		
+			
+			
+		//우편번호 api
+		function execDaumPostcode() {
+			new daum.Postcode(
+					{
+						oncomplete : function(data) {
+							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
+
+							// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
+							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
+							var roadAddr = data.roadAddress; // 도로명 주소 변수
+							var extraRoadAddr = ''; // 참고 항목 변수
+
+							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
+							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
+							if (data.bname !== ''
+									&& /[동|로|가]$/g.test(data.bname)) {
+								extraRoadAddr += data.bname;
+							}
+							// 건물명이 있고, 공동주택일 경우 추가한다.
+							if (data.buildingName !== ''
+									&& data.apartment === 'Y') {
+								extraRoadAddr += (extraRoadAddr !== '' ? ', '
+										+ data.buildingName : data.buildingName);
+							}
+							// 우편번호와 주소 정보를 해당 필드에 넣는다.
+							document.getElementById('postcode').value = data.zonecode;
+							document.getElementById("roadAddress").value = roadAddr;
+							document.getElementById("jibunAddress").value = data.jibunAddress;
+
+						}
+					}).open();
+		}
 	</script>
 </th:block>
 </html>

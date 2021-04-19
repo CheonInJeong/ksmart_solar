@@ -12,10 +12,10 @@
         <!--  notification start -->
         <ul class="nav top-menu">
           <!-- notification dropdown start-->
-          <li id="header_notification_bar" class="dropdown">
+          <!-- <li id="header_notification_bar" class="dropdown">
             <a data-toggle="dropdown" class="dropdown-toggle" href="index.html#">
               <i class="fa fa-bell-o"></i>
-              <!-- 세션에 넣어둔값을 이용 -->
+              세션에 넣어둔값을 이용
               <span class="badge bg-warning">0</span>
               </a>
             <ul class="dropdown-menu extended notification">
@@ -55,16 +55,11 @@
                 <a href="index.html#">See all notifications</a>
               </li>
             </ul>
-          </li>
+          </li> -->
           <!-- notification dropdown end -->
         </ul>
         <!--  notification end -->
       </div>
-      <ul class="nav pull-right top-menu">
-          <li th:if="${session.SID eq null}"><a class="logout" th:href="@{/login}">Log In</a></li>
-          <li th:if="${session.SID ne null and session.accessToken eq null}"><a class="logout" th:href="@{/logout}">Log Out</a></li>
-          <li th:if="${session.SID ne null and session.accessToken ne null}"><a class="logout" th:href="@{/logoutKakao}">카카오 로그아웃</a></li>
-       </ul>
     </header>
     <!--header end-->
 </html>
