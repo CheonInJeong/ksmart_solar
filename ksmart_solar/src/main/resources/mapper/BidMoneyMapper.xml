@@ -262,16 +262,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
 				, b_deposit_check										AS inoutCheck
 				, b_deposit_date										AS inoutDate
-				, h.m_account_bank										AS bankName
-				, h.m_account_number									AS accountNumber
-				, m_payment_name										AS accountName
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
 				, a.b_mo_code											AS moCode
 			FROM 
 				tb_bid_list	AS a
-				INNER JOIN 
-				tb_member_account AS h
-				ON 
-				a.m_payment_name = h.m_account_name
 				LEFT JOIN 
 				tb_bid_money AS i
 				ON 
@@ -401,16 +397,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
 				, b_deposit_check										AS inoutCheck
 				, b_deposit_date										AS inoutDate
-				, h.m_account_bank										AS bankName
-				, h.m_account_number									AS accountNumber
-				, m_payment_name										AS accountName
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
 				, a.b_mo_code											AS moCode
 			FROM 
 				tb_bid_list	AS a
-				INNER JOIN 
-				tb_member_account AS h
-				ON 
-				a.m_payment_name = h.m_account_name
 				LEFT JOIN 
 				tb_bid_money AS i
 				ON 

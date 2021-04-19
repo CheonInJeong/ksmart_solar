@@ -11,15 +11,20 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 @Mapper
 public interface ScheduledMapper {
 	
-	//발전소 공고 상태 업데이트 (공고마감일에 입찰자가 없는 경우)
+	//발전소 공고 공고승인 >공고진행중 by천인정
+	public int updatePlantConfirmToIng(String today);
+	//부품 공고 공고승인 >공고진행중 by천인정
+	public int updateComponentConfirmToIng(String today);
+	
+	
+	//발전소 공고 상태 업데이트 (공고마감일에 입찰자가 없는 경우) by천인정
 	public int updateBidPlantAc(String announcedCode);
-	//부품 공고 상태 업데이트 (공고마감일에 입찰자가 없는 경우)
+	//부품 공고 상태 업데이트 (공고마감일에 입찰자가 없는 경우) by천인정
 	public int updateBiComponentAc(String announcedCode);
 	
-	//부품 공고 입찰자 수 가져오기
+	//부품 공고 입찰자 수 가져오기 by천인정
 	public List<BidListDTO> getComponentBidderNumber();
-	
-	//발전소 공고 입찰자 수 가져오기
+	//발전소 공고 입찰자 수 가져오기 by천인정
 	public List<BidListDTO> getPlantBidderNumber();
 	
 	//낙찰자테이블에 추가 by천인정

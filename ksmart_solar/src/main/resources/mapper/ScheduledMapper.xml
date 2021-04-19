@@ -76,12 +76,37 @@
   		</association>
 	</resultMap>
 	
+	
+	
+	
+	<update id="updateComponentConfirmToIng" parameterType="String">
+		UPDATE tb_bid_component
+		SET
+			b_cp_status='공고신청',
+			ac_status_code=0
+		WHERE b_cp_date_bidding1 = #{today}
+		
+	</update>
+	
+	
+	<update id="updatePlantConfirmToIng" parameterType="String">
+		UPDATE 
+			tb_bid_plant
+		SET
+			ac_status_code=4,
+			b_pl_status='공고진행중'
+		WHERE 
+			b_pl_date_bidding1 = #{today}
+	
+	</update>
+	
 	<select id="getComponentBidderNumber"  resultMap = "bidListResultMap">
 		SELECT 
 			b_cp_code,
 			b_cp_bidder_number, 
 			b_cp_status, 
 			ac_status_code, 
+			b_cp_date_bidding1,
 			b_cp_date_bidding2
 		FROM 
 			tb_bid_component
@@ -89,7 +114,7 @@
 	
 	<select id="getPlantBidderNumber" resultMap = "bidListResultMap">
 		SELECT 
-			b_pl_code,b_pl_status, ac_status_code, b_pl_number_of_bidder, b_pl_date_bidding2
+			b_pl_code,b_pl_status, ac_status_code, b_pl_number_of_bidder, b_pl_date_bidding1, b_pl_date_bidding2
 		FROM 
 			tb_bid_plant
 	
