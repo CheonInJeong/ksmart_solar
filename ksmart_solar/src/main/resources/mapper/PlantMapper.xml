@@ -266,7 +266,7 @@
 	</select>
 	
 	<!-- 발전소인증신청 리스트 수 -->
-	<select id="getAllPlantAdmitListCnt" resultMap="plantResultMap">
+	<select id="getAllPlantAdmitListCnt" resultType="int">
 		SELECT 
 			COUNT(*)
 		FROM 
