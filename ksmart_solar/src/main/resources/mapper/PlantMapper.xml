@@ -233,6 +233,7 @@
 			bz_pl_code = #{bzPlCode}
 	</select>
 	
+	<!-- 발전소인증신청목록 -->
 	<select id="getAllPlantAdmitList" resultMap="plantResultMap">
 		SELECT 
 			bz_pl_code
@@ -252,8 +253,31 @@
 			, bz_pl_inv_maker
 			, bz_pl_rec
 		FROM 
-			tb_business_plant;
+			tb_business_plant
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
 	</select>
+	
+	<!-- 발전소인증신청 리스트 수 -->
+	<select id="getAllPlantAdmitListCnt" resultMap="plantResultMap">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_business_plant
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
+	</select>
+	
 	<select id="getPlantListById" resultMap="plantResultMap" parameterType="String">
 		SELECT 
 			bz_pl_code

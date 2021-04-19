@@ -62,9 +62,12 @@ public class PlantService {
 	}
 	
 	// 전체 발전소 인증 신청 목록
-	public List<BusinessPlantDTO> getAllPlantAdmitList() {
-
-		return plantMapper.getAllPlantAdmitList();
+	public List<BusinessPlantDTO> getAllPlantAdmitList(int start, int end, String searchKey, String searchValue) {
+		return plantMapper.getAllPlantAdmitList(start, end, searchKey, searchValue);
+	}
+	// 발전소인증신청 리스트 수
+	public int getAllPlantAdmitListCnt(String searchKey, String searchValue) {
+		return plantMapper.getAllPlantAdmitListCnt(searchKey, searchValue);
 	}
 	
 	public List<BusinessPlantDTO> getPlantListById(String SID){
