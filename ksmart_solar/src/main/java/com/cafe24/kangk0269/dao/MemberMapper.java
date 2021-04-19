@@ -18,7 +18,9 @@ public interface MemberMapper {
 	public List<String> getUri(int level);
 	
 	//전체회원계좌 조회
-	public List<MemberAccountDTO> getAllBankAccount();
+	public List<MemberAccountDTO> getAllBankAccount(int start, int end, String searchKey, String searchValue);
+	//전체회원계좌 리스트 수 조회
+	public int getAllBankAccountCnt(String searchKey, String searchValue);
 	
 	// 탈퇴신청회원 조회
 	public List<MemberRevokeDTO> getWithdrawAdmitMember(int start, int end, String searchKeyWAM, String searchValueWAM, String searchValueWAMS, String searchValueWAMF);

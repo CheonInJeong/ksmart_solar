@@ -56,8 +56,34 @@ public class MemberService {
 	}
 	
 	// 전체회원계좌 조회
-	public List<MemberAccountDTO> getAllBankAccount(){
-		return memberMapper.getAllBankAccount();
+	public List<MemberAccountDTO> getAllBankAccount(int start, int end, String searchKey, String searchValue){
+		if(searchKey != null && searchKey != "") {
+			if("mAccountBank".equals(searchKey)) {
+				searchKey = "m_account_bank";
+			}else if("mId".equals(searchKey)){
+				searchKey = "m_id";
+			}else if("mAccountName".equals(searchKey)){
+				searchKey = "m_account_name";
+			}else {
+				searchKey = "m_account_check";
+			}
+		}
+		return memberMapper.getAllBankAccount(start, end, searchKey, searchValue);
+	}
+	//전체회원계좌 리스트 수 조회
+	public int getAllBankAccountCnt(String searchKey, String searchValue) {
+		if(searchKey != null && searchKey != "") {
+			if("mAccountBank".equals(searchKey)) {
+				searchKey = "m_account_bank";
+			}else if("mId".equals(searchKey)){
+				searchKey = "m_id";
+			}else if("mAccountName".equals(searchKey)){
+				searchKey = "m_account_name";
+			}else {
+				searchKey = "m_account_check";
+			}
+		}
+		return memberMapper.getAllBankAccountCnt(searchKey, searchValue);
 	}
 	
 	// 탈퇴신청회원 조회

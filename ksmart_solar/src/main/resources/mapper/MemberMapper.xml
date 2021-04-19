@@ -109,6 +109,28 @@
 			, m_account_check		AS mAccountCheck
 		FROM 
 			tb_member_account
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+
+	<!-- 전체회원계좌 리스트 수 조회 -->
+	<select id="getAllBankAccountCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_member_account
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 탈퇴신청회원 조회 -->
