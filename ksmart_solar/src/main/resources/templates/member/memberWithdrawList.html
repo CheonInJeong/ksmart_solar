@@ -65,9 +65,9 @@
 					</thead>
 					<tbody>
 						<tr th:if="${#lists.size(withdrawAdmitList) > 0}" th:each = "l, status : ${withdrawAdmitList}">
-							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="번호" th:text="${status.count+(page1.curPage-1)*page1.pageEnd}"></td>
 							<td data-title="아이디">
-								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+								<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage1=${page1.curPage},searchKeyWAM=${searchKeyWAM},searchValueWAM=${searchValueWAM},searchValueWAMS=${searchValueWAMS},searchValueWAMF=${searchValueWAMF},uri=${uri})}>[[${l.mId}]]</a>
 							</td>
 							<td data-title="탈퇴사유" th:text="${l.mRevokeReason}"></td>
 							<td data-title="탈퇴신청일" th:text="${l.mRevokeDate}"></td>
@@ -81,17 +81,22 @@
 				<div class="text-center">
 				  <ul class="pagination">
 				    <li>
-				      <a href="#" aria-label="Previous">
+				      <a th:if="${page1.curBlock > 1}" th:href="@{/member/memberWithdrawList(curPage1=${page1.prevPage},searchKeyWAM=${searchKeyWAM},searchValueWAM=${searchValueWAM},searchValueWAMS=${searchValueWAMS},searchValueWAMF=${searchValueWAMF})}" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
+			    	<th:block th:each="num : ${#numbers.sequence(page1.blockBegin, page1.blockEnd)}">
+			   		<li th:if="${num == page1.curPage}" class="active">
+			   			<a>[[${num}]]</a>
+			   		</li>
+			   		<li th:unless="${num == page1.curPage}">
+			   		<th:block th:if="${num} != 0">
+			   			<a th:href="@{/member/memberWithdrawList(curPage1=${num},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}">[[${num}]]</a>
+			   		</th:block>
+			   		</li>
+			  		</th:block>
 				    <li>
-				      <a href="#" aria-label="Next">
+				      <a th:if="${page1.curBlock <= page1.totBlock}" th:href="@{/member/memberWithdrawList(curPage1=${page1.nextPage},searchKeyWAM=${searchKeyWAM},searchValueWAM=${searchValueWAM},searchValueWAMS=${searchValueWAMS},searchValueWAMF=${searchValueWAMF})}" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>
@@ -132,9 +137,9 @@
 					</thead>
 					<tbody>
 						<tr th:if="${#lists.size(withdrawCompleteList) > 0}" th:each = "l, status : ${withdrawCompleteList}">
-							<td data-title="번호" th:text="${status.count}"></td>
+							<td data-title="번호" th:text="${status.count+(page2.curPage-1)*page2.pageEnd}"></td>
 							<td data-title="아이디">
-								<a th:href=@{/getMemberInfoById(mId=${l.mId})}>[[${l.mId}]]</a>
+								<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage2=${page2.curPage},searchKeyWCM=${searchKeyWCM},searchValueWCM=${searchValueWCM},searchValueWCMS=${searchValueWCMS},searchValueWCMF=${searchValueWCMF},uri=${uri})}>[[${l.mId}]]</a>
 							</td>
 							<td data-title="탈퇴사유" th:text="${l.mRevokeReason}"></td>
 							<td data-title="탈퇴신청일" th:text="${l.mRevokeDate}"></td>
@@ -148,17 +153,22 @@
 				<div class="text-center">
 				  <ul class="pagination">
 				    <li>
-				      <a href="#" aria-label="Previous">
+				      <a th:if="${page2.curBlock > 1}" th:href="@{/member/memberWithdrawList(curPage2=${page2.prevPage},searchKeyWCM=${searchKeyWCM},searchValueWCM=${searchValueWCM},searchValueWCMS=${searchValueWCMS},searchValueWCMF=${searchValueWCMF})}" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
+			    	<th:block th:each="num : ${#numbers.sequence(page2.blockBegin, page2.blockEnd)}">
+			   		<li th:if="${num == page2.curPage}" class="active">
+			   			<a>[[${num}]]</a>
+			   		</li>
+			   		<li th:unless="${num == page2.curPage}">
+			   		<th:block th:if="${num} != 0">
+			   			<a th:href="@{/member/memberWithdrawList(curPage2=${num},searchKeyWCM=${searchKeyWCM},searchValueWCM=${searchValueWCM},searchValueWCMS=${searchValueWCMS},searchValueWCMF=${searchValueWCMF})}">[[${num}]]</a>
+			   		</th:block>
+			   		</li>
+			  		</th:block>
 				    <li>
-				      <a href="#" aria-label="Next">
+				      <a th:if="${page2.curBlock <= page2.totBlock}" th:href="@{/member/memberWithdrawList(curPage2=${page2.nextPage},searchKeyWCM=${searchKeyWCM},searchValueWCM=${searchValueWCM},searchValueWCMS=${searchValueWCMS},searchValueWCMF=${searchValueWCMF})}" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>

@@ -14,6 +14,7 @@ import com.cafe24.kangk0269.dto.PlantKpxDTO;
 import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.PlantService;
 import com.cafe24.kangk0269.serivce.PolicyService;
+import com.cafe24.kangk0269.serivce.ScheduledService;
 import com.cafe24.kangk0269.serivce.SellService;
 
  
@@ -28,6 +29,8 @@ public class ScheduledTimer {
 	private PolicyService policyService;
 	@Autowired
 	private BidListService bidListService;
+	@Autowired
+	private ScheduledService scheduledService;
 	
 	@Scheduled(cron = "0  00  8  *  *  *") 
 	public void radiationApiTimer() throws IOException, ParseException, ClassNotFoundException, SQLException {
@@ -49,14 +52,8 @@ public class ScheduledTimer {
 	public void updateComponentAcStatus() throws Exception {
 	}
 	
-	//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
-	@Scheduled(cron = "0  00  0  *  *  *")
-	public void updateAcStatus() throws Exception {
-			sellService.updateAcStatus();
-	}
 	
-	
-	@Scheduled(cron = "15  00  0  *  *  *") 
+	@Scheduled(cron = "0  00  0  *  *  *") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
@@ -68,19 +65,20 @@ public class ScheduledTimer {
 			bidListService.updateBidListsatus();
 			//입찰성공 > 입찰종료,계약중,계약대기
 			bidListService.updateBidListsatus3();
-			//공고가 계약중으로 거래진행중으로 바뀌었을때 입찰자들중 1순위를 낙찰자 테이블에 입력
+			
+			//공고상태(공고마감 > 공고취소 or 거래진행중)으로 바꾸는 메서드 실행
+			bidListService.updateBidMemberStatus();
+			//공고가 거래진행중으로 바뀌었을때 입찰자들중 1순위를 낙찰자 테이블에 입력
 			bidListService.addTradePriority();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+	/*
 	  //테스트
-	  /*
 	  @Scheduled(cron = "0/5  *  *  *  *  *") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
-			  bidListService.updateBidMemberStatus();
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
@@ -119,7 +117,15 @@ public class ScheduledTimer {
 	}
 	
 	
-	
+	//test
+	@Scheduled(cron = "50  25  17  *  *  *") 
+	public void updatePayIn() throws IOException, ParseException, ClassNotFoundException, SQLException {
+		try {
+			scheduledService.updatePayIn();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 		
 		

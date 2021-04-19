@@ -59,6 +59,27 @@
 		<result property="mPaymentName" 			column="m_payment_name"/>
 	</resultMap>
 	
+	<resultMap type="TradePriorityDTO" id="tradePriorityResultMap">
+		<result property="trPrCode" column="tr_pr_code"/>
+		<result property="bCode" column="b_code"/>
+		<result property="bTypeCode" column="b_type_code"/>
+		<result property="announcedCode" column="announced_code"/>
+		<result property="announcedTitle" column="announced_title"/>
+		<result property="bGroupcode" column="b_group_code"/>
+		<result property="mIdSeller" column="m_id_seller"/>
+		<result property="mIdBuyer" column="m_id_buyer"/>
+		<result property="trPrRank" column="tr_pr_rank"/>
+		<result property="trPrPrice" column="tr_pr_price"/>
+		<result property="sDepositRate" column="s_deposit_rate"/>
+		<result property="bDeposit" column="b_deposit"/>
+		<result property="trPrConclusionDate1" column="tr_pr_conclusion_date1"/>
+		<result property="trPrConclusionDate2" column="tr_pr_conclusion_date2"/>
+		<result property="trTypeCode" column="tr_type_code"/>
+		<result property="trTypeName" column="tr_type_name"/>
+		<result property="trPrDateUp" column="tr_pr_date_up"/>
+		<result property="trPayoutCheck" column="tr_payout_check"/>
+	</resultMap>
+	
 	<!-- 월말정산 조회 -->
 	<select id="getCalculateList" resultType="TradeFailDTO">
 		SELECT

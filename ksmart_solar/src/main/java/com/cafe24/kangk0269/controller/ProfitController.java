@@ -18,6 +18,7 @@ import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MoneyCheckDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
+import com.cafe24.kangk0269.dto.TradePaymentInDTO;
 import com.cafe24.kangk0269.dto.TradePaymentOutDTO;
 import com.cafe24.kangk0269.serivce.BidMoneyService;
 import com.cafe24.kangk0269.serivce.MemberService;
@@ -53,7 +54,7 @@ public class ProfitController {
 		return "/profit/commission";
 	}
 	
-	@PostMapping("/bidMoneyInsertSend")
+	@PostMapping("/ajax/bidMoneyInsertSend")
 	public String bidMoneyInsertSend(MoneyCheckDTO moneycheck) {
 		System.out.println("입출금 내역 입력 필요요소 :" + moneycheck);
 		System.out.println(moneycheck.getCode().substring(0,1));
@@ -70,13 +71,44 @@ public class ProfitController {
 				System.out.println("입찰코드 + 입찰확인일 : " + bidlist);
 				System.out.println("관련 발전소 공고코드 : " + bidplant);
 				System.out.println("관련 부품 공고코드 : " + bidcomponent);
-				//bidMoneyService.modifyBidDepositIn(bidlist);
-				//bidMoneyService.modifyPlantDepositIn(bidplant);
-				//bidMoneyService.modifyComDepositIn(bidcomponent);
-			}else {
+				bidMoneyService.modifyBidDepositIn(bidlist);
+				bidMoneyService.modifyPlantDepositIn(bidplant);
+				bidMoneyService.modifyComDepositIn(bidcomponent);
+			}else if(firstCode.equals("d")) {
+				TradeDepositOutDTO depositout = new TradeDepositOutDTO();
+				depositout.setTrDepCode(moneycheck.getCode());
+				depositout.setTrDepWdDate(moneycheck.getInoutDate());
+				System.out.println("예치금 환불코드 + 예치금출금일 : " + depositout);
+				bidMoneyService.modifyDepositOut(depositout);
+				bidMoneyService.modifyBidDepositOut(depositout);
 				
+			}else if(firstCode.equals("p")) {
+				System.out.println(moneycheck.getCode().substring(0,5));
+				String codeName = moneycheck.getCode().substring(0,5);
+				if(codeName.equals("payin")) {
+					TradePaymentInDTO paymentin = new TradePaymentInDTO();
+					BidPlantDTO bidplant = new BidPlantDTO();
+					BidComponentDTO bidcomponent = new BidComponentDTO();
+					paymentin.setTrPayinCode(moneycheck.getCode());
+					paymentin.setbMoDate(moneycheck.getInoutDate());
+					bidplant.setbPlCode(moneycheck.getnCode());
+					bidcomponent.setbCpCode(moneycheck.getnCode());
+					System.out.println("대금입금코드 + 대금입금일 : " + paymentin);
+					System.out.println("관련 발전소 공고코드 : " + bidplant);
+					bidMoneyService.modifyPayIn(paymentin);
+					bidMoneyService.modifyPriPayIn(paymentin);
+					bidMoneyService.modifyBidPayIn(paymentin);
+					bidMoneyService.modifyPlantPayIn(bidplant);
+					bidMoneyService.modifyComPayIn(bidcomponent);
+				}else {
+					TradePaymentOutDTO paymentout = new TradePaymentOutDTO();
+					paymentout.setTrPayoutCode(moneycheck.getCode());
+					paymentout.setTrPayoutWdDate(moneycheck.getInoutDate());
+					System.out.println("대금출금코드 + 대금출금일 : " + paymentout);
+					bidMoneyService.modifyPayOut(paymentout);
+				}
 			}
-			//bidMoneyService.addBidMoney(moneycheck);
+			bidMoneyService.addBidMoney(moneycheck);
 			
 		}
 		
