@@ -1,6 +1,5 @@
 package com.cafe24.kangk0269.dto;
 
-import lombok.Data;
 
 public class PlantRadiationDTO {
 	private int plRadIdx;
