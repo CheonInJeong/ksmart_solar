@@ -7,6 +7,17 @@
 		<title>로그인</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
+		<style>
+			.btn-default{
+				margin-top: 2rem;
+			}
+			.btn-default:hover{
+				background-color: #4ECDC4;
+				font-weight: 600;
+				color: #fff;
+				margin-top: 2rem;
+			}
+		</style>
 		<div id="container-header-title"><strong>로그인</strong></div>
 		<div id="container-header-path">메인 > 로그인</div>
 		<div id="container-header-space"></div>
@@ -28,6 +39,9 @@
 					<div style="background-color: #FEE500; border-radius: 8px;">
 					    <a class="center-block" id="kakao-login-btn" style="margin-left: calc(50% - 111px); margin-right: calc(50% - 111px);"></a>
 					</div>
+					<button id="managerLogin" type="submit" class="btn btn-default btn-lg col-xs-12">관리자 권한</button>
+					<button id="solarLogin" type="submit" class="btn btn-default btn-lg col-xs-12">태양광사업자 권한</button>
+					<button id="recycleLogin" type="submit" class="btn btn-default btn-lg col-xs-12">재활용사업자 권한</button>
 				</div>
 			</div>
 		</div>

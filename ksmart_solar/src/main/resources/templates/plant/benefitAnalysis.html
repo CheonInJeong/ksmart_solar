@@ -69,6 +69,7 @@
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 		<script type="text/javascript">
+		function benefitAnalysis(){
 				var plantPower = $('#thymeleafData').attr('data-bzPlPower');
 				var smp = $('#thymeleafData').attr('data-smp');
 				var rec = $('#thymeleafData').attr('data-rec');
@@ -122,31 +123,27 @@
 				//월별 발전시간(쏠라커넥트)
 				var generationTime = [87.42,98.56,134.85,141.6,150.66,133.5,103.23,116.87,101.4,115.01,88.8,79.67]
 				var count = 0;
+				var cost = plantPower*120000/240 + plantPower*1200;
 				var benefitSum = 0;
-				//인버터 가격, 월유지비 * 유지비는 증가
-				
-				
-				
 				for(var i=0; i<20; i++){
 					for(var j=0; j<12; j++){
 						var genPower = plantPower*efficiencyRate[i]*generationTime[j]/100;
-						console.log(genPower);
 						if(calculMonth == 12){
 							benefitArray[count] = Math.round((genPower*smp) + (rec/1000 * genPower));
+							incomeArray[count] = Math.round((genPower*smp) + (rec/1000 * genPower)) - (plantPower*120000/240 + plantPower*1200);
 							calculMonth = 1;
 						}else{
 							benefitArray[count] = Math.round((genPower*smp) + (rec/1000 * genPower));
+							incomeArray[count] = Math.round((genPower*smp) + (rec/1000 * genPower)) - (plantPower*120000/240 + plantPower*1200);
 							calculMonth++;
 						}
-						benefitSum = benefitSum + Math.round((genPower*smp) + (rec/1000 * genPower));
+						benefitSum = benefitSum + Math.round((genPower*smp) + (rec/1000 * genPower)) - (plantPower*120000/240 + plantPower*1200);
+						costArray[count] = cost;
+						cost = cost*1.001;
 						incomeSumArray[count] = benefitSum;
 						count++;
 					}
 				}
-				
-				console.log(benefitArray);
-				
-				//수익 계산공식, 비용 계산공식 화면에 표시
 				
 				chartDraw();
 				
@@ -166,26 +163,26 @@
 					        	,{
 					        		label: '예상 비용', 
 					        		data: costArray, 
-					        		backgroundColor: 'rgb(255, 99, 132)', 
-					        		borderColor: 'rgb(255, 99, 132)', 
+					        		backgroundColor: '#5858FA', 
+					        		borderColor: '#5858FA', 
 					        		oreder: 1, 
 					        		yAxisID: 'left'}
 					        	,{
 					        		label: '예상 손익', 
 					        		data: incomeArray, 
-					        		type: 'line',
-					        		backgroundColor: '#465FC5', 
-					        		borderColor: '#465FC5',
+					        		type: 'bar',
+					        		backgroundColor: '#2EFE2E', 
+					        		borderColor: '#2EFE2E',
 					        		fill: false, 
-					        		order: 3, 
+					        		order: 2, 
 					        		yAxisID: 'left'
 					        	}
 					        	,{
 					        		label: '누적 손익', 
 					        		data: incomeSumArray, 
 					        		type: 'line',
-					        		backgroundColor: '#465FC5', 
-					        		borderColor: '#465FC5',
+					        		backgroundColor: '#01DFD7', 
+					        		borderColor: '#01DFD7',
 					        		fill: false, 
 					        		order: 4, 
 					        		yAxisID: 'right'
@@ -196,7 +193,7 @@
 				        			type: 'line',
 				        			backgroundColor: '#DF7401', 
 				        			borderColor: '#DF7401',
-				        			order: 2, 
+				        			order: 3, 
 				        			yAxisID: 'right'
 				        		}
 					        ],
@@ -224,7 +221,8 @@
 				        }
 					});
 				}
-				
+		}
+		benefitAnalysis();
 		</script>
 	</th:block>
 	

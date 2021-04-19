@@ -81,7 +81,7 @@ public class BusinessController {
 									  ,@RequestParam(value="bzPlInvPower", required = false) 	int bzPlInvPower
 									  ,@RequestParam(value="bzPlInvCount", required = false) 	int bzPlInvCount
 									  ,@RequestParam(value="bzPlInvMaker", required = false) 	String bzPlInvMaker
-									  ,@RequestParam(value="bzPlRec", required = false) 		int bzPlRec
+									  ,@RequestParam(value="bzPlRec", required = false) 		String bzPlRec
 									  ,@RequestParam(value="bzPlHardware", required = false) 	String bzPlHardware
 									  
 									  ,@RequestParam(value="plDepPrice", required = false) 		int plDepPrice

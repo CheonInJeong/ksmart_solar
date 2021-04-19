@@ -62,22 +62,22 @@
 				</div>
 				<label for="bzPlPower" style="margin-top: 25px;">발전소 용량 </label><span class="badge">!</span>
 				<div class="input-group">
-					<input type="number" class="form-control" id="bzPlPower" placeholder="발전소 용량을 입력하세요" aria-describedby="addon1">
+					<input type="text" class="form-control" id="bzPlPower" placeholder="발전소 용량을 입력하세요" aria-describedby="addon1" onkeyup="inputNumberFormat(this)">
   					<span class="input-group-addon" id="addon1">kW</span>
 				</div>
 				<label for="bzPlArea" style="margin-top: 25px;">발전소 면적</label>
 				<div class="input-group">
-					<input type="number" class="form-control" id="bzPlArea" placeholder="발전소 면적 입력하세요" aria-describedby="addon2">
+					<input type="text" class="form-control" id="bzPlArea" placeholder="발전소 면적 입력하세요" aria-describedby="addon2" onkeyup="inputNumberFormat(this)">
 					<span class="input-group-addon" id="addon2">㎡</span>
 				</div>
 				<label for="bzPlInvPower" style="margin-top: 25px;">인버터 단위 용량</label><br>
 				<div class="input-group">
-					<input type="number" class="form-control" id="bzPlInvPower" placeholder="인버터 단위 용량 입력하세요" aria-describedby="addon3">
+					<input type="text" class="form-control" id="bzPlInvPower" placeholder="인버터 단위 용량 입력하세요" aria-describedby="addon3" onkeyup="inputNumberFormat(this)">
 					<span class="input-group-addon" id="addon3">kW</span>
 				</div>
 				<label for="bzPlInvCount" style="margin-top: 25px;">인버터 총 수량</label><br>
 				<div class="input-group">
-					<input type="number" class="form-control" id="bzPlInvCount" placeholder="인버터 총 수량 입력하세요" aria-describedby="addon4">
+					<input type="text" class="form-control" id="bzPlInvCount" placeholder="인버터 총 수량 입력하세요" aria-describedby="addon4" onkeyup="inputNumberFormat(this)">
 					<span class="input-group-addon" id="addon4">EA</span>
 				</div>
 				<div class="form-group">
@@ -86,7 +86,7 @@
 				</div>
 				<label for="bzPlRec" style="margin-top: 15px;">REC 정액 계약 </label><span class="badge">!</span>
 				<div class="input-group">
-					<input type="number" class="form-control" id="bzPlRec" placeholder="REC 계약 금액을 입력하세요" aria-describedby="addon5">
+					<input type="text" class="form-control" id="bzPlRec" placeholder="REC 계약 금액을 입력하세요" aria-describedby="addon5" onkeyup="inputNumberFormat(this)">
 					<span class="input-group-addon" id="addon5">원/REC</span>
 				</div>
 				<div class="form-group">
@@ -98,12 +98,12 @@
 				</div>
 				<label for="plDepPrice" style="margin-top: 15px;">발전소 매입금액</label><span class="badge">!</span>
 				<div class="input-group">
-					<input type="number" class="form-control" id="plDepPrice" placeholder="발전소 매입금액을 입력하세요" aria-describedby="addon6">
+					<input type="text" class="form-control" id="plDepPrice" placeholder="발전소 매입금액을 입력하세요" aria-describedby="addon6" onkeyup="inputNumberFormat(this)">
 					<span class="input-group-addon" id="addon6">원</span>
 				</div>
 				<label for="plDepMaintenance" style="margin-top: 15px;">발전소 월간 유지비</label><span class="badge">!</span>
 				<div class="input-group">
-					<input type="number" class="form-control" id="plDepMaintenance" placeholder="발전소 월간 유지비용을 입력하세요" aria-describedby="addon7">
+					<input type="text" class="form-control" id="plDepMaintenance" placeholder="발전소 월간 유지비용을 입력하세요" aria-describedby="addon7" onkeyup="inputNumberFormat(this)">
 					<span class="input-group-addon" id="addon7">원</span>
 				</div>
 				<label for="plDepBuyDate" style="margin-top: 25px;">발전소 매입일</label><span class="badge">!</span>
@@ -209,7 +209,7 @@
 									});
 				        		setTimeout(function(){
 				        			document.location.href = '/';
-				        		}, 3000);
+				        		}, 2000);
 				        	}else{
 				        		Swal.fire({
 									  title: '신청에 실패했습니다!',
@@ -218,7 +218,7 @@
 									});
 				        		setTimeout(function(){
 					        		document.location.href = '/';
-				        		}, 3000);
+				        		}, 2000);
 				        	}
 				        },
 				        error : function(xhr,status,error) {
@@ -226,7 +226,7 @@
 				        	console.log("status: " + status);
 				        	console.log("error: " + error);
 				        }
-				    })}, 2000);
+			    })}, 2000);
 			}
 			
 			
@@ -242,38 +242,19 @@
 				var bzPlZipcode = bzZipcode;
 				var bzPlAddr = bzAddr;
 				var bzPlDetailAddr = $('#bzPlDetailAddr').val();
-				var bzPlPower = $('#bzPlPower').val();
-				var bzPlArea = $('#bzPlArea').val();
-				var bzPlInvPower = $('#bzPlInvPower').val();
-				var bzPlInvCount = $('#bzPlInvCount').val();
+				var bzPlPower = getNumString($('#bzPlPower').val());
+				var bzPlArea = getNumString($('#bzPlArea').val());
+				var bzPlInvPower = getNumString($('#bzPlInvPower').val());
+				var bzPlInvCount = getNumString($('#bzPlInvCount').val());
 				var bzPlInvMaker = $('#bzPlInvMaker').val();
-				var bzPlRec = $('#bzPlRec').val();
+				var bzPlRec = getNumString($('#bzPlRec').val());
 				var bzPlHardware = $('input[name="bzPlHardware"]:checked').val();
-				var plDepPrice = $('#plDepPrice').val();
-				var plDepMaintenance = $('#plDepMaintenance').val();
+				var plDepPrice = getNumString($('#plDepPrice').val());
+				var plDepMaintenance = getNumString($('#plDepMaintenance').val());
 				var plDepBuyDate = $('#plDepBuyDate').val();
 				var plDepStartDate = $('#plDepStartDate').val();
 				
-				console.log(bzCompanyName + " <<< bzCompanyName");
-				console.log(bzCeoName + " <<< bzCeoName");
-				console.log(bzZipcode + " <<< bzZipcode");
-				console.log(bzAddr + " <<< bzAddr");
-				console.log(bzDetailAddr + " <<< bzDetailAddr");
-				console.log(bzLicense + " <<< bzLicense");
-				console.log(bzPlName + " <<< bzPlName");
-				console.log(bzPlPhoto + " <<< bzPlPhoto");
-				console.log(bzPlDetailAddr + " <<< bzPlDetailAddr");
-				console.log(bzPlPower + " <<< bzPlPower");
-				console.log(bzPlArea + " <<< bzPlArea");
-				console.log(bzPlInvPower + " <<< bzPlInvPower");
-				console.log(bzPlInvCount + " <<< bzPlInvCount");
-				console.log(bzPlInvMaker + " <<< bzPlInvMaker");
-				console.log(bzPlRec + " <<< bzPlRec");
-				console.log(bzPlHardware + " <<< bzPlHardware");
-				console.log(plDepPrice + " <<< plDepPrice");
-				console.log(plDepMaintenance + " <<< plDepMaintenance");
-				console.log(plDepBuyDate + " <<< plDepBuyDate");
-				console.log(plDepStartDate + " <<< plDepStartDate");
+				
 				
 				//필수 입력 유효성 검사
 				if(bzCompanyName == null || bzCompanyName == "" || bzCompanyName == 'undefined'){
@@ -447,6 +428,33 @@
 			    }).open();
 			}
 			
+			
+			//////////////////// 콤마 붙히는 정규식 ////////////////////////
+			 function inputNumberFormat(obj) {
+			     obj.value = comma(uncomma(obj.value));
+			 }
+
+			 function comma(str) {
+			     str = String(str);
+			     return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+			 }
+
+			 function uncomma(str) {
+			     str = String(str);
+			     return str.replace(/[^\d]+/g, '');
+			 }
+			 
+			 
+			 //////////////////// 콤마 제거 정규식 //////////////////
+			 function getNumString(s) {
+			        var rtn = parseFloat(s.replace(/,/gi, ""));
+			        if (isNaN(rtn)) {
+			            return 0;
+			        }
+			        else {
+			            return rtn;
+			        }
+			    }
 		</script>
 	</th:block>
 </html>
