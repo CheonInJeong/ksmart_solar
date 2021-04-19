@@ -18,7 +18,7 @@ public class Commoninterceptor  implements HandlerInterceptor{
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
-		/*
+		
 		log.info("Commoninterceptor===============================================================START");
 		log.info("ACCESS INFO===============================================================START");
 		log.info("PORT         ::::::::::::::::::::::::  {}",request.getLocalPort());
@@ -26,7 +26,7 @@ public class Commoninterceptor  implements HandlerInterceptor{
 		log.info("method       ::::::::::::::::::::::::  {}",request.getMethod());
 		log.info("URI          ::::::::::::::::::::::::  {}",request.getRequestURI());
 		log.info("ACCESS INFO===============================================================END");
-		*/
+		
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 	}
 	
