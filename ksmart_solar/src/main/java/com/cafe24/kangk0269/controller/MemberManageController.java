@@ -303,11 +303,17 @@ public class MemberManageController {
 	
 	@GetMapping("/getPlantInfoBybzPlCode")
 	public String getPlantInfoBybzPlCode(Model model
-										  ,@RequestParam(value="bzPlCode", required=false) String bzPlCode) {
+										  , @RequestParam(value="bzPlCode", required=false) String bzPlCode
+										  , @RequestParam(name="searchKey", required=false) String searchKey
+										  , @RequestParam(name="searchValue", required=false) String searchValue
+										  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("발전소사업자코드 : " + bzPlCode);
 		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
 		System.out.println("코드조회결과 : " + plant);
 		model.addAttribute("plant", plant);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("curPage", curPage);
 		return "/member/getPlantInfoBybzPlCode";
 	}
 	
