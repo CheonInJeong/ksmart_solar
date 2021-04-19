@@ -69,7 +69,7 @@ public class HelpController {
 	@PostMapping("/help/saveQna")
 	public void saveQna(HttpServletResponse response, BoardQnaDTO boardQnaDTO) throws IOException {
 		
-	  if(boardQnaDTO.getBQnaIdx() > 0) {
+	  if(boardQnaDTO.getbQnaIdx() > 0) {
 		  //첫 임시저장일 때(insert)
 		  boardQnaService.saveQnaUp(boardQnaDTO);
 	  }else {
@@ -125,7 +125,7 @@ public class HelpController {
 	//문의 등록처리
 	@PostMapping("/help/addQna")
 	public String addQna(BoardQnaDTO boardQnaDTO) {
-		if(boardQnaDTO.getBQnaIdx() > 0) {
+		if(boardQnaDTO.getbQnaIdx() > 0) {
 			//임시저장파일 등록(insert)
 			boardQnaService.addQnaUp(boardQnaDTO);
 		}else {
