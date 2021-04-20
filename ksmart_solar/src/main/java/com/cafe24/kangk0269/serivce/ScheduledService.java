@@ -89,11 +89,11 @@ public class ScheduledService {
 	public void updatePaymentStatus() {
 		List<TradePriorityDTO> tradePriority = scheduledMapper.getNotPaied();
 		for(int i= 0; i<tradePriority.size();i++) {
-			String lastDate = tradePriority.get(i).getTrPrConclusionDate2();
+			String lastDate = tradePriority.get(i).getTradePaymentInDTO().getTrPayinDate2();
+			//입금진행상태
+			String payinStatus = tradePriority.get(i).getTradePaymentInDTO().getTrPayinStatus();
 			//공고코드
 			String trPrCode = tradePriority.get(i).getTrPrCode();
-			//진행상태코드
-			int typeCode = tradePriority.get(i).getTrTypeCode();
 			//공고 분류
 			String bTypeCode = tradePriority.get(i).getBidListDTO().getbTypeCode();
 			//입찰코드
@@ -104,7 +104,7 @@ public class ScheduledService {
 				
 				if(lastDate.equals(today)) {
 					//대금미납인경우
-					if(typeCode==12) {
+					if(payinStatus.equals("미납")) {
 						//낙찰자테이블의 거래상태 바꾸기 :  11대금처리중 > 12 대금 미납
 						scheduledMapper.updateAcInPriority(trPrCode);
 						//입찰자 리스트의 거래상태 바꾸기 :  11대금처리중 > 12 대금 미납
@@ -114,7 +114,6 @@ public class ScheduledService {
 							if(bTypeCode.equals("1")) {
 								BidListDTO plant = scheduledMapper.getPlantRankInfo(trPrCode);
 								scheduledMapper.addTradePriod(plant, today);
-								
 							}
 							//부품인경우
 							else if(bTypeCode.equals("2")) {

@@ -21,6 +21,11 @@
 		<result property="trTypeName" column="tr_type_name"/>
 		<result property="trPrDateUp" column="tr_pr_date_up"/>
 		<result property="trPayoutCheck" column="tr_payout_check"/>
+		<association property="tradePaymentInDTO" javaType="TradePaymentInDTO">
+  			<result property="trPayinDate2" column="tr_payin_date2"/>
+  			<result property="trPayinCode" column="tr_payin_code"/>
+  			<result property="trPayinStatus" column="tr_payin_status"/>
+		</association>
 		<collection property="bidListDTO" 	resultMap="bidListDTOMap" />
 	</resultMap>
 	<resultMap	type="BidListDTO" 			id="bidListDTOMap">
@@ -257,10 +262,11 @@
 			i.tr_payin_code,
 			p.tr_pr_code,
 			p.announced_code,
-			p.tr_pr_conclusion_date2,
+			i.tr_payin_date2,
 			p.b_code,
 			p.tr_type_code,
-			b.b_type_code
+			b.b_type_code,
+			i.tr_payin_status
 		FROM 
 			tb_trade_priority AS p
 		INNER JOIN 
