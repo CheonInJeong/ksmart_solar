@@ -16,6 +16,7 @@ import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MoneyCheckDTO;
+import com.cafe24.kangk0269.dto.PageDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
@@ -136,9 +137,7 @@ public class ProfitController {
 		System.out.println("입력할 코드 : " + Code);
 		MoneyCheckDTO check = bidMoneyService.getMoneyCheck(Code);
 		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
-		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
 		model.addAttribute("check", check);
-		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("moneyCheckList", moneyCheckList);
 		return "/profit/bidMoneyInsert";
 	}
@@ -147,8 +146,6 @@ public class ProfitController {
 	public String bidMoneyCheck(Model model) {
 		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
 		System.out.println(moneyCheckList);
-		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
-		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("moneyCheckList", moneyCheckList);
 		return "/profit/bidMoneyCheck";
 	}
@@ -158,11 +155,15 @@ public class ProfitController {
 						  , @RequestParam(name="searchKey", required=false) String searchKey
 						  , @RequestParam(name="searchValue", required=false) String searchValue
 						  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
-		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
-		System.out.println(bidMoneyList);
+		int count = bidMoneyService.getBidMoneyListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList(start, end, searchKey, searchValue);
 		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/balance";
 	}
 	

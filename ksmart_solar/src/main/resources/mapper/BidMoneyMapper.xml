@@ -503,7 +503,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
 	</select>
 	
-	<!-- 전체 입출금 내역 조회 -->
+	<!-- 관리자계좌 입출금 내역 조회 -->
 	<select id="getBidMoneyList" resultMap="bidmoneyResultMap">
 		SELECT 
 			b_mo_code
@@ -521,6 +521,29 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tb_bid_money
 			JOIN 
 			(SELECT @total := 0) AS r
-		ORDER BY b_mo_date;
+		<if test="searchKey == null or searchKey == ''.toString()">
+			ORDER BY b_mo_date
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				ORDER BY b_mo_date
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 관리자계좌 입출금 내역 리스트 수 조회 -->
+	<select id="getBidMoneyListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_bid_money
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
 	</select>
 </mapper>
