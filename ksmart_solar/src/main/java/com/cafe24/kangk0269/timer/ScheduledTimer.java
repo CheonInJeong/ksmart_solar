@@ -57,7 +57,7 @@ public class ScheduledTimer {
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
-			scheduledService.updateBidStatus();
+			scheduledService.updateBidStatus(); //이부분 안되요
 			//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
 			sellService.updateComponentAcStatus();
 			//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
@@ -88,6 +88,15 @@ public class ScheduledTimer {
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
 				//bidListService.updateBidListsatus3();
+			  	//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
+				//scheduledService.updateBidStatus();
+				//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
+				//sellService.updateComponentAcStatus();
+				//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
+				//sellService.updateAcStatus();
+				//입찰상태(입찰성공 > 입찰종료,계약중,계약대기  입찰대기>입찰실패)으로 바꾸는 메서드 실행
+				//입찰대기>입찰실패
+				//bidListService.updateBidListsatus();
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
