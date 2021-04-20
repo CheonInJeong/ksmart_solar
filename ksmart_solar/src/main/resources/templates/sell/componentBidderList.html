@@ -13,11 +13,12 @@
 		
 		<div class="row mt">
           <div class="col-md-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding:30px">
               <h4><i class="fa fa-angle-right"></i>부품 공고 입찰자 목록</h4>
        
 					<p>　　부품명 :  [[${component.componentDTO.cpName}]]</p>
 	               	<p>　　공고제목 : [[${component.bCpTitle}]] </p>
+	               	<span id="bCpCode" style="display : none;">[[${component.bCpCode}]]</span>
         		
               <hr>
              
@@ -36,12 +37,12 @@
                 </thead>
                 <tbody>
                   <tr th:if="${#lists.size(bidder)}>0" th:each="b:${bidder}">
-                  	<td th:text="${b.bCode}"></td>
+                  	<td class="bCode" th:text="${b.bCode}"></td>
                   	<td th:text="${b.mId}"></td>
                   	<td th:text="${b.bPrice}" class="bidPrice"></td>
                   	<td th:text=${b.bCheck}></td>
                   	<td th:text=${b.bRank}></td>
-                  	<td><a th:href="@{/sell/bidderDetail(code=${b.bCode})}" class="btn btn-default">상세보기</a></td>
+                  	<td><a class="btn btn-default detailBtn">상세보기</a></td>
                   </tr>
                   <tr th:unless="${#lists.size(bidder)}>0">
                   	<td colspan="8" style="text-align:center;">아직 입찰자가 없습니다.</td>
@@ -51,7 +52,9 @@
             </div>
           </div>
         </div>
-        
+       <div class="add-task-row" style="margin-top: 20px;">
+			<a th:href="@{/sell/myHistory}" class="btn btn-default btn-sm pull-right">목록</a>
+		</div>
   
         
 	</th:block>
@@ -69,7 +72,7 @@
        		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   		  	}
 
-			$('document').ready(function(){
+			$(document).ready(function(){
 				$('.bidPrice').each(function(){
 					
 					var bidPrice = $('.bidPrice');
@@ -79,6 +82,11 @@
 					bidPrice.eq(i).text(comma(bidPrice.eq(i).text()));
 				})
 		
+			})
+			
+			$('.detailBtn').click(function(){
+				var i = $('.detailBtn').index(this);
+				location.href='/sell/bidderDetail?bCode='+$('.bCode').eq(i).text()+'&bCpCode='+$('#bCpCode').text();
 			})
 			
 		</script>

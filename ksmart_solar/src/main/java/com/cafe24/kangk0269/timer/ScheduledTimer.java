@@ -89,7 +89,7 @@ public class ScheduledTimer {
 		  try { 
 				//bidListService.updateBidListsatus3();
 			  	//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
-				scheduledService.updateBidStatus();
+				//scheduledService.updateBidStatus();
 				//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
 				//sellService.updateComponentAcStatus();
 				//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행

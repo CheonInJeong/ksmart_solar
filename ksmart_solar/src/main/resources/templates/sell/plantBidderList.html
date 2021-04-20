@@ -13,7 +13,7 @@
 		
 		<div class="row mt">
           <div class="col-md-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding:30px;">
               <h4><i class="fa fa-angle-right"></i>발전소 입찰자 목록</h4>
             	 <th:block th:each="p:${plant}">
 					<p>　　발전소 :  [[${p.businessPlantDTO.bzPlName}]]</p>
@@ -51,7 +51,9 @@
             </div>
           </div>
         </div>
-        
+         <div class="add-task-row" style="margin-top: 20px;">
+			<a th:href="@{/sell/myHistory}" class="btn btn-default btn-sm pull-right">목록</a>
+		</div>
   
         
 	</th:block>
