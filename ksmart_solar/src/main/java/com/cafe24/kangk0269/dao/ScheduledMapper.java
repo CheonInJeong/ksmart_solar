@@ -29,15 +29,17 @@ public interface ScheduledMapper {
 	
 	//낙찰자테이블에 추가 by천인정
 	public int addTradePriod(@Param(value="bidListDTO") BidListDTO bidListDTO,
-							 @Param(value="today") String today);
+							 @Param(value="today") String today,
+							 @Param(value="groupCode") String groupCode,
+							 @Param(value="mIdSeller") String mIdSeller);
 	
 	//낙찰자테이블에 넣기 위한 정보 조회 - 발전소일경우 by천인정
-	public BidListDTO getPlantRankInfo(String announcedCode);
+	public BidListDTO getPlantRankInfo(@Param(value="announcedCode")String announcedCode,@Param(value="rank")int rank);
 	
 	//낙찰자테이블에 넣기 위한 정보 조회 - 부품일경우 by천인정
-	public BidListDTO getComponentRankInfo(String announcedCode);
+	public BidListDTO getComponentRankInfo(@Param(value="announcedCode")String announcedCode,@Param(value="rank")int rank);
 	//낙찰자테이블의 거래상태 바꾸기 by천인정
-	public int updateAcInPriority(String trPrCode);
+	public int updateAcInPriority(String bCode);
 	//입찰자 리스트의 거래상태 바꾸기 by천인정
 	public int updateAcInbidList(String bCode);
 	//2순위 낙찰자 테이블에 추가 by천인정
