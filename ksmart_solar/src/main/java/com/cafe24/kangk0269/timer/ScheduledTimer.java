@@ -72,10 +72,11 @@ public class ScheduledTimer {
 			
 			//공고가 거래진행중으로 바뀌었을때 입찰자들중 1순위를 낙찰자 테이블에 입력
 			bidListService.addTradePriority();
-			//거래 진행중 1순위가 취소하여 2순위와 거래해야하는 상태, 다음순위가 없어 거래실패
-			scheduledService.updatePriority();
 			//1순위 낙찰자가 계약마감일에 계약중인 상태인 경우 거래대금테이블에 입력
 			scheduledService.updatePayIn();
+			
+			//거래 진행중 1순위가 취소하여 2순위와 거래해야하는 상태, 다음순위가 없어 거래실패
+			scheduledService.updatePriority();
 			//1순위의 거래상태가 대금 미납인 경우 상태변경(1순위의 입찰자테이블, 낙찰자우선순위테이블 상태변경 및 2순위 낙찰자우선테이블 삽입)
 			scheduledService.updatePaymentStatus();
 		} catch (Exception e) {
@@ -87,7 +88,6 @@ public class ScheduledTimer {
 	  @Scheduled(cron = "0/5  *  *  *  *  *") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
-			  //bidListService.updateBidListsatus3();
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
