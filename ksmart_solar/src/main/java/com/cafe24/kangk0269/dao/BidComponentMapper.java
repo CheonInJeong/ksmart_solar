@@ -6,10 +6,23 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 
 @Mapper
 public interface BidComponentMapper {
+	
+	
+	// 공고신청 부품 상세보기
+	public BidComponentDTO getNotice(String bCpCode);
+	
+	// 전체 공고신청 부품 조회
+	public List<BidComponentDTO> getComponentNoticeAdmitList(int start,int end,String searchKey,String searchValue);
+	
+	// 공고신청 부품 리스트 수
+	public int getComponentNoticeAdmitListCnt(String searchKey,String searchValue);	
+	
+	
 	//공고 리스트 조회(진핸중과 마감 구분)
 	public List<BidComponentDTO> getBidComponent(@Param(value="status") String status
 												 ,@Param(value="searchKeyCp") String searchKeyCp

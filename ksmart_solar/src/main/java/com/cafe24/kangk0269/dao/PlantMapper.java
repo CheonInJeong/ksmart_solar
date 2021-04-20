@@ -53,4 +53,6 @@ public interface PlantMapper {
 	public int plantDelete(String plCode);
 
 	public int plantModify(BusinessPlantDTO bp);
+
+	public List<PlantRadiationDTO> searchRadiation(String dataTime);
 }

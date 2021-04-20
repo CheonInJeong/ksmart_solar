@@ -65,6 +65,52 @@ public class MemberManageController {
 		this.sellService = sellService;
 	}
 	
+
+
+	//공고신청 상세보기
+	@GetMapping("/member/getNotice")
+	public String getNotice(Model model
+							,@RequestParam(name="bPlCode", required=false) String bPlCode
+							,@RequestParam(name="bCpCode", required=false) String bCpCode) {
+		if(!"".equals(bPlCode)) {
+			BidPlantDTO bidPlantdto = bidPlantService.getNotice(bPlCode);
+			model.addAttribute("bidPlantdto", bidPlantdto);
+		}else if(!"".equals(bCpCode)) {
+			BidComponentDTO bidComponentdto = bidComponentService.getNotice(bCpCode);
+			model.addAttribute("bidComponentdto", bidComponentdto);
+		}
+		return "/member/getNotice";
+	}
+	
+	
+	//공고승인신청 화면
+	@GetMapping("/member/noticeList")
+	public String noticeList(Model model
+							, @RequestParam(name="searchKey", required=false) String searchKey
+							, @RequestParam(name="searchValue", required=false) String searchValue
+							, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+			    
+		int countPlant = bidPlantService.getPlantNoticeAdmitListCnt(searchKey, searchValue);
+		int countComponent = bidComponentService.getComponentNoticeAdmitListCnt(searchKey, searchValue);
+		int countSum = (countPlant + countComponent);
+		
+		PageDTO page = new PageDTO(countSum ,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		
+		List<BidPlantDTO> bidPlantList = bidPlantService.getPlantNoticeAdmitList(start, end, searchKey, searchValue);
+		List<BidComponentDTO> bidComponentList = bidComponentService.getComponentNoticeAdmitList(start, end, searchKey, searchValue);
+		
+		model.addAttribute("bidPlantList", bidPlantList);
+		model.addAttribute("bidComponentList", bidComponentList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		return "/member/noticeList";
+	}
+	
+	
+	
 	@GetMapping("/getMemberInfoById")
 	public String getMemberInfoById(Model model,HttpSession session
 									, @RequestParam(value="mId", required=false) String mId
