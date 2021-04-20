@@ -89,7 +89,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		UPDATE tb_trade_payment_in
 		SET
 			tr_payin_check = 'Y',
-			b_mo_code = sf_new_b_mo_code(#{bMoDate}),
+			b_mo_code = (
+						SELECT 
+							b_mo_code
+						FROM 
+							tb_bid_money
+						WHERE related_code = #{trPayinCode}
+						),
 			b_mo_date = #{bMoDate},
 			tr_payin_status = '납부완료'
 		WHERE tr_payin_code = #{trPayinCode}
@@ -197,7 +203,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyDepositOut" parameterType="TradeDepositOutDTO">
 		UPDATE tb_trade_deposit_out
 		SET
-			b_mo_code = sf_new_b_mo_code(#{trDepWdDate})
+			b_mo_code = (
+						SELECT
+							b_mo_code
+						FROM
+							tb_bid_money
+						WHERE related_code = #{trDepCode}
+						)
 		WHERE tr_dep_code = #{trDepCode}
 	</update>
 	
