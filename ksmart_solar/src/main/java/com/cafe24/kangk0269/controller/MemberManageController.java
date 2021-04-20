@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cafe24.kangk0269.api.CrawlingApi;
 import com.cafe24.kangk0269.api.KakaoLoginApi;
+import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
@@ -48,6 +49,7 @@ public class MemberManageController {
 	private final BidPlantService bidPlantService;
 	private final BidComponentService bidComponentService;
 	private final SellService sellService;
+	SavePaging savePaging = null;
 	
 	@Autowired
 	public MemberManageController(MemberService memberService, BusinessService businessService
@@ -126,14 +128,48 @@ public class MemberManageController {
 									, @RequestParam(name="searchValueWCMF", required=false) String searchValueWCMF
 									, @RequestParam(name="uri", required=false) String uri
 									, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
-									, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) throws Exception {
+									, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2
+									, @RequestParam(value = "currentPageNo", required = false) String currentPageNo
+									, @RequestParam(value = "recordsPerPage", required = false) String recordsPerPage
+									, @RequestParam(value = "pageSize", required = false) String pageSize
+									, @RequestParam(value = "state", required = false) String state) throws Exception {
 		String SLEVEL = (String) session.getAttribute("SLEVEL");
+		BidPlantDTO bidPlantDTO = new BidPlantDTO();
+		BidComponentDTO bidComponentDTO = new BidComponentDTO();
+		bidPlantDTO.setState(1);
+		bidComponentDTO.setState(2);
+		if(savePaging==null || state==null) {
+			//화면의 제일 처름 페이지 설정
+			System.out.println("세이브페이징 만들어짐");
+			savePaging = new SavePaging(2,session);
+			savePaging.setPaging(1, 1, 5, 5);
+			savePaging.setPaging(2, 1, 5, 5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			//페이지가 넘어갈때 넘어간 페이지 저장
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage),Integer.parseInt(pageSize));
+		}
+		//페이지 저장 가져오기
+		savePaging.getPaging(bidComponentDTO);
+		savePaging.getPaging(bidPlantDTO);
+		
 		if("관리자".equals(SLEVEL)) {
 			List<BusinessPlantDTO> plantListById = plantService.getPlantListById(mId);
 			List<ComponentDTO> cd = memberService.getComponentListById(mId);
+			List<BidComponentDTO> bidComponentList = bidComponentService.getBidComponentMyBid(mId,null,null,bidComponentDTO);
+			List<BidPlantDTO> bidPlantList = bidPlantService.getBidPlantMyBid(mId,null,null,bidPlantDTO);
+			List<BidPlantDTO> bidPlantList2  = sellService.getBidPlantbyId(mId,null,null,bidPlantDTO);
+			List<BidComponentDTO> bidComponentList2 = sellService.getBidComponentById(mId,null,null,bidComponentDTO);
 			model.addAttribute("plantListById", plantListById);
 			model.addAttribute("componentListById", cd);
+			model.addAttribute("bidPlantList", bidPlantList);
+			model.addAttribute("bidPlantList2", bidPlantList2);
+			model.addAttribute("bidPlantDTO", bidPlantDTO);
+			model.addAttribute("bidComponentDTO", bidComponentDTO);
+			model.addAttribute("bidComponentList", bidComponentList);
+			model.addAttribute("bidComponentList2", bidComponentList2);
 		}
+		
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
 		model.addAttribute("member", member);

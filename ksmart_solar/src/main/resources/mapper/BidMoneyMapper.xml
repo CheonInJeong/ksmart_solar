@@ -217,7 +217,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyBidDepositOut" parameterType="TradeDepositOutDTO">
 		UPDATE tb_bid_list
 		SET
-			b_deposit_available = 'N',
 			b_deposit_refund = 'Y'
 		WHERE b_code = (	
 							SELECT 
