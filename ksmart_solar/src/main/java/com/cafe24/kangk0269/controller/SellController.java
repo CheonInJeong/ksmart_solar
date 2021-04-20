@@ -212,8 +212,9 @@ public class SellController {
 		boolean rankCheck = false;
 
 		  List<BidListDTO> rankList = sellService.rankCheck(code); 
+		  
 		  for(int i=0;i<rankList.size();i++) {
-			 
+			 System.out.println(rankList.get(i).getbRank());
 			  if(rankList.get(i).getbRank()==rank) {
 				  rankCheck = true; 
 			  }
