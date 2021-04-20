@@ -105,8 +105,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyPriPayIn" parameterType="TradePaymentInDTO">
 		UPDATE tb_trade_priority
 		SET
-		tr_type_code = 13,
-		tr_type_name = '대금완료',
+		tr_type_code = 14,
+		tr_type_name = '공고최종완료',
 		tr_pr_date_up = NOW()
 		WHERE tr_pr_code=(	SELECT
 							*
@@ -126,8 +126,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyBidPayIn" parameterType="TradePaymentInDTO">
 		UPDATE tb_bid_list
 		SET
-			tr_type_code = 13,
-			tr_type_name = '대금완료',
+			tr_type_code = 14,
+			tr_type_name = '공고최종완료',
 			b_date_up = NOW()
 		WHERE b_code=(	SELECT 
 						*
