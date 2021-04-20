@@ -433,6 +433,94 @@ public class PlantService {
 		System.out.println(bp);
 		return plantMapper.plantModify(bp);
 	}
+
+	public String[] searchRadiationPageLoad() throws ParseException {
+		
+		Date date = new Date(); 
+		SimpleDateFormat transFormat = new SimpleDateFormat("yyyy-MM-dd");
+		String nowTime = transFormat.format(date); 
+		Date nowDate = transFormat.parse(nowTime);
+		long yesterdayTime = (nowDate.getTime() - (24*60*60*1000));
+		String yesterday = transFormat.format(yesterdayTime); 
+		String pageLoadTime = yesterday + " 13"; 
+		List<PlantRadiationDTO> pr = plantMapper.searchRadiation(pageLoadTime);		
+		String[] returnResult = new String[20];
+		for(int i=0; i<pr.size(); i++) {
+			if("서울".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[0] = pr.get(i).getPlRadIcsr();
+			}else if("부산".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[1] = pr.get(i).getPlRadIcsr();
+				returnResult[6] = pr.get(i).getPlRadIcsr();
+			}else if("대구".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[2] = pr.get(i).getPlRadIcsr();
+				returnResult[15] = pr.get(i).getPlRadIcsr();
+			}else if("인천".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[3] = pr.get(i).getPlRadIcsr();
+			}else if("광주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[4] = pr.get(i).getPlRadIcsr();
+			}else if("대전".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[5] = pr.get(i).getPlRadIcsr();
+			}else if("청주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[7] = pr.get(i).getPlRadIcsr();
+				returnResult[10] = pr.get(i).getPlRadIcsr();
+			}else if("수원".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[8] = pr.get(i).getPlRadIcsr();
+			}else if("원주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[9] = pr.get(i).getPlRadIcsr();
+			}else if("서산".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[11] = pr.get(i).getPlRadIcsr();
+			}else if("전주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[12] = pr.get(i).getPlRadIcsr();
+			}else if("목포".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[13] = pr.get(i).getPlRadIcsr();
+			}else if("포항".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[14] = pr.get(i).getPlRadIcsr();
+			}else if("제주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[16] = pr.get(i).getPlRadIcsr();
+			}
+		}
+		return returnResult;
+	}
+
+	public String[] searchRadiation(String dataTime) {
+		List<PlantRadiationDTO> pr = plantMapper.searchRadiation(dataTime);	
+		String[] returnResult = new String[20];
+		for(int i=0; i<pr.size(); i++) {
+			if("서울".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[0] = pr.get(i).getPlRadIcsr();
+			}else if("부산".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[1] = pr.get(i).getPlRadIcsr();
+				returnResult[6] = pr.get(i).getPlRadIcsr();
+			}else if("대구".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[2] = pr.get(i).getPlRadIcsr();
+				returnResult[15] = pr.get(i).getPlRadIcsr();
+			}else if("인천".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[3] = pr.get(i).getPlRadIcsr();
+			}else if("광주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[4] = pr.get(i).getPlRadIcsr();
+			}else if("대전".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[5] = pr.get(i).getPlRadIcsr();
+			}else if("청주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[7] = pr.get(i).getPlRadIcsr();
+				returnResult[10] = pr.get(i).getPlRadIcsr();
+			}else if("수원".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[8] = pr.get(i).getPlRadIcsr();
+			}else if("원주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[9] = pr.get(i).getPlRadIcsr();
+			}else if("서산".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[11] = pr.get(i).getPlRadIcsr();
+			}else if("전주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[12] = pr.get(i).getPlRadIcsr();
+			}else if("목포".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[13] = pr.get(i).getPlRadIcsr();
+			}else if("포항".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[14] = pr.get(i).getPlRadIcsr();
+			}else if("제주".equals(pr.get(i).getPlRadLocation())) {
+				returnResult[16] = pr.get(i).getPlRadIcsr();
+			}
+		}
+		return returnResult;
+	}
 	
 	
 	
