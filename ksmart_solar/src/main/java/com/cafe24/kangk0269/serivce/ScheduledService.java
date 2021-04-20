@@ -66,7 +66,7 @@ public class ScheduledService {
 			}
 			
 		}
-		//이부분 검토
+
 		for(int i=0; i<component.size(); i++) {
 			int bidderNumber = component.get(i).getBidComponentDTO().getbCpBidderNumber();
 			System.out.println(bidderNumber+"어떤 공고 : "+component.get(i).getBidComponentDTO().getbCpCode());

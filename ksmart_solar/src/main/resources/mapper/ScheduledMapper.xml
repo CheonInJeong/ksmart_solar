@@ -69,6 +69,7 @@
   			<result property="bCpGroupcode" column="b_cp_groupcode"/>
   			<result property="bCpDateBidding1" column="b_cp_date_bidding1"/>
   			<result property="bCpDateBidding2" column="b_cp_date_bidding2"/>
+  			<result property="bCpBidderNumber" column="b_cp_bidder_number"/>
   		</association>
 		<association property="bidPlantDTO" javaType="bidPlantDTO">
   			<id property="bPlCode" column="b_pl_code"/>
@@ -104,8 +105,8 @@
 	<update id="updateComponentConfirmToIng" parameterType="String">
 		UPDATE tb_bid_component
 		SET
-			b_cp_status='공고신청',
-			ac_status_code=0
+			b_cp_status='공고진행중',
+			ac_status_code=4
 		WHERE b_cp_date_bidding1 = #{today}
 		
 	</update>
