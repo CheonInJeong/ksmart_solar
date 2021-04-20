@@ -324,4 +324,30 @@
 		WHERE 
 			bz_pl_code = #{bzPlCode};
 	</update>
+	<select id="searchRadiation" resultMap="plantRadiationResultMap" parameterType="String">
+		SELECT
+			pl_rad_date
+			,pl_rad_location
+			,pl_rad_icsr
+		FROM
+			tb_plant_radiation
+		WHERE
+			(pl_rad_location = '서울'
+			OR pl_rad_location = '부산'
+			OR pl_rad_location = '대구'
+			OR pl_rad_location = '인천'
+			OR pl_rad_location = '광주'
+			OR pl_rad_location = '대전'
+			OR pl_rad_location = '부산'
+			OR pl_rad_location = '청주'
+			OR pl_rad_location = '수원'
+			OR pl_rad_location = '원주'
+			OR pl_rad_location = '서산'
+			OR pl_rad_location = '전주'
+			OR pl_rad_location = '목포'
+			OR pl_rad_location = '포항'
+			OR pl_rad_location = '대구'
+			OR pl_rad_location = '제주')
+			AND pl_rad_date = #{dataTime};
+	</select>
 </mapper> 
