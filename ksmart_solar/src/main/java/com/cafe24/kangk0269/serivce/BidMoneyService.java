@@ -103,8 +103,12 @@ public class BidMoneyService {
 	}
 	
 	// 확인 입출금 목록(미완료)
-	public List<MoneyCheckDTO> getMoneyCheckList(){
-		return bidMoneyMapper.getMoneyCheckList();
+	public List<MoneyCheckDTO> getMoneyCheckList(int start,int end,String searchKey,String searchValue){
+		return bidMoneyMapper.getMoneyCheckList(start, end, searchKey, searchValue);
+	}
+	// 확인 입출금 리스트 수(미완료)
+	public int getMoneyCheckListCnt(String searchKey,String searchValue) {
+		return bidMoneyMapper.getMoneyCheckListCnt(searchKey, searchValue);
 	}
 	
 	// 관리자계좌 입출금 내역 조회

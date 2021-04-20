@@ -34,7 +34,6 @@
 	            		<option value="">카테고리</option>
 	            		<option value="mId">거래회원</option>
 	            		<option value="bMoType">입출금</option>
-	            		<option value="bMoDetail">상세정보</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
@@ -111,8 +110,8 @@
 			function insertBtn(){
 				window.open(
 					'/bidMoneyCheck',
-					'입출금 입력',
-					'width=1000, height=700, left=100, top=100, scrollbar=yes'
+					'입출금 확인',
+					'width=1100, height=600, left=100, top=100, scrollbar=yes'
 				);
 				
 			}

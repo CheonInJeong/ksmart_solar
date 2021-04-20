@@ -133,20 +133,39 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/bidMoneyInsert")
-	public String bidMoneyInsert(Model model, @RequestParam(name="Code", required=false) String Code) {
+	public String bidMoneyInsert(Model model
+								 , @RequestParam(name="Code", required=false) String Code
+								 , @RequestParam(name="searchKey", required=false) String searchKey
+								 , @RequestParam(name="searchValue", required=false) String searchValue
+								 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("입력할 코드 : " + Code);
 		MoneyCheckDTO check = bidMoneyService.getMoneyCheck(Code);
-		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
+		int count = bidMoneyService.getMoneyCheckListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList(start, end, searchKey, searchValue);
 		model.addAttribute("check", check);
 		model.addAttribute("moneyCheckList", moneyCheckList);
+		model.addAttribute("page", page);
 		return "/profit/bidMoneyInsert";
 	}
 	
 	@GetMapping("/bidMoneyCheck")
-	public String bidMoneyCheck(Model model) {
-		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
+	public String bidMoneyCheck(Model model
+								, @RequestParam(name="searchKey", required=false) String searchKey
+								, @RequestParam(name="searchValue", required=false) String searchValue
+								, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = bidMoneyService.getMoneyCheckListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList(start, end, searchKey, searchValue);
 		System.out.println(moneyCheckList);
 		model.addAttribute("moneyCheckList", moneyCheckList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/bidMoneyCheck";
 	}
 	

@@ -59,7 +59,9 @@ public interface BidMoneyMapper {
 	public MoneyCheckDTO getMoneyCheck(String Code);
 	
 	// 확인 입출금 목록(미완료)
-	public List<MoneyCheckDTO> getMoneyCheckList();
+	public List<MoneyCheckDTO> getMoneyCheckList(int start,int end,String searchKey,String searchValue);
+	// 확인 입출금 리스트 수(미완료)
+	public int getMoneyCheckListCnt(String searchKey,String searchValue);
 	
 	// 관리자계좌 입출금내역 조회
 	public List<BidMoneyDTO> getBidMoneyList(int start,int end,String searchKey,String searchValue);
