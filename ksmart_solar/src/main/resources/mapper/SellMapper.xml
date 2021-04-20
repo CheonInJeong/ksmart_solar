@@ -234,8 +234,13 @@
   		  <select id="getRecentlybPlCodeByGroupcode" resultType="String" parameterType="String">
   		  	select b_pl_code FROM tb_bid_plant WHERE b_pl_groupcode = #{bPlGroupcode} ORDER BY b_pl_date_decision2 DESC LIMIT 1
   		  </select>
-  		  <select id="getPlantAcStatusByCode" parameterType="String" resultMap = "bidPlantResultMap">
+  		  <select id="getPlantAcStatusByCode" parameterType="String" resultType = "int">
   		  	SELECT ac_status_code FROM tb_bid_plant WHERE b_pl_code = #{bPlCode}
+  		  
+  		  </select>
+  		  
+  		   <select id="getComponentAcStatusByCode" parameterType="String" resultType = "int">
+  		  	SELECT ac_status_code FROM tb_bid_component WHERE b_cp_code = #{bCpCode}
   		  
   		  </select>
   		  
@@ -1032,12 +1037,11 @@
 					b_deposit_check ='Y'
 				AND 
 					announced_code =#{code}
+				And tr_type_code=3
   		  
   		  </select>
   		  
   	
-  		  
-  		  
   		  
   		  <!--부품 코드로 부품 정보 조회  -->
   		  <select id="getComponentInformation" resultMap = "componentResultMap" parameterType="String">
