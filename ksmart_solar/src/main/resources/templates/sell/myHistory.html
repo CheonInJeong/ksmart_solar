@@ -51,7 +51,9 @@
                   	<td class="groupCode" th:text=${list.bPlGroupcode} style="display:none"></td>
                   	<td class="historyBPlCode" th:text=${list.bPlCode}></td>
        				<td th:text="${list.businessPlantDTO.bzPlName}"></td>
-                    <td style="text-align:left"><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
+       				<!--here!  -->
+                    <td th:if="${list.bRecently=='Y'}"style="text-align:left"><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}">[[${list.bPlTitle}]]</a></td>
+                    <td th:if="${list.bRecently=='N'}" style="text-align:left"><a th:href="@{/sell/bidPlantDetail(bPlCode=${list.bPlCode})}"><i class="glyphicon glyphicon-registration-mark"></i>[[${list.bPlTitle}]]</a></td>
                     <td th:text="${list.bPlPrice}" class="bPlPrice"></td>
                     <td th:text="${list.bPlDateBidding1}"></td>
                     <td th:text="${list.bPlDateBidding2}"></td>
@@ -120,7 +122,8 @@
                   <tr th:if="${bidComponentList!=null and bidComponentList.size()>0}" th:each="cp:${bidComponentList}">
                   	<td class="bCpCode"th:text=${cp.bCpCode}></td>
             		<td th:text="${cp.componentDTO.cpName}"></td>
-                    <td style="text-align:left"><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
+                    <td th:if="${cp.bRecently=='Y'}" style="text-align:left"><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}">[[${cp.bCpTitle}]]</a></td>
+                    <td  th:if="${cp.bRecently=='N'}"style="text-align:left"><a th:href="@{/sell/getBidComponentDetail(bCpCode=${cp.bCpCode})}"><i class="glyphicon glyphicon-registration-mark"></i>[[${cp.bCpTitle}]]</a></td>
                     <td th:text="${cp.bCpPrice}" class="bCpPrice"></td>
                     <td th:text="${cp.bCpDateBidding1}"></td>
                     <td th:text="${cp.bCpDateBidding2}"></td>

@@ -18,6 +18,7 @@
             	 <th:block th:each="p:${plant}">
 					<p>　　발전소 :  [[${p.businessPlantDTO.bzPlName}]]</p>
 	               	<p>　　공고제목 : [[${p.bPlTitle}]] </p>
+	               	<span style="float:right;"> ※ 낙찰자 결정기간(<span style="color:blue;">~[[${p.bPlDateDecision2}]]</span>)까지 결정된 높은 순위로 낙찰자우선자가 결정됩니다.</span>
 	               	<span style="display : none" id="bPlCode">[[${p.bPlCode}]]</span>
         		 </th:block> 
               <hr>

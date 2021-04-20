@@ -229,7 +229,11 @@
 				tb_trade_priority AS p 
 			ON 
 				i.tr_pr_code = p.tr_pr_code 
-			WHERE p.announced_code =#{announcedCode}
+			WHERE 
+				p.announced_code =#{announcedCode}
+			ORDER BY 
+				tr_pr_rank ASC
+			LIMIT 2
   		  	
   		  </select>
   		  
@@ -1040,7 +1044,7 @@
 					b_deposit_check ='Y'
 				AND 
 					announced_code =#{code}
-				And tr_type_code=3
+				And tr_type_code NOT IN (1,4,12)
   		  
   		  </select>
   		  
@@ -1091,7 +1095,8 @@
 					b.b_cp_status,
 					b.b_cp_date_bidding1,
 					b.b_cp_date_bidding2,
-					b.b_cp_bidder_number
+					b.b_cp_bidder_number,
+					b.b_recently
 				FROM 
 					tb_bid_component AS b
 				inner JOIN 
@@ -1226,7 +1231,8 @@
 					b.pl_dep_price,
 					b.pl_dep_start_date,
 					b.b_pl_date_bidding1,
-					bz.bz_pl_name
+					bz.bz_pl_name,
+					b.b_pl_date_decision2
 					
 				FROM 
 					tb_bid_plant as b 
@@ -1267,7 +1273,8 @@
 					b.b_pl_date_bidding2,
 					b.b_pl_status,
 					b.b_pl_number_of_bidder,
-					b.b_pl_groupcode
+					b.b_pl_groupcode,
+					b.b_recently
 				FROM 
 					tb_bid_plant AS b
 				left JOIN 

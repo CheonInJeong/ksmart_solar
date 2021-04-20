@@ -71,7 +71,6 @@
               		<td id="bRank">[[${member.bRank}]]</td>
               		<td><button type="button" class="btn btn-default" id="priorityBtn" data-attr="0">수정</button>
               		<button class="btn btn-default" id="cancel" style="display:none;">취소</button>
-              		
               		</td>
               	</tr>
               </table>
@@ -79,8 +78,8 @@
           </div>
         </div>
         
-        <div class="add-task-row" style="margin-top: 20px;">
-			<a th:href="@{/sell/plantBidderList(bPlCode=${member.announcedCode})}" class="btn btn-default btn-sm pull-right">목록</a>
+        <div class="add-task-row" style="margin-top: 20px;" id="back">
+			<a class="btn btn-default btn-sm pull-right">목록</a>
 		</div>
         
 	</th:block>
@@ -99,6 +98,8 @@
        		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   		  	}
   		  	
+			
+			
 			$(document).ready(function(){
 				$('#bPrice').text(comma($('#bPrice').text()));
 					
@@ -110,7 +111,18 @@
 				/*]]*/
 				var code = $('#bCode').text();
 				//서류적합성 수정 시작
-		
+						$('#back a').click(function(){
+							if(cpStatus!=null){
+							
+								location.href='/sell/componentBidderList?bCpCode='+$('#announcedCode').val();
+								
+							}else if(plStatus!=null){
+							
+								location.href='/sell/plantBidderList?bPlCode='+$('#announcedCode').val();
+							}
+							
+						})
+				
 					$('#documentYnBtn').click(function(){
 			
 							if(plStatus == 4 || plStatus== 5||cpStatus==4 ||cpStatus==5){
