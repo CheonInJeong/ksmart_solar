@@ -89,6 +89,96 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bzPlInvMaker" 		column="bz_pl_inv_maker" />	
 		<result property="bzPlRec" 				column="bz_pl_rec" />	
 	</resultMap>
+	
+	<!-- 공고신청 발전소 상세보기  -->
+	<select id="getNotice" parameterType="String" resultMap="BidPlantDTOMap">
+		SELECT 
+			  b_pl_code
+			, bz_pl_code
+			, m_id as sell_id
+			, b_pl_title
+			, b_pl_contents
+			, b_pl_price
+			, pl_dep_data_residual
+			, b_recently
+			, pl_dep_price
+			, pl_dep_start_date
+			, b_pl_status
+			, ac_status_code
+			, b_pl_number_of_bidder
+			, b_pl_date_request
+			, b_pl_date_bidding1
+			, b_pl_date_bidding2
+			, b_pl_date_decision1
+			, b_pl_date_decision2
+			, b_pl_groupcode
+			, b_pl_re_count
+			, b_pl_confirm
+			, b_pl_confirm_status
+			, b_pl_reject_reason
+			, b_pl_cancel_reason
+			, b_pl_cancel_date
+		FROM 
+			tb_bid_plant
+		WHERE
+			b_pl_code = #{bPlCode}
+		</select>	
+	
+	<!-- 전체 공고신청 발전소 조회 -->
+	<select id="getPlantNoticeAdmitList" resultMap="BidPlantDTOMap">
+		SELECT 
+			  b_pl_code
+			, bz_pl_code
+			, m_id as sell_id
+			, b_pl_title
+			, b_pl_contents
+			, b_pl_price
+			, pl_dep_data_residual
+			, b_recently
+			, pl_dep_price
+			, pl_dep_start_date
+			, b_pl_status
+			, ac_status_code
+			, b_pl_number_of_bidder
+			, b_pl_date_request
+			, b_pl_date_bidding1
+			, b_pl_date_bidding2
+			, b_pl_date_decision1
+			, b_pl_date_decision2
+			, b_pl_groupcode
+			, b_pl_re_count
+			, b_pl_confirm
+			, b_pl_confirm_status
+			, b_pl_reject_reason
+			, b_pl_cancel_reason
+			, b_pl_cancel_date
+		FROM 
+			tb_bid_plant
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 공고신청 발전소 리스트 수 -->
+	<select id="getPlantNoticeAdmitListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_bid_plant
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
+	</select>
+	
+	
 	<!-- 등록 발전소공고 조회(판매자아이디) -->
 	<select id="getBidPlantById" resultMap="BidPlantDTOMap">
 		SELECT 

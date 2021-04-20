@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="layout/default">
+
+	<th:block layout:fragment="customTitle">
+				<title>공고정보</title>
+	</th:block>
+	<th:block layout:fragment="Contents">
+		<style>
+			body{
+			position : relative;
+			}
+		</style>
+		<div id="container-header-title"><strong>공고정보</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 공고정보 </a>
+		</div>
+		<div id="container-header-space"></div>
+		<div class="col-md-12 mt">
+		<input type="hidden" id="bCpReCount" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpReCount}">
+		<input type="hidden" id="bCpGroupcode" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpGroupcode}">
+		<input type="hidden" id="bPlReCount" 	th:if="${bidPlantdto!=null}" 		th:value="${bidPlantdto.bPlReCount}">
+		<input type="hidden" id="bPlGroupcode" 	th:if="${bidPlantdto!=null}"		th:value="${bidPlantdto.bPlGroupcode}">
+		
+	
+      	<ul class="nav nav-tabs nav-justified" id="myNav" >
+		  <li role="presentation" class="active" ><a href="#section1">공고정보</a></li>
+		  <li role="presentation" th:if="${bidComponentdto!=null}"><a href="#section2">부품정보</a></li>
+		  <li role="presentation" th:if="${bidPlantdto!=null}"><a href="#section3">발전소정보</a></li>
+		  <li role="presentation"
+		  	  th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=1 and bidListDTO.trTypeCode<=10) 
+       	 		or (bidListDTO != null and bidListDTO.trTypeCode==15)}">
+       	 		<a href="#section4">입찰 정보</a>
+       	 	</li>
+		  <li role="presentation"
+		  	  th:if="${bidListDTO != null and tradePaymentInDTO!=null and bidListDTO.trTypeCode>=11 and bidListDTO.trTypeCode<=14}">
+		  	  <a href="#section5">납부 정보</a>
+		  	 </li>
+		</ul>
+		<form id="bidComponentForm" action="/notice/bidRequest" method="post">
+            <div class="row" th:if="${bidComponentdto!=null}" id="section1">
+            	<input type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
+				<input type="hidden" name="announcedTitle" 	th:value="${bidComponentdto.bCpTitle}">
+				<input type="hidden" name="announcedPrice" 	th:value="${bidComponentdto.bCpPrice}">
+				<input type="hidden" name="announcedType" 	th:value="${2}">
+				<input type="hidden" name="url">
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+	              <h4><i class="fa fa-angle-right"></i>부품 공고</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td th:text="${bidComponentdto.bCpCode}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>재공고 여부</td>
+	                    <td >
+	                    	<div th:if="${bidComponentdto.bCpReCount==0}">신규</div>
+		              		<div th:if="${bidComponentdto.bCpReCount>0}">재공고</div>
+	                    </td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td th:text="${bidComponentdto.bCpTitle}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td th:text="${bidComponentdto.bCpContents}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰 시작가</td>
+	                  	<td class="price" th:text="${bidComponentdto.bCpPrice+'원'}"></td>
+	                  	<td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${bidComponentdto.bCpDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${bidComponentdto.bCpDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정시작일</td>
+	               		<td th:text="${bidComponentdto.bCpDateDecision1}"></td>
+	                  	<td>입찰자결정마감일</td>
+	                  	<td th:text="${bidComponentdto.bCpDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>진행상태</td>
+	                  	<td th:text=${bidComponentdto.bCpStatus}></td>
+	                  	<td colspan="2"></td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+          </div>
+    	</form>
+        
+        
+        
+        <form id="bidPlantForm" action="/notice/bidRequest" method="post" >
+	        <div class="row" th:if="${bidPlantdto!=null}" id="section1">
+	        	<input type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+				<input type="hidden" name="announcedTitle" th:value="${bidPlantdto.bPlTitle}">
+				<input type="hidden" name="announcedPrice" th:value="${bidPlantdto.bPlPrice}">
+				<input type="hidden" name="announcedType" th:value="${1}">
+				<input type="hidden" name="url">
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+	              <h4><i class="fa fa-angle-right"></i>발전소 공고</h4>
+	              <hr>
+	              <table class="table">
+	                <tbody>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td th:text="${bidPlantdto.bPlCode}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>재공고 여부</td>
+	                    <td>
+	                    	<div th:if="${bidPlantdto.bPlReCount==0}">신규</div>
+		              		<div th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
+	                    </td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td th:text="${bidPlantdto.bPlTitle}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td th:text="${bidPlantdto.bPlContents}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰 시작가</td>
+	                  	<td class="price" th:text="${bidPlantdto.bPlPrice+'원'}"></td>
+	                  	<td colspan="2"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${bidPlantdto.bPlDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${bidPlantdto.bPlDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정시작일</td>
+	               		<td th:text="${bidPlantdto.bPlDateDecision1}"></td>
+	                  	<td>입찰자결정마감일</td>
+	                  	<td th:text="${bidPlantdto.bPlDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>진행상태</td>
+	                  	<td th:text=${bidPlantdto.bPlStatus}></td>
+	                  	<td colspan="2"></td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+          </div>
+        </form>
+        <div th:include="notice/plantInfo :: plantInfoFragment" 
+        	 th:if="${bidPlantdto!=null and businessPlantDTO!=null}" id="section3"></div>
+        <div th:include="notice/componentInfo :: componentInfoFragment" 
+        	 th:if="${bidComponentdto!=null}" id="section2"></div>
+        <div th:include="notice/bidResult :: bidResultFragment" 
+        	 th:if="${(bidListDTO != null and bidListDTO.trTypeCode>=1 and bidListDTO.trTypeCode<=10) 
+        	 		or (bidListDTO != null and bidListDTO.trTypeCode==15)}" id="section4"></div>
+        <div th:include="notice/paymentInResult :: paymentInResultFragment" id="section5"
+        	 th:if="${bidListDTO != null and tradePaymentInDTO!=null and bidListDTO.trTypeCode>=11 and bidListDTO.trTypeCode<=14}"></div>
+		<div class="row" style="margin: 5px 0px;">
+			<div class="form-inline" style="text-align: center;">
+				<div>[[${past}]]</div>
+				<th:block th:if="${level!='관리자' and level!='일반회원' and id!=null
+								and ((bidComponentdto!=null and id!=bidComponentdto.mId) 
+								or (bidPlantdto!=null and id!=bidPlantdto.mId))}">
+					<th:block th:if="${past==null or (past!=null and past!='과거')}">
+						<div class="form-group" th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
+															or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
+					 		<button id="bidComponentBtn" class="btn btn-default">입찰신청</button>
+						</div>
+						
+						<div class="form-group" th:if="${(bidPlantdto != null and bidPlantdto.acStatusCode==4 and getBidListCount==0)
+															or (bidPlantdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
+					 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
+						</div>
+						<form class="form-group" action="/notice/bidCancel" method="post">
+							<div class="form-group" th:if="${bidListDTO != null and bidListDTO.trTypeCode==3}">
+								<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+						 		<button type="submit" class="btn btn-default">입찰취소</button>
+							</div>
+						</form>
+						<form class="form-group" action="/notice/paymentInRequest" method="post">
+							<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11 and tradePaymentInDTO.mAccountBankName==null}">
+								<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+								<input type="hidden" name="url">					
+						 		<button id="paymantIn" type="submit" class="btn btn-default">대금 납부</button>
+							</div>
+						</form>
+						<form class="form-group" action="/notice/modifyPaymentIn" method="post">
+							<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==11 and tradePaymentInDTO.mAccountBankName!=null}">
+								<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+								<input type="hidden" name="url">					
+						 		<button type="submit" class="btn btn-default">대금 납부 수정</button>
+							</div>
+						</form>
+						<form class="form-group" action="/notice/modifyBidRequest" method="post">
+							<div th:if="${bidListDTO != null and bidListDTO.trTypeCode==1}">
+								<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+								<input type="hidden" name="url">
+								<input type="hidden" name="announcedPrice" th:if="${bidComponentdto!=null}" th:value="${bidComponentdto.bCpPrice}">
+						 		<input type="hidden" name="announcedPrice" th:if="${bidPlantdto!=null}" th:value="${bidPlantdto.bPlPrice}">
+						 		<button type="submit" class="btn btn-default">입찰 수정</button>
+							</div>
+						</form> 
+						<form class="form-group" action="/notice/tradeCancel" method="post" th:if="${bidListDTO != null and bidListDTO.trTypeCode == 6}">
+							<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
+							<input type="hidden" name="url">
+							<div class="form-group">
+					 			<button type="submit" class="btn btn-default">계약 취소</button>
+							</div>
+						</form>
+						<form class="form-group" action="/notice/qnaRequest" method="post">
+							<input th:if="${bidComponentdto!=null}" type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">
+							<input th:if="${bidComponentdto!=null}" type="hidden" name="mIdSeller" th:value="${bidComponentdto.mId}">
+							<input th:if="${bidComponentdto!=null}" type="hidden" name="bBidType" value="2">
+							<input th:if="${bidPlantdto!=null}" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
+							<input th:if="${bidPlantdto!=null}" type="hidden" name="mIdSeller" th:value="${bidPlantdto.mId}">
+							<input th:if="${bidPlantdto!=null}" type="hidden" name="bBidType" value="1">
+							<input type="hidden" name="url">
+							<div class="form-group">
+					 			<button type="submit" class="btn btn-default">문의하기</button>
+							</div>
+						</form>
+						
+		        		<!--찜하기  -->
+		        		<th:block th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
+															or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
+				        	<form class="form-group" action="/mypage/addWishlist" method="post">
+								<input th:if="${bidComponentdto != null}" type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">	        	
+								<input th:if="${bidPlantdto != null}" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">					
+					        	<button class="btn btn-warning center-block" type="submit" >찜하기</button>
+				        	</form>
+			        	</th:block>
+					</th:block>
+				</th:block>
+	        	<a class="form-group" id="returnPage">
+		        	<button class="btn btn-default center-block" type="button" >돌아가기</button>
+	        	</a>
+			</div>
+		</div>
+		</div>
+	</th:block>
+	
+	<th:block layout:fragment="customScript">
+		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+		<script type="text/javascript">
+			var link = document.referrer;
+			console.log(link.indexOf("?"));
+			if(link.indexOf("?")>0){
+				link = link.substring(0,link.indexOf("?"));
+			}
+			console.log(link);
+			$('#returnPage').attr('href',link);
+			var linkArr = link.split('/');
+			var link2 = ('/'+linkArr[linkArr.length-2]+'/'+linkArr[linkArr.length-1])
+			var firstUrl = $('#firstUrl');
+			var secondUrl = $('#secondUrl');
+			var thirdUrl = $('#thirdUrl');
+			var a = $('a');
+			a.each(function(){
+				if($(this).attr('href')==link2){
+					$(this).parent().parent().parent().children().eq(0).addClass('active');
+					$(this).parent().parent().css('display','block');
+					$(this).parent().addClass('active');
+					firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
+					secondUrl.text($(this).parent().text());
+					secondUrl.attr('href',$(this).prop('href'));
+				}
+			});
+			var url = $('[name="url"]')
+			url.val(link2);
+			$(function(){
+				var price = $('.price');
+				price.each(function(){
+					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
+				})
+			})
+			var bCpReCount = $('#bCpReCount');
+			var bPlReCount = $('#bPlReCount');
+			var bCpGroupcode = $('#bCpGroupcode');
+			var bPlGroupcode = $('#bPlGroupcode');
+			$('#bidComponentBtn').click(function(){
+				if(!bidReCount(bCpReCount,bCpGroupcode)){
+					return false;
+				}
+				$('#bidComponentForm').submit();
+			});
+			$('#bidPlantBtn').click(function(){
+				if(!bidReCount(bPlReCount,bPlGroupcode)){
+					return false;
+				}
+				$('#bidPlantForm').submit();
+			});
+			
+			function bidReCount (ReCount,bGroupcode){
+				var result = true;
+				if(ReCount.val()>0){
+					var count = 0;
+					$.ajax({
+						  url: '/ajax/reBidCount', 
+						  method: 'get',
+						  data : {bGroupcode : bGroupcode.val()},
+						  async:false,
+						  success: function(data){
+							  if(data > 0){
+								  console.log(data);
+								  count = data;
+								  Swal.fire({
+									  title: '입찰실패!',
+									  text: '이전공고에서 계약취소 또는 대금 미납하셔서 입찰하실 수 없습니다.',
+									  icon: 'error'
+									});
+							  }
+						  },
+						  error : function(xhr,status,error){
+							  console.log("xhr: " + xhr);
+							  console.log("status: " + status);
+							  console.log("error: " + error);
+						  }
+					});
+					console.log(count);
+					if(count!=0){
+						console.log('입찰못함')
+						result = false;
+					}
+				}
+				return result;
+			}
+		</script>
+		<script>
+			$(document).ready(function(){
+				 // Add scrollspy to <body>
+				 $('body').scrollspy({target: ".navbar", offset: 50}); 
+				
+				 // Add smooth scrolling on all links inside the navbar
+				 $("#myNav a").on('click', function(event) {
+					 $(this).parent().parent().children().each(function(){
+						$(this).removeClass('active');
+					 });
+					 $(this).parent().addClass('active');
+					 // Make sure this.hash has a value before overriding default behavior
+					 if (this.hash !== "") {
+						 // Prevent default anchor click behavior
+						 event.preventDefault();
+						
+						 // Store hash
+						 var hash = this.hash;
+						
+						 // Using jQuery's animate() method to add smooth page scroll
+						 // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+						 $('html, body').animate({
+						 scrollTop: $(hash).offset().top
+						 }, 800, function(){
+						 
+						 // Add hash (#) to URL when done scrolling (default click behavior)
+						 window.location.hash = hash;
+						 });
+					 } // End if
+				 });
+			});
+	</script>
+	</th:block>
+	
+</html>
+

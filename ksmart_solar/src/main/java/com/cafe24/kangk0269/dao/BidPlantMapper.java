@@ -6,10 +6,21 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 
 @Mapper
 public interface BidPlantMapper {
+	
+	// 공고신청 발전소 상세보기
+	public BidPlantDTO getNotice(String bPlCode);
+	
+	// 전체 공고신청 발전소 조회
+	public List<BidPlantDTO> getPlantNoticeAdmitList(int start,int end,String searchKey,String searchValue);
+	
+	// 공고신청 발전소 리스트 수
+	public int getPlantNoticeAdmitListCnt(String searchKey,String searchValue);
+	
 	//등록 발전소공고 조회(판매자아이디)
 	public List<BidPlantDTO> getBidPlantById(String mId); 
 	
