@@ -212,8 +212,9 @@ public class SellController {
 		boolean rankCheck = false;
 
 		  List<BidListDTO> rankList = sellService.rankCheck(code); 
+		  
 		  for(int i=0;i<rankList.size();i++) {
-			 
+			 System.out.println(rankList.get(i).getbRank());
 			  if(rankList.get(i).getbRank()==rank) {
 				  rankCheck = true; 
 			  }
@@ -240,11 +241,21 @@ public class SellController {
 	//입찰자 정보 보기 (회원정보+입찰내용)
 	@GetMapping("/sell/bidderDetail")
 	public String bidderDetail(@RequestParam(value="bCode") String bCode,
-								@RequestParam(value="bPlCode") String bPlCode,
+								@RequestParam(value="bPlCode",required = false ) String bPlCode, 
+								@RequestParam(value="bCpCode",required = false ) String bCpCode, 
 							   Model model) throws Exception {
 		model.addAttribute("member", sellService.getBuyerInfoByCode(bCode));
 		model.addAttribute("file",sellService.getBidderFileList(bCode));
-		model.addAttribute("status",sellService.getPlantAcStatusByCode(bPlCode));
+		
+		System.out.println(bCpCode+"<---bCpcode");
+		System.out.println(bPlCode+"<---bPlCode");
+		if(bPlCode!=null) {
+			model.addAttribute("status",sellService.getPlantAcStatusByCode(bPlCode));
+		}
+		if(bCpCode!=null) {
+			System.out.println(sellService.getComponentAcStatusByCode(bCpCode)+"<------");
+			model.addAttribute("cpStatus", sellService.getComponentAcStatusByCode(bCpCode));
+		}
 		return "sell/bidderDetail";
 	}
 	

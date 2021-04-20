@@ -5,16 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartResolver;
 
 import com.cafe24.kangk0269.api.KakaoLoginApi;
+import com.cafe24.kangk0269.dao.ComponentMapper;
 import com.cafe24.kangk0269.dao.MemberMapper;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
@@ -28,10 +32,12 @@ public class MemberService {
 	private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 	
 	private final MemberMapper memberMapper;
+	private final ComponentMapper componentMapper;
 	
 	@Autowired
-	public MemberService(MemberMapper memberMapper) {
+	public MemberService(MemberMapper memberMapper,ComponentMapper componentMapper) {
 		this.memberMapper = memberMapper;
+		this.componentMapper = componentMapper;
 	}
 	
 	@PostConstruct
@@ -56,8 +62,34 @@ public class MemberService {
 	}
 	
 	// 전체회원계좌 조회
-	public List<MemberAccountDTO> getAllBankAccount(){
-		return memberMapper.getAllBankAccount();
+	public List<MemberAccountDTO> getAllBankAccount(int start, int end, String searchKey, String searchValue){
+		if(searchKey != null && searchKey != "") {
+			if("mAccountBank".equals(searchKey)) {
+				searchKey = "m_account_bank";
+			}else if("mId".equals(searchKey)){
+				searchKey = "m_id";
+			}else if("mAccountName".equals(searchKey)){
+				searchKey = "m_account_name";
+			}else {
+				searchKey = "m_account_check";
+			}
+		}
+		return memberMapper.getAllBankAccount(start, end, searchKey, searchValue);
+	}
+	//전체회원계좌 리스트 수 조회
+	public int getAllBankAccountCnt(String searchKey, String searchValue) {
+		if(searchKey != null && searchKey != "") {
+			if("mAccountBank".equals(searchKey)) {
+				searchKey = "m_account_bank";
+			}else if("mId".equals(searchKey)){
+				searchKey = "m_id";
+			}else if("mAccountName".equals(searchKey)){
+				searchKey = "m_account_name";
+			}else {
+				searchKey = "m_account_check";
+			}
+		}
+		return memberMapper.getAllBankAccountCnt(searchKey, searchValue);
 	}
 	
 	// 탈퇴신청회원 조회
@@ -254,7 +286,7 @@ public class MemberService {
 	
 	// 활동회원조회
 	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM){
-		if(searchKeyAM != null) {
+		if(searchKeyAM != null && searchKeyAM != "") {
 			if("mId".equals(searchKeyAM)) {
 				searchKeyAM = "m_id";
 			}else if("mName".equals(searchKeyAM)) {
@@ -290,7 +322,7 @@ public class MemberService {
 	}
 	// 활동회원 리스트 수 조회
 	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM) {
-		if(searchKeyAM != null) {
+		if(searchKeyAM != null && searchKeyAM != "") {
 			if("mId".equals(searchKeyAM)) {
 				searchKeyAM = "m_id";
 			}else if("mName".equals(searchKeyAM)) {
@@ -308,7 +340,7 @@ public class MemberService {
 	
 	// 휴면회원조회
 	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM){
-		if(searchKeyRM != null) {
+		if(searchKeyRM != null && searchKeyRM != "") {
 			if("mId".equals(searchKeyRM)) {
 				searchKeyRM = "m_id";
 			}else if("mName".equals(searchKeyRM)) {
@@ -344,7 +376,7 @@ public class MemberService {
 	}
 	// 휴면회원 리스트 수 조회
 	public int getRestMemberCnt(String searchKeyRM, String searchValueRM) {
-		if(searchKeyRM != null) {
+		if(searchKeyRM != null  && searchKeyRM != "") {
 			if("mId".equals(searchKeyRM)) {
 				searchKeyRM = "m_id";
 			}else if("mName".equals(searchKeyRM)) {
@@ -358,5 +390,10 @@ public class MemberService {
 			}
 		}
 		return memberMapper.getRestMemberCnt(searchKeyRM, searchValueRM);
+	}
+	
+	// 상세회원정보 - 보유부품
+	public List<ComponentDTO> getComponentListById(String mId) {
+		return componentMapper.getComponentListById(mId);
 	}
 }

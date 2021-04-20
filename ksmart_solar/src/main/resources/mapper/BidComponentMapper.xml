@@ -26,7 +26,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bCpCancelReason" 	column="b_cp_cancel_reason" />	
 		<result property="bCpCancelDate" 	column="b_cp_cancel_date" />	
 		<result property="acStatusCode" 	column="ac_status_code" />
-		<collection property="bidListDTOList" 		ofType="bidListDTO">
+		<collection property="bidListDTOList" 		ofType="BidListDTO">
     		<id 	property="bCode" 				column="b_code"/>
 			<result property="announcedCode" 		column="announced_code" />
 			<result property="bTypeCode" 			column="b_type_code" />
@@ -39,9 +39,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<result property="bDepositDate" 		column="b_deposit_date" />
 			<result property="trTypeCode" 			column="tr_type_code" />
 			<result property="trTypeName" 			column="tr_type_name" />
-			<result property="dcInstructions" 		column="dc_instructions" />
-			<result property="dcApplication" 		column="dc_application" />
-			<result property="dcProposal" 			column="dc_proposal" />
 			<result property="bDate" 				column="b_date" />
 			<result property="bCheck" 				column="b_check" />
 			<result property="bRank" 				column="b_rank" />
@@ -51,7 +48,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
    		</collection>
 		<collection property="bidListDTO" 		resultMap="bidListDTOMap" />
 	</resultMap>
-	<resultMap type="bidListDTO" id="bidListDTOMap">
+	<resultMap type="BidListDTO" id="bidListDTOMap">
 		<id 	property="bCode" 				column="b_code"/>
 		<result property="announcedCode" 		column="announced_code" />
 		<result property="bTypeCode" 			column="b_type_code" />
@@ -65,9 +62,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bDepositDate" 		column="b_deposit_date" />
 		<result property="trTypeCode" 			column="tr_type_code" />
 		<result property="trTypeName" 			column="tr_type_name" />
-		<result property="dcInstructions" 		column="dc_instructions" />
-		<result property="dcApplication" 		column="dc_application" />
-		<result property="dcProposal" 			column="dc_proposal" />
 		<result property="bDate" 				column="b_date" />
 		<result property="bCheck" 				column="b_check" />
 		<result property="bRank" 				column="b_rank" />
@@ -173,6 +167,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</select>
 	<select id="getBidComponentMyBid" resultMap="BidComponentDTOMap" parameterType="map">
 		SELECT 
+			li.b_code,
 			com.b_cp_title,
 			com.b_cp_code,
 			li.tr_type_name,
@@ -244,6 +239,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<if test="bStatus!=null and bStatus.toString()=='거래진행중'.toString()">
 			CAST(b_cp_date_decision2 AS DATE) = CURDATE()
 		</if>
+		<if test="bStatus!=null and bStatus.toString()=='거래실패'.toString()">
+			CAST(b_cp_date_decision1 AS DATE) = CURDATE()
+		</if>
 			AND ac_status_code = #{status}
 	</select>
 	<!-- 낙찰자 선택 마감날 1순위로 선정된 사람 -->
@@ -269,6 +267,22 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				 #{item}
 		  	</foreach>
 	</select>
+	<select id="getBidComTradeNext" parameterType="map" resultMap="BidComponentDTOMap">
+		SELECT
+			cp.m_id AS sell_id,
+			cp.*,
+			bl.m_id AS buy_id,
+			bl.*
+		FROM
+			tb_bid_component AS cp
+		JOIN
+			tb_bid_list AS bl
+		ON cp.b_cp_code = bl.announced_code
+		WHERE
+			bl.b_rank = #{rank}
+		AND
+			bl.announced_code =#{announcedCode}
+	</select>
 	<select id="getComponentBidList" resultType="int">
 		SELECT
 			COUNT(1)
@@ -281,4 +295,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			announced_code = #{announcedCode}
 			AND b_rank IS NOT null
 	</select>
+	<update id="updateComponentFail" parameterType="String">
+		UPDATE tb_bid_component
+		SET
+			ac_status_code=9,
+			b_cp_status = '거래실패'
+		WHERE 
+			b_cp_code = #{announcedCode}
+	</update>
 </mapper>

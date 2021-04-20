@@ -177,7 +177,7 @@ public class NoticeController {
 	//공고 상세 정보 페이지
 	@PostMapping("/notice/announcement")
 	public String Announcement(String announceCode, String announceType, Model model,
-							   HttpSession session) throws Exception {
+							   HttpSession session,String bCode) throws Exception {
 		BidListDTO bidListDTO 				= null;
 		BidPlantDTO bidPlantdto 			= null;
 		BusinessPlantDTO businessPlantDTO 	= null;
@@ -202,14 +202,33 @@ public class NoticeController {
 		model.addAttribute("getBidListCount",getBidListCount);
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
-			//이미 입찰을 했다면 입찰한 정보를 보여준다.
 			bidListDTO = bidListService.getBidList(announceCode,id);
-			if(bidListDTO!=null) {
-				List<FileDTO> fileList = bidListService.getBidFileList(bidListDTO.getbCode());
-				System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
-				System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
-				model.addAttribute("bidListDTO",bidListDTO);
-				model.addAttribute("fileList",fileList);
+			System.out.println(bCode+"----------------------------------bCode");
+			System.out.println(bCode instanceof String);
+			if(bCode==null) {
+				//이미 입찰을 했다면 입찰한 정보를 보여준다.
+				if(bidListDTO!=null) {
+					List<FileDTO> fileList = bidListService.getBidFileList(bidListDTO.getbCode());
+					System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
+					System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
+					model.addAttribute("bidListDTO",bidListDTO);
+					model.addAttribute("fileList",fileList);
+				}
+			}else {
+				//이미 입찰을 했다면 입찰한 정보를 보여준다.
+				BidListDTO bidListDTOpast = bidListService.getBidList(announceCode,id,bCode);
+				if(!bidListDTOpast.getbCode().equals(bidListDTO.getbCode())) {
+					System.out.println("과거");
+					model.addAttribute("past","과거");
+				}
+				bidListDTO = bidListDTOpast;
+				if(bidListDTO!=null) {
+					List<FileDTO> fileList = bidListService.getBidFileList(bCode);
+					System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
+					System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
+					model.addAttribute("bidListDTO",bidListDTO);
+					model.addAttribute("fileList",fileList);
+				}
 			}
 		}
 		//발전소 공고라면 발전소 정보와 발전소 공고의 정보를 가져온다.
@@ -366,10 +385,10 @@ public class NoticeController {
 	}
 	//계약 취소
 	@PostMapping("/notice/tradeCancel")
-	public String tradeCancel(String bCode) {
+	public String tradeCancel(String bCode,String url) {
 		System.out.println(bCode);
 		bidListService.tradeCancel(bCode);
-		return "redirect:/notice/noticeList";
+		return "redirect:"+url;
 	}
 	@PostMapping("/notice/qnaRequest")
 	public String qnaRequest(BoardSellerDTO boardSellerDTO,

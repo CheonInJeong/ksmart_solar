@@ -62,9 +62,42 @@ public class PlantService {
 	}
 	
 	// 전체 발전소 인증 신청 목록
-	public List<BusinessPlantDTO> getAllPlantAdmitList() {
-
-		return plantMapper.getAllPlantAdmitList();
+	public List<BusinessPlantDTO> getAllPlantAdmitList(int start, int end, String searchKey, String searchValue) {
+		if(searchKey != null && searchKey != "") {
+			if("bzPlCode".equals(searchKey)) {
+				searchKey = "bz_pl_code";
+			}else if("mId".equals(searchKey)){
+				searchKey = "m_id";
+			}else if("bzPlName".equals(searchKey)){
+				searchKey = "bz_pl_name";
+			}else if("bzPlAddr".equals(searchKey)){
+				searchKey = "bz_pl_addr";
+			}else if("bzPlHardware".equals(searchKey)){
+				searchKey = "bz_pl_hardware";
+			}else {
+				searchKey = "bz_pl_check";
+			}
+		}
+		return plantMapper.getAllPlantAdmitList(start, end, searchKey, searchValue);
+	}
+	// 발전소인증신청 리스트 수
+	public int getAllPlantAdmitListCnt(String searchKey, String searchValue) {
+		if(searchKey != null && searchKey != "") {
+			if("bzPlCode".equals(searchKey)) {
+				searchKey = "bz_pl_code";
+			}else if("mId".equals(searchKey)){
+				searchKey = "m_id";
+			}else if("bzPlName".equals(searchKey)){
+				searchKey = "bz_pl_name";
+			}else if("bzPlAddr".equals(searchKey)){
+				searchKey = "bz_pl_addr";
+			}else if("bzPlHardware".equals(searchKey)){
+				searchKey = "bz_pl_hardware";
+			}else {
+				searchKey = "bz_pl_check";
+			}
+		}
+		return plantMapper.getAllPlantAdmitListCnt(searchKey, searchValue);
 	}
 	
 	public List<BusinessPlantDTO> getPlantListById(String SID){

@@ -16,6 +16,7 @@ public class MoneyCheckDTO {
 	private String accountNumber;
 	private String accountName;
 	private String moCode;
+	private String admitDate;
 	public String getCode() {
 		return Code;
 	}
@@ -100,6 +101,12 @@ public class MoneyCheckDTO {
 	public void setMoCode(String moCode) {
 		this.moCode = moCode;
 	}
+	public String getAdmitDate() {
+		return admitDate;
+	}
+	public void setAdmitDate(String admitDate) {
+		this.admitDate = admitDate;
+	}
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
@@ -131,6 +138,8 @@ public class MoneyCheckDTO {
 		builder.append(accountName);
 		builder.append(", moCode=");
 		builder.append(moCode);
+		builder.append(", admitDate=");
+		builder.append(admitDate);
 		builder.append("]");
 		return builder.toString();
 	}

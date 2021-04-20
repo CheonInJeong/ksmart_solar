@@ -38,7 +38,7 @@
 	        			<p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="40"></p>
 	                  </div>						
 	                
-	                 <input type="file" id="inputFile" name="mPhoto" accept="image/*" />
+	                 <input type="file" id="inputFile" name="mPhoto" accept="image/*"/>
  					<div class="selectImg"><img class="img-circle" src=""  /></div>
 	                
 					</div>
@@ -112,7 +112,7 @@
 		mypage.parent().find('.sub').css('display', 'block');
 		mypage.parent().find('.sub').children().eq(0).addClass('active');
 
-		//유효성검사
+		//유효성검사 & 프로필사진 설정
 		$('#modifyBtn').click(function() {
 			if ($('[name="mName"]').val() == '') {
 				alert('이름을 입력해주세요.');
@@ -144,11 +144,10 @@
 				$('[name="mDetailAddr"]').focus();
 				return false;
 			}
-		})
 		
 		
 			///////////////////////////파일 업로드 ImgBB///////////////////////////////
-	
+		
 			var file = document.getElementById('inputFile');
 			var form = new FormData();
 			form.append("image", file.files[0])
@@ -170,12 +169,14 @@
 			  console.log(jx.data.url);
 			  console.log(jx.data.delete_url)
 			  
-			  fileURL = jx.data.url;
+			  var fileURL = jx.data.url;
 			  fileDeleteURL = jx.data.delete_url;
+			  
 			});
 			
 			
-		
+			
+		})
 			
 		//프로필 썸네일 
 		  $("#inputFile").change(function(){

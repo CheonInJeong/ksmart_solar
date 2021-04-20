@@ -33,6 +33,10 @@ public interface BidPlantMapper {
 	public List<String> getPlantSatusList(@Param(value="status")int status,@Param(value="bStatus")String bStatus);
 	//거래진행중인 공고들의 계약중인 사람중 1순위
 	public List<BidPlantDTO> getBidPlantTradeList(List<String> plantList);
+	//공고 상태 거래실패로 변경
+	public int updatePlantFail(String announcedCode);
+	public BidPlantDTO getBidPlantTradeNext(@Param(value="announcedCode") String announcedCode
+			 								,@Param(value="rank") int rank );
 	//본인이 입찰한 부품의 공고 횟수
 	public int getBidPlantCount(@Param(value="mId") String mId
 								,@Param(value="searchKeyPl") String searchKeyPl

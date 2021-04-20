@@ -58,16 +58,16 @@ public class BusinessService {
 	
 	// 전체 사업자신청 조회
 	public List<BusinessDTO> getAllBusinessAdmitList(int start,int end,String searchKey,String searchValue){
-		if(searchKey != null) {
-			if("mId".equals(searchValue)) {
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
 				searchKey = "m_id";
-			}else if("bzCompanyName".equals(searchValue)) {
+			}else if("bzCompanyName".equals(searchKey)) {
 				searchKey = "bz_company_name";
-			}else if("bzCeoName".equals(searchValue)) {
+			}else if("bzCeoName".equals(searchKey)) {
 				searchKey = "bz_ceo_name";
-			}else if("bzPlace".equals(searchValue)) {
+			}else if("bzPlace".equals(searchKey)) {
 				searchKey = "bz_place";
-			}else if("bzType".equals(searchValue)){
+			}else if("bzType".equals(searchKey)){
 				searchKey = "bz_type";
 			}else {
 				searchKey = "bz_check";
@@ -77,16 +77,16 @@ public class BusinessService {
 	}
 	// 사업자인증신청 리스트 수
 	public int getAllBusinessAdmitListCnt(String searchKey,String searchValue) {
-		if(searchKey != null) {
-			if("mId".equals(searchValue)) {
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
 				searchKey = "m_id";
-			}else if("bzCompanyName".equals(searchValue)) {
+			}else if("bzCompanyName".equals(searchKey)) {
 				searchKey = "bz_company_name";
-			}else if("bzCeoName".equals(searchValue)) {
+			}else if("bzCeoName".equals(searchKey)) {
 				searchKey = "bz_ceo_name";
-			}else if("bzPlace".equals(searchValue)) {
+			}else if("bzPlace".equals(searchKey)) {
 				searchKey = "bz_place";
-			}else if("bzType".equals(searchValue)){
+			}else if("bzType".equals(searchKey)){
 				searchKey = "bz_type";
 			}else {
 				searchKey = "bz_check";

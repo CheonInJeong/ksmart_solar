@@ -16,6 +16,7 @@ import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MoneyCheckDTO;
+import com.cafe24.kangk0269.dto.PageDTO;
 import com.cafe24.kangk0269.dto.TradeDepositOutDTO;
 import com.cafe24.kangk0269.dto.TradeFailDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
@@ -40,19 +41,42 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/cancel")
-	public String Cancel(Model model) {
-		List<TradeFailDTO> cancelCmList = tradeService.getFailCommission();
-		System.out.println("취소수수료조회 : " + cancelCmList);
+	public String Cancel(Model model
+						 , @RequestParam(name="searchKey", required=false) String searchKey
+						 , @RequestParam(name="searchValue", required=false) String searchValue
+						 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getFailCommissionCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/cancel";
+		List<TradeFailDTO> cancelCmList = tradeService.getFailCommission(start, end, searchKey, searchValue);
 		model.addAttribute("cancelCmList", cancelCmList);
-		return "/profit/cancel";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@GetMapping("/profit/commission")
-	public String Commission(Model model) {
-		List<TradePaymentOutDTO> successCmList = tradeService.getSuccessCommission();
+	public String Commission(Model model
+							 , @RequestParam(name="searchKey", required=false) String searchKey
+							 , @RequestParam(name="searchValue", required=false) String searchValue
+							 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getSuccessCommissionCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/commission";
+		List<TradePaymentOutDTO> successCmList = tradeService.getSuccessCommission(start, end, searchKey, searchValue);
 		System.out.println("성공수수료조회 : " + successCmList);
 		model.addAttribute("successCmList", successCmList);
-		return "/profit/commission";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@PostMapping("/ajax/bidMoneyInsertSend")
@@ -60,6 +84,7 @@ public class ProfitController {
 		System.out.println("입출금 내역 입력 필요요소 :" + moneycheck);
 		System.out.println(moneycheck.getCode().substring(0,1));
 		String firstCode =  moneycheck.getCode().substring(0,1);
+		bidMoneyService.addBidMoney(moneycheck);
 		if(firstCode != null) {
 			if(firstCode.equals("b")) {
 				BidListDTO bidlist = new BidListDTO();
@@ -124,7 +149,7 @@ public class ProfitController {
 					bidMoneyService.modifyPayOut(paymentout);
 				}
 			}
-			bidMoneyService.addBidMoney(moneycheck);
+			
 			
 		}
 		
@@ -132,33 +157,63 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/bidMoneyInsert")
-	public String bidMoneyInsert(Model model, @RequestParam(name="Code", required=false) String Code) {
+	public String bidMoneyInsert(Model model
+								 , @RequestParam(name="Code", required=false) String Code
+								 , @RequestParam(name="searchKey", required=false) String searchKey
+								 , @RequestParam(name="searchValue", required=false) String searchValue
+								 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("입력할 코드 : " + Code);
 		MoneyCheckDTO check = bidMoneyService.getMoneyCheck(Code);
-		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
-		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
+		int count = bidMoneyService.getMoneyCheckListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList(start, end, searchKey, searchValue);
 		model.addAttribute("check", check);
-		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("moneyCheckList", moneyCheckList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/bidMoneyInsert";
 	}
 	
 	@GetMapping("/bidMoneyCheck")
-	public String bidMoneyCheck(Model model) {
-		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList();
+	public String bidMoneyCheck(Model model
+								, @RequestParam(name="searchKey", required=false) String searchKey
+								, @RequestParam(name="searchValue", required=false) String searchValue
+								, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = bidMoneyService.getMoneyCheckListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/bidMoneyCheck";
+		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList(start, end, searchKey, searchValue);
 		System.out.println(moneyCheckList);
-		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
-		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("moneyCheckList", moneyCheckList);
-		return "/profit/bidMoneyCheck";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return "/profit" + uri;
 	}
 	
 	@GetMapping("/profit/balance")
-	public String Balance(Model model) {
-		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList();
-		System.out.println(bidMoneyList);
+	public String Balance(Model model
+						  , @RequestParam(name="searchKey", required=false) String searchKey
+						  , @RequestParam(name="searchValue", required=false) String searchValue
+						  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = bidMoneyService.getBidMoneyListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/balance";
+		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList(start, end, searchKey, searchValue);
 		model.addAttribute("bidMoneyList", bidMoneyList);
-		return "/profit/balance";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@GetMapping("/calculateMonth")
@@ -175,11 +230,18 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/calculate")
-	public String Calculate(Model model) {
-		List<TradeFailDTO> calculateList = tradeService.getCalculateList();
-		System.out.println("수수료 정산 : " + calculateList);
+	public String Calculate(Model model
+							, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getCalculateListCnt();
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/calculate";
+		List<TradeFailDTO> calculateList = tradeService.getCalculateList(start,end);
 		model.addAttribute("calculateList", calculateList);
-		return "/profit/calculate";
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@PostMapping("/withDraw")
@@ -240,18 +302,40 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/depositList")
-	public String DepositList(Model model) {
-		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList();
-		System.out.println(depositOutList);
+	public String DepositList(Model model
+							  , @RequestParam(name="searchKey", required=false) String searchKey
+							  , @RequestParam(name="searchValue", required=false) String searchValue
+							  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getDepositOutListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/depositList";
+		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList(start, end, searchKey, searchValue);
 		model.addAttribute("depositOutList", depositOutList);
-		return "/profit/depositList";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@GetMapping("/profit/commissionList")
-	public String CommissionList(Model model) {
-		List<TradePaymentOutDTO> paymentOutList = tradeService.getPaymentOutList();
-		System.out.println(paymentOutList);
+	public String CommissionList(Model model
+								 , @RequestParam(name="searchKey", required=false) String searchKey
+								 , @RequestParam(name="searchValue", required=false) String searchValue
+								 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getPaymentOutListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/commissionList";
+		List<TradePaymentOutDTO> paymentOutList = tradeService.getPaymentOutList(start, end, searchKey, searchValue);
 		model.addAttribute("paymentOutList", paymentOutList);
-		return "/profit/commissionList";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 }

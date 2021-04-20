@@ -19,6 +19,7 @@ import com.cafe24.kangk0269.dao.BidListMapper;
 import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.PolicyMapper;
+import com.cafe24.kangk0269.dao.ScheduledMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dao.TradeMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
@@ -38,6 +39,7 @@ public class BidListService {
 	private final PolicyMapper policyMapper;
 	private final TradeMapper tradeMapper;
 	private final SellMapper sellMapper;
+	private final ScheduledMapper scheduledMapper;
 	
 	@Autowired
 	public BidListService(BidListMapper bidListMapper
@@ -47,7 +49,8 @@ public class BidListService {
 						,BidPlantMapper bidPlantMapper
 						,PolicyMapper policyMapper
 						,TradeMapper tradeMapper
-						,SellMapper sellMapper) {
+						,SellMapper sellMapper
+						,ScheduledMapper scheduledMapper) {
 		this.bidListMapper = bidListMapper; 
 		this.fileUtils = fileUtils; 
 		this.fileMapper = fileMapper; 
@@ -56,6 +59,7 @@ public class BidListService {
 		this.policyMapper = policyMapper; 
 		this.tradeMapper = tradeMapper; 
 		this.sellMapper = sellMapper; 
+		this.scheduledMapper = scheduledMapper; 
 	}
 	
 	public double getDepositRate() {
@@ -214,6 +218,28 @@ public class BidListService {
 			int result = bidListMapper.updateBidStatus(List);
 			System.out.println(result);
 		}
+		List<String> componentFail = bidComponentMapper.getComponentSatusList(9,"거래실패");
+		List<String> plantFail = bidPlantMapper.getPlantSatusList(9,"거래실패");
+		System.out.println(componentFail+"---------------------------componentFail");
+		System.out.println(plantFail+"---------------------------plantFail");
+		if(componentFail!=null && componentFail.size()>0) {
+			List = new HashMap<String,Object>();
+			List.put("BList", componentFail);
+			List.put("status", 1);
+			List.put("updateStatus", 2);
+			List.put("updateStatusName", "입찰실패");
+			int result = bidListMapper.updateBidStatus(List);
+			System.out.println(result);
+		}
+		if(plantFail!=null && plantFail.size()>0) {
+			List = new HashMap<String,Object>();
+			List.put("BList", plantFail);
+			List.put("status", 1);
+			List.put("updateStatus", 2);
+			List.put("updateStatusName", "입찰실패");
+			int result = bidListMapper.updateBidStatus(List);
+			System.out.println(result);
+		}
 		System.out.println(componentList);
 		System.out.println(plantList);
 	}
@@ -249,11 +275,11 @@ public class BidListService {
 		List<String> componentList = bidComponentMapper.getComponentSatusList(6,"거래진행중");
 		List<String> plantList = bidPlantMapper.getPlantSatusList(6,"거래진행중");
 		int tradePerioddate = policyMapper.getTradePeriod();
-		Map<String,Object> List = new HashMap<String,Object>();
-		List.put("tradePerioddate", tradePerioddate);
 		if(componentList!=null && componentList.size()>0) {
 			List<BidComponentDTO> BidComTradeList = bidComponentMapper.getBidComTradeList(componentList);
 			for(int i=0; i<BidComTradeList.size(); i++) {
+				Map<String,Object> List = new HashMap<String,Object>();
+				List.put("tradePerioddate", tradePerioddate);
 				List.put("BidComTradeList", BidComTradeList.get(i));				
 				tradeMapper.addTradePriority(List);
 			}
@@ -262,6 +288,8 @@ public class BidListService {
 		if(plantList!=null && plantList.size()>0) {
 			List<BidPlantDTO> BidPlantTradeList = bidPlantMapper.getBidPlantTradeList(plantList);
 			for(int i=0; i<BidPlantTradeList.size(); i++) {
+				Map<String,Object> List = new HashMap<String,Object>();
+				List.put("tradePerioddate", tradePerioddate);
 				List.put("BidPlantTradeList", BidPlantTradeList.get(i));				
 				tradeMapper.addTradePriority(List);
 			}
@@ -283,6 +311,12 @@ public class BidListService {
 			if(result!=0) {
 				try {
 					sellMapper.updateComponentAcStatus1("진행",componentList.get(i));
+					List<BidListDTO> bidRank = scheduledMapper.getBidRank(componentList.get(i));
+					for(int j=0; j<bidRank.size();j++) {
+						if(j+1 != bidRank.get(j).getbRank()) {
+							scheduledMapper.updateBidRank(bidRank.get(j).getbCode(),j+1);
+						}
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -303,6 +337,12 @@ public class BidListService {
 			if(result!=0) {
 				try {
 					sellMapper.updateAcStatus1("진행",plantList.get(i));
+					List<BidListDTO> bidRank = scheduledMapper.getBidRank(plantList.get(i));
+					for(int j=0; j<bidRank.size();j++) {
+						if(j+1 != bidRank.get(j).getbRank()) {
+							scheduledMapper.updateBidRank(bidRank.get(j).getbCode(),j+1);
+						}
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

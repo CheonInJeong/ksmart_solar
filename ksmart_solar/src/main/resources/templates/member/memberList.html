@@ -39,7 +39,7 @@
 						<div style="text-align : right; margin-bottom: 10px;">
 			              <form th:action="@{/member/memberList}">
 			            	<select name="searchKeyAM">
-			            		<option >카테고리</option>
+			            		<option value="">카테고리</option>
 			            		<option value="mId">아이디</option>
 			            		<option value="mName">이름</option>
 			            		<option value="mLevel">권한</option>
@@ -75,7 +75,7 @@
 									<td data-title="연락처" th:text="${l.mPhone}"></td>
 									<td data-title="이메일" th:text="${l.mEmail}"></td>
 									<td data-title="수정">
-										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}>수정</a>
 									</td>
 								</tr>
 								<tr th:unless="${#lists.size(activememberList) > 0}">
@@ -117,7 +117,7 @@
 			              	<div style="text-align : right; margin-bottom: 10px;">
 				              <form th:action="@{/member/memberList}">
 				            	<select name="searchKeyRM">
-				            		<option >카테고리</option>
+				            		<option value="">카테고리</option>
 				            		<option value="mId">아이디</option>
 				            		<option value="mName">이름</option>
 				            		<option value="mLevel">권한</option>
@@ -153,7 +153,7 @@
 									<td data-title="연락처" th:text="${l.mPhone}"></td>
 									<td data-title="이메일" th:text="${l.mEmail}"></td>
 									<td data-title="수정">
-										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId})}>수정</a>
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}>수정</a>
 									</td>
 								</tr>
 								<tr th:unless="${#lists.size(restmemberList) > 0}">

@@ -10,7 +10,6 @@
 		<div id="container-header-title"><strong>내공고목록</strong></div>
      	<div id="container-header-path">판매관리 > <a th:href="@{/sell/myHistory}">내공고목록</a> ><!--  <a th:href="@{/sell/plantBidderList}">입찰자목록</a> > --> 입찰자 정보</div>
       	<div id="container-header-space"></div>		
-		<span id = "plantAc" style="display:none">[[${status.acStatusCode}]]</span>
 		<div class="row mt">
           <div class="col-md-12">
             <div class="content-panel"  style="padding: 30px;">
@@ -56,7 +55,7 @@
               	<tr>
               		<td>입찰서류</td>
               		<th:block  th:if="${#lists.size(file)}>0" th:each="f:${file}">
-	                <td colspan="2"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+	                <td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
 	                </th:block>
 	                <th:block th:unless="${#lists.size(file)}>0">
 	                <td>등록 된 파일이 없습니다.</td>
@@ -72,7 +71,6 @@
               		<td id="bRank">[[${member.bRank}]]</td>
               		<td><button type="button" class="btn btn-default" id="priorityBtn" data-attr="0">수정</button>
               		<button class="btn btn-default" id="cancel" style="display:none;">취소</button>
-              		
               		</td>
               	</tr>
               </table>
@@ -80,8 +78,8 @@
           </div>
         </div>
         
-        <div class="add-task-row" style="margin-top: 20px;">
-			<a th:href="@{/sell/myHistory}" class="btn btn-default btn-sm pull-right">목록</a>
+        <div class="add-task-row" style="margin-top: 20px;" id="back">
+			<a class="btn btn-default btn-sm pull-right">목록</a>
 		</div>
         
 	</th:block>
@@ -93,137 +91,153 @@
 			sell.parent().find('.sub').children().eq(1).addClass('active');
 		</script>
 			
-		<script>
+		<script  th:inline="javascript">
 		
 			function comma(str) {
        			 str = String(str);
        		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   		  	}
   		  	
+			
+			
 			$(document).ready(function(){
 				$('#bPrice').text(comma($('#bPrice').text()));
-				
-			})
-			
-			var code = $('#bCode').text();
-			//서류적합성 수정 시작
-	
-				$('#documentYnBtn').click(function(){
 					
-					if($('#plantAc').text() == 4 || $('#plantAc').text() == 5){
-						var documentYn =$('.documentYn');
-						var checkedValue;
-						var plantAc = $('#plantAc');
-						
-						console.log(documentYn);
-						console.log(plantAc.text())
-					
-							if($('#documentYnBtn').attr('data-attr')=='0'){
+				/*<![CDATA[*/
+					var cpStatus = /*[[${cpStatus}]]*/
+					var plStatus = /*[[${status}]]*/
+					console.log(cpStatus+"<-----cpStatus");
+					console.log(plStatus+"<----plStatus");
+				/*]]*/
+				var code = $('#bCode').text();
+				//서류적합성 수정 시작
+						$('#back a').click(function(){
+							if(cpStatus!=null){
+							
+								location.href='/sell/componentBidderList?bCpCode='+$('#announcedCode').val();
 								
-								if(documentYn.text()=='Y'){
-									documentYn.html('적합 <input type="radio" class="documentYn" name="bCheck" value="Y" checked> 비적합  <input type="radio" class="documentYn" name="bCheck" value="N">');
-								}else{
-									documentYn.html('적합 <input type="radio" class="documentYn" name="bCheck" value="Y"> 비적합  <input type="radio" class="documentYn" name="bCheck" value="N" checked>');
-								}
-								
-								$(this).attr('data-attr',1);
-								$(this).text('수정완료');
-			
-								 
-							}else if($(this).attr('data-attr')=='1'){
-								checkedValue=$(':input:radio[name="bCheck"]:checked').val();
-								
-									$.ajax({
-										url : '/ajax/modifyDocumentCheck',
-					         			type : 'POST',
-					         			data : {documentYn : checkedValue,bCode : code},
-					         			success : function(data){
-					         				documentYn.html('');
-					         				documentYn.text(data);
-					         			},
-					         			error :function(request,status,error){
-					         			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
-					         			 }
-									})	//ajax끝
-								$('#documentYnBtn').attr('data-attr',0);
-								$('#documentYnBtn').text('수정');
+							}else if(plStatus!=null){
+							
+								location.href='/sell/plantBidderList?bPlCode='+$('#announcedCode').val();
 							}
-						}else{
+							
+						})
+				
+					$('#documentYnBtn').click(function(){
+			
+							if(plStatus == 4 || plStatus== 5||cpStatus==4 ||cpStatus==5){
+								var documentYn =$('.documentYn');
+								var checkedValue;
+								
+								console.log(documentYn);
+							
+									if($('#documentYnBtn').attr('data-attr')=='0'){
+										
+										if(documentYn.text()=='Y'){
+											documentYn.html('적합 <input type="radio" class="documentYn" name="bCheck" value="Y" checked> 비적합  <input type="radio" class="documentYn" name="bCheck" value="N">');
+										}else{
+											documentYn.html('적합 <input type="radio" class="documentYn" name="bCheck" value="Y"> 비적합  <input type="radio" class="documentYn" name="bCheck" value="N" checked>');
+										}
+										
+										$(this).attr('data-attr',1);
+										$(this).text('수정완료');
+					
+										 
+									}else if($(this).attr('data-attr')=='1'){
+										checkedValue=$(':input:radio[name="bCheck"]:checked').val();
+										
+											$.ajax({
+												url : '/ajax/modifyDocumentCheck',
+							         			type : 'POST',
+							         			data : {documentYn : checkedValue,bCode : code},
+							         			success : function(data){
+							         				documentYn.html('');
+							         				documentYn.text(data);
+							         			},
+							         			error :function(request,status,error){
+							         			    alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+							         			 }
+											})	//ajax끝
+										$('#documentYnBtn').attr('data-attr',0);
+										$('#documentYnBtn').text('수정');
+									}
+								}else{
+								
+									alert('현재는 수정 할 수 없습니다.');
+								}
+							
+						})
+						//서류적합성 수정 완료
+						//우선순위 시작
+						$('#priorityBtn').click(function(){
+							if(plStatus == 4 || plStatus== 5||cpStatus==4 ||cpStatus==5){
+									var bRank = $('#bRank');
+									console.log(bRank.text()+"<---------");
+									console.log($('.documentYn').text());
+									if($('.documentYn').text()=='Y'){
+										if($('#priorityBtn').attr('data-attr')=='0'){
+									
+											bRank.html('<input type="text" id="rank" name="bRank" value="'+bRank.text()+'">');
+											$('#priorityBtn').attr('data-attr',1);
+											$('#priorityBtn').text('수정완료');
+											$('#cancel').css('display','');
 						
+				
+											
+											$('#cancel').click(function(){
+												$('#priorityBtn').attr('data-attr',0);
+												$('#priorityBtn').text('수정');
+												var rankValue=$('#rank').val();
+												bRank.html('');
+												bRank.text(rankValue);
+											
+												$(this).css('display','none');
+												
+											})
+										}else{
+													
+											$.ajax({
+												url : '/ajax/rankCheck',
+												type : 'post',
+												data : {rank : $('#rank').val(), announcedCode : $('#announcedCode').val()},
+												success : function(data){
+													if(data){
+														console.log(data);
+														alert('이미 존재하는 순위입니다.');
+														$('#cancel').css('display','');
+														$('#priorityBtn').attr('data-attr',1);
+														return false;
+													}else{
+														//순위 업데이트
+														$.ajax({
+															url : '/ajax/modifyRank',
+															type : 'post',
+															data : {bRank : $('#rank').val(), bCode : $('#bCode').text()},
+															success : function(data){
+																console.log(data);
+																bRank.html('');
+																bRank.text(data);
+															}
+														})//ajax 끝
+														
+													}
+												}
+											})
+											$(this).attr('data-attr',0);
+											$(this).text('수정');
+											$('#cancel').css('display','none')
+												
+										}
+									
+									}else{
+										alert('서류부적합자는 순위를 매길 수 없습니다.');
+										
+									}
+						}else{
 							alert('현재는 수정 할 수 없습니다.');
 						}
 					})
-					//서류적합성 수정 완료
-					//우선순위 시작
-					$('#priorityBtn').click(function(){
-						if($('#plantAc').text() == 4 || $('#plantAc').text() == 5){
-								var bRank = $('#bRank');
-								console.log(bRank.text()+"<---------");
-								console.log($('.documentYn').text());
-								if($('.documentYn').text()=='Y'){
-									if($('#priorityBtn').attr('data-attr')=='0'){
-								
-										bRank.html('<input type="text" id="rank" name="bRank" value="'+bRank.text()+'">');
-										$('#priorityBtn').attr('data-attr',1);
-										$('#priorityBtn').text('수정완료');
-										$('#cancel').css('display','');
-					
-			
-										
-										$('#cancel').click(function(){
-											$('#priorityBtn').attr('data-attr',0);
-											$('#priorityBtn').text('수정');
-											var rankValue=$('#rank').val();
-											bRank.html('');
-											bRank.text(rankValue);
-										
-											$(this).css('display','none');
-											
-										})
-									}else{
-												
-										$.ajax({
-											url : '/ajax/rankCheck',
-											type : 'post',
-											data : {rank : $('#rank').val(), announcedCode : $('#announcedCode').val()},
-											success : function(data){
-												if(data){
-													console.log(data);
-													alert('이미 존재하는 순위입니다.');
-													$('#cancel').css('display','');
-													$('#priorityBtn').attr('data-attr',1);
-													return false;
-												}else{
-													//순위 업데이트
-													$.ajax({
-														url : '/ajax/modifyRank',
-														type : 'post',
-														data : {bRank : $('#rank').val(), bCode : $('#bCode').text()},
-														success : function(data){
-															console.log(data);
-															bRank.html('');
-															bRank.text(data);
-														}
-													})//ajax 끝
-													
-												}
-											}
-										})
-										$(this).attr('data-attr',0);
-										$(this).text('수정');
-										$('#cancel').css('display','none')
-											
-									}
-								
-								}else{
-									alert('서류부적합자는 순위를 매길 수 없습니다.');
-									
-								}
-					}else{
-						alert('현재는 수정 할 수 없습니다.');
-					}
-				})
-			
+			})
 		</script>
 	</th:block>
 </html>

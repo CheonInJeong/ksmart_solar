@@ -25,31 +25,29 @@
           <div class="col-lg-12">
             <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 예치금출금신청목록</h4>
+				<div style="text-align : right; margin-bottom: 10px;">
+            	</div>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
 	                  <thead class="cf">
 						<tr>
 							<th>번호</th>
-							<th style="display: none;">예치금출금신청 코드</th>
-							<th>출금신청회원</th>
-							<th>신청금액(=출금금액)</th>
+							<th>신청회원</th>
+							<th>신청금액</th>
 							<th>구매자계좌</th>
 							<th>예금주명</th>
 							<th>관련공고</th>
 							<th>신청시간</th>
-							<th>출금시간</th>
-							<th>출금</th>
+							<th>출금확인</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l, status : ${depositOutList}">
-							<td data-title="번호" th:text="${status.count}">
-							</td>
-							<td data-title="예치금출금신청 코드" style="display: none;">
+						<tr th:if="${#lists.size(depositOutList) > 0}" th:each="l, status : ${depositOutList}">
+							<td data-title="번호" th:text="${status.count+(page.curPage-1)*page.pageEnd}">
 							</td>
 							<td data-title="출금신청회원" th:text="${l.mId}"></td>
-							<td data-title="신청금액(=출금금액)" th:text="${#numbers.formatInteger(l.trDepDeposit,3,'COMMA')}"></td>
+							<td data-title="신청금액" th:text="${#numbers.formatInteger(l.trDepDeposit,3,'COMMA')}"></td>
 							<td data-title="구매자계좌">
 								([[${l.mAccountBankName}]]) [[${l.mAccountNumber}]]
 							</td>
@@ -62,14 +60,24 @@
 								</form>
 							</td>
 							<td data-title="신청시간" th:text="${l.trDepDate}"></td>
-							<td data-title="출금시간" th:text="${l.trDepWdDate}"></td>
-							<td data-title="출금">
-								<span th:if="${l.trDepCheck == 'Y'}">출금완료</span>
+							<td data-title="출금확인">
+								<th:block th:if="${l.trDepCheck == 'Y'}">
+									<div>
+										[[${l.trDepWdDate}]] 
+									</div>
+									<div>
+										출금완료
+									</div>
+								</th:block>
 								<a th:if="${l.trDepCheck != 'Y'}" class="btn standardBtn" th:href="@{/profit/withDraw(Code=${l.trDepCode})}">출금</a>
 							</td>
 						</tr>
+						<tr th:unless="${#lists.size(depositOutList) > 0}">
+							<td colspan="8">조회된 내용이 없습니다.</td>
+						</tr>
 					</tbody>
 				</table>
+				<div th:include="profit/page :: pageFragment"></div>
 				</section>
 				</div>
 			</div>

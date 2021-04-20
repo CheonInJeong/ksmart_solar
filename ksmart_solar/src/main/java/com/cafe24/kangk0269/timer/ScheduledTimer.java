@@ -46,16 +46,13 @@ public class ScheduledTimer {
 		System.out.println(pk);
 		plantService.crawLingKpxData(pk);
 	}
+
 	
-	
-	@Scheduled(cron = "5  00  0  *  *  *")
-	public void updateComponentAcStatus() throws Exception {
-	}
-	
-	
-	@Scheduled(cron = "0  00  0  *  *  *") 
+	@Scheduled(cron = "1  00  0  *  *  *") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
+			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
+			scheduledService.updateBidStatus();
 			//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
 			sellService.updateComponentAcStatus();
 			//발전소공고상태(공고진행중 > 공고마감)으로 바꾸는 메서드 실행
@@ -63,70 +60,48 @@ public class ScheduledTimer {
 			//입찰상태(입찰성공 > 입찰종료,계약중,계약대기  입찰대기>입찰실패)으로 바꾸는 메서드 실행
 			//입찰대기>입찰실패
 			bidListService.updateBidListsatus();
+			//공고상태(공고마감 > 공고취소 or 거래진행중)으로 바꾸는 메서드 실행
+			bidListService.updateBidMemberStatus();
 			//입찰성공 > 입찰종료,계약중,계약대기
 			bidListService.updateBidListsatus3();
 			
-			//공고상태(공고마감 > 공고취소 or 거래진행중)으로 바꾸는 메서드 실행
-			bidListService.updateBidMemberStatus();
 			//공고가 거래진행중으로 바뀌었을때 입찰자들중 1순위를 낙찰자 테이블에 입력
 			bidListService.addTradePriority();
+			//1순위 낙찰자가 계약마감일에 계약중인 상태인 경우 거래대금테이블에 입력
+			scheduledService.updatePayIn();
+			
+			//거래 진행중 1순위가 취소하여 2순위와 거래해야하는 상태, 다음순위가 없어 거래실패
+			scheduledService.updatePriority();
+			//1순위의 거래상태가 대금 미납인 경우 상태변경(1순위의 입찰자테이블, 낙찰자우선순위테이블 상태변경 및 2순위 낙찰자우선테이블 삽입)
+			scheduledService.updatePaymentStatus();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	/*
+	
 	  //테스트
-	  @Scheduled(cron = "0/5  *  *  *  *  *") 
+	  @Scheduled(cron = "0/5  *  *  *  *  ?") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
 	  }
-	 */
 	
-	//예약한 시간에 예치금 정책 적용 상태 바꾸는 메서드
+
+	//예약한 시간에 정책 적용 상태 바꾸는 메서드
 	@Scheduled(cron = "30  00  0  *  *  *") 
 	public void updateDepositStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
+			//예치금 
 			policyService.updateDeposit();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	
-	//예약한 시간에 거래기간 정책 적용 상태 바꾸는 메서드
-	@Scheduled(cron = "00  01  0  *  *  *") 
-	public void updateTradeStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
-		try {
+			//거래기간
 			policyService.updateTrade();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-	//예약한 시간에 수수료 정책 적용 상태 바꾸는 메서드
-	@Scheduled(cron = "30  01  0  *  *  *") 
-	public void updateCommissionStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
-		try {
+			//수수료정책
 			policyService.updateCommission();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
-	
-	//test
-	@Scheduled(cron = "50  25  17  *  *  *") 
-	public void updatePayIn() throws IOException, ParseException, ClassNotFoundException, SQLException {
-		try {
-			scheduledService.updatePayIn();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
-	
-		
 		
 }

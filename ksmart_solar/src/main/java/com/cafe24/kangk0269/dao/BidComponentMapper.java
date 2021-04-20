@@ -29,7 +29,11 @@ public interface BidComponentMapper {
 	public List<String> getComponentSatusList(@Param(value="status")int status,@Param(value="bStatus")String bStatus);
 	//
 	public List<BidComponentDTO> getBidComTradeList(List<String> componentList);
+	public BidComponentDTO getBidComTradeNext(@Param(value="announcedCode") String announcedCode
+			 								 ,@Param(value="rank") int rank );
 	public int getComponentBidList(String announcedCode);
+	//공고 상태 거래실패로 변경
+	public int updateComponentFail(String announcedCode);
 	//본인이 입찰한 부품의 공고 횟수
 	public int getBidComponentCount(@Param(value="mId") String mId
 									 ,@Param(value="searchKeyCp") String searchKeyCp

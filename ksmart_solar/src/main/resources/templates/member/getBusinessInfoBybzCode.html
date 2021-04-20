@@ -156,7 +156,7 @@
                 </div>
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
-                    <a class="btn btn-success" role="button" onclick="location.href='/member/businessList'">목록이동</a>
+                    <a class="btn btn-success" role="button" th:href="@{/member/businessList(curPage=${curPage},searchKey=${searchKey},searchValue=${searchValue})}">목록이동</a>
                   </div>
                 </div>
               </form>

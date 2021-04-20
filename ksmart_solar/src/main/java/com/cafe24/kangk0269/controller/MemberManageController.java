@@ -64,8 +64,8 @@ public class MemberManageController {
 	}
 	
 	@GetMapping("/getMemberInfoById")
-	public String getMemberInfoById(Model model
-									,@RequestParam(value="mId", required=false) String mId
+	public String getMemberInfoById(Model model,HttpSession session
+									, @RequestParam(value="mId", required=false) String mId
 									, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 									, @RequestParam(name="searchValueAM", required=false) String searchValueAM
 									, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
@@ -81,6 +81,13 @@ public class MemberManageController {
 									, @RequestParam(name="uri", required=false) String uri
 									, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 									, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) throws Exception {
+		String SLEVEL = (String) session.getAttribute("SLEVEL");
+		if("관리자".equals(SLEVEL)) {
+			List<BusinessPlantDTO> plantListById = plantService.getPlantListById(mId);
+			List<ComponentDTO> cd = memberService.getComponentListById(mId);
+			model.addAttribute("plantListById", plantListById);
+			model.addAttribute("componentListById", cd);
+		}
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
 		model.addAttribute("member", member);
@@ -113,11 +120,23 @@ public class MemberManageController {
 	
 	@GetMapping("/modifyMember")
 	public String modifyMember(Model model
-							   ,@RequestParam(name="mId", required=false) String mId) {
+							   , @RequestParam(name="mId", required=false) String mId
+							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
+							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
+							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
+							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("입력받은 아이디 : " + mId);
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		System.out.println("회원정보조회 : " + member);
 		model.addAttribute("member", member);
+		model.addAttribute("searchKeyAM", searchKeyAM);
+		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchKeyRM", searchKeyRM);
+		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("curPage1", curPage1);
+		model.addAttribute("curPage2", curPage2);
 		return "/member/modifyMember";
 	}
 	
@@ -253,11 +272,17 @@ public class MemberManageController {
 	
 	@GetMapping("/getBusinessInfoBybzCode")
 	public String getBusinessInfoBybzCode(Model model
-										  ,@RequestParam(value="bzCode", required=false) String bzCode) {
+										  , @RequestParam(value="bzCode", required=false) String bzCode
+										  , @RequestParam(name="searchKey", required=false) String searchKey
+										  , @RequestParam(name="searchValue", required=false) String searchValue
+										  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("사업자신청코드 : " + bzCode);
 		BusinessDTO business = businessService.getBusinessInfoBybzCode(bzCode);
 		System.out.println("코드조회결과 : " + business);
 		model.addAttribute("business", business);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("curPage", curPage);
 		return "/member/getBusinessInfoBybzCode";
 	}
 	
@@ -297,26 +322,51 @@ public class MemberManageController {
 	
 	@GetMapping("/getPlantInfoBybzPlCode")
 	public String getPlantInfoBybzPlCode(Model model
-										  ,@RequestParam(value="bzPlCode", required=false) String bzPlCode) {
+										  , @RequestParam(value="bzPlCode", required=false) String bzPlCode
+										  , @RequestParam(name="searchKey", required=false) String searchKey
+										  , @RequestParam(name="searchValue", required=false) String searchValue
+										  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		System.out.println("발전소사업자코드 : " + bzPlCode);
 		BusinessPlantDTO plant = plantService.getPlantInfoBybzPlCode(bzPlCode);
 		System.out.println("코드조회결과 : " + plant);
 		model.addAttribute("plant", plant);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("curPage", curPage);
 		return "/member/getPlantInfoBybzPlCode";
 	}
 	
 	@GetMapping("/member/plantList")
-	public String PlantList(Model model) {
-		List<BusinessPlantDTO> plantList = plantService.getAllPlantAdmitList();
-		System.out.println(plantList);
+	public String PlantList(Model model
+							, @RequestParam(name="searchKey", required=false) String searchKey
+						    , @RequestParam(name="searchValue", required=false) String searchValue
+						    , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = plantService.getAllPlantAdmitListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<BusinessPlantDTO> plantList = plantService.getAllPlantAdmitList(start, end, searchKey, searchValue);
 		model.addAttribute("plantList", plantList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/member/plantList";
 	}
 	
 	@GetMapping("/member/account")
-	public String Account(Model model) {
-		List<MemberAccountDTO> allBankAccountList = memberService.getAllBankAccount();
+	public String Account(Model model
+						  , @RequestParam(name="searchKey", required=false) String searchKey
+						  , @RequestParam(name="searchValue", required=false) String searchValue
+						  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = memberService.getAllBankAccountCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<MemberAccountDTO> allBankAccountList = memberService.getAllBankAccount(start, end, searchKey, searchValue);
 		model.addAttribute("allBankAccountList", allBankAccountList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/member/account";
 	}
 	

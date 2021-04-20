@@ -89,7 +89,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		UPDATE tb_trade_payment_in
 		SET
 			tr_payin_check = 'Y',
-			b_mo_code = sf_new_b_mo_code(#{bMoDate}),
+			b_mo_code = (
+						SELECT 
+							b_mo_code
+						FROM 
+							tb_bid_money
+						WHERE related_code = #{trPayinCode}
+						),
 			b_mo_date = #{bMoDate},
 			tr_payin_status = '납부완료'
 		WHERE tr_payin_code = #{trPayinCode}
@@ -99,8 +105,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyPriPayIn" parameterType="TradePaymentInDTO">
 		UPDATE tb_trade_priority
 		SET
-		tr_type_code = 13,
-		tr_type_name = '대금완료',
+		tr_type_code = 14,
+		tr_type_name = '공고최종완료',
 		tr_pr_date_up = NOW()
 		WHERE tr_pr_code=(	SELECT
 							*
@@ -120,8 +126,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyBidPayIn" parameterType="TradePaymentInDTO">
 		UPDATE tb_bid_list
 		SET
-			tr_type_code = 13,
-			tr_type_name = '대금완료',
+			tr_type_code = 14,
+			tr_type_name = '공고최종완료',
 			b_date_up = NOW()
 		WHERE b_code=(	SELECT 
 						*
@@ -197,7 +203,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<update id="modifyDepositOut" parameterType="TradeDepositOutDTO">
 		UPDATE tb_trade_deposit_out
 		SET
-			b_mo_code = sf_new_b_mo_code(#{trDepWdDate})
+			b_mo_code = (
+						SELECT
+							b_mo_code
+						FROM
+							tb_bid_money
+						WHERE related_code = #{trDepCode}
+						)
 		WHERE tr_dep_code = #{trDepCode}
 	</update>
 	
@@ -249,7 +261,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, result.bankName									AS bankName
 			, result.accountNumber								AS accountNumber
 			, result.accountName								AS accountName
-			, result.moCode
+			, result.moCode										AS moCode
+			, result.admitDate									AS admitDate
 		FROM 
 			(
 			SELECT 
@@ -262,16 +275,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
 				, b_deposit_check										AS inoutCheck
 				, b_deposit_date										AS inoutDate
-				, h.m_account_bank										AS bankName
-				, h.m_account_number									AS accountNumber
-				, m_payment_name										AS accountName
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
 				, a.b_mo_code											AS moCode
+				, a.b_date												AS admitDate
 			FROM 
 				tb_bid_list	AS a
-				INNER JOIN 
-				tb_member_account AS h
-				ON 
-				a.m_payment_name = h.m_account_name
 				LEFT JOIN 
 				tb_bid_money AS i
 				ON 
@@ -300,6 +310,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, m_account_number			AS accountNumber
 				, m_payment_name			AS accountName
 				, b.b_mo_code				AS moCode
+				, b.tr_payin_date1			AS admitDate
 			FROM 
 				tb_trade_payment_in AS b
 				INNER JOIN 
@@ -326,6 +337,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, tr_payout_account			AS accountNumber
 				, tr_payout_account_name	AS accountName
 				, c.b_mo_code				AS moCode
+				, c.tr_payout_date			AS admitDate
 			FROM 
 				tb_trade_payment_out AS c
 				INNER JOIN 
@@ -356,6 +368,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, e.m_account_number								AS accountNumber
 				, m_account_name									AS accountName
 				, e.b_mo_code										AS moCode
+				, e.tr_dep_date									AS admitDate
 			FROM 
 				tb_trade_deposit_out AS e
 				INNER JOIN 
@@ -368,8 +381,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
-		WHERE result.Code = #{Code} AND WHERE result.moCode IS NULL
-		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
+		WHERE result.Code = #{Code} AND result.moCode IS NULL
 	</select>
 	
 	<!-- 확인 입출금 목록(미완료) -->
@@ -388,7 +400,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, result.bankName									AS bankName
 			, result.accountNumber								AS accountNumber
 			, result.accountName								AS accountName
-			, result.moCode
+			, result.moCode										AS moCode
+			, result.admitDate									AS admitDate
 		FROM 
 			(
 			SELECT 
@@ -401,16 +414,13 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
 				, b_deposit_check										AS inoutCheck
 				, b_deposit_date										AS inoutDate
-				, h.m_account_bank										AS bankName
-				, h.m_account_number									AS accountNumber
-				, m_payment_name										AS accountName
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
 				, a.b_mo_code											AS moCode
+				, a.b_date												AS admitDate
 			FROM 
 				tb_bid_list	AS a
-				INNER JOIN 
-				tb_member_account AS h
-				ON 
-				a.m_payment_name = h.m_account_name
 				LEFT JOIN 
 				tb_bid_money AS i
 				ON 
@@ -439,6 +449,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, m_account_number			AS accountNumber
 				, m_payment_name			AS accountName
 				, b.b_mo_code				AS moCode
+				, b.tr_payin_date1			AS admitDate
 			FROM 
 				tb_trade_payment_in AS b
 				INNER JOIN 
@@ -465,6 +476,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, tr_payout_account			AS accountNumber
 				, tr_payout_account_name	AS accountName
 				, c.b_mo_code				AS moCode
+				, c.tr_payout_date			AS admitDate
 			FROM 
 				tb_trade_payment_out AS c
 				INNER JOIN 
@@ -495,6 +507,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, e.m_account_number								AS accountNumber
 				, m_account_name									AS accountName
 				, e.b_mo_code										AS moCode
+				, e.tr_dep_date									AS admitDate
 			FROM 
 				tb_trade_deposit_out AS e
 				INNER JOIN 
@@ -507,11 +520,169 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				e.b_mo_code = l.b_mo_code
 			WHERE e.tr_dep_check = 'Y'
 			)	AS result
-		WHERE result.moCode IS NULL
-		ORDER BY SUBSTR(Code,INSTR(Code,'_')+1,12);
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey == null or searchKey == ''.toString()">
+				result.moCode IS NULL
+				ORDER BY result.admitDate
+				LIMIT #{start},#{end}
+			</if>
+			<if test="searchKey != null and searchKey != ''.toString()">
+				result.moCode IS NULL AND 
+				<choose>
+					<when test="'iOut'.equals(searchKey)">
+						if(SUBSTR(result.Code,INSTR(result.Code,'o'),3)='out','출금','입금') LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+				ORDER BY result.admitDate
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
 	</select>
 	
-	<!-- 전체 입출금 내역 조회 -->
+	<!-- 확인 입출금 목록 리스트 수(미완료) -->
+	<select id="getMoneyCheckListCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM 
+			(
+			SELECT 
+				b_code													AS Code
+				, announced_code										AS nCode
+				, b_title												AS nTitle
+				, a.m_id												AS Id
+				, b_deposit												AS money
+				, IFNULL(m.b_cp_date_bidding1, n.b_pl_date_bidding1)	AS startDate
+				, IFNULL(m.b_cp_date_bidding2, n.b_pl_date_bidding2)	AS endDate
+				, b_deposit_check										AS inoutCheck
+				, b_deposit_date										AS inoutDate
+				, a.m_account_bank_name									AS bankName
+				, a.m_account_number								AS accountNumber
+				, a.m_payment_name										AS accountName
+				, a.b_mo_code											AS moCode
+				, a.b_date												AS admitDate
+			FROM 
+				tb_bid_list	AS a
+				LEFT JOIN 
+				tb_bid_money AS i
+				ON 
+				a.b_mo_code = i.b_mo_code
+				left JOIN 
+				tb_bid_component AS m
+				ON 
+				a.announced_code = m.b_cp_code
+				LEFT JOIN 
+				tb_bid_plant AS n
+				ON 
+				a.announced_code = n.b_pl_code
+			WHERE a.tr_type_name != '입찰실패'
+			UNION ALL 
+			SELECT
+				tr_payin_code				AS Code
+				, b.announced_code			AS nCode
+				, g.announced_title			AS nTitle
+				, b.m_id_buyer				AS Id
+				, tr_payin_price			AS money
+				, b.tr_payin_date1			AS startDAte
+				, b.tr_payin_date2			AS endDate
+				, b.tr_payin_check			AS inoutCheck
+				, b.b_mo_date				AS inoutDate
+				, m_account_bank_name		AS bankName
+				, m_account_number			AS accountNumber
+				, m_payment_name			AS accountName
+				, b.b_mo_code				AS moCode
+				, b.tr_payin_date1			AS admitDate
+			FROM 
+				tb_trade_payment_in AS b
+				INNER JOIN 
+				tb_trade_priority AS g
+				ON
+				b.tr_pr_code = g.tr_pr_code
+				LEFT JOIN 
+				tb_bid_money AS j
+				ON 
+				b.b_mo_code = j.b_mo_code
+			WHERE b.tr_payin_status != '미납'
+			UNION ALL 
+			SELECT 
+				tr_payout_code				AS Code
+				, d.announced_code			AS nCode
+				, d.announced_title			AS nTitle
+				, c.m_id					AS Id
+				, tr_payout_price_real		AS money
+				, o.b_mo_date				AS startDate
+				, c.tr_payout_wd_date		AS endDate
+				, c.tr_payout_check			AS inoutCheck
+				, tr_payout_wd_date			AS inoutDate
+				, tr_payout_bank			AS bankName
+				, tr_payout_account			AS accountNumber
+				, tr_payout_account_name	AS accountName
+				, c.b_mo_code				AS moCode
+				, c.tr_payout_date			AS admitDate
+			FROM 
+				tb_trade_payment_out AS c
+				INNER JOIN 
+				tb_trade_priority AS d
+				ON 
+				c.tr_pr_code = d.tr_pr_code
+				LEFT JOIN 
+				tb_bid_money AS k
+				ON 
+				c.b_mo_code = k.b_mo_code
+				LEFT JOIN 
+				tb_trade_payment_in AS o
+				ON 
+				c.tr_pr_code = o.tr_pr_code
+			WHERE c.tr_payout_check = 'Y'
+			UNION ALL 
+			SELECT 
+				tr_dep_code											AS Code
+				, f.announced_code									AS nCode
+				, f.b_title											AS nTitle
+				, e.m_id											AS Id
+				, tr_dep_deposit									AS money
+				, if(f.tr_type_code = 4 OR 10,f.b_date_up,null)		AS startDate
+				, e.tr_dep_wd_date									AS endDate
+				, e.tr_dep_check									AS inoutCheck
+				, tr_dep_wd_date									AS inoutDate
+				, e.m_account_bank_name								AS bankName
+				, e.m_account_number								AS accountNumber
+				, m_account_name									AS accountName
+				, e.b_mo_code										AS moCode
+				, e.tr_dep_date									AS admitDate
+			FROM 
+				tb_trade_deposit_out AS e
+				INNER JOIN 
+				tb_bid_list AS f
+				ON 
+				e.b_code = f.b_code
+				LEFT JOIN 
+				tb_bid_money AS l
+				ON 
+				e.b_mo_code = l.b_mo_code
+			WHERE e.tr_dep_check = 'Y'
+			)	AS result
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey == null or searchKey == ''.toString()">
+				result.moCode IS NULL
+			</if>
+			<if test="searchKey != null and searchKey != ''.toString()">
+				result.moCode IS NULL AND 
+				<choose>
+					<when test="'iOut'.equals(searchKey)">
+						if(SUBSTR(result.Code,INSTR(result.Code,'o'),3)='out','출금','입금') LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 관리자계좌 입출금 내역 조회 -->
 	<select id="getBidMoneyList" resultMap="bidmoneyResultMap">
 		SELECT 
 			b_mo_code
@@ -529,6 +700,29 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			tb_bid_money
 			JOIN 
 			(SELECT @total := 0) AS r
-		ORDER BY b_mo_date;
+		<if test="searchKey == null or searchKey == ''.toString()">
+			ORDER BY b_mo_date
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				ORDER BY b_mo_date
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 관리자계좌 입출금 내역 리스트 수 조회 -->
+	<select id="getBidMoneyListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_bid_money
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
 	</select>
 </mapper>

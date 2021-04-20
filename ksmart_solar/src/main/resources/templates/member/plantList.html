@@ -25,6 +25,21 @@
           <div class="col-lg-12">
             <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 발전소인증신청목록</h4>
+				<div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/member/plantList}">
+	            	<select name="searchKey">
+	            		<option value="">카테고리</option>
+	            		<option value="bzPlCode">발전소코드</option>
+	            		<option value="mId">아이디</option>
+	            		<option value="bzPlName">발전소명</option>
+	            		<option value="bzPlAddr">주소</option>
+	            		<option value="bzPlHardware">하드웨어 보유</option>
+	            		<option value="bzPlCheck">인증</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+            	</div>
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
@@ -40,10 +55,10 @@
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="l, status : ${plantList}">
-							<td data-title="번호" th:text="${status.count}"></td>
+						<tr th:if="${#lists.size(plantList) > 0}" th:each="l, status : ${plantList}">
+							<td data-title="번호" th:text="${status.count+(page.curPage-1)*page.pageEnd}"></td>
 							<td data-title="발전소사업자 코드">
-								<a th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode})}>[[${l.bzPlCode}]]</a>
+								<a th:href=@{/getPlantInfoBybzPlCode(bzPlCode=${l.bzPlCode},curPage=${page.curPage},searchKey=${searchKey},searchValue=${searchValue})}>[[${l.bzPlCode}]]</a>
 							</td>
 							<td data-title="아이디" th:text="${l.mId}"></td>
 							<td data-title="발전소명" th:text="${l.bzPlName}"></td>
@@ -63,22 +78,30 @@
 								<span th:if="${l.bzPlCheck} == F">반려</span>
 							</td>
 						</tr>
+						<tr th:unless="${#lists.size(plantList) > 0}">
+							<td colspan="7">조회된 내용이 없습니다.</td>
+						</tr>
 					</tbody>
 				</table>
 				<div class="text-center">
 				  <ul class="pagination">
 				    <li>
-				      <a href="#" aria-label="Previous">
+				      <a th:if="${page.curBlock > 1}" th:href="@{/member/plantList(curPage=${page.prevPage},searchKey=${searchKey},searchValue=${searchValue})}" aria-label="Previous">
 				        <span aria-hidden="true">&laquo;</span>
 				      </a>
 				    </li>
-				    <li><a href="#">1</a></li>
-				    <li><a href="#">2</a></li>
-				    <li><a href="#">3</a></li>
-				    <li><a href="#">4</a></li>
-				    <li><a href="#">5</a></li>
+			    	<th:block th:each="num : ${#numbers.sequence(page.blockBegin, page.blockEnd)}">
+			   		<li th:if="${num == page.curPage}" class="active">
+			   			<a>[[${num}]]</a>
+			   		</li>
+			   		<li th:unless="${num == page.curPage}">
+			   		<th:block th:if="${num} != 0">
+			   			<a th:href="@{/member/plantList(curPage=${num},searchKey=${searchKey},searchValue=${searchValue})}">[[${num}]]</a>
+			   		</th:block>
+			   		</li>
+			  		</th:block>
 				    <li>
-				      <a href="#" aria-label="Next">
+				      <a th:if="${page.curBlock <= page.totBlock}" th:href="@{/member/plantList(curPage=${page.nextPage},searchKey=${searchKey},searchValue=${searchValue})}" aria-label="Next">
 				        <span aria-hidden="true">&raquo;</span>
 				      </a>
 				    </li>

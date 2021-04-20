@@ -43,9 +43,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<result property="bDepositDate" 		column="b_deposit_date" />
 			<result property="trTypeCode" 			column="tr_type_code" />
 			<result property="trTypeName" 			column="tr_type_name" />
-			<result property="dcInstructions" 		column="dc_instructions" />
-			<result property="dcApplication" 		column="dc_application" />
-			<result property="dcProposal" 			column="dc_proposal" />
 			<result property="bDate" 				column="b_date" />
 			<result property="bCheck" 				column="b_check" />
 			<result property="bRank" 				column="b_rank" />
@@ -54,7 +51,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<result property="bDateUp" 				column="b_date_up" />
    		</collection>
 	</resultMap>
-	<resultMap type="bidListDTO" id="bidListDTOMap">
+	<resultMap type="BidListDTO" id="bidListDTOMap">
 		<id 	property="bCode" 				column="b_code"/>
 		<result property="announcedCode" 		column="announced_code" />
 		<result property="bTypeCode" 			column="b_type_code" />
@@ -68,9 +65,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bDepositDate" 		column="b_deposit_date" />
 		<result property="trTypeCode" 			column="tr_type_code" />
 		<result property="trTypeName" 			column="tr_type_name" />
-		<result property="dcInstructions" 		column="dc_instructions" />
-		<result property="dcApplication" 		column="dc_application" />
-		<result property="dcProposal" 			column="dc_proposal" />
 		<result property="bDate" 				column="b_date" />
 		<result property="bCheck" 				column="b_check" />
 		<result property="bRank" 				column="b_rank" />
@@ -290,6 +284,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			<if test="bStatus!=null and bStatus.toString()=='거래진행중'.toString()">
 				CAST(b_pl_date_decision2 AS DATE) = CURDATE()
 			</if>
+			<if test="bStatus!=null and bStatus.toString()=='거래실패'.toString()">
+				CAST(b_pl_date_decision1 AS DATE) = CURDATE()
+			</if>
 			AND ac_status_code = #{status};
 	</select>
 	<select id="getBidPlantTradeList" parameterType="String" resultMap="BidPlantDTOMap">
@@ -314,6 +311,22 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				 #{item}
 		  	</foreach>
 	</select>
+	<select id="getBidPlantTradeNext" parameterType="map" resultMap="BidPlantDTOMap">
+		SELECT
+			pl.m_id AS sell_id,
+			pl.*,
+			bl.m_id AS buy_id,
+			bl.*
+		FROM
+			tb_bid_plant AS pl
+		JOIN
+			tb_bid_list AS bl
+		ON pl.b_pl_code = bl.announced_code
+		WHERE
+			bl.b_rank = #{rank}
+		AND
+			bl.announced_code =#{announcedCode}
+	</select>
 	<select id="getPlantBidList" resultType="int">
 		SELECT
 			COUNT(1)
@@ -326,4 +339,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			announced_code = #{announcedCode}
 			AND b_rank IS NOT null
 	</select>
+	<update id="updatePlantFail" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status='거래실패',
+			ac_status_code=9
+		WHERE 
+			b_pl_code = #{announcedCode}
+	</update>
 </mapper>

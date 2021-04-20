@@ -13,17 +13,15 @@
 		
 		<div class="row mt">
           <div class="col-md-12">
-            <div class="content-panel">
+            <div class="content-panel" style="padding:30px;">
               <h4><i class="fa fa-angle-right"></i>발전소 입찰자 목록</h4>
             	 <th:block th:each="p:${plant}">
 					<p>　　발전소 :  [[${p.businessPlantDTO.bzPlName}]]</p>
 	               	<p>　　공고제목 : [[${p.bPlTitle}]] </p>
+	               	<span style="float:right;"> ※ 낙찰자 결정기간(<span style="color:blue;">~[[${p.bPlDateDecision2}]]</span>)까지 결정된 높은 순위로 낙찰자우선자가 결정됩니다.</span>
 	               	<span style="display : none" id="bPlCode">[[${p.bPlCode}]]</span>
         		 </th:block> 
               <hr>
-             
-             
-              
               <table class="table table-striped table-advance table-hover">
                
                 <thead>
@@ -39,12 +37,12 @@
                 </thead>
                 <tbody>
                   <tr th:if="${#lists.size(bidder)}>0" th:each="b:${bidder}">
-                  	<td th:text="${b.bCode}" id="bCode"></td>
+                  	<td th:text="${b.bCode}" class="bCode"></td>
                   	<td th:text="${b.mId}"></td>
                   	<td th:text="${b.bPrice}" class="bidPrice"></td>
                   	<td th:text=${b.bCheck}></td>
                   	<td th:text=${b.bRank}></td>
-                  	<td><a id="detailBtn" class="btn btn-default">상세보기</a></td>
+                  	<td><a class="btn btn-default detailBtn">상세보기</a></td>
                   </tr>
                   <tr th:unless="${#lists.size(bidder)}>0">
                   	<td colspan="8" style="text-align:center;">아직 입찰자가 없습니다.</td>
@@ -54,7 +52,9 @@
             </div>
           </div>
         </div>
-        
+         <div class="add-task-row" style="margin-top: 20px;">
+			<a th:href="@{/sell/myHistory}" class="btn btn-default btn-sm pull-right">목록</a>
+		</div>
   
         
 	</th:block>
@@ -72,7 +72,7 @@
        		 	return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
   		  	}
 
-			$('document').ready(function(){
+			$(document).ready(function(){
 				$('.bidPrice').each(function(){
 					
 					var bidPrice = $('.bidPrice');
@@ -84,9 +84,9 @@
 		
 			})
 			
-			$('#detailBtn').click(function(){
-				var i = $('#detailBtn').index(this);
-				location.href='/sell/bidderDetail?bCode='+$('#bCode').eq(i).text()+'&bPlCode='+$('#bPlCode').text();
+			$('.detailBtn').click(function(){
+				var i = $('.detailBtn').index(this);
+				location.href='/sell/bidderDetail?bCode='+$('.bCode').eq(i).text()+'&bPlCode='+$('#bPlCode').text();
 			})
 			
 		</script>
