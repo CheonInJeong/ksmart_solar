@@ -9,6 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cafe24.kangk0269.common.Pagination;
 import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
+import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 
 @Service
@@ -20,6 +21,32 @@ public class BidPlantService {
 	public BidPlantService(BidPlantMapper bidPlantMapper) {
 		this.bidPlantMapper = bidPlantMapper; 
 	}
+	
+	// 공고신청 발전소 상세보기
+	public BidPlantDTO getNotice(String bPlCode) {
+		return  bidPlantMapper.getNotice(bPlCode);
+	}
+	
+	
+	// 전체 공고신청 발전소 조회
+	public List<BidPlantDTO> getPlantNoticeAdmitList(int start,int end,String searchKey,String searchValue){
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}
+		}
+		return bidPlantMapper.getPlantNoticeAdmitList(start, end, searchKey, searchValue);
+	}
+	// 공고신청 발전소 리스트 수
+	public int getPlantNoticeAdmitListCnt(String searchKey,String searchValue) {
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}
+		}
+		return bidPlantMapper.getPlantNoticeAdmitListCnt(searchKey, searchValue);
+	}	
+	
 	
 	public List<BidPlantDTO> getBidPlantById(String mId){
 		return bidPlantMapper.getBidPlantById(mId);

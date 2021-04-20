@@ -80,6 +80,91 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="cpDate" 			column="cp_date" />	
 		<result property="cpPhoto" 			column="cp_photo" />	
 	</resultMap>
+	
+	<!-- 공고신청 부품 상세보기 -->
+	<select id="getNotice" parameterType="String" resultMap="BidComponentDTOMap">
+		SELECT 
+			  b_cp_code
+			, cp_code
+			, m_id as sell_id
+			, b_cp_title
+			, b_cp_contents
+			, b_cp_price
+			, cp_usedate
+			, b_cp_bidder_number
+			, b_cp_status
+			, ac_status_code
+			, b_cp_date
+			, b_cp_date_bidding1
+			, b_cp_date_bidding2
+			, b_cp_date_decision1
+			, b_cp_date_decision2
+			, b_cp_groupcode
+			, b_cp_re_count
+			, b_cp_confirm
+			, b_cp_confirm_status
+			, b_cp_reject_reason
+			, b_cp_cancel_reason
+			, b_cp_cancel_date
+			, b_recently
+		FROM 
+			tb_bid_component
+		WHERE
+			b_cp_code = #{bCpCode}	
+	</select>
+	
+	<!-- 전체 공고신청 부품 조회 -->
+	<select id="getComponentNoticeAdmitList" resultMap="BidComponentDTOMap">
+		SELECT 
+			  b_cp_code
+			, cp_code
+			, m_id as sell_id
+			, b_cp_title
+			, b_cp_contents
+			, b_cp_price
+			, cp_usedate
+			, b_cp_bidder_number
+			, b_cp_status
+			, ac_status_code
+			, b_cp_date
+			, b_cp_date_bidding1
+			, b_cp_date_bidding2
+			, b_cp_date_decision1
+			, b_cp_date_decision2
+			, b_cp_groupcode
+			, b_cp_re_count
+			, b_cp_confirm
+			, b_cp_confirm_status
+			, b_cp_reject_reason
+			, b_cp_cancel_reason
+			, b_cp_cancel_date
+			, b_recently
+		FROM 
+			tb_bid_component
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 공고신청 부품 리스트 수 -->
+	<select id="getComponentNoticeAdmitListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_bid_component
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
+	</select>
+	
 	<select id="getBidComponent" resultMap="BidComponentDTOMap" parameterType="map">
 		SELECT 
 			b_cp_code, 

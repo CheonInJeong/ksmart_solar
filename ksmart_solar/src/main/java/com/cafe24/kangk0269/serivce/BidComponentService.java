@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.cafe24.kangk0269.common.Pagination;
 import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
+import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
 
 @Service
@@ -30,6 +31,31 @@ public class BidComponentService {
 		System.out.println("BidComponentService bean 등록");
 		System.out.println("=========================================================");
 	}
+	
+	// 공고신청 부품 상세보기
+	public BidComponentDTO getNotice(String bCpCode) {
+		return  bidComponentMapper.getNotice(bCpCode);
+	}
+	
+	// 전체 공고신청 부품 조회
+	public List<BidComponentDTO> getComponentNoticeAdmitList(int start,int end,String searchKey,String searchValue){
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}
+		}
+		return bidComponentMapper.getComponentNoticeAdmitList(start, end, searchKey, searchValue);
+	}
+	// 공고신청 부품 리스트 수
+	public int getComponentNoticeAdmitListCnt(String searchKey,String searchValue) {
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}
+		}
+		return bidComponentMapper.getComponentNoticeAdmitListCnt(searchKey, searchValue);
+	}	
+	
 	
 	public List<BidComponentDTO> getBidComponent(String status,String searchKeyCp,String searchValueCp,BidComponentDTO bidComponentDTO) {		
 		if(searchKeyCp!=null && searchKeyCp.equals("null")) {
