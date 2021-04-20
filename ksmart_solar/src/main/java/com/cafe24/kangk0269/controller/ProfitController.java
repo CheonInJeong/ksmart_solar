@@ -45,7 +45,7 @@ public class ProfitController {
 						 , @RequestParam(name="searchKey", required=false) String searchKey
 						 , @RequestParam(name="searchValue", required=false) String searchValue
 						 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
-		int count = bidMoneyService.getMoneyCheckListCnt(searchKey, searchValue);
+		int count = tradeService.getFailCommissionCnt(searchKey, searchValue);
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
@@ -58,10 +58,20 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/commission")
-	public String Commission(Model model) {
-		List<TradePaymentOutDTO> successCmList = tradeService.getSuccessCommission();
+	public String Commission(Model model
+							 , @RequestParam(name="searchKey", required=false) String searchKey
+							 , @RequestParam(name="searchValue", required=false) String searchValue
+							 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getSuccessCommissionCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<TradePaymentOutDTO> successCmList = tradeService.getSuccessCommission(start, end, searchKey, searchValue);
 		System.out.println("성공수수료조회 : " + successCmList);
 		model.addAttribute("successCmList", successCmList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/commission";
 	}
 	

@@ -34,8 +34,12 @@ public class TradeService {
 	}
 	
 	// 전체 대금 수수료 리스트 조회
-	public List<TradePaymentOutDTO> getSuccessCommission(){
-		return tradeMapper.getSuccessCommission();
+	public List<TradePaymentOutDTO> getSuccessCommission(int start,int end,String searchKey,String searchValue){
+		return tradeMapper.getSuccessCommission(start, end, searchKey, searchValue);
+	}
+	// 대금수수료 리스트 수
+	public int getSuccessCommissionCnt(String searchKey,String searchValue) {
+		return tradeMapper.getSuccessCommissionCnt(searchKey, searchValue);
 	}
 	
 	// 전체 취소 수수료 리스트 조회

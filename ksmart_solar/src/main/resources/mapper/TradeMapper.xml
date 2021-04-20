@@ -171,7 +171,38 @@
 			tb_trade_payment_in AS i
 			ON 
 			r.tr_pr_code = i.tr_pr_code
-		ORDER BY i.b_mo_date
+		<if test="searchKey == null or searchKey == ''.toString()">
+			ORDER BY i.b_mo_date
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				ORDER BY i.b_mo_date
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 거래수수료 리스트 수 -->
+	<select id="getSuccessCommissionCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_trade_payment_out AS o
+			LEFT join
+			tb_trade_priority AS r
+			ON 
+			o.tr_pr_code = r.tr_pr_code
+			LEFT JOIN 
+			tb_trade_payment_in AS i
+			ON 
+			r.tr_pr_code = i.tr_pr_code
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
 	</select>
 
 	<!-- 취소수수료목록 -->

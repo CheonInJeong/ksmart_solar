@@ -20,7 +20,9 @@ public interface TradeMapper {
 	public List<TradeFailDTO> getCalculateMonth(String lastDate);
 	
 	// 대금수수료목록
-	public List<TradePaymentOutDTO> getSuccessCommission();
+	public List<TradePaymentOutDTO> getSuccessCommission(int start,int end,String searchKey,String searchValue);
+	// 대금수수료 리스트 수
+	public int getSuccessCommissionCnt(String searchKey,String searchValue);
 	
 	// 취소수수료목록
 	public List<TradeFailDTO> getFailCommission(int start,int end,String searchKey,String searchValue);
