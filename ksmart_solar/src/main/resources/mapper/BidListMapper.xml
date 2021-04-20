@@ -421,4 +421,5 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	<delete id="removeQnaCo" parameterType="int">
 		DELETE FROM tb_comment WHERE b_idx=#{bIdx}
 	</delete>
+	
 </mapper>

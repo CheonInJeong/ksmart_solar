@@ -5,16 +5,20 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.PostConstruct;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 import org.springframework.web.multipart.MultipartResolver;
 
 import com.cafe24.kangk0269.api.KakaoLoginApi;
+import com.cafe24.kangk0269.dao.ComponentMapper;
 import com.cafe24.kangk0269.dao.MemberMapper;
+import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.MemberDTO;
 import com.cafe24.kangk0269.dto.MemberKakao;
@@ -28,10 +32,12 @@ public class MemberService {
 	private static final Logger log = LoggerFactory.getLogger(MemberService.class);
 	
 	private final MemberMapper memberMapper;
+	private final ComponentMapper componentMapper;
 	
 	@Autowired
-	public MemberService(MemberMapper memberMapper) {
+	public MemberService(MemberMapper memberMapper,ComponentMapper componentMapper) {
 		this.memberMapper = memberMapper;
+		this.componentMapper = componentMapper;
 	}
 	
 	@PostConstruct
@@ -384,5 +390,10 @@ public class MemberService {
 			}
 		}
 		return memberMapper.getRestMemberCnt(searchKeyRM, searchValueRM);
+	}
+	
+	// 상세회원정보 - 보유부품
+	public List<ComponentDTO> getComponentListById(String mId) {
+		return componentMapper.getComponentListById(mId);
 	}
 }

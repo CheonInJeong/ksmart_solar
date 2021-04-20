@@ -46,14 +46,9 @@ public class ScheduledTimer {
 		System.out.println(pk);
 		plantService.crawLingKpxData(pk);
 	}
+
 	
-	
-	@Scheduled(cron = "5  00  0  *  *  *")
-	public void updateComponentAcStatus() throws Exception {
-	}
-	
-	
-	@Scheduled(cron = "0  00  0  *  *  *") 
+	@Scheduled(cron = "1  00  0  *  *  *") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
@@ -85,10 +80,9 @@ public class ScheduledTimer {
 	}
 	
 	  //테스트
-	  @Scheduled(cron = "0/5  *  *  *  *  *") 
+	  @Scheduled(cron = "0/5  *  *  *  *  ?") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
-			  
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 

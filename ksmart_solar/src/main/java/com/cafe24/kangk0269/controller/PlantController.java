@@ -241,6 +241,25 @@ public class PlantController {
 		model.addAttribute("bp", bp);
 		return "/plant/plantModify";
 	}
-	  
+	
+	@GetMapping("/plant/searchRadiation")
+	public String searchRadiation(Model model) {
+		return "/plant/searchRadiation";
+	}
+	
+	
+	@RequestMapping(value="/ajax/searchRadiationPageLoad", method = RequestMethod.POST)
+	public @ResponseBody String[] searchRadiationPageLoad() throws ParseException{ 
+		  return plantService.searchRadiationPageLoad();
+	}
+	
+	@RequestMapping(value="/ajax/searchRadiation", method = RequestMethod.POST)
+	public @ResponseBody String[] searchRadiation(
+			@RequestParam(value="dataTime", required = false) 		String dataTime
+			){ 
+		return plantService.searchRadiation(dataTime);
+	}
+	
+	
 	  
 }

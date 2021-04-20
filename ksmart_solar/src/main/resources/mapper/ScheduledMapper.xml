@@ -21,6 +21,11 @@
 		<result property="trTypeName" column="tr_type_name"/>
 		<result property="trPrDateUp" column="tr_pr_date_up"/>
 		<result property="trPayoutCheck" column="tr_payout_check"/>
+		<association property="tradePaymentInDTO" javaType="TradePaymentInDTO">
+  			<result property="trPayinDate2" column="tr_payin_date2"/>
+  			<result property="trPayinCode" column="tr_payin_code"/>
+  			<result property="trPayinStatus" column="tr_payin_status"/>
+		</association>
 		<collection property="bidListDTO" 	resultMap="bidListDTOMap" />
 	</resultMap>
 	<resultMap	type="BidListDTO" 			id="bidListDTOMap">
@@ -53,15 +58,15 @@
 		<result property="bTypeCode" column="b_type_code"/>
 		<result property="announcedCode" column="announced_code"/>
 		<result property="bTitle" column="b_title"/>
-		<result property="mIdBuyer" column="m_id"/>
+		<result property="mId" column="mIdBuyer"/>
 		<result property="bRank" column="b_rank"/>
 		<result property="bPrice" column="b_price"/>
 		<result property="bDeposit" column="b_deposit"/>
-		<result property="sDepRate" column="s_dep_rate"/>
+		<result property="sDepositRate" column="s_dep_rate"/>
 		
 		<association property="bidComponentDTO" javaType="BidComponentDTO">
   			<id property="bCpCode" column="b_cp_code"/>
-  			<result property="mIdSeller" column="m_id"/>
+  			<result property="mId" column="mIdSeller"/>
   			<result property="bCpGroupcode" column="b_cp_groupcode"/>
   			<result property="bCpGroupcode" column="b_cp_groupcode"/>
   			<result property="bCpDateBidding1" column="b_cp_date_bidding1"/>
@@ -70,7 +75,7 @@
   		</association>
 		<association property="bidPlantDTO" javaType="bidPlantDTO">
   			<id property="bPlCode" column="b_pl_code"/>
-  			<result property="mIdSeller" column="m_id"/>
+  			<result property="mId" column="mIdSeller"/>
   			<result property="bPlGroupcode" column="b_pl_groupcode"/>
   			<result property="bPlNumberOfBidder" column="b_pl_number_of_bidder"/>
   			<result property="bPlDateBidding1" column="b_pl_date_bidding1"/>
@@ -163,16 +168,16 @@
 			)
 		VALUES 
 			(sf_tr_pr_code(), 
-			#{bidListDTO.bcode},
+			#{bidListDTO.bCode},
 			#{bidListDTO.bTypeCode},
 			#{bidListDTO.announcedCode}, 
-			#{bidListDTO.announcedTitle}, 
-			#{bidListDTO.bGroupcode},
-			#{bidListDTO.mIdSeller},
-			#{bidListDTO.mIdBuyer}, 
+			#{bidListDTO.bTitle}, 
+			#{groupCode},
+			#{mIdSeller},
+			#{bidListDTO.mId}, 
 			#{bidListDTO.bRank},
 			#{bidListDTO.bPrice},
-			#{bidListDTO.sDepRate},
+			#{bidListDTO.sDepositRate},
 			#{bidListDTO.bDeposit}, 
 			#{today}, 
 			sf_pr_conclusion_date(#{today}), 
@@ -181,7 +186,7 @@
 		
 	</insert>
 	
-	<select id="getComponentRankInfo" parameterType="String" resultMap = "bidListResultMap">
+	<select id="getComponentRankInfo" parameterType="map" resultMap = "bidListResultMap">
 		SELECT 
 			l.b_code,
 			l.b_type_code,
@@ -201,13 +206,13 @@
 		ON 
 			l.announced_code = c.b_cp_code
 		WHERE
-			l.announced_code = #{trPrCode}
+			l.announced_code = #{announcedCode}
 		And 
-			l.b_rank =2 
+			l.b_rank =#{rank} 
 	
 	</select>
 	
-	<select id="getPlantRankInfo" parameterType="String" resultMap = "bidListResultMap">
+	<select id="getPlantRankInfo" parameterType="map" resultMap = "bidListResultMap">
 		SELECT 
 			l.b_code,
 			l.b_type_code,
@@ -227,9 +232,9 @@
 		ON 
 			l.announced_code = p.b_pl_code
 		WHERE
-			l.announced_code = #{trPrCode}
+			l.announced_code = #{announcedCode}
 		And 
-			l.b_rank =2 ;
+			l.b_rank =#{rank} ;
 	
 	</select>
 	
@@ -237,7 +242,7 @@
 		UPDATE 
 			tb_bid_list AS l 
 		SET 
-			l.b_type_code = 12, 
+			l.tr_type_code = 12, 
 			l.tr_type_name ='대금미납' 
 		WHERE l.b_code = #{bCode};
 		
@@ -250,17 +255,19 @@
 			p.tr_type_code =12 ,
 			p.tr_type_name ='대금미납' 
 		WHERE 
-			p.tr_pr_code = #{trPrCode}
+			p.b_code = #{bCode}
 	</update>
 	<select id="getNotPaied" resultMap ="tradePriorityResultMap">
 		SELECT 
 			i.tr_payin_code,
 			p.tr_pr_code,
 			p.announced_code,
-			p.tr_pr_conclusion_date2,
+			i.tr_payin_date2,
 			p.b_code,
 			p.tr_type_code,
-			b.b_type_code
+			b.b_type_code,
+			i.tr_payin_status,
+			p.tr_pr_rank
 		FROM 
 			tb_trade_priority AS p
 		INNER JOIN 
@@ -309,10 +316,7 @@
 			c_trade_cm, 
 			tr_payin_date1, 
 			tr_payin_date2, 
-			tr_payin_status, 
-			m_account_bank_name, 
-			m_account_number, 
-			m_payment_name)
+			tr_payin_status)
 		VALUES 
 			(
 			sf_tr_payin_code(), 
@@ -329,10 +333,7 @@
 			#{tradePriorityDTO.trPrPrice}*sf_get_commission(#{tradePriorityDTO.trPrPrice})/100,
 			#{tomorrow},
 			sf_payin_date(#{tomorrow}),
-			'진행중', 
-			#{tradePriorityDTO.bidListDTO.mAccountBankName},
-			#{tradePriorityDTO.bidListDTO.mAccountNumber},
-			#{tradePriorityDTO.bidListDTO.mPaymentName})
+			'미납')
 	</insert> 
 
 	<!-- 우선순위테이블 조회  by천인정-->
@@ -369,7 +370,8 @@
 	<select id="getPriorityFail" resultMap="tradePriorityResultMap">
 		SELECT 
 			announced_code,
-			tr_pr_rank
+			tr_pr_rank,
+			b_type_code
 		FROM 
 			tb_trade_priority
 		WHERE
@@ -405,5 +407,15 @@
 			b_rank=#{rank}
 		WHERE 
 			b_code=#{bCode}
+	</update>
+	<update id="updateBidSecondState" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code=6,
+			tr_type_name='계약중'
+		WHERE 
+			announced_code = #{announcedCode}
+		and
+			b_rank = #{rank}
 	</update>
 </mapper>

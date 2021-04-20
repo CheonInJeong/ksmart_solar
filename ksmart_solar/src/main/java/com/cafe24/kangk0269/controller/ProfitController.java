@@ -49,12 +49,14 @@ public class ProfitController {
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
+		String uri = "/profit/cancel";
 		List<TradeFailDTO> cancelCmList = tradeService.getFailCommission(start, end, searchKey, searchValue);
 		model.addAttribute("cancelCmList", cancelCmList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
-		return "/profit/cancel";
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@GetMapping("/profit/commission")
@@ -66,13 +68,15 @@ public class ProfitController {
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
+		String uri = "/profit/commission";
 		List<TradePaymentOutDTO> successCmList = tradeService.getSuccessCommission(start, end, searchKey, searchValue);
 		System.out.println("성공수수료조회 : " + successCmList);
 		model.addAttribute("successCmList", successCmList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
-		return "/profit/commission";
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@PostMapping("/ajax/bidMoneyInsertSend")
@@ -80,6 +84,7 @@ public class ProfitController {
 		System.out.println("입출금 내역 입력 필요요소 :" + moneycheck);
 		System.out.println(moneycheck.getCode().substring(0,1));
 		String firstCode =  moneycheck.getCode().substring(0,1);
+		bidMoneyService.addBidMoney(moneycheck);
 		if(firstCode != null) {
 			if(firstCode.equals("b")) {
 				BidListDTO bidlist = new BidListDTO();
@@ -144,7 +149,7 @@ public class ProfitController {
 					bidMoneyService.modifyPayOut(paymentout);
 				}
 			}
-			bidMoneyService.addBidMoney(moneycheck);
+			
 			
 		}
 		
@@ -181,13 +186,15 @@ public class ProfitController {
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
+		String uri = "/bidMoneyCheck";
 		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList(start, end, searchKey, searchValue);
 		System.out.println(moneyCheckList);
 		model.addAttribute("moneyCheckList", moneyCheckList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
-		return "/profit/bidMoneyCheck";
+		model.addAttribute("uri", uri);
+		return "/profit" + uri;
 	}
 	
 	@GetMapping("/profit/balance")
@@ -199,12 +206,14 @@ public class ProfitController {
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
+		String uri = "/profit/balance";
 		List<BidMoneyDTO> bidMoneyList = bidMoneyService.getBidMoneyList(start, end, searchKey, searchValue);
 		model.addAttribute("bidMoneyList", bidMoneyList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
-		return "/profit/balance";
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@GetMapping("/calculateMonth")
@@ -221,11 +230,18 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/calculate")
-	public String Calculate(Model model) {
-		List<TradeFailDTO> calculateList = tradeService.getCalculateList();
-		System.out.println("수수료 정산 : " + calculateList);
+	public String Calculate(Model model
+							, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getCalculateListCnt();
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/profit/calculate";
+		List<TradeFailDTO> calculateList = tradeService.getCalculateList(start,end);
 		model.addAttribute("calculateList", calculateList);
-		return "/profit/calculate";
+		model.addAttribute("page", page);
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@PostMapping("/withDraw")
@@ -294,12 +310,14 @@ public class ProfitController {
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
+		String uri = "/profit/depositList";
 		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList(start, end, searchKey, searchValue);
 		model.addAttribute("depositOutList", depositOutList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
-		return "/profit/depositList";
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	@GetMapping("/profit/commissionList")
@@ -311,11 +329,13 @@ public class ProfitController {
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
+		String uri = "/profit/commissionList";
 		List<TradePaymentOutDTO> paymentOutList = tradeService.getPaymentOutList(start, end, searchKey, searchValue);
 		model.addAttribute("paymentOutList", paymentOutList);
 		model.addAttribute("searchKey", searchKey);
 		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
-		return "/profit/commissionList";
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 }

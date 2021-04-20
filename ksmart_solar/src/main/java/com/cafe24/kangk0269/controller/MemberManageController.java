@@ -110,8 +110,8 @@ public class MemberManageController {
 	
 	
 	@GetMapping("/getMemberInfoById")
-	public String getMemberInfoById(Model model
-									,@RequestParam(value="mId", required=false) String mId
+	public String getMemberInfoById(Model model,HttpSession session
+									, @RequestParam(value="mId", required=false) String mId
 									, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 									, @RequestParam(name="searchValueAM", required=false) String searchValueAM
 									, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
@@ -127,6 +127,13 @@ public class MemberManageController {
 									, @RequestParam(name="uri", required=false) String uri
 									, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 									, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) throws Exception {
+		String SLEVEL = (String) session.getAttribute("SLEVEL");
+		if("관리자".equals(SLEVEL)) {
+			List<BusinessPlantDTO> plantListById = plantService.getPlantListById(mId);
+			List<ComponentDTO> cd = memberService.getComponentListById(mId);
+			model.addAttribute("plantListById", plantListById);
+			model.addAttribute("componentListById", cd);
+		}
 		MemberDTO member = memberService.getMemberInfoById(mId);
 		List<MemberAccountDTO> accountList = accountService.getAccountListById(mId);
 		model.addAttribute("member", member);
