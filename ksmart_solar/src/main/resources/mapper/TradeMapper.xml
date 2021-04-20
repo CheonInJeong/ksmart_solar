@@ -88,7 +88,7 @@
 			,SUM(commissionTotal)	AS 'cmTotal'
 			,result.ym				AS 'ymDate'
 			,result.last			AS 'last'
-		from
+		FROM
 				(
 				SELECT
 					SUM(f.b_cancel)	AS 'cancelTotal'
@@ -119,18 +119,51 @@
 				GROUP BY DATE_FORMAT(i.b_mo_date,'%y%m')
 				) AS result
 		GROUP BY ym
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="searchKey != null and searchKey != ''.toString()">
-				<choose>
-					<when test="'mId'.equals(searchKey)">
-						a.m_id LIKE CONCAT('%',#{searchValue},'%')
-					</when>
-					<otherwise>
-						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
-					</otherwise>
-				</choose>
-			</if>
-		</trim>
+		LIMIT #{start},#{end}
+	</select>
+
+	<!-- 월말정산 리스트 수 조회 -->
+	<select id="getCalculateListCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			(SELECT
+				SUM(cancelTotal)		AS 'failTotal'
+				,SUM(successTotal)		AS 'sucTotal'
+				,SUM(commissionTotal)	AS 'cmTotal'
+				,result.ym				AS 'ymDate'
+				,result.last			AS 'last'
+			FROM
+					(
+					SELECT
+						SUM(f.b_cancel)	AS 'cancelTotal'
+						, 0 AS 'successTotal'
+						,SUM(f.b_cancel)	AS 'commissionTotal'
+						,DATE_FORMAT(f.tr_fail_date,'%y년 %m월') AS 'ym'
+						,LAST_DAY(f.tr_fail_date) AS 'last'
+					FROM
+						tb_trade_fail AS f
+					GROUP BY DATE_FORMAT(f.tr_fail_date,'%y%m')
+					UNION
+					SELECT
+						0 AS 'cancelTotal'
+						,SUM(o.c_trade_cm)	AS 'successTotal'
+						,SUM(o.c_trade_cm)	AS 'commissionTotal'
+						,DATE_FORMAT(i.b_mo_date,'%y년 %m월')	AS 'ym'
+						,LAST_DAY(i.b_mo_date)	AS 'last'
+					FROM
+						tb_trade_payment_out AS o
+						LEFT join
+						tb_trade_priority AS r
+						ON 
+						o.tr_pr_code = r.tr_pr_code
+						LEFT JOIN 
+						tb_trade_payment_in AS i
+						ON 
+						r.tr_pr_code = i.tr_pr_code
+					GROUP BY DATE_FORMAT(i.b_mo_date,'%y%m')
+					) AS result
+			GROUP BY ym) AS result2
 	</select>
 	
 	<!-- 월별 수수료 상세정보 -->

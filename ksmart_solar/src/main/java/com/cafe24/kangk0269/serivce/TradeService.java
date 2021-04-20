@@ -25,8 +25,12 @@ public class TradeService {
 	}
 	
 	// 월말정산 리스트 조회
-	public List<TradeFailDTO> getCalculateList(int start,int end,String searchKey,String searchValue){
-		return tradeMapper.getCalculateList(start, end, searchKey, searchValue);
+	public List<TradeFailDTO> getCalculateList(int start,int end){
+		return tradeMapper.getCalculateList(start, end);
+	}
+	// 월말정산리스트 수
+	public int getCalculateListCnt() {
+		return tradeMapper.getCalculateListCnt();
 	}
 	// 월별 수수료 상세정보
 	public List<TradeFailDTO> getCalculateMonth(String lastDate) {
