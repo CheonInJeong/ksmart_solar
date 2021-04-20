@@ -93,32 +93,53 @@ public class ScheduledService {
 			//입금진행상태
 			String payinStatus = tradePriority.get(i).getTradePaymentInDTO().getTrPayinStatus();
 			//공고코드
-			String trPrCode = tradePriority.get(i).getTrPrCode();
+			String trPrCode = tradePriority.get(i).getAnnouncedCode();
 			//공고 분류
 			String bTypeCode = tradePriority.get(i).getBidListDTO().getbTypeCode();
 			//입찰코드
 			String bCode = tradePriority.get(i).getbCode();
+			//순위
+			int rank = tradePriority.get(i).getTrPrRank();
 			
 			if(lastDate!=null) {
 				lastDate = lastDate.substring(0,10);
 				
 				if(lastDate.equals(today)) {
+					System.out.println(trPrCode+"--------------------------------trPrCode");
 					//대금미납인경우
 					if(payinStatus.equals("미납")) {
 						//낙찰자테이블의 거래상태 바꾸기 :  11대금처리중 > 12 대금 미납
-						scheduledMapper.updateAcInPriority(trPrCode);
+						scheduledMapper.updateAcInPriority(bCode);
 						//입찰자 리스트의 거래상태 바꾸기 :  11대금처리중 > 12 대금 미납
 						scheduledMapper.updateAcInbidList(bCode);
 						//2순위 낙찰자 테이블에 추가
 							//발전소인경우
 							if(bTypeCode.equals("1")) {
-								BidListDTO plant = scheduledMapper.getPlantRankInfo(trPrCode);
-								scheduledMapper.addTradePriod(plant, today);
+								BidListDTO plant = scheduledMapper.getPlantRankInfo(trPrCode,rank+1);
+								if(plant!=null) {
+									System.out.println("다음순위 있음");
+									String groupCode = plant.getBidPlantDTO().getbPlGroupcode();
+									String mIdSeller = plant.getBidPlantDTO().getmId();
+									scheduledMapper.addTradePriod(plant, today,groupCode,mIdSeller);
+									scheduledMapper.updateBidSecondState(trPrCode, rank+1);
+								}else if(plant==null) {
+									System.out.println("다음순위 없음");
+									bidPlantMapper.updatePlantFail(trPrCode);
+								}
 							}
 							//부품인경우
 							else if(bTypeCode.equals("2")) {
-								BidListDTO component = scheduledMapper.getComponentRankInfo(trPrCode);
-								scheduledMapper.addTradePriod(component, today);
+								BidListDTO component = scheduledMapper.getComponentRankInfo(trPrCode,rank+1);
+								if(component!=null) {
+									System.out.println("다음순위 있음");
+									String groupCode = component.getBidComponentDTO().getbCpGroupcode();
+									String mIdSeller = component.getBidComponentDTO().getmId();
+									scheduledMapper.addTradePriod(component, today,groupCode,mIdSeller);
+									scheduledMapper.updateBidSecondState(trPrCode, rank+1);
+								}else if(component==null) {
+									System.out.println("다음순위 없음");
+									bidComponentMapper.updateComponentFail(trPrCode);
+								}
 							}
 					}
 					
@@ -177,6 +198,7 @@ public class ScheduledService {
 					List.put("tradePerioddate", tradePerioddate);
 					List.put("BidPlantTradeList", BidPlantTradeList);
 					tradeMapper.addTradePriority(List);
+					scheduledMapper.updateBidSecondState(announcedCode, rank);
 				}
 				if(bidListDTO.equals("2")) {
 					System.out.println("부품");
@@ -185,10 +207,12 @@ public class ScheduledService {
 					List.put("tradePerioddate", tradePerioddate);
 					List.put("BidComTradeList", BidComTradeList);
 					tradeMapper.addTradePriority(List);
+					scheduledMapper.updateBidSecondState(announcedCode, rank);
 				}
 			//다음 순위가 없다면 거래 실패
 			}else if(bidListDTO==null) {
 				String bidType = priorityFail.get(i).getbTypeCode();
+				System.out.println(bidType+"-------------------------------------bidType");
 				if(bidType.equals("1")) {
 					bidPlantMapper.updatePlantFail(announcedCode);
 				}
