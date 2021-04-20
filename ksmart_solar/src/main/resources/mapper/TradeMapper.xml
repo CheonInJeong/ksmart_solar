@@ -442,6 +442,32 @@
 			tb_trade_priority AS b
 			ON 
 			a.tr_pr_code = b.tr_pr_code
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 거래대금출금신청 리스트 수 조회 -->
+	<select id="getPaymentOutListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_trade_payment_out AS a
+			LEFT JOIN 
+			tb_trade_priority AS b
+			ON 
+			a.tr_pr_code = b.tr_pr_code
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 예치금 출금 계좌확인 -->
@@ -524,6 +550,46 @@
 			tb_bid_list AS b
 			ON 
 			a.b_code = b.b_code
+		<if test="searchKey == null or searchKey == ''.toString()">
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				<choose>
+					<when test="'mId'.equals(searchKey)">
+						a.m_id LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 예치금출금신청 리스트 수 -->
+	<select id="getDepositOutListCnt" resultType="int">
+		SELECT 
+			COUNT(*)
+		FROM 
+			tb_trade_deposit_out AS a
+			LEFT JOIN
+			tb_bid_list AS b
+			ON 
+			a.b_code = b.b_code
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				<choose>
+					<when test="'mId'.equals(searchKey)">
+						a.m_id LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 낙찰자 테이블 낙찰코드로 상세조회 -->

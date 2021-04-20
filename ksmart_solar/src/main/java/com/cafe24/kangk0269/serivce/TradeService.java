@@ -64,8 +64,12 @@ public class TradeService {
 		return tradeMapper.getPaymentOut(Code);
 	}
 	// 거래대금출금신청목록
-	public List<TradePaymentOutDTO> getPaymentOutList(){
-		return tradeMapper.getPaymentOutList();
+	public List<TradePaymentOutDTO> getPaymentOutList(int start,int end,String searchKey,String searchValue){
+		return tradeMapper.getPaymentOutList(start, end, searchKey, searchValue);
+	}
+	// 거래대금출금신청 리스트 수 조회
+	public int getPaymentOutListCnt(String searchKey,String searchValue) {
+		return tradeMapper.getPaymentOutListCnt(searchKey, searchValue);
 	}
 	
 	// 예치금 출금 계좌확인
@@ -85,8 +89,12 @@ public class TradeService {
 		return tradeMapper.getDepositOut(Code);
 	}
 	// 예치금출금신청목록
-	public List<TradeDepositOutDTO> getDepositOutList() {
-		return tradeMapper.getDepositOutList();
+	public List<TradeDepositOutDTO> getDepositOutList(int start,int end,String searchKey,String searchValue) {
+		return tradeMapper.getDepositOutList(start, end, searchKey, searchValue);
+	}
+	// 예치금출금신청 리스트 수
+	public int getDepositOutListCnt(String searchKey,String searchValue) {
+		return tradeMapper.getDepositOutListCnt(searchKey, searchValue);
 	}
 	
 	// 낙찰자 테이블 낙찰코드로 상세조회

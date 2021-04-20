@@ -286,18 +286,36 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/depositList")
-	public String DepositList(Model model) {
-		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList();
-		System.out.println(depositOutList);
+	public String DepositList(Model model
+							  , @RequestParam(name="searchKey", required=false) String searchKey
+							  , @RequestParam(name="searchValue", required=false) String searchValue
+							  , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getDepositOutListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<TradeDepositOutDTO> depositOutList = tradeService.getDepositOutList(start, end, searchKey, searchValue);
 		model.addAttribute("depositOutList", depositOutList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/depositList";
 	}
 	
 	@GetMapping("/profit/commissionList")
-	public String CommissionList(Model model) {
-		List<TradePaymentOutDTO> paymentOutList = tradeService.getPaymentOutList();
-		System.out.println(paymentOutList);
+	public String CommissionList(Model model
+								 , @RequestParam(name="searchKey", required=false) String searchKey
+								 , @RequestParam(name="searchValue", required=false) String searchValue
+								 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = tradeService.getPaymentOutListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<TradePaymentOutDTO> paymentOutList = tradeService.getPaymentOutList(start, end, searchKey, searchValue);
 		model.addAttribute("paymentOutList", paymentOutList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/commissionList";
 	}
 }
