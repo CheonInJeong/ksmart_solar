@@ -354,7 +354,8 @@
 	<select id="getPriorityFail" resultMap="tradePriorityResultMap">
 		SELECT 
 			announced_code,
-			tr_pr_rank
+			tr_pr_rank,
+			b_type_code
 		FROM 
 			tb_trade_priority
 		WHERE
@@ -390,5 +391,15 @@
 			b_rank=#{rank}
 		WHERE 
 			b_code=#{bCode}
+	</update>
+	<update id="updateBidSecondState" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code=6,
+			tr_type_name='계약중'
+		WHERE 
+			announced_code = #{announcedCode}
+		and
+			b_rank = #{rank}
 	</update>
 </mapper>

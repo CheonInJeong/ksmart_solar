@@ -58,5 +58,7 @@ public interface ScheduledMapper {
 	public List<TradePriorityDTO> getNotPaied();
 	public List<BidListDTO> getBidRank(String announcedCode);
 	public int updateBidRank(@Param(value="bCode")String bCode,@Param(value="rank")int rank);
+	public int updateBidSecondState(@Param(value="announcedCode")String announcedCode,
+									@Param(value="rank")int rank);
 	
 } 

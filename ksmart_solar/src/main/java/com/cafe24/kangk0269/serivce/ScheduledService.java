@@ -180,6 +180,7 @@ public class ScheduledService {
 					List.put("tradePerioddate", tradePerioddate);
 					List.put("BidPlantTradeList", BidPlantTradeList);
 					tradeMapper.addTradePriority(List);
+					scheduledMapper.updateBidSecondState(announcedCode, rank);
 				}
 				if(bidListDTO.equals("2")) {
 					System.out.println("부품");
@@ -188,10 +189,12 @@ public class ScheduledService {
 					List.put("tradePerioddate", tradePerioddate);
 					List.put("BidComTradeList", BidComTradeList);
 					tradeMapper.addTradePriority(List);
+					scheduledMapper.updateBidSecondState(announcedCode, rank);
 				}
 			//다음 순위가 없다면 거래 실패
 			}else if(bidListDTO==null) {
 				String bidType = priorityFail.get(i).getbTypeCode();
+				System.out.println(bidType+"-------------------------------------bidType");
 				if(bidType.equals("1")) {
 					bidPlantMapper.updatePlantFail(announcedCode);
 				}

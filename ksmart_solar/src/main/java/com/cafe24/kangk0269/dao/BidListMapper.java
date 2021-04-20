@@ -69,4 +69,6 @@ public interface BidListMapper {
 	public int removeQna(int bIdx);
 	public int removeQnaCo(int bIdx);
 
+	
+
 }
