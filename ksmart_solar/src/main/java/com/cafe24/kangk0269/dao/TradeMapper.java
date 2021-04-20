@@ -20,10 +20,14 @@ public interface TradeMapper {
 	public List<TradeFailDTO> getCalculateMonth(String lastDate);
 	
 	// 대금수수료목록
-	public List<TradePaymentOutDTO> getSuccessCommission();
+	public List<TradePaymentOutDTO> getSuccessCommission(int start,int end,String searchKey,String searchValue);
+	// 대금수수료 리스트 수
+	public int getSuccessCommissionCnt(String searchKey,String searchValue);
 	
 	// 취소수수료목록
-	public List<TradeFailDTO> getFailCommission();
+	public List<TradeFailDTO> getFailCommission(int start,int end,String searchKey,String searchValue);
+	// 취소수수료 리스트 수
+	public int getFailCommissionCnt(String searchKey,String searchValue);
 
 	// 거래대금 출금 계좌확인
 	public int paymentoutAccountCheck(String Code);
@@ -34,7 +38,9 @@ public interface TradeMapper {
 	// 거래대금 출금신청 상세조회
 	public TradePaymentOutDTO getPaymentOut(String Code);
 	// 거래대금출금신청목록
-	public List<TradePaymentOutDTO> getPaymentOutList();
+	public List<TradePaymentOutDTO> getPaymentOutList(int start,int end,String searchKey,String searchValue);
+	// 거래대금출금신청 리스트 수 조회
+	public int getPaymentOutListCnt(String searchKey,String searchValue);
 	
 	// 예치금 출금 계좌확인
 	public int depositAccountCheck(String Code);
@@ -45,7 +51,9 @@ public interface TradeMapper {
 	// 예치금 출금신청 상세조회
 	public TradeDepositOutDTO getDepositOut(String Code);
 	// 예치금출금신청목록
-	public List<TradeDepositOutDTO> getDepositOutList();
+	public List<TradeDepositOutDTO> getDepositOutList(int start,int end,String searchKey,String searchValue);
+	// 예치금출금신청 리스트 수
+	public int getDepositOutListCnt(String searchKey,String searchValue);
 	
 	// 낙찰자 테이블 낙찰코드로 상세조회
 	public TradePriorityDTO getPriByPrCode(String prCode);

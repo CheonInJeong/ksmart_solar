@@ -102,12 +102,40 @@ public class BidMoneyService {
 		return bidMoneyMapper.getMoneyCheck(Code);
 	}
 	
-	// 확인 입출금 목록(미완료, 완료)
-	public List<MoneyCheckDTO> getMoneyCheckList(){
-		return bidMoneyMapper.getMoneyCheckList();
+	// 확인 입출금 목록(미완료)
+	public List<MoneyCheckDTO> getMoneyCheckList(int start,int end,String searchKey,String searchValue){
+		return bidMoneyMapper.getMoneyCheckList(start, end, searchKey, searchValue);
+	}
+	// 확인 입출금 리스트 수(미완료)
+	public int getMoneyCheckListCnt(String searchKey,String searchValue) {
+		return bidMoneyMapper.getMoneyCheckListCnt(searchKey, searchValue);
 	}
 	
-	public List<BidMoneyDTO> getBidMoneyList(){
-		return bidMoneyMapper.getBidMoneyList();
+	// 관리자계좌 입출금 내역 조회
+	public List<BidMoneyDTO> getBidMoneyList(int start,int end,String searchKey,String searchValue){
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}else if("bMoType".equals(searchKey)){
+				searchKey = "b_mo_type";
+			}else {
+				searchKey = "b_mo_detail";
+			}
+		}
+		
+		return bidMoneyMapper.getBidMoneyList(start, end, searchKey, searchValue);
+	}
+	// 관리자계좌 입출금내역 리스트 수 조회
+	public int getBidMoneyListCnt(String searchKey,String searchValue){
+		if(searchKey != null && searchKey != "") {
+			if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}else if("bMoType".equals(searchKey)){
+				searchKey = "b_mo_type";
+			}else {
+				searchKey = "b_mo_detail";
+			}
+		}
+		return bidMoneyMapper.getBidMoneyListCnt(searchKey, searchValue);
 	}
 }
