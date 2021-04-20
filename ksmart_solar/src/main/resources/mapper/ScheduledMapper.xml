@@ -273,6 +273,23 @@
 			i.tr_payin_check ='N';
 	</select>
 
+	<update id="updatePriorityStatus" parameterType="String">
+		UPDATE tb_trade_priority
+		SET
+			tr_type_code=11,
+			tr_type_name='대금처리중'
+		WHERE 
+			b_code = #{bCode}
+	</update>
+	<update id="updateBidStatus" parameterType="String">
+		UPDATE tb_bid_list
+		SET
+			tr_type_code=11,
+			tr_type_name='대금처리중'
+		WHERE 
+			b_code = #{bCode}
+	</update>
+
  	<insert id="addPayIn" parameterType="map">
 		INSERT 
 		INTO 
@@ -316,8 +333,6 @@
 			#{tradePriorityDTO.bidListDTO.mAccountBankName},
 			#{tradePriorityDTO.bidListDTO.mAccountNumber},
 			#{tradePriorityDTO.bidListDTO.mPaymentName})
-		
-	
 	</insert> 
 
 	<!-- 우선순위테이블 조회  by천인정-->

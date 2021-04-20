@@ -45,7 +45,10 @@ public interface ScheduledMapper {
 	//대금납부테이블에 추가 by천인정
 	public int addPayIn(@Param(value="tradePriorityDTO") TradePriorityDTO tradePriorityDTO,
 						@Param(value="tomorrow") String tomorrow);
-	
+	//대금납부테이블에 넣은 입찰자의 tb_trade_priority 상태 바꿔주기 by천인정
+	public int updatePriorityStatus(String bCode);
+	//대금납부테이블에 넣은 입찰자의 tb_bid_list 상태 바꿔주기 by천인정
+	public int updateBidStatus(String bCode);
 	//우선순위테이블 조회 by 천인정
 	public List<TradePriorityDTO> getPriority();
 	//계약이 취소된 낙찰자의 공고코드와 순위가져오는 쿼리
