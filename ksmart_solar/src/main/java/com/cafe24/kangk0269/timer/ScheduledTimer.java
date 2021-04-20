@@ -88,6 +88,7 @@ public class ScheduledTimer {
 	  @Scheduled(cron = "0/5  *  *  *  *  *") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
+			  
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
