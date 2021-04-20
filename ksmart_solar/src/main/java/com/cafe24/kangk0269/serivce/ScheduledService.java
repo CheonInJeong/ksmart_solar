@@ -136,24 +136,22 @@ public class ScheduledService {
 		List<TradePriorityDTO> tradePriority = scheduledMapper.getPriority();
 		for(int i= 0; i<tradePriority.size();i++) {
 			String lastDate = tradePriority.get(i).getTrPrConclusionDate2();
+			String bCode= tradePriority.get(i).getbCode();
 			int status = tradePriority.get(i).getTrTypeCode();
 			
 			if(lastDate!=null) {
 				lastDate = lastDate.substring(0,10);
-				/*
-				 * Date date = new Date(); SimpleDateFormat format = new
-				 * SimpleDateFormat("yyyy-MM-dd"); String today = format.format(date);
-				 */
+			
 				if(lastDate.equals(today)&&status==6) {
 					System.out.println("실행할 코드 작성");
-					//내일날짜구하기
-					/*
-					 * Calendar calendar = Calendar.getInstance();
-					 * calendar.setTime(format.parse(today)); calendar.add(Calendar.DATE, 1); String
-					 * tomorrow = format.format(calendar.getTime());
-					 */
+					
 					scheduledMapper.addPayIn(tradePriority.get(i),today);
-				
+					scheduledMapper.updatePriorityStatus(bCode);
+					//대금납부테이블에 넣은 입찰자의 tb_bid_list 상태 바꿔주기 by천인정
+					scheduledMapper.updateBidStatus(bCode);
+	
+					
+					
 				}
 			}
 	
