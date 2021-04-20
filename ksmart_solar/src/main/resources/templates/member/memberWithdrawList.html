@@ -46,8 +46,8 @@
 	            		<option value="mRevokeCancelDate">탈퇴취소일자</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValueWAM" th:value="${searchValueWAM}">
-	            	<input class="input-medium default-date-picker" size="14" type="text" placeholder="YYYY-MM-DD" name="searchValueWAMS" th:value="${searchValueWAMS}" style="display: none">
-	            	<input class="input-medium default-date-picker" size="14" type="text" placeholder="YYYY-MM-DD" name="searchValueWAMF" th:value="${searchValueWAMF}" style="display: none">
+	            	<input type="date" placeholder="YYYY-MM-DD" name="searchValueWAMS" th:value="${searchValueWAMS}" style="display: none">
+	            	<input type="date" placeholder="YYYY-MM-DD" name="searchValueWAMF" th:value="${searchValueWAMF}" style="display: none">
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
             	</div>

@@ -387,4 +387,23 @@
 		AND
 			b_rank = #{rank}
 	</select>
+	<select id="getBidRank" parameterType="String" resultMap="bidListResultMap">
+		SELECT 
+			b_code, 
+			b_rank
+		FROM 
+			tb_bid_list
+		WHERE 
+			announced_code = #{announcedCode}
+		AND
+			b_rank IS NOT null
+		ORDER BY b_rank
+	</select>
+	<update id="updateBidRank" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			b_rank=#{rank}
+		WHERE 
+			b_code=#{bCode}
+	</update>
 </mapper>

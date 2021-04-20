@@ -59,6 +59,7 @@ public interface ScheduledMapper {
 	
 	//대금 미납인 입찰자의 정보 가져오기 by천인정
 	public List<TradePriorityDTO> getNotPaied();
-	
+	public List<BidListDTO> getBidRank(String announcedCode);
+	public int updateBidRank(@Param(value="bCode")String bCode,@Param(value="rank")int rank);
 	
 } 

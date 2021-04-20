@@ -203,6 +203,7 @@ public class NoticeController {
 		//발전소 공고인지 부품공고인지를 구분하여 화면에 알맞는 정보를 보내준다.
 		if(getBidListCount != 0) {
 			bidListDTO = bidListService.getBidList(announceCode,id);
+			System.out.println(bCode+"----------------------------------bCode");
 			System.out.println(bCode instanceof String);
 			if(bCode==null) {
 				//이미 입찰을 했다면 입찰한 정보를 보여준다.
@@ -384,10 +385,10 @@ public class NoticeController {
 	}
 	//계약 취소
 	@PostMapping("/notice/tradeCancel")
-	public String tradeCancel(String bCode) {
+	public String tradeCancel(String bCode,String url) {
 		System.out.println(bCode);
 		bidListService.tradeCancel(bCode);
-		return "redirect:/notice/noticeList";
+		return "redirect:"+url;
 	}
 	@PostMapping("/notice/qnaRequest")
 	public String qnaRequest(BoardSellerDTO boardSellerDTO,

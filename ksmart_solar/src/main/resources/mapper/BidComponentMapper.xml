@@ -167,6 +167,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</select>
 	<select id="getBidComponentMyBid" resultMap="BidComponentDTOMap" parameterType="map">
 		SELECT 
+			li.b_code,
 			com.b_cp_title,
 			com.b_cp_code,
 			li.tr_type_name,

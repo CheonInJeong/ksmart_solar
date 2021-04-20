@@ -114,7 +114,7 @@
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                   	<button class="btn standardBtn" type="submit">수정완료</button>
-                  	<a class="btn standardBtn" th:href=@{/member/memberList} role="button">목록이동</a>
+                  	<a class="btn standardBtn" th:href=@{/member/memberList(curPage1=${curPage1},curPage2=${curPage2},searchKeyAM=${searchKeyAM},searchKeyRM=${searchKeyRM},searchValueAM=${searchValueAM},searchValueRM=${searchValueRM})} role="button">목록이동</a>
                   </div>
                 </div>
               </form>

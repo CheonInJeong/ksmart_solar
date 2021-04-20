@@ -19,6 +19,7 @@ import com.cafe24.kangk0269.dao.BidListMapper;
 import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dao.FileMapper;
 import com.cafe24.kangk0269.dao.PolicyMapper;
+import com.cafe24.kangk0269.dao.ScheduledMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dao.TradeMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
@@ -38,6 +39,7 @@ public class BidListService {
 	private final PolicyMapper policyMapper;
 	private final TradeMapper tradeMapper;
 	private final SellMapper sellMapper;
+	private final ScheduledMapper scheduledMapper;
 	
 	@Autowired
 	public BidListService(BidListMapper bidListMapper
@@ -47,7 +49,8 @@ public class BidListService {
 						,BidPlantMapper bidPlantMapper
 						,PolicyMapper policyMapper
 						,TradeMapper tradeMapper
-						,SellMapper sellMapper) {
+						,SellMapper sellMapper
+						,ScheduledMapper scheduledMapper) {
 		this.bidListMapper = bidListMapper; 
 		this.fileUtils = fileUtils; 
 		this.fileMapper = fileMapper; 
@@ -56,6 +59,7 @@ public class BidListService {
 		this.policyMapper = policyMapper; 
 		this.tradeMapper = tradeMapper; 
 		this.sellMapper = sellMapper; 
+		this.scheduledMapper = scheduledMapper; 
 	}
 	
 	public double getDepositRate() {
@@ -307,6 +311,12 @@ public class BidListService {
 			if(result!=0) {
 				try {
 					sellMapper.updateComponentAcStatus1("진행",componentList.get(i));
+					List<BidListDTO> bidRank = scheduledMapper.getBidRank(componentList.get(i));
+					for(int j=0; j<bidRank.size();j++) {
+						if(j+1 != bidRank.get(j).getbRank()) {
+							scheduledMapper.updateBidRank(bidRank.get(j).getbCode(),j+1);
+						}
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -327,6 +337,12 @@ public class BidListService {
 			if(result!=0) {
 				try {
 					sellMapper.updateAcStatus1("진행",plantList.get(i));
+					List<BidListDTO> bidRank = scheduledMapper.getBidRank(plantList.get(i));
+					for(int j=0; j<bidRank.size();j++) {
+						if(j+1 != bidRank.get(j).getbRank()) {
+							scheduledMapper.updateBidRank(bidRank.get(j).getbCode(),j+1);
+						}
+					}
 				} catch (Exception e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
