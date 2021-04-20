@@ -309,10 +309,7 @@
 			c_trade_cm, 
 			tr_payin_date1, 
 			tr_payin_date2, 
-			tr_payin_status, 
-			m_account_bank_name, 
-			m_account_number, 
-			m_payment_name)
+			tr_payin_status)
 		VALUES 
 			(
 			sf_tr_payin_code(), 
@@ -329,10 +326,7 @@
 			#{tradePriorityDTO.trPrPrice}*sf_get_commission(#{tradePriorityDTO.trPrPrice})/100,
 			#{tomorrow},
 			sf_payin_date(#{tomorrow}),
-			'진행중', 
-			#{tradePriorityDTO.bidListDTO.mAccountBankName},
-			#{tradePriorityDTO.bidListDTO.mAccountNumber},
-			#{tradePriorityDTO.bidListDTO.mPaymentName})
+			'미납')
 	</insert> 
 
 	<!-- 우선순위테이블 조회  by천인정-->
