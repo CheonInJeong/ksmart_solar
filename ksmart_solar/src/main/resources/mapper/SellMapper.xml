@@ -1046,8 +1046,6 @@
   		  
   	
   		  
-  		  
-  		  
   		  <!--부품 코드로 부품 정보 조회  -->
   		  <select id="getComponentInformation" resultMap = "componentResultMap" parameterType="String">
   		  		SELECT 
