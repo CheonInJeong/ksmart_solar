@@ -157,7 +157,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<if test="status.toString()=='입찰'.toString()">
 			tr_type_code=4,
 			tr_type_name='입찰취소',
-			b_deposit_available='Y'
+			b_deposit_available='Y',
+			b_rank=null
 		</if>
 		<if test="status.toString()=='공고취소'.toString()">
 			tr_type_code=15,
