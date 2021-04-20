@@ -231,18 +231,14 @@ public class ProfitController {
 	
 	@GetMapping("/profit/calculate")
 	public String Calculate(Model model
-							, @RequestParam(name="searchKey", required=false) String searchKey
-							, @RequestParam(name="searchValue", required=false) String searchValue
 							, @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
-		int count = bidMoneyService.getBidMoneyListCnt(searchKey, searchValue);
+		int count = tradeService.getCalculateListCnt();
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
 		String uri = "/profit/calculate";
-		List<TradeFailDTO> calculateList = tradeService.getCalculateList(start,end,searchKey,searchValue);
+		List<TradeFailDTO> calculateList = tradeService.getCalculateList(start,end);
 		model.addAttribute("calculateList", calculateList);
-		model.addAttribute("searchKey", searchKey);
-		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
 		model.addAttribute("uri", uri);
 		return uri;
