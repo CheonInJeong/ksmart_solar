@@ -60,10 +60,16 @@ public class SellService {
 	
 	//발전소 공고 코드로 공고상태값 가져오기
 	
-	public BidPlantDTO getPlantAcStatusByCode(String bPlCode) {
+	public int getPlantAcStatusByCode(String bPlCode) {
 		return sellMapper.getPlantAcStatusByCode(bPlCode);
 		
 	}
+	//부품 공고 코드로 공고 상태값 가져오기
+	public int getComponentAcStatusByCode(String bCpCode) {
+		return sellMapper.getComponentAcStatusByCode(bCpCode);
+		
+	}
+	
 	
 	//부품 재공고 신청
 	public void addComponentRebidApply(BidComponentDTO bidComponentDTO,MultipartHttpServletRequest multipartHttpServletRequest, HttpServletRequest request ) throws Exception{

@@ -28,7 +28,9 @@ public interface SellMapper {
 	public String getRecentlybPlCodeByGroupcode(String groupCode);
 	
 	//발전소 공고 코드로 공고 상태 얻기
-	public BidPlantDTO getPlantAcStatusByCode(String bPlCode);
+	public int getPlantAcStatusByCode(String bPlCode);
+	public int getComponentAcStatusByCode(String bCpCode);
+	
 	//b_recently 'Y' -> 'N'으로
 	public int updateBPlantRecentlyYn(String bPlCode);
 	public int updateBComponentRecentlyYn(String cpCode);

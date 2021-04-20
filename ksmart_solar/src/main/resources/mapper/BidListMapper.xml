@@ -18,9 +18,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bDepositDate" 			column="b_deposit_date" />	
 		<result property="trTypeCode" 				column="tr_type_code" />	
 		<result property="trTypeName" 				column="tr_type_name" />	
-		<result property="dcInstructions" 			column="dc_instructions" />	
-		<result property="dcApplication" 			column="dc_application" />	
-		<result property="dcProposal" 				column="dc_proposal" />	
 		<result property="bDate" 					column="b_date" />	
 		<result property="bCheck"					column="b_check" />	
 		<result property="bRank" 					column="b_rank" />	
@@ -119,9 +116,6 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_deposit_date, 
 			tr_type_code, 
 			tr_type_name, 
-			dc_instructions, 
-			dc_application, 
-			dc_proposal, 
 			b_date, 
 			b_check, 
 			b_rank, 
@@ -163,7 +157,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<if test="status.toString()=='입찰'.toString()">
 			tr_type_code=4,
 			tr_type_name='입찰취소',
-			b_deposit_available='Y'
+			b_deposit_available='Y',
+			b_rank=null
 		</if>
 		<if test="status.toString()=='공고취소'.toString()">
 			tr_type_code=15,

@@ -37,9 +37,6 @@
 		<result property="bDepositDate" 			column="b_deposit_date" />	
 		<result property="trTypeCode" 				column="tr_type_code" />	
 		<result property="trTypeName" 				column="tr_type_name" />	
-		<result property="dcInstructions" 			column="dc_instructions" />	
-		<result property="dcApplication" 			column="dc_application" />	
-		<result property="dcProposal" 				column="dc_proposal" />	
 		<result property="bDate" 					column="b_date" />	
 		<result property="bCheck"					column="b_check" />	
 		<result property="bRank" 					column="b_rank" />	
@@ -69,6 +66,7 @@
   			<result property="bCpGroupcode" column="b_cp_groupcode"/>
   			<result property="bCpDateBidding1" column="b_cp_date_bidding1"/>
   			<result property="bCpDateBidding2" column="b_cp_date_bidding2"/>
+  			<result property="bCpBidderNumber" column="b_cp_bidder_number"/>
   		</association>
 		<association property="bidPlantDTO" javaType="bidPlantDTO">
   			<id property="bPlCode" column="b_pl_code"/>
@@ -104,8 +102,8 @@
 	<update id="updateComponentConfirmToIng" parameterType="String">
 		UPDATE tb_bid_component
 		SET
-			b_cp_status='공고신청',
-			ac_status_code=0
+			b_cp_status='공고진행중',
+			ac_status_code=4
 		WHERE b_cp_date_bidding1 = #{today}
 		
 	</update>
@@ -374,4 +372,23 @@
 		AND
 			b_rank = #{rank}
 	</select>
+	<select id="getBidRank" parameterType="String" resultMap="bidListResultMap">
+		SELECT 
+			b_code, 
+			b_rank
+		FROM 
+			tb_bid_list
+		WHERE 
+			announced_code = #{announcedCode}
+		AND
+			b_rank IS NOT null
+		ORDER BY b_rank
+	</select>
+	<update id="updateBidRank" parameterType="map">
+		UPDATE tb_bid_list
+		SET
+			b_rank=#{rank}
+		WHERE 
+			b_code=#{bCode}
+	</update>
 </mapper>
