@@ -15,7 +15,7 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 public interface TradeMapper {
 
 	// 월말정산리스트
-	public List<TradeFailDTO> getCalculateList();
+	public List<TradeFailDTO> getCalculateList(int start,int end,String searchKey,String searchValue);
 	// 월별 수수료 상세정보
 	public List<TradeFailDTO> getCalculateMonth(String lastDate);
 	

@@ -118,7 +118,19 @@
 					r.tr_pr_code = i.tr_pr_code
 				GROUP BY DATE_FORMAT(i.b_mo_date,'%y%m')
 				) AS result
-		GROUP BY ym;
+		GROUP BY ym
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				<choose>
+					<when test="'mId'.equals(searchKey)">
+						a.m_id LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 월별 수수료 상세정보 -->
