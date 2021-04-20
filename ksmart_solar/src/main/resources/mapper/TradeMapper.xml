@@ -245,7 +245,96 @@
 				ON 
 				c.tr_pr_code = d.tr_pr_code
 			) AS result
-		ORDER BY tr_fail_date
+		<if test="searchKey == null or searchKey == ''.toString()">
+			ORDER BY tr_fail_date
+			LIMIT #{start},#{end}
+		</if>
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				<choose>
+					<when test="'mId'.equals(searchKey)">
+						m_id LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+				ORDER BY tr_fail_date
+				LIMIT #{start},#{end}
+			</if>
+		</trim>
+	</select>
+	
+	<!-- 취소수수료 리스트 수 -->
+	<select id="getFailCommissionCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			(	
+			SELECT 
+				tr_fail_code	
+				, related_code		
+				, tr_fail_type	
+				, a.m_id				
+				, b.announced_code	AS announcedCode
+				, b.announced_title	AS announcedTitle
+				, if(b.b_type_code=1,'발전소','부품') AS bType	
+				, e.m_account_bank_name	AS bankName
+				, e.m_account_number		AS accountNumber
+				, e.m_payment_name		AS paymentName
+				, tr_fail_basis	
+				, b_cancel_rate	
+				, b_cancel			
+				, tr_fail_date		
+			FROM 
+				tb_trade_fail AS a
+				INNER JOIN 
+				tb_trade_priority AS b
+				ON 
+				a.related_code = b.tr_pr_code
+				LEFT JOIN 
+				tb_bid_list AS e
+				ON 
+				b.b_code = e.b_code
+			UNION ALL
+			SELECT 
+				tr_fail_code		
+				, related_code		
+				, tr_fail_type		
+				, m_id				
+				, d.announced_code	AS announcedCode
+				, d.announced_title	AS announcedTitle
+				, if(d.b_type_code=1,'발전소','부품')	AS bType
+				, c.m_account_bank_name	AS bankName
+				, c.m_account_number		AS accountNumber
+				, c.m_payment_name		AS paymentName
+				, tr_fail_basis	
+				, b_cancel_rate
+				, b_cancel		
+				, tr_fail_date	
+			FROM 
+				tb_trade_fail AS a
+				INNER JOIN 
+				tb_trade_payment_in AS c
+				ON 
+				a.related_code = c.tr_payin_code
+				LEFT JOIN 
+				tb_trade_priority AS d
+				ON 
+				c.tr_pr_code = d.tr_pr_code
+			) AS result
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				<choose>
+					<when test="'mId'.equals(searchKey)">
+						m_id LIKE CONCAT('%',#{searchValue},'%')
+					</when>
+					<otherwise>
+						${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+					</otherwise>
+				</choose>
+			</if>
+		</trim>
 	</select>
 	
 	<!-- 거래대금 출금 계좌확인 -->

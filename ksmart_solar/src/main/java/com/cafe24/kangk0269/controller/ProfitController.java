@@ -41,10 +41,19 @@ public class ProfitController {
 	}
 	
 	@GetMapping("/profit/cancel")
-	public String Cancel(Model model) {
-		List<TradeFailDTO> cancelCmList = tradeService.getFailCommission();
-		System.out.println("취소수수료조회 : " + cancelCmList);
+	public String Cancel(Model model
+						 , @RequestParam(name="searchKey", required=false) String searchKey
+						 , @RequestParam(name="searchValue", required=false) String searchValue
+						 , @RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		int count = bidMoneyService.getMoneyCheckListCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		List<TradeFailDTO> cancelCmList = tradeService.getFailCommission(start, end, searchKey, searchValue);
 		model.addAttribute("cancelCmList", cancelCmList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
+		model.addAttribute("page", page);
 		return "/profit/cancel";
 	}
 	
@@ -147,6 +156,8 @@ public class ProfitController {
 		List<MoneyCheckDTO> moneyCheckList = bidMoneyService.getMoneyCheckList(start, end, searchKey, searchValue);
 		model.addAttribute("check", check);
 		model.addAttribute("moneyCheckList", moneyCheckList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);
 		model.addAttribute("page", page);
 		return "/profit/bidMoneyInsert";
 	}

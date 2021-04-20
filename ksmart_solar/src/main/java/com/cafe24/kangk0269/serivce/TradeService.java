@@ -24,6 +24,7 @@ public class TradeService {
 		this.tradeMapper = tradeMapper;
 	}
 	
+	// 월말정산 리스트 조회
 	public List<TradeFailDTO> getCalculateList(){
 		return tradeMapper.getCalculateList();
 	}
@@ -32,13 +33,20 @@ public class TradeService {
 		return tradeMapper.getCalculateMonth(lastDate);
 	}
 	
+	// 전체 대금 수수료 리스트 조회
 	public List<TradePaymentOutDTO> getSuccessCommission(){
 		return tradeMapper.getSuccessCommission();
 	}
 	
-	public List<TradeFailDTO> getFailCommission(){
-		return tradeMapper.getFailCommission();
+	// 전체 취소 수수료 리스트 조회
+	public List<TradeFailDTO> getFailCommission(int start,int end,String searchKey,String searchValue){
+		return tradeMapper.getFailCommission(start, end, searchKey, searchValue);
 	}
+	// 취소수수료 리스트 수
+	public int getFailCommissionCnt(String searchKey,String searchValue) {
+		return tradeMapper.getFailCommissionCnt(searchKey, searchValue);
+	}
+	
 	// 거래대금 출금 계좌확인
 	public int paymentoutAccountCheck(String Code) {
 		return tradeMapper.paymentoutAccountCheck(Code);

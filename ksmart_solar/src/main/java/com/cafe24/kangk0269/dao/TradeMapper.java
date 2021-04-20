@@ -23,7 +23,9 @@ public interface TradeMapper {
 	public List<TradePaymentOutDTO> getSuccessCommission();
 	
 	// 취소수수료목록
-	public List<TradeFailDTO> getFailCommission();
+	public List<TradeFailDTO> getFailCommission(int start,int end,String searchKey,String searchValue);
+	// 취소수수료 리스트 수
+	public int getFailCommissionCnt(String searchKey,String searchValue);
 
 	// 거래대금 출금 계좌확인
 	public int paymentoutAccountCheck(String Code);
