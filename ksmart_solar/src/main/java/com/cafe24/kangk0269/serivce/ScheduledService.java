@@ -51,9 +51,9 @@ public class ScheduledService {
 		List<BidListDTO> plant = scheduledMapper.getPlantBidderNumber();
 		List<BidListDTO> component = scheduledMapper.getComponentBidderNumber();
 		
-		
 		for(int i=0; i<plant.size(); i++) {
 			int bidderNumber = plant.get(i).getBidPlantDTO().getbPlNumberOfBidder();
+			System.out.println(bidderNumber+"어떤 공고 : "+plant.get(i).getBidPlantDTO().getbPlCode());
 			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경 - 발전소인경우
 			if(plant.get(i).getBidPlantDTO().getbPlDateBidding2().equals(today)) {
 				if(bidderNumber==0) {
@@ -66,9 +66,10 @@ public class ScheduledService {
 			}
 			
 		}
-		
+		//이부분 검토
 		for(int i=0; i<component.size(); i++) {
 			int bidderNumber = component.get(i).getBidComponentDTO().getbCpBidderNumber();
+			System.out.println(bidderNumber+"어떤 공고 : "+component.get(i).getBidComponentDTO().getbCpCode());
 			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경 - 부품인경우
 			if(component.get(i).getBidComponentDTO().getbCpDateBidding2().equals(today)) {
 				if(bidderNumber==0) {
