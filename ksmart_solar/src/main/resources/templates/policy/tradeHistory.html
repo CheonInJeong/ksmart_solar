@@ -23,10 +23,46 @@
 	
 		<div class="col-md-12 mt">
             <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
-				<div style="text-align : right; margin-bottom: 20px;">
-					<a class="btn btn-sm pull-right standardBtn" style="margin-bottom : 15px;" data-toggle="modal" data-target="#tradeModal" data-whatever="@mdo">정책변경</a>
-				</div>          
-              <table class="table table-hover" id="historyTable">
+			<div style="text-align : right; margin-bottom: 20px;">
+				<a class="btn btn-sm pull-right standardBtn" style="margin-bottom : 15px;" data-toggle="modal" data-target="#tradeModal" data-whatever="@mdo">정책변경</a>
+			</div>     
+			<h4><i class="fa fa-angle-right"></i>예약 중인 정책</h4>	
+			<hr>  
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>거래종류</th>
+                    <th>기간</th>
+                 	<th>적용일</th>
+                    <th>등록자</th>
+                    <th>등록일</th>
+                    <th>삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+					<tr th:if="${reservation.size()>0}"  th:each="r, index:${reservation}">
+	                  	<td th:text="${index.count}"></td>
+	                  	<td style="text-align:left;"th:text="${r.sTradeType}"></td>
+	                  	<td th:text="${r.sTradePeriod}"></td>
+	                    <td th:text="${r.sReservation}"></td>
+	                  	<td th:text="${r.mId}"></td>
+	                    <td th:text="${r.sTradeDate}"></td>
+	                    <td><a th:href="@{/policy/removeTrade(idx=${r.sTradeIdx})}" class="btn btn-default btn-xs">삭제</a></td>
+	                 </tr>
+	                 <tr th:unless="${reservation.size()>0}">
+				          <td colspan="7">예약중인 정책이 없습니다.</td>
+				     </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+	
+		<div class="col-md-12 mt">
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
+			 <h4><i class="fa fa-angle-right"></i>사용중인 정책</h4>
+			 <hr>	     
+              <table class="table table-hover" >
                 <thead>
                   <tr>
                     <th>#</th>
@@ -34,10 +70,8 @@
                     <th>기간</th>
                     <th>사용여부</th>
                  	<th>적용일</th>
-                    <th>마지막사용일</th>
                     <th>등록자</th>
                     <th>등록일</th>
-                    <th>삭제</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -48,18 +82,73 @@
 	                  	<td th:if="${h.sTradeUse=='Y'}"th:text="사용"></td>
 	                  	<td th:if="${h.sTradeUse=='N'}"th:text="미사용"></td>
 	                    <td th:text="${h.sReservation}"></td>
-	                    <td th:text="${h.sTradeLast}"></td>
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sTradeDate}"></td>
-	                    <td th:if="${h.sTradeLast == null and h.sTradeUse=='N'}"><a th:href="@{/policy/removeTrade(idx=${h.sTradeIdx})}" class="btn btn-default btn-xs">삭제</a></td>
-	                    <td th:if="${h.sTradeUse=='Y' or h.sTradeLast!=null}">-</td>
 	                 </tr>
                 </tbody>
               </table>
             </div>
           </div>
           
-          
+          <div class="col-md-12 mt">
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px;">
+			<h4><i class="fa fa-angle-right"></i>기간 히스토리</h4>	  
+			<hr>
+			<div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/policy/tradeHistory}" id="searchForm"> 
+	            	<select name="searchKey" id="searchSelect">
+	            		<option value="0">카테고리</option>
+	            		<option value="sTradeType">기간종류</option>
+	            		<option value="sTradePeriod">기간</option>
+	            		<option value="sReservation">적용시작일</option>
+	            		<option value="sTradeLast">마지막사용일일</option>
+	            		<option value="mId">등록자</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue">
+	            	<input type="button" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
+	               </form>
+               </div>    
+              <table class="table table-hover">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>거래종류</th>
+                    <th>기간</th>
+                 	<th>사용여부</th>
+                 	<th>적용시작일</th>
+                    <th>마지막사용일</th>
+                    <th>등록자</th>
+                    <th>등록일</th>
+                  </tr>
+                </thead>
+                <tbody>
+					<tr th:each="n, index:${notUsed}" th:if="${#lists.size(notUsed)}>0">
+	                  	<td th:text="${index.count}"></td>
+	                  	<td style="text-align:left;"th:text="${n.sTradeType}"></td>
+	                  	<td th:text="${n.sTradePeriod}"></td>
+	                  	<td>미사용</td>
+	                    <td th:text="${n.sReservation}"></td>
+	                    <td th:text="${n.sTradeLast}"></td>
+	                  	<td th:text="${n.mId}"></td>
+	                    <td th:text="${n.sTradeDate}"></td>
+	                 </tr>
+	                  <tr th:unless="${#lists.size(notUsed)}>0">
+				          <td colspan="8">미사용 정책이 없습니다.</td>
+				     </tr>
+				   </tbody>
+				   <tfoot>
+	                	<tr>
+	                		<td colspan ="8" style="text-align:center;">
+		                 		<th:block layout:fragment="paging">
+	                  				<nav th:replace="fragments/standardPagination :: pagination"></nav>
+	                  			</th:block>
+	                  		</td>
+	                	</tr>
+                	</tfoot>
+         
+              </table>
+            </div>
+          </div>
           
           
           <!--//////////////////////////////////////////////// 모달창 시작 ////////////////////////////////////////// -->
@@ -87,7 +176,7 @@
 						</div>
 						<div class="form-group date-picker-z-index" >
 							<label for="sReservation" class="control-label">정책적용일</label>
-							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sTradeReservationModal" name="sReservation">
+							<input type="text" class="form-control nomal-date-picker " id = "sTradeReservationModal" name="sReservation">
 						</div>
 						
 							<div class="modal-footer">
@@ -115,9 +204,22 @@
 		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 		
 		<script>
-		$(function(){
-			$('#historyTable').DataTable();
 		
+		function movePage(uri, queryString) {
+			location.href = uri + queryString;
+		}
+		
+		//검색 유효성
+	 	$('#searchBtn').click(function(){
+	 		if($('#searchSelect option:selected').val()=='0'){
+	 			alert('검색 카테고리를 선택해주세요.');
+	 			return;
+	 		}
+	 		$('#searchForm').submit();
+	 		
+	 	})
+		$(function(){
+			
 			//거래기간변경
 		   	$('#sTradeBtnModal').click(function(){
 		         		var tradePeriod = $('#sTradePeriodModal');

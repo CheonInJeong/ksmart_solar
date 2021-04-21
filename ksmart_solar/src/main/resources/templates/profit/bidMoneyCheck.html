@@ -63,7 +63,12 @@
 								<td>[[${#numbers.formatInteger(l.money,3,'COMMA')}]]</td>
 								<td>[[${l.iOut}]]</td>
 								<td>[[${l.inoutDate}]]</td>
-								<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
+								<th:block th:if="${l.accountNumber != null}">
+									<td>([[${l.bankName}]]) [[${l.accountNumber}]]</td>
+								</th:block>
+								<th:block th:unless="${l.accountNumber != null}">
+									<td></td>
+								</th:block>
 								<td>[[${l.accountName}]]</td>
 								<td><a class="btn btn-info" th:href=@{/bidMoneyInsert(Code=${l.Code},curPage=${page.curPage},searchKey=${searchKey},searchValue=${searchValue})}>입력</a> </td>
 							</tr>
