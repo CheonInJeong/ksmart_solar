@@ -26,10 +26,39 @@ public interface PolicyMapper {
 	//공고파일업로드
 	public int addFile(List<FileDTO> list);
 	
+	//사용 예약 중인 예치금
+	public List<StandardDTO> getDepositReservation();
+	public List<StandardDTO> getCommissionReservation();
+	public List<StandardDTO> getTradeReservation();
 	
-	public List<StandardDTO> getDepositHistory(String startDate, String endDate);
-	public List<StandardDTO> getCommissionHistory(String startDate, String endDate);
-	public List<StandardDTO> getTradeHistory(String startDate, String endDate);
+	//정책 갯수
+	public int getDepositNotUsedCount(@Param(value="searchKey")String searchKey,
+									@Param(value="searchValue") String searchValue,
+									@Param(value="standardDTO") StandardDTO standardDTO);
+	
+	public int getCommissionNotUsedCount(@Param(value="searchKey")String searchKey,
+										 @Param(value="searchValue") String searchValue,
+										 @Param(value="standardDTO") StandardDTO standardDTO);
+	public int getTradeNotUsedCount(@Param(value="searchKey")String searchKey,
+									@Param(value="searchValue") String searchValue,
+									@Param(value="standardDTO") StandardDTO standardDTO);
+	
+			
+	//사용 X인 예치금
+	public List<StandardDTO> getDepositNotUsed(@Param(value="searchKey")String searchKey,
+											   @Param(value="searchValue") String searchValue,
+											   @Param(value="standardDTO") StandardDTO standardDTO);
+	public List<StandardDTO> getCommissionNotUsed(@Param(value="searchKey")String searchKey,
+												  @Param(value="searchValue") String searchValue,
+												  @Param(value="standardDTO") StandardDTO standardDTO);
+	public List<StandardDTO> getTradeNotUsed(@Param(value="searchKey")String searchKey,
+										     @Param(value="searchValue") String searchValue,
+										     @Param(value="standardDTO") StandardDTO standardDTO);
+	
+	//사용중인 예치금
+	public List<StandardDTO> getDepositHistory();
+	public List<StandardDTO> getCommissionHistory();
+	public List<StandardDTO> getTradeHistory();
 	
 	
 	//거래대금 수수료울 삭제
