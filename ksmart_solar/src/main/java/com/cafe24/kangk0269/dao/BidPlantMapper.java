@@ -8,9 +8,13 @@ import org.apache.ibatis.annotations.Param;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 
 @Mapper
 public interface BidPlantMapper {
+	
+	//공고신청 발전소 파일조회
+	public List<FileDTO> getNoticeFileList(String bPlCode);
 	
 	//공고신청 발전소 반려처리
 	public int bidPlantReturn(String bPlCode, String bPlRejectReason);
