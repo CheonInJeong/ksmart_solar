@@ -18,6 +18,7 @@
 	</div>
 	<th:block th:if="${uri == '/member/memberList'}">
 	<div id="container-header-path">
+		<a th:href="@{/}">메인화면</a> > 
 		회원관리 > 
 		<a th:href=@{/member/memberList}>회원리스트조회</a>
 		 > [[${member.mId}]] 회원정보
@@ -25,6 +26,7 @@
 	</th:block>
 	<th:block th:unless="${uri == '/member/memberList'}">
 		<div id="container-header-path">
+		<a th:href="@{/}">메인화면</a> > 
 		회원관리 > 
 		<a th:href=@{/member/memberWithdrawList}>탈퇴신청회원조회</a>
 		 > [[${member.mId}]] 회원정보
