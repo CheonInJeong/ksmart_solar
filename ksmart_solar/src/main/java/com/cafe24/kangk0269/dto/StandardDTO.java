@@ -1,6 +1,6 @@
 package com.cafe24.kangk0269.dto;
 
-public class StandardDTO {
+public class StandardDTO extends CommonDTO{
 	
 	private String mId;
 	

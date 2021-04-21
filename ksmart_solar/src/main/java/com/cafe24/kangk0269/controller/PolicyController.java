@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.cafe24.kangk0269.common.SavePaging;
 import com.cafe24.kangk0269.dto.BoardFileDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.StandardDTO;
@@ -31,6 +32,8 @@ public class PolicyController {
 	
 	@Autowired
 	private final PolicyService policyService;
+	
+	SavePaging savePaging = null;
 	
 	public PolicyController(PolicyService policyService) {
 		this.policyService = policyService;
@@ -100,33 +103,112 @@ public class PolicyController {
 	
 	@GetMapping("/policy/tradeHistory")
 	public String getTradeHistory(Model model,
-									@RequestParam(value="startDate",required = false) String startDate,
-									@RequestParam(value="endDate", required = false) String endDate) {
+								  HttpSession session,
+								  @RequestParam(value="searchKey", required = false) String searchKey, 
+								  @RequestParam(value="searchValue", required = false) String searchValue,
+								  @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+								  @RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+								  @RequestParam(value = "pageSize", required = false) 			String pageSize,
+								  @RequestParam(value = "state", required = false) 				String state) {
 		
-		model.addAttribute("tradeHistory", policyService.getTradeHistory(startDate, endDate));
 		
+		StandardDTO standardDTO = new StandardDTO();
+		standardDTO.setState(1);
+		if(savePaging==null || state ==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,5,5);
+		}
+		
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		
+		savePaging.getPaging(standardDTO);
+		
+		if(searchKey != null && searchKey.equals("null")) {
+			searchKey = null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		model.addAttribute("tradeHistory", policyService.getTradeHistory());
+		model.addAttribute("reservation", policyService.getTradeReservation());
+		model.addAttribute("notUsed", policyService.getTradeNotUsed(searchKey,searchValue,standardDTO));
+		model.addAttribute("standardDTO", standardDTO);
 		return "/policy/tradeHistory";
 	}
 	
 	
 	@GetMapping("/policy/commissionHistory")
 	public String getCommissionHistory(Model model,
-									@RequestParam(value="startDate",required = false) String startDate,
-									@RequestParam(value="endDate", required = false) String endDate) {
+									   HttpSession session,
+									   @RequestParam(value="searchKey", required = false) String searchKey, 
+									   @RequestParam(value="searchValue", required = false) String searchValue,
+									   @RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+									   @RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+									   @RequestParam(value = "pageSize", required = false) 			String pageSize,
+									   @RequestParam(value = "state", required = false) 				String state) {
 		
-		model.addAttribute("commissionHistory", policyService.getCommissionHistory(startDate, endDate));
+		StandardDTO standardDTO = new StandardDTO();
+		standardDTO.setState(1);
+		if(savePaging==null || state ==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,5,5);
+		}
 		
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		
+		savePaging.getPaging(standardDTO);
+		
+		if(searchKey != null && searchKey.equals("null")) {
+			searchKey = null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		model.addAttribute("commissionHistory", policyService.getCommissionHistory());
+		model.addAttribute("reservation", policyService.getCommissionReservation());
+		model.addAttribute("notUsed", policyService.getCommissionNotUsed(searchKey,searchValue,standardDTO));
+		model.addAttribute("standardDTO", standardDTO);
 		return "/policy/commissionHistory";
 	}
 	
 	
 	@GetMapping("/policy/depositHistory")
 	public String getDepositHistory(Model model,
-									@RequestParam(value="startDate",required = false) String startDate,
-									@RequestParam(value="endDate", required = false) String endDate) {
+									HttpSession session,
+									@RequestParam(value="searchKey", required = false) String searchKey, 
+									@RequestParam(value="searchValue", required = false) String searchValue,
+									@RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+									@RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+									@RequestParam(value = "pageSize", required = false) 			String pageSize,
+									@RequestParam(value = "state", required = false) 				String state) {
 		
-		model.addAttribute("depositHistory", policyService.getDepositHistory(startDate, endDate));
+		StandardDTO standardDTO = new StandardDTO();
+		standardDTO.setState(1);
+		if(savePaging==null || state ==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,5,5);
+		}
 		
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		
+		savePaging.getPaging(standardDTO);
+		
+		if(searchKey != null && searchKey.equals("null")) {
+			searchKey = null;
+		}
+		if(searchValue != null && searchValue.equals("null")) {
+			searchValue = null;
+		}
+		model.addAttribute("depositHistory", policyService.getDepositHistory());
+		model.addAttribute("reservation", policyService.getDepositReservation());
+		model.addAttribute("notUsed", policyService.getDepositNotUsed(searchKey,searchValue,standardDTO));
+		model.addAttribute("standardDTO", standardDTO);
 		return "/policy/depositHistory";
 	}
 	
@@ -162,7 +244,7 @@ public class PolicyController {
 	public String addNewTrade(StandardDTO standardDto, HttpSession session) {
 		standardDto.setmId((String)session.getAttribute("SID"));
 		policyService.addNewTrade(standardDto);
-		return "redirect:/policy/policyList";
+		return "redirect:/policy/tradeHistory";
 	}
 
 	@RequestMapping(value="/ajax/commissionCheck", method=RequestMethod.POST)
