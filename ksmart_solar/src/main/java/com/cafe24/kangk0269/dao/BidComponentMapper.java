@@ -8,10 +8,13 @@ import org.apache.ibatis.annotations.Param;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 
 @Mapper
 public interface BidComponentMapper {
 	
+	//공고신청 부품 파일조회
+	public List<FileDTO> getNoticeFileList(String bCpCode);
 	
 	//공고신청 부품 반려처리
 	public int bidComponentReturn(String bCpCode, String bCpRejectReason);
