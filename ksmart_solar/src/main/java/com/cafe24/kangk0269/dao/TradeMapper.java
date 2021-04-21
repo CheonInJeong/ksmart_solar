@@ -68,7 +68,10 @@ public interface TradeMapper {
 	public int modifyTradePaymentIn(TradePaymentInDTO paymentInDTO);
 	//예치금 환불 등록
 	public int addRefundRequest(TradeDepositOutDTO tradeDepositOutDTO);
+	//예치금 환불 수정
+	public int modifyRefund(TradeDepositOutDTO tradeDepositOutDTO);
 	public TradeDepositOutDTO getRefundInfo(String bCode);
 	//공고가 계약중으로 바뀔때 1순위 낙찰자를 입력
 	public int addTradePriority(Map<String,Object> List);
+	public String getRefundDepDate(String bCode);
 }
