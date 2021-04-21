@@ -194,10 +194,21 @@ public class MemberManageController {
 	}
 	
 	@PostMapping("/modifyMember")
-	public String modifyMember(MemberDTO member) {
+	public String modifyMember(MemberDTO member
+							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
+							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
+							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
+							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("수정한 값 " + member);
 		memberService.modifyMember(member);
-		return "redirect:/getMemberInfoById?mId=" + member.getmId();
+		if(searchKeyAM != null) {
+			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage1=" + curPage1 + "&searchKeyAM=" + searchKeyAM + "&searchValueAM=" + searchValueAM + "&uri=/member/memberList";
+			
+		}else {
+			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage2=" + curPage2 + "&searchKeyRM=" + searchKeyRM + "&searchValueRM=" + searchValueRM + "&uri=/member/memberList";
+		}
 	}
 	
 	@GetMapping("/modifyMember")
@@ -219,6 +230,7 @@ public class MemberManageController {
 		model.addAttribute("searchValueRM", searchValueRM);
 		model.addAttribute("curPage1", curPage1);
 		model.addAttribute("curPage2", curPage2);
+		model.addAttribute("uri", "/member/memberList");
 		return "/member/modifyMember";
 	}
 	
@@ -230,6 +242,10 @@ public class MemberManageController {
 							, @RequestParam(name="searchValueRM", required=false) String searchValueRM
 							, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 							, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
+		System.out.println("searchKeyAM : " + searchKeyAM);
+		System.out.println("searchValueAM : " + searchValueAM);
+		System.out.println("searchKeyRM : " + searchKeyRM);
+		System.out.println("searchValueRM : " + searchValueRM);
 		int count1 = memberService.getActiveMemberCnt(searchKeyAM, searchValueAM);
 		PageDTO page1 = new PageDTO(count1,curPage1);
 		int start1 = page1.getPageBegin();
