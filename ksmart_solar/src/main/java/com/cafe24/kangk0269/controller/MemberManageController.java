@@ -159,8 +159,12 @@ public class MemberManageController {
 									, @RequestParam(value="mId", required=false) String mId
 									, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 									, @RequestParam(name="searchValueAM", required=false) String searchValueAM
+									, @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+									, @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 									, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 									, @RequestParam(name="searchValueRM", required=false) String searchValueRM
+									, @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+									, @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 									, @RequestParam(name="searchKeyWAM", required=false) String searchKeyWAM
 									, @RequestParam(name="searchValueWAM", required=false) String searchValueWAM
 									, @RequestParam(name="searchValueWAMS", required=false) String searchValueWAMS
@@ -219,8 +223,12 @@ public class MemberManageController {
 		model.addAttribute("accountList", accountList);
 		model.addAttribute("searchKeyAM", searchKeyAM);
 		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchValueAMS", searchValueAMS);
+		model.addAttribute("searchValueAMF", searchValueAMF);
 		model.addAttribute("searchKeyRM", searchKeyRM);
 		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("searchValueRMS", searchValueRMS);
+		model.addAttribute("searchValueRMF", searchValueRMF);
 		model.addAttribute("searchKeyWAM", searchKeyWAM);
 		model.addAttribute("searchValueWAM", searchValueWAM);
 		model.addAttribute("searchValueWAMS", searchValueWAMS);
@@ -240,17 +248,21 @@ public class MemberManageController {
 	public String modifyMember(MemberDTO member
 							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+							   , @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+							   , @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("수정한 값 " + member);
 		memberService.modifyMember(member);
 		if(searchKeyAM != null) {
-			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage1=" + curPage1 + "&searchKeyAM=" + searchKeyAM + "&searchValueAM=" + searchValueAM + "&uri=/member/memberList";
+			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage1=" + curPage1 + "&searchKeyAM=" + searchKeyAM + "&searchValueAM=" + searchValueAM +"&searchValueAMS=" + searchValueAMS +"&searchValueAMF=" + searchValueAMF + "&uri=/member/memberList";
 			
 		}else {
-			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage2=" + curPage2 + "&searchKeyRM=" + searchKeyRM + "&searchValueRM=" + searchValueRM + "&uri=/member/memberList";
+			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage2=" + curPage2 + "&searchKeyRM=" + searchKeyRM + "&searchValueRM=" + searchValueRM + "&searchValueRMS=" + searchValueRMS +"&searchValueRMF=" + searchValueRMF + "&uri=/member/memberList";
 		}
 	}
 	
@@ -259,8 +271,12 @@ public class MemberManageController {
 							   , @RequestParam(name="mId", required=false) String mId
 							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+							   , @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+							   , @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("입력받은 아이디 : " + mId);
@@ -269,8 +285,12 @@ public class MemberManageController {
 		model.addAttribute("member", member);
 		model.addAttribute("searchKeyAM", searchKeyAM);
 		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchValueAMS", searchValueAMS);
+		model.addAttribute("searchValueAMF", searchValueAMF);
 		model.addAttribute("searchKeyRM", searchKeyRM);
 		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("searchValueRMS", searchValueRMS);
+		model.addAttribute("searchValueRMF", searchValueRMF);
 		model.addAttribute("curPage1", curPage1);
 		model.addAttribute("curPage2", curPage2);
 		model.addAttribute("uri", "/member/memberList");
@@ -304,8 +324,12 @@ public class MemberManageController {
 		model.addAttribute("restmemberList", restmemberList);
 		model.addAttribute("searchKeyAM", searchKeyAM);
 		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchValueAMS", searchValueAMS);
+		model.addAttribute("searchValueAMF", searchValueAMF);
 		model.addAttribute("searchKeyRM", searchKeyRM);
 		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("searchValueRMS", searchValueRMS);
+		model.addAttribute("searchValueRMF", searchValueRMF);
 		model.addAttribute("page1", page1);
 		model.addAttribute("page2", page2);
 		model.addAttribute("uri", uri);

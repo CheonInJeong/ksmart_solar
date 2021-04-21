@@ -29,10 +29,10 @@
 	회원관리 > 
 	<a th:href=@{/member/memberList}>회원리스트조회</a> > 
 	<th:block th:if="${searchKeyAM != null}">
-		<a th:href=@{/getMemberInfoById(mId=${member.mId},curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},uri=${uri})}>회원정보</a> >
+		<a th:href=@{/getMemberInfoById(mId=${member.mId},curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF},uri=${uri})}>회원정보</a> >
 	</th:block>
 	<th:block th:unless="${searchKeyAM != null}">
-		<a th:href=@{/getMemberInfoById(mId=${member.mId},curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},uri=${uri})}>회원정보</a> >
+		<a th:href=@{/getMemberInfoById(mId=${member.mId},curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF},uri=${uri})}>회원정보</a> >
 	</th:block> 
 	[[${member.mId}]] 회원정보수정
 	</div>
@@ -126,16 +126,20 @@
                   <div class="col-lg-offset-2 col-lg-10">
                   	<button class="btn standardBtn" type="submit">수정완료</button>
                   	<th:block th:if="${searchKeyAM != null}">
-	                  	<a class="btn standardBtn" th:href=@{/member/memberList(curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})} role="button">목록이동</a>
+	                  	<a class="btn standardBtn" th:href=@{/member/memberList(curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})} role="button">목록이동</a>
 	                  	<input type="hidden" name="curPage1" th:value="${curPage1}">
 	                  	<input type="hidden" name="searchKeyAM" th:value="${searchKeyAM}">
 	                  	<input type="hidden" name="searchValueAM" th:value="${searchValueAM}">
+	                  	<input type="hidden" name="searchValueAMS" th:value="${searchValueAMS}">
+	                  	<input type="hidden" name="searchValueAMF" th:value="${searchValueAMF}">
                   	</th:block>
                   	<th:block th:unless="${searchKeyAM != null}">
-	                  	<a class="btn standardBtn" th:href=@{/member/memberList(curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})} role="button">목록이동</a>
+	                  	<a class="btn standardBtn" th:href=@{/member/memberList(curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})} role="button">목록이동</a>
 	                  	<input type="hidden" name="curPage2" th:value="${curPage2}">
 	                  	<input type="hidden" name="searchKeyRM" th:value="${searchKeyRM}">
 	                  	<input type="hidden" name="searchValueRM" th:value="${searchValueRM}">
+	                  	<input type="hidden" name="searchValueRMS" th:value="${searchValueRMS}">
+	                  	<input type="hidden" name="searchValueRMF" th:value="${searchValueRMF}">
                   	</th:block>
                   </div>
                 </div>

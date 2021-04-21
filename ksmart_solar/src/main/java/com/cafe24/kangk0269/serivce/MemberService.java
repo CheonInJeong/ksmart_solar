@@ -161,8 +161,10 @@ public class MemberService {
 		if(searchKeyL != null && searchKeyL != "") {
 			if("mId".equals(searchKeyL)) {
 				searchKeyL = "m_id";
-			}else {
+			}else if("mLogIn".equals(searchKeyL)){
 				searchKeyL = "m_log_in";
+			}else {
+				searchKeyL = "m_log_out";
 			}
 		}
 		

@@ -291,8 +291,8 @@
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKeyL != null and searchKeyL != ''.toString()">
 				<choose>
-					<when test="'m_log_in'.equals(searchKeyL)">
-						m_log_in BETWEEN #{searchValueLS} AND #{searchValueLF}
+					<when test="'m_log_in'.equals(searchKeyL) or 'm_log_out'.equals(searchKeyL)">
+						${searchKeyL} BETWEEN #{searchValueLS} AND #{searchValueLF}
 					</when>
 					<otherwise>
 						${searchKeyL} LIKE CONCAT ('%',#{searchValueL},'%')

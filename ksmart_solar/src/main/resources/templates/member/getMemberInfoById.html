@@ -166,12 +166,12 @@
 		                  <div class="col-lg-offset-2 col-lg-10">
 		                    <th:block th:if="${uri == '/member/memberList'}">
 		                    	<th:block th:if="${searchKeyAM != null}">
-			                    	<a class="btn standardBtn" th:href="@{/modifyMember(mId=${member.mId},curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}" role="button">수정</a>
-			                    	<a class="btn standardBtn" th:href="@{/member/memberList(curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}" role="button">목록이동</a>
+			                    	<a class="btn standardBtn" th:href="@{/modifyMember(mId=${member.mId},curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}" role="button">수정</a>
+			                    	<a class="btn standardBtn" th:href="@{/member/memberList(curPage1=${curPage1},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}" role="button">목록이동</a>
 		                    	</th:block>
 		                    	<th:block th:unless="${searchKeyAM != null}">
-			                    	<a class="btn standardBtn" th:href="@{/modifyMember(mId=${member.mId},curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" role="button">수정</a>
-			                    	<a class="btn standardBtn" th:href="@{/member/memberList(curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" role="button">목록이동</a>
+			                    	<a class="btn standardBtn" th:href="@{/modifyMember(mId=${member.mId},curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})}" role="button">수정</a>
+			                    	<a class="btn standardBtn" th:href="@{/member/memberList(curPage2=${curPage2},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})}" role="button">목록이동</a>
 		                    	</th:block>
 		                    </th:block>
 		                    <th:block th:if="${uri == '/member/memberWithdrawList'}">

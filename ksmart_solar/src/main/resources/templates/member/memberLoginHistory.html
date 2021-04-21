@@ -34,10 +34,11 @@
 	            		<option value="">카테고리</option>
 	            		<option value="mId">아이디</option>
 	            		<option value="mLogIn">로그인 일자</option>
+	            		<option value="mLogOut">로그아웃 일자</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValueL" th:value="${searchValueL}">
-	            	<input type="date" placeholder="YYYY-MM-DD" name="searchValueLS" th:value="${searchValueLS}" style="display: none">
-	            	<input type="date" placeholder="YYYY-MM-DD" name="searchValueLF" th:value="${searchValueLF}" style="display: none">
+	            	<input type="date" name="searchValueLS" th:value="${searchValueLS}" style="display: none">
+	            	<input type="date" name="searchValueLF" th:value="${searchValueLF}" style="display: none">
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	              </form>
             	</div>
@@ -107,14 +108,14 @@
 			
 			var searchKeyL = $('select[name="searchKeyL"]');
 			searchKeyL.click(function(){
-				if(searchKeyL.val() == "mId" || searchKeyL.val() == ""){
-					$('[name="searchValueL"]').css('display','inline-block')
-					$('[name="searchValueLS"]').css('display','none');
-					$('[name="searchValueLF"]').css('display','none');
-				}else if(searchKeyL.val() == "mLogIn"){
+				if(searchKeyL.val() == "mLogIn" || searchKeyL.val() == "mLogOut"){
 					$('[name="searchValueL"]').css('display','none');
 					$('[name="searchValueLS"]').css('display','inline-block');
 					$('[name="searchValueLF"]').css('display','inline-block');
+				}else{
+					$('[name="searchValueL"]').css('display','inline-block')
+					$('[name="searchValueLS"]').css('display','none');
+					$('[name="searchValueLF"]').css('display','none');
 				}
 			});
 		</script>
