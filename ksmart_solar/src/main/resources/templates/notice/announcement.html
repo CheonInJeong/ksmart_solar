@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="layout/default">
-
+	<th:block layout:fragment="customCss">
+		<link href="/lib/fancybox/jquery.fancybox.css" rel="stylesheet" />
+	</th:block>
 	<th:block layout:fragment="customTitle">
 				<title>공고정보</title>
 	</th:block>
@@ -187,15 +189,16 @@
 								and ((bidComponentdto!=null and id!=bidComponentdto.mId) 
 								or (bidPlantdto!=null and id!=bidPlantdto.mId))}">
 					<th:block th:if="${past==null or (past!=null and past!='과거')}">
-						<div class="form-group" th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
-															or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
-					 		<button id="bidComponentBtn" class="btn btn-default">입찰신청</button>
-						</div>
-						
-						<div class="form-group" th:if="${(bidPlantdto != null and bidPlantdto.acStatusCode==4 and getBidListCount==0)
-															or (bidPlantdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
-					 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
-						</div>
+						<th:block th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4)}">
+							<div class="form-group" th:if="${getBidListCount==0 or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
+						 		<button id="bidComponentBtn" class="btn btn-default">입찰신청</button>
+							</div>
+						</th:block>
+						<th:block th:if="${(bidPlantdto != null and bidPlantdto.acStatusCode==4)}">
+							<div class="form-group" th:if="${getBidListCount==0 or (bidPlantdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
+						 		<button id="bidPlantBtn" class="btn btn-default">입찰신청</button>
+							</div>
+						</th:block>
 						<form class="form-group" action="/notice/bidCancel" method="post">
 							<div class="form-group" th:if="${bidListDTO != null and bidListDTO.trTypeCode==3}">
 								<input type="hidden" name="bCode" th:value="${bidListDTO.bCode}">
@@ -382,6 +385,15 @@
 				 });
 			});
 	</script>
+		<script src="/lib/fancybox/jquery.fancybox.js"></script>
+		<script class="include" type="text/javascript" src="/lib/jquery.dcjqaccordion.2.7.js"></script>
+		<!--common script for all pages-->
+		<script type="text/javascript">
+		    $(function() {
+		      //    fancybox
+		      jQuery(".fancybox").fancybox();
+		    });
+		</script>
 	</th:block>
 	
 </html>
