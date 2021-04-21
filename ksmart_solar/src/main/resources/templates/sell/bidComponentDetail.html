@@ -154,7 +154,7 @@
 				               		</tr>
 				               		<tr>
 				               			<td>입찰금액</td>
-				               			<td th:text="${t.trPrPrice}"></td>
+				               			<td class="trPrPrice" th:text="${t.trPrPrice}"></td>
 				               			<td>거래상태</td>
 				               			<td th:text="${t.trTypeName}"></td>
 				               		</tr>
@@ -230,6 +230,12 @@
 		 	$(document).ready(function(){
 		 		$('#bCpPrice').text(comma($('#bCpPrice').text()));
 		 		
+		 		$('.trPrPrice').each(function(){
+		 			var i = $('.trPrPrice').index(this);
+		 			console.log(i+"<----i");
+		 			$('.trPrPrice').eq(i).text(comma($('.trPrPrice').eq(i).text()));
+		 		})
+		 		
 		 		$('body').attr('data-spy','scroll');
 		 		$('body').attr('data-target','.nabvar');
 		 		$('body').attr('data-offset','50');
@@ -252,7 +258,6 @@
 					var qna = /*[[${qna}]]*/
 			 		$('.cmtCount').each(function(){
 			 			var i = $('.cmtCount').index(this);
-			 			console.log(qna[i].bIdx+"<---인덱스");
 			 			 $.ajax({
 				 			url : '/ajax/getCmtCount',
 				 			type : 'post',

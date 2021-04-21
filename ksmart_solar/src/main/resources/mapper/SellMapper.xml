@@ -1029,7 +1029,6 @@
 					l.b_date, 
 					l.b_check, 
 					l.b_rank
-					
 				FROM 
 					tb_bid_list AS l
 
@@ -1041,8 +1040,6 @@
 				And tr_type_code NOT IN (1,4,2)
   		  
   		  </select>
-  		  
-  	
   		  
   		  <!--부품 코드로 부품 정보 조회  -->
   		  <select id="getComponentInformation" resultMap = "componentResultMap" parameterType="String">
@@ -1075,7 +1072,6 @@
 					<if test="searchValueCp!=null and ''.toString()">
 						and ${searchKeyCp} LIKE CONCAT ('%',#{searchValueCp},'%')
 					</if>
-				
 				</trim>
   		  </select>
   		  <!--아이디로 등록한 부품공고 조회 -->
