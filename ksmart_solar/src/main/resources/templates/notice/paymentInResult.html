@@ -38,6 +38,19 @@
 	          	 <td>납부 마감일</td>
 	             <td th:text="${tradePaymentInDTO.trPayinDate2}"></td>
 	          </tr>
+	          <tr>
+          		<td>첨부 파일</td>
+                <th:block th:if="${fileList.size()==0}" >
+                  	<td>등록 된 파일이 없습니다.</td>
+	                <td colspan="2"></td>
+                </th:block>
+                <td>
+					<th:block  th:if="${fileList.size()>0}" th:each="f:${fileList}">
+	               		<a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a><br>
+	                </th:block>
+                </td>
+                <td colspan="2"></td>
+	          </tr>
 	        </tbody>
 	      </table>
 	    </div>

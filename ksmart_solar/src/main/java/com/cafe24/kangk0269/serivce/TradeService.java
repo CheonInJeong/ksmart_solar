@@ -121,8 +121,14 @@ public class TradeService {
 	public int addRefundRequest(TradeDepositOutDTO tradeDepositOutDTO) {
 		return tradeMapper.addRefundRequest(tradeDepositOutDTO);
 	}
+	//예치금환불 수정
+	public String modifyRefund(TradeDepositOutDTO tradeDepositOutDTO) {
+		tradeMapper.modifyRefund(tradeDepositOutDTO);
+		return tradeMapper.getRefundDepDate(tradeDepositOutDTO.getbCode());
+	}
 	public TradeDepositOutDTO getRefundInfo(String bCode) {
 		return tradeMapper.getRefundInfo(bCode);
 	}
+
 	
 }

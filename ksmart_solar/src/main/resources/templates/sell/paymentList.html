@@ -61,7 +61,7 @@
                 </tbody>
                  <tfoot>
                 	<tr>
-                		<td colspan="8" style="text-align : center;">
+                		<td colspan="10" style="text-align : center;">
                 			<nav th:fragment="pagination" th:if="${search != null and search.pagination?.totalRecordCount > 0}" th:object="${search.pagination}" th:with="info=${search.pagination}" aria-label="Page navigation" class="text-center">
 								<ul class="pagination">
 									<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${search.makeQueryString(1)} ]])">
@@ -137,7 +137,7 @@
 	                   <td><button type="button" class="btn btn-default btn-xs modifyBtn" data-attr="0">수정</button></td>
 	               </tr>
 	            	<tr th:unless = "${apply!=null and apply.size()>0}">
-	               		<td colspan ="10" style="text-align : center;">출금 신청한 내역이 없습니다. </td>
+	               		<td colspan ="11" style="text-align : center;">출금 신청한 내역이 없습니다. </td>
 	               </tr> 
                 </tbody>
                 <tfoot>

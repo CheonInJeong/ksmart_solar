@@ -36,8 +36,200 @@
   				<result property="createdDatetime" column="created_datetime"/>
   		  		<result property="creatorId" column="creator_id"/>
   		</resultMap>
+  		<select id="getDepositNotUsedCount" resultType="int" parameterType="map">
+  			SELECT
+				count(1)
+			FROM 
+				tb_standard_deposit 
+			WHERE
+				 s_deposit_use ='N'
+			AND 
+				s_deposit_last IS not null
+				
+			<trim prefixOverrides="AND / OR ">
+				<if test="searchValue!=null and ''.toString()">
+					and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				</if>
+			</trim>
+  			
+  		</select>
+  	
+  		
+  		<select id="getDepositNotUsed" resultMap="standardResultMap" parameterType="map">
+  			SELECT
+				s_deposit_idx, 
+				s_deposit_type, 
+				s_deposit_rate, 
+				s_deposit_date, 
+				s_deposit_use, 
+				m_id, 
+				s_deposit_last, 
+				s_reservation
+			FROM 
+				tb_standard_deposit 
+			WHERE
+				 s_deposit_use ='N'
+			AND 
+				s_deposit_last IS not null
+				
+			<trim prefixOverrides="AND / OR ">
+				<if test="searchValue!=null and ''.toString()">
+					and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				</if>
+			</trim>
+			LIMIT
+				#{standardDTO.pagination.firstRecordIndex},#{standardDTO.recordsPerPage}
+  			
+  		</select>
+  		
+  		<select id="getCommissionNotUsedCount" resultType="int" parameterType="map">
+  			SELECT 
+				count(1)
+			FROM
+				 tb_standard_commission
+			WHERE 
+				s_commission_use = 'N'
+			AND 
+				s_commission_last IS not null
+			<trim prefixOverrides="AND / OR ">
+				<if test="searchValue!=null and ''.toString()">
+					and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				</if>
+			</trim>
+  		</select>
+  		
+  		<select id="getCommissionNotUsed" resultMap="standardResultMap" parameterType="map">
+  			SELECT 
+				s_commission_idx, 
+				s_commission_type, 
+				s_commission_rate, 
+				s_commission_date, 
+				s_commission_use, 
+				m_id, 
+				s_reservation,
+				s_commission_last
+			FROM
+				 tb_standard_commission
+			WHERE 
+				s_commission_use = 'N'
+			AND 
+				s_commission_last IS not null
+			<trim prefixOverrides="AND / OR ">
+				<if test="searchValue!=null and ''.toString()">
+					and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				</if>
+			</trim>
+			LIMIT
+				#{standardDTO.pagination.firstRecordIndex},#{standardDTO.recordsPerPage}
+  		</select>
+  		
+  		<select id="getTradeNotUsedCount" resultType="int" parameterType="map">
+  			SELECT 
+				count(1)
+			FROM 
+				tb_standard_trade
+			WHERE
+				s_trade_use ='N'
+			AND
+				s_trade_last IS not null
+				
+			<trim prefixOverrides="AND / OR ">
+				<if test="searchValue!=null and ''.toString()">
+					and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				</if>
+			</trim>
+  		</select>
+  		
+  		<select id="getTradeNotUsed" resultMap="standardResultMap" parameterType="map">
+  			SELECT 
+				s_trade_idx, 
+				s_trade_type, 
+				s_trade_period, 
+				s_trade_date, 
+				s_trade_use, 
+				m_id, 
+				s_trade_last, 
+				s_reservation
+			FROM 
+				tb_standard_trade
+			WHERE
+				s_trade_use ='N'
+			AND
+				s_trade_last IS not null
+			<trim prefixOverrides="AND / OR ">
+				<if test="searchValue!=null and ''.toString()">
+					and ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				</if>
+			</trim>
+			LIMIT
+				#{standardDTO.pagination.firstRecordIndex},#{standardDTO.recordsPerPage}
+  		</select>
+  		
+  		<select id="getDepositReservation" resultMap="standardResultMap">
+  			SELECT
+				s_deposit_idx, 
+				s_deposit_type, 
+				s_deposit_rate, 
+				s_deposit_date, 
+				s_deposit_use, 
+				m_id, 
+				s_deposit_last, 
+				s_reservation
+			FROM 
+				tb_standard_deposit 
+			WHERE
+				 s_deposit_use ='N'
+			AND 
+				s_deposit_last IS null
+  			
+  		</select>
+  		<select id="getCommissionReservation" resultMap="standardResultMap">
+  			SELECT 
+				s_commission_idx, 
+				s_commission_type, 
+				s_commission_rate, 
+				s_commission_date, 
+				s_commission_use, 
+				m_id, 
+				s_reservation,
+				s_commission_last
+			FROM
+				 tb_standard_commission
+			WHERE 
+				s_commission_use = 'N'
+			AND 
+				s_commission_last IS null
+  		</select>
+  		<select id="getTradeReservation" resultMap="standardResultMap">
+  			SELECT 
+				s_trade_idx, 
+				s_trade_type, 
+				s_trade_period, 
+				s_trade_date, 
+				s_trade_use, 
+				m_id, 
+				s_trade_last, 
+				s_reservation
+			FROM 
+			tb_standard_trade
+			WHERE
+			s_trade_use ='N'
+			AND
+			s_trade_last IS null
+  		</select>
+  		
+  		
 		<!-- 거래대금 수수료  스케쥴러-->
 		
+		<update id="updateCommissionStatusN" parameterType="map">
+			UPDATE 
+				tb_standard_commission
+			SET
+				s_commission_use='N',
+				s_commission_last=#{sCommissionLast}
+			WHERE 
+				s_commission_type = #{type}
+		</update>
 
 		<update id="updateCommissionStatusY" parameterType="String">
 			UPDATE 
@@ -195,25 +387,26 @@
 	  			m_id
 			FROM 
 				tb_standard_commission
-			ORDER BY s_commission_use DESC, s_commission_type ASC,s_commission_date desc
-		
+			WHERE 
+				s_commission_use ='Y'
+			
   		</select>
   		
   		
   		<select id="getTradeHistory" resultMap ="standardResultMap">
   			SELECT 
-  				s_trade_idx, 
-  				s_trade_type, 
-  				s_trade_period, 
-  				s_trade_date, 
-  				s_trade_use,
-  				s_trade_last,
-  				s_reservation,
-  				m_id
+				s_trade_idx, 
+				s_trade_type, 
+				s_trade_period, 
+				s_trade_date, 
+				s_trade_use, 
+				m_id, 
+				s_trade_last, 
+				s_reservation
 			FROM 
-				tb_standard_trade 
-			ORDER BY s_trade_use DESC,s_trade_type ASC ,s_trade_date desc
-			
+				tb_standard_trade
+			WHERE s_trade_use = 'Y'
+
   		</select>
   		
   		<select id="getDepositHistory" resultMap = "standardResultMap">
@@ -228,7 +421,9 @@
   				m_id
 			FROM 
 				tb_standard_deposit
-			ORDER BY s_deposit_use DESC, s_deposit_type asc,s_deposit_date DESC
+			WHERE 
+				s_deposit_use ='Y'
+			
 				
   		</select>
   		

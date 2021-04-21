@@ -3,7 +3,7 @@
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="layout/default">
 	<th:block layout:fragment="customTitle">
-				<title>예치금 정책 히스토리</title>
+				<title>수수료 정책 히스토리</title>
 	</th:block>
 	
 	<th:block layout:fragment="customCss">
@@ -22,14 +22,49 @@
      	<div id="container-header-path">정책관리 > <a th:href="@{/policy/policyList}">정책리스트</a> >거래수수료히스토리</div>
       	<div id="container-header-space"></div>		
       	
-		<div class="col-md-12 mt">
+      	<div class="col-md-12 mt">
             <div class="content-panel" style="padding: 30px; padding-bottom : 50px">
-				
-				<div style="text-align : right; margin-bottom: 20px;">
+            <div style="text-align : right; margin-bottom: 20px;">
 					<a class="btn btn-sm  pull-right standardBtn" style="margin-bottom : 15px;" data-toggle="modal" data-target="#commissionModal" data-whatever="@mdo" id="modalBtn">정책변경/추가</a>
 				</div>
-				
-              <table id="historyTable" class="table table-hover dataTable">
+			  <h4><i class="fa fa-angle-right"></i>예약 중인 정책</h4>
+			  <hr>	
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>기준금액</th>
+                    <th>수수료율(%)</th>
+                    <th>적용예정일</th>
+                    <th>등록자</th>
+                    <th>등록일</th>
+                    <th>삭제</th>
+                  </tr>
+                </thead>
+                <tbody>
+					<tr th:if="${reservation.size()>0}"  th:each="r, index:${reservation}">
+	                  	<td th:text="${index.count}"></td>
+	                  	<td th:text="${r.sCommissionType}" class="commissionType" style="text-align:left"></td>
+	                  	<td th:text="${r.sCommissionRate}"></td>
+	                  	<td th:text="${r.sReservation}"></td>
+	                  	<td th:text="${r.mId}"></td>
+	                    <td th:text="${r.sCommissionDate}"></td>
+	                    <td><a th:href="@{/policy/removeCommission(idx=${r.sCommissionIdx})}" class="btn btn-default btn-xs">삭제</a></td>
+	                 </tr>
+	                 <tr th:unless="${reservation.size()>0}">
+				          <td colspan="7">예약중인 정책이 없습니다.</td>
+				     </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      	
+      	
+		<div class="col-md-12 mt">
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px">
+			  <h4><i class="fa fa-angle-right"></i>사용 중인 정책</h4>
+			  <hr>	
+              <table class="table table-hover">
                 <thead>
                   <tr>
                     <th>#</th>
@@ -37,7 +72,6 @@
                     <th>수수료율(%)</th>
                     <th>사용여부</th>
                  	<th>적용일</th>
-                    <th>마지막사용일</th>
                     <th>등록자</th>
                     <th>등록일</th>
                     <th>삭제</th>
@@ -48,21 +82,77 @@
 	                  	<td th:text="${index.count}"></td>
 	                  	<td th:text="${h.sCommissionType}" class="commissionType" style="text-align:left"></td>
 	                  	<td th:text="${h.sCommissionRate}"></td>
-	                  		
 	                  	<td th:if="${h.sCommissionUse=='Y'}"th:text="사용"></td>
-	                  	<td th:if="${h.sCommissionUse=='N'}"th:text="미사용"></td>
-	                  	
 	                  	<td th:text="${h.sReservation}"></td>
-	                    <td th:text="${h.sCommissionLast}"></td>
 	                  	<td th:text="${h.mId}"></td>
 	                    <td th:text="${h.sCommissionDate}"></td>
-	                    <td th:if="${h.sCommissionLast == null and h.sCommissionUse=='N'}"><a th:href="@{/policy/removeCommission(idx=${h.sCommissionIdx})}" class="btn btn-default btn-xs">삭제</a></td>
-	                    <td th:if="${h.sCommissionUse=='Y' or h.sCommissionLast!= null}">-</td>
+	                    <td><a th:href="@{/policy/removeCommission(idx=${h.sCommissionIdx})}" class="btn btn-default btn-xs">삭제</a></td>
 	                 </tr>
                 </tbody>
               </table>
             </div>
           </div>
+          
+          <div class="col-md-12 mt">
+            <div class="content-panel" style="padding: 30px; padding-bottom : 50px">
+			  <h4><i class="fa fa-angle-right"></i>수수료 히스토리</h4>	
+			  <hr>
+			  <div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/policy/commissionHistory}" id="searchForm">
+	            	<select name="searchKey" id="searchSelect">
+	            		<option value="0">카테고리</option>
+	            		<option value="sCommissionType">기준금액</option>
+	            		<option value="sCommissionRate">수수료율</option>
+	            		<option value="sReservation">적용시작일</option>
+	            		<option value="sCommissionLast">마지막사용일일</option>
+	            		<option value="mId">등록자</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue">
+	            	<input type="button" value = "검색" class="btn btn-default btn-sm" id="searchBtn">
+	               </form>
+               </div>
+			  
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>기준금액</th>
+                    <th>수수료율(%)</th>
+                    <th>사용여부</th>
+                    <th>적용시작일</th>
+				    <th>마지막사용일</th>
+                    <th>등록자</th>
+                    <th>등록일</th>
+                  </tr>
+                </thead>
+                <tbody>
+					<tr th:each="n, index:${notUsed}" th:if="${#lists.size(notUsed)}>0">
+	                  	<td th:text="${index.count}"></td>
+	                  	<td th:text="${n.sCommissionType}" class="commissionType" style="text-align:left"></td>
+	                  	<td th:text="${n.sCommissionRate}"></td>
+	                  	<td>미사용</td>
+	                  	<td th:text="${n.sReservation}"></td>
+	                  	<td th:text="${n.sCommissionLast}"></td>
+	                  	<td th:text="${n.mId}"></td>
+	                    <td th:text="${n.sCommissionDate}"></td>
+	                </tr>
+	                <tr th:unless="${#lists.size(notUsed)}>0">
+				          <td colspan="8">수수료 히스토리가 없습니다.</td>
+				     </tr>
+                </tbody>
+                <tfoot>
+                	<tr>
+                		<td colspan ="8" style="text-align:center;">
+	                 		<th:block layout:fragment="paging">
+                  				<nav th:replace="fragments/standardPagination :: pagination"></nav>
+                  			</th:block>
+                  		</td>
+                	</tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+          
           
           <!-- //////////////////모달창 시작/////////////////////////// -->
           	<div class="modal fade" id="commissionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -95,9 +185,8 @@
 						
 						<div class="form-group date-picker-z-index" >
 							<label for="sReservation" class="control-label">정책적용일</label>
-							<input type="text" class="form-control nomal-date-picker hasDatepicker" id = "sCommissionReservation" name="sReservation">
+							<input type="text" class="form-control nomal-date-picker" id = "sCommissionReservation" name="sReservation">
 						</div>
-						
 							<div class="modal-footer">
 								<button type="button" class="btn btn-default" data-dismiss="modal">닫기</button>
 								<button type="button" class="btn btn-primary" id="sCommissionBtnModal" >추가</button>
@@ -125,6 +214,22 @@
 		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 		<script>
 		
+			
+			function movePage(uri, queryString) {
+				location.href = uri + queryString;
+			}
+			
+			
+			//검색 유효성
+		 	$('#searchBtn').click(function(){
+		 		if($('#searchSelect option:selected').val()=='0'){
+		 			alert('검색 카테고리를 선택해주세요.');
+		 			return;
+		 		}
+		 		$('#searchForm').submit();
+		 		
+		 	})
+			
 			 function comma(str) {
 	       		 str = String(str);
 	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
@@ -137,7 +242,7 @@
 	    	 }
 			
 			$(function(){
-					$('#historyTable').DataTable();
+				
 					
 					$('.commissionType').each(function(){
 						var i = $('.commissionType').index(this);
