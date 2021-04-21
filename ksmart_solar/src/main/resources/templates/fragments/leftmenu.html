@@ -60,15 +60,15 @@
           <li class="sub-menu" th:if="${session.SLEVELNUM==1}">
             <a href="javascript:;" id="member">
               <i class="fa fa-dashboard"></i>
-              <span>#회원관리(관리자) - 김지숙</span>
+              <span>회원관리</span>
               </a>
             <ul class="sub">
-              <li><a th:href="@{/member/memberList}">#회원리스트조회</a></li>
-              <li><a th:href="@{/member/memberLoginHistory}">#회원로그인기록조회</a></li>
-              <li><a th:href="@{/member/memberWithdrawList}">#탈퇴신청회원조회</a></li>
-              <li><a th:href="@{/member/businessList}">#사업자인증신청목록</a></li>       
-              <li><a th:href="@{/member/plantList}">#발전소인증신청목록</a></li>       
-              <li><a th:href="@{/member/account}">#회원 계좌 조회</a></li>       
+              <li><a th:href="@{/member/memberList}">회원리스트조회</a></li>
+              <li><a th:href="@{/member/memberLoginHistory}">회원로그인기록조회</a></li>
+              <li><a th:href="@{/member/memberWithdrawList}">탈퇴신청회원조회</a></li>
+              <li><a th:href="@{/member/businessList}">사업자인증신청목록</a></li>       
+              <li><a th:href="@{/member/plantList}">발전소인증신청목록</a></li>       
+              <li><a th:href="@{/member/account}">회원 계좌 조회</a></li>       
               <li><a th:href="@{/member/noticeList}">#공고 승인신청목록 (이상룡)</a></li>
             </ul>
           </li>
@@ -76,15 +76,15 @@
            <li class="sub-menu" th:if="${session.SLEVELNUM==1}">
             <a href="javascript:;" id="profit">
               <i class="fa fa-dashboard"></i>
-              <span>#수익관리(관리자) - 김지숙</span>
+              <span>수익관리</span>
               </a>
             <ul class="sub">
-              <li><a th:href="@{/profit/cancel}">#취소수수료관리</a></li>
-              <li><a th:href="@{/profit/commission}">#대금수수료관리</a></li>
-              <li><a th:href="@{/profit/balance}">#입출금내역</a></li>
-              <li><a th:href="@{/profit/calculate}">#월말정산</a></li>
-              <li><a th:href="@{/profit/depositList}">#예치금출금신청목록</a></li>
-              <li><a th:href="@{/profit/commissionList}">#대금출금신청목록</a></li>
+              <li><a th:href="@{/profit/cancel}">취소수수료관리</a></li>
+              <li><a th:href="@{/profit/commission}">대금수수료관리</a></li>
+              <li><a th:href="@{/profit/balance}">입출금내역</a></li>
+              <li><a th:href="@{/profit/calculate}">월말정산</a></li>
+              <li><a th:href="@{/profit/depositList}">예치금출금신청목록</a></li>
+              <li><a th:href="@{/profit/commissionList}">대금출금신청목록</a></li>
             </ul>
           </li>
           

@@ -10,7 +10,12 @@
 	<th:block layout:fragment="Contents">
     <th:block th:if="${depositout != null and paymentout == null}">
 	<div id="container-header-title"><strong>[[${depositout.mId}]] 예치금 환불처리</strong></div>
-	<div id="container-header-path">수익관리 > <a th:href=@{/profit/depositList}>예치금출금신청목록</a> > [[${depositout.mId}]] 예치금 환불처리</div>
+	<div id="container-header-path">
+	<a th:href="@{/}">메인화면</a> > 
+	수익관리 > 
+	<a th:href=@{/profit/depositList}>예치금출금신청목록</a> > 
+	[[${depositout.mId}]] 예치금 환불처리
+	</div>
 	<div id="container-header-space"></div>
 	<div class="row mt">
         <div class="col-lg-12">
@@ -40,6 +45,14 @@
 					</form>
 					<form class="form-horizontal style-form" th:action="@{/withDraw}" method="post">
 						<div class="form-group">
+							<label class="col-sm-2 control-label"><strong>신청금액</strong></label>
+							<div class="col-sm-10">
+							  <p class="form-control-static">
+								[[${#numbers.formatInteger(depositout.trDepDeposit,3,'COMMA')}]]
+							  </p>
+							</div>
+						</div>
+						<div class="form-group">
 							<label class="col-sm-2 control-label"><strong>출금금액</strong></label>
 							<div class="col-sm-10">
 							  <p class="form-control-static">
@@ -59,7 +72,12 @@
     </th:block>
     <th:block th:unless="${depositout != null and paymentout == null}">
 	<div id="container-header-title"><strong>[[${paymentout.mId}]] 거래대금 출금처리</strong></div>
-	<div id="container-header-path">수익관리 > <a th:href=@{/profit/commissionList}>거래대금출금신청목록</a> > [[${paymentout.mId}]] 거래대금 출금처리</div>
+	<div id="container-header-path">
+	<a th:href="@{/}">메인화면</a> > 
+	수익관리 > 
+	<a th:href=@{/profit/commissionList}>거래대금출금신청목록</a> > 
+	[[${paymentout.mId}]] 거래대금 출금처리
+	</div>
 	<div id="container-header-space"></div>
      <div class="row mt">
         <div class="col-lg-12">
