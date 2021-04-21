@@ -2,7 +2,9 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="layout/default">
-
+	<th:block layout:fragment="customCss">
+		<link href="/lib/fancybox/jquery.fancybox.css" rel="stylesheet" />
+	</th:block>
 	<th:block layout:fragment="customTitle">
 				<title>공고정보</title>
 	</th:block>
@@ -383,6 +385,15 @@
 				 });
 			});
 	</script>
+		<script src="/lib/fancybox/jquery.fancybox.js"></script>
+		<script class="include" type="text/javascript" src="/lib/jquery.dcjqaccordion.2.7.js"></script>
+		<!--common script for all pages-->
+		<script type="text/javascript">
+		    $(function() {
+		      //    fancybox
+		      jQuery(".fancybox").fancybox();
+		    });
+		</script>
 	</th:block>
 	
 </html>

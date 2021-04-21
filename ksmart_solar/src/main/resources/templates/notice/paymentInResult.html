@@ -44,16 +44,13 @@
                   	<td>등록 된 파일이 없습니다.</td>
 	                <td colspan="2"></td>
                 </th:block>
-                <th:block th:unless="${fileList.size()==0}" >
-	                <td colspan="3"></td>
-                </th:block>
+                <td>
+					<th:block  th:if="${fileList.size()>0}" th:each="f:${fileList}">
+	               		<a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a><br>
+	                </th:block>
+                </td>
+                <td colspan="2"></td>
 	          </tr>
-				<th:block  th:if="${fileList.size()>0}" th:each="f:${fileList}">
-				<tr>
-                  	<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
-                  	<td colspan="3"></td>
-				</tr>
-               </th:block>
 	        </tbody>
 	      </table>
 	    </div>
