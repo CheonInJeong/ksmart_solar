@@ -29,7 +29,7 @@
           <div role="tabpanel">
 
 		  <!-- Nav tabs -->
-		  <ul class="nav nav-tabs" role="tablist">
+		  <ul class="nav nav-tabs" role="tablist" id="myTab">
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">탈퇴신청회원리스트</a></li>
 		    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">탈퇴완료회원리스트</a></li>
 		  </ul>
@@ -48,8 +48,8 @@
 	            		<option value="mRevokeCancelDate">탈퇴취소일자</option>
 	            	</select>
 	            	<input type="text" placeholder="검색어" name="searchValueWAM" th:value="${searchValueWAM}">
-	            	<input type="date" placeholder="YYYY-MM-DD" name="searchValueWAMS" th:value="${searchValueWAMS}" style="display: none">
-	            	<input type="date" placeholder="YYYY-MM-DD" name="searchValueWAMF" th:value="${searchValueWAMF}" style="display: none">
+	            	<input type="date" name="searchValueWAMS" th:value="${searchValueWAMS}" style="display: none">
+	            	<input type="date" name="searchValueWAMF" th:value="${searchValueWAMF}" style="display: none">
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
             	</div>
@@ -219,6 +219,29 @@
 					$('[name="searchValueWCMF"]').css('display','inline-block');
 				}
 			});
+			
+			$('#myTab a').click(function(e) {
+			  e.preventDefault();
+			  $(this).tab('show');
+			});
+
+			// store the currently selected tab in the hash value
+			$("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+			  var id = $(e.target).attr("href").substr(1);
+			  window.location.hash = id;
+			});
+			
+			
+			// 새로 고침시 탭 유지
+			var hash = window.location.hash;
+			// on load of the page: switch to the currently selected tab
+			$('#myTab a[href="' + hash + '"]').tab('show');
+			
+			// 검색 후 탭 유지
+			var search = window.location.search;
+			if(search.indexOf('WCM') > -1){
+				$('#myTab a[href="#profile"]').tab('show');
+			}
 		</script>
 	</th:block>
 </html>
