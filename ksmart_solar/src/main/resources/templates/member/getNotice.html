@@ -45,6 +45,10 @@
 	              <hr>
 	              <table class="table">
 	                <tbody>
+	                  <tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+	                  	<td>공고신청서</td>
+	               		<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+	                  </tr>	
 	                  <tr>
 	                    <td>공고코드</td>
 	                    <td th:text="${bidComponentdto.bCpCode}"></td>
@@ -84,6 +88,8 @@
 	               		<td th:text="${bidComponentdto.bCpDateDecision1}"></td>
 	                  	<td>입찰자결정마감일</td>
 	                  	<td th:text="${bidComponentdto.bCpDateDecision2}"></td>
+                  	
+	                  	
 	                  	
 	                  <tr th:if="${bidComponentdto.acStatusCode == 3}">
 	                    <td>반려사유</td>
@@ -152,6 +158,10 @@
 	               		<td th:text="${bidPlantdto.bPlDateDecision1}"></td>
 	                  	<td>입찰자결정마감일</td>
 	                  	<td th:text="${bidPlantdto.bPlDateDecision2}"></td>
+	                  </tr>
+	                  <tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+	                  	<td>공고신청서</td>
+	               		<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
 	                  </tr>
 	                  
 	                  <tr th:if="${bidPlantdto.acStatusCode == 3}">

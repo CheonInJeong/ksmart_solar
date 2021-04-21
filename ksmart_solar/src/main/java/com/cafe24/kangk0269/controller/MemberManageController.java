@@ -113,7 +113,7 @@ public class MemberManageController {
 			BusinessPlantDTO businessPlantDTO = bidPlantService.getPlant(bPlCode);
 			model.addAttribute("bidPlantdto", bidPlantdto);
 			model.addAttribute("businessPlantDTO", businessPlantDTO);
-			System.out.println(bPlCode);
+			model.addAttribute("fileList", bidPlantService.getNoticeFileList(bPlCode));
 			
 		}else if(bCpCode != null) {
 			System.out.println(bCpCode);
@@ -121,7 +121,9 @@ public class MemberManageController {
 			ComponentDTO componentDTO = bidComponentService.getComponent(bidComponentdto.getCpCode());
 			model.addAttribute("bidComponentdto", bidComponentdto);
 			model.addAttribute("componentDTO", componentDTO);
+			model.addAttribute("fileList", bidComponentService.getNoticeFileList(bCpCode));
 		}
+		
 		return "/member/getNotice";
 	}
 	
