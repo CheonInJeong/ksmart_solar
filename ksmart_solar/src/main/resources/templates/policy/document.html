@@ -15,14 +15,14 @@
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="form-panel" style="padding: 30px;">
-					<form th:action="@{/policy/addNoticeFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form">
+					<form th:action="@{/policy/addNoticeFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form" id="noticeForm">
 						<div class="form-group">
 							<label class="control-label col-md-3">공고신청관련파일업로드</label>
 							<div class="col-md-4 col-xs-4" >
 								<input type="file" name="files" multiple="multiple" class="default" id="noticeFile"/>
 							</div>
 							<div class="col-md-4 col-xs-4">
-								<input type="submit" value="업로드" class="default" id="noticeFileBtn"/>
+								<input type="button" value="업로드" class="default" id="noticeFileBtn"/>
 							</div>
 						</div>
 					</form>
@@ -67,7 +67,7 @@
 								<input type="file" name="files" multiple="multiple" class="default" id="bidFile"/>
 							</div>
 							<div class="col-md-4 col-xs-4">
-								<input type="submit" value="업로드" class="default" id="bidFileBtn">
+								<input type="button" value="업로드" class="default" id="bidFileBtn">
 							</div>
 						</div>
 					</form>
@@ -117,16 +117,22 @@
 					alert('파일을 선택해주세요.');
 					return false;
 				}
+				console.log(fileExtension.length);
+				console.log(fileExtension.slice(-3))
 				
-				if(fileExtension.indexOf('txt')=='-1'
-				  ||fileExtension.indexOf('pdf')=='-1'
-				  ||fileExtension.indexOf('hwp')=='-1'
-				  ||fileExtension.indexOf('png')=='-1'
-				  ||fileExtension.indexOf('jpg')=='-1'
-				  ||fileExtension.indexOf('gif')=='-1'){
+				if(fileExtension.slice(-3)=='jpg'
+					||fileExtension.slice(-3)=='pdf'
+					||fileExtension.slice(-3)=='hwp'
+					||fileExtension.slice(-3)=='gif'
+					||fileExtension.slice(-3)=='txt'){
+					$('#noticeForm').submit();
+				}else{
 					alert('등록할 수 없는 확장자 입니다.\n다른 파일을 선택해주세요.\n(등록가능 확장자 : pdf,txt,jpg,png,gif,hwp)');
 					return false;
 				}
+				
+					
+					
 			});
 			
 			$('#bidFileBtn').click(function(){
@@ -135,12 +141,13 @@
 					alert('파일을 선택해주세요.');
 					return false;
 				}
-				if(fileExtension.indexOf('txt')=='-1'
-				  ||fileExtension.indexOf('pdf')=='-1'
-				  ||fileExtension.indexOf('hwp')=='-1'
-				  ||fileExtension.indexOf('png')=='-1'
-				  ||fileExtension.indexOf('jpg')=='-1'
-				  ||fileExtension.indexOf('gif')=='-1'){
+				if(fileExtension.slice(-3)=='jpg'
+					||fileExtension.slice(-3)=='pdf'
+					||fileExtension.slice(-3)=='hwp'
+					||fileExtension.slice(-3)=='gif'
+					||fileExtension.slice(-3)=='txt'){
+					$('#noticeForm').submit();
+				}else{
 					alert('등록할 수 없는 확장자 입니다.\n다른 파일을 선택해주세요.\n(등록가능 확장자 : pdf,txt,jpg,png,gif,hwp)');
 					return false;
 				}
