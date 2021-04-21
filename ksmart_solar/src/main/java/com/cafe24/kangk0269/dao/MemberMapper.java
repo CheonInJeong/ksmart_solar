@@ -32,6 +32,10 @@ public interface MemberMapper {
 	// 탈퇴완료회원 리스트 수 조회
 	public int getWithdrawCompleteMemberCnt(String searchKeyWCM, String searchValueWCM, String searchValueWCMS, String searchValueWCMF);
 	
+	// 로그인 기록 입력
+	public int addLoginHistory(String mId);
+	// 로그아웃시 로그인 기록 업데이트
+	public int modifyLoginHistory(String mId);
 	// 로그인 기록 조회
 	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF);
 	// 로그인 기록 리스트 수 조회

@@ -126,13 +126,18 @@
 	                  	<td>입찰자수</td>
 	                  	<td><a th:href="@{/sell/plantBidderList(bPlCode=${detail.bPlCode})}">[[${detail.bPlNumberOfBidder}]]</a></td>
 	                  </tr>
-	                   <tr>
+	                  
+	                  
+	                  <tr>
 	                  	<td>공고서류</td>
-	                  	<td th:if="${#lists.size(file)}>0" th:each="f:${file}">
-	                  		<a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a>
+	                  	<td colspan="3">
+	              			<th:block  th:if="${#lists.size(file)}>0" th:each="f:${file}">
+		                  		<a  th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a><br>
+	              			</th:block>
+	              			<th:block th:if="${file.size()==0}" >
+	                  	  		등록 된 파일이 없습니다.
+	              			</th:block>
 	                  	</td>
-	                  	<td th:unless="${#lists.size(file)}>0" colspan="3">등록 된 파일이 없습니다.</td>
-	      
 	                  </tr>
 	                  <tr>
 	                  	<td colspan="4">
@@ -153,7 +158,6 @@
 	              <h4><i class="fa fa-angle-right"></i>거래정보</h4>
 	              <hr>
 	              <th:block th:if="${#lists.size(trade)}>0" th:each="t:${trade}">
-	              	
 		              <table class="table" style="text-align:left">
 		               	<tbody>
 		               		<tr>
@@ -167,7 +171,7 @@
 		               		</tr>
 		               		<tr>
 		               			<td>입찰금액</td>
-		               			<td th:text="${t.trPrPrice}"></td>
+		               			<td class="trPrPrice" th:text="${t.trPrPrice}"></td>
 		               			<td>거래상태</td>
 		               			<td th:text="${t.trTypeName}"></td>
 		               		</tr>
@@ -182,8 +186,10 @@
 	              </th:block>
 	              
 		          <th:block th:unless="${#lists.size(trade)}>0">
-		               <table>
-			               <tr><td colspan="4" style="text-align:center">진행중인 거래가 없습니다.</td></tr>
+		               <table style="width: 100%;">
+		               		<tbody>
+			               		<tr><td colspan="4" style="text-align:center;">진행중인 거래가 없습니다.</td></tr>
+		               		</tbody>
 		               </table>
 		          </th:block>
 	          
@@ -243,6 +249,13 @@
 	  		  }
 		 	
 		 	$(document).ready(function(){
+		 		
+		 		$('.trPrPrice').each(function(){
+		 			var i = $('.trPrPrice').index(this);
+		 			console.log(i+"<----i");
+		 			$('.trPrPrice').eq(i).text(comma($('.trPrPrice').eq(i).text()));
+		 		})
+		 		
 		 		$('#bzPlAreaD').text(comma($('#bzPlAreaD').text()));
 		 		$('#bzPlPowerD').text(comma($('#bzPlPowerD').text()));
 		 		$('#plDepDataResidualD').text(comma($('#plDepDataResidualD').text()));
