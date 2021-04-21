@@ -12,6 +12,12 @@ import com.cafe24.kangk0269.dto.BusinessPlantDTO;
 @Mapper
 public interface BidPlantMapper {
 	
+	//공고신청 발전소 반려처리
+	public int bidPlantReturn(String bPlCode, String bPlRejectReason);
+	
+	//공고신청 발전소 승인처리
+	public int bidPlantAdmit(String bPlCode);
+	
 	// 공고신청 발전소 상세보기
 	public BidPlantDTO getNotice(String bPlCode);
 	

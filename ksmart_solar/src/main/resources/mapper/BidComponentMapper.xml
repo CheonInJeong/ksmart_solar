@@ -81,6 +81,32 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="cpPhoto" 			column="cp_photo" />	
 	</resultMap>
 	
+	
+		<!-- 공고신청 발전소 반려처리  -->
+	<update id="bidComponentReturn" parameterType="String">
+		UPDATE tb_bid_component
+			SET
+				b_cp_status='공고반려',
+				ac_status_code=3,
+				b_cp_confirm=NOW(),
+				b_cp_confirm_status='Y',
+				b_cp_reject_reason = #{bCpRejectReason}
+			WHERE 
+				b_cp_code = #{bCpCode}
+	</update>
+	
+	<!-- 공고신청 발전소 승인처리 -->
+	<update id="bidComponentAdmit" parameterType="String">
+		UPDATE tb_bid_component
+			SET
+				b_cp_status='공고승인',
+				ac_status_code=2,
+				b_cp_confirm=NOW(),
+				b_cp_confirm_status='Y'
+			WHERE 
+				b_cp_code = #{bCpCode}	
+	</update>
+	
 	<!-- 공고신청 부품 상세보기 -->
 	<select id="getNotice" parameterType="String" resultMap="BidComponentDTOMap">
 		SELECT 
@@ -141,6 +167,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_recently
 		FROM 
 			tb_bid_component
+			WHERE ac_status_code IN (1,2,3)
+			ORDER BY b_cp_date DESC
 		<if test="searchKey == null or searchKey == ''.toString()">
 			LIMIT #{start},#{end}
 		</if>
