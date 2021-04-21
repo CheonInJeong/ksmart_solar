@@ -19,16 +19,18 @@
 
 !function( $ ) {
 	$('.default-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 7 });
+	$('.nomal-date-picker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 1 });
+	$('.hasDatepicker').datepicker({ dateFormat: 'yy-mm-dd', minDate: 1 });
+	
 	$(function(){
 			$(".default-date-picker").datepicker({
 				dateFormat:'yyyy-mm-dd'
 				});
 			
 			$(".nomal-date-picker").datepicker({
-				dateFormat:'yyyy-mm-dd'
+				dateFormat:'yyyy-mm-dd',
+				minDate: 1
 				});
-			
-		/*	$( ".default-date-picker" ).datepicker({ minDate: 0});*/
 		})
 	// Picker object
 	

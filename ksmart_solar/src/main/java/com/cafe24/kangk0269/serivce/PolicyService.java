@@ -15,6 +15,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.FileUtils;
+import com.cafe24.kangk0269.common.Pagination;
 import com.cafe24.kangk0269.dao.PolicyMapper;
 import com.cafe24.kangk0269.dao.SellMapper;
 import com.cafe24.kangk0269.dto.FileDTO;
@@ -54,7 +55,7 @@ public class PolicyService {
 					date = new Date(date.getTime()+(1000*60*60*24*-1));
 					String yesterday = format.format(date);
 					
-					//policyMapper.updateCommissionStatusN(type,yesterday);
+					policyMapper.updateCommissionStatusN(type,yesterday);
 					policyMapper.updateCommissionStatusY(resrvationDate);
 				}
 			}
@@ -161,18 +162,121 @@ public class PolicyService {
 	}
 	
 	
-	public List<StandardDTO> getTradeHistory(String startDate, String endDate){
-		return policyMapper.getTradeHistory(startDate,endDate);
+	//사용 예약 중인 예치금
+	public List<StandardDTO> getDepositReservation(){
+		return policyMapper.getDepositReservation();
+			
+	}
+	public List<StandardDTO> getCommissionReservation(){
+		return policyMapper.getCommissionReservation();
+	}
+	public List<StandardDTO> getTradeReservation(){
+		return policyMapper.getTradeReservation();
+	}
+		
+		
+	//사용 X인 예치금
+	public List<StandardDTO> getDepositNotUsed(String searchKey,String searchValue,StandardDTO standardDTO){
+		if(searchKey!=null) {
+			if(searchKey.equals("sdepositType")) {
+				searchKey ="s_deposit_type";
+			}else if(searchKey.equals("sdepositRate")) {
+				searchKey ="s_deposit_rate";
+			}else if(searchKey.equals("sReservation")) {
+				searchKey ="s_reservation";
+			}else if(searchKey.equals("sDepositLast")) {
+				searchKey ="s_deposit_last";
+			}else if(searchKey.equals("mId")) {
+				searchKey ="m_id";
+			}
+		}
+		
+		List<StandardDTO> depositList = null;
+		int depositCount = policyMapper.getDepositNotUsedCount(searchKey,searchValue,standardDTO);
+		
+		Pagination pagination = new Pagination(standardDTO);
+		pagination.setTotalRecordCount(depositCount);
+		
+		
+		standardDTO.setPagination(pagination);
+		
+		if(depositCount>0) {
+			depositList = policyMapper.getDepositNotUsed(searchKey,searchValue,standardDTO);
+		}
+		return depositList;
+	}
+	public List<StandardDTO> getCommissionNotUsed(String searchKey,String searchValue,StandardDTO standardDTO){
+		if(searchKey!=null) {
+			if(searchKey.equals("sCommissionType")) {
+				searchKey ="s_commission_type";
+			}else if(searchKey.equals("sCommissionRate")) {
+				searchKey ="s_commission_rate";
+			}else if(searchKey.equals("sReservation")) {
+				searchKey ="s_reservation";
+			}else if(searchKey.equals("sCommissionLast")) {
+				searchKey ="s_commission_last";
+			}else if(searchKey.equals("mId")) {
+				searchKey ="m_id";
+			}
+		}
+		
+		List<StandardDTO> commissionList = null;
+		int commissionCount = policyMapper.getCommissionNotUsedCount(searchKey,searchValue,standardDTO);
+		
+		Pagination pagination = new Pagination(standardDTO);
+		pagination.setTotalRecordCount(commissionCount);
+		
+		
+		standardDTO.setPagination(pagination);
+		
+		if(commissionCount>0) {
+			commissionList = policyMapper.getCommissionNotUsed(searchKey,searchValue,standardDTO);
+		}
+		return commissionList;
+	}
+	public List<StandardDTO> getTradeNotUsed(String searchKey,String searchValue,StandardDTO standardDTO){
+		if(searchKey!=null) {
+			if(searchKey.equals("sTradeType")) {
+				searchKey ="s_trade_type";
+			}else if(searchKey.equals("sTradePeriod")) {
+				searchKey ="s_trade_period";
+			}else if(searchKey.equals("sReservation")) {
+				searchKey ="s_reservation";
+			}else if(searchKey.equals("sTradeLast")) {
+				searchKey ="s_trade_last";
+			}else if(searchKey.equals("mId")) {
+				searchKey ="m_id";
+			}
+		}
+		List<StandardDTO> tradeList = null;
+		int tradeCount = policyMapper.getTradeNotUsedCount(searchKey,searchValue,standardDTO);
+		
+		Pagination pagination = new Pagination(standardDTO);
+		pagination.setTotalRecordCount(tradeCount);
+		
+		
+		standardDTO.setPagination(pagination);
+		
+		
+		if(tradeCount>0) {
+			tradeList = policyMapper.getTradeNotUsed(searchKey,searchValue,standardDTO);
+		}
+		return tradeList;
+	}
+	
+	
+	public List<StandardDTO> getTradeHistory(){
+		return policyMapper.getTradeHistory();
 	}
 
 	
-	public List<StandardDTO> getCommissionHistory(String startDate, String endDate){
-		return policyMapper.getCommissionHistory(startDate,endDate);
+	public List<StandardDTO> getCommissionHistory(){
+		return policyMapper.getCommissionHistory();
 	}
 
 	
-	public List<StandardDTO> getDepositHistory(String startDate, String endDate){
-			return policyMapper.getDepositHistory(startDate,endDate);
+	public List<StandardDTO> getDepositHistory(){
+			return policyMapper.getDepositHistory();
 	}
 	
 	

@@ -13,6 +13,12 @@ import com.cafe24.kangk0269.dto.ComponentDTO;
 public interface BidComponentMapper {
 	
 	
+	//공고신청 부품 반려처리
+	public int bidComponentReturn(String bCpCode, String bCpRejectReason);
+	
+	//공고신청 부품 승인처리
+	public int bidComponentAdmit(String bCpCode);
+	
 	// 공고신청 부품 상세보기
 	public BidComponentDTO getNotice(String bCpCode);
 	

@@ -32,6 +32,16 @@ public class BidComponentService {
 		System.out.println("=========================================================");
 	}
 	
+	//공고신청 부품 반려처리
+	public void bidComponentReturn(String bCpCode, String bCpRejectReason) {
+		bidComponentMapper.bidComponentReturn(bCpCode, bCpRejectReason);
+	}
+	
+	//공고신청 부품 승인처리
+	public void bidComponentAdmit(String bCpCode) {
+		bidComponentMapper.bidComponentAdmit(bCpCode);
+	}
+	
 	// 공고신청 부품 상세보기
 	public BidComponentDTO getNotice(String bCpCode) {
 		return  bidComponentMapper.getNotice(bCpCode);
