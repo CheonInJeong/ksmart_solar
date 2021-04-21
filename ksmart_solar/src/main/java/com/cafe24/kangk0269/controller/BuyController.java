@@ -237,6 +237,7 @@ public class BuyController {
 	@PostMapping("/buy/refundInfo")
 	public String refundInfo(String bCode, String bTitle, Model model, String bType) {
 		TradeDepositOutDTO tradeDepositOutDTO = tradeService.getRefundInfo(bCode);
+		model.addAttribute("bCode", bCode);
 		model.addAttribute("bTitle", bTitle);
 		model.addAttribute("bType", bType);
 		model.addAttribute("tradeDepositOutDTO", tradeDepositOutDTO);
@@ -287,5 +288,17 @@ public class BuyController {
 		model.addAttribute("searchValue",searchValue);
 		
 		return "buy/qna";
+	}
+	@RequestMapping(value = "/ajax/myBankSend", method = RequestMethod.POST)
+	public @ResponseBody List<MemberAccountDTO> myBankSend(String mId){
+		System.out.println(mId);
+		List<MemberAccountDTO> memberAccountDTOList = accountService.getAccountListById(mId);
+		return memberAccountDTOList;
+	}
+	@RequestMapping(value = "/ajax/modifyRefund", method = RequestMethod.POST)
+	public @ResponseBody String modifyRefund(TradeDepositOutDTO tradeDepositOutDTO){
+		String date = tradeService.modifyRefund(tradeDepositOutDTO);
+		System.out.println(date);
+		return date;
 	}
 }
