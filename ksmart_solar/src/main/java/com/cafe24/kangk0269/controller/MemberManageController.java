@@ -65,19 +65,62 @@ public class MemberManageController {
 		this.sellService = sellService;
 	}
 	
-
-
+	//공고신청 반려사유
+	@GetMapping("/member/noticeRejectReason")
+	public String noticeCheckReason(Model model
+									,@RequestParam(name="bPlCode", required=false) String bPlCode
+									,@RequestParam(name="bCpCode", required=false) String bCpCode) {
+		System.out.println(bPlCode);
+		System.out.println(bCpCode);
+		model.addAttribute("bPlCode", bPlCode);
+		model.addAttribute("bCpCode", bCpCode);
+		return "/member/noticeRejectReason";
+	}
+	
+	//공고신청 반려처리
+	@PostMapping("/ajax/noticeReject")
+	public String noticeReturn(@RequestParam(name="bPlCode", required=false) String bPlCode
+								,@RequestParam(name="bCpCode", required=false) String bCpCode
+								,@RequestParam(name="bCpCode", required=false) String bPlRejectReason
+								,@RequestParam(name="bCpCode", required=false) String bCpRejectReason) {
+		if(bPlCode != null) {
+			bidPlantService.bidPlantReturn(bPlCode,bPlRejectReason);
+		}else if(bCpCode != null) {
+			bidComponentService.bidComponentReturn(bCpCode,bCpRejectReason);
+		}
+		return "/member/getNotice";
+	}
+	
+	//공고신청 승인처리
+	@PostMapping("/ajax/noticeAdmit")
+	public String noticeAdmit(@RequestParam(name="bPlCode", required=false) String bPlCode
+							,@RequestParam(name="bCpCode", required=false) String bCpCode) {
+		if(bPlCode != null) {
+			bidPlantService.bidPlantAdmit(bPlCode);
+		}else if(bCpCode != null) {
+			bidComponentService.bidComponentAdmit(bCpCode);
+		}
+		return "/member/getNotice";
+	}
+	
 	//공고신청 상세보기
 	@GetMapping("/member/getNotice")
 	public String getNotice(Model model
 							,@RequestParam(name="bPlCode", required=false) String bPlCode
 							,@RequestParam(name="bCpCode", required=false) String bCpCode) {
-		if(!"".equals(bPlCode)) {
+		if(bPlCode != null) {
 			BidPlantDTO bidPlantdto = bidPlantService.getNotice(bPlCode);
+			BusinessPlantDTO businessPlantDTO = bidPlantService.getPlant(bPlCode);
 			model.addAttribute("bidPlantdto", bidPlantdto);
-		}else if(!"".equals(bCpCode)) {
+			model.addAttribute("businessPlantDTO", businessPlantDTO);
+			System.out.println(bPlCode);
+			
+		}else if(bCpCode != null) {
+			System.out.println(bCpCode);
 			BidComponentDTO bidComponentdto = bidComponentService.getNotice(bCpCode);
+			ComponentDTO componentDTO = bidComponentService.getComponent(bidComponentdto.getCpCode());
 			model.addAttribute("bidComponentdto", bidComponentdto);
+			model.addAttribute("componentDTO", componentDTO);
 		}
 		return "/member/getNotice";
 	}

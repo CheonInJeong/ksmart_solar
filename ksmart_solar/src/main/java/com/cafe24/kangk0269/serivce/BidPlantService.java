@@ -22,6 +22,16 @@ public class BidPlantService {
 		this.bidPlantMapper = bidPlantMapper; 
 	}
 	
+	//공고신청 발전소 반려처리
+	public void bidPlantReturn(String bPlCode, String bPlRejectReason) {
+		bidPlantMapper.bidPlantReturn(bPlCode, bPlRejectReason);
+	}
+	
+	//공고신청 발전소 승인처리
+	public void bidPlantAdmit(String bPlCode) {
+		bidPlantMapper.bidPlantAdmit(bPlCode);
+	}
+	
 	// 공고신청 발전소 상세보기
 	public BidPlantDTO getNotice(String bPlCode) {
 		return  bidPlantMapper.getNotice(bPlCode);

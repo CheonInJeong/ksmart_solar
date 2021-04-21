@@ -90,6 +90,31 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bzPlRec" 				column="bz_pl_rec" />	
 	</resultMap>
 	
+	<!-- 공고신청 발전소 반려처리  -->
+	<update id="bidPlantReturn" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status = '공고반려',
+			ac_status_code = 3,
+			b_pl_confirm = NOW(),
+			b_pl_confirm_status = 'Y',
+			b_pl_reject_reason = #{bPlRejectReason}
+		WHERE 
+			b_pl_code = #{bPlCode}
+	</update>
+	
+	<!-- 공고신청 발전소 승인처리 -->
+	<update id="bidPlantAdmit" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status = '공고승인',
+			ac_status_code = 2,
+			b_pl_confirm = NOW(),
+			b_pl_confirm_status = 'Y'
+		WHERE 
+			b_pl_code = #{bPlCode}
+	</update>			
+	
 	<!-- 공고신청 발전소 상세보기  -->
 	<select id="getNotice" parameterType="String" resultMap="BidPlantDTOMap">
 		SELECT 
@@ -154,6 +179,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_pl_cancel_date
 		FROM 
 			tb_bid_plant
+			WHERE ac_status_code IN (1,2,3)
+			ORDER BY b_pl_date_request DESC
 		<if test="searchKey == null or searchKey == ''.toString()">
 			LIMIT #{start},#{end}
 		</if>
