@@ -238,24 +238,24 @@ public class MemberManageController {
 	public String MemberList(Model model
 							, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 							, @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							, @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+							, @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 							, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 							, @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							, @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+							, @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 							, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 							, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
-		System.out.println("searchKeyAM : " + searchKeyAM);
-		System.out.println("searchValueAM : " + searchValueAM);
-		System.out.println("searchKeyRM : " + searchKeyRM);
-		System.out.println("searchValueRM : " + searchValueRM);
-		int count1 = memberService.getActiveMemberCnt(searchKeyAM, searchValueAM);
+		int count1 = memberService.getActiveMemberCnt(searchKeyAM, searchValueAM, searchValueAMS, searchValueAMF);
 		PageDTO page1 = new PageDTO(count1,curPage1);
 		int start1 = page1.getPageBegin();
 		int end1 = page1.getPageEnd();
-		List<MemberDTO> activememberList = memberService.getActiveMember(start1, end1, searchKeyAM, searchValueAM);
-		int count2 = memberService.getRestMemberCnt(searchKeyRM, searchValueRM);
+		List<MemberDTO> activememberList = memberService.getActiveMember(start1, end1, searchKeyAM, searchValueAM, searchValueAMS, searchValueAMF);
+		int count2 = memberService.getRestMemberCnt(searchKeyRM, searchValueRM, searchValueRMS, searchValueRMF);
 		PageDTO page2 = new PageDTO(count2,curPage2);
 		int start2 = page2.getPageBegin();
 		int end2 = page2.getPageEnd();
-		List<MemberDTO> restmemberList = memberService.getRestMember(start2, end2, searchKeyRM, searchValueRM);
+		List<MemberDTO> restmemberList = memberService.getRestMember(start2, end2, searchKeyRM, searchValueRM, searchValueRMS, searchValueRMF);
 		String uri = "/member/memberList";
 		model.addAttribute("activememberList", activememberList);
 		model.addAttribute("restmemberList", restmemberList);

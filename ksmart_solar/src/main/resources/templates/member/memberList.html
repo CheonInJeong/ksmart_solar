@@ -48,9 +48,11 @@
 			            		<option value="mName">이름</option>
 			            		<option value="mLevel">권한</option>
 			            		<option value="mAddr">주소</option>
-			            		<option value="mSubDate">회원가입(월일)</option>
+			            		<option value="mSubDate">회원가입일</option>
 			            	</select>
 			            	<input type="text" placeholder="검색어" name="searchValueAM" th:value="${searchValueAM}">
+			            	<input type="date" name="searchValueAMS" th:value="${searchValueAMS}" style="display: none">
+            				<input type="date" name="searchValueAMF" th:value="${searchValueAMF}" style="display: none">
 			            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 			               </form>
 		            	</div>
@@ -90,7 +92,7 @@
 						<div class="text-center">
 						  <ul class="pagination">
 						    <li>
-						      <a th:if="${page1.curBlock > 1}" th:href="@{/member/memberList(curPage1=${page1.prevPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}" aria-label="Previous">
+						      <a th:if="${page1.curBlock > 1}" th:href="@{/member/memberList(curPage1=${page1.prevPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}" aria-label="Previous">
 						        <span aria-hidden="true">&laquo;</span>
 						      </a>
 						    </li>
@@ -100,12 +102,12 @@
 					   		</li>
 					   		<li th:unless="${num == page1.curPage}">
 					   		<th:block th:if="${num} != 0">
-					   			<a th:href="@{/member/memberList(curPage1=${num},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}">[[${num}]]</a>
+					   			<a th:href="@{/member/memberList(curPage1=${num},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}">[[${num}]]</a>
 					   		</th:block>
 					   		</li>
 					  		</th:block>
 						    <li>
-						      <a th:if="${page1.curBlock <= page1.totBlock}" th:href="@{/member/memberList(curPage1=${page1.nextPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}" aria-label="Next">
+						      <a th:if="${page1.curBlock <= page1.totBlock}" th:href="@{/member/memberList(curPage1=${page1.nextPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>
 						    </li>
@@ -129,6 +131,8 @@
 				            		<option value="mSubDate">회원가입(월일)</option>
 				            	</select>
 				            	<input type="text" placeholder="검색어" name="searchValueRM" th:value="${searchValueRM}">
+				            	<input type="date" name="searchValueRMS" th:value="${searchValueRMS}" style="display: none">
+            					<input type="date" name="searchValueRMF" th:value="${searchValueRMF}" style="display: none">
 				            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 				               </form>
 			            	</div>
@@ -157,7 +161,7 @@
 									<td data-title="연락처" th:text="${l.mPhone}"></td>
 									<td data-title="이메일" th:text="${l.mEmail}"></td>
 									<td data-title="수정">
-										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}>수정</a>
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueAMF=${searchValueRMF})}>수정</a>
 									</td>
 								</tr>
 								<tr th:unless="${#lists.size(restmemberList) > 0}">
@@ -168,7 +172,7 @@
 						<div class="text-center">
 						  <ul class="pagination">
 						    <li>
-						      <a th:if="${page2.curBlock > 1}" th:href="@{/member/memberList(curPage2=${page2.prevPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" aria-label="Previous">
+						      <a th:if="${page2.curBlock > 1}" th:href="@{/member/memberList(curPage2=${page2.prevPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueAMF=${searchValueRMF})}" aria-label="Previous">
 						        <span aria-hidden="true">&laquo;</span>
 						      </a>
 						    </li>
@@ -183,7 +187,7 @@
 					   		</li>
 					  		</th:block>
 						    <li>
-						      <a th:if="${page2.curBlock <= page2.totBlock}" th:href="@{/member/memberList(curPage2=${page2.nextPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" aria-label="Next">
+						      <a th:if="${page2.curBlock <= page2.totBlock}" th:href="@{/member/memberList(curPage2=${page2.nextPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueAMF=${searchValueRMF})}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>
 						    </li>
@@ -212,6 +216,31 @@
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(0).addClass('active');
+			
+			var searchKeyAM = $('select[name="searchKeyAM"]');
+			var searchKeyRM = $('select[name="searchKeyRM"]');
+			searchKeyAM.click(function(){
+				if(searchKeyAM.val() == "mSubDate"){
+					$('[name="searchValueAM"]').css('display','none');
+					$('[name="searchValueAMS"]').css('display','inline-block');
+					$('[name="searchValueAMF"]').css('display','inline-block');
+				}else{
+					$('[name="searchValueAM"]').css('display','inline-block')
+					$('[name="searchValueAMS"]').css('display','none');
+					$('[name="searchValueAMF"]').css('display','none');
+				}
+			});
+			searchKeyRM.click(function(){
+				if(searchKeyRM.val() == "mSubDate"){
+					$('[name="searchValueRM"]').css('display','none');
+					$('[name="searchValueRMS"]').css('display','inline-block');
+					$('[name="searchValueRMF"]').css('display','inline-block');
+				}else{
+					$('[name="searchValueRM"]').css('display','inline-block')
+					$('[name="searchValueRMS"]').css('display','none');
+					$('[name="searchValueRMF"]').css('display','none');
+				}
+			});
 			
 			$('#myTab a').click(function(e) {
 			  e.preventDefault();
