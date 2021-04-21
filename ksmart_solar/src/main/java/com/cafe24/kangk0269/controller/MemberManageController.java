@@ -528,7 +528,8 @@ public class MemberManageController {
 				session.setAttribute("SPHOTO", member.getmPhoto());	
 				//메뉴
 				session.setAttribute("SURI", memberService.getUri(member.getmLevel()));
-				
+				//로그인 기록 등록
+				memberService.addLoginHistory(resultId);
 				
 			}else {
 				checkResult = "비번불일치";
@@ -572,6 +573,8 @@ public class MemberManageController {
 				session.setAttribute("SNAME", resultName);
 				session.setAttribute("accessToken", accessToken);
 				checkResult = "성공";
+				//로그인 기록 등록
+				memberService.addLoginHistory("kakao"+resultId);
 			} else {
 				checkResult = "실패";
 			}
@@ -582,6 +585,8 @@ public class MemberManageController {
 	//로그아웃
 	@GetMapping("/logout")
 	public String logout(HttpSession session) {
+		//로그아웃시 로그인 기록 업데이트
+		memberService.modifyLoginHistory((String)session.getAttribute("SID"));
 		session.invalidate();
 		return "redirect:/login";
 	}
@@ -591,6 +596,8 @@ public class MemberManageController {
 	public String logoutKakao(HttpSession session) {
 		KakaoLoginApi kakaoApi = new KakaoLoginApi();
 		kakaoApi.kakaoLogout((String)session.getAttribute("accessToken"));
+		//로그아웃시 로그인 기록 업데이트
+		memberService.modifyLoginHistory("kakao"+(String)session.getAttribute("SID"));
 		session.invalidate();
 		return "redirect:/login";
 	}

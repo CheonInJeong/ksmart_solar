@@ -148,6 +148,14 @@ public class MemberService {
 		return memberMapper.getWithdrawCompleteMemberCnt(searchKeyWCM, searchValueWCM, searchValueWCMS, searchValueWCMF);
 	}
 	
+	// 로그인 기록 입력
+	public int addLoginHistory(String mId) {
+		return memberMapper.addLoginHistory(mId);
+	}
+	// 로그아웃시 로그인 기록 업데이트
+	public int modifyLoginHistory(String mId) {
+		return memberMapper.modifyLoginHistory(mId);
+	}
 	// 로그인 기록 조회
 	public List<MemberLogDTO> getLoginHistory(int start, int end, String searchKeyL, String searchValueL, String searchValueLS, String searchValueLF){
 		if(searchKeyL != null && searchKeyL != "") {
