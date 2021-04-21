@@ -824,4 +824,21 @@
 				NOW())
 			</if> 
 	</insert>
+	<update id="modifyRefund" parameterType="TradeDepositOutDTO">
+		UPDATE tb_trade_deposit_out
+		SET
+			m_account_bank_name = #{mAccountBankName},
+			m_account_number = #{mAccountNumber},
+			m_account_name = #{mAccountName},
+			tr_dep_date=NOW()
+		WHERE 
+			b_code = #{bCode}
+	</update>
+	<select id="getRefundDepDate" parameterType="String" resultType="String">
+		SELECT 
+		tr_dep_date
+		FROM 
+			tb_trade_deposit_out
+		WHERE b_code=#{bCode}
+	</select>
 </mapper>

@@ -45,24 +45,29 @@
 				<div class="form-group ">
 					<label class="control-label col-lg-2">은행</label>
 					<div class="col-lg-10">
-						<input class="xsinput mdinput" type="text" style="width: 40%;" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountBankName}">
+						<div>
+							<select id="selectmAccountNumber" class="xsinput mdinput" style="width: 40%; margin: 0 0 10px 0; display: none;">
+							</select>
+						</div>
+						<input id="mAccountBankName" class="xsinput mdinput" type="text" style="width: 40%;" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountBankName}">
 					</div>
 				</div>
 				<div class="form-group ">
 					<label class="control-label col-lg-2">계좌번호</label>
 					<div class="col-lg-10">
-						<input class="xsinput mdinput" type="text" style="width: 40%;" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountNumber}">
+						<input id="mAccountNumber" class="xsinput mdinput" type="text" style="width: 40%;" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountNumber}">
+						<span id="bankText" style="display: none;">('-'은 빼고 입력해주세요)</span>
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2">예금주명</label>
 					<div class="col-lg-10" >
-						<input class="xsinput mdinput" style="width: 40%;" type="text" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountName}">
+						<input id="mAccountName" class="xsinput mdinput" style="width: 40%;" type="text" readonly="readonly" th:value="${tradeDepositOutDTO.mAccountName}">
 					</div>
 				</div>
 				<div class="form-group">
 					<label class="control-label col-lg-2">신청 시간</label>
-					<div class="col-lg-10">
+					<div id="trDepDate" class="col-lg-10">
 						[[${tradeDepositOutDTO.trDepDate}]]
 					</div>
 				</div>
@@ -71,8 +76,11 @@
             </div>
           </div>
         </div>
+        <input id="id" th:value="${session.SID}" type="hidden">
 		<div class="row" style="margin: 5px 0px;">
 			<div class="form-inline" style="text-align: center;">
+				<input type="hidden" id="bCode" th:value="${bCode}">
+				<button id="modifybidResult" class="btn btn-theme" type="button" style="width: 80px;" data-modify="0">수정</button>
 				<button id="bidResultCancelBtn" class="btn btn-danger" type="button" style="width: 80px;">뒤로가기</button>
 			</div>
 		</div>
@@ -86,6 +94,7 @@
 			buy.parent().find('.sub').children().eq(1).addClass('active');
 			var bank = $('#bank');
 			var bidResultCancelBtn = $('#bidResultCancelBtn');
+			var modifybidResult = $('#modifybidResult');
 			$(function(){
 				var price = $('.price');
 				price.each(function(){
@@ -95,6 +104,118 @@
 			var link = document.referrer;
 			bidResultCancelBtn.click(function(){
 				location.href = link;
+			});
+			var selectmAccountNumber = $('#selectmAccountNumber');
+			var mAccountBankName = $('#mAccountBankName');
+			var mAccountNumber = $('#mAccountNumber');
+			var mAccountName = $('#mAccountName');
+			var trDepDate = $('#trDepDate');
+			var bankText = $('#bankText');
+			var id = $('#id');
+			var mAccountList = [];
+			modifybidResult.click(function(){
+				console.log('수정')
+				console.log($(this).attr('data-modify'));
+				if($(this).attr('data-modify')==0){
+					$(this).attr('data-modify',1);				
+					selectmAccountNumber.css('display','block');
+					bankText.css('display','block');
+					$(this).text('수정완료');
+					
+					$.ajax({
+						  url: '/ajax/myBankSend', 
+						  method: 'POST',
+						  data : {mId : id.val()},
+						  success: function(data){
+								if(data != null){
+									selectmAccountNumber.html('<option>::::직접입력::::</option>');
+									mAccountList = data;
+									console.log(data);
+									for(var i=0;i<data.length;i++){
+										if(mAccountBankName.val()==data[i].mAccountBank){
+											selectmAccountNumber.append('<option selected="selected">'+data[i].mAccountBank+'</option>')
+										}else{
+											selectmAccountNumber.append('<option>'+data[i].mAccountBank+'</option>')
+										}
+									}
+								}
+						  },
+						  error : function(xhr,status,error){
+							  console.log("xhr: " + xhr);
+							  console.log("status: " + status);
+							  console.log("error: " + error);
+						  }
+					});
+				}else if($(this).attr('data-modify')==1){
+					if(mAccountBankName.val().trim()==''){
+						mAccountBankName.focus();
+						Check('은행');
+						return false;
+					}
+					if(mAccountNumber.val().trim()==''){
+						mAccountNumber.focus();
+						Check('계좌번호');
+						return false;
+					}
+					if(mAccountName.val().trim()==''){
+						mAccountName.focus();
+						Check('이름');
+						return false;
+					}
+				    var bCode = $('#bCode');
+					$.ajax({
+						  url: '/ajax/modifyRefund', 
+						  method: 'POST',
+						  data : {bCode : bCode.val(), mAccountBankName : mAccountBankName.val(), mAccountNumber : mAccountNumber.val(), mAccountName : mAccountName.val()},
+						  success: function(data){
+								if(data != null){
+									console.log(data);
+									modifybidResult.text('수정');
+									modifybidResult.attr('data-modify',0);
+									selectmAccountNumber.css('display','none');
+									bankText.css('display','none');
+									mAccountBankName.attr('readonly','readonly');
+									mAccountNumber.attr('readonly','readonly');
+									mAccountName.attr('readonly','readonly');
+									trDepDate.text(data);
+									Swal.fire({
+										  title: '수정 성공!',
+										  icon: 'success'
+									});
+								}
+						  },
+						  error : function(xhr,status,error){
+							  console.log("xhr: " + xhr);
+							  console.log("status: " + status);
+							  console.log("error: " + error);
+						  }
+					});
+				}
+			});
+			function Check(status){
+				Swal.fire({
+					  title: '수정실패!',
+					  text: status+'을(를) 입력해주세요.',
+					  icon: 'info'
+					});
+			}
+			selectmAccountNumber.change(function(){
+				console.log($(this).val());
+				for(var i=0;i<mAccountList.length;i++){
+					if($(this).val()==mAccountList[i].mAccountBank){
+						mAccountBankName.val(mAccountList[i].mAccountBank);
+						mAccountNumber.val(mAccountList[i].mAccountNumber);
+						mAccountName.val(mAccountList[i].mAccountName);
+					}
+				}
+				if($(this).val()=='::::직접입력::::'){
+					mAccountBankName.removeAttr('readonly');
+					mAccountNumber.removeAttr('readonly');
+					mAccountName.removeAttr('readonly');
+					mAccountBankName.val('');
+					mAccountNumber.val('');
+					mAccountName.val('');
+				}
 			});
 		</script>
 	</th:block>
