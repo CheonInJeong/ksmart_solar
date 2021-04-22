@@ -47,6 +47,12 @@
               <td style="text-align: left;" th:text="${bidListDTO.bRank+'순위'}"></td>
               <td colspan="2"></td>
             </tr>
+	          <tr th:if="${tradePriorityDTO!=null}">
+	          	 <td>거래 시작일</td>
+	             <td style="text-align: left;" th:text="${tradePriorityDTO.trPrConclusionDate1}"></td>
+	          	 <td>거래 마감일</td>
+	             <td style="text-align: left;" th:text="${tradePriorityDTO.trPrConclusionDate2}"></td>
+	          </tr>
 	          <tr>
 	          	 <td>내 진행 상태</td>
 	             <td style="text-align: left;" th:text="${bidListDTO.trTypeName}"></td>

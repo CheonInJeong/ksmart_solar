@@ -2,9 +2,15 @@
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	  layout:decorate="layout/default">
-
+	<th:block layout:fragment="customCss">
+	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+	  <!-- Custom styles for this template -->
+	  <link th:href="@{/css/style.css}" rel="stylesheet">
+	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	  
+	</th:block>
 	<th:block layout:fragment="customTitle">
-				<title>공고정보</title>
+				<title>발전소 공고 조회</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
 		<style>
@@ -12,6 +18,8 @@
 			position : relative;
 			}
 		</style>
+		
+	<th:block th:if="${businessPlantDTO != null}">	
 		<div id="container-header-title"><strong>공고정보</strong></div>
 		<div id="container-header-path">
 			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
@@ -20,136 +28,92 @@
 			<a href="#" id="thirdUrl" style="text-decoration: none;"> 공고정보 </a>
 		</div>
 		<div id="container-header-space"></div>
-		<div class="col-md-12 mt">
-		<input type="hidden" id="bCpReCount" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpReCount}">
-		<input type="hidden" id="bCpGroupcode" 	th:if="${bidComponentdto!=null}"	th:value="${bidComponentdto.bCpGroupcode}">
-		<input type="hidden" id="bPlReCount" 	th:if="${bidPlantdto!=null}" 		th:value="${bidPlantdto.bPlReCount}">
-		<input type="hidden" id="bPlGroupcode" 	th:if="${bidPlantdto!=null}"		th:value="${bidPlantdto.bPlGroupcode}">
-		
-	
-      	<ul class="nav nav-tabs nav-justified" id="myNav" >
-		  <li role="presentation" class="active" ><a href="#section1">공고정보</a></li>
-		  <li role="presentation" th:if="${bidComponentdto!=null}"><a href="#section2">부품정보</a></li>
-		  <li role="presentation" th:if="${bidPlantdto!=null}"><a href="#section3">발전소정보</a></li>
-		</ul>
-		<div>
-            <div class="row" th:if="${bidComponentdto!=null}" id="section1">
-            	<input id="bCpCode" type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
-				<input type="hidden" name="announcedTitle" 	th:value="${bidComponentdto.bCpTitle}">
-				<input type="hidden" name="announcedPrice" 	th:value="${bidComponentdto.bCpPrice}">
-				<input type="hidden" name="announcedType" 	th:value="${2}">
-				<input type="hidden" name="url">
+      	<div class="navbar1">
+      	<div>
+	      	<ul class="nav nav-tabs nav-justified" id="myNav" >
+			  <li role="presentation" class="active" ><a href="#section1">발전소정보</a></li>
+			  <li role="presentation"><a href="#section2">공고정보</a></li>
+			</ul>
+		</div>
+		</div>
+      	
+	       <div class="row" id="section1">
 	          <div class="col-md-12">
 	            <div class="content-panel" style="padding: 30px;">
-	              <h4><i class="fa fa-angle-right"></i>부품 공고</h4>
+	              <h4><i class="fa fa-angle-right"></i>발전소</h4>
 	              <hr>
-	              <table class="table">
+	              <table class="table" style="text-align : left">
 	                <tbody>
-	                  <tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
-	                  	<td>공고신청서</td>
-	               		<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
-	                  </tr>	
+	                	<tr>
+	                		<td>발전소사진</td>
+	                		<td colspan="5">
+	                			<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+		                        	<img th:src="${businessPlantDTO.bzPlPhoto}" alt="발전소사진" style="width: 100%; height: 100%">
+		                        </div>
+	                		</td>
+	                	</tr>
 	                  <tr>
-	                    <td>공고코드</td>
-	                    <td th:text="${bidComponentdto.bCpCode}"></td>
-	                    <td colspan="2"></td>
+	                    <td>발전소명</td>
+	                    <td colspan="5" th:text="${businessPlantDTO.bzPlName}"></td>
 	                  </tr>
 	                  <tr>
-	                    <td>재공고 여부</td>
-	                    <td >
-	                    	<div th:if="${bidComponentdto.bCpReCount==0}">신규</div>
-		              		<div th:if="${bidComponentdto.bCpReCount>0}">재공고</div>
-	                    </td>
-	                    <td colspan="2"></td>
+	                    <td>주소</td>
+	                    <td>[[${businessPlantDTO.bzPlZipcode}]] [[${businessPlantDTO.bzPlAddr}]] [[${businessPlantDTO.bzPlDetailAddr}]]</td>
+	                  	<td>부지면적</td>
+	                  	<td id="bzPlAreaD" th:text="${businessPlantDTO.bzPlArea}"></td>
+	                  	<td>하드웨어여부</td>
+	                    <td th:text="${businessPlantDTO.bzPlHardware}"></td>
 	                  </tr>
 	                  <tr>
-	                    <td>공고제목</td>
-	                    <td th:text="${bidComponentdto.bCpTitle}"></td>
-	                    <td colspan="2"></td>
+	                    <td>발전소용량</td>
+	                    <td id="bzPlPowerD" th:text="${businessPlantDTO.bzPlPower}"></td>
+	                    <td>잔존가치</td>
+	                    <td id ="plDepDataResidualD" th:text="${bidPlantdto.plDepDataResidual+'원'}"></td>
+	                    <td>계약REC</td>
+	                    <td id="bzPlRecD" th:text="${businessPlantDTO.bzPlRec+'원'}"></td>
 	                  </tr>
 	                  <tr>
-	                    <td>공고내용</td>
-	                    <td th:text="${bidComponentdto.bCpContents}"></td>
-	                    <td colspan="2"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>입찰 시작가</td>
-	                  	<td class="price" th:text="${bidComponentdto.bCpPrice+'원'}"></td>
-	                  	<td colspan="2"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>공고시작일</td>
-	               		<td th:text="${bidComponentdto.bCpDateBidding1}"></td>
-	                  	<td>마감일</td>
-	                  	<td th:text="${bidComponentdto.bCpDateBidding2}"></td>
-	                  </tr>
-	                  <tr>
-	                  	<td>입찰자결정시작일</td>
-	               		<td th:text="${bidComponentdto.bCpDateDecision1}"></td>
-	                  	<td>입찰자결정마감일</td>
-	                  	<td th:text="${bidComponentdto.bCpDateDecision2}"></td>
-                  	
-	                  	
-	                  	
-	                  <tr th:if="${bidComponentdto.acStatusCode == 3}">
-	                    <td>반려사유</td>
-	                    <td th:text="${bidComponentdto.bCpRejectReason}"></td>
-	                    <td colspan="2"></td>
-	                  </tr>
+	                  	<td>인버터용량</td>
+		                <td id="bzPlInvPowerD" th:text="${businessPlantDTO.bzPlInvPower}"></td>
+		                <td>인버터수량</td>
+		                <td id="bzPlInvCountD" th:text="${businessPlantDTO.bzPlInvCount}"></td>
+	                  	<td>인버터제조사</td>
+	                  	<td id= "bzPlInvMakerD" th:text="${businessPlantDTO.bzPlInvMaker}"></td>
 	                  </tr>
 	                </tbody>
 	              </table>
 	            </div>
 	          </div>
-          </div>
-        </div>
-        
-        
-        
-        <div>
-	        <div class="row" th:if="${bidPlantdto!=null}" id="section1">
-	        	<input id="bPlCode" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">
-				<input type="hidden" name="announcedTitle" th:value="${bidPlantdto.bPlTitle}">
-				<input type="hidden" name="announcedPrice" th:value="${bidPlantdto.bPlPrice}">
-				<input type="hidden" name="announcedType" th:value="${1}">
-				<input type="hidden" name="url">
+	        </div> 
+	        
+           <div class="row" id="section2">
 	          <div class="col-md-12">
 	            <div class="content-panel" style="padding: 30px;">
-	              <h4><i class="fa fa-angle-right"></i>발전소 공고</h4>
+	              <h4><i class="fa fa-angle-right"></i>공고정보</h4>
 	              <hr>
-	              <table class="table">
+	              <input id="bPlCode" type="hidden" name="announcedCode" 	th:value="${bidPlantdto.bPlCode}">
+	              <table class="table" style="text-align : left">
 	                <tbody>
-	                  <tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
-	                  	<td>공고신청서</td>
-	               		<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
-	                  </tr>	                
 	                  <tr>
-	                    <td>공고코드</td>
-	                    <td th:text="${bidPlantdto.bPlCode}"></td>
-	                    <td colspan="2"></td>
+	                    <td>재공고여부</td>
+	                    <td colspan="3" th:if="${bidPlantdto.bPlReCount==0}">신규</td>
+	                    <td colspan="3" th:if="${bidPlantdto.bPlReCount>0}">재공고</td>
 	                  </tr>
 	                  <tr>
-	                    <td>재공고 여부</td>
-	                    <td>
-	                    	<div th:if="${bidPlantdto.bPlReCount==0}">신규</div>
-		              		<div th:if="${bidPlantdto.bPlReCount>0}">재공고</div>
-	                    </td>
-	                    <td colspan="2"></td>
+	                    <td>공고코드</td>
+	                    <td colspan="3" th:text="${bidPlantdto.bPlCode}"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고제목</td>
-	                    <td th:text="${bidPlantdto.bPlTitle}"></td>
-	                    <td colspan="2"></td>
+	                    <td colspan="3" th:text="${bidPlantdto.bPlTitle}"></td>
 	                  </tr>
 	                  <tr>
 	                    <td>공고내용</td>
-	                    <td th:text="${bidPlantdto.bPlContents}"></td>
-	                    <td colspan="2"></td>
+	                    <td colspan="3" th:text="${bidPlantdto.bPlContents}"></td>
 	                  </tr>
 	                  <tr>
-	                  	<td>입찰 시작가</td>
-	                  	<td class="price" th:text="${bidPlantdto.bPlPrice+'원'}"></td>
-	                  	<td colspan="2"></td>
+	                  	<td>입찰시작가</td>
+	                  	<td colspan="3" class="price" th:text="${bidPlantdto.bPlPrice+'원'}"></td>
 	                  </tr>
 	                  <tr>
 	                  	<td>공고시작일</td>
@@ -163,24 +127,28 @@
 	                  	<td>입찰자결정마감일</td>
 	                  	<td th:text="${bidPlantdto.bPlDateDecision2}"></td>
 	                  </tr>
-	                  
+	                  <tr>
+	                  	<td>공고서류</td>
+	                  	<td colspan="3">
+	              			<th:block  th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+		                  		<a  th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a><br>
+	              			</th:block>
+	              			<th:block th:if="${fileList.size()==0}" >
+	                  	  		등록 된 파일이 없습니다.
+	              			</th:block>
+	                  	</td>
+	                  </tr>
 	                  <tr th:if="${bidPlantdto.acStatusCode == 3}">
 	                    <td>반려사유</td>
 	                    <td th:text="${bidPlantdto.bPlRejectReason}"></td>
 	                    <td colspan="2"></td>
 	                  </tr>
-                
 	                </tbody>
 	              </table>
 	            </div>
 	          </div>
           </div>
-        </div>  
-        <div th:include="notice/plantInfo :: plantInfoFragment" 
-        	 th:if="${bidPlantdto!=null and businessPlantDTO!=null}" id="section3"></div>
-        <div th:include="notice/componentInfo :: componentInfoFragment" 
-        	 th:if="${bidComponentdto!=null}" id="section2"></div>
-		<div class="row" style="margin: 5px 0px;">
+          <div class="row" style="margin: 5px 0px;">
 			<div class="form-inline" style="text-align: center;">
 				<th:block th:if="${(bidComponentdto!=null and bidComponentdto.acStatusCode == 1) or (bidPlantdto!=null and bidPlantdto.acStatusCode == 1)}">
                 	<a id="admitBtn" class="btn standardBtn" role="button">승인</a>
@@ -191,20 +159,156 @@
 	        	</a>
 			</div>
 		</div>
+	</th:block>
+	
+	
+	
+	
+		<th:block th:if="${bidComponentdto != null}">	
+		<div id="container-header-title"><strong>공고정보</strong></div>
+		<div id="container-header-path">
+			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
+			<a href="#" id="firstUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="secondUrl" style="text-decoration: none;"> </a>>
+			<a href="#" id="thirdUrl" style="text-decoration: none;"> 부품정보 </a>
+		</div>
+		<div id="container-header-space"></div>
+      	<div class="navbar1">
+      	<div>
+	      	<ul class="nav nav-tabs nav-justified" id="myNav" >
+			  <li role="presentation" class="active" ><a href="#section1">부품정보</a></li>
+			  <li role="presentation"><a href="#section2">공고정보</a></li>
+			</ul>
+		</div>
+		</div>
+      				<div class="row" id="section1">
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+						<h4><i class="fa fa-angle-right"></i>부품정보</h4>
+						<hr>
+						<table class="table" style="text-align:left">
+							<tbody>
+								<tr>
+			                		<td>부품사진</td>
+			                		<td colspan="3">
+			                			<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
+				                        	<img th:src="${componentDTO.cpPhoto}" alt="부품사진" style="width: 100%; height: 100%">
+				                        </div>
+			                		</td>
+	                			</tr>
+								<tr>
+									<td>부품명</td>
+									<td colspan="3" th:text="${componentDTO.cpName}"></td>
+								</tr>
+								<tr>
+									<td>부품제조사</td>
+									<td th:text="${componentDTO.cpMaker}"></td>
+									<td>부품사용시작일</td>
+									<td th:text="${componentDTO.cpUsedate}"></td>
+								</tr>
+									<tr>
+									<td>부품정보</td>
+									<td colspan="3" th:text="${componentDTO.cpInfo}"></td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+	       
+
+	        
+           <div class="row" id="section2">
+	          <div class="col-md-12">
+	            <div class="content-panel" style="padding: 30px;">
+	              <h4><i class="fa fa-angle-right"></i>공고정보</h4>
+	              <hr>
+	              <input id="bCpCode" type="hidden" name="announcedCode" 	th:value="${bidComponentdto.bCpCode}">
+	              <table class="table" style="text-align : left">
+	                <tbody>
+	                  <tr>
+	                    <td>재공고여부</td>
+	                    <td colspan="3" th:if="${bidComponentdto.bCpReCount==0}">신규</td>
+	                    <td colspan="3" th:if="${bidComponentdto.bCpReCount>0}">재공고</td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고코드</td>
+	                    <td colspan="3" th:text="${bidComponentdto.bCpCode}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고제목</td>
+	                    <td colspan="3" th:text="${bidComponentdto.bCpTitle}"></td>
+	                  </tr>
+	                  <tr>
+	                    <td>공고내용</td>
+	                    <td colspan="3" th:text="${bidComponentdto.bCpContents}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰시작가</td>
+	                  	<td colspan="3" class="price" th:text="${bidComponentdto.bCpPrice+'원'}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고시작일</td>
+	               		<td th:text="${bidComponentdto.bCpDateBidding1}"></td>
+	                  	<td>마감일</td>
+	                  	<td th:text="${bidComponentdto.bCpDateBidding2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>입찰자결정시작일</td>
+	               		<td th:text="${bidComponentdto.bCpDateDecision1}"></td>
+	                  	<td>입찰자결정마감일</td>
+	                  	<td th:text="${bidComponentdto.bCpDateDecision2}"></td>
+	                  </tr>
+	                  <tr>
+	                  	<td>공고서류</td>
+	                  	<td colspan="3">
+	              			<th:block  th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+		                  		<a  th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a><br>
+	              			</th:block>
+	              			<th:block th:if="${fileList.size()==0}" >
+	                  	  		등록 된 파일이 없습니다.
+	              			</th:block>
+	                  	</td>
+	                  </tr>
+	                  <tr th:if="${bidComponentdto.acStatusCode == 3}">
+	                    <td>반려사유</td>
+	                    <td th:text="${bidComponentdto.bPlRejectReason}"></td>
+	                    <td colspan="2"></td>
+	                  </tr>
+	                </tbody>
+	              </table>
+	            </div>
+	          </div>
+          </div>
+          <div class="row" style="margin: 5px 0px;">
+			<div class="form-inline" style="text-align: center;">
+				<th:block th:if="${(bidComponentdto!=null and bidComponentdto.acStatusCode == 1) or (bidPlantdto!=null and bidPlantdto.acStatusCode == 1)}">
+                	<a id="admitBtn" class="btn standardBtn" role="button">승인</a>
+                	<a id="returnBtn" class="btn btn-danger" role="button" onclick="returnBtn()">반려</a>	        	
+                </th:block>	
+	        	<a class="form-group" id="returnPage">
+		        	<button class="btn btn-default center-block" type="button" >돌아가기</button>
+	        	</a>
+			</div>
 		</div>
 	</th:block>
 	
+	
 	<th:block layout:fragment="customScript">
-		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
-		
+			//메뉴탭			
+			var member = $('#member');
+			member.addClass('active');
+			member.parent().find('.sub').css('display','block');
+			member.parent().find('.sub').children().eq(6).addClass('active');
 			
-		
 			//승인 & 반려
 			var bPlCode = $('#bPlCode');
 			var bCpCode = $('#bCpCode');
 			
 			$('#admitBtn').click(function(){
+				console.log(bPlCode.val());
 				var result = confirm('승인하시겠습니까?');
 				if(result){
 					var request = $.ajax({
@@ -231,17 +335,15 @@
 			//반려사유 작성
 			function returnBtn(){
 				if(bPlCode != null){
-					console.log(bPlCode.val());
 				window.open(
-					'member/noticeRejectReason?bPlCode=' + bPlCode.val(),
+					"/member/noticeRejectReason?bPlCode=" + bPlCode.val(),
 					'반려사유 작성',
 					'width=400, height=400, left=100, top=100, scrollbar=yes'
 				);
 				
 				}else if(bCpCode != null){
-					console.log(bCpCode.val());
 				window.open(
-					'member/noticeRejectReason?bCpCode=' + bCpCode.val(),
+					"/member/noticeRejectReason?bCpCode=" + bCpCode.val(),
 					'반려사유 작성',
 					'width=400, height=400, left=100, top=100, scrollbar=yes'
 				);	
@@ -249,8 +351,10 @@
 				}
 			}
 			
-		
-			//돌아가기 
+			
+			
+			
+			//돌아가기
 			var link = document.referrer;
 			console.log(link.indexOf("?"));
 			if(link.indexOf("?")>0){
@@ -259,68 +363,74 @@
 			console.log(link);
 			$('#returnPage').attr('href',link);
 			
-			//url 탭
-			var linkArr = link.split('/');
-			var link2 = ('/'+linkArr[linkArr.length-2]+'/'+linkArr[linkArr.length-1])
-			var firstUrl = $('#firstUrl');
-			var secondUrl = $('#secondUrl');
-			var thirdUrl = $('#thirdUrl');
-			var a = $('a');
-			a.each(function(){
-				if($(this).attr('href')==link2){
-					$(this).parent().parent().parent().children().eq(0).addClass('active');
-					$(this).parent().parent().css('display','block');
-					$(this).parent().addClass('active');
-					firstUrl.text($(this).parent().parent().parent().children().eq(0).text());
-					secondUrl.text($(this).parent().text());
-					secondUrl.attr('href',$(this).prop('href'));
-				}
-			});
-			
-			//가격 콤마
-			var url = $('[name="url"]')
-			url.val(link2);
-			$(function(){
-				var price = $('.price');
-				price.each(function(){
-					$(this).text($(this).text().toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','));
-				})
-			})
-			
-			
-			//navbar
-			$(document).ready(function(){
-				 // Add scrollspy to <body>
-				 $('body').scrollspy({target: ".navbar", offset: 50}); 
+		</script>
+		
+		
+		
+		<script th:inline="javascript">
+			//숫자에 콤마 찍는 함수
+			 function comma(str) {
+	       		 str = String(str);
+	       		 return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+	  		  }
+		 	
+		 	$(document).ready(function(){
+		 		
+		 		
+		 		$('#bzPlAreaD').text(comma($('#bzPlAreaD').text()));
+		 		$('#bzPlPowerD').text(comma($('#bzPlPowerD').text()));
+		 		$('#plDepDataResidualD').text(comma($('#plDepDataResidualD').text()));
+		 		$('#bzPlRecD').text(comma($('#bzPlRecD').text()));
+		 		$('#bzPlInvPowerD').text(comma($('#bzPlInvPowerD').text()));
+		 		$('#bzPlInvCountD').text(comma($('#bzPlInvCountD').text()));
+		 		$('#bzPlInvMakerD').text(comma($('#bzPlInvMakerD').text()));
+		 		$('#bPlPriceD').text(comma($('#bPlPriceD').text()));
+		 		$('#bidderNumberD').text(comma($('#bidderNumberD').text()));
+		 		
+		 		$('body').attr('data-spy','scroll');
+		 		$('body').attr('data-target','.nabvar');
+		 		$('body').attr('data-offset','50')
+		 		
+		 		
 				
-				 // Add smooth scrolling on all links inside the navbar
-				 $("#myNav a").on('click', function(event) {
-					 $(this).parent().parent().children().each(function(){
-						$(this).removeClass('active');
-					 });
-					 $(this).parent().addClass('active');
-					 // Make sure this.hash has a value before overriding default behavior
-					 if (this.hash !== "") {
-						 // Prevent default anchor click behavior
-						 event.preventDefault();
-						
-						 // Store hash
-						 var hash = this.hash;
-						
-						 // Using jQuery's animate() method to add smooth page scroll
-						 // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
-						 $('html, body').animate({
-						 scrollTop: $(hash).offset().top
-						 }, 800, function(){
-						 
-						 // Add hash (#) to URL when done scrolling (default click behavior)
-						 window.location.hash = hash;
-						 });
-					 } // End if
-				 });
+		 	})	 
+		 	
+		 	
+		 			
+		</script>
+		
+		<script>
+		//navbar
+			$(document).ready(function(){
+			 // Add scrollspy to <body>
+			 $('body').scrollspy({target: ".navbar", offset: 50}); 
+			
+			 // Add smooth scrolling on all links inside the navbar
+			 $("#myNav a").on('click', function(event) {
+			 // Make sure this.hash has a value before overriding default behavior
+			 if (this.hash !== "") {
+			 // Prevent default anchor click behavior
+			 event.preventDefault();
+			
+			 // Store hash
+			 var hash = this.hash;
+			
+			 // Using jQuery's animate() method to add smooth page scroll
+			 // The optional number (800) specifies the number of milliseconds it takes to scroll to the specified area
+			 $('html, body').animate({
+			 scrollTop: $(hash).offset().top
+			 }, 800, function(){
+			 
+			 // Add hash (#) to URL when done scrolling (default click behavior)
+			 window.location.hash = hash;
+			 });
+			 } // End if
+			 });
 			});
 	</script>
+			
 	</th:block>
-	
-</html>
+</body>
 
+</html>
+					

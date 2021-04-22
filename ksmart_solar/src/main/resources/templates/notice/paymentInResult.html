@@ -20,7 +20,8 @@
 	          <tr>
 	             <td>입찰금액</td>
 	             <td style="text-align: left;" class="price" th:text="${tradePaymentInDTO.bPrice+'원'}"></td>
-	             <td colspan="2"></td>
+	             <td>나의 진행 상태</td>
+	             <td style="text-align: left;" th:text="${bidListDTO.trTypeName}"></td>
 	          </tr>
 	          <tr>
 	           	 <td>예치금</td>
