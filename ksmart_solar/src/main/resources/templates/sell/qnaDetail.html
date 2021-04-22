@@ -29,24 +29,28 @@
 				<table class="table" id="qnaTable">
 					<tbody>
 						<tr>
-							<td>글제목</td>         			
+							<td style="text-align:left">글제목</td>         			
 							<td style="text-align:left" colspan="5">
 								<span id="bSubject1" th:text="${qna.bSubject}"></span>
 								<input type="text" id="bSubject2" name="bSubject" th:value="${qna.bSubject}" style="display: none; width: 100%;">
 							</td>
 						</tr>
 						<tr>
-							<td>작성자</td>
+							<td style="text-align:left">관련공고이름</td>
+							<td th:if="${qna.bBidType==1}"style="text-align:left"><a th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">[[${qna.bidListDTO.bTitle}]]</a></td>
+							<td th:if="${qna.bBidType==2}"style="text-align:left"><a th:href="@{/sell/getBidComponentDetail(bCpCode==${qna.announcedCode})}">[[${qna.bidListDTO.bTitle}]]</a></td>
+						</tr>
+						<tr>
+							<td style="text-align:left">작성자</td>
 							<td th:text="${qna.mIdBuyer}"></td>
-							<td>작성시간</td>
+							<td style="text-align:left">작성시간</td>
 							<td th:text="${qna.bRegDate}"></td>
-							<td>조회수</td>
+							<td style="text-align:left">조회수</td>
 							<td th:text="${qna.bView}"></td>
 						</tr>
 						<tr>
 							<td style="text-align:left;padding-left:60px;" colspan="6">
-								<span id="bContents1" th:text="${qna.bContents}"></span>
-								<textarea id="bContents2" name="bContents" rows="10"  th:text="${qna.bContents}"  style="display: none; width: 100%;  resize:none;"></textarea>
+								<div style="min-height:50px; width:100%; padding-top:30px;" ><span id="bContents1" th:text="${qna.bContents}"></span></div>
 							</td>
 						<tr>
 						<tr th:if="${qna.bPhoto!=null and qna.bPhoto!=''}">
@@ -67,7 +71,7 @@
 				
 				
 				<div style="margin-top :40x;width:100%;">
-						<a class="btn btn-default pull-right" style="margin: 0 5px;" id="returnBtn">이전</a>
+						<a class="btn btn-default pull-right" style="margin: 0 5px;" id="returnBtn">목록</a>
 					<th:block th:if="${qna.mIdBuyer==session.SID}">
 						<form action="/sell/removeQna" method="post">
 							<button class="btn btn-default pull-right" type="submit" style="margin: 0 5px;" id="qnaremoveBtn">삭제</button>
@@ -262,7 +266,6 @@
 					qnamodifyBtn.click(function(){
 						console.log('수정')
 						if($(this).attr('data-attr')==0){
-							console.log('버튼아 눌려라')
 							bSubject1.css('display','none');
 							bSubject2.css('display','block');
 							bContents1.css('display','none');

@@ -14,7 +14,16 @@ public class BoardSellerDTO extends CommonDTO{
 	 private String bAnswer;
 	 private int bBidType;
 	 
+	 private BidListDTO bidListDTO;
 	 
+	 
+	 
+	public BidListDTO getBidListDTO() {
+		return bidListDTO;
+	}
+	public void setBidListDTO(BidListDTO bidListDTO) {
+		this.bidListDTO = bidListDTO;
+	}
 	public int getbBidType() {
 		return bBidType;
 	}
@@ -106,12 +115,14 @@ public class BoardSellerDTO extends CommonDTO{
 		builder.append(bAnswer);
 		builder.append(", bBidType=");
 		builder.append(bBidType);
+		builder.append(", bidListDTO=");
+		builder.append(bidListDTO);
 		builder.append("]");
 		return builder.toString();
 	}
+
 	
 	
-	 
  
 	 
 }

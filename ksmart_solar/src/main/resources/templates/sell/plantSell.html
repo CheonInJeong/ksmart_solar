@@ -24,10 +24,40 @@
 	<div id="container-header-title"><strong>공고신청</strong></div>
      	<div id="container-header-path">판매관리 > 공고신청</div>
       	<div id="container-header-space"></div>
+
+		 <div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel" style="padding:30px;">
+            	  <h4><i class="fa fa-angle-right"></i>공고신청필수서류</h4>
+            	   ※서류를 다운 받은 후 공고 신청시 업로드 해주세요.
+			  <hr>	
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>서류이름</td>
+								<td>파일크기</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+								<td style="text-align:center;"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+								<td th:text="${f.fileSize}+kb"></td>
+								</tr>
+							<tr th:unless="${#lists.size(fileList)}>0">
+								<td colspan="2">등록 된 파일이 없습니다.</td>
+							</tr>
+						</tbody>
+					</table>	            
+	            </div>
+	          </div>
+	        </div>
+
       	
 		<div class="row mt">
           <div class="col-lg-12">
-            <div class="form-panel">
+            <div class="form-panel" style="padding:30px;">
+              <h4><i class="fa fa-angle-right"></i>공고신청</h4>
+			  <hr>	
               <div class="form">
                 <form class="cmxform form-horizontal style-form" id="plantSellForm" method="post" th:action="@{/sell/plantSell}" enctype="multipart/form-data">
 	                  <div class="form-group">
@@ -39,7 +69,7 @@
 							 	<option th:value="${plantList.bzPlCode}" th:text="${plantList.bzPlName}"></option>
 							  </th:block> 
 								  <th:block th:unless="${#lists.size(plantList)}>0">
-							 	<option>현재 판매 할 수 있는 발전소가 없습니다.</option>
+							 	<option value="0">현재 판매 할 수 있는 발전소가 없습니다.</option>
 							 </th:block> 
 							</select>
 	                    </div>
@@ -96,8 +126,8 @@
 	                  <div class="form-group">
 	                    <div class="col-lg-offset-2 col-lg-10">
 	                      <button class="btn btn-theme" type="button" id="btnPlantSell">신청</button>
-	                      
 	                      <button class="btn btn-theme04" type="button" id="cancelBtnPlantSell">취소</button>
+	                      <a th:href="@{/sell/apply}" class="btn btn-default">뒤로</a>
 	                    </div>
 	                  </div>
                 </form>
@@ -106,6 +136,7 @@
           </div>
         </div>
         
+       
         
 	</th:block>
 	<th:block layout:fragment="customScript">
@@ -147,6 +178,26 @@
 	 	   var number = num + "";
 	 	   return number.replace(/,/g,"");
 	 	}
+	 	
+	 	function getDateFromToday(i){
+	 	    //i=0: today, -1:yesterday, 1: tomorrow .. .etc..
+	 	    today = new Date();
+	 	    ty = today.getFullYear();
+	 	    tm = today.getMonth()+1;
+	 	    td = today.getDate();
+	 	    if(tm<10) tm = "0" + tm;
+	 	    if(td<10) td = "0" + td;
+	 	    
+	 	    targetDay = new Date(today.valueOf()+(24*60*60*1000)*i);
+	 	        ty = targetDay.getFullYear();
+	 	        tm = targetDay.getMonth()+1;
+	 	        td = targetDay.getDate();
+	 	    if(tm<10) tm = "0" + tm;
+
+	 	    if(td<10) td = "0" + td;       
+
+	 	    return ty + tm + td;
+	 	  }
 
 	 	$('#plantSellSelect').change(function(){
 	 		var plantCode = $('select option:selected').val();
@@ -201,10 +252,8 @@
 	 	 
 	 	 
 	 	 $('#btnPlantSell').click(function(){
-	 	
-	 		 
-	 		 	//유효성검사
-			 	if($('select option:selected').val()==0){
+	 		  //유효성검사
+				if($('select option:selected').val()==0){
 					alert('발전소를 선택해주세요.');
 					return;
 				}if($('#bPlTitle').val()==''){
@@ -224,9 +273,10 @@
 				}if($('#bPlDateBidding1').val()==''){
 					alert('희망 공고 시작 날짜를 입력해주세요.');
 					return;
+				}if($('#bPlDateBidding1').val().replaceAll('-','')<getDateFromToday(7)){
+					alert('공고 시작일은 신청일로부터 7일 후부터 선택 가능합니다.');
+					return;
 				}
-				
-				
 				$('#bPlPrice').val(rm_comma($('#bPlPrice').val()));
 				$('#plDepDataResidual').val(rm_comma($('#plDepDataResidual').val()));
 			
