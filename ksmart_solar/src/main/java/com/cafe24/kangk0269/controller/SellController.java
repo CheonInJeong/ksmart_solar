@@ -33,6 +33,7 @@ import com.cafe24.kangk0269.dto.TradePriorityDTO;
 import com.cafe24.kangk0269.serivce.BidListService;
 import com.cafe24.kangk0269.serivce.BoardSellerService;
 import com.cafe24.kangk0269.serivce.PlantService;
+import com.cafe24.kangk0269.serivce.PolicyService;
 import com.cafe24.kangk0269.serivce.SellService;
 
 @Controller
@@ -49,13 +50,16 @@ public class SellController {
 	@Autowired
 	private final BidListService bidListService;
 	
+	@Autowired
+	private final PolicyService policyService;
 	SavePaging savePaging = null;
 	
-	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService,BidListService bidListService) {
+	public SellController(SellService sellService,PlantService plantService,BoardSellerService boardSellerService,BidListService bidListService, PolicyService policyService) {
 		this.sellService = sellService;
 		this.plantService = plantService;
 		this.boardSellerService = boardSellerService;
 		this.bidListService = bidListService;
+		this.policyService = policyService;
 		
 	}
 	
@@ -418,6 +422,7 @@ public class SellController {
 		ModelAndView mv = new ModelAndView("/sell/plantSell");
 		List<BusinessPlantDTO> plantList =	sellService.getPlantName(mId); 
 		mv.addObject("plantList", plantList);
+		mv.addObject("fileList",policyService.getNoticeFileList());
 	  return mv; 
 	  
 	}
@@ -428,6 +433,7 @@ public class SellController {
 		HttpSession session = request.getSession();
 		String sessionId = (String)session.getAttribute("SID");
 		model.addAttribute("component", sellService.getComponent(sessionId));
+		model.addAttribute("fileList",policyService.getNoticeFileList());
 		return "sell/componentSell";
 	}
 

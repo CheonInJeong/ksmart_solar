@@ -78,7 +78,7 @@ public class ScheduledTimer {
 			e.printStackTrace();
 		}
 	}
-	
+
 	  //테스트
 	  @Scheduled(cron = "0/5  *  *  *  *  ?") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {

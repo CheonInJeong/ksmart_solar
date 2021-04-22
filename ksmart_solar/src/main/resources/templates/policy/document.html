@@ -41,7 +41,7 @@
 								</thead>
 								<tbody>
 									<tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
-										<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+										<td style="text-align:center;"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
 										<td th:text="${f.fileSize}+kb"></td>
 										<td th:text="${f.creatorId}"></td>
 										<td th:text="${f.createdDatetime}"></td>
@@ -60,7 +60,7 @@
 		<div class="row mt">
 			<div class="col-lg-12">
 				<div class="form-panel">
-					<form th:action="@{/policy/addBidFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form">
+					<form th:action="@{/policy/addBidFile}" method ="post" enctype="multipart/form-data" class="form-horizontal style-form" id="bidForm">
 						<div class="form-group">
 							<label class="control-label col-md-3">입찰신청파일업로드</label>
 							<div class="col-md-4 col-xs-4" >
@@ -85,7 +85,7 @@
 								</thead>
 								<tbody>
 									<tr th:if="${#lists.size(bidFileList)}>0" th:each="b:${bidFileList}">
-										<td><a th:href="@{/policy/downloadFile(idx=${b.idx})}">[[${b.originalFileName}]]</a></td>
+										<td style="text-align:center;"><a th:href="@{/policy/downloadFile(idx=${b.idx})}">[[${b.originalFileName}]]</a></td>
 										<td th:text="${b.fileSize}+kb"></td>
 										<td th:text="${b.creatorId}"></td>
 										<td th:text="${b.createdDatetime}"></td>
@@ -124,6 +124,7 @@
 					||fileExtension.slice(-3)=='pdf'
 					||fileExtension.slice(-3)=='hwp'
 					||fileExtension.slice(-3)=='gif'
+					||fileExtension.slice(-3)=='png'
 					||fileExtension.slice(-3)=='txt'){
 					$('#noticeForm').submit();
 				}else{
@@ -145,8 +146,9 @@
 					||fileExtension.slice(-3)=='pdf'
 					||fileExtension.slice(-3)=='hwp'
 					||fileExtension.slice(-3)=='gif'
+					||fileExtension.slice(-3)=='png'
 					||fileExtension.slice(-3)=='txt'){
-					$('#noticeForm').submit();
+					$('#bidForm').submit();
 				}else{
 					alert('등록할 수 없는 확장자 입니다.\n다른 파일을 선택해주세요.\n(등록가능 확장자 : pdf,txt,jpg,png,gif,hwp)');
 					return false;

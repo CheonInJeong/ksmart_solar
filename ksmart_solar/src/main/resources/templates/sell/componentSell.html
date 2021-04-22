@@ -14,10 +14,40 @@
 		<div id="container-header-title"><strong>부품판매공고신청</strong></div>
      	<div id="container-header-path">판매관리 > 부품판매공고신청</div>
       	<div id="container-header-space"></div>
+      	
+      	<div class="row mt">
+          <div class="col-lg-12">
+            <div class="form-panel" style="padding:30px;">
+            	  <h4><i class="fa fa-angle-right"></i>공고신청필수서류</h4>
+            	   ※서류를 다운 받은 후 공고 신청시 업로드 해주세요.
+			  <hr>	
+					<table class="table table-hover">
+						<thead>
+							<tr>
+								<td>서류이름</td>
+								<td>파일크기</td>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+								<td style="text-align:center;"><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+								<td th:text="${f.fileSize}+kb"></td>
+								</tr>
+							<tr th:unless="${#lists.size(fileList)}>0">
+								<td colspan="2">등록 된 파일이 없습니다.</td>
+							</tr>
+						</tbody>
+					</table>	            
+	            </div>
+	          </div>
+	        </div>
+      	
 		<div class="row mt">
           <div class="col-lg-12">
-            <h4><i class="fa fa-angle-right"></i>부품 판매 공고 신청</h4>
-            <div class="form-panel">
+   
+            <div class="form-panel" style="padding:30px;">
+             <h4><i class="fa fa-angle-right"></i>공고신청</h4>
+			  <hr>
               <div class="form">
                 <form class="cmxform form-horizontal style-form" id="componentSellForm" method="post" th:action="@{/sell/componentSell}" enctype="multipart/form-data">
                   <input type="hidden" id="sessionId" name="mId" th:value="${session.SID}">
@@ -132,14 +162,27 @@
 		<script th:src="@{/lib/jquery-ui-1.9.2.custom.min.js}"></script>
 		  <script type="text/javascript" th:src="@{/lib/bootstrap-fileupload/bootstrap-fileupload.js}"></script>
 		  <script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
-		  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/date.js}"></script>
-		  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/daterangepicker.js}"></script>
-		  <script type="text/javascript" th:src="@{/lib/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js}"></script>
-		  <script type="text/javascript" th:src="@{/lib/bootstrap-daterangepicker/moment.min.js}"></script>
-		  <script type="text/javascript" th:src="@{/lib/bootstrap-timepicker/js/bootstrap-timepicker.js}"></script>
 		  <script th:src="@{/lib/advanced-form-components.js}"></script>
 		<script>
-			
+			function getDateFromToday(i){
+		 	    //i=0: today, -1:yesterday, 1: tomorrow .. .etc..
+		 	    today = new Date();
+		 	    ty = today.getFullYear();
+		 	    tm = today.getMonth()+1;
+		 	    td = today.getDate();
+		 	    if(tm<10) tm = "0" + tm;
+		 	    if(td<10) td = "0" + td;
+		 	    
+		 	    targetDay = new Date(today.valueOf()+(24*60*60*1000)*i);
+		 	        ty = targetDay.getFullYear();
+		 	        tm = targetDay.getMonth()+1;
+		 	        td = targetDay.getDate();
+		 	    if(tm<10) tm = "0" + tm;
+	
+		 	    if(td<10) td = "0" + td;       
+	
+		 	    return ty + tm + td;
+		 	  }
 		
 		 	//콤마 없애는 함수
 	    	 function rm_comma(num){
@@ -239,7 +282,7 @@
 				 var files = $('#files');
 				 var bCpDateBidding1 = $('#bCpDateBidding1');
 				 
-				if( selected==0 ||selected==2){
+			if( selected==0 ||selected==2){
 					alert('부품을 선택해주세요.');
 					return;
 				}
@@ -266,7 +309,10 @@
 				 if(bCpDateBidding1.val()==''){
 					 alert('공고시작날짜를 입력해주세요.');
 					 return;
-				 } 
+				 }if(bCpDateBidding1.val().replaceAll('-','')<getDateFromToday(7)){
+						alert('공고 시작일은 신청일로부터 7일 후부터 선택 가능합니다.');
+						return;
+				 }
 				 	rm_comma($('#bCpPrice').val());
 					$('#bCpPrice').val(rm_comma($('#bCpPrice').val()));
 					$('#componentSellForm').submit();
