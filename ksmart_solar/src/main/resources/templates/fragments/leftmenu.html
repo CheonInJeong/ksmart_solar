@@ -53,7 +53,7 @@
             <ul class="sub">
               <li><a th:href="@{/mypage/myInfo}">#내 정보 관리</a></li>             
               <li><a th:href="@{/mypage/myAccount}">내 계좌 관리</a></li>             
-              <li><a th:href="@{/mypage/wishlist}">관심목록</a></li>
+              <li><a th:href="@{/mypage/wishlist}" th:if="${session.SLEVELNUM!=1}">관심목록</a></li>
               <li><a th:href="@{/plant/authorization}">#사업자 인증 신청(강석인)</a></li>
             </ul>
           </li>
