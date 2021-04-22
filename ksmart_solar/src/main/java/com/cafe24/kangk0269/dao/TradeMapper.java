@@ -74,4 +74,5 @@ public interface TradeMapper {
 	//공고가 계약중으로 바뀔때 1순위 낙찰자를 입력
 	public int addTradePriority(Map<String,Object> List);
 	public String getRefundDepDate(String bCode);
+	public TradePriorityDTO getPriorityDate(String bCode);
 }

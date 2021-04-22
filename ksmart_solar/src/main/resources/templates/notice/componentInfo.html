@@ -8,14 +8,18 @@
 	      <h4><i class="fa fa-angle-right"></i>부품 정보</h4>
 	      <hr>
 	      <table class="table">
+	         <thead>
+             		<tr>
+	              		<td style="width: 10%;"></td>
+	              		<td style="width: 40%;"></td>
+	              		<td style="width: 10%;"></td>
+	              		<td style="width: 40%;"></td>
+             		</tr>
+             </thead>
 	        <tbody>
 	          <tr>
-	             <td>부품명</td>
-	             <td colspan="3" th:text="${componentDTO.cpName}"></td>
-	          </tr>
-	          <tr>
                	<td>부품사진</td>
-               		<td colspan="5">
+               		<td colspan="3">
 	               		<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
 								<a class="fancybox" th:href="${componentDTO.cpPhoto}"  style="width: 200px; height: 150px;">
 									<img class="img-responsive" th:src="${componentDTO.cpPhoto}" alt="부품사진" style="width: 100%; height: 100%" >
@@ -25,16 +29,20 @@
                		</td>
                	</tr>
 	          <tr>
+	             <td>부품명</td>
+	             <td style="text-align: left;" colspan="3" th:text="${componentDTO.cpName}"></td>
+	          </tr>
+	          <tr>
 	           	 <td>부품제조사</td>
-	           	 <td th:text="${componentDTO.cpMaker}"></td>
+	           	 <td style="text-align: left;" th:text="${componentDTO.cpMaker}"></td>
 	          	 <td>제조일</td>
-	             <td th:text="${componentDTO.cpMakedate}"></td>
+	             <td style="text-align: left;" th:text="${componentDTO.cpMakedate}"></td>
 	          </tr>
 	          <tr>
 	          	 <td>부품정보</td>
-	             <td th:text="${componentDTO.cpInfo}"></td>
+	             <td style="text-align: left;" th:text="${componentDTO.cpInfo}"></td>
 	          	 <td>부품사용시작일</td>
-	             <td th:text="${componentDTO.cpUsedate}"></td>
+	             <td style="text-align: left;" th:text="${componentDTO.cpUsedate}"></td>
 	          </tr>
 	        </tbody>
 	      </table>
