@@ -841,4 +841,13 @@
 			tb_trade_deposit_out
 		WHERE b_code=#{bCode}
 	</select>
+	<select id="getPriorityDate" parameterType="String" resultMap="tradePriorityResultMap">
+		SELECT 
+			tr_pr_conclusion_date1, 
+			tr_pr_conclusion_date2
+		FROM 
+			tb_trade_priority
+		WHERE
+			b_code = #{bCode}
+	</select>
 </mapper>
