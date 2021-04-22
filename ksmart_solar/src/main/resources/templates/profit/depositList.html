@@ -30,6 +30,17 @@
             <div class="content-panel" style="padding : 30px;">
 				<h4><i class="fa fa-angle-right"></i> 예치금출금신청목록</h4>
 				<div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/profit/depositList}">
+	            	<select name="searchKey">
+	            		<option value="">카테고리</option>
+	            		<option value="a.m_id">신청회원</option>
+	            		<option value="b_title">공고명</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+            	</div>
+				<div style="text-align : right; margin-bottom: 10px;">
             	</div>
 	              <section id="no-more-tables">
 	              	<hr>
