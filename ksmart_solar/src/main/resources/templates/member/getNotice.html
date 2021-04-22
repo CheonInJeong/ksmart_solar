@@ -119,6 +119,10 @@
 	              <hr>
 	              <table class="table">
 	                <tbody>
+	                  <tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
+	                  	<td>공고신청서</td>
+	               		<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
+	                  </tr>	                
 	                  <tr>
 	                    <td>공고코드</td>
 	                    <td th:text="${bidPlantdto.bPlCode}"></td>
@@ -158,10 +162,6 @@
 	               		<td th:text="${bidPlantdto.bPlDateDecision1}"></td>
 	                  	<td>입찰자결정마감일</td>
 	                  	<td th:text="${bidPlantdto.bPlDateDecision2}"></td>
-	                  </tr>
-	                  <tr th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
-	                  	<td>공고신청서</td>
-	               		<td><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></td>
 	                  </tr>
 	                  
 	                  <tr th:if="${bidPlantdto.acStatusCode == 3}">
@@ -231,17 +231,17 @@
 			//반려사유 작성
 			function returnBtn(){
 				if(bPlCode != null){
-					
+					console.log(bPlCode.val());
 				window.open(
-					'/member/noticeRejectReason?bPlCode=' + bPlCode.val(),
+					'member/noticeRejectReason?bPlCode=' + bPlCode.val(),
 					'반려사유 작성',
 					'width=400, height=400, left=100, top=100, scrollbar=yes'
 				);
 				
 				}else if(bCpCode != null){
-					
+					console.log(bCpCode.val());
 				window.open(
-					'/member/noticeRejectReason?bCpCode=' + bCpCode.val(),
+					'member/noticeRejectReason?bCpCode=' + bCpCode.val(),
 					'반려사유 작성',
 					'width=400, height=400, left=100, top=100, scrollbar=yes'
 				);	

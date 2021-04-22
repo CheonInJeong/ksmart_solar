@@ -8,7 +8,7 @@
 	</th:block>
 <body>
 	<h4 class="text-center">반려사유 작성</h4>
-	<form th:if="${bidPlantdto!=null}">
+	<form>
 		<div class="form-group">
 			<input type="hidden" id="bPlCode" th:value="${bPlCode}"/>
 			<textarea class="form-control" rows="13" id="bPlRejectReason"></textarea>
@@ -19,7 +19,7 @@
 		</div>
 	</form>
 	
-	<form th:if="${bidComponentdto!=null}">
+<!-- 	<form th:if="${bidComponentdto!=null}">
 		<div class="form-group">
 			<input type="hidden" id="bCpCode" th:value="${bCpCode}"/>
 			<textarea class="form-control" rows="13" id="bCpRejectReason"></textarea>
@@ -28,7 +28,7 @@
 			<button type="button" class="btn btn-info" onclick="returnFinish()">반려완료</button>
 			<button type="button" class="btn btn-danger" onclick="returnCancle()">취소</button>
 		</div>
-	</form>
+	</form> -->
 	
 	
 	
