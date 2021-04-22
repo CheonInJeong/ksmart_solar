@@ -50,7 +50,7 @@
                 		<th:block th:if="${bidComponentList!=null or bidComponentList.size()>0}" th:each="j:${l.bidListDTOList}">
 		                  <tr>
 		                    <td th:text="${j.num}"></td>
-		                    <td>
+		                    <td style="text-align:left">
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
 			                      	<input type="hidden" name="announceCode" th:value="${l.bCpCode}">
@@ -121,7 +121,7 @@
 	                	<th:block th:if="${bidPlantList!=null or bidPlantList.size()>0}" th:each="j:${l.bidListDTOList}">
 		                  <tr>
 		                    <td th:text="${j.num}"></td>
-		                    <td>
+		                    <td style="text-align:left">
 		                    	<form th:action="@{/notice/announcement}" method="post">
 			                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
 			                      	<input type="hidden" name="announceCode" th:value="${l.bPlCode}">
