@@ -30,7 +30,7 @@
 		<div role="tabpanel">
 
 		  <!-- Nav tabs -->
-		  <ul class="nav nav-tabs" role="tablist">
+		  <ul class="nav nav-tabs" role="tablist" id="myTab">
 		    <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">활동회원리스트</a></li>
 		    <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">휴면회원리스트</a></li>
 		  </ul>
@@ -48,9 +48,11 @@
 			            		<option value="mName">이름</option>
 			            		<option value="mLevel">권한</option>
 			            		<option value="mAddr">주소</option>
-			            		<option value="mSubDate">회원가입(월일)</option>
+			            		<option value="mSubDate">회원가입일</option>
 			            	</select>
 			            	<input type="text" placeholder="검색어" name="searchValueAM" th:value="${searchValueAM}">
+			            	<input type="date" name="searchValueAMS" th:value="${searchValueAMS}" style="display: none">
+            				<input type="date" name="searchValueAMF" th:value="${searchValueAMF}" style="display: none">
 			            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 			               </form>
 		            	</div>
@@ -72,14 +74,14 @@
 								<tr th:if="${#lists.size(activememberList) > 0}" th:each="l, status : ${activememberList}">
 									<td data-title="번호" th:text="${status.count+(page1.curPage-1)*page1.pageEnd}"></td>
 									<td data-title="아이디">
-										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},uri=${uri})}>[[${l.mId}]]</a>
+										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF},uri=${uri})}>[[${l.mId}]]</a>
 									</td>
 									<td data-title="이름" th:text="${l.mName}"></td>
 									<td data-title="권한" th:text="${l.mLevelName}"></td>
 									<td data-title="연락처" th:text="${l.mPhone}"></td>
 									<td data-title="이메일" th:text="${l.mEmail}"></td>
 									<td data-title="수정">
-										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}>수정</a>
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage1=${page1.curPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}>수정</a>
 									</td>
 								</tr>
 								<tr th:unless="${#lists.size(activememberList) > 0}">
@@ -90,7 +92,7 @@
 						<div class="text-center">
 						  <ul class="pagination">
 						    <li>
-						      <a th:if="${page1.curBlock > 1}" th:href="@{/member/memberList(curPage1=${page1.prevPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}" aria-label="Previous">
+						      <a th:if="${page1.curBlock > 1}" th:href="@{/member/memberList(curPage1=${page1.prevPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}" aria-label="Previous">
 						        <span aria-hidden="true">&laquo;</span>
 						      </a>
 						    </li>
@@ -100,12 +102,12 @@
 					   		</li>
 					   		<li th:unless="${num == page1.curPage}">
 					   		<th:block th:if="${num} != 0">
-					   			<a th:href="@{/member/memberList(curPage1=${num},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}">[[${num}]]</a>
+					   			<a th:href="@{/member/memberList(curPage1=${num},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}">[[${num}]]</a>
 					   		</th:block>
 					   		</li>
 					  		</th:block>
 						    <li>
-						      <a th:if="${page1.curBlock <= page1.totBlock}" th:href="@{/member/memberList(curPage1=${page1.nextPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM})}" aria-label="Next">
+						      <a th:if="${page1.curBlock <= page1.totBlock}" th:href="@{/member/memberList(curPage1=${page1.nextPage},searchKeyAM=${searchKeyAM},searchValueAM=${searchValueAM},searchValueAMS=${searchValueAMS},searchValueAMF=${searchValueAMF})}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>
 						    </li>
@@ -129,6 +131,8 @@
 				            		<option value="mSubDate">회원가입(월일)</option>
 				            	</select>
 				            	<input type="text" placeholder="검색어" name="searchValueRM" th:value="${searchValueRM}">
+				            	<input type="date" name="searchValueRMS" th:value="${searchValueRMS}" style="display: none">
+            					<input type="date" name="searchValueRMF" th:value="${searchValueRMF}" style="display: none">
 				            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 				               </form>
 			            	</div>
@@ -150,14 +154,14 @@
 								<tr th:if="${#lists.size(restmemberList) > 0}" th:each="l, status : ${restmemberList}">
 									<td data-title="번호" th:text="${status.count+(page2.curPage-1)*page2.pageEnd}"></td>
 									<td data-title="아이디">
-										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},uri=${uri})}>[[${l.mId}]]</a>
+										<a th:href=@{/getMemberInfoById(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF},uri=${uri})}>[[${l.mId}]]</a>
 									</td>
 									<td data-title="이름" th:text="${l.mName}"></td>
 									<td data-title="권한" th:text="${l.mLevelName}"></td>
 									<td data-title="연락처" th:text="${l.mPhone}"></td>
 									<td data-title="이메일" th:text="${l.mEmail}"></td>
 									<td data-title="수정">
-										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}>수정</a>
+										<a class="btn standardBtn" th:href=@{/modifyMember(mId=${l.mId},curPage2=${page2.curPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})}>수정</a>
 									</td>
 								</tr>
 								<tr th:unless="${#lists.size(restmemberList) > 0}">
@@ -168,7 +172,7 @@
 						<div class="text-center">
 						  <ul class="pagination">
 						    <li>
-						      <a th:if="${page2.curBlock > 1}" th:href="@{/member/memberList(curPage2=${page2.prevPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" aria-label="Previous">
+						      <a th:if="${page2.curBlock > 1}" th:href="@{/member/memberList(curPage2=${page2.prevPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})}" aria-label="Previous">
 						        <span aria-hidden="true">&laquo;</span>
 						      </a>
 						    </li>
@@ -178,12 +182,12 @@
 					   		</li>
 					   		<li th:unless="${num == page2.curPage}">
 					   		<th:block th:if="${num} != 0">
-					   			<a th:href="@{/member/memberList(curPage2=${num},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}">[[${num}]]</a>
+					   			<a th:href="@{/member/memberList(curPage2=${num},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})}">[[${num}]]</a>
 					   		</th:block>
 					   		</li>
 					  		</th:block>
 						    <li>
-						      <a th:if="${page2.curBlock <= page2.totBlock}" th:href="@{/member/memberList(curPage2=${page2.nextPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM})}" aria-label="Next">
+						      <a th:if="${page2.curBlock <= page2.totBlock}" th:href="@{/member/memberList(curPage2=${page2.nextPage},searchKeyRM=${searchKeyRM},searchValueRM=${searchValueRM},searchValueRMS=${searchValueRMS},searchValueRMF=${searchValueRMF})}" aria-label="Next">
 						        <span aria-hidden="true">&raquo;</span>
 						      </a>
 						    </li>
@@ -212,6 +216,55 @@
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(0).addClass('active');
+			
+			var searchKeyAM = $('select[name="searchKeyAM"]');
+			var searchKeyRM = $('select[name="searchKeyRM"]');
+			searchKeyAM.click(function(){
+				if(searchKeyAM.val() == "mSubDate"){
+					$('[name="searchValueAM"]').css('display','none');
+					$('[name="searchValueAMS"]').css('display','inline-block');
+					$('[name="searchValueAMF"]').css('display','inline-block');
+				}else{
+					$('[name="searchValueAM"]').css('display','inline-block')
+					$('[name="searchValueAMS"]').css('display','none');
+					$('[name="searchValueAMF"]').css('display','none');
+				}
+			});
+			searchKeyRM.click(function(){
+				if(searchKeyRM.val() == "mSubDate"){
+					$('[name="searchValueRM"]').css('display','none');
+					$('[name="searchValueRMS"]').css('display','inline-block');
+					$('[name="searchValueRMF"]').css('display','inline-block');
+				}else{
+					$('[name="searchValueRM"]').css('display','inline-block')
+					$('[name="searchValueRMS"]').css('display','none');
+					$('[name="searchValueRMF"]').css('display','none');
+				}
+			});
+			
+			$('#myTab a').click(function(e) {
+			  e.preventDefault();
+			  $(this).tab('show');
+			});
+
+			// store the currently selected tab in the hash value
+			$("ul.nav-tabs > li > a").on("shown.bs.tab", function(e) {
+			  var id = $(e.target).attr("href").substr(1);
+			  window.location.hash = id;
+			});
+			
+			
+			// 새로 고침시 탭 유지
+			var hash = window.location.hash;
+			// on load of the page: switch to the currently selected tab
+			$('#myTab a[href="' + hash + '"]').tab('show');
+			
+			// 검색 후 탭 유지
+			var search = window.location.search;
+			if(search.indexOf('RM') > -1){
+				$('#myTab a[href="#profile"]').tab('show');
+			}
+			
 		</script>
 	</th:block>
 </html>

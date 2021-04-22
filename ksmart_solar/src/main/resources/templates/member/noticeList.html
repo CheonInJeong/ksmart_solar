@@ -32,35 +32,33 @@
 			                    <th class="col-md-2">공고 코드</th>
 			                    <th class="col-md-2"><i class="fa fa-bullhorn"></i> 공고 제목</th>
 			                    <th class="col-md-2"><i class="fa fa-bullhorn"></i> 아이디</th>
-			                    <th class="col-md-2">승인/반려 </th>
+			                    <th class="col-md-2">상태 </th>
 							</tr>
 						</thead>
 		                <tbody>
 		                	<th:block th:if="${bidPlantList != null}" th:each="l:${bidPlantList}">
 			                	<tr>
 				                    <td data-title="공고 코드" th:text="${l.bPlCode}"></td>
-				                    <td data-title="공고 제목" th:text="${l.bPlTitle}"></td>
+				                    <td data-title="공고 제목">
+				                    	<a th:href="@{/member/getNotice(bPlCode=${l.bPlCode})}">[[${l.bPlTitle}]]</a>
+				                    </td>
 				                    <td data-title="아이디" th:text="${l.mId}"></td>
-				                    <td data-title="승인/반려" th:if="${l.acStatusCode == 1}">
-										<a class="btn standardBtn" th:href=@{/member/getNotice(bPlCode=${l.bPlCode})}>상세보기</a>
-									</td>
-									<td data-title="승인/반려" th:if="${l.acStatusCode != 1}">
-										<span th:if="${l.bPlConfirmStatus} == Y">승인완료</span>
-										<span th:if="${l.bPlConfirmStatus} == N">반려</span>
+				                    <td data-title="상태">
+										<a th:if="${l.acStatusCode == 1}" class="btn standardBtn" th:href="@{/member/getNotice(bPlCode=${l.bPlCode})}">상세보기</a>
+										<span th:if="${l.acStatusCode != 1}">[[${l.bPlStatus}]]</span>
 									</td>
 			                	</tr>
 		                	</th:block>
 		                	<th:block th:if="${bidComponentList != null}" th:each="l:${bidComponentList}">
 			                	<tr>
 				                    <td data-title="공고 코드" th:text="${l.bCpCode}"></td>
-				                    <td data-title="공고 제목" th:text="${l.bCpTitle}"></td>
+				               		<td data-title="공고 제목">
+				                    	<a th:href="@{/member/getNotice(bCpCode=${l.bCpCode})}">[[${l.bCpTitle}]]</a>
+				                    </td>
 				                    <td data-title="아이디" th:text="${l.mId}"></td>
-				                    <td data-title="승인/반려" th:if="${l.acStatusCode == 1}">
-										<a class="btn standardBtn" th:href=@{/member/getNotice(bCpCode=${l.bCpCode})}>상세보기</a>
-									</td>
-									<td data-title="승인/반려" th:if="${l.acStatusCode != 1}">
-										<span th:if="${l.bCpConfirmStatus} == Y">승인완료</span>
-										<span th:if="${l.bCpConfirmStatus} == N">반려</span>
+				                    <td data-title="상태">
+										<a th:if="${l.acStatusCode == 1}" class="btn standardBtn" th:href="@{/member/getNotice(bCpCode=${l.bCpCode})}">상세보기</a>
+										<span th:if="${l.acStatusCode != 1}">[[${l.bCpStatus}]]</span>
 									</td>
 			                	</tr>
 		                	</th:block>

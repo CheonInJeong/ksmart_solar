@@ -11,6 +11,7 @@ import com.cafe24.kangk0269.dao.BidPlantMapper;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BusinessDTO;
 import com.cafe24.kangk0269.dto.BusinessPlantDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 
 @Service
 @Transactional
@@ -20,6 +21,21 @@ public class BidPlantService {
 	@Autowired
 	public BidPlantService(BidPlantMapper bidPlantMapper) {
 		this.bidPlantMapper = bidPlantMapper; 
+	}
+	
+	//공고신청 발전소 파일조회
+	public List<FileDTO> getNoticeFileList(String bPlCode){
+		return bidPlantMapper.getNoticeFileList(bPlCode);
+	}
+	
+	//공고신청 발전소 반려처리
+	public void bidPlantReturn(String bPlCode, String bPlRejectReason) {
+		bidPlantMapper.bidPlantReturn(bPlCode, bPlRejectReason);
+	}
+	
+	//공고신청 발전소 승인처리
+	public void bidPlantAdmit(String bPlCode) {
+		bidPlantMapper.bidPlantAdmit(bPlCode);
 	}
 	
 	// 공고신청 발전소 상세보기

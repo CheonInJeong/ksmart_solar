@@ -65,20 +65,65 @@ public class MemberManageController {
 		this.sellService = sellService;
 	}
 	
-
-
+	//공고신청 반려사유
+	@GetMapping("/member/noticeRejectReason")
+	public String noticeCheckReason(Model model
+									,@RequestParam(name="bPlCode", required=false) String bPlCode
+									,@RequestParam(name="bCpCode", required=false) String bCpCode) {
+		System.out.println("반려할 발전소코드 : " + bPlCode);
+		System.out.println("반려할 발전소코드 : " + bCpCode);
+		model.addAttribute("bPlCode", bPlCode);
+		model.addAttribute("bCpCode", bCpCode);
+		return "/member/noticeRejectReason";
+	}
+	
+	//공고신청 반려처리
+	@PostMapping("/ajax/noticeReject")
+	public String noticeReturn(@RequestParam(name="bPlCode", required=false) String bPlCode
+								,@RequestParam(name="bCpCode", required=false) String bCpCode
+								,@RequestParam(name="bCpCode", required=false) String bPlRejectReason
+								,@RequestParam(name="bCpCode", required=false) String bCpRejectReason) {
+		if(bPlCode != null) {
+			bidPlantService.bidPlantReturn(bPlCode,bPlRejectReason);
+		}else if(bCpCode != null) {
+			bidComponentService.bidComponentReturn(bCpCode,bCpRejectReason);
+		}
+		return "/member/getNotice";
+	}
+	
+	//공고신청 승인처리
+	@PostMapping("/ajax/noticeAdmit")
+	public String noticeAdmit(@RequestParam(name="bPlCode", required=false) String bPlCode
+							,@RequestParam(name="bCpCode", required=false) String bCpCode) {
+		if(bPlCode != null) {
+			bidPlantService.bidPlantAdmit(bPlCode);
+		}else if(bCpCode != null) {
+			bidComponentService.bidComponentAdmit(bCpCode);
+		}
+		return "/member/getNotice";
+	}
+	
 	//공고신청 상세보기
 	@GetMapping("/member/getNotice")
 	public String getNotice(Model model
 							,@RequestParam(name="bPlCode", required=false) String bPlCode
 							,@RequestParam(name="bCpCode", required=false) String bCpCode) {
-		if(!"".equals(bPlCode)) {
+		if(bPlCode != null) {
 			BidPlantDTO bidPlantdto = bidPlantService.getNotice(bPlCode);
+			BusinessPlantDTO businessPlantDTO = bidPlantService.getPlant(bPlCode);
 			model.addAttribute("bidPlantdto", bidPlantdto);
-		}else if(!"".equals(bCpCode)) {
+			model.addAttribute("businessPlantDTO", businessPlantDTO);
+			model.addAttribute("fileList", bidPlantService.getNoticeFileList(bPlCode));
+			
+		}else if(bCpCode != null) {
+			System.out.println(bCpCode);
 			BidComponentDTO bidComponentdto = bidComponentService.getNotice(bCpCode);
+			ComponentDTO componentDTO = bidComponentService.getComponent(bidComponentdto.getCpCode());
 			model.addAttribute("bidComponentdto", bidComponentdto);
+			model.addAttribute("componentDTO", componentDTO);
+			model.addAttribute("fileList", bidComponentService.getNoticeFileList(bCpCode));
 		}
+		
 		return "/member/getNotice";
 	}
 	
@@ -116,8 +161,12 @@ public class MemberManageController {
 									, @RequestParam(value="mId", required=false) String mId
 									, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 									, @RequestParam(name="searchValueAM", required=false) String searchValueAM
+									, @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+									, @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 									, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 									, @RequestParam(name="searchValueRM", required=false) String searchValueRM
+									, @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+									, @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 									, @RequestParam(name="searchKeyWAM", required=false) String searchKeyWAM
 									, @RequestParam(name="searchValueWAM", required=false) String searchValueWAM
 									, @RequestParam(name="searchValueWAMS", required=false) String searchValueWAMS
@@ -176,8 +225,12 @@ public class MemberManageController {
 		model.addAttribute("accountList", accountList);
 		model.addAttribute("searchKeyAM", searchKeyAM);
 		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchValueAMS", searchValueAMS);
+		model.addAttribute("searchValueAMF", searchValueAMF);
 		model.addAttribute("searchKeyRM", searchKeyRM);
 		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("searchValueRMS", searchValueRMS);
+		model.addAttribute("searchValueRMF", searchValueRMF);
 		model.addAttribute("searchKeyWAM", searchKeyWAM);
 		model.addAttribute("searchValueWAM", searchValueWAM);
 		model.addAttribute("searchValueWAMS", searchValueWAMS);
@@ -194,10 +247,25 @@ public class MemberManageController {
 	}
 	
 	@PostMapping("/modifyMember")
-	public String modifyMember(MemberDTO member) {
+	public String modifyMember(MemberDTO member
+							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
+							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+							   , @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
+							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
+							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+							   , @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
+							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
+							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("수정한 값 " + member);
 		memberService.modifyMember(member);
-		return "redirect:/getMemberInfoById?mId=" + member.getmId();
+		if(searchKeyAM != null) {
+			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage1=" + curPage1 + "&searchKeyAM=" + searchKeyAM + "&searchValueAM=" + searchValueAM +"&searchValueAMS=" + searchValueAMS +"&searchValueAMF=" + searchValueAMF + "&uri=/member/memberList";
+			
+		}else {
+			return "redirect:/getMemberInfoById?mId=" + member.getmId() + "&curPage2=" + curPage2 + "&searchKeyRM=" + searchKeyRM + "&searchValueRM=" + searchValueRM + "&searchValueRMS=" + searchValueRMS +"&searchValueRMF=" + searchValueRMF + "&uri=/member/memberList";
+		}
 	}
 	
 	@GetMapping("/modifyMember")
@@ -205,8 +273,12 @@ public class MemberManageController {
 							   , @RequestParam(name="mId", required=false) String mId
 							   , @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 							   , @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							   , @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+							   , @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 							   , @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 							   , @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							   , @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+							   , @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 							   , @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 							   , @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
 		System.out.println("입력받은 아이디 : " + mId);
@@ -215,10 +287,15 @@ public class MemberManageController {
 		model.addAttribute("member", member);
 		model.addAttribute("searchKeyAM", searchKeyAM);
 		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchValueAMS", searchValueAMS);
+		model.addAttribute("searchValueAMF", searchValueAMF);
 		model.addAttribute("searchKeyRM", searchKeyRM);
 		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("searchValueRMS", searchValueRMS);
+		model.addAttribute("searchValueRMF", searchValueRMF);
 		model.addAttribute("curPage1", curPage1);
 		model.addAttribute("curPage2", curPage2);
+		model.addAttribute("uri", "/member/memberList");
 		return "/member/modifyMember";
 	}
 	
@@ -226,27 +303,35 @@ public class MemberManageController {
 	public String MemberList(Model model
 							, @RequestParam(name="searchKeyAM", required=false) String searchKeyAM
 							, @RequestParam(name="searchValueAM", required=false) String searchValueAM
+							, @RequestParam(name="searchValueAMS", required=false) String searchValueAMS
+							, @RequestParam(name="searchValueAMF", required=false) String searchValueAMF
 							, @RequestParam(name="searchKeyRM", required=false) String searchKeyRM
 							, @RequestParam(name="searchValueRM", required=false) String searchValueRM
+							, @RequestParam(name="searchValueRMS", required=false) String searchValueRMS
+							, @RequestParam(name="searchValueRMF", required=false) String searchValueRMF
 							, @RequestParam(name="curPage1", required=false, defaultValue="1") int curPage1
 							, @RequestParam(name="curPage2", required=false, defaultValue="1") int curPage2) {
-		int count1 = memberService.getActiveMemberCnt(searchKeyAM, searchValueAM);
+		int count1 = memberService.getActiveMemberCnt(searchKeyAM, searchValueAM, searchValueAMS, searchValueAMF);
 		PageDTO page1 = new PageDTO(count1,curPage1);
 		int start1 = page1.getPageBegin();
 		int end1 = page1.getPageEnd();
-		List<MemberDTO> activememberList = memberService.getActiveMember(start1, end1, searchKeyAM, searchValueAM);
-		int count2 = memberService.getRestMemberCnt(searchKeyRM, searchValueRM);
+		List<MemberDTO> activememberList = memberService.getActiveMember(start1, end1, searchKeyAM, searchValueAM, searchValueAMS, searchValueAMF);
+		int count2 = memberService.getRestMemberCnt(searchKeyRM, searchValueRM, searchValueRMS, searchValueRMF);
 		PageDTO page2 = new PageDTO(count2,curPage2);
 		int start2 = page2.getPageBegin();
 		int end2 = page2.getPageEnd();
-		List<MemberDTO> restmemberList = memberService.getRestMember(start2, end2, searchKeyRM, searchValueRM);
+		List<MemberDTO> restmemberList = memberService.getRestMember(start2, end2, searchKeyRM, searchValueRM, searchValueRMS, searchValueRMF);
 		String uri = "/member/memberList";
 		model.addAttribute("activememberList", activememberList);
 		model.addAttribute("restmemberList", restmemberList);
 		model.addAttribute("searchKeyAM", searchKeyAM);
 		model.addAttribute("searchValueAM", searchValueAM);
+		model.addAttribute("searchValueAMS", searchValueAMS);
+		model.addAttribute("searchValueAMF", searchValueAMF);
 		model.addAttribute("searchKeyRM", searchKeyRM);
 		model.addAttribute("searchValueRM", searchValueRM);
+		model.addAttribute("searchValueRMS", searchValueRMS);
+		model.addAttribute("searchValueRMF", searchValueRMF);
 		model.addAttribute("page1", page1);
 		model.addAttribute("page2", page2);
 		model.addAttribute("uri", uri);

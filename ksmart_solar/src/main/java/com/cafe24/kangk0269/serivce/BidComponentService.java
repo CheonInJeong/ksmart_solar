@@ -13,6 +13,7 @@ import com.cafe24.kangk0269.dao.BidComponentMapper;
 import com.cafe24.kangk0269.dto.BidComponentDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.ComponentDTO;
+import com.cafe24.kangk0269.dto.FileDTO;
 
 @Service
 @Transactional
@@ -30,6 +31,21 @@ public class BidComponentService {
 		System.out.println("=========================================================");
 		System.out.println("BidComponentService bean 등록");
 		System.out.println("=========================================================");
+	}
+	
+	//공고신청 부품 파일조회
+	public List<FileDTO> getNoticeFileList(String bCpCode){
+		return bidComponentMapper.getNoticeFileList(bCpCode);
+	}
+	
+	//공고신청 부품 반려처리
+	public void bidComponentReturn(String bCpCode, String bCpRejectReason) {
+		bidComponentMapper.bidComponentReturn(bCpCode, bCpRejectReason);
+	}
+	
+	//공고신청 부품 승인처리
+	public void bidComponentAdmit(String bCpCode) {
+		bidComponentMapper.bidComponentAdmit(bCpCode);
 	}
 	
 	// 공고신청 부품 상세보기

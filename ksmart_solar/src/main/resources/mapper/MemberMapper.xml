@@ -291,8 +291,8 @@
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKeyL != null and searchKeyL != ''.toString()">
 				<choose>
-					<when test="'m_log_in'.equals(searchKeyL)">
-						m_log_in BETWEEN #{searchValueLS} AND #{searchValueLF}
+					<when test="'m_log_in'.equals(searchKeyL) or 'm_log_out'.equals(searchKeyL)">
+						${searchKeyL} BETWEEN #{searchValueLS} AND #{searchValueLF}
 					</when>
 					<otherwise>
 						${searchKeyL} LIKE CONCAT ('%',#{searchValueL},'%')
@@ -466,11 +466,15 @@
 				a.m_rest_check = 'N' AND a.m_revoke_check = 'N' AND a.m_revoke_delay_check = 'N'
 				LIMIT #{start},#{end}
 			</if>
+			
 			<if test="searchKeyAM != null and searchKeyAM != ''.toString()">
 				a.m_rest_check = 'N' AND a.m_revoke_check = 'N' AND a.m_revoke_delay_check = 'N' AND
 				<choose>
 					<when test="'m_level'.equals(searchKeyAM)">
 						b.m_level_name LIKE CONCAT('%',#{searchValueAM},'%')
+					</when>
+					<when test="'m_sub_date'.equals(searchKeyAM)">
+						m_sub_date BETWEEN #{searchValueAMS} AND #{searchValueAMF}
 					</when>
 					<otherwise>
 						${searchKeyAM} LIKE CONCAT('%',#{searchValueAM},'%')
@@ -500,6 +504,9 @@
 				<choose>
 					<when test="'m_level'.equals(searchKeyAM)">
 						b.m_level_name LIKE CONCAT('%',#{searchValueAM},'%')
+					</when>
+					<when test="'m_sub_date'.equals(searchKeyAM)">
+						m_sub_date BETWEEN #{searchValueAMS} AND #{searchValueAMF}
 					</when>
 					<otherwise>
 						${searchKeyAM} LIKE CONCAT('%',#{searchValueAM},'%')
@@ -546,6 +553,9 @@
 					<when test="'m_level'.equals(searchKeyRM)">
 						b.m_level_name LIKE CONCAT('%',#{searchValueRM},'%')
 					</when>
+					<when test="'m_sub_date'.equals(searchKeyRM)">
+						m_sub_date BETWEEN #{searchValueRMS} AND #{searchValueRMF}
+					</when>
 					<otherwise>
 						${searchKeyRM} LIKE CONCAT('%',#{searchValueRM},'%')
 					</otherwise>
@@ -574,6 +584,9 @@
 				<choose>
 					<when test="'m_level'.equals(searchKeyRM)">
 						b.m_level_name LIKE CONCAT('%',#{searchValueRM},'%')
+					</when>
+					<when test="'m_sub_date'.equals(searchKeyRM)">
+						m_sub_date BETWEEN #{searchValueRMS} AND #{searchValueRMF}
 					</when>
 					<otherwise>
 						${searchKeyRM} LIKE CONCAT('%',#{searchValueRM},'%')

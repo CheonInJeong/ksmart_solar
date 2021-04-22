@@ -61,14 +61,14 @@ public interface MemberMapper {
 	public int modifyMember(MemberDTO member);
 	
 	// 활동회원조회
-	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM);
+	public List<MemberDTO> getActiveMember(int start, int end, String searchKeyAM, String searchValueAM,String searchValueAMS, String searchValueAMF);
 	// 활동회원 리스트 수 조회
-	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM);
+	public int getActiveMemberCnt(String searchKeyAM, String searchValueAM,String searchValueAMS, String searchValueAMF);
 	
 	// 휴면회원조회
-	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM);
+	public List<MemberDTO> getRestMember(int start, int end, String searchKeyRM, String searchValueRM,String searchValueRMS, String searchValueRMF);
 	// 휴면회원 리스트 수 조회
-	public int getRestMemberCnt(String searchKeyRM, String searchValueRM);
+	public int getRestMemberCnt(String searchKeyRM, String searchValueRM,String searchValueRMS, String searchValueRMF);
 	
 	// 회원가입
 	public int addMember(MemberDTO member);

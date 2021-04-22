@@ -90,6 +90,64 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		<result property="bzPlRec" 				column="bz_pl_rec" />	
 	</resultMap>
 	
+	<resultMap type = "FileDTO" id = "fileResultMap">
+  		<result property="relatedTableCode" column="related_table_code"/>
+  	  	<result property="originalFileName" column="original_file_name"/>
+  	  	<result property="storedFilePath" 	column="stored_file_path"/>
+  	  	<result property="fileSize" 		column="file_size"/>
+		<result property="createdDatetime" 	column="created_datetime"/>
+  		<result property="creatorId" 		column="creator_id"/>
+	</resultMap>
+	
+	<!-- 공고신청 발전소 파일조회  -->
+	<select id="getNoticeFileList"  resultMap="fileResultMap" parameterType="String">
+		SELECT 
+			f.idx,
+			f.file_sort_name,
+			f.original_file_name, 
+			f.creator_id,
+			f.created_datetime,
+			format(ROUND(f.file_size/1024),0) AS file_size
+		FROM 
+			tb_file AS f
+		inner JOIN 
+			tb_member AS m	
+		ON f.creator_id = m.m_id
+		WHERE 
+			f.deleted_yn ='N' 
+		AND
+			f.file_sort_idx = '1'
+		AND 
+			m.m_level=2
+		AND 
+			f.related_table_code= #{bPlCode}	
+	</select>
+	
+	<!-- 공고신청 발전소 반려처리  -->
+	<update id="bidPlantReturn" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status = '공고반려',
+			ac_status_code = 3,
+			b_pl_confirm = NOW(),
+			b_pl_confirm_status = 'Y',
+			b_pl_reject_reason = #{bPlRejectReason}
+		WHERE 
+			b_pl_code = #{bPlCode}
+	</update>
+	
+	<!-- 공고신청 발전소 승인처리 -->
+	<update id="bidPlantAdmit" parameterType="String">
+		UPDATE tb_bid_plant
+		SET
+			b_pl_status = '공고승인',
+			ac_status_code = 2,
+			b_pl_confirm = NOW(),
+			b_pl_confirm_status = 'Y'
+		WHERE 
+			b_pl_code = #{bPlCode}
+	</update>			
+	
 	<!-- 공고신청 발전소 상세보기  -->
 	<select id="getNotice" parameterType="String" resultMap="BidPlantDTOMap">
 		SELECT 
@@ -154,6 +212,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_pl_cancel_date
 		FROM 
 			tb_bid_plant
+			WHERE ac_status_code IN (1,2,3)
+			ORDER BY b_pl_date_request DESC
 		<if test="searchKey == null or searchKey == ''.toString()">
 			LIMIT #{start},#{end}
 		</if>

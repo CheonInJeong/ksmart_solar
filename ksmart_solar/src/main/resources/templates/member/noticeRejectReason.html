@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head th:replace="fragments/head :: headFragment"></head>
+	<th:block layout:fragment="customTitle">
+		<title>반려사유 작성</title>
+	</th:block>
+<body>
+	<h4 class="text-center">반려사유 작성</h4>
+	<form>
+		<div class="form-group">
+			<input type="hidden" id="bPlCode" th:value="${bPlCode}"/>
+			<textarea class="form-control" rows="13" id="bPlRejectReason"></textarea>
+		</div>
+		<div class="form-group text-center">
+			<button type="button" class="btn btn-info" onclick="returnFinish()">반려완료</button>
+			<button type="button" class="btn btn-danger" onclick="returnCancle()">취소</button>
+		</div>
+	</form>
+	
+<!-- 	<form th:if="${bidComponentdto!=null}">
+		<div class="form-group">
+			<input type="hidden" id="bCpCode" th:value="${bCpCode}"/>
+			<textarea class="form-control" rows="13" id="bCpRejectReason"></textarea>
+		</div>
+		<div class="form-group text-center">
+			<button type="button" class="btn btn-info" onclick="returnFinish()">반려완료</button>
+			<button type="button" class="btn btn-danger" onclick="returnCancle()">취소</button>
+		</div>
+	</form> -->
+	
+	
+	
+	<script type="text/javascript">
+		var bPlCode = $('#bPlCode');
+		var bCpCode = $('#bCpCode');
+		var bPlRejectReason = $('#bPlRejectReason');
+		var bCpRejectReason = $('#bCpRejectReason');
+		
+		function returnFinish(){
+			var result = confirm('반려하시겠습니까?');
+			if(result){
+				console.log('반려완료');
+				var request = $.ajax({
+					url: "/ajax/noticeReturn",
+					method: "post",
+					data: { bPlCode : bPlCode.val(), bPlRejectReason : bPlRejectReason.val()
+							,bCpCode  : bCpCode.val(), bCpRejectReason : bCpRejectReason.val()},
+				});	
+				
+				request.done(function(data){
+					alert("반려성공");
+					window.location.href = '/member/noticeList';
+				});
+				
+				request.fail(function( jqXHR, textStatus){
+					alert( "Request failed: " + textStatus);
+				})
+			}else{
+				console.log('반려실패');
+			}
+		});
+		
+		function returnCancle(){
+			window.close();
+		}
+		
+	</script>
+	
+				
+	
+</body>	
+</body>
+</html>
