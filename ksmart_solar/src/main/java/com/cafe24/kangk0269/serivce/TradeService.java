@@ -129,6 +129,9 @@ public class TradeService {
 	public TradeDepositOutDTO getRefundInfo(String bCode) {
 		return tradeMapper.getRefundInfo(bCode);
 	}
+	public TradePriorityDTO getPriorityDate(String bCode) {
+		return tradeMapper.getPriorityDate(bCode);
+	}
 
 	
 }

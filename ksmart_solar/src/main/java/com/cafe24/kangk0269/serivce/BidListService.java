@@ -27,6 +27,7 @@ import com.cafe24.kangk0269.dto.BidListDTO;
 import com.cafe24.kangk0269.dto.BidPlantDTO;
 import com.cafe24.kangk0269.dto.BoardSellerDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 
 @Service
 @Transactional
@@ -371,5 +372,5 @@ public class BidListService {
 		bidListMapper.removeQna(bIdx);
 		return 0;
 	}
-
+	
 }
