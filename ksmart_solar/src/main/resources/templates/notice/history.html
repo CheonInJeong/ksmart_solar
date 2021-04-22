@@ -4,14 +4,14 @@
 	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
-				<title>종료된 공고 리스트</title>
+				<title>마감한 공고 리스트</title>
 	</th:block>
 	<th:block layout:fragment="Contents">
-		<div id="container-header-title"><strong>종료된 공고 리스트</strong></div>
+		<div id="container-header-title"><strong>마감한 공고 리스트</strong></div>
 		<div id="container-header-path">
 			<a href="/" style="text-decoration: none;"> 메인화면 </a>>
 			<a href="#" style="text-decoration: none;">공고리스트 </a>>
-			<a href="/notice/history" style="text-decoration: none;"> 종료된 공고 리스트 </a>
+			<a href="/notice/history" style="text-decoration: none;"> 마감한 공고 리스트 </a>
 			<!-- <a href="/plant/plantList" style="text-decoration: none;"> 발전소 리스트 </a> -->
 		</div>
 		<div id="container-header-space"></div>
@@ -48,8 +48,8 @@
 		                  <tr>
 		                    <td th:text="${l.num}"></td>
 		                    <td>
-		                    	<form th:action="@{/notice/announcement}" method="post">
-			                      	<a class="announceTitle">[[${l.bCpTitle}]]</a>
+		                    	<form style="text-align: left;" th:action="@{/notice/announcement}" method="post">
+			                      	<a  class="announceTitle">[[${l.bCpTitle}]]</a>
 			                      	<input type="hidden" name="uri">
 			                      	<input type="hidden" name="announceCode" th:value="${l.bCpCode}">
 			                      	<input type="hidden" name="announceType" value="부품">
@@ -113,7 +113,7 @@
 		                  <tr>
 		                  	<td th:text="${l.num}"></td>
 		                    <td>
-			                    <form th:action="@{/notice/announcement}" method="post">
+			                    <form style="text-align: left;" th:action="@{/notice/announcement}" method="post">
 				                      	<a class="announceTitle">[[${l.bPlTitle}]]</a>
 				                      	<input type="hidden" name="uri">
 				                      	<input type="hidden" name="announceCode" th:value="${l.bPlCode}">

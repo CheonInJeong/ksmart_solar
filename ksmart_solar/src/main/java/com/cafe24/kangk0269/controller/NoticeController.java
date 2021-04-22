@@ -26,6 +26,7 @@ import com.cafe24.kangk0269.dto.ComponentDTO;
 import com.cafe24.kangk0269.dto.FileDTO;
 import com.cafe24.kangk0269.dto.MemberAccountDTO;
 import com.cafe24.kangk0269.dto.TradePaymentInDTO;
+import com.cafe24.kangk0269.dto.TradePriorityDTO;
 import com.cafe24.kangk0269.serivce.AccountService;
 import com.cafe24.kangk0269.serivce.BidComponentService;
 import com.cafe24.kangk0269.serivce.BidListService;
@@ -209,6 +210,10 @@ public class NoticeController {
 				//이미 입찰을 했다면 입찰한 정보를 보여준다.
 				if(bidListDTO!=null) {
 					List<FileDTO> fileList = bidListService.getBidFileList(bidListDTO.getbCode());
+					if(bidListDTO.getTrTypeCode()==8 || bidListDTO.getTrTypeCode()==6) {
+						TradePriorityDTO tradePriorityDTO = tradeService.getPriorityDate(bidListDTO.getbCode());
+						model.addAttribute("tradePriorityDTO",tradePriorityDTO);
+					}
 					System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
 					System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
 					model.addAttribute("bidListDTO",bidListDTO);
@@ -226,6 +231,10 @@ public class NoticeController {
 					List<FileDTO> fileList = bidListService.getBidFileList(bCode);
 					System.out.println(bidListDTO.getTrTypeCode()+"----------------------------------------------------------------TrTypeCode");
 					System.out.println(bidListDTO+"----------------------------------------------------------------bidListDTO");
+					if(bidListDTO.getTrTypeCode()==8 || bidListDTO.getTrTypeCode()==6) {
+						TradePriorityDTO tradePriorityDTO = tradeService.getPriorityDate(bCode);
+						model.addAttribute("tradePriorityDTO",tradePriorityDTO);
+					}
 					model.addAttribute("bidListDTO",bidListDTO);
 					model.addAttribute("fileList",fileList);
 				}
