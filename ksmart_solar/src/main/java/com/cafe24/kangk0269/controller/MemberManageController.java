@@ -70,8 +70,8 @@ public class MemberManageController {
 	public String noticeCheckReason(Model model
 									,@RequestParam(name="bPlCode", required=false) String bPlCode
 									,@RequestParam(name="bCpCode", required=false) String bCpCode) {
-		System.out.println(bPlCode);
-		System.out.println(bCpCode);
+		System.out.println("반려할 발전소코드 : " + bPlCode);
+		System.out.println("반려할 발전소코드 : " + bCpCode);
 		model.addAttribute("bPlCode", bPlCode);
 		model.addAttribute("bCpCode", bCpCode);
 		return "/member/noticeRejectReason";
