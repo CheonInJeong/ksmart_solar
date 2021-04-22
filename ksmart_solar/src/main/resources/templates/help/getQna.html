@@ -56,12 +56,11 @@
 	</th:block>
 	
 	<th:block layout:fragment="customScript">
-		  	<script type="text/javascript">
-		  	//메뉴탭
-			var help = $('#help');
-			help.addClass('active');
-			help.parent().find('.sub').css('display','block');
-			help.parent().find('.sub').children().eq(0).addClass('active');
-			</script>
+	<script type="text/javascript">
+		var help = $('#help');
+		help.addClass('active');
+		help.parent().find('.sub').css('display', 'block');
+		help.parent().find('.sub').children().eq(1).addClass('active');
+	</script>
 	</th:block>		  
 </html>
