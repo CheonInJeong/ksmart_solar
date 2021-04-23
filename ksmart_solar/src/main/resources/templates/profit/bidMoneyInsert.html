@@ -19,12 +19,17 @@
 	            	<select name="searchKey">
 	            		<option value="">카테고리</option>
 	            		<option value="Id">거래회원</option>
-	            		<option value="iOut">입출금</option>
 	            		<option value="nTitle">공고명</option>
+	            		<option value="iOut">입출금</option>
 	            	</select>
 	            	<input type="hidden" name="Code" th:value="${check.Code}">
 	            	<input type="hidden" name="curPage" th:value="${page.curPage}">
-	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input id="sv1" type="text" placeholder="검색어" value="">
+	            	<select id="sv2" style="display: none;">
+	            		<option value="">::선택::</option>
+	            		<option value="입금">입금</option>
+	            		<option value="출금">출금</option>
+	            	</select>
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
             	</div>
@@ -165,7 +170,20 @@
 			});
 		}
 		
-		
+		var searchKey = $('[name="searchKey"]')
+		searchKey.click(function(){
+			$('#sv1').removeAttr('name');
+			$('#sv2').removeAttr('name');
+			if(searchKey.val() == "iOut"){
+				$('#sv2').attr("name","searchValue");
+				$('[name="searchValue"]').css('display','inline-block');
+				$('#sv1').css('display','none');
+			}else{
+				$('#sv1').attr("name","searchValue");
+				$('[name="searchValue"]').css('display','inline-block');
+				$('#sv2').css('display','none');
+			}
+		});
 	</script>
 	
 </body>	
