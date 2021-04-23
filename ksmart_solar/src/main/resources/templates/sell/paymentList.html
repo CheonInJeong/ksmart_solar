@@ -53,7 +53,7 @@
 	                   <td th:text="${a.availableOut}" class="availableOut"></td>
 	                   <td th:text ="${a.tradePaymentInDTO.bMoDate}"></td>
 	                   <td th:text="${a.trPayoutCheck}"></td>
-	                   <td><a th:href="@{/sell/applyPayment(trPrCode=${a.trPrCode})}">출금신청</a></td>
+	                   <td><a th:href="@{/sell/applyPayment(trPrCode=${a.trPrCode})}" class="btn btn-default">출금신청</a></td>
 	               </tr>
 	            	<tr th:unless = "${available!=null and available.size()>0}">
 	               		<td colspan ="10" style="text-align : center;">출금 신청 가능 내역이 없습니다.</td>

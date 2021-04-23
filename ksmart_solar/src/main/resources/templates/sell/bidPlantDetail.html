@@ -176,11 +176,13 @@
 		               			<td>거래상태</td>
 		               			<td th:text="${t.trTypeName}"></td>
 		               		</tr>
-		               		<tr>
+		               		<tr th:if="${t.trPrConclusionDate1 !=null and t.trPrConclusionDate2 !=null}">
 		               			<td>계약체결기간</td>
-		               			<td th:if="${t.trPrConclusionDate1 !=null and t.trPrConclusionDate2 !=null}" colspan="2" th:text="${t.trPrConclusionDate1+' ~ '+t.trPrConclusionDate1}"></td>
-		               			<td th:if="${t.trPrConclusionDate1 ==null and t.trPrConclusionDate2 ==null}" colspan="2">-</td>
-		               			<td></td>
+		               			<td  colspan="3" th:text="${t.trPrConclusionDate1+'　-　'+t.trPrConclusionDate1}"></td>
+		               		</tr>
+		               		<tr th:if="${t.tradePaymentInDTO.trPayinDate1!=null}">
+		               			<td>대금납부기간</td>
+		               			<td colspan="3" th:text="${t.tradePaymentInDTO.trPayinDate1+'　-　'+t.tradePaymentInDTO.trPayinDate2}"></td>
 		               		</tr>
 		               	 </tbody>
 	              	</table>
