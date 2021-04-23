@@ -205,9 +205,8 @@ public class MemberService {
 	}
 	
 	//개인 프로필 수정처리
-	public int modifyMyInfo(MemberDTO memberDTO) {
-		int result = memberMapper.modifyMyInfo(memberDTO);
-		return result;
+	public void modifyMyInfo(MemberDTO memberDTO) {
+		memberMapper.modifyMyInfo(memberDTO);
 	}
 	
 	

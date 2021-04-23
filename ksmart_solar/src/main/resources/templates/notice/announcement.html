@@ -264,20 +264,20 @@
 							</div>
 						</form>
 						
-		        		<!--찜하기  -->
-		        		<th:block th:if="${(bidComponentdto != null and bidComponentdto.acStatusCode==4 and getBidListCount==0)
-															or (bidComponentdto != null and bidListDTO != null and bidListDTO.trTypeCode==4)}">
+		        		
+					</th:block>
+				</th:block>
+	        	<a class="form-group" id="returnPage">
+		        	<button class="btn btn-default center-block" type="button" >돌아가기</button>
+	        	</a>
+	        	<!--찜하기  -->
+		        		<th:block th:if="${(bidPlantdto != null and bidPlantdto.acStatusCode==4) or (bidComponentdto != null and bidComponentdto.acStatusCode==4)}"> 
 				        	<form class="form-group" action="/mypage/addWishlist" method="post">
 								<input th:if="${bidComponentdto != null}" type="hidden" name="announcedCode" th:value="${bidComponentdto.bCpCode}">	        	
 								<input th:if="${bidPlantdto != null}" type="hidden" name="announcedCode" th:value="${bidPlantdto.bPlCode}">					
 					        	<button class="btn btn-warning center-block" type="submit" >찜하기</button>
 				        	</form>
 			        	</th:block>
-					</th:block>
-				</th:block>
-	        	<a class="form-group" id="returnPage">
-		        	<button class="btn btn-default center-block" type="button" >돌아가기</button>
-	        	</a>
 			</div>
 		</div>
 		</div>
