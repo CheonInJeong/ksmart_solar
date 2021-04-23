@@ -1,8 +1,6 @@
 
 <!DOCTYPE html>
-<html xmlns:th="http://www.tyhmeleaf.org"
-	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	  layout:decorate="layout/default">
+<html xmlns:th="http://www.tyhmeleaf.org">
 <head>
 		 <!-- Bootstrap core CSS -->
 <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -23,7 +21,8 @@
 
 		<div id="bIdx" style="display:none">[[${qna.bIdx}]]</div>
 		<div id="bId" style="display:none">[[${qna.mIdBuyer}]]</div>
-			<div id="container-header-space"></div>
+			<div style="padding:30px;">
+			
 					<div class="row">
 						<div class="col-md-12">
 
@@ -35,24 +34,30 @@
 					
 						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
-								<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
-								<td th:if="${c.cmtClass==0}" th:text="${c.mId}" style="font-weight: bolder"></td>
-								<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px;font-weight: bolder"></td>
-								
-								<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='N'}" th:text="${c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
-								<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='N'}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
-								<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='Y'}" style="padding:20px; text-align:left;" class="cmtComment">삭제 된 댓글입니다.</td>
-								<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='Y'}" th:text="${c.targetId + '｜'+'삭제 된 댓글입니다.'}" style="padding:20px; text-align:left;" class="cmtComment"></td>
-								
-								<td th:text="${c.cmtRegDate}"></td>
-								
-								<td th:if="${c.mId==session.SID and c.cmtDeleteYn=='N'}">
-									<a class="btn btn-default btn-sm modifyBtn" data-attr="0">수정</a>
-									<a class="btn btn-default btn-sm deleteBtn">삭제</a>
-								</td>
-								<td th:unless="${c.mId==session.SID and c.cmtDeleteYn=='N'}" ></td>
-								
-								<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
+									<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
+									<td th:if="${c.cmtClass==0}" th:text="${c.mId}" style="font-weight: bolder"></td>
+									<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px;font-weight: bolder"></td>
+									<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='N'}" th:text="${c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+									<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='N'}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+									<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='Y'}" style="padding:20px; text-align:left;" class="cmtComment">삭제 된 댓글입니다.</td>
+									<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='Y' }" th:text="${c.targetId + '｜'+'삭제 된 댓글입니다.'}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+									<td th:text="${c.cmtRegDate}"></td>
+									<td th:if="${c.mId!=session.SID}">
+											<a class="btn btn-default btn-sm modifyBtn" data-attr="0" style="display:none">수정</a>
+											<a class="btn btn-default btn-sm deleteBtn" style="display:none">삭제</a>
+									</td>
+									<td th:if="${c.mId==session.SID}">
+										<th:block th:if="${c.cmtDeleteYn=='Y'}">
+											<a class="btn btn-default btn-sm modifyBtn" data-attr="0" style="display:none">수정</a>
+											<a class="btn btn-default btn-sm deleteBtn" style="display:none">삭제</a>
+										</th:block>
+										<th:block th:if="${c.cmtDeleteYn=='N'}">
+											<a class="btn btn-default btn-sm modifyBtn" data-attr="0">수정</a>
+											<a class="btn btn-default btn-sm deleteBtn">삭제</a>
+										</th:block>
+									</td>
+									
+									<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
 							</tr>
 							<tr>
 								<td colspan="4">
@@ -69,12 +74,34 @@
 							<tr id="noComment"><td colspan="5">등록된 댓글이 없습니다.</td></tr>
 						</th:block>
 					</tbody>
+					<tfoot>
+						<tr>
+							<td colspan="4">
+								<nav th:fragment="pagination" th:if="${commentDTO != null and commentDTO.pagination?.totalRecordCount > 0}" th:object="${commentDTO.pagination}" th:with="info=${commentDTO.pagination}" aria-label="Page navigation" class="text-center">
+									<ul class="pagination">
+										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(1)} ]])">
+											<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&laquo;</span></a>
+										</li>
+										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.firstPage - 1)} ]])">
+											<a href="javascript:void(0)" aria-label="Previous"><span aria-hidden="true">&lsaquo;</span></a>
+										</li>
+										<li th:each="pageNo : *{#numbers.sequence( firstPage, lastPage )}" th:class="${pageNo == commentDTO.currentPageNo} ? 'active'">
+											<a href="javascript:void(0)" th:text="${pageNo}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(pageNo)} ]])"></a>
+										</li>
+										<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.lastPage + 1)} ]])">
+											<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&rsaquo;</span></a>
+										</li>
+										<li th:if="*{hasNextPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(info.totalPageCount)} ]])">
+											<a href="javascript:void(0)" aria-label="Next"><span aria-hidden="true">&raquo;</span></a>
+										</li>
+									</ul>
+								</nav>
+							
+							</td>
+						</tr>
+					</tfoot>
 				</table>
-				<div>
-					<th:block layout:fragment="paging">
-                  			<nav th:replace="fragments/commentPagination :: pagination"></nav>
-                  	</th:block>
-				</div>
+				
 				<hr>
 				<div class="form-group" style="float:center; margin-top:10px;">
 					<div class="col-xs-10 col-xs-offset-1">
@@ -86,7 +113,7 @@
 				</div>
 			</div>
 		</div>
-
+</div>
 	
 	<script th:inline="javascript">
 			$(document).ready(function(){
@@ -107,6 +134,8 @@
 				
 				$('.deleteBtn').click(function(){
 					var i = $('.deleteBtn').index(this);
+					console.log($('.cmtIdx').eq(i).text());
+					console.log($('.cmtComment').eq(i).text());
 					$.ajax({
 						url : '/ajax/deleteCmt',
 						type: 'post',
@@ -204,7 +233,6 @@
 					//대댓글수정
 					$('.modifyBtn').click(function(){
 						
-						
 						var i = $('.modifyBtn').index($(this));
 					
 						var comment = $('.cmtComment').eq(i).text();
@@ -224,7 +252,6 @@
 									$('.modifyBtn').text('수정');
 									
 									location.reload();
-									
 								}
 							})
 						}
@@ -234,8 +261,6 @@
 				});
 	});	
 	
-	
-			
 			
 		</script>
 </body>

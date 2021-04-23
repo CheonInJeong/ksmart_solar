@@ -80,10 +80,10 @@ public class CommentDTO extends CommonDTO{
 	public void setCmtGroupCode(int cmtGroupCode) {
 		this.cmtGroupCode = cmtGroupCode;
 	}
-	public int getcmtOrder() {
+	public int getCmtOrder() {
 		return cmtOrder;
 	}
-	public void setcmtOrder(int cmtOrder) {
+	public void setCmtOrder(int cmtOrder) {
 		this.cmtOrder = cmtOrder;
 	}
 	@Override
@@ -116,7 +116,7 @@ public class CommentDTO extends CommonDTO{
 		builder.append("]");
 		return builder.toString();
 	}
-	
+
 	
 	
 	
