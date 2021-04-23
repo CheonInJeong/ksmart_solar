@@ -44,7 +44,7 @@
                 <div class="form-group">
                   <div class="col-lg-offset-2 col-lg-10">
                   	<a class="btn btn-primary" th:href="@{/help/qna}">목록</a>	
-                  	<a class="btn btn-success" th:if="${session.SLEVEL == '관리자'}" th:href="@{/help/addReQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">답글</a>
+                  	<a class="btn btn-success" th:if="${session.SLEVELNUM==1}" th:href="@{/help/addReQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">답글</a>
                   	<a class="btn btn-info" th:if="${session.SID == boardQnaDTO.mId}" th:href="@{/help/modifyQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">수정</a>
                   	<a class="btn btn-danger" th:if="${session.SID == boardQnaDTO.mId}" th:href="@{/help/removeQna(bQnaIdx=${boardQnaDTO.bQnaIdx})}">삭제</a>
                   </div>

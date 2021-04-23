@@ -102,10 +102,15 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
+			//메뉴탭
 			var member = $('#member');
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(6).addClass('active');
+			
 		</script>
+		
+		
+		
 	</th:block>
 </html>
