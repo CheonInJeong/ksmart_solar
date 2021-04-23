@@ -91,14 +91,56 @@
 		FROM
 				(
 				SELECT
-					SUM(f.b_cancel)	AS 'cancelTotal'
+					SUM(bCancel)	AS 'cancelTotal'
 					, 0 AS 'successTotal'
-					,SUM(f.b_cancel)	AS 'commissionTotal'
-					,DATE_FORMAT(f.tr_fail_date,'%y년 %m월') AS 'ym'
-					,LAST_DAY(f.tr_fail_date) AS 'last'
+					,SUM(bCancel)	AS 'commissionTotal'
+					,DATE_FORMAT(trFailDate,'%y년 %m월') AS 'ym'
+					,LAST_DAY(trFailDate) AS 'last'
 				FROM
-					tb_trade_fail AS f
-				GROUP BY DATE_FORMAT(f.tr_fail_date,'%y%m')
+					(SELECT
+						a.tr_pr_code					AS relatedCode
+						,'낙찰'							AS trFailType
+						, a.m_id_buyer					AS mId
+						, if(a.b_type_code=1,'발전소','부품')				AS bType
+						, a.announced_code			AS announcedCode
+						, a.announced_title			AS announcedTitle
+						, a.tr_pr_price				AS trFailBasis
+						, a.s_deposit_rate			AS bCancelRate
+						, a.b_deposit					AS bCancel
+						, a.tr_pr_date_up				AS trFailDate
+						, b.m_account_bank_name		AS bankName
+						, b.m_account_number			AS accountNumber
+						, b.m_payment_name			AS paymentName
+					FROM
+						tb_trade_priority AS a
+						INNER JOIN 
+						tb_bid_list AS b
+						ON 
+						a.b_code = b.b_code
+					WHERE a.tr_type_code = 8
+					UNION ALL
+					SELECT
+						a.tr_payin_code				AS relatedCode
+						, '대금'							AS trFailType
+						, a.m_id_buyer					AS mId
+						, if(b.b_type_code=1,'발전소','부품')				AS bType
+						, a.announced_code			AS announcedCode
+						, b.b_title						AS announcedTitle
+						, a.b_price						AS trFailBasis
+						, b.s_dep_rate					AS bCancelRate
+						, b.b_deposit					AS bCancel
+						, b.b_date_up					AS trFailDate
+						, b.m_account_bank_name		AS bankName
+						, b.m_account_number			AS accountNumber
+						, b.m_payment_name			AS paymentName
+					FROM
+						tb_trade_payment_in AS a
+						INNER JOIN 
+						tb_bid_list AS b
+						ON 
+						a.b_code = b.b_code
+					WHERE a.tr_payin_status = '미납') AS r1
+				GROUP BY DATE_FORMAT(trFailDate,'%y%m')
 				UNION
 				SELECT
 					0 AS 'cancelTotal'
@@ -136,14 +178,56 @@
 			FROM
 					(
 					SELECT
-						SUM(f.b_cancel)	AS 'cancelTotal'
+						SUM(bCancel)	AS 'cancelTotal'
 						, 0 AS 'successTotal'
-						,SUM(f.b_cancel)	AS 'commissionTotal'
-						,DATE_FORMAT(f.tr_fail_date,'%y년 %m월') AS 'ym'
-						,LAST_DAY(f.tr_fail_date) AS 'last'
+						,SUM(bCancel)	AS 'commissionTotal'
+						,DATE_FORMAT(trFailDate,'%y년 %m월') AS 'ym'
+						,LAST_DAY(trFailDate) AS 'last'
 					FROM
-						tb_trade_fail AS f
-					GROUP BY DATE_FORMAT(f.tr_fail_date,'%y%m')
+						(SELECT
+							a.tr_pr_code					AS relatedCode
+							,'낙찰'							AS trFailType
+							, a.m_id_buyer					AS mId
+							, if(a.b_type_code=1,'발전소','부품')				AS bType
+							, a.announced_code			AS announcedCode
+							, a.announced_title			AS announcedTitle
+							, a.tr_pr_price				AS trFailBasis
+							, a.s_deposit_rate			AS bCancelRate
+							, a.b_deposit					AS bCancel
+							, a.tr_pr_date_up				AS trFailDate
+							, b.m_account_bank_name		AS bankName
+							, b.m_account_number			AS accountNumber
+							, b.m_payment_name			AS paymentName
+						FROM
+							tb_trade_priority AS a
+							INNER JOIN 
+							tb_bid_list AS b
+							ON 
+							a.b_code = b.b_code
+						WHERE a.tr_type_code = 8
+						UNION ALL
+						SELECT
+							a.tr_payin_code				AS relatedCode
+							, '대금'							AS trFailType
+							, a.m_id_buyer					AS mId
+							, if(b.b_type_code=1,'발전소','부품')				AS bType
+							, a.announced_code			AS announcedCode
+							, b.b_title						AS announcedTitle
+							, a.b_price						AS trFailBasis
+							, b.s_dep_rate					AS bCancelRate
+							, b.b_deposit					AS bCancel
+							, b.b_date_up					AS trFailDate
+							, b.m_account_bank_name		AS bankName
+							, b.m_account_number			AS accountNumber
+							, b.m_payment_name			AS paymentName
+						FROM
+							tb_trade_payment_in AS a
+							INNER JOIN 
+							tb_bid_list AS b
+							ON 
+							a.b_code = b.b_code
+						WHERE a.tr_payin_status = '미납') AS r1
+					GROUP BY DATE_FORMAT(trFailDate,'%y%m')
 					UNION
 					SELECT
 						0 AS 'cancelTotal'
@@ -172,21 +256,65 @@
 			id 				AS id
 			, money			AS money
 			, inputDate		AS inputDate
-			, if(SUBSTR(Code,1,INSTR(Code,'_')-1)='tr','취소','대금') AS type
+			, Type AS type
 		FROM 
 			(SELECT
-				a.m_id				AS id
-				, a.b_cancel		AS money
-				, a.tr_fail_date	AS inputDate
-				, a.tr_fail_code	AS Code
+				a.mId				AS id
+				, a.bCancel		AS money
+				, a.trFailDate	AS inputDate
+				, '취소'	AS Type
 			FROM
-				tb_trade_fail AS a
+				(
+				SELECT
+					a.tr_pr_code					AS relatedCode
+					,'낙찰'							AS trFailType
+					, a.m_id_buyer					AS mId
+					, if(a.b_type_code=1,'발전소','부품')				AS bType
+					, a.announced_code			AS announcedCode
+					, a.announced_title			AS announcedTitle
+					, a.tr_pr_price				AS trFailBasis
+					, a.s_deposit_rate			AS bCancelRate
+					, a.b_deposit					AS bCancel
+					, a.tr_pr_date_up				AS trFailDate
+					, b.m_account_bank_name		AS bankName
+					, b.m_account_number			AS accountNumber
+					, b.m_payment_name			AS paymentName
+				FROM
+					tb_trade_priority AS a
+					INNER JOIN 
+					tb_bid_list AS b
+					ON 
+					a.b_code = b.b_code
+				WHERE a.tr_type_code = 8
+				UNION ALL
+				SELECT
+					a.tr_payin_code				AS relatedCode
+					, '대금'							AS trFailType
+					, a.m_id_buyer					AS mId
+					, if(b.b_type_code=1,'발전소','부품')				AS bType
+					, a.announced_code			AS announcedCode
+					, b.b_title						AS announcedTitle
+					, a.b_price						AS trFailBasis
+					, b.s_dep_rate					AS bCancelRate
+					, b.b_deposit					AS bCancel
+					, b.b_date_up					AS trFailDate
+					, b.m_account_bank_name		AS bankName
+					, b.m_account_number			AS accountNumber
+					, b.m_payment_name			AS paymentName
+				FROM
+					tb_trade_payment_in AS a
+					INNER JOIN 
+					tb_bid_list AS b
+					ON 
+					a.b_code = b.b_code
+				WHERE a.tr_payin_status = '미납'
+				) AS a
 			UNION ALL 
 			SELECT 
 				b.m_id		AS id
 				, b.c_trade_cm		AS money
 				, c.b_mo_date		AS inputDate
-				, b.tr_payout_code AS Code
+				, '대금'				AS Type
 			FROM
 				tb_trade_payment_out AS b
 				LEFT JOIN 
