@@ -333,6 +333,8 @@ public class MemberManageController {
 		model.addAttribute("searchValueRM", searchValueRM);
 		model.addAttribute("searchValueRMS", searchValueRMS);
 		model.addAttribute("searchValueRMF", searchValueRMF);
+		model.addAttribute("count1", count1);
+		model.addAttribute("count2", count2);
 		model.addAttribute("page1", page1);
 		model.addAttribute("page2", page2);
 		model.addAttribute("uri", uri);

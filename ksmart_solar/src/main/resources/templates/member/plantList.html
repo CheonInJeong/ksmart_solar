@@ -38,7 +38,18 @@
 	            		<option value="bzPlHardware">하드웨어 보유</option>
 	            		<option value="bzPlCheck">인증</option>
 	            	</select>
-	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input id="sv1" type="text" placeholder="검색어" value="">
+	            	<select id="sv2" style="display: none;">
+	            		<option value="">::선택::</option>
+	            		<option value="Y">보유</option>
+	            		<option value="N">미보유</option>
+	            	</select>
+	            	<select id="sv3" style="display: none;">
+	            		<option value="">::선택::</option>
+	            		<option value="Y">승인</option>
+	            		<option value="F">반려</option>
+	            		<option value="N">미확인</option>
+	            	</select>
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
             	</div>
@@ -128,6 +139,29 @@
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(4).addClass('active');
+			
+			var searchKey = $('[name="searchKey"]')
+			searchKey.click(function(){
+				$('#sv1').removeAttr('name');
+				$('#sv2').removeAttr('name');
+				$('#sv3').removeAttr('name');
+				if(searchKey.val() == "bzPlHardware"){
+					$('#sv2').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+					$('#sv3').css('display','none');
+				}else if(searchKey.val() == "bzPlCheck"){
+					$('#sv3').attr('name','searchValue');
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+					$('#sv2').css('display','none');
+				}else{
+					$('#sv1').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv2').css('display','none');
+					$('#sv3').css('display','none');
+				}
+			});
 		</script>
 	</th:block>
 </html>
