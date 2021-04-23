@@ -63,6 +63,44 @@ public class SellController {
 		
 	}
 	
+	//댓글 ajax 삭제
+	@RequestMapping(value="/ajax/deleteCmt", method=RequestMethod.POST)
+	public @ResponseBody String deleteCmt(@RequestParam(value="idx") int idx,
+										  @RequestParam(value="bIdx") int bIdx) {
+		boardSellerService.removeCmt(idx);
+		return "성공";
+		
+	}
+	
+	
+	//댓글창 띄우기
+	@GetMapping("/sell/commentOnly")
+	public String commentOnly(@RequestParam(value="bIdx") int bIdx,
+							  Model model,
+							  HttpSession session,
+								@RequestParam(value = "currentPageNo", required = false) 		String currentPageNo,
+								@RequestParam(value = "recordsPerPage", required = false) 		String recordsPerPage,
+								@RequestParam(value = "pageSize", required = false) 			String pageSize,
+								@RequestParam(value = "state", required = false) String state) {
+		
+		CommentDTO commentDTO = new CommentDTO();
+		commentDTO.setState(1);
+		if(savePaging==null||state==null) {
+			savePaging = new SavePaging(1,session);
+			savePaging.setPaging(1,1,10,5);
+		}
+		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
+			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
+		}
+		savePaging.getPaging(commentDTO);
+		
+		model.addAttribute("comments", boardSellerService.getCommentList(bIdx, commentDTO));
+		model.addAttribute("commentDTO",commentDTO);
+		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(bIdx));
+		return "sell/commentOnly";
+				
+	}
+	
 	//댓글수 가져오기
 	@RequestMapping(value="/ajax/getCmtCount",method=RequestMethod.POST)
 	public @ResponseBody int getCmtCount(@RequestParam(value="bIdx") int bIdx) {
@@ -143,7 +181,7 @@ public class SellController {
 		commentDTO.setState(1);
 		if(savePaging==null||state==null) {
 			savePaging = new SavePaging(1,session);
-			savePaging.setPaging(1,1,10,5);
+			savePaging.setPaging(1,1,5,5);
 		}
 		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
 			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
@@ -643,8 +681,6 @@ public class SellController {
 		if(searchValue != null && searchValue.equals("null")) {
 			searchValue = null;
 		}
-		
-		
 		model.addAttribute("qnaList",boardSellerService.getQnaListById("sell",(String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
 		model.addAttribute("boardSellerDTO",boardSellerDTO);
 		model.addAttribute("searchKey",searchKey);
