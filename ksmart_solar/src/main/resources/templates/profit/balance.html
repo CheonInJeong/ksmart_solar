@@ -38,12 +38,20 @@
 	            		<option value="">카테고리</option>
 	            		<option value="mId">거래회원</option>
 	            		<option value="bMoType">입출금</option>
+	            		<option value="bMoDetail">상세목적</option>
 	            	</select>
 	            	<input id="sv1" type="text" placeholder="검색어" value="">
 	            	<select id="sv2" style="display: none;">
 	            		<option value="">::선택::</option>
 	            		<option value="입금">입금</option>
 	            		<option value="출금">출금</option>
+	            	</select>
+	            	<select id="sv3" style="display: none;">
+	            		<option value="">::선택::</option>
+	            		<option value="예치금입금">예치금입금</option>
+	            		<option value="예치금환불">예치금환불</option>
+	            		<option value="대금입금">대금입금</option>
+	            		<option value="대금출금">대금출금</option>
 	            	</select>
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
@@ -111,14 +119,22 @@
 			searchKey.click(function(){
 				$('#sv1').removeAttr('name');
 				$('#sv2').removeAttr('name');
+				$('#sv3').removeAttr('name');
 				if(searchKey.val() == "bMoType"){
 					$('#sv2').attr("name","searchValue");
 					$('[name="searchValue"]').css('display','inline-block');
 					$('#sv1').css('display','none');
+					$('#sv3').css('display','none');
+				}else if(searchKey.val() == "bMoDetail"){
+					$('#sv3').attr('name','searchValue');
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+					$('#sv2').css('display','none');
 				}else{
 					$('#sv1').attr("name","searchValue");
 					$('[name="searchValue"]').css('display','inline-block');
 					$('#sv2').css('display','none');
+					$('#sv3').css('display','none');
 				}
 			});
 		</script>
