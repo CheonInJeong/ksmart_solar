@@ -181,12 +181,14 @@ public class SellController {
 		commentDTO.setState(1);
 		if(savePaging==null||state==null) {
 			savePaging = new SavePaging(1,session);
-			savePaging.setPaging(1,1,5,5);
+			savePaging.setPaging(1,1,50,5);
 		}
 		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
 			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
 		}
 		savePaging.getPaging(commentDTO);
+		
+		System.out.println(boardSellerService.getCommentList(idx,commentDTO)+"<-------------------댓글컨트롤러");
 		
 		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
 		model.addAttribute("comments",boardSellerService.getCommentList(idx,commentDTO));

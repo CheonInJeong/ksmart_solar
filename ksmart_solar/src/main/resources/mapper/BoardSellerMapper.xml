@@ -218,7 +218,7 @@
 				tb_comment
 			WHERE 
 				b_idx=#{bIdx}
-				
+			 
 			order by
 				cmt_reg_date asc
 			<!-- LIMIT
