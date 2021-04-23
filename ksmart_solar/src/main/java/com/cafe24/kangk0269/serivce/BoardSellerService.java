@@ -3,7 +3,9 @@ package com.cafe24.kangk0269.serivce;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,9 +31,10 @@ public class BoardSellerService {
 		return boardSellerMapper.getCmtCount(idx);
 	}
 	
-	
-	//아이디로 문의글 가져오기 by 천인정
-	public List<BoardSellerDTO> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+	//수정중
+	//아이디로 문의글 가져오기 by 천인정 
+	@SuppressWarnings("null")
+	public List<Map<String, Object>> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
 	
 		if(searchKey!=null) {
 			if("bSubject".equals(searchKey)) {
@@ -60,11 +63,37 @@ public class BoardSellerService {
 		pagination.setTotalRecordCount(boardSellerCount);
 		boardSellerDTO.setPagination(pagination);
 		
+		Map<String, Object> map =null;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
 		if(boardSellerCount>0) {
 			boardSellerList = boardSellerMapper.getQnaListById(state,id, searchKey, searchValue, boardSellerDTO);
+			System.out.println(boardSellerList+"<--------------boardSellerList");
+			System.out.println(boardSellerList.size()+"<--------------boardSellerList size");
+			//////////////////수정
+	
+			for(int i = 0 ; i<boardSellerList.size(); i++) {
+				BoardSellerDTO boardDto = boardSellerList.get(i);
+				int bIdx = boardDto.getbIdx();
+				int cmtCount = boardSellerMapper.getCmtCount(bIdx);
+				
+				if(boardSellerList!=null) {
+					 map = new HashMap<>();
+					 map.put("bIdx", bIdx);
+					 map.put("cmtCount", cmtCount);
+					 map.put("bSubject", boardDto.getbSubject());
+					 map.put("announcedCode",boardDto.getAnnouncedCode());
+					 map.put("bBidType", boardDto.getbBidType());
+					 map.put("mIdBuyer", boardDto.getmIdBuyer());
+					 map.put("bRegDate", boardDto.getbRegDate());
+					 map.put("bView", boardDto.getbView());
+					 map.put("bidListDTO", boardDto.getBidListDTO());
+				}
+				
+				list.add(map);
+			}
 		}
 		
-		return boardSellerList;
+		return list;
 	}
 	
 	//댓글 수정 by 천인정
@@ -146,17 +175,33 @@ public class BoardSellerService {
 				}
 				
 				int startPage = commentDto.getPagination().getFirstRecordIndex();
+				System.out.println(startPage +"<----startPage");
 				int cmtAllListSize = commentAllList.size();
+				System.out.println(commentAllList.size()+"<------allListSize");
+				
+				//페이지2번부터
 				if(startPage > 0) {
 					//start 제외하고 예) subList(0,10)이면 0에서 9까지를 지움
 					commentAllList.subList(0, startPage).clear();
 					
-					if(startPage > (cmtAllListSize-10)) commentAllList.subList(startPage, cmtAllListSize).clear();
 					
+					if(startPage > (cmtAllListSize-10)) {
+						String x = Integer.toString(cmtAllListSize);
+						String a = x.substring(0, x.length()-1);
+						int y = Integer.parseInt(a);
+						
+						for(int i =0 ; i<=y; i++ ) {
+							commentAllList.subList(y*10, cmtAllListSize).clear();
+							return commentAllList;
+						}
+						
+					};
+					
+				//페이지1번	
 				}else {
 					if(cmtAllListSize>10) {
 						
-						commentAllList.subList(10,cmtAllListSize).clear();
+						commentAllList.subList(5,cmtAllListSize).clear();
 					}
 				
 				}
