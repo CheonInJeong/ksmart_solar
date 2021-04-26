@@ -31,10 +31,46 @@ public class BoardSellerService {
 		return boardSellerMapper.getCmtCount(idx);
 	}
 	
+	//아이디로 문의글 가져오기 by 천인정
+	public List<BoardSellerDTO> getQnaListGetById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+		
+		if(searchKey!=null) {
+			if("bSubject".equals(searchKey)) {
+				searchKey = "b_subject";
+			}else if("mIdBuyer".equals(searchKey)){
+				searchKey ="m_id_buyer";
+			}else if("bBidType".equals(searchKey)){
+				searchKey ="b_bid_type";
+			}else if("mIdSeller".equals(searchKey)){
+				searchKey ="m_id_seller";
+			}
+		}
+		if(searchValue!=null) {
+			if("발전소".equals(searchValue)) {
+				searchValue="1";
+				
+			}else if("부품".equals(searchValue)) {
+				searchValue="2";
+			}
+		}
+		
+		
+		List<BoardSellerDTO> boardSellerList = null;
+		int boardSellerCount = boardSellerMapper.getQnaListCount(state,id, searchKey, searchValue, boardSellerDTO);
+		Pagination pagination = new Pagination(boardSellerDTO);
+		pagination.setTotalRecordCount(boardSellerCount);
+		boardSellerDTO.setPagination(pagination);
+		
+		if(boardSellerCount>0) {
+			boardSellerList = boardSellerMapper.getQnaListById(state,id, searchKey, searchValue, boardSellerDTO);
+		}
+		
+		return boardSellerList;
+	}
+
 	//수정중
 	//아이디로 문의글 가져오기 by 천인정 
 	public List<Map<String, Object>> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
-	
 		if(searchKey!=null) {
 			if("bSubject".equals(searchKey)) {
 				searchKey = "b_subject";
