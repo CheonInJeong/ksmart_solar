@@ -25,14 +25,13 @@
 					
 					<div class="form-group">
 	                  	<label class="col-sm-2 control-label">프로필 사진</label>
+	                  		<form>
+		               			<input type="file" id="inputFile"/>
+		               		</form>
 		                  <div class="col-md-1">
-		          	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></p>
+		                  	<div th:if="${session.SID ne null and session.SPHOTO ne ''}" class="selectImg"><img class="img-circle" th:src="${memberDTO.mPhoto}" width="80" src=""  /></div>
 		        			<p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="40"></p>
 		                  </div>						
-		                <form>  
-		                <input type="file" id="inputFile" name="img" accept="image/*"/>
- 						<div class="selectImg"><img id="uploadImg" class="img-circle" src=""  /></div>
- 						</form>
 					</div>
 					<div class="form-group">
 					  <input type="text" readonly="readonly" hidden="hidden" id="memberCodeCheckValue" value="">
@@ -118,8 +117,7 @@
 				var memberName = $('#memberName');
 				var memberPhone = $('#memberPhone');
 				var memberPhoneSum = ($(memberPhone[0]).val() + '-' +  $(memberPhone[1]).val() + '-' + $(memberPhone[2]).val());
-				var fileURL = '';
-				var fileDeleteURL = '';
+
 				
 				if(memberName.val() == null || memberName.val() == "" || memberName.val() == 'undefined'){
 					Swal.fire({
@@ -156,7 +154,9 @@
 						})
 					detailAddress.focus();
 					return;
-				}					
+				}	
+				
+				
 				////////////////////////이메일 유효성검사//////////////////////////
 				 var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 				 if(regex.test(memberEmail.val()) === false){
@@ -165,79 +165,72 @@
 						  text: '이메일을 다시 입력 해주세요.',
 						  icon: 'error'
 						});
-					 $('#e_mail').focus();
+					 memberEmail.focus();
 					 return false;
 				 }
+				
 
 				
-					///////////////////////////////////////////////////////////////////////
-					///////////////////////////파일 업로드 ImgBB///////////////////////////////
-					///////////////////////////////////////////////////////////////////////
-					var file = document.getElementById('inputFile');
-					var form = new FormData();
-					form.append("image", file.files[0])
-					var settings = {
-					  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
-					  "method": "POST",
-					  "timeout": 0,
-					  "processData": false,
-					  "mimeType": "multipart/form-data",
-					  "contentType": false,
-					  "data": form
-					};
+				//파일 업로드 ImgBB
+				var file = document.getElementById('inputFile');
+				var form = new FormData();
+				var fileURL = '';
+				form.append("image", file.files[0])
+				
+				var settings = {
+				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+				  "method": "POST",
+				  "timeout": 0,
+				  "processData": false,
+				  "mimeType": "multipart/form-data",
+				  "contentType": false,
+				  "data": form
+				};
 					
 					
-					$.ajax(settings).done(function (response) {
-					  var jx = JSON.parse(response);
-					  var fileURL = jx.data.url;
-					  var fileDeleteURL = jx.data.delete_url;
-					  console.log(fileURL + " <<< fileURL");
-					  console.log(fileDeleteURL + " <<< fileDeleteURL");
-					});
-					
-					///////////////////////////////////////////////////////////////////////
-					///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				//////////////////ajax를 통해 회원수정 데이터 전송//////////////////////
-				$.ajax({
-			        url     : '/ajax/modifyMyInfo',
-			        type    : 'POST',
-			        data    :   {memberId:memberId.val()
-			        			,memberName:memberName.val()
-			        			,memberPhone:memberPhone.val()
-			        			,memberEmail:memberEmail.val()
-			        			,postcode:postcode.val()
-			        			,roadAddress:roadAddress.val()
-			        			,detailAddress:detailAddress.val()
-			        			,inputFile:fileURL},
-			        success : function(data) {
-			        	if(data){
-			        		Swal.fire({
-								  title: '회원수정이 완료되었습니다!',
-								  icon: 'success'
-								});
-			        		setTimeout(function(){
-				        		document.location.href = '/mypage/myInfo';
-			        		}, 2000);
-			        	}else{
-			        		Swal.fire({
-								  title: '회원수정을 실패했습니다!',
-								  icon: 'error'
-								});
-			        		setTimeout(function(){
-				        		document.location.href = '/mypage/myInfo';
-			        		}, 2000);
-			        	}
-			        },
-			        error : function(xhr,status,error) {
-			        	console.log("xhr: " + xhr);
-			        	console.log("status: " + status);
-			        	console.log("error: " + error);
-			        }
-			    });
+				$.ajax(settings).done(function (response) {
+					console.log(response);
+					var jx = JSON.parse(response);
+					fileURL = jx.data.url;	
+					fileDeleteURL = jx.data.delete_url;
+					$.ajax({
+				        url     : '/ajax/modifyMyInfo',
+				        type    : 'POST',
+				        data    :   {memberId:memberId.val()
+				        			,memberName:memberName.val()
+				        			,memberPhone:memberPhone.val()
+				        			,memberEmail:memberEmail.val()
+				        			,postcode:postcode.val()
+				        			,roadAddress:roadAddress.val()
+				        			,detailAddress:detailAddress.val()
+				        			,inputFile:fileURL},
+				        success : function(data) {
+				        	if(data){
+				        		Swal.fire({
+									  title: '회원수정이 완료되었습니다!',
+									  icon: 'success'
+									});
+				        		setTimeout(function(){
+					        		document.location.href = '/mypage/myInfo';
+				        		}, 800);
+				        	}else{
+				        		Swal.fire({
+									  title: '회원수정을 실패했습니다!',
+									  icon: 'error'
+									});
+				        		setTimeout(function(){
+					        		document.location.href = '/mypage/myInfo';
+				        		}, 800);
+				        	}
+				        },
+				        error : function(xhr,status,error) {
+				        	console.log("xhr: " + xhr);
+				        	console.log("status: " + status);
+				        	console.log("error: " + error);
+				        }
+				    });
+				});
 			}
-			
-			
 			
 			//우편번호 api
 			function execDaumPostcode() {

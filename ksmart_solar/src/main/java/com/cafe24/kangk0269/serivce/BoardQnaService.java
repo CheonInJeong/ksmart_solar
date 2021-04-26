@@ -30,6 +30,18 @@ public class BoardQnaService {
 	
 	
 	
+	//조회 문의리스트 수
+	public int getQnaCnt(String searchKey,String searchValue) {
+		if(searchKey != null) {
+			if("bQnaSubject".equals(searchKey)) {
+				searchKey = "b_qna_subject";
+			}else if("mId".equals(searchKey)) {
+				searchKey = "m_id";
+			}
+		}		
+		return boardQnaMapper.getQnaCnt(searchKey, searchValue);
+	}	
+	
 	//임서저장 글 불러오기
 	public BoardQnaDTO getLoadQna(int bQnaIdx) {
 		return boardQnaMapper.getLoadQna(bQnaIdx);
@@ -92,7 +104,7 @@ public class BoardQnaService {
 	}
 	
 	//문의 조회
-	public List<BoardQnaDTO> getQnaList(String searchKey, String searchValue){
+	public List<BoardQnaDTO> getQnaList(int start,int end, String searchKey, String searchValue){
 		
 		if(searchKey != null) {
 			if("bQnaSubject".equals(searchKey)) {
@@ -101,7 +113,7 @@ public class BoardQnaService {
 				searchKey = "m_id";
 			}
 		}
-		List<BoardQnaDTO> boardQnaDTOList = boardQnaMapper.getQnaList(searchKey, searchValue);
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaMapper.getQnaList(start, end, searchKey, searchValue);
 		return boardQnaDTOList;
 		
 	}

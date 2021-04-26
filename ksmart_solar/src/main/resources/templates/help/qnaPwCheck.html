@@ -1,10 +1,43 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta charset="UTF-8">
-<title>Insert title here</title>
-</head>
-<body>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 
+<head th:replace="fragments/head :: headFragment"></head>
+	<th:block layout:fragment="customTitle">
+		<title>비밀번호 확인</title>
+	</th:block>
+<body>
+	<h4 class="text-center">비밀번호 확인</h4>
+	<form>
+		<div class="form-group">
+			<input type="hidden" id="bQnaPassword" th:value="${bQnaPassword}"/>
+			<input type="hidden" id="bQnaIdx" th:value="${bQnaIdx}"/>
+			<input type="text" id="inPw"/>
+		</div>
+		<div class="form-group text-center">
+			<button type="button" class="btn btn-info" onclick="pwCheck()">확인</button>
+		</div>
+	</form>
+	
+	
+	<script type="text/javascript">
+		var bQnaPassword = $('#bQnaPassword');
+		var bQnaIdx = $('#bQnaIdx');
+		var inPw = $('#inPw');
+		
+		function pwCheck(){
+			if(inPw.val() == bQnaPassword.val()){
+				location.href = "/help/getQna?bQnaIdx=" + bQnaIdx.val();
+			}else{
+				alert('비밀번호가 다릅니다');
+				window.close();
+			}
+		};
+		
+	</script>
+	
+				
+	
+</body>	
 </body>
 </html>

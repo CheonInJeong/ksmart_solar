@@ -231,6 +231,8 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			COUNT(*)
 		FROM 
 			tb_bid_plant
+		WHERE
+			ac_status_code IN (1,2,3)
 		<trim prefix="WHERE" prefixOverrides="AND |OR ">
 			<if test="searchKey != null and searchKey != ''.toString()">
 				${searchKey} LIKE CONCAT('%',#{searchValue},'%')

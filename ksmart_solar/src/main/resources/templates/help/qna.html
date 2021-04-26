@@ -37,6 +37,7 @@
 				<div style="text-align : right; margin-bottom: 10px;">
 	              <form th:action="@{/help/qna}" method="get">
 	            	<select name="searchKey">
+	            		<option value="">선택</option>
 	            		<option value="bQnaSubject">문의제목</option>
 	            		<option value="mId">작성자</option>
 	            	</select>
@@ -61,12 +62,12 @@
 								<th:block th:if="${l.bQnaOpen == 'N'}">
 									<td data-title="문의제목" style="text-align: left; padding-left: 20px;">
 										<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}>[[${l.bQnaSubject}]]</a>
-										<input hidden="hidden" th:value="${l.bQnaPassword}">
 									</td>
 								</th:block>
 								<th:block th:if="${l.bQnaOpen == 'Y'}">
 									<td data-title="문의제목" style="text-align: left; padding-left: 20px;">
-										<a th:href=@{/help/getQna(bQnaIdx=${l.bQnaIdx})}><i class="glyphicon glyphicon-lock"></i>[[${l.bQnaSubject}]]</a>
+										<a onclick="qnaPwCheck()"><i class="glyphicon glyphicon-lock"></i>[[${l.bQnaSubject}]]</a>
+										<input id="bQnaIdx" type="hidden" name="bQnaIdx" th:value="${l.bQnaIdx}">
 									</td>
 								</th:block>
 								<td data-title="작성자" th:text="${l.mId}"></td>
@@ -78,6 +79,7 @@
 							</tr>
 						</tbody>
 					</table>
+					<div th:include="help/page :: pageFragment"></div>
 				</section>
 			</div>
 		</div>
@@ -92,6 +94,16 @@
 		help.parent().find('.sub').css('display', 'block');
 		help.parent().find('.sub').children().eq(1).addClass('active');
 		
+		//비밀번호 체크
+		var bQnaIdx = $('#bQnaIdx');
+		function qnaPwCheck(){
+			console.log(bQnaIdx.val());
+			window.open(
+				"/help/qnaPwCheck?bQnaIdx=" + bQnaIdx.val(),
+				'비밀번호 확인',
+				'width=200, height=100, left=100, top=100, scrollbar=yes'
+			);	
+		}		
 		
 		
 	</script>

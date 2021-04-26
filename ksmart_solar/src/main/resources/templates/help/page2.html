@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.tyhmeleaf.org"
+	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	  layout:decorate="layout/default">
+	  
+	  <div th:fragment="pageFragment">
+	  <div class="text-center">
+		  <ul class="pagination">
+		    <li>
+		      <a th:if="${page.curBlock > 1}" th:href="@{${uri}(curPage=${page.prevPage},searchKey=${searchKey},searchValue=${searchValue})}" aria-label="Previous">
+		        <span aria-hidden="true">&laquo;</span>
+		      </a>
+		    </li>
+	    	<th:block th:each="num : ${#numbers.sequence(page.blockBegin, page.blockEnd)}">
+	   		<li th:if="${num == page.curPage}" class="active">
+	   			<a>[[${num}]]</a>
+	   		</li>
+	   		<li th:unless="${num == page.curPage}">
+	   		<th:block th:if="${num} != 0">
+	   			<a th:href="@{${uri}(curPage=${num},searchKey=${searchKey},searchValue=${searchValue})}">[[${num}]]</a>
+	   		</th:block>
+	   		</li>
+	  		</th:block>
+		    <li>
+		      <a th:if="${page.curBlock <= page.totBlock}" th:href="@{${uri}(curPage=${page.nextPage},searchKey=${searchKey},searchValue=${searchValue})}" aria-label="Next">
+		        <span aria-hidden="true">&raquo;</span>
+		      </a>
+		    </li>
+		  </ul>
+		</div>
+	  </div>
+	  
+</html>	  
