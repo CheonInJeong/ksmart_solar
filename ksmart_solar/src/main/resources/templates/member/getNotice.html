@@ -272,7 +272,7 @@
 	                  </tr>
 	                  <tr th:if="${bidComponentdto.acStatusCode == 3}">
 	                    <td>반려사유</td>
-	                    <td th:text="${bidComponentdto.bPlRejectReason}"></td>
+	                    <td th:text="${bidComponentdto.bCpRejectReason}"></td>
 	                    <td colspan="2"></td>
 	                  </tr>
 	                </tbody>
@@ -308,7 +308,6 @@
 			var bCpCode = $('#bCpCode');
 			
 			$('#admitBtn').click(function(){
-				console.log(bPlCode.val());
 				var result = confirm('승인하시겠습니까?');
 				if(result){
 					var request = $.ajax({
@@ -334,14 +333,16 @@
 			
 			//반려사유 작성
 			function returnBtn(){
-				if(bPlCode != null){
+				console.log(bPlCode.val());
+				console.log(bCpCode.val());
+				if(bPlCode.val() != null){
 				window.open(
 					"/member/noticeRejectReason?bPlCode=" + bPlCode.val(),
 					'반려사유 작성',
 					'width=400, height=400, left=100, top=100, scrollbar=yes'
 				);
 				
-				}else if(bCpCode != null){
+				}else if(bCpCode.val() != null){
 				window.open(
 					"/member/noticeRejectReason?bCpCode=" + bCpCode.val(),
 					'반려사유 작성',

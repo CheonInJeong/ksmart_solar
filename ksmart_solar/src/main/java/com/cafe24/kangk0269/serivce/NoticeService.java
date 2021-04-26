@@ -36,6 +36,17 @@ public class NoticeService {
 		System.out.println("=========================================================");
 	}
 	
+	//공지사항 리스트 수
+	public int getNoticeCnt(String searchKey,String searchValue) {
+		if(searchKey != null) {
+			if("notSubject".equals(searchKey)) {
+				searchKey = "not_subject";
+			}
+		}	
+		return noticeMapper.getNoticeCnt(searchKey, searchValue);
+	}		
+	
+	
 	//공지 조회수 증가
 	public int addNoticeViews(int noticeIdx) throws Exception {
 		return noticeMapper.addNoticeViews(noticeIdx);
@@ -89,8 +100,14 @@ public class NoticeService {
 	}
 	
 	//공지사항 조회
-	public List<NoticeDTO> getNoticeList(){
-		List<NoticeDTO> noticeDTOList = noticeMapper.getNoticeList();
+	public List<NoticeDTO> getNoticeList(int start,int end, String searchKey, String searchValue){
+		System.out.println(searchKey + "컨트롤러에서 searchKey");
+		if(searchKey != null) {
+			if("notSubject".equals(searchKey)) {
+				searchKey = "not_subject";
+			}
+		}
+		List<NoticeDTO> noticeDTOList = noticeMapper.getNoticeList(start, end, searchKey, searchValue);
 		return noticeDTOList;
 	}
 	
