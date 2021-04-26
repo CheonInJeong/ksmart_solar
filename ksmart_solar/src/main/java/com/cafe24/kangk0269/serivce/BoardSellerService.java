@@ -31,7 +31,7 @@ public class BoardSellerService {
 	
 	
 	//아이디로 문의글 가져오기 by 천인정
-	public List<BoardSellerDTO> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+	public List<BoardSellerDTO> getQnaListGetById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
 	
 		if(searchKey!=null) {
 			if("bSubject".equals(searchKey)) {
