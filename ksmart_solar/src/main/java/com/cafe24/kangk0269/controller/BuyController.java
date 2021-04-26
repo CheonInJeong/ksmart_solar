@@ -282,7 +282,7 @@ public class BuyController {
 		}
 		
 		
-		model.addAttribute("qnaList",boardSellerService.getQnaListById("buy",(String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
+		model.addAttribute("qnaList",boardSellerService.getQnaListGetById("buy",(String)session.getAttribute("SID"), searchKey, searchValue, boardSellerDTO));
 		model.addAttribute("boardSellerDTO",boardSellerDTO);
 		model.addAttribute("searchKey",searchKey);
 		model.addAttribute("searchValue",searchValue);
