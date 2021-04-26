@@ -4,9 +4,9 @@
 	  layout:decorate="layout/default">
 	<th:block layout:fragment="customCss">
 	  <link th:href="@{/lib/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
-	  <!-- Custom styles for this template -->
 	  <link th:href="@{/css/style.css}" rel="stylesheet">
 	  <link th:href="@{/css/style-responsive.css}" rel="stylesheet">
+	  
 	  
 	</th:block>
 	<th:block layout:fragment="customTitle">
@@ -47,7 +47,10 @@
 	                		<td>발전소사진</td>
 	                		<td colspan="5">
 	                			<div class="fileupload-new thumbnail" style="width: 200px; height: 150px;">
-		                        	<img th:src="${detail.businessPlantDTO.bzPlPhoto}" alt="발전소사진" style="width: 100%; height: 100%">
+	                				<a class="fancybox" th:href="${detail.businessPlantDTO.bzPlPhoto}" style="width: 200px; height: 150px;">
+		                        		<img  class="img-responsive" th:src="${detail.businessPlantDTO.bzPlPhoto}" alt="발전소사진" style="width: 100%; height: 100%">
+		                        	</a>
+		                        	<div class="overlay"></div>
 		                        </div>
 	                		</td>
 	                	</tr>
@@ -176,11 +179,13 @@
 		               			<td>거래상태</td>
 		               			<td th:text="${t.trTypeName}"></td>
 		               		</tr>
-		               		<tr>
+		               		<tr th:if="${t.trPrConclusionDate1 !=null and t.trPrConclusionDate2 !=null}">
 		               			<td>계약체결기간</td>
-		               			<td th:if="${t.trPrConclusionDate1 !=null and t.trPrConclusionDate2 !=null}" colspan="2" th:text="${t.trPrConclusionDate1+' ~ '+t.trPrConclusionDate1}"></td>
-		               			<td th:if="${t.trPrConclusionDate1 ==null and t.trPrConclusionDate2 ==null}" colspan="2">-</td>
-		               			<td></td>
+		               			<td  colspan="3" th:text="${t.trPrConclusionDate1+'　-　'+t.trPrConclusionDate1}"></td>
+		               		</tr>
+		               		<tr th:if="${t.tradePaymentInDTO.trPayinDate1!=null}">
+		               			<td>대금납부기간</td>
+		               			<td colspan="3" th:text="${t.tradePaymentInDTO.trPayinDate1+'　-　'+t.tradePaymentInDTO.trPayinDate2}"></td>
 		               		</tr>
 		               	 </tbody>
 	              	</table>
@@ -292,7 +297,10 @@
 				
 		 	})	 
 		 	
-		 	
+		 	 $(function() {
+		      //    fancybox
+		      jQuery(".fancybox").fancybox();
+		    });
 		 			
 		</script>
 		

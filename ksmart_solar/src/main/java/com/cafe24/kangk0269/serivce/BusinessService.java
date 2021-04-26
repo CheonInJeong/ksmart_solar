@@ -61,6 +61,8 @@ public class BusinessService {
 		if(searchKey != null && searchKey != "") {
 			if("mId".equals(searchKey)) {
 				searchKey = "m_id";
+			}else if("bzCode".equals(searchKey)) {
+				searchKey = "bz_code";
 			}else if("bzCompanyName".equals(searchKey)) {
 				searchKey = "bz_company_name";
 			}else if("bzCeoName".equals(searchKey)) {

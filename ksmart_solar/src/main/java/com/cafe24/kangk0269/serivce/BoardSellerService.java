@@ -3,7 +3,9 @@ package com.cafe24.kangk0269.serivce;
 
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -29,10 +31,9 @@ public class BoardSellerService {
 		return boardSellerMapper.getCmtCount(idx);
 	}
 	
-	
 	//아이디로 문의글 가져오기 by 천인정
 	public List<BoardSellerDTO> getQnaListGetById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
-	
+		
 		if(searchKey!=null) {
 			if("bSubject".equals(searchKey)) {
 				searchKey = "b_subject";
@@ -66,6 +67,70 @@ public class BoardSellerService {
 		
 		return boardSellerList;
 	}
+
+	//수정중
+	//아이디로 문의글 가져오기 by 천인정 
+	public List<Map<String, Object>> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
+		if(searchKey!=null) {
+			if("bSubject".equals(searchKey)) {
+				searchKey = "b_subject";
+			}else if("mIdBuyer".equals(searchKey)){
+				searchKey ="m_id_buyer";
+			}else if("bBidType".equals(searchKey)){
+				searchKey ="b_bid_type";
+			}else if("mIdSeller".equals(searchKey)){
+				searchKey ="m_id_seller";
+			}
+		}
+		if(searchValue!=null) {
+			if("발전소".equals(searchValue)) {
+				searchValue="1";
+				
+			}else if("부품".equals(searchValue)) {
+				searchValue="2";
+			}
+		}
+		
+		
+		List<BoardSellerDTO> boardSellerList = null;
+		int boardSellerCount = boardSellerMapper.getQnaListCount(state,id, searchKey, searchValue, boardSellerDTO);
+		Pagination pagination = new Pagination(boardSellerDTO);
+		pagination.setTotalRecordCount(boardSellerCount);
+		boardSellerDTO.setPagination(pagination);
+		
+		Map<String, Object> map =null;
+		List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
+		if(boardSellerCount>0) {
+			boardSellerList = boardSellerMapper.getQnaListById(state,id, searchKey, searchValue, boardSellerDTO);
+			System.out.println(boardSellerList+"<--------------boardSellerList");
+			System.out.println(boardSellerList.size()+"<--------------boardSellerList size");
+			//////////////////수정
+	
+			for(int i = 0 ; i<boardSellerList.size(); i++) {
+				BoardSellerDTO boardDto = boardSellerList.get(i);
+				int bIdx = boardDto.getbIdx();
+				int cmtCount = boardSellerMapper.getCmtCount(bIdx);
+				
+				if(boardSellerList!=null) {
+					 map = new HashMap<>();
+					 map.put("bIdx", bIdx);
+					 map.put("cmtCount", cmtCount);
+					 map.put("bSubject", boardDto.getbSubject());
+					 map.put("announcedCode",boardDto.getAnnouncedCode());
+					 map.put("bBidType", boardDto.getbBidType());
+					 map.put("mIdBuyer", boardDto.getmIdBuyer());
+					 map.put("bRegDate", boardDto.getbRegDate());
+					 map.put("bView", boardDto.getbView());
+					 map.put("bidListDTO", boardDto.getBidListDTO());
+				
+				}
+				
+				list.add(map);
+			}
+		}
+		
+		return list;
+	}
 	
 	//댓글 수정 by 천인정
 	public void modifyCmt(int cmtIdx,String comment) {
@@ -82,7 +147,7 @@ public class BoardSellerService {
 		CommentDTO commentDto = new CommentDTO();
 		commentDto.setbIdx(bIdx);
 		commentDto.setCmtClass(cmtClass);
-		commentDto.setcmtOrder(cmtOrder);
+		commentDto.setCmtOrder(cmtOrder);
 		commentDto.setCmtComment(comment);
 		commentDto.setTargetId(targetId);
 		commentDto.setmId(mId);
@@ -145,18 +210,26 @@ public class BoardSellerService {
 					}
 				}
 				
+				System.out.println(commentAllList+"<-------------------댓글");
+				
 				int startPage = commentDto.getPagination().getFirstRecordIndex();
+				System.out.println(startPage +"<----startPage");
 				int cmtAllListSize = commentAllList.size();
+				System.out.println(commentAllList.size()+"<------allListSize");
+				
+				//페이지2번부터
 				if(startPage > 0) {
 					//start 제외하고 예) subList(0,10)이면 0에서 9까지를 지움
 					commentAllList.subList(0, startPage).clear();
 					
 					if(startPage > (cmtAllListSize-10)) commentAllList.subList(startPage, cmtAllListSize).clear();
 					
+					
+				//페이지1번	
 				}else {
-					if(cmtAllListSize>10) {
+					if(cmtAllListSize>50) {
 						
-						commentAllList.subList(10,cmtAllListSize).clear();
+						commentAllList.subList(50,cmtAllListSize).clear();
 					}
 				
 				}

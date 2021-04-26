@@ -151,15 +151,29 @@ public class MyPageController {
 	}
 	
 	// 개인 프로필 수정처리
-	@PostMapping("/mypage/ModifyMyInfo")
-	public String modifyMyInfo(HttpServletResponse response, MemberDTO memberDTO) throws IOException {
-		System.out.println("====================================");
-		System.out.println("수정한 회원정보 내용->>" + memberDTO);
-		System.out.println("====================================");
-		
+	@RequestMapping(value = "/ajax/modifyMyInfo", method = RequestMethod.POST)
+	public @ResponseBody boolean modifyMyInfo(@RequestParam(value="memberId", required = false)		 			String mId
+												,@RequestParam(value="memberName", required = false)		 	String mName
+												,@RequestParam(value="memberPhone", required = false) 			String mPhone
+												,@RequestParam(value="memberEmail", required = false) 			String mEmail
+												,@RequestParam(value="postcode", required = false) 				String mZipcode
+												,@RequestParam(value="roadAddress", required = false) 			String mAddr
+												,@RequestParam(value="detailAddress", required = false) 		String mDetailAddr
+												,@RequestParam(value="inputFile", required = false) 			String mPhoto) {
+		System.out.println("수정처리 들어왔어요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
+		System.out.println(mPhoto + "<==mPhoto");
+		MemberDTO memberDTO = new MemberDTO();
+		memberDTO.setmId(mId);
+		memberDTO.setmName(mName);
+		memberDTO.setmPhone(mPhone);
+		memberDTO.setmEmail(mEmail);
+		memberDTO.setmZipcode(mZipcode);
+		memberDTO.setmAddr(mAddr);
+		memberDTO.setmDetailAddr(mDetailAddr);
+		memberDTO.setmPhoto(mPhoto);
 		memberService.modifyMyInfo(memberDTO);
-		ScriptUtils.alertAndMovePage(response, "프로필이 수정되었습니다" , "/mypage/myInfo");
-		return "redirect:/mypage/myInfo";
+		
+		return true;
 	}
 
 	// 개인 프로필 수정화면

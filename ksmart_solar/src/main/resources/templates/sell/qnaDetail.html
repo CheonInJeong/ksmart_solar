@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.tyhmeleaf.org"
 	  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -30,24 +31,29 @@
 					
 					<tbody>
 						<tr>
-							<td>글제목</td>         			
+							<td style="text-align:left">글제목</td>         			
 							<td style="text-align:left" colspan="5">
 								<span id="bSubject1" th:text="${qna.bSubject}"></span>
 								<input type="text" id="bSubject2" name="bSubject" th:value="${qna.bSubject}" style="display: none; width: 100%;">
 							</td>
 						</tr>
 						<tr>
-							<td>작성자</td>
-							<td style="text-align:left" th:text="${qna.mIdBuyer}"></td>
-							<td>작성시간</td>
-							<td style="text-align:left" th:text="${qna.bRegDate}"></td>
-							<td>조회수</td>
-							<td style="text-align:left" th:text="${qna.bView}"></td>
+							<td style="text-align:left">관련공고이름</td>
+							<td th:if="${qna.bBidType==1}"style="text-align:left"><a th:href="@{/sell/bidPlantDetail(bPlCode=${qna.announcedCode})}">[[${qna.bidListDTO.bTitle}]]</a></td>
+							<td th:if="${qna.bBidType==2}"style="text-align:left"><a th:href="@{/sell/getBidComponentDetail(bCpCode=${qna.announcedCode})}">[[${qna.bidListDTO.bTitle}]]</a></td>
+						</tr>
+						<tr>
+							<td style="text-align:left">작성자</td>
+							<td th:text="${qna.mIdBuyer}"></td>
+							<td style="text-align:left">작성시간</td>
+							<td th:text="${qna.bRegDate}"></td>
+							<td style="text-align:left">조회수</td>
+							<td th:text="${qna.bView}"></td>
+
 						</tr>
 						<tr>
 							<td style="text-align:left;padding-left:60px;" colspan="6">
-								<span id="bContents1" th:text="${qna.bContents}"></span>
-								<textarea id="bContents2" name="bContents" rows="10"  th:text="${qna.bContents}"  style="display: none; width: 100%;  resize:none;"></textarea>
+								<div style="min-height:50px; width:100%; padding-top:30px;" ><span id="bContents1" th:text="${qna.bContents}"></span></div>
 							</td>
 						<tr>
 						<tr th:if="${qna.bPhoto!=null and qna.bPhoto!=''}">
@@ -68,7 +74,7 @@
 				
 				
 				<div style="margin-top :40x;width:100%;">
-						<a class="btn btn-default pull-right" style="margin: 0 5px;" id="returnBtn">이전</a>
+						<a class="btn btn-default pull-right" style="margin: 0 5px;" id="returnBtn">목록</a>
 					<th:block th:if="${qna.mIdBuyer==session.SID}">
 						<form action="/sell/removeQna" method="post">
 							<button class="btn btn-default pull-right" type="submit" style="margin: 0 5px;" id="qnaremoveBtn">삭제</button>
@@ -79,30 +85,49 @@
 					</th:block>
 				</div>
 				<br>
+				
 				<div>
 					<h4><i class="fa fa-angle-right"></i>댓글</h4>
 				</div>
 				<table class="table table-striped" id="commentTable">
-					<tbody>
+					<tbody id="commentTbody">
+						<script th:inline="javascript">
+							var x = /*[[${comments}]]*/
+							console.log(x);
+							console.log(x[0].cmtOrder)
+							console.log(x[1].cmtOrder)
+							console.log(x[2].cmtOrder)
+							console.log(x[3].cmtOrder)
+						</script>
 					
 						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
-								<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
-								<td th:if="${c.cmtClass==0}" th:text="${c.mId}" style="font-weight: bolder"></td>
-								<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px;font-weight: bolder"></td>
-								<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='N'}" th:text="${c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
-								<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='N'}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
-								<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='Y'}" style="padding:20px; text-align:left;" class="cmtComment">삭제 된 댓글입니다.</td>
-								<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='Y'}" th:text="${c.targetId + '｜'+'삭제 된 댓글입니다.'}" style="padding:20px; text-align:left;" class="cmtComment"></td>
-								<td th:text="${c.cmtRegDate}"></td>
+							
+									<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
+									<td th:if="${c.cmtClass==0}" th:text="${c.mId}" style="font-weight: bolder"></td>
+									<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px;font-weight: bolder"></td>
+									<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='N'}" th:text="${c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+									<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='N'}" th:text="${c.targetId + '｜'+c.cmtComment}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+									<td th:if="${c.cmtClass==0 and c.cmtDeleteYn=='Y'}" style="padding:20px; text-align:left;" class="cmtComment">삭제 된 댓글입니다.</td>
+									<td th:if="${c.cmtClass>0 and c.cmtDeleteYn=='Y' }" th:text="${c.targetId + '｜'+'삭제 된 댓글입니다.'}" style="padding:20px; text-align:left;" class="cmtComment"></td>
+									<td th:text="${c.cmtRegDate}"></td>
+									<td th:if="${c.mId!=session.SID}">
+											<a class="btn btn-default btn-sm modifyBtn" data-attr="0" style="display:none">수정</a>
+									</td>
+									<td th:if="${c.mId==session.SID}">
+										<th:block th:if="${c.cmtDeleteYn=='Y'}">
+											<a class="btn btn-default btn-sm modifyBtn" data-attr="0" style="display:none">수정</a>
+											<a th:href="@{/sell/removeCmt(idx=${c.cmtIdx},bIdx=${c.bIdx})}" class="btn btn-default btn-sm" style="display:none">삭제</a>
+										</th:block>
+										<th:block th:if="${c.cmtDeleteYn=='N'}">
+											<a class="btn btn-default btn-sm modifyBtn" data-attr="0">수정</a>
+											<a th:href="@{/sell/removeCmt(idx=${c.cmtIdx},bIdx=${c.bIdx})}" class="btn btn-default btn-sm">삭제</a>
+										</th:block>
+									</td>
+									
+									<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
 								
-								<td th:if="${c.mId==session.SID and c.cmtDeleteYn=='N'}">
-									<a class="btn btn-default btn-sm modifyBtn" data-attr="0">수정</a>
-									<a th:href="@{/sell/removeCmt(idx=${c.cmtIdx},bIdx=${c.bIdx})}" class="btn btn-default btn-sm">삭제</a>
-								</td>
-								<td th:unless="${c.mId==session.SID and c.cmtDeleteYn=='N'}" ></td>
 								
-								<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
 							</tr>
 							<tr>
 								<td colspan="4">
@@ -208,6 +233,7 @@
 		
 		$(document).ready(function(){
 			
+			
 			var cmt = /*[[${comments}]]*/
 			//모든 행 숨기기
 			$('#commentTable tr').hide();
@@ -263,7 +289,6 @@
 					qnamodifyBtn.click(function(){
 						console.log('수정')
 						if($(this).attr('data-attr')==0){
-							console.log('버튼아 눌려라')
 							bSubject1.css('display','none');
 							bSubject2.css('display','block');
 							bContents1.css('display','none');
@@ -288,34 +313,36 @@
 					})
 					
 					//대댓글수정
-					$('.modifyBtn').click(function(){
-						
-						
-						var i = $('.modifyBtn').index($(this));
-					
-						var comment = $('.cmtComment').eq(i).text();
-						if($(this).attr('data-attr')=='0'){
-							$('.cmtComment').eq(i).html('<input type="text" value="'+cmt[i].cmtComment+'" id="cmtComment">');
-							$(this).text('수정완료');
-							$(this).attr('data-attr',1);
-						}else{
-							console.log($('#cmtComment').val());
-							$.ajax({
-								url : '/ajax/modifyCmt',
-								type : 'post',
-								data : {cmtIdx : $('.cmtIdx').eq(i).text(), comment : $('#cmtComment').val()},
-								success : function(data){
-									console.log(data);
-									$('.modifyBtn').attr('data-attr',0);
-									$('.modifyBtn').text('수정');
-									
-									location.reload();
-									
-								}
-							})
-						}
-	
-					});	
+					$('.modifyBtn').each(function(){
+						var i = $('.modifyBtn').index(this);
+						console.log(i+"<----i");
+						$('.modifyBtn').eq(i).click(function(){
+							console.log(i +"<---뭐야대체")
+							var comment = $('.cmtComment').eq(i).text();
+							if($(this).attr('data-attr')=='0'){
+								$('.cmtComment').eq(i).html('<input type="text" value="'+cmt[i].cmtComment+'" id="cmtComment">');
+								$(this).text('수정완료');
+								$(this).attr('data-attr',1);
+							}else{
+								console.log($('#cmtComment').val());
+								$.ajax({
+									url : '/ajax/modifyCmt',
+									type : 'post',
+									data : {cmtIdx : $('.cmtIdx').eq(i).text(), comment : $('#cmtComment').val()},
+									success : function(data){
+										console.log(data);
+										$('.modifyBtn').attr('data-attr',0);
+										$('.modifyBtn').text('수정');
+										
+										location.reload();
+										
+									}
+								})
+							}
+		
+						});	
+					})
+				
 					
 				});
 	});	
@@ -335,4 +362,5 @@
 		</script>
 		
 	</th:block>
+
 </html>

@@ -35,8 +35,14 @@
 	            		<option value="">카테고리</option>
 	            		<option value="mId">납부회원</option>
 	            		<option value="announcedTitle">공고명</option>
+	            		<option value="trFailType">취소단계</option>
 	            	</select>
-	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input id="sv1" type="text" placeholder="검색어" value="">
+	            	<select id="sv2" style="display: none;">
+	            		<option value="">::선택::</option>
+	            		<option value="낙찰">계약진행</option>
+	            		<option value="대금">대금납부</option>
+	            	</select>
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
             	</div>
@@ -98,6 +104,20 @@
 				$(this).parent().submit();
 			});
 			
+			var searchKey = $('[name="searchKey"]')
+			searchKey.click(function(){
+				$('#sv1').removeAttr('name');
+				$('#sv2').removeAttr('name');
+				if(searchKey.val() == "trFailType"){
+					$('#sv2').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+				}else{
+					$('#sv1').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv2').css('display','none');
+				}
+			});
 		</script>
 	</th:block>
 </html>

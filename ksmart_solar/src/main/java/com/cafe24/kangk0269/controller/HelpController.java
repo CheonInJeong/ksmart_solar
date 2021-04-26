@@ -34,6 +34,16 @@ public class HelpController {
 	}
 	
 	
+	//비밀문의글 비밀번호 확인
+	@GetMapping("/help/qnaPwCheck")
+	public String noticeCheckReason(Model model
+									,@RequestParam(name="bPlCode", required=false) String bPlCode
+									,@RequestParam(name="bCpCode", required=false) String bCpCode) {
+		model.addAttribute("bPlCode", bPlCode);
+		model.addAttribute("bCpCode", bCpCode);
+		return "/member/noticeRejectReason";
+	}
+	
 	//임서저장 글 불러오기
 	@GetMapping("/help/getLoadQna")
 	public String getLoadQna(Model model
@@ -70,10 +80,10 @@ public class HelpController {
 	public void saveQna(HttpServletResponse response, BoardQnaDTO boardQnaDTO) throws IOException {
 		
 	  if(boardQnaDTO.getbQnaIdx() > 0) {
-		  //첫 임시저장일 때(insert)
+		  //불러온 문서 임시저장일 때(update)
 		  boardQnaService.saveQnaUp(boardQnaDTO);
 	  }else {
-		  //불러온 문서 임시저장일 때(update) 
+		  //첫 임시저장일 때(insert) 
 		  boardQnaService.saveQnaIn(boardQnaDTO);
 	  }
 	  ScriptUtils.alertAndBackPage(response, "임시저장되었습니다");
@@ -150,15 +160,20 @@ public class HelpController {
 	
 	// 문의 상세조회 + 문의 조회수 증가
 	@GetMapping("/help/getQna")
-	public String getQna(Model model,
-							@RequestParam(name = "bQnaIdx", required = false) int bQnaIdx) {
-		
+	public String getQna(Model model
+							,@RequestParam(name = "bQnaIdx", required = false) int bQnaIdx) {
 		boardQnaService.addQnaViews(bQnaIdx);
 		
 		BoardQnaDTO boardQnaDTO = boardQnaService.getQna(bQnaIdx);
-		model.addAttribute("boardQnaDTO", boardQnaDTO);
-		return "/help/getQna";
+		String bQnaPassword = boardQnaDTO.getbQnaPassword();
 		
+		if(bQnaPassword != null || bQnaPassword != "") {
+			model.addAttribute("bQnaPassword", bQnaPassword);
+			return "help/bQnaPassword";
+		}else {
+			model.addAttribute("boardQnaDTO", boardQnaDTO);
+			return "/help/getQna";
+		}
 	}
 	
 	

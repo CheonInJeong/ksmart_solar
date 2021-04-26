@@ -4,7 +4,7 @@
 	  layout:decorate="layout/default">
 
 	<th:block layout:fragment="customTitle">
-				<title>개인 프로필수정</title>
+			<title>개인 프로필수정</title>
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
@@ -29,182 +29,99 @@
 		          	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></p>
 		        			<p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="40"></p>
 		                  </div>						
-		                <input type="file" id="inputFile" name="mPhoto" accept="image/*"/>
- 					<div class="selectImg"><img class="img-circle" src=""  /></div>
+		                <form>  
+		                <input type="file" id="inputFile" name="img" accept="image/*"/>
+ 						<div class="selectImg"><img id="uploadImg" class="img-circle" src=""  /></div>
+ 						</form>
 					</div>
-					
 					<div class="form-group">
 					  <input type="text" readonly="readonly" hidden="hidden" id="memberCodeCheckValue" value="">
-					  <label for="memberId" style="margin-top: 13px;">아이디</label><br>
-					  <input type="text" class="form-control" id="memberId" placeholder="아이디를 입력하세요" style="width: 70%; float: left; display: inline-block;">
-					  <input type="button" class="btn btn-default" id="memberCodeCheckBtn" value="중복확인" onclick="userCodeCheck()" style="width: 25%; margin-left: 4%; float: right;">
-					</div><br><br>
-					<div class="form-group">
-					  <label for="memberPassword">비밀번호</label>
-					  <input type="password" class="form-control" id="memberPassword" placeholder="비밀번호를 입력하세요.">
-					</div>
-					<div class="form-group">
-					  <label for="memberPasswordCheck">비밀번호 확인</label>
-					  <input type="password" class="form-control" id="memberPasswordCheck" placeholder="비밀번호 확인을 입력하세요.">
-					</div>
-				    <label for="postcode">주소</label>
-					<form class="form-inline">
-					  <div class="form-group">
-						<input type="text" id="postcode" class="form-control col-md-8 col-xs-7" placeholder="우편번호" readonly="readonly">
-						<span class="col-xs-1"></span>
-						<input type="button" onclick="execDaumPostcode()" class="btn btn-default col-md-4 col-xs-5" value="우편번호 찾기">
+					  <label for="memberId" style="margin-top: 13px;" class="col-sm-2 col-sm-2 control-label">아이디</label><br>
+					  <div class="col-lg-10">
+					  	<input type="text" class="form-control" id="memberId"  th:value="${memberDTO.mId}" readonly="readonly">
 					  </div>
-					</form><br>
+					</div> 
 					<div class="form-group">
-					  <input type="text" id="roadAddress" class="form-control" placeholder="도로명주소">
-					  <input type="hidden" id="jibunAddress" class="form-control" placeholder="">
+					    <label for="memberName" class="col-sm-2 col-sm-2 control-label">이름</label>
+						<div class="col-lg-10">
+							<input type="text" name="mName" id="memberName" th:value="${memberDTO.mName}" class="form-control">
+						</div>					    
+					</div>					  
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">연락처</label>
+						<div class="col-lg-10">
+							<input type="text" name="mPhone" th:value="${memberDTO.mPhone}" class="form-control" id="memberPhone">
+						</div>
 					</div>
 					<div class="form-group">
-					  <span id="guide" style="color:#999;display:none"></span>
-					</div>
-					<div class="form-group">  
-					  <input type="text" id="detailAddress" class="form-control" placeholder="상세주소">
-					</div>		  
+						<label class="col-sm-2 col-sm-2 control-label" for="memberEmail">이메일</label>
+						<div class="col-lg-10">
+							<input type="email" name="mEmail" id="memberEmail" th:value="${memberDTO.mEmail}" class="form-control">
+						</div>
+					</div>	
 					<div class="form-group">
-						<label for="memberEmail">이메일</label>
-						<input type="email" class="form-control" id="memberEmail" placeholder="이메일주소를 입력하세요.">
+						<label class="col-sm-2 col-sm-2 control-label">우편번호</label>
+						<div class="col-lg-10">
+							<div class="form-inline">
+								<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" id="postcode" class="form-control col-md-12" placeholder="우편번호" readonly="readonly">
+								<input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기">
+							</div>
+						</div>	
+					</div>					
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">도로명주소</label>
+						<div class="col-lg-10">
+							<input type="text" name="mAddr" id="roadAddress" th:value="${memberDTO.mAddr}" class="form-control" placeholder="도로명주소"> 
+						</div>							
+						<input type="hidden" id="jibunAddress" class="form-control" placeholder="">
 					</div>
-					<form >
-					  <div class="form-group" style="margin-top: 18px;">
-					    <label for="memberName">이름</label>
-					    
-					    <input type="text" class="form-control" id="memberName" placeholder="이름을 입력하세요.">
-					  </div>
-					  <label for="memberPhone">휴대전화번호</label>
-						  <div class="form-group">
-						    <input type="text" class="form-control memberPhone" id="memberPhone" placeholder="" value="010" style="width: 32%; float: left; display: inline-block;">
-						    <input type="text" class="form-control memberPhone" placeholder="0000" value="" style="margin-left:1%; width: 32%; float: left; display: inline-block;"> 
-						    <input type="text" class="form-control memberPhone" placeholder="0000" value="" style="margin-left:1%; width: 32%; float: left; display: inline-block;">
-						  </div>
-					  <br><br>
-					  <div class="form-group">
-					    <label for="inputFile">사진등록</label>
-					    <input type="file" name="img" id="inputFile" accept="image/*">
-					  </div>
-				      <img id="uploadImg" alt="" src="">
-					</form>
-				<button id="signInBtn" type="button" class="btn btn-success btn-lg col-lg-12 col-md-12 col-sm-12 col-xs-12" onclick="signInSubmit()">등 록 하 기</button>
+					<div class="form-group">
+						<label class="col-sm-2 col-sm-2 control-label">상세주소</label>
+						<div class="col-lg-10">
+							<input type="text" name="mDetailAddr" id="detailAddress" th:value="${memberDTO.mDetailAddr}" class="form-control" placeholder="상세주소">
+						</div>
+					</div>											
+					<div class="form-group">
+						<div class="col-lg-offset-2 col-lg-10">
+							<button type="button" class="btn standardBtn" onclick="modify()">수정</button>
+						</div>
+					</div>						
 				</div>
 			</div>
 		</div>	
-	</div>
-	<!-- 컨텐츠 영역 끝 : 회원가입 -->
+	</div>	
+		
+		
 	<th:block layout:fragment="customScript">
 		<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 		<script type="text/javascript">
 		
+		//메뉴탭
+		var mypage = $('#mypage');
+		mypage.addClass('active');
+		mypage.parent().find('.sub').css('display', 'block');
+		mypage.parent().find('.sub').children().eq(0).addClass('active');
 		
 		
 		
-			//아이디 중복확인
-			function userCodeCheck(){
-				var mId = $('#memberId').val();
-				if(mId == null || mId == "" || mId == 'undefined'){
-					Swal.fire({
-						  title: '아이디를 입력해주세요!',
-						  icon: 'info'
-						})
-					memberId.focus();
-					return;
-				}
-				
-				$.ajax({
-			        url     : '/ajax/idCheck',
-			        type    : 'POST',
-			        data    : {mId : mId},
-			        success : function(data) {
-			        	console.log(data);
-			        	if(data){
-			        		Swal.fire({
-								  title: '일치하는 아이디가 있습니다!',
-								  text: '다른 아이디로 회원등록을 해주세요.',
-								  icon: 'error'
-								});
-			        		$('#memberId').focus();
-			        	}else{
-			        		Swal.fire({
-								  title: '가입이 가능한 아이디입니다.!',
-								  text: '회원등록을 진행해주세요.',
-								  icon: 'success'
-								});
-			        		$('#memberCodeCheckValue').val(mId);
-			        		$('#memberId').focus();
-			        	}
-			        },
-			        error : function(xhr,status,error) {
-			        	console.log("xhr: " + xhr);
-			        	console.log("status: " + status);
-			        	console.log("error: " + error);
-			        }
-			    });
-			}
 			
-			//유효성 검사 & 회원가입AJAX
-			function signInSubmit(){
-				var memberId = $('#memberId');
+			//유효성 검사 & 회원수정AJAX
+			function modify(){
 				var memberCodeCheckValue = $('#memberCodeCheckValue');
-				var memberPassword = $('#memberPassword');
-				var memberPasswordCheck = $('#memberPasswordCheck');
+				var memberId = $('#memberId');
 				var postcode = $('#postcode');
 				var roadAddress = $('#roadAddress');
 				var jibunAddress = $('#jibunAddress');
 				var detailAddress = $('#detailAddress');
 				var memberEmail = $('#memberEmail');
 				var memberName = $('#memberName');
-				var memberPhone = $('.memberPhone');
+				var memberPhone = $('#memberPhone');
 				var memberPhoneSum = ($(memberPhone[0]).val() + '-' +  $(memberPhone[1]).val() + '-' + $(memberPhone[2]).val());
 				var fileURL = '';
 				var fileDeleteURL = '';
 				
-				if(memberId.val() == null || memberId.val() == "" || memberId.val() == 'undefined'){
-					Swal.fire({
-						  title: '아이디를 입력해주세요!',
-						  icon: 'info'
-						})
-					memberId.focus();
-					return;
-				}else if(memberCodeCheckValue.val() == ""){
-					Swal.fire({
-						  title: '중복검사를 해주세요!',
-						  icon: 'info'
-						})
-					memberId.focus();
-					return;
-				}else if(memberCodeCheckValue.val() != memberId.val()){
-					Swal.fire({
-						  title: '중복검사를 다시 진행해주세요!',
-						  icon: 'info'
-						})
-					memberId.focus();
-					return;
-				}else if(memberPassword.val() == null || memberPassword.val() == "" || memberPassword.val() == 'undefined'){
-					Swal.fire({
-						  title: '비밀번호를 입력해주세요!',
-						  icon: 'info'
-						})
-					memberPassword.focus();
-					return;
-				}else if(memberPasswordCheck.val() == null || memberPasswordCheck.val() == "" || memberPasswordCheck.val() == 'undefined'){
-					Swal.fire({
-						  title: '비밀번호 확인을 입력해주세요!',
-						  icon: 'info'
-						})
-					memberPasswordCheck.focus();
-					return;
-				}else if(memberPasswordCheck.val() != memberPassword.val()){
-					Swal.fire({
-						  title: '비밀번호와 비밀번호확인이 일치하지 않습니다!',
-						  icon: 'info'
-						})
-					memberPassword.focus();
-					return;
-				}else if(memberName.val() == null || memberName.val() == "" || memberName.val() == 'undefined'){
+				if(memberName.val() == null || memberName.val() == "" || memberName.val() == 'undefined'){
 					Swal.fire({
 						  title: '이름을 입력해주세요!',
 						  icon: 'info'
@@ -218,9 +135,28 @@
 						})
 					memberEmail.focus();
 					return;
-				}
-				
-				
+				}else if(memberPhone.val() == ""){
+					Swal.fire({
+						  title: '연락처를 입력해주세요!',
+						  icon: 'info'
+						})
+					memberPhone.focus();
+					return;				
+				}else if(postcode.val() == ""){
+					Swal.fire({
+						  title: '우편번호를 입력해주세요!',
+						  icon: 'info'
+						})
+					postcode.focus();
+					return;
+				}else if(detailAddress.val() == ""){
+					Swal.fire({
+						  title: '상세주소를 입력해주세요!',
+						  icon: 'info'
+						})
+					detailAddress.focus();
+					return;
+				}					
 				////////////////////////이메일 유효성검사//////////////////////////
 				 var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
 				 if(regex.test(memberEmail.val()) === false){
@@ -233,73 +169,64 @@
 					 return false;
 				 }
 
-				////////////////////////휴대폰 유효성검사//////////////////////////
-				 var regPhone = /(01[0|1|6|9|7])[-](\d{3}|\d{4})[-](\d{4}$)/g;
-				 if(!regPhone.test(memberPhoneSum)){
-					 Swal.fire({
-						  title: '잘못된 휴대전화번호 형식입니다!',
-						  text: '휴대전화번호를 다시 입력 해주세요.',
-						  icon: 'error'
-						});
-					 $('#phone').focus();
-					 return false;
-				 }
 				
+					///////////////////////////////////////////////////////////////////////
+					///////////////////////////파일 업로드 ImgBB///////////////////////////////
+					///////////////////////////////////////////////////////////////////////
+					var file = document.getElementById('inputFile');
+					var form = new FormData();
+					form.append("image", file.files[0])
+					var settings = {
+					  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
+					  "method": "POST",
+					  "timeout": 0,
+					  "processData": false,
+					  "mimeType": "multipart/form-data",
+					  "contentType": false,
+					  "data": form
+					};
+					
+					
+					$.ajax(settings).done(function (response) {
+					  var jx = JSON.parse(response);
+					  var fileURL = jx.data.url;
+					  var fileDeleteURL = jx.data.delete_url;
+					  console.log(fileURL + " <<< fileURL");
+					  console.log(fileDeleteURL + " <<< fileDeleteURL");
+					});
+					
+					///////////////////////////////////////////////////////////////////////
+					///////////////////////////////////////////////////////////////////////
 				///////////////////////////////////////////////////////////////////////
-				///////////////////////////파일 업로드 ImgBB///////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				var file = document.getElementById('inputFile');
-				var form = new FormData();
-				form.append("image", file.files[0])
-				var settings = {
-				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
-				  "method": "POST",
-				  "timeout": 0,
-				  "processData": false,
-				  "mimeType": "multipart/form-data",
-				  "contentType": false,
-				  "data": form
-				};
-				
-				
-				$.ajax(settings).done(function (response) {
-				  var jx = JSON.parse(response);
-				  fileURL = jx.data.url;
-				  fileDeleteURL = jx.data.delete_url;
-				});
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				
-				//////////////////ajax를 통해 회원가입 데이터 전송//////////////////////
+				//////////////////ajax를 통해 회원수정 데이터 전송//////////////////////
 				$.ajax({
-			        url     : '/ajax/signup',
+			        url     : '/ajax/modifyMyInfo',
 			        type    : 'POST',
 			        data    :   {memberId:memberId.val()
-			        			,memberPassword:memberPassword.val()
+			        			,memberName:memberName.val()
+			        			,memberPhone:memberPhone.val()
+			        			,memberEmail:memberEmail.val()
 			        			,postcode:postcode.val()
 			        			,roadAddress:roadAddress.val()
 			        			,detailAddress:detailAddress.val()
-			        			,memberEmail:memberEmail.val()
-			        			,memberName:memberName.val()
-			        			,memberPhoneSum:memberPhoneSum
 			        			,inputFile:fileURL},
 			        success : function(data) {
-			        	console.log(data);
 			        	if(data){
 			        		Swal.fire({
-								  title: '회원등록이 완료되었습니다!',
+								  title: '회원수정이 완료되었습니다!',
 								  icon: 'success'
 								});
-			        		setTimeout(function(){}, 1000);
-			        		document.location.href = '/member/memberLogin';
+			        		setTimeout(function(){
+				        		document.location.href = '/mypage/myInfo';
+			        		}, 2000);
 			        	}else{
 			        		Swal.fire({
-								  title: '회원등록이 실패했습니다!',
+								  title: '회원수정을 실패했습니다!',
 								  icon: 'error'
 								});
-			        		setTimeout(function(){}, 1000);
-			        		document.location.href = '/member/memberLogin';
+			        		setTimeout(function(){
+				        		document.location.href = '/mypage/myInfo';
+			        		}, 2000);
 			        	}
 			        },
 			        error : function(xhr,status,error) {
@@ -355,268 +282,3 @@
 		</script>
 	</th:block>
 </html>
-
-
-
-
-	<!-- 				
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">아이디</label>
-						<div class="col-lg-10">
-							<input type="text" name="mId" th:value="${memberDTO.mId}"
-								class="form-control" readonly="readonly">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">이름</label>
-						<div class="col-lg-10">
-							<input type="text" name="mName" th:value="${memberDTO.mName}"
-								class="form-control">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">연락처</label>
-						<div class="col-lg-10">
-							<input type="text" name="mPhone" th:value="${memberDTO.mPhone}"
-								class="form-control">
-						</div>
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label">이메일</label>
-						<div class="col-lg-10">
-							<input type="text" name="mEmail" th:value="${memberDTO.mEmail}" class="form-control">
-						</div>
-					</div>
-					<div class="form-group">
-							<label class="col-sm-2 col-sm-2 control-label">우편번호</label>
-							<div class="col-lg-10">
-								<div class="form-inline">
-									<input type="text" name="mZipcode" th:value="${memberDTO.mZipcode}" id="postcode" class="form-control col-md-12" placeholder="우편번호" readonly="readonly">
-									<input type="button" onclick="execDaumPostcode()" class="btn btn-default" value="우편번호 찾기">
-								</div>
-							</div>	
-					</div>
-					<br>
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label"></label>
-						<div class="col-lg-10">
-							<input type="text" name="mAddr" id="roadAddress" th:value="${memberDTO.mAddr}" class="form-control" placeholder="도로명주소"> 
-						</div>							
-						<input type="hidden" id="jibunAddress" class="form-control" placeholder="">
-					</div>
-					<div class="form-group">
-						<label class="col-sm-2 col-sm-2 control-label"></label>
-						<div class="col-lg-10">
-							<input type="text" name="mDetailAddr" id="detailAddress" th:value="${memberDTO.mDetailAddr}" class="form-control" placeholder="상세주소">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="col-lg-offset-2 col-lg-10">
-							<button type="button" class="btn standardBtn" onclick="modifyMyInfo()">수정</button>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-</th:block>
-
-<th:block layout:fragment="customScript">
-	<script src="http://dmaps.daum.net/map_js_init/postcode.v2.js"></script>
-	<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
-	<script type="text/javascript">
-		//메뉴탭
-		var mypage = $('#mypage');
-		mypage.addClass('active');
-		mypage.parent().find('.sub').css('display', 'block');
-		mypage.parent().find('.sub').children().eq(0).addClass('active');
-
-		
-		
-			//유효성 검사 & 회원수정 AJAX
-			function modifyMyInfo(){
-				var mName = $('[name="mName"]');
-				var mPhone = $('[name="mPhone"]');
-				var mEmail = $('[name="mEmail"]');
-				var mZipcode = $('[name="mZipcode"]');
-				var mAddr = $('[name="mAddr"]');
-				var mDetailAddr = $('[name="mDetailAddr"]');
-				var fileURL = '';
-				var fileDeleteURL = '';
-				
-				if(mName.val() == null || memberId.val() == "" || memberId.val() == 'undefined'){
-					Swal.fire({
-						  title: '이름을 입력해주세요!',
-						  icon: 'info'
-						})
-					mName.focus();
-					return;
-				}else if(mPhone.val() == ""){
-					Swal.fire({
-						  title: '연락처를 입력해주세요!',
-						  icon: 'info'
-						})
-					mPhone.focus();
-					return;
-				}else if(mEmail.val() == ""){
-					Swal.fire({
-						  title: '이메일을 입력해주세요!',
-						  icon: 'info'
-						})
-					mEmail.focus();
-					return;
-				}else if(mZipcode.val() == ""){
-					Swal.fire({
-						  title: '우편번호를 입력해주세요!',
-						  icon: 'info'
-						})
-					mZipcode.focus();
-					return;
-				}else if(mAddr.val() == ""){
-					Swal.fire({
-						  title: '주소를 입력해주세요!',
-						  icon: 'info'
-						})
-					mAddr.focus();
-					return;
-				}else if(mDetailAddr.val() == ""){
-					Swal.fire({
-						  title: '상세주소를 입력해주세요!',
-						  icon: 'info'
-						})
-					mDetailAddr.focus();
-					return;
-				}
-				
-				////////////////////////이메일 유효성검사//////////////////////////
-				 var regex=/^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/;
-				 if(regex.test(mEmail.val()) === false){
-					 Swal.fire({
-						  title: '잘못된 이메일 형식입니다!',
-						  text: '이메일을 다시 입력 해주세요.',
-						  icon: 'error'
-						});
-					 mEmail.focus();
-					 return false;
-				 }
-
-				////////////////////////휴대폰 유효성검사//////////////////////////
-				 var regPhone = /(01[0|1|6|9|7])[-](\d{3}|\d{4})[-](\d{4}$)/g;
-				 if(!regPhone.test(mPhone)){
-					 Swal.fire({
-						  title: '잘못된 휴대전화번호 형식입니다!',
-						  text: '휴대전화번호를 다시 입력 해주세요.',
-						  icon: 'error'
-						});
-					 mPhone.focus();
-					 return false;
-				 }
-				
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////파일 업로드 ImgBB///////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				var file = document.getElementById('inputFile');
-				var form = new FormData();
-				form.append("image", file.files[0])
-				var settings = {
-				  "url": "https://api.imgbb.com/1/upload?key=0b3bc29eab18a6d8178b0e736b391d93",
-				  "method": "POST",
-				  "timeout": 0,
-				  "processData": false,
-				  "mimeType": "multipart/form-data",
-				  "contentType": false,
-				  "data": form
-				};
-				
-				
-				$.ajax(settings).done(function (response) {
-				  var jx = JSON.parse(response);
-				  fileURL = jx.data.url;
-				  fileDeleteURL = jx.data.delete_url;
-				});
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				///////////////////////////////////////////////////////////////////////
-				
-				//////////////////ajax를 통해 회원가입 데이터 전송//////////////////////
-				$.ajax({
-			        url     : '/mypage/ModifyMyInfo',
-			        type    : 'POST',
-			        data    :   {mName			 : mName.val()
-			        			,mPhone			 : mPhone.val()
-			        			,mEmail			 : mEmail.val()
-			        			,mZipcode		 : mZipcode.val()
-			        			,mAddr			 : mAddr.val()
-			        			,mDetailAddr	 : mDetailAddr.val()
-			        			,inputFile		 : fileURL},
-			        success : function(data) {
-			        	console.log(data);
-			        	if(data){
-			        		Swal.fire({
-								  title: '회원수정이 완료되었습니다!',
-								  icon: 'success'
-								});
-			        		setTimeout(function(){}, 1000);
-			        		document.location.href = '/mypage/myInfo';
-			        	}else{
-			        		Swal.fire({
-								  title: '회원수정을 실패했습니다!',
-								  icon: 'error'
-								});
-			        		setTimeout(function(){}, 1000);
-			        		document.location.href = '/mypage/myInfo';
-			        	}
-			        },
-			        error : function(xhr,status,error) {
-			        	console.log("xhr: " + xhr);
-			        	console.log("status: " + status);
-			        	console.log("error: " + error);
-			        }
-			    });
-			}
-
-			
-			
-			
-			
-		})
-			
-		
-			
-			
-		//우편번호 api
-		function execDaumPostcode() {
-			new daum.Postcode(
-					{
-						oncomplete : function(data) {
-							// 팝업에서 검색결과 항목을 클릭했을때 실행할 코드를 작성하는 부분.
-
-							// 도로명 주소의 노출 규칙에 따라 주소를 표시한다.
-							// 내려오는 변수가 값이 없는 경우엔 공백('')값을 가지므로, 이를 참고하여 분기 한다.
-							var roadAddr = data.roadAddress; // 도로명 주소 변수
-							var extraRoadAddr = ''; // 참고 항목 변수
-
-							// 법정동명이 있을 경우 추가한다. (법정리는 제외)
-							// 법정동의 경우 마지막 문자가 "동/로/가"로 끝난다.
-							if (data.bname !== ''
-									&& /[동|로|가]$/g.test(data.bname)) {
-								extraRoadAddr += data.bname;
-							}
-							// 건물명이 있고, 공동주택일 경우 추가한다.
-							if (data.buildingName !== ''
-									&& data.apartment === 'Y') {
-								extraRoadAddr += (extraRoadAddr !== '' ? ', '
-										+ data.buildingName : data.buildingName);
-							}
-							// 우편번호와 주소 정보를 해당 필드에 넣는다.
-							document.getElementById('postcode').value = data.zonecode;
-							document.getElementById("roadAddress").value = roadAddr;
-							document.getElementById("jibunAddress").value = data.jibunAddress;
-
-						}
-					}).open();
-		}
-	</script>
-</th:block>
-</html>
- -->

@@ -65,13 +65,12 @@ public class MemberManageController {
 		this.sellService = sellService;
 	}
 	
+	
 	//공고신청 반려사유
 	@GetMapping("/member/noticeRejectReason")
 	public String noticeCheckReason(Model model
 									,@RequestParam(name="bPlCode", required=false) String bPlCode
 									,@RequestParam(name="bCpCode", required=false) String bCpCode) {
-		System.out.println("반려할 발전소코드 : " + bPlCode);
-		System.out.println("반려할 발전소코드 : " + bCpCode);
 		model.addAttribute("bPlCode", bPlCode);
 		model.addAttribute("bCpCode", bCpCode);
 		return "/member/noticeRejectReason";
@@ -81,11 +80,13 @@ public class MemberManageController {
 	@PostMapping("/ajax/noticeReject")
 	public String noticeReturn(@RequestParam(name="bPlCode", required=false) String bPlCode
 								,@RequestParam(name="bCpCode", required=false) String bCpCode
-								,@RequestParam(name="bCpCode", required=false) String bPlRejectReason
-								,@RequestParam(name="bCpCode", required=false) String bCpRejectReason) {
+								,@RequestParam(name="bPlRejectReason", required=false) String bPlRejectReason
+								,@RequestParam(name="bCpRejectReason", required=false) String bCpRejectReason) {
 		if(bPlCode != null) {
+			System.out.println("반려받냐?" + bPlCode);
 			bidPlantService.bidPlantReturn(bPlCode,bPlRejectReason);
 		}else if(bCpCode != null) {
+			System.out.println("반려받냐?" + bCpCode);
 			bidComponentService.bidComponentReturn(bCpCode,bCpRejectReason);
 		}
 		return "/member/getNotice";
@@ -332,6 +333,8 @@ public class MemberManageController {
 		model.addAttribute("searchValueRM", searchValueRM);
 		model.addAttribute("searchValueRMS", searchValueRMS);
 		model.addAttribute("searchValueRMF", searchValueRMF);
+		model.addAttribute("count1", count1);
+		model.addAttribute("count2", count2);
 		model.addAttribute("page1", page1);
 		model.addAttribute("page2", page2);
 		model.addAttribute("uri", uri);

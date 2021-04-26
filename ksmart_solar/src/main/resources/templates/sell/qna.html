@@ -48,9 +48,10 @@
 	                   <td th:text="${list.announcedCode}"></td>
 	                   <td th:if="${list.bBidType == 1}">발전소</td>
 	                   <td th:if="${list.bBidType == 2}">부품</td>
-	                   <td style="text-align:left"><a th:href="@{/sell/qnaDetail(idx=${list.bIdx})}">[[${list.bSubject}]]</a></td>
-	                   
-	                   
+	                   <td style="text-align:left">
+	                   		<a th:href="@{/sell/qnaDetail(idx=${list.bIdx})}">[[${list.bSubject}]]</a>
+	          				<a class="openCmt" th:href="@{#}" style="color:red;">[[${'['+list.cmtCount+']'}]]</a>
+	                   </td>
 	                   <td th:text="${list.mIdBuyer}"></td>
 	                   <td th:text="${list.bRegDate}"></td>
 	                   <td th:text="${list.bView}"></td>
@@ -82,7 +83,10 @@
 			sell.parent().find('.sub').children().eq(3).addClass('active');
 		</script>
 		
-		<script>
+		<script th:inline="javascript">
+			var check = /*[[${qnaList}]]*/
+			
+			console.log(check);
 				$('#searchBtn').click(function(){
 					var selected = $('select option:selected');
 					if(selected.val()==0){
@@ -95,8 +99,19 @@
 				function movePage(uri, queryString) {
 					location.href = uri + queryString;
 				}
+				
+				$('.openCmt').each(function(){
+					var i = $('.openCmt').index(this);
+					console.log(i);
+					console.log(check[i].bIdx)
+					$('.openCmt').eq(i).click(function(){
+						window.open('/sell/commentOnly?bIdx='+check[i].bIdx,'댓글','width=800, height=600,left=100, top = 100, scrollbar=no');
+					})
+					
+				})
 			
 		
+				
 		</script>
 	</th:block>
 </html>

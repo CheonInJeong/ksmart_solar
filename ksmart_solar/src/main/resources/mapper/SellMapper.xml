@@ -147,6 +147,10 @@
   		  		<result property ="trTypeName" column ="tr_type_name"/>
   		  		<result property ="trPrConclusionDate1" column ="tr_pr_conclusion_date1"/>
   		  		<result property ="trPrConclusionDate2" column ="tr_pr_conclusion_date2"/>
+  		  		<result property ="commission" column ="commission"/>
+  		  		<result property ="comissionRate" column ="comissionRate"/>
+  		  		<result property ="availableOut" column ="availableOut"/>
+  		  		
   		  		<association property ="tradePaymentOutDTO" javaType="TradePaymentOutDTO">
   		  			<result property ="trPayoutPrice" column="tr_payout_price"/>
   		  			<result property ="cTradeCm" column="c_trade_cm"/>
@@ -161,6 +165,8 @@
   		  		<association property ="tradePaymentInDTO" javaType="TradePaymentInDTO">
   		  			<id property="announcedCode" column="announced_code"/>
   		  			<result property ="bMoDate" column="b_mo_date"/>
+  		  			<result property ="trPayinDate1" column="tr_payin_date1"/>
+  		  			<result property ="trPayinDate2" column="tr_payin_date2"/>
   		  		</association>
   		  		
   		  </resultMap>
@@ -219,7 +225,9 @@
 				p.tr_pr_code,
 				p.tr_type_name,
 				p.tr_pr_conclusion_date1,
-				p.tr_pr_conclusion_date2
+				p.tr_pr_conclusion_date2,
+				i.tr_payin_date1,
+				i.tr_payin_date2
 			FROM 
 				tb_trade_payment_in AS i 
 			right JOIN 

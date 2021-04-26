@@ -32,20 +32,24 @@
 	            	<select name="searchKey">
 	            		<option value="">카테고리</option>
 	            		<option value="bzCode">사업자코드</option>
+	            		<option value="bzCompanyName">법인명</option>
+	            		<option value="bzCeoName">대표자</option>
 	            		<option value="mId">아이디</option>
 	            		<option value="bzPlace">주소</option>
 	            		<option value="bzType">권한</option>
 	            		<option value="bzCheck">인증여부</option>
 	            	</select>
-	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
-	            	<select name="searchValueLevel" style="display: none;">
+	            	<input id="sv1" type="text" placeholder="검색어" value="">
+	            	<select id="sv2" style="display: none;">
+	            		<option value="">::선택::</option>
 	            		<option value="태양광">태양광</option>
 	            		<option value="재활용">재활용</option>
 	            	</select>
-	            	<select name="searchValueCheck" style="display: none;">
+	            	<select id="sv3" style="display: none;">
+	            		<option value="">::선택::</option>
 	            		<option value="Y">승인</option>
 	            		<option value="F">반려</option>
-	            		<option value="N">미완료</option>
+	            		<option value="N">미확인</option>
 	            	</select>
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
@@ -132,6 +136,29 @@
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(3).addClass('active');
+			
+			var searchKey = $('[name="searchKey"]')
+			searchKey.click(function(){
+				$('#sv1').removeAttr('name');
+				$('#sv2').removeAttr('name');
+				$('#sv3').removeAttr('name');
+				if(searchKey.val() == "bzType"){
+					$('#sv2').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+					$('#sv3').css('display','none');
+				}else if(searchKey.val() == "bzCheck"){
+					$('#sv3').attr('name','searchValue');
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+					$('#sv2').css('display','none');
+				}else{
+					$('#sv1').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv2').css('display','none');
+					$('#sv3').css('display','none');
+				}
+			});
 		</script>
 	</th:block>
 </html>

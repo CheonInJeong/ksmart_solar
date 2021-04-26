@@ -343,7 +343,7 @@
 	</update>
 	
 	<!-- 개인 프로필 수정처리  -->
-	<update id="modifyMyInfo" parameterType="String">
+	<update id="modifyMyInfo" parameterType="MemberDTO">
 		UPDATE tb_member
 		SET
 			m_name = #{mName},

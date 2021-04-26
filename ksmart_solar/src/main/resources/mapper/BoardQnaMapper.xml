@@ -114,7 +114,9 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			b_qna_views = b_qna_views + 1
 		WHERE 
 			b_qna_idx = #{bQnaIdx}
+			
 	</update>		 
+	
 			 
 	<!-- 문의 삭제 -->
 	<delete id="removeQna" parameterType="int">
@@ -161,7 +163,7 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 				, 0
 				, #{bQnaOpen}
 				, #{bQnaPassword}
-				, #{bQnaTemp}
+				, 'N'
 				, #{bQnaIdx}
 				, ${bQnaReLev} + 1
 				, ${bQnaReSeq} + 1)
@@ -259,12 +261,12 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, b_qna_temp
 		FROM 
 			tb_board_qna
-		<trim prefix="WHERE" prefixOverrides="AND | OR ">
+		WHERE
+			b_qna_temp = 'N'			
 			<if test="searchValue!=null and ''.toString()">
-				${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				AND ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
 			</if>
-		</trim>
-		WHERE b_qna_temp = 'N'
+		
 		ORDER BY b_qna_ref_code DESC, b_qna_re_seq ASC
 	</select>
 </mapper>

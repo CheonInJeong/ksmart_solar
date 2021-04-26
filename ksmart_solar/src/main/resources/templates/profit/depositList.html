@@ -35,8 +35,14 @@
 	            		<option value="">카테고리</option>
 	            		<option value="a.m_id">신청회원</option>
 	            		<option value="b_title">공고명</option>
+	            		<option value="tr_dep_check">출금여부</option>
 	            	</select>
-	            	<input type="text" placeholder="검색어" name="searchValue" th:value="${searchValue}">
+	            	<input id="sv1" type="text" placeholder="검색어" value="">
+	            	<select id="sv2" style="display: none;">
+	            		<option value="">::선택::</option>
+	            		<option value="Y">완료</option>
+	            		<option value="N">미완료</option>
+	            	</select>
 	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
 	               </form>
             	</div>
@@ -115,6 +121,21 @@
 			
 			$('.announceTitle').click(function(){
 				$(this).parent().submit();
+			});
+			
+			var searchKey = $('[name="searchKey"]')
+			searchKey.click(function(){
+				$('#sv1').removeAttr('name');
+				$('#sv2').removeAttr('name');
+				if(searchKey.val() == "tr_dep_check"){
+					$('#sv2').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv1').css('display','none');
+				}else{
+					$('#sv1').attr("name","searchValue");
+					$('[name="searchValue"]').css('display','inline-block');
+					$('#sv2').css('display','none');
+				}
 			});
 		</script>
 	</th:block>

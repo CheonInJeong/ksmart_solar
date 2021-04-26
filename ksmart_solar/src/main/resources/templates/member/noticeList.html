@@ -8,6 +8,8 @@
 	</th:block>
 	
 	<th:block layout:fragment="Contents">
+	
+	
 	<div id="container-header-title"><strong>공고 신청목록</strong></div>
 	<div id="container-header-path">회원관리 > 공고 신청목록</div>
 	<div id="container-header-space"></div>
@@ -39,7 +41,7 @@
 		                	<th:block th:if="${bidPlantList != null}" th:each="l:${bidPlantList}">
 			                	<tr>
 				                    <td data-title="공고 코드" th:text="${l.bPlCode}"></td>
-				                    <td data-title="공고 제목">
+				                    <td data-title="공고 제목" style="text-align: left; padding-left: 20px;">
 				                    	<a th:href="@{/member/getNotice(bPlCode=${l.bPlCode})}">[[${l.bPlTitle}]]</a>
 				                    </td>
 				                    <td data-title="아이디" th:text="${l.mId}"></td>
@@ -52,7 +54,7 @@
 		                	<th:block th:if="${bidComponentList != null}" th:each="l:${bidComponentList}">
 			                	<tr>
 				                    <td data-title="공고 코드" th:text="${l.bCpCode}"></td>
-				               		<td data-title="공고 제목">
+				               		<td data-title="공고 제목" style="text-align: left; padding-left: 20px;">
 				                    	<a th:href="@{/member/getNotice(bCpCode=${l.bCpCode})}">[[${l.bCpTitle}]]</a>
 				                    </td>
 				                    <td data-title="아이디" th:text="${l.mId}"></td>
@@ -100,10 +102,15 @@
 	</th:block>
 	<th:block layout:fragment="customScript">
 		<script type="text/javascript">
+			//메뉴탭
 			var member = $('#member');
 			member.addClass('active');
 			member.parent().find('.sub').css('display','block');
 			member.parent().find('.sub').children().eq(6).addClass('active');
+			
 		</script>
+		
+		
+		
 	</th:block>
 </html>
