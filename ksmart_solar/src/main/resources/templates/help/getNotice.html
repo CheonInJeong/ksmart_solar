@@ -41,7 +41,7 @@
                   </div>
                 </div>
                 <div class="form-group">
-                <label class="col-sm-2 col-sm-2 control-label"><strong>공지관련파일</strong></label>
+                <label class="col-sm-1 control-label"><strong>공지관련파일</strong></label>
                 <div class="col-lg-10">
 							<div th:if="${#lists.size(fileList)}>0" th:each="f:${fileList}">
 								<p><a th:href="@{/policy/downloadFile(idx=${f.idx})}">[[${f.originalFileName}]]</a></p>
