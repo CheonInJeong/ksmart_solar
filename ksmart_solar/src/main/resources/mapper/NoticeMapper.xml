@@ -24,6 +24,20 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 
 	
+	
+	<!-- 조회 공지리스트 수 -->
+	<select id="getNoticeCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_notice
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
+	</select>	
+	
 	<!-- 공지 조회수 증가  -->
 	<update id="addNoticeViews">
 		UPDATE 
@@ -171,7 +185,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			, not_views
 			, not_temp
 		FROM tb_notice
-		ORDER BY not_reg_date DESC;
+		<if test="searchKey == null or searchKey == ''.toString()">
+			ORDER BY not_reg_date DESC
+			LIMIT #{start},#{end}
+		</if>			
+						
+		<if test="searchKey != null and searchKey != ''.toString()">
+			WHERE ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+			ORDER BY not_reg_date DESC
+			LIMIT #{start},#{end}				
+		</if>		
 	</select>
 	
 </mapper>

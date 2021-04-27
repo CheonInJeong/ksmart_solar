@@ -11,6 +11,9 @@ import com.cafe24.kangk0269.dto.NoticeDTO;
 public interface NoticeMapper {
 	
 	
+	// 공지 리스트 수
+	public int getNoticeCnt(String searchKey,String searchValue);	
+	
 	//공지 조회수 증가
 	public int addNoticeViews(int noticeIdx);
 	
@@ -39,6 +42,6 @@ public interface NoticeMapper {
 	public int addNotice(NoticeDTO noticeDTO);
 	
 	//공지사항 조회
-	public List<NoticeDTO> getNoticeList();
+	public List<NoticeDTO> getNoticeList(int start,int end, String searchKey, String searchValue);
 
 }

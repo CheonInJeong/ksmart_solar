@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 import com.cafe24.kangk0269.common.ScriptUtils;
 import com.cafe24.kangk0269.dto.BoardQnaDTO;
 import com.cafe24.kangk0269.dto.NoticeDTO;
+import com.cafe24.kangk0269.dto.PageDTO;
 import com.cafe24.kangk0269.serivce.BoardQnaService;
 import com.cafe24.kangk0269.serivce.NoticeService;
 
@@ -157,23 +158,34 @@ public class HelpController {
 		loadQna(model, session);
 		return "/help/addQna";
 	}
-	
+
+/*	
+	// 문의 비밀글 입력 화면
+	@GetMapping("/help/qnaPwCheck")
+	public String qnaPwCheck(Model model
+							,@RequestParam(name="bQnaIdx", required=false) int bQnaIdx) {
+		
+		BoardQnaDTO boardQnaDTO = boardQnaService.getQna(bQnaIdx);
+		String bQnaPassword = boardQnaDTO.getbQnaPassword();
+		System.out.println(bQnaPassword + "<--비밀글 비밀번호");
+		
+		model.addAttribute("bQnaIdx", bQnaIdx);
+		model.addAttribute("bQnaPassword", bQnaPassword);
+		return "/help/qnaPwCheck";
+	}
+*/
 	// 문의 상세조회 + 문의 조회수 증가
 	@GetMapping("/help/getQna")
 	public String getQna(Model model
 							,@RequestParam(name = "bQnaIdx", required = false) int bQnaIdx) {
+		//조회수 증가
 		boardQnaService.addQnaViews(bQnaIdx);
 		
+		//상세조회
 		BoardQnaDTO boardQnaDTO = boardQnaService.getQna(bQnaIdx);
-		String bQnaPassword = boardQnaDTO.getbQnaPassword();
 		
-		if(bQnaPassword != null || bQnaPassword != "") {
-			model.addAttribute("bQnaPassword", bQnaPassword);
-			return "help/bQnaPassword";
-		}else {
-			model.addAttribute("boardQnaDTO", boardQnaDTO);
-			return "/help/getQna";
-		}
+		model.addAttribute("boardQnaDTO", boardQnaDTO);
+		return "/help/getQna";
 	}
 	
 	
@@ -181,17 +193,22 @@ public class HelpController {
 	@GetMapping("/help/qna")
 	public String Qna(Model model
 						,@RequestParam(value="searchKey", required = false) String searchKey 
-						,@RequestParam(value="searchValue", required = false) String searchValue) {
-		if(searchKey != null && searchKey.equals("null")) {
-			searchKey = null;
-		}
-		if(searchValue != null && searchValue.equals("null")) {
-			searchValue = null;
-		}
+						,@RequestParam(value="searchValue", required = false) String searchValue
+						,@RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		
-		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList(searchKey, searchValue );
+		int count = boardQnaService.getQnaCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/help/qna";
+		
+		List<BoardQnaDTO> boardQnaDTOList = boardQnaService.getQnaList(start, end, searchKey, searchValue );
 		model.addAttribute("boardQnaDTOList", boardQnaDTOList);
-		return "/help/qna";
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);		
+		model.addAttribute("page", page);		
+		model.addAttribute("uri", uri);
+		return uri;
 	}
 	
 	
@@ -258,9 +275,23 @@ public class HelpController {
 	
 	//공지사항 조회
 	@GetMapping("/help/notice")
-	public String Notice(Model model ) {
-		List<NoticeDTO> noticeDTOList = noticeService.getNoticeList();
+	public String Notice(Model model
+							,@RequestParam(value="searchKey", required = false) String searchKey 
+							,@RequestParam(value="searchValue", required = false) String searchValue
+							,@RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
+		
+		int count = noticeService.getNoticeCnt(searchKey, searchValue);
+		PageDTO page = new PageDTO(count,curPage);
+		int start = page.getPageBegin();
+		int end = page.getPageEnd();
+		String uri = "/help/notice";
+		
+		List<NoticeDTO> noticeDTOList = noticeService.getNoticeList(start, end, searchKey, searchValue);
 		model.addAttribute("noticeDTOList", noticeDTOList);
+		model.addAttribute("searchKey", searchKey);
+		model.addAttribute("searchValue", searchValue);		
+		model.addAttribute("page", page);		
+		model.addAttribute("uri", uri);		
 		return "/help/notice";
 	}
 }

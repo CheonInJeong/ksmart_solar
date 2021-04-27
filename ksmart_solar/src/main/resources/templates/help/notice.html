@@ -25,6 +25,18 @@
             		<a th:if="${session.SLEVEL == '관리자'}" class="btn standardBtn"  th:href=@{/help/addNotice}>공지등록</a>
             	</div>	
 				<h4><i class="fa fa-angle-right"></i> 공지사항</h4>
+				
+				<div style="text-align : right; margin-bottom: 10px;">
+	              <form th:action="@{/help/notice}" method="get">
+	            	<select name="searchKey">
+	            		<option value="">선택</option>
+	            		<option value="notSubject">공지제목</option>
+	            	</select>
+	            	<input type="text" placeholder="검색어" name="searchValue">
+	            	<input type="submit" value = "검색" class="btn btn-default btn-sm">
+	               </form>
+                </div>	
+                			
 	              <section id="no-more-tables">
 	              	<hr>
 	                <table class="table table-condensed cf">
@@ -45,6 +57,7 @@
 						</tr>
 					</tbody>
 				</table>
+				<div th:include="help/page2 :: pageFragment"></div>
 				</section>
 				</div>
 			</div>

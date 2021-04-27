@@ -20,6 +20,19 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 	</resultMap>
 	
 	
+	<!-- 조회 문의리스트 수 -->
+	<select id="getQnaCnt" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			tb_board_qna
+		<trim prefix="WHERE" prefixOverrides="AND |OR ">
+			<if test="searchKey != null and searchKey != ''.toString()">
+				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+			</if>
+		</trim>
+	</select>	
+	
 	<!-- 임서저장 글 불러오기 -->
 	<select id="getLoadQna" parameterType="int" resultMap="BoardQnaDTOMap">
 		SELECT 
@@ -262,11 +275,16 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 		FROM 
 			tb_board_qna
 		WHERE
-			b_qna_temp = 'N'			
-			<if test="searchValue!=null and ''.toString()">
+			b_qna_temp = 'N'
+		<if test="searchKey == null or searchKey == ''.toString()">
+			ORDER BY b_qna_ref_code DESC, b_qna_re_seq ASC
+			LIMIT #{start},#{end}
+		</if>			
+						
+			<if test="searchKey != null and searchKey != ''.toString()">
 				AND ${searchKey} LIKE CONCAT ('%',#{searchValue},'%')
+				ORDER BY b_qna_ref_code DESC, b_qna_re_seq ASC
+				LIMIT #{start},#{end}				
 			</if>
-		
-		ORDER BY b_qna_ref_code DESC, b_qna_re_seq ASC
 	</select>
 </mapper>

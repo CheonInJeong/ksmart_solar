@@ -30,7 +30,7 @@
                 <div class="form-group">
                   <label class="col-sm-2 control-label">프로필 사진</label>
 	                  <div class="col-md-1">
-	          	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><img th:src="${session.SPHOTO}" class="img-circle" width="80"></a></p>
+	          	        <p class="centered" th:if="${session.SID ne null and session.SPHOTO ne ''}"><img th:src="${memberDTO.mPhoto}" class="img-circle" width="80"></a></p>
 	        			<p class="centered" th:if="${session.SID ne null and session.SPHOTO eq null or session.SPHOTO eq ''}"><img src="/img/basicMemberPicture.jpg" onerror="/img/basicMemberPicture.jpg" class="img-circle" width="40"></p>
 	                  </div>
                 </div>

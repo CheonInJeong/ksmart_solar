@@ -82,11 +82,11 @@ public class MemberManageController {
 								,@RequestParam(name="bCpCode", required=false) String bCpCode
 								,@RequestParam(name="bPlRejectReason", required=false) String bPlRejectReason
 								,@RequestParam(name="bCpRejectReason", required=false) String bCpRejectReason) {
+		System.out.println(bPlCode + "<--반려처리 bPlCode");
+		System.out.println(bCpCode + "<--반려처리 bCpCode");
 		if(bPlCode != null) {
-			System.out.println("반려받냐?" + bPlCode);
 			bidPlantService.bidPlantReturn(bPlCode,bPlRejectReason);
 		}else if(bCpCode != null) {
-			System.out.println("반려받냐?" + bCpCode);
 			bidComponentService.bidComponentReturn(bCpCode,bCpRejectReason);
 		}
 		return "/member/getNotice";
