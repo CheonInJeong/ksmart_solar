@@ -47,8 +47,6 @@ public class MemberService {
 		System.out.println("=========================================================");
 	}
 	
-	
-	
 	//권한에 따른 uri 가져오기
 	public List<String> getUri(int level){
 		return memberMapper.getUri(level);
@@ -64,6 +62,7 @@ public class MemberService {
 	// 전체회원계좌 조회
 	public List<MemberAccountDTO> getAllBankAccount(int start, int end, String searchKey, String searchValue){
 		if(searchKey != null && searchKey != "") {
+			
 			if("mAccountBank".equals(searchKey)) {
 				searchKey = "m_account_bank";
 			}else if("mId".equals(searchKey)){

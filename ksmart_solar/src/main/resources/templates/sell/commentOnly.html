@@ -31,7 +31,6 @@
 				</div>
 				<table class="table table-striped" id="commentTable">
 					<tbody>
-					
 						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
 									<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
@@ -73,10 +72,9 @@
 						<th:block th:unless="${comments!=null and comments.size()>0}">
 							<tr id="noComment"><td colspan="5">등록된 댓글이 없습니다.</td></tr>
 						</th:block>
-					</tbody>
 					<tfoot>
-						<tr>
-							<td colspan="4">
+						<tr id="paging">
+							<td colspan="5">
 								<nav th:fragment="pagination" th:if="${commentDTO != null and commentDTO.pagination?.totalRecordCount > 0}" th:object="${commentDTO.pagination}" th:with="info=${commentDTO.pagination}" aria-label="Page navigation" class="text-center">
 									<ul class="pagination">
 										<li th:if="*{hasPreviousPage == true}" th:onclick="movePage([[ ${#request.requestURI} ]], [[ ${commentDTO.makeQueryString(1)} ]])">
@@ -96,10 +94,9 @@
 										</li>
 									</ul>
 								</nav>
-							
 							</td>
 						</tr>
-					</tfoot>
+					</tbody>
 				</table>
 				
 				<hr>
@@ -116,6 +113,11 @@
 </div>
 	
 	<script th:inline="javascript">
+	
+		function movePage(uri, queryString) {
+			location.href = uri+ queryString+'&bIdx='+$('#bIdx').text();
+		}
+
 			$(document).ready(function(){
 			
 				
@@ -148,20 +150,19 @@
 				});
 				
 				var idx = $('#bIdx').text();
-				function movePage(uri, queryString) {
-						location.href = uri+ queryString+'&idx='+idx;
-					}
-				
+			
 			var cmt = /*[[${comments}]]*/
 			//모든 행 숨기기
 			$('#commentTable tr').hide();
 			//replyBtn 클래스를 가진 td의 tr 보이기
 			$('#commentTable').find('.replyBtn').parent().show();
 			$('#noComment').show();
+			
 			$(document).ready(function(){
 				//모든 행 숨기기
 				$('#commentTable tr').hide();
 				//replyBtn 클래스를 가진 td의 tr 보이기
+				$('#paging').show();
 				$('#commentTable').find('.replyBtn').parent().show();
 				$('#noComment').show();	
 					

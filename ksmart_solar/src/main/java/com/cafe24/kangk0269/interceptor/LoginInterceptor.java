@@ -31,14 +31,16 @@ public class LoginInterceptor implements HandlerInterceptor{
 		//요청받은 uri
 		String requestUri   = request.getRequestURI();
 		
-		log.info("LoginInterceptor****************************START");
-		log.info("sessionId				:::: {}",sessionId);
-		log.info("sessionLevel			:::: {}",sessionLevel);
-		log.info("sessionName			:::: {}",sessionName);
-		log.info("sessionURI			:::: {}",sessionURI);
-		
-
-		System.out.println(sessionURI+"<>--------------요청받은 url");
+		/*
+		 * log.info("LoginInterceptor****************************START");
+		 * log.info("sessionId				:::: {}",sessionId);
+		 * log.info("sessionLevel			:::: {}",sessionLevel);
+		 * log.info("sessionName			:::: {}",sessionName);
+		 * log.info("sessionURI			:::: {}",sessionURI);
+		 * 
+		 * 
+		 * System.out.println(sessionURI+"<>--------------요청받은 url");
+		 */
 		
 		
 
