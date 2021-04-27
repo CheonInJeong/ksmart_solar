@@ -181,7 +181,7 @@ public class SellController {
 		commentDTO.setState(1);
 		if(savePaging==null||state==null) {
 			savePaging = new SavePaging(1,session);
-			savePaging.setPaging(1,1,50,5);
+			savePaging.setPaging(1,1,10,5);
 		}
 		if(state!=null && currentPageNo!=null && recordsPerPage!=null && pageSize!=null) {
 			savePaging.setPaging(Integer.parseInt(state), Integer.parseInt(currentPageNo), Integer.parseInt(recordsPerPage), Integer.parseInt(pageSize));
@@ -193,7 +193,6 @@ public class SellController {
 		model.addAttribute("qna", boardSellerService.getQnaDetailForSeller(idx));
 		model.addAttribute("comments",boardSellerService.getCommentList(idx,commentDTO));
 		model.addAttribute("commentDTO",commentDTO);
-		
 		
 		
 		return "sell/qnaDetail";

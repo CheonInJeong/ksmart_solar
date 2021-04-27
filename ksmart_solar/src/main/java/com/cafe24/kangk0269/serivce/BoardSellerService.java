@@ -31,7 +31,7 @@ public class BoardSellerService {
 		return boardSellerMapper.getCmtCount(idx);
 	}
 	
-	//수정중
+
 	//아이디로 문의글 가져오기 by 천인정 
 	public List<Map<String, Object>> getQnaListById(String state,String id, String searchKey, String searchValue, BoardSellerDTO boardSellerDTO){
 	
@@ -68,7 +68,6 @@ public class BoardSellerService {
 			boardSellerList = boardSellerMapper.getQnaListById(state,id, searchKey, searchValue, boardSellerDTO);
 			System.out.println(boardSellerList+"<--------------boardSellerList");
 			System.out.println(boardSellerList.size()+"<--------------boardSellerList size");
-			//////////////////수정
 	
 			for(int i = 0 ; i<boardSellerList.size(); i++) {
 				BoardSellerDTO boardDto = boardSellerList.get(i);
@@ -174,26 +173,27 @@ public class BoardSellerService {
 					}
 				}
 				
-				System.out.println(commentAllList+"<-------------------댓글");
 				
 				int startPage = commentDto.getPagination().getFirstRecordIndex();
-				System.out.println(startPage +"<----startPage");
 				int cmtAllListSize = commentAllList.size();
-				System.out.println(commentAllList.size()+"<------allListSize");
 				
+				System.out.println(startPage+"<----startPage");
+				System.out.println(cmtAllListSize+"<----cmtAllListSize 1");
 				//페이지2번부터
 				if(startPage > 0) {
 					//start 제외하고 예) subList(0,10)이면 0에서 9까지를 지움
 					commentAllList.subList(0, startPage).clear();
-					
-					if(startPage > (cmtAllListSize-10)) commentAllList.subList(startPage, cmtAllListSize).clear();
-					
+					// 사이즈가 10이상일경우
+					System.out.println(cmtAllListSize+"<----cmtAllListSize 2");
+					//주의! subList로 자르는 경우 사이즈의 크기도 달라진다!
+					if((startPage+10) < cmtAllListSize) commentAllList.subList(10, commentAllList.size()).clear();
+										
 					
 				//페이지1번	
 				}else {
-					if(cmtAllListSize>50) {
+					if(cmtAllListSize>5) {
 						
-						commentAllList.subList(50,cmtAllListSize).clear();
+						commentAllList.subList(10,cmtAllListSize).clear();
 					}
 				
 				}
