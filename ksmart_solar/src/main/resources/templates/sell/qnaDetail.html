@@ -49,7 +49,6 @@
 							<td th:text="${qna.bRegDate}"></td>
 							<td style="text-align:left">조회수</td>
 							<td th:text="${qna.bView}"></td>
-
 						</tr>
 						<tr>
 							<td style="text-align:left;padding-left:60px;" colspan="6">
@@ -71,8 +70,6 @@
 					</tbody>
 				</table>
 				<hr>
-				
-				
 				<div style="margin-top :40x;width:100%;">
 						<a class="btn btn-default pull-right" style="margin: 0 5px;" id="returnBtn">목록</a>
 					<th:block th:if="${qna.mIdBuyer==session.SID}">
@@ -85,24 +82,13 @@
 					</th:block>
 				</div>
 				<br>
-				
 				<div>
 					<h4><i class="fa fa-angle-right"></i>댓글</h4>
 				</div>
 				<table class="table table-striped" id="commentTable">
 					<tbody id="commentTbody">
-						<script th:inline="javascript">
-							var x = /*[[${comments}]]*/
-							console.log(x);
-							console.log(x[0].cmtOrder)
-							console.log(x[1].cmtOrder)
-							console.log(x[2].cmtOrder)
-							console.log(x[3].cmtOrder)
-						</script>
-					
 						<th:block th:if="${comments!=null and comments.size()>0}" th:each="c:${comments}">
 							<tr>
-							
 									<td th:text="${c.cmtIdx}" class="cmtIdx" style="display:none"></td>
 									<td th:if="${c.cmtClass==0}" th:text="${c.mId}" style="font-weight: bolder"></td>
 									<td th:if="${c.cmtClass>0}" th:text="${'└ '+c.mId}" style="padding-left:30px;font-weight: bolder"></td>
@@ -126,8 +112,6 @@
 									</td>
 									
 									<td class="replyBtn"><button class="btn btn-defalut  btn-sm">답글</button></td>
-								
-								
 							</tr>
 							<tr>
 								<td colspan="4">
