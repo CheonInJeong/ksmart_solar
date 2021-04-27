@@ -58,7 +58,7 @@
 						<div id="password" class="form-group" th:if="${boardQnaDTO.bQnaOpen == 'Y'}">
 							<label class="col-sm-2 col-sm-2 control-label">비밀글 암호</label>
 							<div class="col-lg-10">
-								<input type="text" name="bQnaPassword" class="form-control">
+								<input type="password" name="bQnaPassword" class="form-control" th:value="${boardQnaDTO.bQnaPassword}" readonly="readonly">
 							</div>
 						</div>
 

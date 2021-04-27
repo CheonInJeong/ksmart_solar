@@ -12,7 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.cafe24.kangk0269.common.ScriptUtils;
@@ -35,16 +39,6 @@ public class HelpController {
 	}
 	
 	
-	//비밀문의글 비밀번호 확인
-	@GetMapping("/help/qnaPwCheck")
-	public String noticeCheckReason(Model model
-									,@RequestParam(name="bPlCode", required=false) String bPlCode
-									,@RequestParam(name="bCpCode", required=false) String bCpCode) {
-		model.addAttribute("bPlCode", bPlCode);
-		model.addAttribute("bCpCode", bCpCode);
-		return "/member/noticeRejectReason";
-	}
-	
 	//임서저장 글 불러오기
 	@GetMapping("/help/getLoadQna")
 	public String getLoadQna(Model model
@@ -59,10 +53,17 @@ public class HelpController {
 	}
 	
 	//임시저장 글 삭제
-	@GetMapping("/help/removeLoadQna")
-	public String removeLoadQna(@RequestParam(name = "bQnaIdx", required = false ) int bQnaIdx) {
-		boardQnaService.removeQna(bQnaIdx);
-		return "redirect:/help/addQna";
+	@RequestMapping(value = "/ajax/delete", method=RequestMethod.POST)
+	public @ResponseBody String removeLoadQna(String bQnaIdx) {
+		System.out.println(bQnaIdx); 
+		int bQnaIdxnum = Integer.parseInt(bQnaIdx);
+		try {
+			boardQnaService.removeQna(bQnaIdxnum);
+			return "삭제";
+		} catch (Exception e) {
+			return "실패";
+		}
+		
 	}
 	
 	//임시저장 목록 불러오기
@@ -78,8 +79,8 @@ public class HelpController {
 	
 	  //문의사항 임시저장
 	@PostMapping("/help/saveQna")
-	public void saveQna(HttpServletResponse response, BoardQnaDTO boardQnaDTO) throws IOException {
-		
+	public String saveQna(HttpServletResponse response, BoardQnaDTO boardQnaDTO, String uri) throws IOException {
+		System.out.println("임시저장이 되었다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 	  if(boardQnaDTO.getbQnaIdx() > 0) {
 		  //불러온 문서 임시저장일 때(update)
 		  boardQnaService.saveQnaUp(boardQnaDTO);
@@ -87,7 +88,11 @@ public class HelpController {
 		  //첫 임시저장일 때(insert) 
 		  boardQnaService.saveQnaIn(boardQnaDTO);
 	  }
+	  if(uri.equals("목록")){
+		  return "redirect:/help/qna";
+	  }
 	  ScriptUtils.alertAndBackPage(response, "임시저장되었습니다");
+	  return null;
 	}
 	 
 	
@@ -159,7 +164,7 @@ public class HelpController {
 		return "/help/addQna";
 	}
 
-/*	
+	
 	// 문의 비밀글 입력 화면
 	@GetMapping("/help/qnaPwCheck")
 	public String qnaPwCheck(Model model
@@ -173,7 +178,8 @@ public class HelpController {
 		model.addAttribute("bQnaPassword", bQnaPassword);
 		return "/help/qnaPwCheck";
 	}
-*/
+	
+	
 	// 문의 상세조회 + 문의 조회수 증가
 	@GetMapping("/help/getQna")
 	public String getQna(Model model
