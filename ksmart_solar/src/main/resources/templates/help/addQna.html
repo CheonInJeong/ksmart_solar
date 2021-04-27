@@ -60,10 +60,11 @@
 
 						<div class="form-group">
 							<div class="col-lg-offset-2 col-lg-10">
-								<a class="btn btn-primary" th:href="@{/help/qna}" onclick="list()">목록</a> 
+								<a class="btn btn-primary" onclick="list()">목록</a> 
 								<a class="btn btn-info" data-toggle="modal" data-target="#qnaModal" data-whatever="@mdo">불러오기</a>
 							</div>
 						</div>
+							<input hidden="hidden" name="uri" value="저장" />
 						<div style="text-align: center">
 							<input type="submit" class="btn btn-info" id="saveQnaBtn" value="임시저장" formaction="/help/saveQna">
 							<button type="submit" class="btn btn-success" id="qnaBtn" formaction="/help/addQna" >등록</button>
@@ -84,15 +85,16 @@
 					
 					<div class="modal-body">
                 	<th:block th:if="${boardQnaDTOList != null}" th:each="l:${boardQnaDTOList}">
+                		<div>
                 			<form th:action="@{/help/getLoadQna}" method="get">
                 				<a class="qnaTitle" style="cursor: pointer" th:text="${l.bQnaSubject}"></a>
-                				<input type="hidden" name="bQnaIdx" th:value="${l.bQnaIdx}">
+                				<input type="hidden" name="bQnaIdx"  th:value="${l.bQnaIdx}">
 							</form>		                		
-		                		<p th:text="${l.bQnaRegDate}"></p>
-		                		<a class="btn btn-danger btn-xs" th:href="@{/help/removeLoadQna(bQnaIdx=${l.bQnaIdx})}">
-								삭제                			
-		                		</a>
-		                		<hr>
+	                		<p th:text="${l.bQnaRegDate}"></p>
+	                		<input type="hidden" class="bQnaIdx" th:value="${l.bQnaIdx}">
+	                		<span class="btn btn-danger btn-xs delete">삭제</span>
+	                		<hr>
+                		</div>
                 	</th:block>
                 	
                 	<th:block th:if="${boardQnaDTOList == null}">
@@ -122,16 +124,51 @@
 			if((bQnaSubject.val() != null && bQnaSubject.val() != '') || (bQnaContents.val() != null && bQnaContents.val() != '')){
 				var result = confirm("임시 저장하시겠습니까?");
 				if(result){
-					$('#saveQnaBtn').submit();
+						console.log(result);
+						console.log(bQnaSubject.val());
+						console.log(bQnaContents.val());
+						console.log($('#saveQnaBtn'));
+						$('[name="uri"]').val('목록');
+						$('#saveQnaBtn').trigger('click');
 					//document.getElementById('form').action="/help/saveQna";
 			        //document.getElementById('form').submit();
 				}else{
+					console.log(result);
 					return false;
 				}
+			}else{
+				location.href = "/help/qna"
 			}
-			
-			
 		}; 
+		
+		//삭제
+		$('.delete').click(function(){
+			console.log('삭제버튼')
+			var bQnaIdx = $(this).parent().find('.bQnaIdx').val();
+			console.log(bQnaIdx);
+			var a = $(this);
+			$.ajax({
+		        url     : '/ajax/delete',
+		        type    : 'POST',
+		        data    : {bQnaIdx : bQnaIdx},
+		        success : function(data) {
+		        	console.log(data=='삭제');
+		        	if(data){
+		        		console.log('삭제 성공');
+		        		a.parent().remove();
+		        	}else{
+		        		
+		        	}
+		        },
+		        error : function(xhr,status,error) {
+		        	console.log("xhr: " + xhr);
+		        	console.log("status: " + status);
+		        	console.log("error: " + error);
+		        }
+		    });
+		});
+          
+		
 		
 	
 		//비밀글 암호 오픈,클로즈
