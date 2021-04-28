@@ -47,6 +47,11 @@ public class MemberService {
 		System.out.println("=========================================================");
 	}
 	
+	// 개인 프로필만 수정처리
+	public void modifyMyProfile(String login_id, String mPhoto) {
+		memberMapper.modifyMyProfile(login_id, mPhoto);
+	}
+	
 	//권한에 따른 uri 가져오기
 	public List<String> getUri(int level){
 		return memberMapper.getUri(level);

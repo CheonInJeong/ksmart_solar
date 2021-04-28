@@ -150,7 +150,17 @@ public class MyPageController {
 		return "/mypage/modifyPw";
 	}
 	
-	// 개인 프로필 수정처리
+	
+	// 개인 프로필만 수정처리
+	@RequestMapping(value = "/ajax/modifyMyProfile", method = RequestMethod.POST)
+	public @ResponseBody boolean modifyMyProfile(@RequestParam(value="inputFile", required = false) String mPhoto
+												,HttpSession session) {
+		String login_id = (String) session.getAttribute("SID");
+		memberService.modifyMyProfile(login_id, mPhoto);
+		return true;
+	}
+	
+	// 회원정보 수정처리
 	@RequestMapping(value = "/ajax/modifyMyInfo", method = RequestMethod.POST)
 	public @ResponseBody boolean modifyMyInfo(@RequestParam(value="memberId", required = false)		 			String mId
 												,@RequestParam(value="memberName", required = false)		 	String mName
@@ -158,10 +168,7 @@ public class MyPageController {
 												,@RequestParam(value="memberEmail", required = false) 			String mEmail
 												,@RequestParam(value="postcode", required = false) 				String mZipcode
 												,@RequestParam(value="roadAddress", required = false) 			String mAddr
-												,@RequestParam(value="detailAddress", required = false) 		String mDetailAddr
-												,@RequestParam(value="inputFile", required = false) 			String mPhoto) {
-		System.out.println("수정처리 들어왔어요@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
-		System.out.println(mPhoto + "<==mPhoto");
+												,@RequestParam(value="detailAddress", required = false) 		String mDetailAddr) {
 		MemberDTO memberDTO = new MemberDTO();
 		memberDTO.setmId(mId);
 		memberDTO.setmName(mName);
@@ -170,7 +177,6 @@ public class MyPageController {
 		memberDTO.setmZipcode(mZipcode);
 		memberDTO.setmAddr(mAddr);
 		memberDTO.setmDetailAddr(mDetailAddr);
-		memberDTO.setmPhoto(mPhoto);
 		memberService.modifyMyInfo(memberDTO);
 		
 		return true;

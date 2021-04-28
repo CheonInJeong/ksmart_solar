@@ -26,11 +26,11 @@ PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
 			COUNT(*)
 		FROM
 			tb_board_qna
-		<trim prefix="WHERE" prefixOverrides="AND |OR ">
-			<if test="searchKey != null and searchKey != ''.toString()">
-				${searchKey} LIKE CONCAT('%',#{searchValue},'%')
-			</if>
-		</trim>
+		WHERE
+			b_qna_temp = 'N'			
+		<if test="searchKey != null and searchKey != ''.toString()">
+			AND ${searchKey} LIKE CONCAT('%',#{searchValue},'%')
+		</if>
 	</select>	
 	
 	<!-- 임서저장 글 불러오기 -->

@@ -31,6 +31,14 @@
 	</resultMap>
 	
 	
+	<!-- 프로필만 수정처리 -->
+	<update id="modifyMyProfile">
+		UPDATE tb_member
+		SET
+			m_photo = #{mPhoto}
+		WHERE m_id = #{login_id}
+	</update>
+	
 	<!-- 탈퇴 회원상태 변경 -->
 	<update id="modifyMemberState">
 		UPDATE tb_member
@@ -352,7 +360,6 @@
 			m_detail_addr = #{mDetailAddr},
 			m_phone = #{mPhone},
 			m_email = #{mEmail},
-			m_photo = #{mPhoto},
 			m_sub_date_modify = NOW()
 		WHERE 
 			m_id = #{mId}
