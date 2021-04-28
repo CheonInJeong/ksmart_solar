@@ -29,7 +29,7 @@
 				</h4>
 				<form id="form" method="post" name="form" class="form-horizontal style-form">
 					<input type="text" hidden="hidden" name="mId" th:value="${session.SID}">
-					<input type="hidden" name="bQnaIdx" th:value="${boardQnaDTO != null ? boardQnaDTO.bQnaIdx : 0}"/>
+					<input type="hidden" id="bQnaIdx" name="bQnaIdx" th:value="${boardQnaDTO != null ? boardQnaDTO.bQnaIdx : 0}"/>
 					<div class="form-group">
 						<label class="col-sm-2 col-sm-2 control-label">문의제목</label>
 						<div class="col-lg-10">
@@ -54,7 +54,7 @@
 						<div id="password" style="display:none" class="form-group" >
 							<label class="col-sm-2 col-sm-2 control-label">비밀글 암호</label>
 							<div class="col-lg-10">
-								<input type="text" name="bQnaPassword" class="form-control">
+								<input type="password" name="bQnaPassword" class="form-control">
 							</div>
 						</div>
 
@@ -123,15 +123,13 @@
 		function list(){
 			if((bQnaSubject.val() != null && bQnaSubject.val() != '') || (bQnaContents.val() != null && bQnaContents.val() != '')){
 				var result = confirm("임시 저장하시겠습니까?");
+				if(bQnaSubject.val() == null | bQnaSubject.val() == ''){
+					bQnaSubject.val('제목 없음');
+				}
 				if(result){
-						console.log(result);
-						console.log(bQnaSubject.val());
-						console.log(bQnaContents.val());
-						console.log($('#saveQnaBtn'));
 						$('[name="uri"]').val('목록');
 						$('#saveQnaBtn').trigger('click');
-					//document.getElementById('form').action="/help/saveQna";
-			        //document.getElementById('form').submit();
+						alert('임시저장되었습니다.');
 				}else{
 					console.log(result);
 					return false;
@@ -168,7 +166,6 @@
 		    });
 		});
           
-		
 		
 	
 		//비밀글 암호 오픈,클로즈

@@ -80,7 +80,6 @@ public class HelpController {
 	  //문의사항 임시저장
 	@PostMapping("/help/saveQna")
 	public String saveQna(HttpServletResponse response, BoardQnaDTO boardQnaDTO, String uri) throws IOException {
-		System.out.println("임시저장이 되었다@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@");
 	  if(boardQnaDTO.getbQnaIdx() > 0) {
 		  //불러온 문서 임시저장일 때(update)
 		  boardQnaService.saveQnaUp(boardQnaDTO);
@@ -91,7 +90,7 @@ public class HelpController {
 	  if(uri.equals("목록")){
 		  return "redirect:/help/qna";
 	  }
-	  ScriptUtils.alertAndBackPage(response, "임시저장되었습니다");
+	  ScriptUtils.alertAndMovePage(response, "임시저장되었습니다", "/help/addQna");
 	  return null;
 	}
 	 
@@ -203,6 +202,7 @@ public class HelpController {
 						,@RequestParam(name="curPage", required=false, defaultValue="1") int curPage) {
 		
 		int count = boardQnaService.getQnaCnt(searchKey, searchValue);
+		System.out.println(count + "<--문의 조회 리스트수");
 		PageDTO page = new PageDTO(count,curPage);
 		int start = page.getPageBegin();
 		int end = page.getPageEnd();
@@ -266,9 +266,9 @@ public class HelpController {
 	public String addNotice(NoticeDTO noticeDTO, MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request) throws Exception {
 		System.out.println("noticeDTO-->" + noticeDTO);
 		noticeService.addNotice(noticeDTO);
-		noticeService.addNoticeFile(multipartHttpServletRequest, request);
-		int noticeIdx = noticeDTO.getNoticeIdx();
-		noticeService.modifyFileReference(noticeIdx);
+		int noticeIdxNum = noticeDTO.getNoticeIdx();
+		String noticeIdx = Integer.toString(noticeIdxNum);
+		noticeService.addNoticeFile(noticeIdx, multipartHttpServletRequest, request);
 		return "redirect:/help/notice";
 	}
 	

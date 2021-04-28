@@ -14,6 +14,9 @@ import com.cafe24.kangk0269.dto.MemberRevokeDTO;
 @Mapper
 public interface MemberMapper {
 	
+	//프로필만 수정처리
+	public int modifyMyProfile(String login_id, String mPhoto);
+	
 	//인터셉터 처리를 위한 uri 불러오기
 	public List<String> getUri(int level);
 	

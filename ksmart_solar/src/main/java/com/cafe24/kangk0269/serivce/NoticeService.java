@@ -86,8 +86,8 @@ public class NoticeService {
 	}	
 	
 	//공지사항 파일등록
-	public void addNoticeFile(MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
-		List<FileDTO> filelist = fileUtils.parseFileInfo("공지서류",3,"공지서류", multipartHttpServletRequest,request);
+	public void addNoticeFile(String noticeIdx, MultipartHttpServletRequest multipartHttpServletRequest,HttpServletRequest request)throws Exception {
+		List<FileDTO> filelist = fileUtils.parseFileInfo(noticeIdx, 3,"공지서류", multipartHttpServletRequest,request);
 		if(CollectionUtils.isEmpty(filelist)==false) {
 			noticeMapper.addFile(filelist);
 		}

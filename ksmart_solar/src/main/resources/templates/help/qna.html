@@ -66,7 +66,7 @@
 								</th:block>
 								<th:block th:if="${l.bQnaOpen == 'Y'}">
 									<td data-title="문의제목" style="text-align: left; padding-left: 20px;">
-										<a data-toggle="modal" data-target="#qnaModal" data-whatever="@mdo"><i class="glyphicon glyphicon-lock"></i>[[${l.bQnaSubject}]]</a>
+										<a data-toggle="modal" data-target="#qnaModal" data-whatever="@mdo" onclick="adminAccess()"><i class="glyphicon glyphicon-lock"></i>[[${l.bQnaSubject}]]</a>
 										<input id="bQnaIdx" type="hidden" name="bQnaIdx" th:value="${l.bQnaIdx}">
 										<input type="hidden" id="bQnaPassword" th:value="${l.bQnaPassword}"/>
 									</td>
@@ -120,13 +120,24 @@
 		help.parent().find('.sub').children().eq(1).addClass('active');
 		
 		
+		
+		
+		
 		//비밀번호 체크
-		var admin = "[[${session.SLEVELNUM}]]";
 		var bQnaIdx = $('#bQnaIdx');
 		var bQnaPassword = $('#bQnaPassword');
 		var inPw = $('#inPw');
+		var admin = "[[${session.SLEVELNUM}]]";
+		
+		//관리자 접근
+		function adminAccess(){
+			if(admin == 1){
+				location.href="/help/getQna?bQnaIdx=" + bQnaIdx.val(); 
+			}
+		}
+		
 		function pwCheck(){
-			if(admin == 1 | bQnaPassword.val() == inPw.val() ){
+			if(bQnaPassword.val() == inPw.val() ){
 				location.href="/help/getQna?bQnaIdx=" + bQnaIdx.val();
 			}else{
 				alert('비밀번호가 다릅니다.');
