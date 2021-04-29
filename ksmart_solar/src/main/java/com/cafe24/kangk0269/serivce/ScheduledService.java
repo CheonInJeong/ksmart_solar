@@ -222,4 +222,9 @@ public class ScheduledService {
 			}
 		}
 	}
+	//공고 승인에서 공고 진행중으로 바꾸는 메서드
+	public void startBid() {
+		scheduledMapper.startBidPlant();
+		scheduledMapper.startBidComponent();
+	}
 }

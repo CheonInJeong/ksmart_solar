@@ -809,13 +809,13 @@
   		  <select id="getPaymentOutByCode" resultMap = "tradePriorityResultMap" parameterType="String">
   		  		
 				SELECT 
-			
 					p.tr_pr_code,
 					p.announced_title,
 					p.announced_code,
 					p.m_id_buyer,
 					p.tr_pr_price, 
 					sf_get_commission(p.tr_pr_price) AS comissionRate,
+				 	AS comissionRate,
 					p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100 AS commission,
 					p.tr_pr_price-(p.tr_pr_price*sf_get_commission(p.tr_pr_price)/100) AS availableOut
 		

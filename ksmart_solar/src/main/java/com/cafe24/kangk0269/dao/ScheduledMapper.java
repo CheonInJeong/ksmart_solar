@@ -65,5 +65,7 @@ public interface ScheduledMapper {
 	public int updateBidRank(@Param(value="bCode")String bCode,@Param(value="rank")int rank);
 	public int updateBidSecondState(@Param(value="announcedCode")String announcedCode,
 									@Param(value="rank")int rank);
+	public int startBidPlant();
+	public int startBidComponent();
 	
 } 

@@ -205,6 +205,27 @@
 		
 		<script>
 		
+		function getDateFromToday(i){
+	 	    //i=0: today, -1:yesterday, 1: tomorrow .. .etc..
+	 	    today = new Date();
+	 	    ty = today.getFullYear();
+	 	    tm = today.getMonth()+1;
+	 	    td = today.getDate();
+	 	    if(tm<10) tm = "0" + tm;
+	 	    if(td<10) td = "0" + td;
+	 	    
+	 	    targetDay = new Date(today.valueOf()+(24*60*60*1000)*i);
+	 	        ty = targetDay.getFullYear();
+	 	        tm = targetDay.getMonth()+1;
+	 	        td = targetDay.getDate();
+	 	    if(tm<10) tm = "0" + tm;
+
+	 	    if(td<10) td = "0" + td;       
+
+	 	    return ty + tm + td;
+	 	  }
+		
+		
 		function movePage(uri, queryString) {
 			location.href = uri + queryString;
 		}
@@ -238,7 +259,11 @@
 		         		if(reservation.val()==''){
 		         			alert('적용일을 입력해주세요.');
 		         			return;
-		         		}
+		         		}if($('#sTradeReservationModal').val().replaceAll('-','')<getDateFromToday(7)){
+							alert('공고 시작일은 신청일로부터 7일 후부터 선택 가능합니다.');
+							return;
+						}
+		         		
 		        		
 		         		$('#tradeFromModal').submit();
 		       });    

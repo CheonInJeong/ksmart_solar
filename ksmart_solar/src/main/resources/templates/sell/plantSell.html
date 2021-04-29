@@ -277,10 +277,12 @@
 					alert('공고 시작일은 신청일로부터 7일 후부터 선택 가능합니다.');
 					return;
 				}
+				console.log($('#bPlDateBidding1').val().replaceAll('-','')+"신청날짜");
+				console.log(getDateFromToday(7)+"7일후");
+				
 				$('#bPlPrice').val(rm_comma($('#bPlPrice').val()));
 				$('#plDepDataResidual').val(rm_comma($('#plDepDataResidual').val()));
 			
-	
 				$('#plantSellForm').submit();
 				
 	 	 })

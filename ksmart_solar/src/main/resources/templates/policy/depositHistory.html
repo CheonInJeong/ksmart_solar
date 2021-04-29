@@ -204,6 +204,26 @@
 		<script th:src="@{/lib/advanced-datatable/js/jquery.dataTables.js}"></script>
 		<script type="text/javascript" th:src="@{/lib/bootstrap-datepicker/js/bootstrap-datepicker.js}"></script>
 		<script>
+			function getDateFromToday(i){
+		 	    //i=0: today, -1:yesterday, 1: tomorrow .. .etc..
+		 	    today = new Date();
+		 	    ty = today.getFullYear();
+		 	    tm = today.getMonth()+1;
+		 	    td = today.getDate();
+		 	    if(tm<10) tm = "0" + tm;
+		 	    if(td<10) td = "0" + td;
+		 	    
+		 	    targetDay = new Date(today.valueOf()+(24*60*60*1000)*i);
+		 	        ty = targetDay.getFullYear();
+		 	        tm = targetDay.getMonth()+1;
+		 	        td = targetDay.getDate();
+		 	    if(tm<10) tm = "0" + tm;
+	
+		 	    if(td<10) td = "0" + td;       
+	
+		 	    return ty + tm + td;
+		 	  }
+		
 		
 			function movePage(uri, queryString) {
 				location.href = uri + queryString;
@@ -217,6 +237,8 @@
 		 		$('#searchForm').submit();
 		 		
 		 	})
+		 	
+		 	
 		//예치금 변경
 			$('#sDepositBtnModal').click(function(){
 		         		var depositRate = $('#sDepositRateModal');
@@ -235,7 +257,11 @@
 		         			alert('적용일을 입력해주세요.');
 		         			depositRate.focus();
 		         			return;
-		         		}
+		         			
+		         		}if($('#sReservationModal').val().replaceAll('-','')<getDateFromToday(1)){
+							alert('정책 적용일은 신청일로부터 1일 후부터 선택 가능합니다.');
+							return;
+						}
 		        		
 		         		$('#depositFromModal').submit();
 		       })

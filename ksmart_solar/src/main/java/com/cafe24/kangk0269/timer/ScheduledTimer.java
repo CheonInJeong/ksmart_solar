@@ -51,6 +51,8 @@ public class ScheduledTimer {
 	@Scheduled(cron = "1  00  0  *  *  *") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
+			//공고 승인일경우 공고 시작일에 공고 진행중으로 상태변경
+			scheduledService.startBid();
 			//공고마감일에 입찰자 수 0인 경우 거래실패로 상태변경
 			scheduledService.updateBidStatus();
 			//부품공고상태(공고진행중>공고마감)으로 바꾸는 메서드 실행
