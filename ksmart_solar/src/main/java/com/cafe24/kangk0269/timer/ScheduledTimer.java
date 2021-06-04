@@ -38,7 +38,7 @@ public class ScheduledTimer {
 		raApi.weatherApiAction();
 	}
 	
-	@Scheduled(cron = "0  00  8  *  *  *") 
+	@Scheduled(cron = "0  00  8  *  *  ?") 
 	public void kpxApiTimer() {
 		CrawlingApi crawlingApi = new CrawlingApi();
 		PlantKpxDTO pk = new PlantKpxDTO();
@@ -48,7 +48,7 @@ public class ScheduledTimer {
 	}
 
 	
-	@Scheduled(cron = "1  00  0  *  *  *") 
+	@Scheduled(cron = "1  00  0  *  *  ?") 
 	public void updateBidListStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			//공고 승인일경우 공고 시작일에 공고 진행중으로 상태변경
@@ -82,10 +82,10 @@ public class ScheduledTimer {
 	}
 
 	  //테스트
-	  @Scheduled(cron = "0/5  *  *  *  *  ?") 
+	  @Scheduled(cron = "0/5  *  *  *  *  *") 
 	  public void updateBidListStatustest() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		  try { 
-			
+			  System.out.println("확인");
 		  } catch (Exception e) { 
 			  e.printStackTrace(); 
 		  } 
@@ -93,7 +93,7 @@ public class ScheduledTimer {
 	
 
 	//예약한 시간에 정책 적용 상태 바꾸는 메서드
-	@Scheduled(cron = "30  00  0  *  *  *") 
+	@Scheduled(cron = "30  00  0  *  *  ?") 
 	public void updateDepositStatus() throws IOException, ParseException, ClassNotFoundException, SQLException {
 		try {
 			//예치금 
